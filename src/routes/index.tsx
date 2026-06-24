@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import heroEditorial from "@/assets/hero-editorial.jpg";
+import heroVideo from "@/assets/hero-video.mp4.asset.json";
 import productFlatlay from "@/assets/product-flatlay.jpg";
 import textureMacro from "@/assets/texture-macro.jpg";
 import ritualScene from "@/assets/ritual-scene.jpg";
