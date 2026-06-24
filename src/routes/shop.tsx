@@ -5,7 +5,7 @@ export const Route = createFileRoute("/shop")({
   head: () => ({
     meta: [
       { title: "Shop — Skin Grocer" },
-      { name: "description", content: "Browse authentic Korean skincare and premium imports — cleansers, serums, moisturisers, masks and SPF — locally stocked with same-day delivery." },
+      { name: "description", content: "Browse authentic Korean skincare and premium imports — cleansers, serums, moisturisers, masks and SPF — locally stocked with next-day delivery." },
       { property: "og:title", content: "Shop — Skin Grocer" },
       { property: "og:description", content: "Authentic K-beauty, locally stocked in Australia." },
       { property: "og:url", content: "/shop" },
@@ -34,7 +34,7 @@ function Shop() {
         <h1 className="mt-3 text-5xl text-foreground md:text-6xl">Carefully sourced. <em className="not-italic text-primary">Always authentic.</em></h1>
         <p className="mt-5 text-lg text-muted-foreground">
           Every product on Skin Grocer is sourced directly through verified
-          brand partners and stocked here in Australia for same-day delivery.
+          brand partners and stocked here in Australia for next-day delivery.
         </p>
       </div>
 

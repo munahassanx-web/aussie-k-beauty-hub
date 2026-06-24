@@ -41,7 +41,7 @@ function Contact() {
             <dd className="mt-1 font-display text-2xl text-foreground">Mon–Sat, 9am–6pm AEST</dd>
           </div>
           <div>
-            <dt className="text-xs uppercase tracking-wider text-muted-foreground">Same-day cutoff</dt>
+            <dt className="text-xs uppercase tracking-wider text-muted-foreground">Next-day cutoff</dt>
             <dd className="mt-1 font-display text-2xl text-foreground">Order by 1pm</dd>
           </div>
         </dl>

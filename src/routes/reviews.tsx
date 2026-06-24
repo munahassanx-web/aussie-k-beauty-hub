@@ -5,7 +5,7 @@ export const Route = createFileRoute("/reviews")({
   head: () => ({
     meta: [
       { title: "Reviews — Skin Grocer" },
-      { name: "description", content: "Real Australian customers on Skin Grocer's authentic K-beauty, same-day delivery and personal skincare guidance." },
+      { name: "description", content: "Real Australian customers on Skin Grocer's authentic K-beauty, next-day delivery and personal skincare guidance." },
       { property: "og:title", content: "Reviews — Skin Grocer" },
       { property: "og:description", content: "What Australia is saying about Skin Grocer." },
       { property: "og:url", content: "/reviews" },
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/reviews")({
 const reviews = [
   { n: "Mia T.", l: "Bondi, NSW", r: 5, q: "Finally a place I can buy real COSRX without flying to Seoul. Ordered at noon, at my door by 6pm. Wild." },
   { n: "Aisha K.", l: "Melbourne, VIC", r: 5, q: "The guidance is what sets them apart. They actually messaged me with a routine after I bought my first cleanser." },
-  { n: "Jordan P.", l: "Brisbane, QLD", r: 5, q: "Authentic Beauty of Joseon SPF at a fair price, delivered the same day. I've ordered four times in two months." },
+  { n: "Jordan P.", l: "Brisbane, QLD", r: 5, q: "Authentic Beauty of Joseon SPF at a fair price, delivered the next day. I've ordered four times in two months." },
   { n: "Sara L.", l: "Perth, WA", r: 5, q: "I had no idea where to start with K-beauty. Skin Grocer built me a five-step ritual and my skin has never looked better." },
   { n: "Chen W.", l: "Sydney, NSW", r: 5, q: "Genuine products, genuine people. The fact that they're a small Aussie team really shows in the service." },
   { n: "Priya R.", l: "Adelaide, SA", r: 5, q: "I cancelled my Yesstyle account. Same brands, faster shipping, and someone to ask when I'm confused." },

@@ -5,7 +5,7 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About — Skin Grocer" },
-      { name: "description", content: "Skin Grocer is an Australian-owned team dedicated to authentic, clean and affordable Korean skincare — stocked locally, delivered same-day." },
+      { name: "description", content: "Skin Grocer is an Australian-owned team dedicated to authentic, clean and affordable Korean skincare — stocked locally, delivered next-day." },
       { property: "og:title", content: "About — Skin Grocer" },
       { property: "og:description", content: "An Australian team obsessed with authentic K-beauty." },
       { property: "og:url", content: "/about" },
@@ -40,7 +40,7 @@ function About() {
             handful of other premium markets, then warehouse everything locally in
             Sydney. That means three things you can count on: <span className="font-medium text-foreground">authenticity</span>,
             <span className="font-medium text-foreground"> affordability</span>, and
-            <span className="font-medium text-foreground"> same-day delivery</span>.
+            <span className="font-medium text-foreground"> next-day delivery</span>.
           </p>
           <p>
             And because skincare can be overwhelming, we don't just sell you a

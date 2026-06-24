@@ -11,10 +11,10 @@ import customers from "@/assets/customers.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Skin Grocer — Authentic Korean Skincare, Same-Day from Melbourne" },
-      { name: "description", content: "Melbourne's destination for authentic K-beauty and premium imports. Locally stocked, expertly guided, dispatched same-day across Australia." },
+      { title: "Skin Grocer — Authentic Korean Skincare, Next-Day from Melbourne" },
+      { name: "description", content: "Melbourne's destination for authentic K-beauty and premium imports. Locally stocked, expertly guided, dispatched next-day across Australia." },
       { property: "og:title", content: "Skin Grocer — Authentic Korean Skincare in Australia" },
-      { property: "og:description", content: "Locally stocked authentic K-beauty. Same-day dispatch from Melbourne. Expert routine guidance." },
+      { property: "og:description", content: "Locally stocked authentic K-beauty. Next-day dispatch from Melbourne. Expert routine guidance." },
       { property: "og:url", content: "/" },
     ],
     links: [{ rel: "canonical", href: "/" }],
@@ -62,7 +62,7 @@ const journal = [
 
 const reviews = [
   { name: "Lara · Carlton VIC", quote: "Genuinely changed my skin in three weeks. The advisor reply email helped me build a routine I actually stick to." },
-  { name: "Priya · Brunswick VIC", quote: "Ordered at 11am, in my hands by 4pm same day. Authentic batch codes, sealed exactly as expected." },
+  { name: "Priya · Brunswick VIC", quote: "Ordered at 11am, in my hands by 4pm next day. Authentic batch codes, sealed exactly as expected." },
   { name: "Emma · Richmond VIC", quote: "Skin Grocer is the only AU retailer I trust for Beauty of Joseon. The provenance card is such a nice touch." },
 ];
 
@@ -108,7 +108,7 @@ function Hero() {
           </span>
           <h1 className="mt-6 font-display text-5xl leading-[1.05] text-ink md:text-7xl">
             Authentic Korean skincare,
-            <span className="block italic text-hanbok-deep">delivered the same day.</span>
+            <span className="block italic text-hanbok-deep">delivered the next day.</span>
           </h1>
           <p className="mt-6 max-w-lg text-base leading-relaxed text-ink/75 md:text-lg">
             Skin Grocer is an Australian-owned destination for clean, effective and
@@ -133,7 +133,7 @@ function Hero() {
 
           <div className="mt-10 grid max-w-md grid-cols-3 gap-6 text-xs text-ink/70">
             <Stat n="100%" l="Authentic, batch-traceable" />
-            <Stat n="Same-day" l="Melbourne dispatch" />
+            <Stat n="Next-day" l="Melbourne dispatch" />
             <Stat n="4.9★" l="From 3,400+ reviews" />
           </div>
         </div>
@@ -144,7 +144,7 @@ function Hero() {
       {/* Floating ticker */}
       <div className="relative border-t border-ink/10 bg-paper/80 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 overflow-x-auto px-6 py-3 text-[11px] uppercase tracking-[0.22em] text-ink/65 no-scrollbar">
-          {["Sourced direct from Seoul", "Sealed & batch-checked", "Same-day VIC delivery", "Express AU shipping", "Advisor-built routines"].map((t) => (
+          {["Sourced direct from Seoul", "Sealed & batch-checked", "Next-day VIC delivery", "Express AU shipping", "Advisor-built routines"].map((t) => (
             <span key={t} className="flex items-center gap-3 whitespace-nowrap">
               <span className="h-1 w-1 rounded-full bg-accent" />
               {t}
@@ -168,7 +168,7 @@ function Stat({ n, l }: { n: string; l: string }) {
 function Promise() {
   const items = [
     { t: "100% Authentic", d: "Direct from Korea, batch-verified, sealed." },
-    { t: "Same-Day from MEL", d: "Order by 2pm, on your doorstep tonight." },
+    { t: "Next-Day from MEL", d: "Order by 2pm, on your doorstep tomorrow." },
     { t: "Expert Guidance", d: "Real advisors reply within 1 business hour." },
     { t: "Subscribe & Save 10%", d: "Routine refills, paused or skipped any time." },
   ];
