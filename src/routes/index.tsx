@@ -87,7 +87,7 @@ function HomePage() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden bg-sand">
+    <section className="relative overflow-hidden bg-ink">
       <div className="absolute inset-0">
         <video
           src={heroVideo.url}
@@ -100,54 +100,38 @@ function Hero() {
           aria-label="Models with glowing glassy skin laughing"
           className="h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-sand/95 via-sand/70 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-sand/40 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-transparent to-ink/55" />
       </div>
 
-      <div className="relative mx-auto grid min-h-[88vh] max-w-7xl items-center px-6 py-24 md:grid-cols-2">
-        <div className="animate-rise">
-          <span className="inline-flex items-center gap-2 rounded-full border border-hanbok/30 bg-paper/70 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.22em] text-hanbok-deep backdrop-blur">
-            <span className="h-1.5 w-1.5 rounded-full bg-hanbok" />
-            Melbourne · Established by skin nerds
+      <div className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col items-center justify-between px-6 py-12 text-center">
+        {/* Top: brand wordmark */}
+        <div className="flex w-full flex-col items-center pt-6">
+          <span className="text-[10px] font-medium uppercase tracking-[0.4em] text-paper/75">
+            Melbourne · Est. by skin nerds
           </span>
-          <h1 className="mt-6 font-display text-5xl leading-[1.05] text-ink md:text-7xl">
-            Authentic Korean skincare,
-            <span className="block italic text-hanbok-deep">delivered the next day.</span>
+          <h1 className="mt-4 font-display text-6xl leading-none text-paper md:text-[8.5rem] lg:text-[10rem]">
+            skin grocer
           </h1>
-          <p className="mt-6 max-w-lg text-base leading-relaxed text-ink/75 md:text-lg">
-            Skin Grocer is an Australian-owned destination for clean, effective and
-            affordable K-beauty — sourced direct, stocked locally, and matched to
-            your skin by real advisors.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              to="/shop"
-              className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground transition hover:bg-hanbok"
-            >
-              Shop the Collection
-              <span className="transition-transform group-hover:translate-x-1">→</span>
-            </Link>
-            <Link
-              to="/skin-concerns"
-              className="inline-flex items-center gap-2 rounded-full border border-ink/20 bg-paper/60 px-7 py-3.5 text-sm font-medium text-ink backdrop-blur transition hover:border-ink/40"
-            >
-              Take the Skin Quiz
-            </Link>
-          </div>
-
-          <div className="mt-10 grid max-w-md grid-cols-3 gap-6 text-xs text-ink/70">
-            <Stat n="100%" l="Authentic, batch-traceable" />
-            <Stat n="Next-day" l="Melbourne dispatch" />
-            <Stat n="4.9★" l="From 3,400+ reviews" />
-          </div>
         </div>
 
-        <div className="relative hidden md:block" />
+        {/* Bottom: minimal tagline + single CTA */}
+        <div className="flex w-full flex-col items-center gap-6 pb-4">
+          <p className="max-w-md text-sm leading-relaxed text-paper/85 md:text-base">
+            Authentic Korean skincare. Next-day from Melbourne.
+          </p>
+          <Link
+            to="/shop"
+            className="group inline-flex items-center gap-3 rounded-full bg-paper px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-ink transition hover:bg-accent"
+          >
+            Shop now
+            <span className="transition-transform group-hover:translate-x-1">→</span>
+          </Link>
+        </div>
       </div>
 
       {/* Floating ticker */}
-      <div className="relative border-t border-ink/10 bg-paper/80 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 overflow-x-auto px-6 py-3 text-[11px] uppercase tracking-[0.22em] text-ink/65 no-scrollbar">
+      <div className="relative border-t border-paper/15 bg-ink/70 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 overflow-x-auto px-6 py-3 text-[11px] uppercase tracking-[0.22em] text-paper/70 no-scrollbar">
           {["Sourced direct from Seoul", "Sealed & batch-checked", "Next-day VIC delivery", "Express AU shipping", "Advisor-built routines"].map((t) => (
             <span key={t} className="flex items-center gap-3 whitespace-nowrap">
               <span className="h-1 w-1 rounded-full bg-accent" />
@@ -159,6 +143,7 @@ function Hero() {
     </section>
   );
 }
+
 
 function Stat({ n, l }: { n: string; l: string }) {
   return (
