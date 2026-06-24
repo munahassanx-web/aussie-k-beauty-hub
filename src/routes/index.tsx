@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import heroEditorial from "@/assets/hero-editorial.jpg";
-import heroVideo from "@/assets/hero-video.mp4.asset.json";
+import heroKoreanModel from "@/assets/hero-korean-model.jpg";
 import productFlatlay from "@/assets/product-flatlay.jpg";
 import textureMacro from "@/assets/texture-macro.jpg";
 import ritualScene from "@/assets/ritual-scene.jpg";
@@ -89,14 +88,13 @@ function Hero() {
   return (
     <section className="relative overflow-hidden bg-sand">
       <div className="absolute inset-0">
-        <video
-          src={heroVideo.url}
-          poster={heroEditorial}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="h-full w-full object-cover"
+        <img
+          src={heroKoreanModel}
+          alt="Korean model with glowing glassy skin wearing a white tank top"
+          className="h-full w-full object-cover animate-ken-burns"
+          width={1920}
+          height={1080}
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-sand/95 via-sand/70 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-sand/40 via-transparent to-transparent" />
