@@ -104,7 +104,7 @@ const megaMenus: Record<string, MegaSection[]> = {
 };
 
 const announcements = [
-  "Same-day Melbourne dispatch on orders before 2pm",
+  "Next-day Melbourne dispatch on orders before 2pm",
   "Free express AU shipping over $80",
   "Authenticity guaranteed — sourced direct from Korea",
   "10% off first order with code GLOW10",
@@ -242,11 +242,11 @@ export function SiteFooter() {
           <p className="font-display text-3xl text-paper">Skin Grocer</p>
           <p className="mt-5 max-w-sm text-sm text-paper/65">
             Melbourne-based curators of authentic K-beauty and premium imports.
-            Locally stocked, expertly guided, dispatched the same day.
+            Locally stocked, expertly guided, dispatched the next day.
           </p>
           <div className="mt-6 inline-flex items-center gap-3 rounded-full border border-paper/20 px-4 py-2 text-xs uppercase tracking-[0.2em] text-paper/80">
             <span className="h-2 w-2 animate-pulse-ring rounded-full bg-accent" />
-            Ships today from Melbourne
+            Ships next day from Melbourne
           </div>
         </div>
 
