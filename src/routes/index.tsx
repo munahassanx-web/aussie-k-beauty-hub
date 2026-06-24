@@ -194,5 +194,3 @@ function Home() {
   );
 }
 
-// tiny helper so duplicate keys don't clash
-function t(s: string) { return s; }
