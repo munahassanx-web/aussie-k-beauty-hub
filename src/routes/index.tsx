@@ -78,6 +78,7 @@ function HomePage() {
       <ProvenanceCard />
       <IngredientStrip />
       <RitualCTA />
+      <ParallaxScene />
       <JournalPreview />
       <ReviewsCarousel />
       <NewsletterStrip />
@@ -85,13 +86,35 @@ function HomePage() {
   );
 }
 
+function ParallaxScene() {
+  return (
+    <section
+      className="relative min-h-[80vh] bg-ink bg-cover bg-center bg-fixed bg-no-repeat"
+      style={{ backgroundImage: `url(${heroKoreanModel})` }}
+      aria-label="Glass skin in motion"
+    >
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/10 to-ink/60" />
+      <div className="relative mx-auto flex min-h-[80vh] max-w-7xl flex-col items-start justify-end px-6 py-24">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-accent">Glass skin, decoded</p>
+        <h2 className="mt-4 max-w-2xl font-display text-4xl leading-tight text-paper md:text-6xl">
+          The Korean approach: <span className="italic">layer light, hold water, protect glow.</span>
+        </h2>
+        <p className="mt-5 max-w-xl text-paper/80">
+          Hydration first, occlusion last, sunscreen always. A philosophy we've imported,
+          translated, and stocked locally for Australian skin.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+
 function Hero() {
   return (
     <section className="relative overflow-hidden bg-ink">
       <div className="absolute inset-0">
         <video
           src={heroVideo.url}
-          poster={heroKoreanModel}
           autoPlay
           loop
           muted
@@ -100,6 +123,7 @@ function Hero() {
           aria-label="Models with glowing glassy skin laughing"
           className="h-full w-full object-cover"
         />
+
         <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-transparent to-ink/55" />
       </div>
 
