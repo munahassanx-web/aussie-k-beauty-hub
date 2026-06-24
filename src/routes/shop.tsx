@@ -26,23 +26,23 @@ export const Route = createFileRoute("/shop")({
 
 type Category = "Cleanse" | "Tone" | "Treat" | "Moisturise" | "Protect" | "Masks";
 
-const items: { name: string; brand: string; price: string; tag: string | null; category: Category }[] = [
-  { name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", tag: "Bestseller", category: "Treat" },
-  { name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", tag: "New", category: "Tone" },
-  { name: "Vitamin C Brightening Serum", brand: "Beauty of Joseon", price: "$36", tag: null, category: "Treat" },
-  { name: "Rice Probiotics Cleansing Foam", brand: "I'm From", price: "$30", tag: null, category: "Cleanse" },
-  { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", tag: "Cult", category: "Protect" },
-  { name: "Cica Recovery Cream", brand: "Anua", price: "$34", tag: null, category: "Moisturise" },
-  { name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", tag: "New", category: "Treat" },
+const items: { name: string; brand: string; price: string; tag: string | null; category: Category; image: string }[] = [
+  { name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", tag: "Bestseller", category: "Treat", image: products },
+  { name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", tag: "New", category: "Tone", image: products },
+  { name: "Vitamin C Brightening Serum", brand: "Beauty of Joseon", price: "$36", tag: null, category: "Treat", image: products },
+  { name: "Rice Probiotics Cleansing Foam", brand: "I'm From", price: "$30", tag: null, category: "Cleanse", image: products },
+  { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", tag: "Cult", category: "Protect", image: products },
+  { name: "Cica Recovery Cream", brand: "Anua", price: "$34", tag: null, category: "Moisturise", image: products },
+  { name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", tag: "New", category: "Treat", image: products },
   // K-beauty masks
-  { name: "Real Ferment Micro Essence Sheet Mask", brand: "Mediheal", price: "$6", tag: "Bestseller", category: "Masks" },
-  { name: "Dynasty Cream Mask", brand: "Beauty of Joseon", price: "$5", tag: null, category: "Masks" },
-  { name: "Bakuchiol Retinol Eye Mask", brand: "Numbuzin", price: "$32", tag: "New", category: "Masks" },
-  { name: "AHA-BHA-PHA 30 Days Miracle Clay Mask", brand: "Some By Mi", price: "$28", tag: null, category: "Masks" },
-  { name: "Pep-Talk Peptide Sleeping Mask", brand: "Abib", price: "$34", tag: null, category: "Masks" },
-  { name: "Vita Propolis Ampoule Sheet Mask", brand: "Numbuzin", price: "$7", tag: null, category: "Masks" },
-  { name: "Heartleaf 77% Soothing Sheet Mask", brand: "Anua", price: "$6", tag: "Cult", category: "Masks" },
-  { name: "Madagascar Centella Hyalu-Cica Water-Fit Sun Mask", brand: "SKIN1004", price: "$8", tag: null, category: "Masks" },
+  { name: "Real Ferment Micro Essence Sheet Mask", brand: "Mediheal", price: "$6", tag: "Bestseller", category: "Masks", image: maskMedihealSheet },
+  { name: "Dynasty Cream Mask", brand: "Beauty of Joseon", price: "$5", tag: null, category: "Masks", image: maskDynastyCream },
+  { name: "Bakuchiol Retinol Eye Mask", brand: "Numbuzin", price: "$32", tag: "New", category: "Masks", image: maskNumbuzinEye },
+  { name: "AHA-BHA-PHA 30 Days Miracle Clay Mask", brand: "Some By Mi", price: "$28", tag: null, category: "Masks", image: maskSomeByMiClay },
+  { name: "Pep-Talk Peptide Sleeping Mask", brand: "Abib", price: "$34", tag: null, category: "Masks", image: maskAbibSleeping },
+  { name: "Vita Propolis Ampoule Sheet Mask", brand: "Numbuzin", price: "$7", tag: null, category: "Masks", image: maskNumbuzinVita },
+  { name: "Heartleaf 77% Soothing Sheet Mask", brand: "Anua", price: "$6", tag: "Cult", category: "Masks", image: maskAnuaHeartleaf },
+  { name: "Madagascar Centella Hyalu-Cica Water-Fit Sun Mask", brand: "SKIN1004", price: "$8", tag: null, category: "Masks", image: maskSkin1004Centella },
 ];
 
 const filters = ["All", "Cleanse", "Tone", "Treat", "Moisturise", "Protect", "Masks"] as const;
