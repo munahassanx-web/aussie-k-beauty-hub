@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import products from "@/assets/products.jpg";
 
 export const Route = createFileRoute("/shop")({
@@ -15,18 +16,36 @@ export const Route = createFileRoute("/shop")({
   component: Shop,
 });
 
-const items = [
-  { name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", tag: "Bestseller" },
-  { name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", tag: "New" },
-  { name: "Vitamin C Brightening Serum", brand: "Beauty of Joseon", price: "$36", tag: null },
-  { name: "Rice Probiotics Cleansing Foam", brand: "I'm From", price: "$30", tag: null },
-  { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", tag: "Cult" },
-  { name: "Cica Recovery Cream", brand: "Anua", price: "$34", tag: null },
-  { name: "Peach Sake Pore Mask", brand: "Some By Mi", price: "$26", tag: null },
-  { name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", tag: "New" },
+type Category = "Cleanse" | "Tone" | "Treat" | "Moisturise" | "Protect" | "Masks";
+
+const items: { name: string; brand: string; price: string; tag: string | null; category: Category }[] = [
+  { name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", tag: "Bestseller", category: "Treat" },
+  { name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", tag: "New", category: "Tone" },
+  { name: "Vitamin C Brightening Serum", brand: "Beauty of Joseon", price: "$36", tag: null, category: "Treat" },
+  { name: "Rice Probiotics Cleansing Foam", brand: "I'm From", price: "$30", tag: null, category: "Cleanse" },
+  { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", tag: "Cult", category: "Protect" },
+  { name: "Cica Recovery Cream", brand: "Anua", price: "$34", tag: null, category: "Moisturise" },
+  { name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", tag: "New", category: "Treat" },
+  // K-beauty masks
+  { name: "Real Ferment Micro Essence Sheet Mask", brand: "Mediheal", price: "$6", tag: "Bestseller", category: "Masks" },
+  { name: "Dynasty Cream Mask", brand: "Beauty of Joseon", price: "$5", tag: null, category: "Masks" },
+  { name: "Bakuchiol Retinol Eye Mask", brand: "Numbuzin", price: "$32", tag: "New", category: "Masks" },
+  { name: "AHA-BHA-PHA 30 Days Miracle Clay Mask", brand: "Some By Mi", price: "$28", tag: null, category: "Masks" },
+  { name: "Pep-Talk Peptide Sleeping Mask", brand: "Abib", price: "$34", tag: null, category: "Masks" },
+  { name: "Vita Propolis Ampoule Sheet Mask", brand: "Numbuzin", price: "$7", tag: null, category: "Masks" },
+  { name: "Heartleaf 77% Soothing Sheet Mask", brand: "Anua", price: "$6", tag: "Cult", category: "Masks" },
+  { name: "Madagascar Centella Hyalu-Cica Water-Fit Sun Mask", brand: "SKIN1004", price: "$8", tag: null, category: "Masks" },
 ];
 
+const filters = ["All", "Cleanse", "Tone", "Treat", "Moisturise", "Protect", "Masks"] as const;
+
 function Shop() {
+  const [active, setActive] = useState<(typeof filters)[number]>("All");
+  const visible = useMemo(
+    () => (active === "All" ? items : items.filter((p) => p.category === active)),
+    [active],
+  );
+
   return (
     <div className="mx-auto max-w-7xl px-6 py-16">
       <div className="max-w-2xl">
@@ -39,15 +58,22 @@ function Shop() {
       </div>
 
       <div className="mt-10 flex flex-wrap gap-2">
-        {["All", "Cleanse", "Tone", "Treat", "Moisturise", "Protect", "Masks"].map((c, i) => (
-          <button key={c} className={`rounded-full border px-5 py-2 text-sm transition-colors ${i === 0 ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground hover:bg-secondary"}`}>
-            {c}
-          </button>
-        ))}
+        {filters.map((c) => {
+          const isActive = c === active;
+          return (
+            <button
+              key={c}
+              onClick={() => setActive(c)}
+              className={`rounded-full border px-5 py-2 text-sm transition-colors ${isActive ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground hover:bg-secondary"}`}
+            >
+              {c}
+            </button>
+          );
+        })}
       </div>
 
       <div className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-        {items.map((p) => (
+        {visible.map((p) => (
           <div key={p.name} className="group">
             <div className="relative aspect-square overflow-hidden rounded-2xl bg-secondary">
               <img src={products} alt={p.name} loading="lazy" width={1400} height={1000} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
