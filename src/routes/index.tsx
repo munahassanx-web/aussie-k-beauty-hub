@@ -89,14 +89,17 @@ function Hero() {
   return (
     <section className="relative overflow-hidden bg-sand">
       <div className="absolute inset-0">
-        <img
-          src={heroEditorial}
-          alt="Glass-skin editorial portrait"
-          className="h-full w-full animate-ken-burns object-cover"
-          width={1600}
-          height={1280}
+        <video
+          src={heroVideo.url}
+          poster={heroEditorial}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-sand/95 via-sand/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-sand/40 via-transparent to-transparent" />
       </div>
 
       <div className="relative mx-auto grid min-h-[88vh] max-w-7xl items-center px-6 py-24 md:grid-cols-2">
