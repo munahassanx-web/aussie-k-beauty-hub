@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
 import hero from "@/assets/hero.jpg";
+import portrait from "@/assets/hero-portrait.jpg";
 import glow from "@/assets/glow.jpg";
 import products from "@/assets/products.jpg";
 import vending from "@/assets/vending.jpg";
@@ -18,20 +20,75 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
+function useParallax() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [t, setT] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const onMove = (e: MouseEvent) => {
+      const r = el.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      const y = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      setT({ x, y });
+    };
+    const onLeave = () => setT({ x: 0, y: 0 });
+    el.addEventListener("mousemove", onMove);
+    el.addEventListener("mouseleave", onLeave);
+    return () => {
+      el.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
+  return { ref, t };
+}
+
+const marqueeItems = [
+  "Same-day delivery",
+  "100% authentic",
+  "Locally stocked in Sydney",
+  "Sourced direct from Korea",
+  "Expert routine guidance",
+  "Clean formulas only",
+];
+
 function Home() {
+  const { ref, t } = useParallax();
   return (
     <>
-      {/* HERO */}
-      <section className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 md:grid-cols-2 md:py-24">
-          <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+      {/* HERO with moving backdrop */}
+      <section ref={ref} className="relative isolate min-h-[92vh] overflow-hidden">
+        {/* Moving backdrop image of glass-skin portrait */}
+        <div className="absolute inset-0 -z-20">
+          <img
+            src={portrait}
+            alt=""
+            aria-hidden
+            width={1400}
+            height={1600}
+            className="h-full w-full animate-ken-burns object-cover object-center will-change-transform"
+            style={{
+              transform: `translate3d(${t.x * -15}px, ${t.y * -15}px, 0) scale(1.1)`,
+              transition: "transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
+            }}
+          />
+        </div>
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-background/95 via-background/70 to-background/30 md:from-background/90 md:via-background/55 md:to-background/10" />
+        <div className="pointer-events-none absolute right-10 top-24 -z-10 hidden h-40 w-40 animate-float-slow rounded-full bg-accent/30 blur-3xl md:block" />
+        <div
+          className="pointer-events-none absolute bottom-20 right-40 -z-10 hidden h-56 w-56 animate-float-slow rounded-full bg-primary/20 blur-3xl md:block"
+          style={{ animationDelay: "2s" }}
+        />
+
+        <div className="relative mx-auto grid min-h-[92vh] max-w-7xl items-center gap-12 px-6 py-20 md:grid-cols-2 md:py-24">
+          <div className="animate-fade-in">
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/70 px-3 py-1 text-xs font-medium text-primary backdrop-blur">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
               Proudly Australian owned
             </span>
-            <h1 className="mt-6 text-5xl leading-[1.05] text-foreground md:text-7xl">
-              Authentic Korean skincare,<br />
-              <em className="text-primary not-italic">delivered today.</em>
+            <h1 className="mt-6 text-5xl leading-[1.02] text-foreground md:text-7xl lg:text-8xl">
+              Glass skin,<br />
+              <span className="text-shimmer">delivered today.</span>
             </h1>
             <p className="mt-6 max-w-lg text-lg text-muted-foreground">
               We're a small Australian team obsessed with sourcing clean, authentic
@@ -40,47 +97,89 @@ function Home() {
               every step of the way.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/shop" className="rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">
-                Shop the edit
+              <Link
+                to="/shop"
+                className="group relative overflow-hidden rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground transition-all hover:scale-105 hover:shadow-xl hover:shadow-primary/30"
+              >
+                <span className="relative z-10">Shop the edit</span>
+                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
               </Link>
-              <Link to="/journey" className="rounded-full border border-foreground/20 px-7 py-3 text-sm font-medium text-foreground hover:bg-foreground/5">
+              <Link
+                to="/journey"
+                className="rounded-full border border-foreground/20 bg-background/60 px-7 py-3 text-sm font-medium text-foreground backdrop-blur transition-all hover:scale-105 hover:bg-foreground/5"
+              >
                 Start your journey →
               </Link>
             </div>
-            <dl className="mt-12 grid grid-cols-3 gap-6 border-t border-border pt-8">
-              <div>
-                <dt className="text-xs uppercase tracking-wider text-muted-foreground">Delivery</dt>
-                <dd className="mt-1 font-display text-2xl text-foreground">Same-day</dd>
-              </div>
-              <div>
-                <dt className="text-xs uppercase tracking-wider text-muted-foreground">Stocked</dt>
-                <dd className="mt-1 font-display text-2xl text-foreground">Locally</dd>
-              </div>
-              <div>
-                <dt className="text-xs uppercase tracking-wider text-muted-foreground">100%</dt>
-                <dd className="mt-1 font-display text-2xl text-foreground">Authentic</dd>
-              </div>
+            <dl className="mt-12 grid grid-cols-3 gap-6 border-t border-border/60 pt-8">
+              {[
+                ["Delivery", "Same-day"],
+                ["Stocked", "Locally"],
+                ["100%", "Authentic"],
+              ].map(([k, v]) => (
+                <div key={k} className="transition-transform hover:-translate-y-1">
+                  <dt className="text-xs uppercase tracking-wider text-muted-foreground">{k}</dt>
+                  <dd className="mt-1 font-display text-2xl text-foreground">{v}</dd>
+                </div>
+              ))}
             </dl>
           </div>
-          <div className="relative">
-            <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-accent/15 blur-2xl" />
-            <img
-              src={hero}
-              alt="Premium Korean skincare bottles arranged on linen"
-              width={1600}
-              height={1200}
-              className="aspect-[4/5] w-full rounded-[2rem] object-cover shadow-2xl"
+
+          {/* Floating product plate with parallax */}
+          <div className="relative hidden md:block">
+            <div
+              className="absolute -inset-6 -z-10 rounded-[2rem] bg-accent/20 blur-3xl"
+              style={{ transform: `translate3d(${t.x * 20}px, ${t.y * 20}px, 0)` }}
             />
-            <div className="absolute -bottom-6 -left-6 hidden rounded-2xl bg-background p-4 shadow-xl md:block">
+            <div
+              className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] shadow-2xl shadow-foreground/20"
+              style={{
+                transform: `translate3d(${t.x * 10}px, ${t.y * 10}px, 0) rotate(${t.x * 1.5}deg)`,
+                transition: "transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
+              }}
+            >
+              <img
+                src={hero}
+                alt="Premium Korean skincare bottles arranged on linen"
+                width={1600}
+                height={1200}
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground/30 via-transparent to-transparent" />
+            </div>
+            <div className="absolute -bottom-6 -left-6 animate-float-slow rounded-2xl bg-background/95 p-4 shadow-xl backdrop-blur">
               <p className="text-xs uppercase tracking-wider text-muted-foreground">Sourced in</p>
               <p className="font-display text-xl text-foreground">Seoul → Sydney</p>
             </div>
+            <div
+              className="absolute -right-4 -top-4 animate-float-slow rounded-2xl bg-primary p-4 text-primary-foreground shadow-xl"
+              style={{ animationDelay: "1.5s" }}
+            >
+              <p className="text-xs uppercase tracking-wider opacity-80">Order by 1pm</p>
+              <p className="font-display text-xl">At your door tonight</p>
+            </div>
           </div>
+        </div>
+
+        <div className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 animate-float-slow text-xs uppercase tracking-[0.3em] text-muted-foreground md:block">
+          Scroll ↓
+        </div>
+      </section>
+
+      {/* Marquee strip */}
+      <section className="overflow-hidden border-y border-border bg-primary py-4 text-primary-foreground">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[...marqueeItems, ...marqueeItems, ...marqueeItems].map((item, i) => (
+            <span key={i} className="mx-8 inline-flex items-center gap-8 font-display text-xl">
+              {item}
+              <span className="text-accent">✦</span>
+            </span>
+          ))}
         </div>
       </section>
 
       {/* PROMISE STRIP */}
-      <section className="border-y border-border bg-secondary/40">
+      <section className="border-b border-border bg-secondary/40">
         <div className="mx-auto grid max-w-7xl gap-8 px-6 py-10 md:grid-cols-4">
           {[
             { t: "Same-day delivery", d: "Order by 1pm — at your door tonight." },
@@ -88,8 +187,8 @@ function Home() {
             { t: "Guided routines", d: "Application notes with every product." },
             { t: "Verified authentic", d: "Sourced directly from brand partners." },
           ].map((f) => (
-            <div key={f.t} className="flex flex-col gap-1">
-              <p className="font-display text-lg text-foreground">{f.t}</p>
+            <div key={f.t} className="group flex flex-col gap-1 transition-transform hover:-translate-y-1">
+              <p className="font-display text-lg text-foreground transition-colors group-hover:text-primary">{f.t}</p>
               <p className="text-sm text-muted-foreground">{f.d}</p>
             </div>
           ))}
@@ -98,7 +197,7 @@ function Home() {
 
       {/* STORY */}
       <section className="mx-auto grid max-w-7xl items-center gap-14 px-6 py-24 md:grid-cols-2">
-        <img src={glow} alt="Woman applying serum, glowing skin" loading="lazy" width={1200} height={1400} className="aspect-[4/5] w-full rounded-[2rem] object-cover" />
+        <img src={glow} alt="Woman applying serum, glowing skin" loading="lazy" width={1200} height={1400} className="aspect-[4/5] w-full rounded-[2rem] object-cover transition-transform duration-700 hover:scale-[1.02]" />
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-primary">Our promise</p>
           <h2 className="mt-3 text-4xl text-foreground md:text-5xl">A skincare aisle worth trusting.</h2>
@@ -147,11 +246,12 @@ function Home() {
               { t: "Protect", d: "Moisturisers & daily SPF.", c: "from-accent/30" },
             ].map((c) => (
               <Link to="/shop" key={c.t} className="group relative aspect-[4/5] overflow-hidden rounded-3xl">
-                <img src={products} alt={c.t} loading="lazy" width={1400} height={1000} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <img src={products} alt={c.t} loading="lazy" width={1400} height={1000} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className={`absolute inset-0 bg-gradient-to-t ${c.c} via-foreground/10 to-foreground/70`} />
-                <div className="absolute bottom-0 p-7 text-background">
+                <div className="absolute bottom-0 p-7 text-background transition-transform duration-500 group-hover:-translate-y-2">
                   <h3 className="text-3xl text-background">{c.t}</h3>
                   <p className="mt-1 text-sm opacity-90">{c.d}</p>
+                  <p className="mt-3 text-xs uppercase tracking-[0.2em] opacity-0 transition-opacity duration-500 group-hover:opacity-100">Explore →</p>
                 </div>
               </Link>
             ))}
@@ -169,11 +269,11 @@ function Home() {
             K-beauty essentials to gyms, salons and lifestyle spaces around
             Australia — stocked with the same trusted products you'd buy online.
           </p>
-          <Link to="/contact" className="mt-8 inline-flex rounded-full border border-foreground/20 px-7 py-3 text-sm font-medium text-foreground hover:bg-foreground/5">
+          <Link to="/contact" className="mt-8 inline-flex rounded-full border border-foreground/20 px-7 py-3 text-sm font-medium text-foreground transition-all hover:scale-105 hover:bg-foreground/5">
             Host a machine →
           </Link>
         </div>
-        <img src={vending} alt="Skin Grocer vending machine" loading="lazy" width={1000} height={1300} className="aspect-[4/5] w-full rounded-[2rem] object-cover" />
+        <img src={vending} alt="Skin Grocer vending machine" loading="lazy" width={1000} height={1300} className="aspect-[4/5] w-full rounded-[2rem] object-cover transition-transform duration-700 hover:scale-[1.02]" />
       </section>
 
       {/* TESTIMONIAL TEASE */}
@@ -185,7 +285,7 @@ function Home() {
             Ordered at noon, it was at my door by 6pm."
           </blockquote>
           <p className="mt-6 text-sm opacity-80">Mia T. — Bondi, NSW</p>
-          <Link to="/reviews" className="mt-10 inline-flex rounded-full bg-background px-7 py-3 text-sm font-medium text-foreground hover:opacity-90">
+          <Link to="/reviews" className="mt-10 inline-flex rounded-full bg-background px-7 py-3 text-sm font-medium text-foreground transition-all hover:scale-105 hover:opacity-90">
             Read more reviews
           </Link>
         </div>
@@ -193,4 +293,3 @@ function Home() {
     </>
   );
 }
-
