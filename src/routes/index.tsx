@@ -30,7 +30,7 @@ const categories = [
   { name: "Serums", count: "41 products", img: productFlatlay },
   { name: "Moisturisers", count: "26 products", img: brandSpotlight },
   { name: "SPF", count: "18 products", img: skinMacro },
-  { name: "Masks", count: "22 products", img: customers },
+  { name: "Masks", count: "22 products", img: categoryMasks },
 ];
 
 const concerns = [
