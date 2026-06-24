@@ -1,6 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import products from "@/assets/products.jpg";
+import maskMedihealSheet from "@/assets/mask-mediheal-sheet.jpg";
+import maskDynastyCream from "@/assets/mask-dynasty-cream.jpg";
+import maskNumbuzinEye from "@/assets/mask-numbuzin-eye.jpg";
+import maskSomeByMiClay from "@/assets/mask-somebymi-clay.jpg";
+import maskAbibSleeping from "@/assets/mask-abib-sleeping.jpg";
+import maskNumbuzinVita from "@/assets/mask-numbuzin-vita.jpg";
+import maskAnuaHeartleaf from "@/assets/mask-anua-heartleaf.jpg";
+import maskSkin1004Centella from "@/assets/mask-skin1004-centella.jpg";
 
 export const Route = createFileRoute("/shop")({
   head: () => ({
@@ -18,23 +26,23 @@ export const Route = createFileRoute("/shop")({
 
 type Category = "Cleanse" | "Tone" | "Treat" | "Moisturise" | "Protect" | "Masks";
 
-const items: { name: string; brand: string; price: string; tag: string | null; category: Category }[] = [
-  { name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", tag: "Bestseller", category: "Treat" },
-  { name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", tag: "New", category: "Tone" },
-  { name: "Vitamin C Brightening Serum", brand: "Beauty of Joseon", price: "$36", tag: null, category: "Treat" },
-  { name: "Rice Probiotics Cleansing Foam", brand: "I'm From", price: "$30", tag: null, category: "Cleanse" },
-  { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", tag: "Cult", category: "Protect" },
-  { name: "Cica Recovery Cream", brand: "Anua", price: "$34", tag: null, category: "Moisturise" },
-  { name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", tag: "New", category: "Treat" },
+const items: { name: string; brand: string; price: string; tag: string | null; category: Category; image: string }[] = [
+  { name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", tag: "Bestseller", category: "Treat", image: products },
+  { name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", tag: "New", category: "Tone", image: products },
+  { name: "Vitamin C Brightening Serum", brand: "Beauty of Joseon", price: "$36", tag: null, category: "Treat", image: products },
+  { name: "Rice Probiotics Cleansing Foam", brand: "I'm From", price: "$30", tag: null, category: "Cleanse", image: products },
+  { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", tag: "Cult", category: "Protect", image: products },
+  { name: "Cica Recovery Cream", brand: "Anua", price: "$34", tag: null, category: "Moisturise", image: products },
+  { name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", tag: "New", category: "Treat", image: products },
   // K-beauty masks
-  { name: "Real Ferment Micro Essence Sheet Mask", brand: "Mediheal", price: "$6", tag: "Bestseller", category: "Masks" },
-  { name: "Dynasty Cream Mask", brand: "Beauty of Joseon", price: "$5", tag: null, category: "Masks" },
-  { name: "Bakuchiol Retinol Eye Mask", brand: "Numbuzin", price: "$32", tag: "New", category: "Masks" },
-  { name: "AHA-BHA-PHA 30 Days Miracle Clay Mask", brand: "Some By Mi", price: "$28", tag: null, category: "Masks" },
-  { name: "Pep-Talk Peptide Sleeping Mask", brand: "Abib", price: "$34", tag: null, category: "Masks" },
-  { name: "Vita Propolis Ampoule Sheet Mask", brand: "Numbuzin", price: "$7", tag: null, category: "Masks" },
-  { name: "Heartleaf 77% Soothing Sheet Mask", brand: "Anua", price: "$6", tag: "Cult", category: "Masks" },
-  { name: "Madagascar Centella Hyalu-Cica Water-Fit Sun Mask", brand: "SKIN1004", price: "$8", tag: null, category: "Masks" },
+  { name: "Real Ferment Micro Essence Sheet Mask", brand: "Mediheal", price: "$6", tag: "Bestseller", category: "Masks", image: maskMedihealSheet },
+  { name: "Dynasty Cream Mask", brand: "Beauty of Joseon", price: "$5", tag: null, category: "Masks", image: maskDynastyCream },
+  { name: "Bakuchiol Retinol Eye Mask", brand: "Numbuzin", price: "$32", tag: "New", category: "Masks", image: maskNumbuzinEye },
+  { name: "AHA-BHA-PHA 30 Days Miracle Clay Mask", brand: "Some By Mi", price: "$28", tag: null, category: "Masks", image: maskSomeByMiClay },
+  { name: "Pep-Talk Peptide Sleeping Mask", brand: "Abib", price: "$34", tag: null, category: "Masks", image: maskAbibSleeping },
+  { name: "Vita Propolis Ampoule Sheet Mask", brand: "Numbuzin", price: "$7", tag: null, category: "Masks", image: maskNumbuzinVita },
+  { name: "Heartleaf 77% Soothing Sheet Mask", brand: "Anua", price: "$6", tag: "Cult", category: "Masks", image: maskAnuaHeartleaf },
+  { name: "Madagascar Centella Hyalu-Cica Water-Fit Sun Mask", brand: "SKIN1004", price: "$8", tag: null, category: "Masks", image: maskSkin1004Centella },
 ];
 
 const filters = ["All", "Cleanse", "Tone", "Treat", "Moisturise", "Protect", "Masks"] as const;
@@ -76,7 +84,7 @@ function Shop() {
         {visible.map((p) => (
           <div key={p.name} className="group">
             <div className="relative aspect-square overflow-hidden rounded-2xl bg-secondary">
-              <img src={products} alt={p.name} loading="lazy" width={1400} height={1000} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <img src={p.image} alt={p.name} loading="lazy" width={1024} height={1024} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
               {p.tag && (
                 <span className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-primary backdrop-blur">{p.tag}</span>
               )}
