@@ -28,8 +28,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-clay: var(--clay);
-  --color-sage: var(--sage);
+  --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
   --color-cream: var(--cream);
   --color-ink: var(--ink);
   --font-display: "Fraunces", Georgia, serif;
@@ -38,30 +38,45 @@
 
 :root {
   --radius: 0.5rem;
-  --cream: oklch(0.97 0.015 80);
-  --sage: oklch(0.55 0.05 140);
-  --clay: oklch(0.65 0.12 45);
-  --ink: oklch(0.25 0.02 80);
+  --cream: oklch(0.97 0.018 85);
+  --gold: oklch(0.78 0.14 78);
+  --gold-deep: oklch(0.62 0.16 70);
+  --ink: oklch(0.18 0.015 60);
 
-  --background: oklch(0.98 0.012 80);
-  --foreground: oklch(0.25 0.02 80);
+  --background: oklch(0.98 0.012 85);
+  --foreground: oklch(0.18 0.015 60);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.25 0.02 80);
+  --card-foreground: oklch(0.18 0.015 60);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.25 0.02 80);
-  --primary: oklch(0.45 0.06 140);
-  --primary-foreground: oklch(0.98 0.012 80);
-  --secondary: oklch(0.93 0.025 80);
-  --secondary-foreground: oklch(0.25 0.02 80);
-  --muted: oklch(0.94 0.018 80);
-  --muted-foreground: oklch(0.48 0.025 80);
-  --accent: oklch(0.65 0.12 45);
-  --accent-foreground: oklch(0.98 0.012 80);
+  --popover-foreground: oklch(0.18 0.015 60);
+  --primary: oklch(0.62 0.16 70);
+  --primary-foreground: oklch(0.98 0.012 85);
+  --secondary: oklch(0.95 0.025 85);
+  --secondary-foreground: oklch(0.18 0.015 60);
+  --muted: oklch(0.94 0.018 85);
+  --muted-foreground: oklch(0.45 0.025 70);
+  --accent: oklch(0.78 0.14 78);
+  --accent-foreground: oklch(0.18 0.015 60);
   --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: oklch(0.98 0 0);
   --border: oklch(0.88 0.02 80);
   --input: oklch(0.88 0.02 80);
-  --ring: oklch(0.55 0.05 140);
+  --ring: oklch(0.62 0.16 70);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    font-feature-settings: "ss01", "cv11";
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
 }
 
 @keyframes ken-burns {
@@ -86,25 +101,14 @@
 @utility animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
 @utility animate-marquee { animation: marquee 40s linear infinite; }
 @utility text-shimmer {
-  background: linear-gradient(90deg, var(--color-foreground) 0%, var(--color-accent) 50%, var(--color-foreground) 100%);
+  background: linear-gradient(90deg, var(--color-gold-deep) 0%, var(--color-gold) 50%, var(--color-gold-deep) 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   animation: shimmer 6s linear infinite;
 }
-
-@layer base {
-  * { border-color: var(--color-border); }
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    font-family: var(--font-body);
-    font-feature-settings: "ss01", "cv11";
-  }
-  h1, h2, h3, h4 {
-    font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.02em;
-  }
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
 }
