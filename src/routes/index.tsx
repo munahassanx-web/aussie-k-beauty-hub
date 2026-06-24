@@ -88,7 +88,7 @@ function Home() {
             { t: "Guided routines", d: "Application notes with every product." },
             { t: "Verified authentic", d: "Sourced directly from brand partners." },
           ].map((f) => (
-            <div key={t(f.t)} className="flex flex-col gap-1">
+            <div key={f.t} className="flex flex-col gap-1">
               <p className="font-display text-lg text-foreground">{f.t}</p>
               <p className="text-sm text-muted-foreground">{f.d}</p>
             </div>
