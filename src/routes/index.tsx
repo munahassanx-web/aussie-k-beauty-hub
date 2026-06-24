@@ -8,6 +8,7 @@ import ritualScene from "@/assets/ritual-scene.jpg";
 import brandSpotlight from "@/assets/brand-spotlight.jpg";
 import skinMacro from "@/assets/skin-macro.jpg";
 import customers from "@/assets/customers.jpg";
+import categoryMasks from "@/assets/category-masks.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
