@@ -84,7 +84,7 @@ function Shop() {
         {visible.map((p) => (
           <div key={p.name} className="group">
             <div className="relative aspect-square overflow-hidden rounded-2xl bg-secondary">
-              <img src={products} alt={p.name} loading="lazy" width={1400} height={1000} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <img src={p.image} alt={p.name} loading="lazy" width={1024} height={1024} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
               {p.tag && (
                 <span className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-primary backdrop-blur">{p.tag}</span>
               )}
