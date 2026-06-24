@@ -91,7 +91,6 @@ function Hero() {
       <div className="absolute inset-0">
         <video
           src={heroVideo.url}
-          poster={heroKoreanModel}
           autoPlay
           loop
           muted
@@ -100,6 +99,7 @@ function Hero() {
           aria-label="Models with glowing glassy skin laughing"
           className="h-full w-full object-cover"
         />
+
         <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-transparent to-ink/55" />
       </div>
 
