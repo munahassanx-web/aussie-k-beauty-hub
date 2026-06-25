@@ -76,6 +76,7 @@ function HomePage() {
       <Categories />
       <Concerns />
       <Bestsellers />
+      <BundleOffer />
       <ProvenanceCard />
       <IngredientStrip />
       <RitualCTA />
