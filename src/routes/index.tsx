@@ -402,19 +402,27 @@ function BundleOffer() {
   ];
 
   return (
-    <section className="bg-secondary">
+    <section id="bundles" className="scroll-mt-20 bg-secondary">
       <div className="mx-auto max-w-7xl px-6 py-24">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Curated Bundles</p>
-            <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">
-              Build the ritual.<br />
-              <span className="italic text-hanbok-deep">Save up to 25%.</span>
+            <p className="inline-flex items-center gap-2 rounded-full bg-hanbok-deep/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-hanbok-deep">
+              <span className="h-1.5 w-1.5 rounded-full bg-clay" /> Limited drop · This week only
+            </p>
+            <h2 className="mt-4 font-display text-4xl text-ink md:text-5xl">
+              Skip the guesswork.<br />
+              <span className="italic text-hanbok-deep">Save up to A$66.</span>
             </h2>
+            <p className="mt-4 max-w-md text-sm text-ink/70">
+              Advisor-built bundles, sealed direct from Seoul. Cheaper than buying each step alone — and they arrive tomorrow.
+            </p>
           </div>
-          <p className="max-w-md text-sm text-ink/70">
-            Advisor-built bundles that take the guesswork out of layering. Free express shipping on every kit.
-          </p>
+          <ul className="grid gap-2 text-sm text-ink/80 md:text-right">
+            <li>✓ Save up to 25% vs. individual prices</li>
+            <li>✓ Free express shipping, every bundle</li>
+            <li>✓ 30-day glow-or-refund guarantee</li>
+            <li>✓ Free routine card + samples inside</li>
+          </ul>
         </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
