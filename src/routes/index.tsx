@@ -115,6 +115,7 @@ function Hero() {
     <section className="relative overflow-hidden bg-ink">
       <div className="absolute inset-0">
         <video
+          key={heroVideo.url}
           src={heroVideo.url}
           autoPlay
           loop
