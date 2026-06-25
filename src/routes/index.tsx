@@ -452,6 +452,8 @@ function BundleOffer() {
       </div>
     </section>
   );
+}
+
 
 function ProvenanceCard() {
   return (
