@@ -337,6 +337,122 @@ function Bestsellers() {
   );
 }
 
+function BundleOffer() {
+  const bundles = [
+    {
+      tag: "Starter Ritual",
+      name: "The Glass Skin Starter",
+      desc: "A 4-step intro to Korean skincare — cleanse, hydrate, treat, protect.",
+      includes: ["Anua Heartleaf Cleansing Oil", "Round Lab 1025 Dokdo Toner", "COSRX Snail 96 Essence", "Beauty of Joseon Relief Sun SPF50+"],
+      original: 138,
+      price: 109,
+      save: 29,
+      img: productFlatlay,
+      featured: false,
+    },
+    {
+      tag: "Best Value · Save 25%",
+      name: "The Complete Glow Edit",
+      desc: "Our most-loved 7-step ritual, advisor-built. A full month of glass-skin results.",
+      includes: ["Double cleanse duo", "Hydrating toner + essence", "Brightening serum", "Barrier moisturiser", "SPF50+ finish", "Free overnight mask"],
+      original: 264,
+      price: 198,
+      save: 66,
+      img: ritualScene,
+      featured: true,
+    },
+    {
+      tag: "Concern Kit",
+      name: "Calm & Clear Bundle",
+      desc: "For breakout-prone, sensitive skin. Centella, heartleaf and gentle actives.",
+      includes: ["Anua Heartleaf 77% Toner", "SKIN1004 Madagascar Centella Ampoule", "Beauty of Joseon Calming Serum", "Numbuzin Soothing Cream"],
+      original: 156,
+      price: 124,
+      save: 32,
+      img: textureMacro,
+      featured: false,
+    },
+  ];
+
+  return (
+    <section className="bg-secondary">
+      <div className="mx-auto max-w-7xl px-6 py-24">
+        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Curated Bundles</p>
+            <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">
+              Build the ritual.<br />
+              <span className="italic text-hanbok-deep">Save up to 25%.</span>
+            </h2>
+          </div>
+          <p className="max-w-md text-sm text-ink/70">
+            Advisor-built bundles that take the guesswork out of layering. Free express shipping on every kit.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {bundles.map((b) => (
+            <article
+              key={b.name}
+              className={`relative flex flex-col overflow-hidden rounded-3xl border bg-paper transition-all duration-500 lift ${
+                b.featured
+                  ? "border-hanbok shadow-[0_30px_60px_-30px_rgba(46,63,110,0.45)] md:-translate-y-3"
+                  : "border-border/70"
+              }`}
+            >
+              {b.featured && (
+                <div className="absolute right-4 top-4 z-10 rounded-full bg-hanbok px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-paper">
+                  Most popular
+                </div>
+              )}
+              <div className="relative aspect-[5/3] overflow-hidden bg-sand">
+                <img src={b.img} alt={b.name} loading="lazy" className="h-full w-full object-cover" />
+                <span className="absolute left-4 top-4 rounded-full bg-paper/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-hanbok-deep backdrop-blur">
+                  {b.tag}
+                </span>
+              </div>
+              <div className="flex flex-1 flex-col p-6">
+                <h3 className="font-display text-2xl leading-tight text-ink">{b.name}</h3>
+                <p className="mt-2 text-sm text-ink/70">{b.desc}</p>
+
+                <ul className="mt-5 space-y-2 text-sm text-ink/80">
+                  {b.includes.map((item) => (
+                    <li key={item} className="flex items-start gap-2">
+                      <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-hanbok" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-6 flex items-end gap-3 border-t border-border/60 pt-5">
+                  <p className="font-display text-3xl text-ink">A${b.price}</p>
+                  <p className="pb-1 text-sm text-muted-foreground line-through">A${b.original}</p>
+                  <p className="ml-auto pb-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-clay">
+                    Save A${b.save}
+                  </p>
+                </div>
+
+                <button
+                  className={`mt-5 w-full rounded-full py-3.5 text-xs font-semibold uppercase tracking-[0.22em] transition ${
+                    b.featured
+                      ? "bg-hanbok text-paper hover:bg-hanbok-deep"
+                      : "bg-ink text-paper hover:bg-hanbok"
+                  }`}
+                >
+                  Add bundle to cart
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <p className="mt-8 text-center text-xs uppercase tracking-[0.22em] text-muted-foreground">
+          30-day satisfaction guarantee · Free express shipping · Authenticity card included
+        </p>
+      </div>
+    </section>
+  );
+
 function ProvenanceCard() {
   return (
     <section className="bg-ink text-paper">
