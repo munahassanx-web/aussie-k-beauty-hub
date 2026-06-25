@@ -71,12 +71,13 @@ const reviews = [
 function HomePage() {
   return (
     <div>
+      <PromoBar />
       <Hero />
       <Promise />
+      <BundleOffer />
       <Categories />
       <Concerns />
       <Bestsellers />
-      <BundleOffer />
       <ProvenanceCard />
       <IngredientStrip />
       <RitualCTA />
@@ -85,6 +86,32 @@ function HomePage() {
       <ReviewsCarousel />
       <NewsletterStrip />
     </div>
+  );
+}
+
+function PromoBar() {
+  const messages = [
+    "Limited drop · Save up to 25% on advisor-built bundles",
+    "Free express AU shipping on every bundle",
+    "Bundle + Subscribe = an extra 10% off, forever",
+    "Only 48 Glow Edit kits left this week",
+  ];
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((x) => (x + 1) % messages.length), 3500);
+    return () => clearInterval(t);
+  }, [messages.length]);
+  return (
+    <a
+      href="#bundles"
+      className="block bg-hanbok-deep text-paper transition hover:bg-hanbok"
+    >
+      <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-6 py-2.5 text-center text-[11px] font-semibold uppercase tracking-[0.22em]">
+        <span className="hidden h-1.5 w-1.5 rounded-full bg-accent sm:inline-block" />
+        <span className="transition-opacity duration-500">{messages[i]}</span>
+        <span className="text-accent">Shop bundles →</span>
+      </div>
+    </a>
   );
 }
 
