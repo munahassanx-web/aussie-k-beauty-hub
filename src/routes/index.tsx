@@ -81,8 +81,8 @@ function HomePage() {
       <Concerns />
       <Bestsellers />
       <BrandMarquee />
-      <Wholesale />
       <ProvenanceCard />
+
       <IngredientStrip />
       <RitualCTA />
       <ParallaxScene />
@@ -99,7 +99,7 @@ function WhyPillars() {
     { t: "Thousands of SKUs in one place", d: "The K-beauty edit — skincare, makeup, hair and body — stocked locally, ready to ship." },
     { t: "Best, local & exclusive brands", d: "Cult favourites plus small-batch Korean labels you can't find anywhere else in AU." },
     { t: "100% authentic, always", d: "Every batch verified on arrival. Sealed, coded, provenance-carded. No greymarket, ever." },
-    { t: "Retail & wholesale pricing", d: "Fair AUD retail, competitive bulk pricing for salons, spas, clinics and resellers." },
+    { t: "Fair local AUD pricing", d: "No inflated import markups. Premium K-beauty, priced honestly for Australian shoppers." },
     { t: "On-trend, curated weekly", d: "New arrivals every Friday — the drops Korean TikTok is talking about, on Aussie shelves first." },
   ];
   return (
@@ -109,12 +109,11 @@ function WhyPillars() {
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Why Skin Grocer</p>
           <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">
             Australia's K-beauty grocer,<br />
-            <span className="italic text-hanbok-deep">for shoppers and stockists.</span>
+            <span className="italic text-hanbok-deep">for every skincare ritual.</span>
           </h2>
           <p className="mt-5 max-w-xl text-ink/70">
-            We're a Melbourne-based importer and retailer of authentic Korean skincare — serving
-            everyday customers, and supplying salons, spas, clinics and independent beauty stores
-            across Australia.
+            We're a Melbourne-based retailer of authentic Korean skincare — locally stocked,
+            honestly priced, and here to guide you from your first cleanse to your final SPF.
           </p>
         </div>
         <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-3">
@@ -130,6 +129,7 @@ function WhyPillars() {
     </section>
   );
 }
+
 
 function Wholesale() {
   const perks = [
