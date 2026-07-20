@@ -74,10 +74,13 @@ function HomePage() {
       <PromoBar />
       <Hero />
       <Promise />
+      <WhyPillars />
       <BundleOffer />
       <Categories />
+      <Ranges />
       <Concerns />
       <Bestsellers />
+      <BrandMarquee />
       <ProvenanceCard />
       <IngredientStrip />
       <RitualCTA />
@@ -86,6 +89,114 @@ function HomePage() {
       <ReviewsCarousel />
       <NewsletterStrip />
     </div>
+  );
+}
+
+function WhyPillars() {
+  const pillars = [
+    { t: "Sourced direct from Seoul", d: "Shipped from our Korean supplier network to our Melbourne warehouse." },
+    { t: "Thousands of products, one shelf", d: "The K-beauty edit — cleansers to SPF — under one Australian roof." },
+    { t: "Best, local & exclusive brands", d: "Cult favourites plus small-batch labels you can't get anywhere in AU." },
+    { t: "100% authentic, always", d: "Every batch verified on arrival. Sealed, coded, provenance-carded." },
+    { t: "Fair, honest AUD pricing", d: "No inflated import markups. What you'd pay in Seoul, on your doorstep." },
+    { t: "On-trend, curated weekly", d: "New arrivals every Friday — the drops Korean TikTok is talking about." },
+  ];
+  return (
+    <section className="bg-paper">
+      <div className="mx-auto max-w-7xl px-6 py-24">
+        <div className="max-w-2xl">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Why Skin Grocer</p>
+          <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">
+            Every reason we exist,<br />
+            <span className="italic text-hanbok-deep">on one shelf.</span>
+          </h2>
+        </div>
+        <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-3">
+          {pillars.map((p, i) => (
+            <div key={p.t} className="flex flex-col gap-3 bg-paper p-8">
+              <span className="font-display text-3xl text-hanbok-deep/30">0{i + 1}</span>
+              <h3 className="font-display text-xl leading-tight text-ink">{p.t}</h3>
+              <p className="text-sm text-ink/70">{p.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Ranges() {
+  const ranges = [
+    { name: "Skincare", desc: "The full 10-step canon — cleansers, toners, essences, serums, creams, masks and SPF.", img: textureMacro, count: "180+ products" },
+    { name: "Makeup", desc: "Skin-first Korean makeup: cushions, tints, glass-finish lip and cream blush.", img: brandSpotlight, count: "60+ products" },
+    { name: "Hair Care", desc: "Scalp treatments, protein masks and hair oils from Seoul's top salon brands.", img: ritualScene, count: "24+ products" },
+    { name: "Body Care", desc: "Ceramide body lotions, exfoliating pads and hand creams for head-to-toe glow.", img: skinMacro, count: "18+ products" },
+  ];
+  return (
+    <section className="bg-sand/60">
+      <div className="mx-auto max-w-7xl px-6 py-24">
+        <div className="flex items-end justify-between gap-6">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">The Ranges We Stock</p>
+            <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">More than skincare.</h2>
+          </div>
+          <Link to="/shop" className="hidden text-sm font-medium text-primary underline-grow md:inline">Shop everything →</Link>
+        </div>
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {ranges.map((r) => (
+            <Link key={r.name} to="/shop" className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-paper lift">
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <img src={r.img} alt={r.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              </div>
+              <div className="flex flex-1 flex-col p-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-display text-2xl text-ink">{r.name}</h3>
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-clay">{r.count}</span>
+                </div>
+                <p className="mt-3 text-sm text-ink/70">{r.desc}</p>
+                <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary">
+                  Explore range <span className="transition-transform group-hover:translate-x-1">→</span>
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BrandMarquee() {
+  const brands = [
+    "COSRX", "Beauty of Joseon", "Anua", "Round Lab", "SKIN1004", "Numbuzin",
+    "Abib", "Mixsoon", "Haruharu Wonder", "Isntree", "Klairs", "Pyunkang Yul",
+    "TIRTIR", "Mediheal", "Some By Mi", "Torriden", "Kahi", "Rom&nd",
+    "Laneige", "Dr. Jart+", "Innisfree", "Etude", "Missha", "Purito",
+    "iUNIK", "Manyo", "Peripera", "Kaine", "Sulwhasoon", "d'Alba",
+  ];
+  const row = [...brands, ...brands];
+  return (
+    <section className="overflow-hidden border-y border-border bg-ink py-16 text-paper">
+      <div className="mx-auto mb-8 max-w-7xl px-6">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">The Brand Cabinet</p>
+        <h2 className="mt-3 max-w-2xl font-display text-3xl leading-tight md:text-4xl">
+          30+ authentic Korean labels, <span className="italic text-accent">all under one Australian roof.</span>
+        </h2>
+      </div>
+      <div className="flex animate-marquee gap-10 whitespace-nowrap">
+        {row.map((b, i) => (
+          <span key={i} className="inline-flex items-center gap-10 font-display text-3xl tracking-tight text-paper/80 md:text-4xl">
+            {b}
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+          </span>
+        ))}
+      </div>
+      <div className="mx-auto mt-10 max-w-7xl px-6">
+        <Link to="/brands" className="inline-flex items-center gap-2 rounded-full border border-paper/30 px-6 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-paper transition hover:bg-paper hover:text-ink">
+          Browse all brands →
+        </Link>
+      </div>
+    </section>
   );
 }
 
