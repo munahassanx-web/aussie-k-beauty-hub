@@ -131,55 +131,8 @@ function WhyPillars() {
 }
 
 
-function Wholesale() {
-  const perks = [
-    { t: "Bulk & wholesale pricing", d: "Tiered discounts on case quantities. Reseller and trade rates on request." },
-    { t: "Local Melbourne stock", d: "Skip 6-week ocean freight. Order today, restock your shelf this week." },
-    { t: "Curated brand mix", d: "We help you pick the on-trend SKUs your customers are actually asking for." },
-    { t: "Dropship & private label", d: "Ship direct to your customers under your brand, or co-brand exclusive kits." },
-  ];
-  return (
-    <section id="wholesale" className="scroll-mt-20 bg-secondary">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:items-center">
-        <div className="md:col-span-5">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Wholesale · B2B</p>
-          <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">
-            Stock your shelf<br />
-            <span className="italic text-hanbok-deep">with the real thing.</span>
-          </h2>
-          <p className="mt-5 text-ink/70">
-            Salons, spas, clinics, pharmacies and independent beauty stores across Australia
-            source their K-beauty from our Melbourne warehouse. Register for trade pricing,
-            or ask us to build a bespoke opening order.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/contact" className="rounded-full bg-ink px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.22em] text-paper hover:bg-hanbok-deep">
-              Apply for wholesale
-            </Link>
-            <a href="mailto:wholesale@skingrocer.com.au" className="rounded-full border border-ink/20 px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.22em] text-ink hover:bg-ink hover:text-paper">
-              Email our trade team
-            </a>
-          </div>
-          <p className="mt-6 text-xs uppercase tracking-[0.22em] text-muted-foreground">
-            Minimum opening order A$500 · Net-30 terms available
-          </p>
-        </div>
-        <div className="grid gap-4 md:col-span-7 md:grid-cols-2">
-          {perks.map((p) => (
-            <div key={p.t} className="rounded-2xl border border-border bg-paper p-6">
-              <div className="h-1 w-8 rounded-full bg-hanbok" />
-              <h3 className="mt-4 font-display text-xl text-ink">{p.t}</h3>
-              <p className="mt-2 text-sm text-ink/70">{p.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-
 function Ranges() {
+
   const ranges = [
     { name: "Skincare", desc: "The full 10-step canon — cleansers, toners, essences, serums, creams, masks and SPF.", img: textureMacro, count: "180+ products" },
     { name: "Makeup", desc: "Skin-first Korean makeup: cushions, tints, glass-finish lip and cream blush.", img: brandSpotlight, count: "60+ products" },
