@@ -5,7 +5,8 @@ export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact — Skin Grocer" },
-      { name: "description", content: "Talk to the Skin Grocer team — routine guidance, order help, wholesale and vending machine partnerships in Australia." },
+      { name: "description", content: "Talk to the Skin Grocer team — routine guidance, order help, and vending machine partnerships in Australia." },
+
       { property: "og:title", content: "Contact — Skin Grocer" },
       { property: "og:description", content: "We're here to help you glow." },
       { property: "og:url", content: "/contact" },
@@ -24,9 +25,10 @@ function Contact() {
         <h1 className="mt-4 text-5xl text-foreground md:text-6xl">Say hello.</h1>
         <p className="mt-5 max-w-md text-lg text-muted-foreground">
           Whether you need help building a routine, tracking an order, or
-          hosting a Skin Grocer vending machine — our small Aussie team
-          replies personally, usually within a few hours.
+          hosting a Skin Grocer vending machine — our small Aussie team replies
+          personally, usually within a few hours.
         </p>
+
         <dl className="mt-10 space-y-6">
           <div>
             <dt className="text-xs uppercase tracking-wider text-muted-foreground">Email</dt>
@@ -71,8 +73,9 @@ function Contact() {
               <select className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary">
                 <option>Routine guidance</option>
                 <option>Order help</option>
-                <option>Wholesale & vending partnerships</option>
+                <option>Vending machine partnerships</option>
                 <option>Something else</option>
+
               </select>
             </div>
             <div>
