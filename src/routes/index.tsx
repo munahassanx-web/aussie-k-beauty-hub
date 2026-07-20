@@ -129,19 +129,7 @@ function WhyPillars() {
     </section>
   );
 }
-        <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-3">
-          {pillars.map((p, i) => (
-            <div key={p.t} className="flex flex-col gap-3 bg-paper p-8">
-              <span className="font-display text-3xl text-hanbok-deep/30">0{i + 1}</span>
-              <h3 className="font-display text-xl leading-tight text-ink">{p.t}</h3>
-              <p className="text-sm text-ink/70">{p.d}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
+
 
 function Ranges() {
   const ranges = [
