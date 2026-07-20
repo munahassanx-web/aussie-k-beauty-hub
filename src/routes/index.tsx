@@ -94,12 +94,12 @@ function HomePage() {
 
 function WhyPillars() {
   const pillars = [
-    { t: "Sourced direct from Seoul", d: "Shipped from our Korean supplier network to our Melbourne warehouse." },
-    { t: "Thousands of products, one shelf", d: "The K-beauty edit — cleansers to SPF — under one Australian roof." },
-    { t: "Best, local & exclusive brands", d: "Cult favourites plus small-batch labels you can't get anywhere in AU." },
-    { t: "100% authentic, always", d: "Every batch verified on arrival. Sealed, coded, provenance-carded." },
-    { t: "Fair, honest AUD pricing", d: "No inflated import markups. What you'd pay in Seoul, on your doorstep." },
-    { t: "On-trend, curated weekly", d: "New arrivals every Friday — the drops Korean TikTok is talking about." },
+    { t: "Sourced & shipped from Seoul", d: "Direct relationships with Korean brands and distributors, flown into our Melbourne warehouse." },
+    { t: "Thousands of SKUs in one place", d: "The K-beauty edit — skincare, makeup, hair and body — stocked locally, ready to ship." },
+    { t: "Best, local & exclusive brands", d: "Cult favourites plus small-batch Korean labels you can't find anywhere else in AU." },
+    { t: "100% authentic, always", d: "Every batch verified on arrival. Sealed, coded, provenance-carded. No greymarket, ever." },
+    { t: "Retail & wholesale pricing", d: "Fair AUD retail, competitive bulk pricing for salons, spas, clinics and resellers." },
+    { t: "On-trend, curated weekly", d: "New arrivals every Friday — the drops Korean TikTok is talking about, on Aussie shelves first." },
   ];
   return (
     <section className="bg-paper">
@@ -107,10 +107,28 @@ function WhyPillars() {
         <div className="max-w-2xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Why Skin Grocer</p>
           <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">
-            Every reason we exist,<br />
-            <span className="italic text-hanbok-deep">on one shelf.</span>
+            Australia's K-beauty grocer,<br />
+            <span className="italic text-hanbok-deep">for shoppers and stockists.</span>
           </h2>
+          <p className="mt-5 max-w-xl text-ink/70">
+            We're a Melbourne-based importer and retailer of authentic Korean skincare — serving
+            everyday customers, and supplying salons, spas, clinics and independent beauty stores
+            across Australia.
+          </p>
         </div>
+        <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-3">
+          {pillars.map((p, i) => (
+            <div key={p.t} className="flex flex-col gap-3 bg-paper p-8">
+              <span className="font-display text-3xl text-hanbok-deep/30">0{i + 1}</span>
+              <h3 className="font-display text-xl leading-tight text-ink">{p.t}</h3>
+              <p className="text-sm text-ink/70">{p.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
         <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-3">
           {pillars.map((p, i) => (
             <div key={p.t} className="flex flex-col gap-3 bg-paper p-8">
