@@ -81,6 +81,7 @@ function HomePage() {
       <Concerns />
       <Bestsellers />
       <BrandMarquee />
+      <Wholesale />
       <ProvenanceCard />
       <IngredientStrip />
       <RitualCTA />
