@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import products from "@/assets/products.jpg";
 import maskMedihealSheet from "@/assets/mask-mediheal-sheet.jpg";
 import maskDynastyCream from "@/assets/mask-dynasty-cream.jpg";
 import maskNumbuzinEye from "@/assets/mask-numbuzin-eye.jpg";
@@ -9,6 +8,13 @@ import maskAbibSleeping from "@/assets/mask-abib-sleeping.jpg";
 import maskNumbuzinVita from "@/assets/mask-numbuzin-vita.jpg";
 import maskAnuaHeartleaf from "@/assets/mask-anua-heartleaf.jpg";
 import maskSkin1004Centella from "@/assets/mask-skin1004-centella.jpg";
+import productSnail from "@/assets/product-snail-essence.jpg";
+import productCentellaToner from "@/assets/product-centella-toner.jpg";
+import productVitC from "@/assets/product-vitc-serum.jpg";
+import productRice from "@/assets/product-rice-cleanser.jpg";
+import productReliefSun from "@/assets/product-relief-sun.jpg";
+import productCicaCream from "@/assets/product-cica-cream.jpg";
+import productHeartleaf from "@/assets/product-heartleaf-ampoule.jpg";
 
 export const Route = createFileRoute("/shop")({
   head: () => ({
@@ -27,13 +33,13 @@ export const Route = createFileRoute("/shop")({
 type Category = "Cleanse" | "Tone" | "Treat" | "Moisturise" | "Protect" | "Masks";
 
 const items: { name: string; brand: string; price: string; tag: string | null; category: Category; image: string }[] = [
-  { name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", tag: "Bestseller", category: "Treat", image: products },
-  { name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", tag: "New", category: "Tone", image: products },
-  { name: "Vitamin C Brightening Serum", brand: "Beauty of Joseon", price: "$36", tag: null, category: "Treat", image: products },
-  { name: "Rice Probiotics Cleansing Foam", brand: "I'm From", price: "$30", tag: null, category: "Cleanse", image: products },
-  { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", tag: "Cult", category: "Protect", image: products },
-  { name: "Cica Recovery Cream", brand: "Anua", price: "$34", tag: null, category: "Moisturise", image: products },
-  { name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", tag: "New", category: "Treat", image: products },
+  { name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", tag: "Bestseller", category: "Treat", image: productSnail },
+  { name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", tag: "New", category: "Tone", image: productCentellaToner },
+  { name: "Vitamin C Brightening Serum", brand: "Beauty of Joseon", price: "$36", tag: null, category: "Treat", image: productVitC },
+  { name: "Rice Probiotics Cleansing Foam", brand: "I'm From", price: "$30", tag: null, category: "Cleanse", image: productRice },
+  { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", tag: "Cult", category: "Protect", image: productReliefSun },
+  { name: "Cica Recovery Cream", brand: "Anua", price: "$34", tag: null, category: "Moisturise", image: productCicaCream },
+  { name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", tag: "New", category: "Treat", image: productHeartleaf },
   // K-beauty masks
   { name: "Real Ferment Micro Essence Sheet Mask", brand: "Mediheal", price: "$6", tag: "Bestseller", category: "Masks", image: maskMedihealSheet },
   { name: "Dynasty Cream Mask", brand: "Beauty of Joseon", price: "$5", tag: null, category: "Masks", image: maskDynastyCream },
