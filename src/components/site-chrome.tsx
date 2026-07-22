@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import logo from "@/assets/logo-wordmark.png";
+import logoAsset from "@/assets/skin-grocer-seal.png.asset.json";
+const logo = logoAsset.url;
 
 type MegaSection = {
   heading: string;
@@ -134,7 +135,7 @@ export function SiteHeader() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-3">
           <Link to="/" className="flex items-center" onMouseEnter={() => setOpenMenu(null)}>
-            <img src={logo} alt="Skin Grocer" className="h-11 w-auto md:h-12" width={200} height={48} />
+            <img src={logo} alt="Skin Grocer" className="h-12 w-12 rounded-full md:h-14 md:w-14" width={56} height={56} />
           </Link>
 
           <nav className="hidden items-center gap-8 lg:flex">
