@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import logoAsset from "@/assets/skin-grocer-seal.png.asset.json";
+import logoAsset from "@/assets/skin-grocer-seal-transparent.png.asset.json";
 const logo = logoAsset.url;
 
 type MegaSection = {
