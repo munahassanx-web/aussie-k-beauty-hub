@@ -15,8 +15,8 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "Skin Grocer — Authentic Korean Skincare, Next-Day from Melbourne" },
       { name: "description", content: "Melbourne's destination for authentic K-beauty and premium imports. Locally stocked, expertly guided, dispatched next-day across Australia." },
-      { property: "og:title", content: "Skin Grocer — Authentic Korean Skincare in Australia" },
-      { property: "og:description", content: "Locally stocked authentic K-beauty. Next-day dispatch from Melbourne. Expert routine guidance." },
+      { property: "og:title", content: "Skin Grocer — Authentic Korean Skincare, Next-Day from Melbourne" },
+      { property: "og:description", content: "Melbourne's destination for authentic K-beauty and premium imports. Locally stocked, expertly guided, dispatched next-day across Australia." },
       { property: "og:url", content: "/" },
     ],
     links: [{ rel: "canonical", href: "/" }],
