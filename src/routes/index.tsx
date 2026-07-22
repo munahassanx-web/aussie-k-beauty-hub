@@ -236,10 +236,13 @@ function PromoBar() {
 function ParallaxScene() {
   return (
     <section
-      className="relative min-h-[80vh] bg-ink bg-cover bg-center bg-fixed bg-no-repeat"
-      style={{ backgroundImage: `url(${heroKoreanModel})` }}
+      className="relative min-h-[80vh] overflow-hidden bg-ink"
       aria-label="Glass skin in motion"
     >
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat md:bg-fixed"
+        style={{ backgroundImage: `url(${heroKoreanModel})` }}
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/10 to-ink/60" />
       <div className="relative mx-auto flex min-h-[80vh] max-w-7xl flex-col items-start justify-end px-6 py-24">
         <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-accent">Glass skin, decoded</p>
@@ -254,6 +257,7 @@ function ParallaxScene() {
     </section>
   );
 }
+
 
 
 function Hero() {
