@@ -14,13 +14,13 @@ export const Route = createFileRoute("/skin-concerns")({
   component: ConcernsPage,
 });
 
-const concerns = [
-  { name: "Dry Skin", desc: "Intense hydration & moisture barrier repair.", products: "32 products" },
-  { name: "Oily Skin", desc: "Sebum control & pore refinement.", products: "28 products" },
-  { name: "Pigmentation", desc: "Brightening & dark spot correction.", products: "24 products" },
-  { name: "Sensitive Skin", desc: "Calming & barrier strengthening.", products: "30 products" },
-  { name: "Anti-Aging", desc: "Firmness, elasticity & wrinkle reduction.", products: "26 products" },
-  { name: "Acne & Blemishes", desc: "Clear skin & breakout prevention.", products: "22 products" },
+const concerns: { name: string; desc: string; products: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier" }[] = [
+  { name: "Dry Skin & Hydration", desc: "Intense hydration & glow.", products: "Hydration edit", slug: "hydration" },
+  { name: "Acne & Breakouts", desc: "Calm congestion & balance oil.", products: "Clear-skin edit", slug: "acne" },
+  { name: "Pigmentation", desc: "Brightening & dark spot correction.", products: "Bright-skin edit", slug: "pigmentation" },
+  { name: "Sensitive Skin", desc: "Calming & barrier strengthening.", products: "Calm edit", slug: "sensitivity" },
+  { name: "Anti-Ageing", desc: "Firmness, elasticity & wrinkle care.", products: "Firm edit", slug: "anti-aging" },
+  { name: "Barrier Repair", desc: "Rebuild a compromised skin barrier.", products: "Repair edit", slug: "barrier" },
 ];
 
 function ConcernsPage() {
@@ -37,7 +37,7 @@ function ConcernsPage() {
       <section className="mx-auto max-w-7xl px-6 pb-20">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {concerns.map((c) => (
-            <Link to="/shop" key={c.name} className="group relative aspect-[4/5] overflow-hidden rounded-3xl">
+            <Link to="/shop" search={{ concern: c.slug }} key={c.name} className="group relative aspect-[4/5] overflow-hidden rounded-3xl">
               <img src={skinMacro} alt={c.name} loading="lazy" width={1024} height={1024} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/30 to-transparent" />
               <div className="absolute bottom-0 p-7 text-background">
@@ -62,3 +62,4 @@ function ConcernsPage() {
     </>
   );
 }
+
