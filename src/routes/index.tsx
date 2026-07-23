@@ -415,6 +415,8 @@ function Concerns() {
 
 function Bestsellers() {
   const [hover, setHover] = useState<number | null>(null);
+  const { buy, modal } = useBuyNow();
+  const covers = [productFlatlay, ritualScene, textureMacro, brandSpotlight];
   return (
     <section className="mx-auto max-w-7xl px-6 py-24">
       <div className="flex items-end justify-between gap-6">
@@ -433,9 +435,9 @@ function Bestsellers() {
             onMouseLeave={() => setHover(null)}
             className="group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition-all duration-500 hover:border-hanbok/40 hover:shadow-[0_24px_50px_-30px_rgba(46,63,110,0.35)]"
           >
-            <div className="relative aspect-square overflow-hidden bg-sand">
+            <Link to="/shop" search={{ brand: p.brand }} className="relative block aspect-square overflow-hidden bg-sand">
               <img
-                src={[productFlatlay, ritualScene, textureMacro, brandSpotlight][i % 4]}
+                src={covers[i % 4]}
                 alt={p.name}
                 loading="lazy"
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -444,13 +446,14 @@ function Bestsellers() {
                 {p.tag}
               </span>
               <button
+                onClick={(e) => { e.preventDefault(); buy({ priceId: p.priceId, name: p.name, priceLabel: `A$${p.price}` }); }}
                 className={`absolute inset-x-3 bottom-3 rounded-full bg-ink py-3 text-xs font-semibold uppercase tracking-[0.18em] text-paper transition-all duration-300 ${
                   hover === i ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
                 }`}
               >
                 Quick Add · A${p.price}
               </button>
-            </div>
+            </Link>
             <div className="flex flex-1 flex-col p-5">
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-clay">{p.brand}</p>
               <h3 className="mt-2 font-display text-lg leading-tight text-ink">{p.name}</h3>
@@ -466,8 +469,10 @@ function Bestsellers() {
           </article>
         ))}
       </div>
+      {modal}
     </section>
   );
+
 }
 
 function BundleOffer() {
