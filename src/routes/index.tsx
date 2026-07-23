@@ -259,13 +259,22 @@ function Hero() {
             </p>
           </div>
 
-          <Link
-            to="/shop"
-            className="group mt-4 inline-flex items-center gap-3 rounded-full bg-paper px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-ink transition hover:bg-accent"
-          >
-            Shop now
-            <span className="transition-transform group-hover:translate-x-1">→</span>
-          </Link>
+          <div className="mt-4 flex flex-col items-center gap-3 sm:flex-row">
+            <Link
+              to="/shop"
+              className="group inline-flex items-center gap-3 rounded-full bg-paper px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-ink transition hover:bg-accent"
+            >
+              Shop now
+              <span className="transition-transform group-hover:translate-x-1">→</span>
+            </Link>
+            <Link
+              to="/consultation"
+              className="group inline-flex items-center gap-3 rounded-full border border-paper/40 px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-paper transition hover:border-paper hover:bg-paper hover:text-ink"
+            >
+              Take the 2-minute skin quiz
+              <span className="transition-transform group-hover:translate-x-1">→</span>
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -365,17 +374,22 @@ function Concerns() {
               <span className="italic text-hanbok-deep">We'll match the ritual.</span>
             </h2>
           </div>
-          <p className="text-base text-ink/70">
-            Not sure where to start? Our 2-minute skin quiz pairs you with an advisor-built
-            routine, every step explained.
-          </p>
+          <div className="text-base text-ink/70">
+            <p>
+              Not sure where to start? Our 2-minute skin quiz pairs you with an advisor-built
+              routine, every step explained.
+            </p>
+            <Link to="/consultation" className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-primary underline-grow">
+              Start the quiz now →
+            </Link>
+          </div>
         </div>
 
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {concerns.map((c) => (
             <Link
               key={c.name}
-              to="/skin-concerns"
+              to="/consultation"
               className={`group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br ${c.color} to-paper p-7 lift`}
             >
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-hanbok-deep">Concern</p>
