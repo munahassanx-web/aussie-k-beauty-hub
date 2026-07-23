@@ -149,13 +149,52 @@ type Product = {
   sensitiveOk: boolean;
 };
 
+type Product = {
+  id: string;
+  name: string;
+  brand: string;
+  price: string;
+  priceId: string;
+  image: string;
+  step: StepKey;
+  skinTypes: string[];
+  concerns: string[];
+  zones: (ZoneKey | "any")[];
+  sensitiveOk: boolean;
+};
+
 const PRODUCTS: Product[] = [
-  { id: "anua-heartleaf-oil", name: "Anua Heartleaf Pore Control Cleansing Oil", step: "cleanse", skinTypes: ["any"], concerns: ["redness", "breakouts"], zones: ["any"], sensitiveOk: true },
-  { id: "cosrx-ahabha-toner", name: "COSRX AHA/BHA Clarifying Treatment Toner", step: "tone", skinTypes: ["oily", "combo", "normal"], concerns: ["breakouts", "dullness"], zones: ["tropical", "coastal"], sensitiveOk: false },
-  { id: "torriden-dive-in", name: "Torriden DIVE-IN Low Molecular Hyaluronic Acid Serum", step: "treat", skinTypes: ["dry", "normal", "combo", "sensitive"], concerns: ["dehydration"], zones: ["dry", "cool"], sensitiveOk: true },
-  { id: "beautyofjoseon-glowserum", name: "Beauty of Joseon Glow Serum: Propolis + Niacinamide", step: "treat", skinTypes: ["any"], concerns: ["dullness", "sundamage"], zones: ["any"], sensitiveOk: true },
-  { id: "biodance-collagen-mask", name: "BIODANCE Bio-Collagen Real Deep Mask", step: "mask", skinTypes: ["any"], concerns: ["aging", "dehydration"], zones: ["any"], sensitiveOk: true },
-  { id: "beautyofjoseon-reliefsun", name: "Beauty of Joseon Relief Sun: Rice + Probiotics SPF50+", step: "protect", skinTypes: ["any"], concerns: ["sundamage", "any"], zones: ["any"], sensitiveOk: true },
+  // Cleanse
+  { id: "rice-cleanser", name: "Rice Probiotics Cleansing Foam", brand: "I'm From", price: "$30", priceId: "rice_cleanser_onetime", image: productRice, step: "cleanse", skinTypes: ["dry", "normal", "combo", "sensitive"], concerns: ["dehydration", "redness", "dullness"], zones: ["dry", "cool", "coastal"], sensitiveOk: true },
+  { id: "heartleaf-ampoule-cleanse", name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", priceId: "heartleaf_ampoule_onetime", image: productHeartleaf, step: "cleanse", skinTypes: ["oily", "combo", "sensitive", "any"], concerns: ["redness", "breakouts"], zones: ["tropical", "coastal", "any"], sensitiveOk: true },
+
+  // Tone
+  { id: "centella-toner", name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", priceId: "centella_toner_onetime", image: productCentellaToner, step: "tone", skinTypes: ["any"], concerns: ["redness", "breakouts", "dehydration"], zones: ["any"], sensitiveOk: true },
+  { id: "snail-essence-tone", name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", priceId: "snail_essence_onetime", image: productSnail, step: "tone", skinTypes: ["dry", "normal", "combo"], concerns: ["dehydration", "aging"], zones: ["dry", "cool", "any"], sensitiveOk: true },
+
+  // Treat
+  { id: "vitc-serum", name: "Vitamin C Brightening Serum", brand: "Beauty of Joseon", price: "$36", priceId: "vitc_serum_onetime", image: productVitC, step: "treat", skinTypes: ["any"], concerns: ["dullness", "sundamage"], zones: ["any"], sensitiveOk: false },
+  { id: "heartleaf-ampoule", name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", priceId: "heartleaf_ampoule_onetime", image: productHeartleaf, step: "treat", skinTypes: ["any"], concerns: ["redness", "breakouts", "aging", "dehydration"], zones: ["any"], sensitiveOk: true },
+  { id: "snail-essence", name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", priceId: "snail_essence_onetime", image: productSnail, step: "treat", skinTypes: ["any"], concerns: ["dehydration", "aging"], zones: ["any"], sensitiveOk: true },
+
+  // Essence
+  { id: "snail-essence-e", name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", priceId: "snail_essence_onetime", image: productSnail, step: "essence", skinTypes: ["any"], concerns: ["dehydration", "aging"], zones: ["any"], sensitiveOk: true },
+  { id: "centella-toner-e", name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", priceId: "centella_toner_onetime", image: productCentellaToner, step: "essence", skinTypes: ["any"], concerns: ["redness", "breakouts"], zones: ["any"], sensitiveOk: true },
+
+  // Moisturise
+  { id: "cica-cream", name: "Cica Recovery Cream", brand: "Anua", price: "$34", priceId: "cica_cream_onetime", image: productCicaCream, step: "moisturise", skinTypes: ["any"], concerns: ["redness", "dehydration", "aging"], zones: ["any"], sensitiveOk: true },
+  { id: "abib-sleeping", name: "Pep-Talk Peptide Sleeping Mask", brand: "Abib", price: "$34", priceId: "mask_abib_sleeping_onetime", image: maskAbibSleeping, step: "moisturise", skinTypes: ["dry", "normal", "combo"], concerns: ["aging", "dehydration"], zones: ["dry", "cool"], sensitiveOk: true },
+
+  // Mask
+  { id: "mask-mediheal", name: "Real Ferment Micro Essence Sheet Mask", brand: "Mediheal", price: "$6", priceId: "mask_mediheal_sheet_onetime", image: maskMedihealSheet, step: "mask", skinTypes: ["any"], concerns: ["dehydration", "dullness"], zones: ["any"], sensitiveOk: true },
+  { id: "mask-dynasty", name: "Dynasty Cream Mask", brand: "Beauty of Joseon", price: "$5", priceId: "mask_dynasty_cream_onetime", image: maskDynastyCream, step: "mask", skinTypes: ["dry", "normal"], concerns: ["dehydration", "aging"], zones: ["dry", "cool"], sensitiveOk: true },
+  { id: "mask-numbuzin-eye", name: "Bakuchiol Retinol Eye Mask", brand: "Numbuzin", price: "$32", priceId: "mask_numbuzin_eye_onetime", image: maskNumbuzinEye, step: "mask", skinTypes: ["any"], concerns: ["aging"], zones: ["any"], sensitiveOk: true },
+  { id: "mask-somebymi", name: "AHA-BHA-PHA Miracle Clay Mask", brand: "Some By Mi", price: "$28", priceId: "mask_somebymi_clay_onetime", image: maskSomeByMiClay, step: "mask", skinTypes: ["oily", "combo"], concerns: ["breakouts"], zones: ["tropical", "coastal"], sensitiveOk: false },
+  { id: "mask-anua-heartleaf", name: "Heartleaf 77% Soothing Sheet Mask", brand: "Anua", price: "$6", priceId: "mask_anua_heartleaf_onetime", image: maskAnuaHeartleaf, step: "mask", skinTypes: ["sensitive", "any"], concerns: ["redness"], zones: ["any"], sensitiveOk: true },
+
+  // Protect
+  { id: "relief-sun", name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", priceId: "relief_sun_onetime", image: productReliefSun, step: "protect", skinTypes: ["any"], concerns: ["sundamage"], zones: ["any"], sensitiveOk: true },
+  { id: "mask-skin1004-sun", name: "Centella Hyalu-Cica Water-Fit Sun Mask", brand: "SKIN1004", price: "$8", priceId: "mask_skin1004_centella_onetime", image: maskSkin1004Centella, step: "protect", skinTypes: ["any"], concerns: ["sundamage", "redness"], zones: ["tropical", "coastal", "any"], sensitiveOk: true },
 ];
 
 type Answers = {
@@ -173,21 +212,28 @@ const EMPTY_ANSWERS: Answers = {
   state: null, age: null, skin: null, concern: null, secondary: [], sensitivity: null, exposure: null, depth: null,
 };
 
-function bestProductFor(stepKey: StepKey, answers: Answers): Product | null {
+function bestProductsFor(stepKey: StepKey, answers: Answers, limit = 2): Product[] {
   const candidates = PRODUCTS.filter((p) => p.step === stepKey);
-  if (!candidates.length) return null;
-  let best: Product | null = null;
-  let bestScore = -1;
+  if (!candidates.length) return [];
   const zoneKey = STATES.find((s) => s.code === answers.state)?.zone;
-  candidates.forEach((p) => {
+  const scored = candidates.map((p) => {
     let score = 0;
     if (p.skinTypes.includes("any") || (answers.skin && p.skinTypes.includes(answers.skin))) score += 1;
     if (p.concerns.includes("any") || (answers.concern && p.concerns.includes(answers.concern))) score += 2;
     if (zoneKey && (p.zones.includes("any") || p.zones.includes(zoneKey))) score += 1;
     if (answers.sensitivity === "high" && !p.sensitiveOk) score -= 5;
-    if (score > bestScore) { bestScore = score; best = p; }
-  });
-  return bestScore > 0 ? best : null;
+    return { p, score };
+  }).filter((x) => x.score > 0).sort((a, b) => b.score - a.score);
+  // Deduplicate by product id
+  const seen = new Set<string>();
+  const out: Product[] = [];
+  for (const { p } of scored) {
+    if (seen.has(p.name)) continue;
+    seen.add(p.name);
+    out.push(p);
+    if (out.length >= limit) break;
+  }
+  return out;
 }
 
 const STEP_ORDER = ["intro", "state", "age", "skin", "concern", "secondary", "sensitivity", "exposure", "depth", "result"] as const;
