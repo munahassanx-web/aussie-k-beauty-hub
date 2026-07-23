@@ -384,7 +384,7 @@ function Concerns() {
           {concerns.map((c) => (
             <Link
               key={c.name}
-              to="/skin-concerns"
+              to="/consultation"
               className={`group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br ${c.color} to-paper p-7 lift`}
             >
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-hanbok-deep">Concern</p>
