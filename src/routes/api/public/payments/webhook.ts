@@ -11,7 +11,16 @@ function getSupabase(): any {
 }
 
 const CIRCLE_PRICE_IDS = new Set(['circle_monthly', 'circle_yearly']);
-const RESTOCK_PRICE_IDS = new Set<string>(); // add product SKU ids when subscribed products exist
+// Products offered as Restock subscriptions (routine staples only)
+const RESTOCK_PRICE_IDS = new Set<string>([
+  'snail_essence_sub',
+  'centella_toner_sub',
+  'vitc_serum_sub',
+  'rice_cleanser_sub',
+  'relief_sun_sub',
+  'cica_cream_sub',
+  'heartleaf_ampoule_sub',
+]);
 
 function resolvePriceLookup(price: any): string | null {
   return price?.lookup_key || price?.metadata?.lovable_external_id || price?.id || null;
