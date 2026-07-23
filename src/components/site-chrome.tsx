@@ -215,6 +215,7 @@ export function SiteHeader() {
                       <li key={l.label}>
                         <Link
                           to={l.to}
+                          search={l.search as never}
                           onClick={() => setOpenMenu(null)}
                           className="inline-block text-sm text-foreground/80 transition-colors hover:text-primary"
                         >
@@ -222,6 +223,7 @@ export function SiteHeader() {
                         </Link>
                       </li>
                     ))}
+
                   </ul>
                 </div>
               ))}
