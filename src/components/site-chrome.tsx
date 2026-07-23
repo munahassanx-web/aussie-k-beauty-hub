@@ -159,50 +159,67 @@ export function SiteHeader() {
 
           <nav className="hidden items-center gap-8 lg:flex">
             {Object.keys(megaMenus).map((key) => (
-              <div key={key} className="group relative flex items-center gap-1">
+              <div
+                key={key}
+                className="relative flex items-center gap-1"
+                onMouseEnter={() => setOpenMenu(key)}
+                onFocus={() => setOpenMenu(key)}
+              >
                 <Link
                   to={topLevelLinks[key].to}
                   onClick={closeMenus}
-                  className="relative py-2 text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 transition-colors hover:text-primary group-hover:text-primary"
+                  className={`relative py-2 text-[13px] font-medium uppercase tracking-[0.16em] transition-colors ${
+                    openMenu === key ? "text-primary" : "text-foreground/75 hover:text-primary"
+                  }`}
                 >
                   {key}
-                  <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-primary transition-all group-hover:w-full" />
+                  <span
+                    className={`absolute -bottom-0.5 left-0 h-px bg-primary transition-all ${
+                      openMenu === key ? "w-full" : "w-0"
+                    }`}
+                  />
                 </Link>
                 <button
                   type="button"
                   aria-label={`Open ${key} menu`}
+                  aria-expanded={openMenu === key}
                   onFocus={() => setOpenMenu(key)}
                   onClick={() => setOpenMenu(key)}
                   className="flex h-6 w-6 items-center justify-center rounded-full text-foreground/45 hover:bg-secondary hover:text-primary"
                 >
                   <span className="text-[10px] leading-none">⌄</span>
                 </button>
-                <div className="invisible absolute left-1/2 top-full z-50 w-[min(760px,calc(100vw-3rem))] -translate-x-1/2 translate-y-3 rounded-2xl border border-border/60 bg-background p-6 text-left opacity-0 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.24)] transition-all duration-200 group-hover:visible group-hover:translate-y-1 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-1 group-focus-within:opacity-100">
-                  <div className="grid gap-8 md:grid-cols-3">
-                    {megaMenus[key].map((section) => (
-                      <div key={section.heading}>
-                        <h4 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
-                          {section.heading}
-                        </h4>
-                        <ul className="space-y-2.5">
-                          {section.links.map((l) => (
-                            <li key={l.label}>
-                              <Link
-                                to={l.to}
-                                search={l.search as never}
-                                hash={l.hash}
-                                onClick={closeMenus}
-                                className="inline-block text-sm normal-case tracking-normal text-foreground/80 transition-colors hover:text-primary"
-                              >
-                                {l.label}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
+                {openMenu === key && (
+                  <div
+                    className="absolute left-1/2 top-full z-50 w-[min(760px,calc(100vw-3rem))] -translate-x-1/2 translate-y-1 rounded-2xl border border-border/60 bg-background p-6 text-left opacity-100 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.24)]"
+                    onMouseEnter={() => setOpenMenu(key)}
+                  >
+                    <div className="grid gap-8 md:grid-cols-3">
+                      {megaMenus[key].map((section) => (
+                        <div key={section.heading}>
+                          <h4 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
+                            {section.heading}
+                          </h4>
+                          <ul className="space-y-2.5">
+                            {section.links.map((l) => (
+                              <li key={l.label}>
+                                <Link
+                                  to={l.to}
+                                  search={l.search as never}
+                                  hash={l.hash}
+                                  onClick={closeMenus}
+                                  className="inline-block text-sm normal-case tracking-normal text-foreground/80 transition-colors hover:text-primary"
+                                >
+                                  {l.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             ))}
             <Link
