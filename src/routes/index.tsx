@@ -292,8 +292,11 @@ function Hero() {
 
         {/* Bottom: minimal tagline + single CTA */}
         <div className="flex w-full flex-col items-center gap-6 pb-4">
-          <p className="max-w-md text-sm leading-relaxed text-paper/85 md:text-base">
-            Authentic Korean skincare. Next-day from Melbourne.
+          <p className="max-w-lg text-base leading-relaxed text-paper/90 md:text-lg">
+            Most skincare advice is built for someone else's climate — not yours.
+          </p>
+          <p className="max-w-md text-xs uppercase tracking-[0.2em] text-paper/60">
+            Korean skincare, curated and delivered for Australian skin.
           </p>
           <Link
             to="/shop"
