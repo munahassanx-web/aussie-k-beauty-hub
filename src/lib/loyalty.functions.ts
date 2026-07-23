@@ -59,7 +59,7 @@ export const getClubSummary = createServerFn({ method: 'GET' })
           .order('created_at', { ascending: false }),
         supabase
           .from('orders')
-          .select('id, amount_cents, currency, is_subscription_order, created_at')
+          .select('id, amount_cents, currency, is_subscription_order, fulfillment_status, tracking_number, points_earned, points_redeemed, created_at')
           .eq('user_id', userId)
           .order('created_at', { ascending: false })
           .limit(10),
