@@ -146,6 +146,8 @@ export function SiteHeader() {
                 key={key}
                 onMouseEnter={() => setOpenMenu(key)}
                 onFocus={() => setOpenMenu(key)}
+                onClick={() => setOpenMenu(openMenu === key ? null : key)}
+                aria-expanded={openMenu === key}
                 className={`relative py-2 text-[13px] font-medium uppercase tracking-[0.16em] transition-colors ${
                   openMenu === key ? "text-primary" : "text-foreground/75 hover:text-primary"
                 }`}
@@ -209,6 +211,7 @@ export function SiteHeader() {
                       <li key={l.label}>
                         <Link
                           to={l.to}
+                          onClick={() => setOpenMenu(null)}
                           className="inline-block text-sm text-foreground/80 transition-colors hover:text-primary"
                         >
                           {l.label}
