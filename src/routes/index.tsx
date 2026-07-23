@@ -374,10 +374,15 @@ function Concerns() {
               <span className="italic text-hanbok-deep">We'll match the ritual.</span>
             </h2>
           </div>
-          <p className="text-base text-ink/70">
-            Not sure where to start? Our 2-minute skin quiz pairs you with an advisor-built
-            routine, every step explained.
-          </p>
+          <div className="text-base text-ink/70">
+            <p>
+              Not sure where to start? Our 2-minute skin quiz pairs you with an advisor-built
+              routine, every step explained.
+            </p>
+            <Link to="/consultation" className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-primary underline-grow">
+              Start the quiz now →
+            </Link>
+          </div>
         </div>
 
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
