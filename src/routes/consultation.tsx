@@ -1,5 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { useBuyNow } from "@/hooks/use-buy-now";
+import maskMedihealSheet from "@/assets/mask-mediheal-sheet.jpg";
+import maskDynastyCream from "@/assets/mask-dynasty-cream.jpg";
+import maskNumbuzinEye from "@/assets/mask-numbuzin-eye.jpg";
+import maskSomeByMiClay from "@/assets/mask-somebymi-clay.jpg";
+import maskAbibSleeping from "@/assets/mask-abib-sleeping.jpg";
+import maskAnuaHeartleaf from "@/assets/mask-anua-heartleaf.jpg";
+import maskSkin1004Centella from "@/assets/mask-skin1004-centella.jpg";
+import productSnail from "@/assets/product-snail-essence.jpg";
+import productCentellaToner from "@/assets/product-centella-toner.jpg";
+import productVitC from "@/assets/product-vitc-serum.jpg";
+import productRice from "@/assets/product-rice-cleanser.jpg";
+import productReliefSun from "@/assets/product-relief-sun.jpg";
+import productCicaCream from "@/assets/product-cica-cream.jpg";
+import productHeartleaf from "@/assets/product-heartleaf-ampoule.jpg";
 
 export const Route = createFileRoute("/consultation")({
   head: () => ({
@@ -124,9 +139,14 @@ const DEPTHS: Record<string, { title: string; hint: string; steps: number }> = {
 
 type StepKey = "cleanse" | "tone" | "treat" | "essence" | "moisturise" | "mask" | "protect";
 
+
 type Product = {
   id: string;
   name: string;
+  brand: string;
+  price: string;
+  priceId: string;
+  image: string;
   step: StepKey;
   skinTypes: string[];
   concerns: string[];
@@ -135,12 +155,37 @@ type Product = {
 };
 
 const PRODUCTS: Product[] = [
-  { id: "anua-heartleaf-oil", name: "Anua Heartleaf Pore Control Cleansing Oil", step: "cleanse", skinTypes: ["any"], concerns: ["redness", "breakouts"], zones: ["any"], sensitiveOk: true },
-  { id: "cosrx-ahabha-toner", name: "COSRX AHA/BHA Clarifying Treatment Toner", step: "tone", skinTypes: ["oily", "combo", "normal"], concerns: ["breakouts", "dullness"], zones: ["tropical", "coastal"], sensitiveOk: false },
-  { id: "torriden-dive-in", name: "Torriden DIVE-IN Low Molecular Hyaluronic Acid Serum", step: "treat", skinTypes: ["dry", "normal", "combo", "sensitive"], concerns: ["dehydration"], zones: ["dry", "cool"], sensitiveOk: true },
-  { id: "beautyofjoseon-glowserum", name: "Beauty of Joseon Glow Serum: Propolis + Niacinamide", step: "treat", skinTypes: ["any"], concerns: ["dullness", "sundamage"], zones: ["any"], sensitiveOk: true },
-  { id: "biodance-collagen-mask", name: "BIODANCE Bio-Collagen Real Deep Mask", step: "mask", skinTypes: ["any"], concerns: ["aging", "dehydration"], zones: ["any"], sensitiveOk: true },
-  { id: "beautyofjoseon-reliefsun", name: "Beauty of Joseon Relief Sun: Rice + Probiotics SPF50+", step: "protect", skinTypes: ["any"], concerns: ["sundamage", "any"], zones: ["any"], sensitiveOk: true },
+  // Cleanse
+  { id: "rice-cleanser", name: "Rice Probiotics Cleansing Foam", brand: "I'm From", price: "$30", priceId: "rice_cleanser_onetime", image: productRice, step: "cleanse", skinTypes: ["dry", "normal", "combo", "sensitive"], concerns: ["dehydration", "redness", "dullness"], zones: ["dry", "cool", "coastal"], sensitiveOk: true },
+  { id: "heartleaf-ampoule-cleanse", name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", priceId: "heartleaf_ampoule_onetime", image: productHeartleaf, step: "cleanse", skinTypes: ["oily", "combo", "sensitive", "any"], concerns: ["redness", "breakouts"], zones: ["tropical", "coastal", "any"], sensitiveOk: true },
+
+  // Tone
+  { id: "centella-toner", name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", priceId: "centella_toner_onetime", image: productCentellaToner, step: "tone", skinTypes: ["any"], concerns: ["redness", "breakouts", "dehydration"], zones: ["any"], sensitiveOk: true },
+  { id: "snail-essence-tone", name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", priceId: "snail_essence_onetime", image: productSnail, step: "tone", skinTypes: ["dry", "normal", "combo"], concerns: ["dehydration", "aging"], zones: ["dry", "cool", "any"], sensitiveOk: true },
+
+  // Treat
+  { id: "vitc-serum", name: "Vitamin C Brightening Serum", brand: "Beauty of Joseon", price: "$36", priceId: "vitc_serum_onetime", image: productVitC, step: "treat", skinTypes: ["any"], concerns: ["dullness", "sundamage"], zones: ["any"], sensitiveOk: false },
+  { id: "heartleaf-ampoule", name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", priceId: "heartleaf_ampoule_onetime", image: productHeartleaf, step: "treat", skinTypes: ["any"], concerns: ["redness", "breakouts", "aging", "dehydration"], zones: ["any"], sensitiveOk: true },
+  { id: "snail-essence", name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", priceId: "snail_essence_onetime", image: productSnail, step: "treat", skinTypes: ["any"], concerns: ["dehydration", "aging"], zones: ["any"], sensitiveOk: true },
+
+  // Essence
+  { id: "snail-essence-e", name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", priceId: "snail_essence_onetime", image: productSnail, step: "essence", skinTypes: ["any"], concerns: ["dehydration", "aging"], zones: ["any"], sensitiveOk: true },
+  { id: "centella-toner-e", name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", priceId: "centella_toner_onetime", image: productCentellaToner, step: "essence", skinTypes: ["any"], concerns: ["redness", "breakouts"], zones: ["any"], sensitiveOk: true },
+
+  // Moisturise
+  { id: "cica-cream", name: "Cica Recovery Cream", brand: "Anua", price: "$34", priceId: "cica_cream_onetime", image: productCicaCream, step: "moisturise", skinTypes: ["any"], concerns: ["redness", "dehydration", "aging"], zones: ["any"], sensitiveOk: true },
+  { id: "abib-sleeping", name: "Pep-Talk Peptide Sleeping Mask", brand: "Abib", price: "$34", priceId: "mask_abib_sleeping_onetime", image: maskAbibSleeping, step: "moisturise", skinTypes: ["dry", "normal", "combo"], concerns: ["aging", "dehydration"], zones: ["dry", "cool"], sensitiveOk: true },
+
+  // Mask
+  { id: "mask-mediheal", name: "Real Ferment Micro Essence Sheet Mask", brand: "Mediheal", price: "$6", priceId: "mask_mediheal_sheet_onetime", image: maskMedihealSheet, step: "mask", skinTypes: ["any"], concerns: ["dehydration", "dullness"], zones: ["any"], sensitiveOk: true },
+  { id: "mask-dynasty", name: "Dynasty Cream Mask", brand: "Beauty of Joseon", price: "$5", priceId: "mask_dynasty_cream_onetime", image: maskDynastyCream, step: "mask", skinTypes: ["dry", "normal"], concerns: ["dehydration", "aging"], zones: ["dry", "cool"], sensitiveOk: true },
+  { id: "mask-numbuzin-eye", name: "Bakuchiol Retinol Eye Mask", brand: "Numbuzin", price: "$32", priceId: "mask_numbuzin_eye_onetime", image: maskNumbuzinEye, step: "mask", skinTypes: ["any"], concerns: ["aging"], zones: ["any"], sensitiveOk: true },
+  { id: "mask-somebymi", name: "AHA-BHA-PHA Miracle Clay Mask", brand: "Some By Mi", price: "$28", priceId: "mask_somebymi_clay_onetime", image: maskSomeByMiClay, step: "mask", skinTypes: ["oily", "combo"], concerns: ["breakouts"], zones: ["tropical", "coastal"], sensitiveOk: false },
+  { id: "mask-anua-heartleaf", name: "Heartleaf 77% Soothing Sheet Mask", brand: "Anua", price: "$6", priceId: "mask_anua_heartleaf_onetime", image: maskAnuaHeartleaf, step: "mask", skinTypes: ["sensitive", "any"], concerns: ["redness"], zones: ["any"], sensitiveOk: true },
+
+  // Protect
+  { id: "relief-sun", name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", priceId: "relief_sun_onetime", image: productReliefSun, step: "protect", skinTypes: ["any"], concerns: ["sundamage"], zones: ["any"], sensitiveOk: true },
+  { id: "mask-skin1004-sun", name: "Centella Hyalu-Cica Water-Fit Sun Mask", brand: "SKIN1004", price: "$8", priceId: "mask_skin1004_centella_onetime", image: maskSkin1004Centella, step: "protect", skinTypes: ["any"], concerns: ["sundamage", "redness"], zones: ["tropical", "coastal", "any"], sensitiveOk: true },
 ];
 
 type Answers = {
@@ -158,21 +203,28 @@ const EMPTY_ANSWERS: Answers = {
   state: null, age: null, skin: null, concern: null, secondary: [], sensitivity: null, exposure: null, depth: null,
 };
 
-function bestProductFor(stepKey: StepKey, answers: Answers): Product | null {
+function bestProductsFor(stepKey: StepKey, answers: Answers, limit = 2): Product[] {
   const candidates = PRODUCTS.filter((p) => p.step === stepKey);
-  if (!candidates.length) return null;
-  let best: Product | null = null;
-  let bestScore = -1;
+  if (!candidates.length) return [];
   const zoneKey = STATES.find((s) => s.code === answers.state)?.zone;
-  candidates.forEach((p) => {
+  const scored = candidates.map((p) => {
     let score = 0;
     if (p.skinTypes.includes("any") || (answers.skin && p.skinTypes.includes(answers.skin))) score += 1;
     if (p.concerns.includes("any") || (answers.concern && p.concerns.includes(answers.concern))) score += 2;
     if (zoneKey && (p.zones.includes("any") || p.zones.includes(zoneKey))) score += 1;
     if (answers.sensitivity === "high" && !p.sensitiveOk) score -= 5;
-    if (score > bestScore) { bestScore = score; best = p; }
-  });
-  return bestScore > 0 ? best : null;
+    return { p, score };
+  }).filter((x) => x.score > 0).sort((a, b) => b.score - a.score);
+  // Deduplicate by product id
+  const seen = new Set<string>();
+  const out: Product[] = [];
+  for (const { p } of scored) {
+    if (seen.has(p.name)) continue;
+    seen.add(p.name);
+    out.push(p);
+    if (out.length >= limit) break;
+  }
+  return out;
 }
 
 const STEP_ORDER = ["intro", "state", "age", "skin", "concern", "secondary", "sensitivity", "exposure", "depth", "result"] as const;
@@ -389,23 +441,24 @@ function OptionList(props:
 }
 
 function Result({ answers, onRestart }: { answers: Answers; onRestart: () => void }) {
+  const { buy, modal } = useBuyNow();
   const routine = useMemo(() => {
     const st = STATES.find((s) => s.code === answers.state)!;
     const zone = ZONES[st.zone];
     const concern = answers.concern ? CONCERNS[answers.concern] : null;
     const depthCount = answers.depth ? DEPTHS[answers.depth].steps : 5;
     const gentle = answers.sensitivity === "high";
-    const all: { key: StepKey; name: string; desc: string; pick?: string }[] = [
-      { key: "cleanse", name: "Cleanse", desc: `A ${gentle ? "fragrance-free, " : ""}${zone.texture} cleanser suited to ${zone.label.toLowerCase()} conditions${gentle ? ", low on stripping actives given how easily your skin reacts" : ""}.` },
-      { key: "tone", name: "Tone / Prep", desc: "Rebalances skin and preps it to absorb what comes next." },
-      { key: "treat", name: "Treat", desc: `Targets your main concern with ${concern?.active ?? "targeted actives"}${gentle ? ", introduced gradually to avoid irritation" : ""}.` },
-      { key: "essence", name: "Essence / Booster", desc: `An extra hydration layer — especially useful given ${zone.label.toLowerCase()} conditions.` },
-      { key: "moisturise", name: "Moisturise", desc: `A ${zone.texture} moisturiser to lock everything in.` },
-      { key: "mask", name: "Eye Care / Mask", desc: "Weekly firming or brightening treatment for extra care." },
-      { key: "protect", name: "Protect", desc: zone.spf + (answers.exposure === "outdoor" ? ", reapplied through the day given your sun exposure" : "") + "." },
+    const all: { key: StepKey; name: string; desc: string; picks: Product[] }[] = [
+      { key: "cleanse", name: "Cleanse", desc: `A ${gentle ? "fragrance-free, " : ""}${zone.texture} cleanser suited to ${zone.label.toLowerCase()} conditions${gentle ? ", low on stripping actives given how easily your skin reacts" : ""}.`, picks: [] },
+      { key: "tone", name: "Tone / Prep", desc: "Rebalances skin and preps it to absorb what comes next.", picks: [] },
+      { key: "treat", name: "Treat", desc: `Targets your main concern with ${concern?.active ?? "targeted actives"}${gentle ? ", introduced gradually to avoid irritation" : ""}.`, picks: [] },
+      { key: "essence", name: "Essence / Booster", desc: `An extra hydration layer — especially useful given ${zone.label.toLowerCase()} conditions.`, picks: [] },
+      { key: "moisturise", name: "Moisturise", desc: `A ${zone.texture} moisturiser to lock everything in.`, picks: [] },
+      { key: "mask", name: "Eye Care / Mask", desc: "Weekly firming or brightening treatment for extra care.", picks: [] },
+      { key: "protect", name: "Protect", desc: zone.spf + (answers.exposure === "outdoor" ? ", reapplied through the day given your sun exposure" : "") + ".", picks: [] },
     ];
     const trimmed = all.slice(0, depthCount);
-    trimmed.forEach((s) => { const m = bestProductFor(s.key, answers); if (m) s.pick = m.name; });
+    trimmed.forEach((s) => { s.picks = bestProductsFor(s.key, answers, 2); });
     return { st, zone, trimmed };
   }, [answers]);
 
@@ -437,27 +490,64 @@ function Result({ answers, onRestart }: { answers: Answers; onRestart: () => voi
         )}
       </div>
 
-      <div className="mt-4">
+      <div className="mt-6 space-y-8">
         {trimmed.map((s, i) => (
-          <div key={s.key} className="flex gap-4 border-b border-dashed border-border py-4 last:border-b-0">
-            <div className="w-6 shrink-0 font-display text-lg italic text-primary">{i + 1}</div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-ink">{s.name}</p>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.desc}</p>
-              {s.pick && <p className="mt-1.5 text-xs text-primary">Try: {s.pick}</p>}
+          <div key={s.key} className="border-b border-dashed border-border pb-8 last:border-b-0">
+            <div className="flex gap-4">
+              <div className="w-6 shrink-0 font-display text-lg italic text-primary">{i + 1}</div>
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-ink">{s.name}</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.desc}</p>
+              </div>
             </div>
+            {s.picks.length > 0 && (
+              <div className="mt-4 ml-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {s.picks.map((p) => (
+                  <div key={p.id} className="group border border-border bg-paper p-3">
+                    <Link
+                      to="/shop"
+                      className="block aspect-square overflow-hidden bg-secondary"
+                    >
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </Link>
+                    <p className="mt-3 text-[10px] uppercase tracking-wider text-muted-foreground">{p.brand}</p>
+                    <p className="mt-0.5 text-xs font-medium leading-snug text-ink">{p.name}</p>
+                    <div className="mt-2 flex items-center justify-between">
+                      <span className="text-xs text-ink">{p.price}</span>
+                      <div className="flex items-center gap-2">
+                        <Link to="/shop" className="text-[10px] uppercase tracking-wider text-muted-foreground hover:text-ink">
+                          View
+                        </Link>
+                        <button
+                          onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
+                          className="bg-ink px-3 py-1.5 text-[10px] font-medium uppercase tracking-wider text-paper hover:bg-primary"
+                        >
+                          Buy
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         ))}
       </div>
 
-      <div className="mt-6 flex flex-col items-center gap-3">
+      <div className="mt-8 flex flex-col items-center gap-3">
         <Link to="/shop" className="bg-ink px-8 py-3 text-[10px] font-medium uppercase tracking-[0.18em] text-paper hover:bg-primary">
-          Shop the Routine
+          Shop the Full Range
         </Link>
         <button onClick={onRestart} className="border border-border px-4 py-2 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:border-ink hover:text-ink">
           Start over
         </button>
       </div>
+      {modal}
     </div>
   );
 }
