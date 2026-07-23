@@ -181,7 +181,7 @@ export function SiteHeader() {
                   onFocus={() => setOpenMenu(key)}
                   onClick={(event) => {
                     event.preventDefault();
-                    setOpenMenu(openMenu === key ? null : key);
+                    setOpenMenu(key);
                   }}
                   className="flex h-6 w-6 items-center justify-center rounded-full text-foreground/45 hover:bg-secondary hover:text-primary"
                 >
