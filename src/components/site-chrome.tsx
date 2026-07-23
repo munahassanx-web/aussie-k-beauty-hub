@@ -189,37 +189,6 @@ export function SiteHeader() {
                 >
                   <span className="text-[10px] leading-none">⌄</span>
                 </button>
-                {openMenu === key && (
-                  <div
-                    className="absolute left-1/2 top-full z-50 w-[min(760px,calc(100vw-3rem))] -translate-x-1/2 translate-y-1 rounded-2xl border border-border/60 bg-background p-6 text-left opacity-100 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.24)]"
-                    onMouseEnter={() => setOpenMenu(key)}
-                  >
-                    <div className="grid gap-8 md:grid-cols-3">
-                      {megaMenus[key].map((section) => (
-                        <div key={section.heading}>
-                          <h4 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
-                            {section.heading}
-                          </h4>
-                          <ul className="space-y-2.5">
-                            {section.links.map((l) => (
-                              <li key={l.label}>
-                                <Link
-                                  to={l.to}
-                                  search={l.search as never}
-                                  hash={l.hash}
-                                  onClick={closeMenus}
-                                  className="inline-block text-sm normal-case tracking-normal text-foreground/80 transition-colors hover:text-primary"
-                                >
-                                  {l.label}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             ))}
             <Link
@@ -268,6 +237,45 @@ export function SiteHeader() {
             </button>
           </div>
         </div>
+
+        {openMenu && megaMenus[openMenu] && (
+          <div className="hidden border-t border-border/60 bg-background shadow-[0_30px_60px_-30px_rgba(0,0,0,0.18)] lg:block">
+            <div className="mx-auto grid max-w-7xl gap-12 px-6 py-8 md:grid-cols-4">
+              {megaMenus[openMenu].map((section) => (
+                <div key={section.heading}>
+                  <h4 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
+                    {section.heading}
+                  </h4>
+                  <ul className="space-y-2.5">
+                    {section.links.map((l) => (
+                      <li key={l.label}>
+                        <Link
+                          to={l.to}
+                          search={l.search as never}
+                          hash={l.hash}
+                          onClick={closeMenus}
+                          className="inline-block text-sm text-foreground/80 transition-colors hover:text-primary"
+                        >
+                          {l.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+              <div className="rounded-2xl bg-secondary p-6">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Featured</p>
+                <p className="mt-3 font-display text-xl leading-tight text-foreground">Glass Skin in 4 Steps</p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Our advisor-built routine for dewy, even-toned skin.
+                </p>
+                <Link to="/journey" onClick={closeMenus} className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
+                  Explore the routine →
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
 
         {mobileOpen && (
           <div className="border-t border-border/60 bg-background lg:hidden">
