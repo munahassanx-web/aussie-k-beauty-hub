@@ -16,6 +16,7 @@ import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ClubRouteImport } from './routes/club'
 import { Route as BrandsRouteImport } from './routes/brands'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -58,6 +59,11 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConsultationRoute = ConsultationRouteImport.update({
+  id: '/consultation',
+  path: '/consultation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClubRoute = ClubRouteImport.update({
   id: '/club',
   path: '/club',
@@ -96,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/brands': typeof BrandsRoute
   '/club': typeof ClubRoute
+  '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
   '/journal': typeof JournalRoute
   '/journey': typeof JourneyRoute
@@ -111,6 +118,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/brands': typeof BrandsRoute
   '/club': typeof ClubRoute
+  '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
   '/journal': typeof JournalRoute
   '/journey': typeof JourneyRoute
@@ -127,6 +135,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/brands': typeof BrandsRoute
   '/club': typeof ClubRoute
+  '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
   '/journal': typeof JournalRoute
   '/journey': typeof JourneyRoute
@@ -144,6 +153,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/brands'
     | '/club'
+    | '/consultation'
     | '/contact'
     | '/journal'
     | '/journey'
@@ -159,6 +169,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/brands'
     | '/club'
+    | '/consultation'
     | '/contact'
     | '/journal'
     | '/journey'
@@ -174,6 +185,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/brands'
     | '/club'
+    | '/consultation'
     | '/contact'
     | '/journal'
     | '/journey'
@@ -190,6 +202,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BrandsRoute: typeof BrandsRoute
   ClubRoute: typeof ClubRoute
+  ConsultationRoute: typeof ConsultationRoute
   ContactRoute: typeof ContactRoute
   JournalRoute: typeof JournalRoute
   JourneyRoute: typeof JourneyRoute
@@ -251,6 +264,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/consultation': {
+      id: '/consultation'
+      path: '/consultation'
+      fullPath: '/consultation'
+      preLoaderRoute: typeof ConsultationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/club': {
       id: '/club'
       path: '/club'
@@ -302,6 +322,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BrandsRoute: BrandsRoute,
   ClubRoute: ClubRoute,
+  ConsultationRoute: ConsultationRoute,
   ContactRoute: ContactRoute,
   JournalRoute: JournalRoute,
   JourneyRoute: JourneyRoute,
@@ -314,13 +335,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

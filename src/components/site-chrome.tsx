@@ -56,7 +56,7 @@ const megaMenus: Record<string, MegaSection[]> = {
     {
       heading: "Find Your Routine",
       links: [
-        { label: "Take the Skin Quiz", to: "/skin-concerns" },
+        { label: "Take the Routine Consultation", to: "/consultation" },
         { label: "Ingredient Finder", to: "/journal" },
         { label: "Talk to an Advisor", to: "/contact" },
       ],
