@@ -54,6 +54,7 @@ const filters = ["All", "Cleanse", "Tone", "Treat", "Moisturise", "Protect", "Ma
 
 function Shop() {
   const [active, setActive] = useState<(typeof filters)[number]>("All");
+  const { buy, modal } = useBuyNow();
   const visible = useMemo(
     () => (active === "All" ? items : items.filter((p) => p.category === active)),
     [active],
