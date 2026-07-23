@@ -290,7 +290,7 @@ function Hero() {
           </h1>
 
           <div className="mt-4 flex flex-col items-center gap-3">
-            <p className="max-w-2xl text-balance font-display text-2xl leading-snug text-paper/95 md:text-3xl lg:text-4xl">
+            <p className="max-w-3xl text-balance font-display text-2xl leading-snug text-paper/95 md:text-3xl lg:text-4xl">
               Most skincare advice is built for someone else's climate —{" "}
               <span className="italic text-accent">not yours.</span>
             </p>
