@@ -159,24 +159,35 @@ export function SiteHeader() {
 
           <nav className="hidden items-center gap-8 lg:flex">
             {Object.keys(megaMenus).map((key) => (
-              <button
-                key={key}
-                type="button"
-                onMouseEnter={() => setOpenMenu(key)}
-                onFocus={() => setOpenMenu(key)}
-                onClick={() => setOpenMenu(openMenu === key ? null : key)}
-                aria-expanded={openMenu === key}
-                className={`relative py-2 text-[13px] font-medium uppercase tracking-[0.16em] transition-colors ${
-                  openMenu === key ? "text-primary" : "text-foreground/75 hover:text-primary"
-                }`}
-              >
-                {key}
-                <span
-                  className={`absolute -bottom-0.5 left-0 h-px bg-primary transition-all ${
-                    openMenu === key ? "w-full" : "w-0"
+              <div key={key} className="relative flex items-center gap-1" onMouseEnter={() => setOpenMenu(key)}>
+                <Link
+                  to={topLevelLinks[key].to}
+                  onClick={closeMenus}
+                  className={`relative py-2 text-[13px] font-medium uppercase tracking-[0.16em] transition-colors ${
+                    openMenu === key ? "text-primary" : "text-foreground/75 hover:text-primary"
                   }`}
-                />
-              </button>
+                >
+                  {key}
+                  <span
+                    className={`absolute -bottom-0.5 left-0 h-px bg-primary transition-all ${
+                      openMenu === key ? "w-full" : "w-0"
+                    }`}
+                  />
+                </Link>
+                <button
+                  type="button"
+                  aria-label={`Open ${key} menu`}
+                  aria-expanded={openMenu === key}
+                  onFocus={() => setOpenMenu(key)}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setOpenMenu(openMenu === key ? null : key);
+                  }}
+                  className="flex h-6 w-6 items-center justify-center rounded-full text-foreground/45 hover:bg-secondary hover:text-primary"
+                >
+                  <span className="text-[10px] leading-none">⌄</span>
+                </button>
+              </div>
             ))}
             <Link
               to="/journal"
@@ -228,7 +239,7 @@ export function SiteHeader() {
         {/* Mega panel */}
         {openMenu && megaMenus[openMenu] && (
           <div
-            className="absolute left-0 right-0 z-50 hidden border-t border-border/60 bg-background shadow-[0_30px_60px_-30px_rgba(0,0,0,0.18)] backdrop-blur-md lg:block"
+            className="relative z-50 hidden border-t border-border/60 bg-background shadow-[0_30px_60px_-30px_rgba(0,0,0,0.18)] backdrop-blur-md lg:block"
             onMouseEnter={() => setOpenMenu(openMenu)}
           >
             <div className="mx-auto grid max-w-7xl gap-12 px-6 py-10 md:grid-cols-4">
