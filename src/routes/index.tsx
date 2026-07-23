@@ -34,18 +34,18 @@ const categories = [
   { name: "Masks", count: "22 products", img: categoryMasks },
 ];
 
-const concerns = [
-  { name: "Hydration & Glow", desc: "Plump, dewy, glass-skin finish", color: "from-hanbok/15" },
-  { name: "Acne & Breakouts", desc: "Calm congestion, balance oil", color: "from-clay/20" },
-  { name: "Pigmentation", desc: "Brighten and even skin tone", color: "from-sand-deep/40" },
-  { name: "Sensitivity", desc: "Repair and soothe the barrier", color: "from-hanbok/10" },
+const concerns: { name: string; desc: string; color: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" }[] = [
+  { name: "Hydration & Glow", desc: "Plump, dewy, glass-skin finish", color: "from-hanbok/15", slug: "hydration" },
+  { name: "Acne & Breakouts", desc: "Calm congestion, balance oil", color: "from-clay/20", slug: "acne" },
+  { name: "Pigmentation", desc: "Brighten and even skin tone", color: "from-sand-deep/40", slug: "pigmentation" },
+  { name: "Sensitivity", desc: "Repair and soothe the barrier", color: "from-hanbok/10", slug: "sensitivity" },
 ];
 
-const bestsellers = [
-  { brand: "COSRX", name: "Advanced Snail 96 Mucin Power Essence", price: 32, rating: 4.9, reviews: 1284, tag: "Bestseller" },
-  { brand: "Beauty of Joseon", name: "Relief Sun Rice + Probiotics SPF50+", price: 28, rating: 4.9, reviews: 2310, tag: "AU Reformulated" },
-  { brand: "Anua", name: "Heartleaf 77% Soothing Toner", price: 34, rating: 4.8, reviews: 902, tag: "Editor's Pick" },
-  { brand: "Round Lab", name: "1025 Dokdo Toner", price: 29, rating: 4.8, reviews: 644, tag: "Restocked" },
+const bestsellers: { brand: string; name: string; price: number; rating: number; reviews: number; tag: string; priceId: string }[] = [
+  { brand: "COSRX", name: "Advanced Snail 96 Mucin Power Essence", price: 32, rating: 4.9, reviews: 1284, tag: "Bestseller", priceId: "snail_essence_onetime" },
+  { brand: "Beauty of Joseon", name: "Relief Sun SPF50+", price: 22, rating: 4.9, reviews: 2310, tag: "AU Cult", priceId: "relief_sun_onetime" },
+  { brand: "Anua", name: "Heartleaf Soothing Ampoule", price: 38, rating: 4.8, reviews: 902, tag: "Editor's Pick", priceId: "heartleaf_ampoule_onetime" },
+  { brand: "SKIN1004", name: "Centella Calming Toner", price: 28, rating: 4.8, reviews: 644, tag: "Restocked", priceId: "centella_toner_onetime" },
 ];
 
 const ingredients = [
@@ -57,11 +57,12 @@ const ingredients = [
   { name: "Madecassoside", role: "Sensitive calm" },
 ];
 
-const journal = [
-  { tag: "Routine 101", title: "How to build a Korean 7-step routine that actually fits your life", read: "6 min" },
-  { tag: "Ingredient", title: "Why snail mucin works — and how to layer it correctly", read: "4 min" },
-  { tag: "Australia", title: "The best K-beauty sunscreens for Australian UV", read: "8 min" },
+const journal: { tag: string; title: string; read: string; slug: string }[] = [
+  { tag: "Routines", title: "The 10-step routine, demystified", read: "6 min", slug: "the-10-step-routine-demystified" },
+  { tag: "Ingredients", title: "Snail mucin: why your skin actually loves it", read: "4 min", slug: "snail-mucin-why-your-skin-loves-it" },
+  { tag: "Australia", title: "Sunscreen, every single day", read: "5 min", slug: "sunscreen-every-single-day" },
 ];
+
 
 const reviews = [
   { name: "Lara · Carlton VIC", quote: "Genuinely changed my skin in three weeks. The advisor reply email helped me build a routine I actually stick to." },
