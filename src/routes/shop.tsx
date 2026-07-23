@@ -80,16 +80,13 @@ function Shop() {
 
   const visible = useMemo(() => {
     return items.filter((p) => {
-      if (category !== "all" && p.category !== catMap[category]) return false;
+      if (category !== "all" && p.category !== catMap[category as Exclude<(typeof filters)[number], "all">]) return false;
       if (brand && p.brand.toLowerCase() !== brand.toLowerCase()) return false;
       if (concern && !p.concerns.includes(concern)) return false;
       return true;
     });
   }, [category, brand, concern]);
 
-  const activeLabels = [
-    brand ? { label: `Brand: ${brand}`, clear: { brand: undefined } } : null,
-    concern ? { label: `Concern: ${concern}`, clear: { concern: undefined } } : null,
   ].filter(Boolean) as { label: string; clear: Record<string, undefined> }[];
 
   return (
