@@ -598,13 +598,14 @@ function BundleOffer() {
                 </div>
 
                 <button
+                  onClick={() => buy({ priceId: b.priceId, name: b.name, priceLabel: `A$${b.price}` })}
                   className={`mt-5 w-full rounded-full py-3.5 text-xs font-semibold uppercase tracking-[0.22em] transition ${
                     b.featured
                       ? "bg-hanbok text-paper hover:bg-hanbok-deep"
                       : "bg-ink text-paper hover:bg-hanbok"
                   }`}
                 >
-                  Add bundle to cart
+                  Buy this bundle
                 </button>
               </div>
             </article>
@@ -615,6 +616,7 @@ function BundleOffer() {
           30-day satisfaction guarantee · Free express shipping · Authenticity card included
         </p>
       </div>
+      {modal}
     </section>
   );
 }
