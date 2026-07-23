@@ -114,6 +114,7 @@ const announcements = [
 
 export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const { user } = useAuth();
 
   return (
     <header className="sticky top-0 z-50">
