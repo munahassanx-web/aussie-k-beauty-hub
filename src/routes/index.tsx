@@ -393,18 +393,20 @@ function Concerns() {
           {concerns.map((c) => (
             <Link
               key={c.name}
-              to="/consultation"
+              to="/shop"
+              search={{ concern: c.slug }}
               className={`group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br ${c.color} to-paper p-7 lift`}
             >
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-hanbok-deep">Concern</p>
               <h3 className="mt-4 font-display text-2xl text-ink">{c.name}</h3>
               <p className="mt-2 text-sm text-ink/70">{c.desc}</p>
               <span className="mt-8 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                Build my routine
+                Shop the edit
                 <span className="transition-transform group-hover:translate-x-1">→</span>
               </span>
             </Link>
           ))}
+
         </div>
       </div>
     </section>
