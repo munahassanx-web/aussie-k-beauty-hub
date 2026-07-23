@@ -135,10 +135,10 @@ function WhyPillars() {
 function Ranges() {
 
   const ranges = [
-    { name: "Skincare", desc: "The full 10-step canon — cleansers, toners, essences, serums, creams, masks and SPF.", img: textureMacro, count: "180+ products" },
-    { name: "Makeup", desc: "Skin-first Korean makeup: cushions, tints, glass-finish lip and cream blush.", img: brandSpotlight, count: "60+ products" },
-    { name: "Hair Care", desc: "Scalp treatments, protein masks and hair oils from Seoul's top salon brands.", img: ritualScene, count: "24+ products" },
-    { name: "Body Care", desc: "Ceramide body lotions, exfoliating pads and hand creams for head-to-toe glow.", img: skinMacro, count: "18+ products" },
+    { name: "Cleansers", desc: "Oil, balm, gel and cream cleansers for the Korean double-cleanse.", img: textureMacro, count: "40+ products" },
+    { name: "Toners & Essences", desc: "Hydrating toners, ferment essences and first-treatment layers.", img: brandSpotlight, count: "35+ products" },
+    { name: "Serums & Ampoules", desc: "Targeted actives — niacinamide, propolis, snail, peptides and vitamin C.", img: ritualScene, count: "50+ products" },
+    { name: "Moisturisers & SPF", desc: "Barrier creams, sleeping masks, sheet masks and daily broad-spectrum SPF.", img: skinMacro, count: "55+ products" },
   ];
   return (
     <section className="bg-sand/60">
@@ -146,7 +146,7 @@ function Ranges() {
         <div className="flex items-end justify-between gap-6">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">The Ranges We Stock</p>
-            <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">More than skincare.</h2>
+            <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">Skincare, done properly.</h2>
           </div>
           <Link to="/shop" className="hidden text-sm font-medium text-primary underline-grow md:inline">Shop everything →</Link>
         </div>
