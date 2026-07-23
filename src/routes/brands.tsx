@@ -14,21 +14,16 @@ export const Route = createFileRoute("/brands")({
   component: BrandsPage,
 });
 
-const brands = [
+const brands: { name: string; tag: string }[] = [
   { name: "COSRX", tag: "Clinical skincare, minimal ingredients" },
   { name: "Beauty of Joseon", tag: "Korean heritage meets modern formulas" },
   { name: "Anua", tag: "Heartleaf & gentle formulations" },
-  { name: "Heimish", tag: "All Clean Balm & more" },
-  { name: "Laneige", tag: "Hydration science experts" },
-  { name: "Innisfree", tag: "Natural ingredients from Jeju Island" },
-  { name: "Dr. Jart+", tag: "Dermatological solutions" },
+  { name: "SKIN1004", tag: "Madagascar centella hero brand" },
+  { name: "Numbuzin", tag: "Numbered formulas for real skin problems" },
+  { name: "Abib", tag: "Barrier-first heritage skincare" },
+  { name: "Mediheal", tag: "The original K-beauty sheet mask leader" },
   { name: "Some By Mi", tag: "Miracle solutions for troubled skin" },
-  { name: "Etude House", tag: "Playful & effective K-beauty" },
-  { name: "Missha", tag: "Time Revolution essences" },
-  { name: "Klairs", tag: "Simple, honest skincare" },
-  { name: "Purito", tag: "Pure, safe ingredients" },
-  { name: "Sulwhasoo", tag: "Luxury Korean herbal since 1966" },
-  { name: "VT Cosmetics", tag: "Reedle Shot pioneers" },
+  { name: "I'm From", tag: "Single-hero ingredient formulas" },
 ];
 
 function BrandsPage() {
@@ -38,12 +33,17 @@ function BrandsPage() {
       <h1 className="mt-3 text-5xl text-foreground md:text-7xl">K-beauty <em className="not-italic text-primary">brands</em>.</h1>
       <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
         Every brand on Skin Grocer is sourced through verified partners and
-        warehoused locally in Sydney for next-day delivery.
+        warehoused locally in Melbourne for next-day delivery.
       </p>
 
       <div className="mt-14 grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {brands.map((b) => (
-          <Link to="/shop" key={b.name} className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden rounded-3xl bg-foreground p-6 transition-transform hover:-translate-y-1">
+          <Link
+            to="/shop"
+            search={{ brand: b.name }}
+            key={b.name}
+            className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden rounded-3xl bg-foreground p-6 transition-transform hover:-translate-y-1"
+          >
             <img src={brandShot} alt={b.name} loading="lazy" width={1024} height={1024} className="absolute inset-0 h-full w-full object-cover opacity-55 transition-opacity duration-500 group-hover:opacity-75" />
             <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/40 to-transparent" />
             <h2 className="relative font-display text-3xl text-background">{b.name}</h2>
@@ -54,3 +54,4 @@ function BrandsPage() {
     </div>
   );
 }
+

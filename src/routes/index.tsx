@@ -25,27 +25,28 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const categories = [
-  { name: "Cleansers", count: "32 products", img: textureMacro },
-  { name: "Toners & Essences", count: "28 products", img: ritualScene },
-  { name: "Serums", count: "41 products", img: productFlatlay },
-  { name: "Moisturisers", count: "26 products", img: brandSpotlight },
-  { name: "SPF", count: "18 products", img: skinMacro },
-  { name: "Masks", count: "22 products", img: categoryMasks },
+const categories: { name: string; count: string; img: string; search: { category: "cleanse" | "tone" | "treat" | "moisturise" | "protect" | "masks" } }[] = [
+  { name: "Cleansers", count: "Melt & rinse", img: textureMacro, search: { category: "cleanse" } },
+  { name: "Toners & Essences", count: "Prep & hydrate", img: ritualScene, search: { category: "tone" } },
+  { name: "Serums", count: "Treat & target", img: productFlatlay, search: { category: "treat" } },
+  { name: "Moisturisers", count: "Seal & protect", img: brandSpotlight, search: { category: "moisturise" } },
+  { name: "SPF", count: "Everyday defence", img: skinMacro, search: { category: "protect" } },
+  { name: "Masks", count: "Weekly rituals", img: categoryMasks, search: { category: "masks" } },
 ];
 
-const concerns = [
-  { name: "Hydration & Glow", desc: "Plump, dewy, glass-skin finish", color: "from-hanbok/15" },
-  { name: "Acne & Breakouts", desc: "Calm congestion, balance oil", color: "from-clay/20" },
-  { name: "Pigmentation", desc: "Brighten and even skin tone", color: "from-sand-deep/40" },
-  { name: "Sensitivity", desc: "Repair and soothe the barrier", color: "from-hanbok/10" },
+
+const concerns: { name: string; desc: string; color: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" }[] = [
+  { name: "Hydration & Glow", desc: "Plump, dewy, glass-skin finish", color: "from-hanbok/15", slug: "hydration" },
+  { name: "Acne & Breakouts", desc: "Calm congestion, balance oil", color: "from-clay/20", slug: "acne" },
+  { name: "Pigmentation", desc: "Brighten and even skin tone", color: "from-sand-deep/40", slug: "pigmentation" },
+  { name: "Sensitivity", desc: "Repair and soothe the barrier", color: "from-hanbok/10", slug: "sensitivity" },
 ];
 
-const bestsellers = [
-  { brand: "COSRX", name: "Advanced Snail 96 Mucin Power Essence", price: 32, rating: 4.9, reviews: 1284, tag: "Bestseller" },
-  { brand: "Beauty of Joseon", name: "Relief Sun Rice + Probiotics SPF50+", price: 28, rating: 4.9, reviews: 2310, tag: "AU Reformulated" },
-  { brand: "Anua", name: "Heartleaf 77% Soothing Toner", price: 34, rating: 4.8, reviews: 902, tag: "Editor's Pick" },
-  { brand: "Round Lab", name: "1025 Dokdo Toner", price: 29, rating: 4.8, reviews: 644, tag: "Restocked" },
+const bestsellers: { brand: string; name: string; price: number; rating: number; reviews: number; tag: string; priceId: string }[] = [
+  { brand: "COSRX", name: "Advanced Snail 96 Mucin Power Essence", price: 32, rating: 4.9, reviews: 1284, tag: "Bestseller", priceId: "snail_essence_onetime" },
+  { brand: "Beauty of Joseon", name: "Relief Sun SPF50+", price: 22, rating: 4.9, reviews: 2310, tag: "AU Cult", priceId: "relief_sun_onetime" },
+  { brand: "Anua", name: "Heartleaf Soothing Ampoule", price: 38, rating: 4.8, reviews: 902, tag: "Editor's Pick", priceId: "heartleaf_ampoule_onetime" },
+  { brand: "SKIN1004", name: "Centella Calming Toner", price: 28, rating: 4.8, reviews: 644, tag: "Restocked", priceId: "centella_toner_onetime" },
 ];
 
 const ingredients = [
@@ -57,11 +58,12 @@ const ingredients = [
   { name: "Madecassoside", role: "Sensitive calm" },
 ];
 
-const journal = [
-  { tag: "Routine 101", title: "How to build a Korean 7-step routine that actually fits your life", read: "6 min" },
-  { tag: "Ingredient", title: "Why snail mucin works — and how to layer it correctly", read: "4 min" },
-  { tag: "Australia", title: "The best K-beauty sunscreens for Australian UV", read: "8 min" },
+const journal: { tag: string; title: string; read: string; slug: string }[] = [
+  { tag: "Routines", title: "The 10-step routine, demystified", read: "6 min", slug: "the-10-step-routine-demystified" },
+  { tag: "Ingredients", title: "Snail mucin: why your skin actually loves it", read: "4 min", slug: "snail-mucin-why-your-skin-loves-it" },
+  { tag: "Australia", title: "Sunscreen, every single day", read: "5 min", slug: "sunscreen-every-single-day" },
 ];
+
 
 const reviews = [
   { name: "Lara · Carlton VIC", quote: "Genuinely changed my skin in three weeks. The advisor reply email helped me build a routine I actually stick to." },
@@ -342,8 +344,10 @@ function Categories() {
           <Link
             key={c.name}
             to="/shop"
+            search={c.search}
             className="group relative aspect-[3/4] overflow-hidden rounded-2xl bg-secondary lift"
           >
+
             <img
               src={c.img}
               alt={c.name}
@@ -389,18 +393,20 @@ function Concerns() {
           {concerns.map((c) => (
             <Link
               key={c.name}
-              to="/consultation"
+              to="/shop"
+              search={{ concern: c.slug }}
               className={`group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br ${c.color} to-paper p-7 lift`}
             >
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-hanbok-deep">Concern</p>
               <h3 className="mt-4 font-display text-2xl text-ink">{c.name}</h3>
               <p className="mt-2 text-sm text-ink/70">{c.desc}</p>
               <span className="mt-8 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                Build my routine
+                Shop the edit
                 <span className="transition-transform group-hover:translate-x-1">→</span>
               </span>
             </Link>
           ))}
+
         </div>
       </div>
     </section>
@@ -409,6 +415,8 @@ function Concerns() {
 
 function Bestsellers() {
   const [hover, setHover] = useState<number | null>(null);
+  const { buy, modal } = useBuyNow();
+  const covers = [productFlatlay, ritualScene, textureMacro, brandSpotlight];
   return (
     <section className="mx-auto max-w-7xl px-6 py-24">
       <div className="flex items-end justify-between gap-6">
@@ -427,9 +435,9 @@ function Bestsellers() {
             onMouseLeave={() => setHover(null)}
             className="group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition-all duration-500 hover:border-hanbok/40 hover:shadow-[0_24px_50px_-30px_rgba(46,63,110,0.35)]"
           >
-            <div className="relative aspect-square overflow-hidden bg-sand">
+            <Link to="/shop" search={{ brand: p.brand }} className="relative block aspect-square overflow-hidden bg-sand">
               <img
-                src={[productFlatlay, ritualScene, textureMacro, brandSpotlight][i % 4]}
+                src={covers[i % 4]}
                 alt={p.name}
                 loading="lazy"
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -438,13 +446,14 @@ function Bestsellers() {
                 {p.tag}
               </span>
               <button
+                onClick={(e) => { e.preventDefault(); buy({ priceId: p.priceId, name: p.name, priceLabel: `A$${p.price}` }); }}
                 className={`absolute inset-x-3 bottom-3 rounded-full bg-ink py-3 text-xs font-semibold uppercase tracking-[0.18em] text-paper transition-all duration-300 ${
                   hover === i ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
                 }`}
               >
                 Quick Add · A${p.price}
               </button>
-            </div>
+            </Link>
             <div className="flex flex-1 flex-col p-5">
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-clay">{p.brand}</p>
               <h3 className="mt-2 font-display text-lg leading-tight text-ink">{p.name}</h3>
@@ -460,8 +469,10 @@ function Bestsellers() {
           </article>
         ))}
       </div>
+      {modal}
     </section>
   );
+
 }
 
 function BundleOffer() {
@@ -712,9 +723,11 @@ function JournalPreview() {
         {journal.map((j, i) => (
           <Link
             key={j.title}
-            to="/journal"
+            to="/journal/$slug"
+            params={{ slug: j.slug }}
             className="group overflow-hidden rounded-2xl border border-border bg-card lift"
           >
+
             <div className="aspect-[4/3] overflow-hidden">
               <img
                 src={[brandSpotlight, textureMacro, ritualScene][i]}
