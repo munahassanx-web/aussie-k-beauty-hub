@@ -4,10 +4,17 @@ import { useAuth } from "@/hooks/use-auth";
 import logoAsset from "@/assets/skin-grocer-seal.png.asset.json";
 const logo = logoAsset.url;
 
-type MegaLink = { label: string; to: string; search?: Record<string, string> };
+type MegaLink = { label: string; to: string; search?: Record<string, string>; hash?: string };
 type MegaSection = {
   heading: string;
   links: MegaLink[];
+};
+
+const topLevelLinks: Record<string, MegaLink> = {
+  Shop: { label: "Shop", to: "/shop" },
+  Concerns: { label: "Concerns", to: "/skin-concerns" },
+  Brands: { label: "Brands", to: "/brands" },
+  Learn: { label: "Learn", to: "/journal" },
 };
 
 const megaMenus: Record<string, MegaSection[]> = {
@@ -38,7 +45,7 @@ const megaMenus: Record<string, MegaSection[]> = {
         { label: "Bestsellers", to: "/shop" },
         { label: "New Arrivals", to: "/shop" },
         { label: "Subscribe & Save", to: "/club" },
-        { label: "Bundles", to: "/" },
+        { label: "Bundles", to: "/", hash: "bundles" },
       ],
     },
   ],
@@ -118,7 +125,13 @@ const announcements = [
 
 export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const { user } = useAuth();
+
+  const closeMenus = () => {
+    setOpenMenu(null);
+    setMobileOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-50">
@@ -140,29 +153,43 @@ export function SiteHeader() {
         onMouseLeave={() => setOpenMenu(null)}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-3">
-          <Link to="/" className="flex items-center" onMouseEnter={() => setOpenMenu(null)}>
+          <Link to="/" className="flex items-center" onClick={closeMenus} onMouseEnter={() => setOpenMenu(null)}>
             <img src={logo} alt="Skin Grocer" className="h-12 w-12 md:h-14 md:w-14 object-contain drop-shadow-sm" width={56} height={56} />
           </Link>
 
           <nav className="hidden items-center gap-8 lg:flex">
             {Object.keys(megaMenus).map((key) => (
-              <button
+              <div
                 key={key}
+                className="relative flex items-center gap-1"
                 onMouseEnter={() => setOpenMenu(key)}
                 onFocus={() => setOpenMenu(key)}
-                onClick={() => setOpenMenu(openMenu === key ? null : key)}
-                aria-expanded={openMenu === key}
-                className={`relative py-2 text-[13px] font-medium uppercase tracking-[0.16em] transition-colors ${
-                  openMenu === key ? "text-primary" : "text-foreground/75 hover:text-primary"
-                }`}
               >
-                {key}
-                <span
-                  className={`absolute -bottom-0.5 left-0 h-px bg-primary transition-all ${
-                    openMenu === key ? "w-full" : "w-0"
+                <Link
+                  to={topLevelLinks[key].to}
+                  onClick={closeMenus}
+                  className={`relative py-2 text-[13px] font-medium uppercase tracking-[0.16em] transition-colors ${
+                    openMenu === key ? "text-primary" : "text-foreground/75 hover:text-primary"
                   }`}
-                />
-              </button>
+                >
+                  {key}
+                  <span
+                    className={`absolute -bottom-0.5 left-0 h-px bg-primary transition-all ${
+                      openMenu === key ? "w-full" : "w-0"
+                    }`}
+                  />
+                </Link>
+                <button
+                  type="button"
+                  aria-label={`Open ${key} menu`}
+                  aria-expanded={openMenu === key}
+                  onFocus={() => setOpenMenu(key)}
+                  onClick={() => setOpenMenu(key)}
+                  className="flex h-6 w-6 items-center justify-center rounded-full text-foreground/45 hover:bg-secondary hover:text-primary"
+                >
+                  <span className="text-[10px] leading-none">⌄</span>
+                </button>
+              </div>
             ))}
             <Link
               to="/journal"
@@ -174,37 +201,46 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <button
+            <Link
+              to="/shop"
               aria-label="Search"
               className="hidden h-9 w-9 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary md:flex"
             >
               <SearchIcon />
-            </button>
+            </Link>
             <Link
               to={user ? "/club" : "/auth"}
+              onClick={closeMenus}
               aria-label={user ? "Your account" : "Sign in"}
               className="hidden items-center gap-2 rounded-full border border-border px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/80 hover:border-primary hover:text-primary md:inline-flex"
             >
               <UserIcon />
               {user ? "Club" : "Sign in"}
             </Link>
-            <button
-              aria-label="Bag"
+            <Link
+              to="/shop"
+              onClick={closeMenus}
+              aria-label="Shop products"
               className="relative flex h-9 w-9 items-center justify-center rounded-full text-foreground/80 hover:bg-secondary hover:text-primary"
             >
               <BagIcon />
               <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground">0</span>
+            </Link>
+            <button
+              type="button"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              onClick={() => { setOpenMenu(null); setMobileOpen((open) => !open); }}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground/80 hover:border-primary hover:text-primary lg:hidden"
+            >
+              {mobileOpen ? <CloseIcon /> : <MenuIcon />}
             </button>
           </div>
         </div>
 
-        {/* Mega panel */}
         {openMenu && megaMenus[openMenu] && (
-          <div
-            className="absolute left-0 right-0 hidden border-t border-border/60 bg-background/98 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.18)] backdrop-blur-md lg:block"
-            onMouseEnter={() => setOpenMenu(openMenu)}
-          >
-            <div className="mx-auto grid max-w-7xl gap-12 px-6 py-10 md:grid-cols-4">
+          <div className="hidden border-t border-border/60 bg-background shadow-[0_30px_60px_-30px_rgba(0,0,0,0.18)] lg:block">
+            <div className="mx-auto grid max-w-7xl gap-12 px-6 py-8 md:grid-cols-4">
               {megaMenus[openMenu].map((section) => (
                 <div key={section.heading}>
                   <h4 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
@@ -216,28 +252,89 @@ export function SiteHeader() {
                         <Link
                           to={l.to}
                           search={l.search as never}
-                          onClick={() => setOpenMenu(null)}
+                          hash={l.hash}
+                          onClick={closeMenus}
                           className="inline-block text-sm text-foreground/80 transition-colors hover:text-primary"
                         >
                           {l.label}
                         </Link>
                       </li>
                     ))}
-
                   </ul>
                 </div>
               ))}
               <div className="rounded-2xl bg-secondary p-6">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Featured</p>
-                <p className="mt-3 font-display text-xl leading-tight text-foreground">
-                  Glass Skin in 4 Steps
-                </p>
+                <p className="mt-3 font-display text-xl leading-tight text-foreground">Glass Skin in 4 Steps</p>
                 <p className="mt-2 text-sm text-muted-foreground">
                   Our advisor-built routine for dewy, even-toned skin.
                 </p>
-                <Link to="/journey" className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
+                <Link to="/journey" onClick={closeMenus} className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
                   Explore the routine →
                 </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {mobileOpen && (
+          <div className="border-t border-border/60 bg-background lg:hidden">
+            <div className="max-h-[calc(100vh-7rem)] overflow-y-auto px-6 py-5">
+              <div className="grid gap-3 border-b border-border/60 pb-5">
+                {Object.entries(topLevelLinks).map(([key, link]) => (
+                  <Link
+                    key={key}
+                    to={link.to}
+                    onClick={closeMenus}
+                    className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                  >
+                    {link.label}
+                    <span className="text-base text-primary">→</span>
+                  </Link>
+                ))}
+                <Link to={user ? "/club" : "/auth"} onClick={closeMenus} className="flex items-center justify-between py-2 font-display text-2xl text-foreground">
+                  {user ? "Restock Club" : "Sign in"}
+                  <span className="text-base text-primary">→</span>
+                </Link>
+                <Link
+                  to="/journal/$slug"
+                  params={{ slug: "snail-mucin-why-your-skin-loves-it" }}
+                  onClick={closeMenus}
+                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                >
+                  Ingredient Guides
+                  <span className="text-base text-primary">→</span>
+                </Link>
+              </div>
+
+              <div className="mt-5 space-y-6">
+                {Object.entries(megaMenus).map(([menu, sections]) => (
+                  <div key={menu}>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-clay">{menu}</p>
+                    <div className="mt-3 grid gap-5 sm:grid-cols-2">
+                      {sections.map((section) => (
+                        <div key={section.heading}>
+                          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{section.heading}</p>
+                          <ul className="mt-2 space-y-2">
+                            {section.links.map((link) => (
+                              <li key={link.label}>
+                                <Link
+                                  to={link.to}
+                                  search={link.search as never}
+                                  hash={link.hash}
+                                  onClick={closeMenus}
+                                  className="block py-1 text-sm text-foreground/80 hover:text-primary"
+                                >
+                                  {link.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -335,6 +432,22 @@ function BagIcon() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
       <path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8z" />
       <path d="M9 8V6a3 3 0 0 1 6 0v2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function MenuIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M6 6l12 12M18 6 6 18" strokeLinecap="round" />
     </svg>
   );
 }

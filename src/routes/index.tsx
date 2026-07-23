@@ -182,8 +182,9 @@ function PromoBar() {
     return () => clearInterval(t);
   }, [messages.length]);
   return (
-    <a
-      href="#bundles"
+    <Link
+      to="/"
+      hash="bundles"
       className="block bg-hanbok-deep text-paper transition hover:bg-hanbok"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-6 py-2.5 text-center text-[11px] font-semibold uppercase tracking-[0.22em]">
@@ -191,7 +192,7 @@ function PromoBar() {
         <span className="transition-opacity duration-500">{messages[i]}</span>
         <span className="text-accent">Shop bundles →</span>
       </div>
-    </a>
+    </Link>
   );
 }
 
@@ -435,7 +436,8 @@ function Bestsellers() {
             onMouseLeave={() => setHover(null)}
             className="group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition-all duration-500 hover:border-hanbok/40 hover:shadow-[0_24px_50px_-30px_rgba(46,63,110,0.35)]"
           >
-            <Link to="/shop" search={{ brand: p.brand }} className="relative block aspect-square overflow-hidden bg-sand">
+            <div className="relative aspect-square overflow-hidden bg-sand">
+              <Link to="/shop" search={{ brand: p.brand }} className="block h-full w-full">
               <img
                 src={covers[i % 4]}
                 alt={p.name}
@@ -445,15 +447,16 @@ function Bestsellers() {
               <span className="absolute left-3 top-3 rounded-full bg-paper/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-hanbok-deep backdrop-blur">
                 {p.tag}
               </span>
+              </Link>
               <button
-                onClick={(e) => { e.preventDefault(); buy({ priceId: p.priceId, name: p.name, priceLabel: `A$${p.price}` }); }}
+                onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `A$${p.price}` })}
                 className={`absolute inset-x-3 bottom-3 rounded-full bg-ink py-3 text-xs font-semibold uppercase tracking-[0.18em] text-paper transition-all duration-300 ${
                   hover === i ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
                 }`}
               >
                 Quick Add · A${p.price}
               </button>
-            </Link>
+            </div>
             <div className="flex flex-1 flex-col p-5">
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-clay">{p.brand}</p>
               <h3 className="mt-2 font-display text-lg leading-tight text-ink">{p.name}</h3>
