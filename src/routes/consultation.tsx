@@ -441,23 +441,24 @@ function OptionList(props:
 }
 
 function Result({ answers, onRestart }: { answers: Answers; onRestart: () => void }) {
+  const { buy, modal } = useBuyNow();
   const routine = useMemo(() => {
     const st = STATES.find((s) => s.code === answers.state)!;
     const zone = ZONES[st.zone];
     const concern = answers.concern ? CONCERNS[answers.concern] : null;
     const depthCount = answers.depth ? DEPTHS[answers.depth].steps : 5;
     const gentle = answers.sensitivity === "high";
-    const all: { key: StepKey; name: string; desc: string; pick?: string }[] = [
-      { key: "cleanse", name: "Cleanse", desc: `A ${gentle ? "fragrance-free, " : ""}${zone.texture} cleanser suited to ${zone.label.toLowerCase()} conditions${gentle ? ", low on stripping actives given how easily your skin reacts" : ""}.` },
-      { key: "tone", name: "Tone / Prep", desc: "Rebalances skin and preps it to absorb what comes next." },
-      { key: "treat", name: "Treat", desc: `Targets your main concern with ${concern?.active ?? "targeted actives"}${gentle ? ", introduced gradually to avoid irritation" : ""}.` },
-      { key: "essence", name: "Essence / Booster", desc: `An extra hydration layer — especially useful given ${zone.label.toLowerCase()} conditions.` },
-      { key: "moisturise", name: "Moisturise", desc: `A ${zone.texture} moisturiser to lock everything in.` },
-      { key: "mask", name: "Eye Care / Mask", desc: "Weekly firming or brightening treatment for extra care." },
-      { key: "protect", name: "Protect", desc: zone.spf + (answers.exposure === "outdoor" ? ", reapplied through the day given your sun exposure" : "") + "." },
+    const all: { key: StepKey; name: string; desc: string; picks: Product[] }[] = [
+      { key: "cleanse", name: "Cleanse", desc: `A ${gentle ? "fragrance-free, " : ""}${zone.texture} cleanser suited to ${zone.label.toLowerCase()} conditions${gentle ? ", low on stripping actives given how easily your skin reacts" : ""}.`, picks: [] },
+      { key: "tone", name: "Tone / Prep", desc: "Rebalances skin and preps it to absorb what comes next.", picks: [] },
+      { key: "treat", name: "Treat", desc: `Targets your main concern with ${concern?.active ?? "targeted actives"}${gentle ? ", introduced gradually to avoid irritation" : ""}.`, picks: [] },
+      { key: "essence", name: "Essence / Booster", desc: `An extra hydration layer — especially useful given ${zone.label.toLowerCase()} conditions.`, picks: [] },
+      { key: "moisturise", name: "Moisturise", desc: `A ${zone.texture} moisturiser to lock everything in.`, picks: [] },
+      { key: "mask", name: "Eye Care / Mask", desc: "Weekly firming or brightening treatment for extra care.", picks: [] },
+      { key: "protect", name: "Protect", desc: zone.spf + (answers.exposure === "outdoor" ? ", reapplied through the day given your sun exposure" : "") + ".", picks: [] },
     ];
     const trimmed = all.slice(0, depthCount);
-    trimmed.forEach((s) => { const m = bestProductFor(s.key, answers); if (m) s.pick = m.name; });
+    trimmed.forEach((s) => { s.picks = bestProductsFor(s.key, answers, 2); });
     return { st, zone, trimmed };
   }, [answers]);
 
@@ -489,27 +490,64 @@ function Result({ answers, onRestart }: { answers: Answers; onRestart: () => voi
         )}
       </div>
 
-      <div className="mt-4">
+      <div className="mt-6 space-y-8">
         {trimmed.map((s, i) => (
-          <div key={s.key} className="flex gap-4 border-b border-dashed border-border py-4 last:border-b-0">
-            <div className="w-6 shrink-0 font-display text-lg italic text-primary">{i + 1}</div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-ink">{s.name}</p>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.desc}</p>
-              {s.pick && <p className="mt-1.5 text-xs text-primary">Try: {s.pick}</p>}
+          <div key={s.key} className="border-b border-dashed border-border pb-8 last:border-b-0">
+            <div className="flex gap-4">
+              <div className="w-6 shrink-0 font-display text-lg italic text-primary">{i + 1}</div>
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-ink">{s.name}</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.desc}</p>
+              </div>
             </div>
+            {s.picks.length > 0 && (
+              <div className="mt-4 ml-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {s.picks.map((p) => (
+                  <div key={p.id} className="group border border-border bg-paper p-3">
+                    <Link
+                      to="/shop"
+                      className="block aspect-square overflow-hidden bg-secondary"
+                    >
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </Link>
+                    <p className="mt-3 text-[10px] uppercase tracking-wider text-muted-foreground">{p.brand}</p>
+                    <p className="mt-0.5 text-xs font-medium leading-snug text-ink">{p.name}</p>
+                    <div className="mt-2 flex items-center justify-between">
+                      <span className="text-xs text-ink">{p.price}</span>
+                      <div className="flex items-center gap-2">
+                        <Link to="/shop" className="text-[10px] uppercase tracking-wider text-muted-foreground hover:text-ink">
+                          View
+                        </Link>
+                        <button
+                          onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
+                          className="bg-ink px-3 py-1.5 text-[10px] font-medium uppercase tracking-wider text-paper hover:bg-primary"
+                        >
+                          Buy
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         ))}
       </div>
 
-      <div className="mt-6 flex flex-col items-center gap-3">
+      <div className="mt-8 flex flex-col items-center gap-3">
         <Link to="/shop" className="bg-ink px-8 py-3 text-[10px] font-medium uppercase tracking-[0.18em] text-paper hover:bg-primary">
-          Shop the Routine
+          Shop the Full Range
         </Link>
         <button onClick={onRestart} className="border border-border px-4 py-2 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:border-ink hover:text-ink">
           Start over
         </button>
       </div>
+      {modal}
     </div>
   );
 }
