@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/use-auth";
 import logoAsset from "@/assets/skin-grocer-seal.png.asset.json";
 const logo = logoAsset.url;
 
-type MegaLink = { label: string; to: string; search?: Record<string, string> };
+type MegaLink = { label: string; to: string; search?: Record<string, string>; hash?: string };
 type MegaSection = {
   heading: string;
   links: MegaLink[];
@@ -45,7 +45,7 @@ const megaMenus: Record<string, MegaSection[]> = {
         { label: "Bestsellers", to: "/shop" },
         { label: "New Arrivals", to: "/shop" },
         { label: "Subscribe & Save", to: "/club" },
-        { label: "Bundles", to: "/" },
+        { label: "Bundles", to: "/", hash: "bundles" },
       ],
     },
   ],
@@ -242,6 +242,7 @@ export function SiteHeader() {
                         <Link
                           to={l.to}
                           search={l.search as never}
+                          hash={l.hash}
                           onClick={() => setOpenMenu(null)}
                           className="inline-block text-sm text-foreground/80 transition-colors hover:text-primary"
                         >
@@ -304,6 +305,7 @@ export function SiteHeader() {
                                 <Link
                                   to={link.to}
                                   search={link.search as never}
+                                  hash={link.hash}
                                   onClick={closeMenus}
                                   className="block py-1 text-sm text-foreground/80 hover:text-primary"
                                 >
