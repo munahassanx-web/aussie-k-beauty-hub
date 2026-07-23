@@ -110,7 +110,7 @@ function Shop() {
           return (
             <button
               key={c}
-              onClick={() => navigate({ search: (prev) => ({ ...prev, category: c === "all" ? undefined : c }) })}
+              onClick={() => navigate({ search: (prev: z.infer<typeof searchSchema>) => ({ ...prev, category: c === "all" ? undefined : c }) })}
               className={`rounded-full border px-5 py-2 text-sm transition-colors ${isActive ? "border-primary bg-primary text-primary-foreground" : "border-border text-foreground hover:bg-secondary"}`}
             >
               {filterLabels[c]}
@@ -124,7 +124,7 @@ function Shop() {
           {activeLabels.map((a) => (
             <button
               key={a.label}
-              onClick={() => navigate({ search: (prev) => ({ ...prev, ...a.clear }) })}
+              onClick={() => navigate({ search: (prev: z.infer<typeof searchSchema>) => ({ ...prev, ...a.clear }) })}
               className="inline-flex items-center gap-2 rounded-full bg-secondary px-4 py-1.5 text-xs text-foreground hover:bg-secondary/80"
             >
               {a.label} <span className="text-muted-foreground">×</span>
