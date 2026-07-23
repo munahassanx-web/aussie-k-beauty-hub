@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { getJournalPost, journalPosts } from "@/lib/journal-posts";
+import { getJournalPost, journalPosts, type JournalSection } from "@/lib/journal-posts";
 
 export const Route = createFileRoute("/journal/$slug")({
   loader: ({ params }) => {
@@ -69,7 +69,7 @@ function JournalPostPage() {
       {/* Body */}
       <div className="mx-auto mt-16 grid max-w-6xl gap-12 px-6 lg:grid-cols-[1fr_320px]">
         <div className="space-y-10">
-          {post.sections.map((s, i) => (
+          {post.sections.map((s: JournalSection, i: number) => (
             <section key={i}>
               {s.heading && <h2 className="font-display text-2xl text-foreground md:text-3xl">{s.heading}</h2>}
               <p className="mt-4 whitespace-pre-line text-base leading-relaxed text-muted-foreground">{s.body}</p>
@@ -79,7 +79,7 @@ function JournalPostPage() {
           <section className="rounded-3xl bg-accent/5 p-8">
             <h2 className="font-display text-2xl">Key takeaways</h2>
             <ul className="mt-4 space-y-2">
-              {post.takeaways.map((t) => (
+              {post.takeaways.map((t: string) => (
                 <li key={t} className="flex gap-3 text-sm text-foreground">
                   <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                   <span>{t}</span>
@@ -94,7 +94,7 @@ function JournalPostPage() {
           <div className="rounded-3xl border border-border p-6">
             <p className="text-xs uppercase tracking-[0.2em] text-primary">Product picks</p>
             <ul className="mt-4 space-y-4">
-              {post.productPicks.map((p) => (
+              {post.productPicks.map((p: { name: string; why: string }) => (
                 <li key={p.name}>
                   <p className="font-display text-lg text-foreground">{p.name}</p>
                   <p className="mt-1 text-sm text-muted-foreground">{p.why}</p>

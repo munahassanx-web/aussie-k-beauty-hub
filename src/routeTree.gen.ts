@@ -22,6 +22,7 @@ import { Route as BrandsRouteImport } from './routes/brands'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const SkinConcernsRoute = SkinConcernsRouteImport.update({
@@ -89,6 +90,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JournalSlugRoute = JournalSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => JournalRoute,
+} as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
     id: '/api/public/payments/webhook',
@@ -104,12 +110,13 @@ export interface FileRoutesByFullPath {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
-  '/journal': typeof JournalRoute
+  '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/journal/$slug': typeof JournalSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -120,12 +127,13 @@ export interface FileRoutesByTo {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
-  '/journal': typeof JournalRoute
+  '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/journal/$slug': typeof JournalSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
@@ -137,12 +145,13 @@ export interface FileRoutesById {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
-  '/journal': typeof JournalRoute
+  '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/journal/$slug': typeof JournalSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
@@ -161,6 +170,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/journal/$slug'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -177,6 +187,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/journal/$slug'
     | '/api/public/payments/webhook'
   id:
     | '__root__'
@@ -193,6 +204,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/journal/$slug'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -204,7 +216,7 @@ export interface RootRouteChildren {
   ClubRoute: typeof ClubRoute
   ConsultationRoute: typeof ConsultationRoute
   ContactRoute: typeof ContactRoute
-  JournalRoute: typeof JournalRoute
+  JournalRoute: typeof JournalRouteWithChildren
   JourneyRoute: typeof JourneyRoute
   ReviewsRoute: typeof ReviewsRoute
   ShopRoute: typeof ShopRoute
@@ -306,6 +318,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/journal/$slug': {
+      id: '/journal/$slug'
+      path: '/$slug'
+      fullPath: '/journal/$slug'
+      preLoaderRoute: typeof JournalSlugRouteImport
+      parentRoute: typeof JournalRoute
+    }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
       path: '/api/public/payments/webhook'
@@ -316,6 +335,17 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface JournalRouteChildren {
+  JournalSlugRoute: typeof JournalSlugRoute
+}
+
+const JournalRouteChildren: JournalRouteChildren = {
+  JournalSlugRoute: JournalSlugRoute,
+}
+
+const JournalRouteWithChildren =
+  JournalRoute._addFileChildren(JournalRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -324,7 +354,7 @@ const rootRouteChildren: RootRouteChildren = {
   ClubRoute: ClubRoute,
   ConsultationRoute: ConsultationRoute,
   ContactRoute: ContactRoute,
-  JournalRoute: JournalRoute,
+  JournalRoute: JournalRouteWithChildren,
   JourneyRoute: JourneyRoute,
   ReviewsRoute: ReviewsRoute,
   ShopRoute: ShopRoute,
