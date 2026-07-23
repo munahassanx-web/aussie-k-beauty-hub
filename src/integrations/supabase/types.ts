@@ -192,7 +192,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_points_balance: { Args: { _user_id: string }; Returns: number }
+      my_points_balance: { Args: never; Returns: number }
     }
     Enums: {
       member_tier: "basket" | "restock" | "circle"
