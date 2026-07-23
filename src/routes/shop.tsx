@@ -32,23 +32,22 @@ export const Route = createFileRoute("/shop")({
 
 type Category = "Cleanse" | "Tone" | "Treat" | "Moisturise" | "Protect" | "Masks";
 
-const items: { name: string; brand: string; price: string; tag: string | null; category: Category; image: string }[] = [
-  { name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", tag: "Bestseller", category: "Treat", image: productSnail },
-  { name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", tag: "New", category: "Tone", image: productCentellaToner },
-  { name: "Vitamin C Brightening Serum", brand: "Beauty of Joseon", price: "$36", tag: null, category: "Treat", image: productVitC },
-  { name: "Rice Probiotics Cleansing Foam", brand: "I'm From", price: "$30", tag: null, category: "Cleanse", image: productRice },
-  { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", tag: "Cult", category: "Protect", image: productReliefSun },
-  { name: "Cica Recovery Cream", brand: "Anua", price: "$34", tag: null, category: "Moisturise", image: productCicaCream },
-  { name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", tag: "New", category: "Treat", image: productHeartleaf },
-  // K-beauty masks
-  { name: "Real Ferment Micro Essence Sheet Mask", brand: "Mediheal", price: "$6", tag: "Bestseller", category: "Masks", image: maskMedihealSheet },
-  { name: "Dynasty Cream Mask", brand: "Beauty of Joseon", price: "$5", tag: null, category: "Masks", image: maskDynastyCream },
-  { name: "Bakuchiol Retinol Eye Mask", brand: "Numbuzin", price: "$32", tag: "New", category: "Masks", image: maskNumbuzinEye },
-  { name: "AHA-BHA-PHA 30 Days Miracle Clay Mask", brand: "Some By Mi", price: "$28", tag: null, category: "Masks", image: maskSomeByMiClay },
-  { name: "Pep-Talk Peptide Sleeping Mask", brand: "Abib", price: "$34", tag: null, category: "Masks", image: maskAbibSleeping },
-  { name: "Vita Propolis Ampoule Sheet Mask", brand: "Numbuzin", price: "$7", tag: null, category: "Masks", image: maskNumbuzinVita },
-  { name: "Heartleaf 77% Soothing Sheet Mask", brand: "Anua", price: "$6", tag: "Cult", category: "Masks", image: maskAnuaHeartleaf },
-  { name: "Madagascar Centella Hyalu-Cica Water-Fit Sun Mask", brand: "SKIN1004", price: "$8", tag: null, category: "Masks", image: maskSkin1004Centella },
+const items: { name: string; brand: string; price: string; priceId: string; tag: string | null; category: Category; image: string }[] = [
+  { name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", priceId: "snail_essence_onetime", tag: "Bestseller", category: "Treat", image: productSnail },
+  { name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", priceId: "centella_toner_onetime", tag: "New", category: "Tone", image: productCentellaToner },
+  { name: "Vitamin C Brightening Serum", brand: "Beauty of Joseon", price: "$36", priceId: "vitc_serum_onetime", tag: null, category: "Treat", image: productVitC },
+  { name: "Rice Probiotics Cleansing Foam", brand: "I'm From", price: "$30", priceId: "rice_cleanser_onetime", tag: null, category: "Cleanse", image: productRice },
+  { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", priceId: "relief_sun_onetime", tag: "Cult", category: "Protect", image: productReliefSun },
+  { name: "Cica Recovery Cream", brand: "Anua", price: "$34", priceId: "cica_cream_onetime", tag: null, category: "Moisturise", image: productCicaCream },
+  { name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", priceId: "heartleaf_ampoule_onetime", tag: "New", category: "Treat", image: productHeartleaf },
+  { name: "Real Ferment Micro Essence Sheet Mask", brand: "Mediheal", price: "$6", priceId: "mask_mediheal_sheet_onetime", tag: "Bestseller", category: "Masks", image: maskMedihealSheet },
+  { name: "Dynasty Cream Mask", brand: "Beauty of Joseon", price: "$5", priceId: "mask_dynasty_cream_onetime", tag: null, category: "Masks", image: maskDynastyCream },
+  { name: "Bakuchiol Retinol Eye Mask", brand: "Numbuzin", price: "$32", priceId: "mask_numbuzin_eye_onetime", tag: "New", category: "Masks", image: maskNumbuzinEye },
+  { name: "AHA-BHA-PHA 30 Days Miracle Clay Mask", brand: "Some By Mi", price: "$28", priceId: "mask_somebymi_clay_onetime", tag: null, category: "Masks", image: maskSomeByMiClay },
+  { name: "Pep-Talk Peptide Sleeping Mask", brand: "Abib", price: "$34", priceId: "mask_abib_sleeping_onetime", tag: null, category: "Masks", image: maskAbibSleeping },
+  { name: "Vita Propolis Ampoule Sheet Mask", brand: "Numbuzin", price: "$7", priceId: "mask_numbuzin_vita_onetime", tag: null, category: "Masks", image: maskNumbuzinVita },
+  { name: "Heartleaf 77% Soothing Sheet Mask", brand: "Anua", price: "$6", priceId: "mask_anua_heartleaf_onetime", tag: "Cult", category: "Masks", image: maskAnuaHeartleaf },
+  { name: "Madagascar Centella Hyalu-Cica Water-Fit Sun Mask", brand: "SKIN1004", price: "$8", priceId: "mask_skin1004_centella_onetime", tag: null, category: "Masks", image: maskSkin1004Centella },
 ];
 
 const filters = ["All", "Cleanse", "Tone", "Treat", "Moisturise", "Protect", "Masks"] as const;
