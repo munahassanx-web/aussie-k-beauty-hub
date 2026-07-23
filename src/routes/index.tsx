@@ -723,9 +723,11 @@ function JournalPreview() {
         {journal.map((j, i) => (
           <Link
             key={j.title}
-            to="/journal"
+            to="/journal/$slug"
+            params={{ slug: j.slug }}
             className="group overflow-hidden rounded-2xl border border-border bg-card lift"
           >
+
             <div className="aspect-[4/3] overflow-hidden">
               <img
                 src={[brandSpotlight, textureMacro, ritualScene][i]}
