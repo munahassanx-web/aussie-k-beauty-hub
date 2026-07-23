@@ -101,12 +101,18 @@ function Shop() {
               <h3 className="mt-1 font-display text-lg text-foreground">{p.name}</h3>
               <div className="mt-2 flex items-center justify-between">
                 <span className="text-sm text-foreground">{p.price}</span>
-                <button className="text-xs font-medium uppercase tracking-wider text-primary hover:underline">Add +</button>
+                <button
+                  onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
+                  className="text-xs font-medium uppercase tracking-wider text-primary hover:underline"
+                >
+                  Buy →
+                </button>
               </div>
             </div>
           </div>
         ))}
       </div>
+      {modal}
 
       <div className="mt-20 rounded-3xl bg-secondary/60 p-10 text-center md:p-16">
         <h2 className="text-3xl text-foreground md:text-4xl">Not sure where to start?</h2>
