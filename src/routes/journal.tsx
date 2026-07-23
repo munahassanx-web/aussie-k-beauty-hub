@@ -29,7 +29,7 @@ function JournalPage() {
       </p>
 
       {/* Featured */}
-      <Link to="/journal/$slug" params={{ slug: featured.slug }} className="group mt-14 grid gap-8 md:grid-cols-2 md:items-center">
+      <Link to="/journal/$slug" params={{ slug: featured.slug }} className="group relative z-10 mt-14 grid gap-8 md:grid-cols-2 md:items-center cursor-pointer">
         <div className="relative aspect-[4/3] overflow-hidden rounded-3xl">
           <img
             src={featured.cover}
