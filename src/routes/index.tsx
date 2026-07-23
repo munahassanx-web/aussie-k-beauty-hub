@@ -78,7 +78,7 @@ function HomePage() {
       <WhyPillars />
       <BundleOffer />
       <Categories />
-      <Ranges />
+      
       <Concerns />
       <Bestsellers />
       <BrandMarquee />
@@ -132,47 +132,6 @@ function WhyPillars() {
 }
 
 
-function Ranges() {
-
-  const ranges = [
-    { name: "Cleansers", desc: "Oil, balm, gel and cream cleansers for the Korean double-cleanse.", img: textureMacro, count: "40+ products" },
-    { name: "Toners & Essences", desc: "Hydrating toners, ferment essences and first-treatment layers.", img: brandSpotlight, count: "35+ products" },
-    { name: "Serums & Ampoules", desc: "Targeted actives — niacinamide, propolis, snail, peptides and vitamin C.", img: ritualScene, count: "50+ products" },
-    { name: "Moisturisers & SPF", desc: "Barrier creams, sleeping masks, sheet masks and daily broad-spectrum SPF.", img: skinMacro, count: "55+ products" },
-  ];
-  return (
-    <section className="bg-sand/60">
-      <div className="mx-auto max-w-7xl px-6 py-24">
-        <div className="flex items-end justify-between gap-6">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">The Ranges We Stock</p>
-            <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">Skincare, done properly.</h2>
-          </div>
-          <Link to="/shop" className="hidden text-sm font-medium text-primary underline-grow md:inline">Shop everything →</Link>
-        </div>
-        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {ranges.map((r) => (
-            <Link key={r.name} to="/shop" className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-paper lift">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <img src={r.img} alt={r.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              </div>
-              <div className="flex flex-1 flex-col p-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-display text-2xl text-ink">{r.name}</h3>
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-clay">{r.count}</span>
-                </div>
-                <p className="mt-3 text-sm text-ink/70">{r.desc}</p>
-                <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                  Explore range <span className="transition-transform group-hover:translate-x-1">→</span>
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function BrandMarquee() {
   const brands = [
