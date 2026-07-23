@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { useAuth } from "@/hooks/use-auth";
 import logoAsset from "@/assets/skin-grocer-seal.png.asset.json";
 const logo = logoAsset.url;
 

@@ -16,6 +16,7 @@ import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ClubRouteImport } from './routes/club'
 import { Route as BrandsRouteImport } from './routes/brands'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
@@ -57,6 +58,11 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ClubRoute = ClubRouteImport.update({
+  id: '/club',
+  path: '/club',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BrandsRoute = BrandsRouteImport.update({
   id: '/brands',
   path: '/brands',
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/brands': typeof BrandsRoute
+  '/club': typeof ClubRoute
   '/contact': typeof ContactRoute
   '/journal': typeof JournalRoute
   '/journey': typeof JourneyRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/brands': typeof BrandsRoute
+  '/club': typeof ClubRoute
   '/contact': typeof ContactRoute
   '/journal': typeof JournalRoute
   '/journey': typeof JourneyRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/brands': typeof BrandsRoute
+  '/club': typeof ClubRoute
   '/contact': typeof ContactRoute
   '/journal': typeof JournalRoute
   '/journey': typeof JourneyRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/brands'
+    | '/club'
     | '/contact'
     | '/journal'
     | '/journey'
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/brands'
+    | '/club'
     | '/contact'
     | '/journal'
     | '/journey'
@@ -162,6 +173,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/brands'
+    | '/club'
     | '/contact'
     | '/journal'
     | '/journey'
@@ -177,6 +189,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   BrandsRoute: typeof BrandsRoute
+  ClubRoute: typeof ClubRoute
   ContactRoute: typeof ContactRoute
   JournalRoute: typeof JournalRoute
   JourneyRoute: typeof JourneyRoute
@@ -238,6 +251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/club': {
+      id: '/club'
+      path: '/club'
+      fullPath: '/club'
+      preLoaderRoute: typeof ClubRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/brands': {
       id: '/brands'
       path: '/brands'
@@ -281,6 +301,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   BrandsRoute: BrandsRoute,
+  ClubRoute: ClubRoute,
   ContactRoute: ContactRoute,
   JournalRoute: JournalRoute,
   JourneyRoute: JourneyRoute,
