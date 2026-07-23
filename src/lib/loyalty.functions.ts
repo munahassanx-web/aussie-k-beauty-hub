@@ -28,6 +28,10 @@ export type ClubSummary = {
     amountCents: number;
     currency: string;
     isSubscriptionOrder: boolean;
+    fulfillmentStatus: string;
+    trackingNumber: string | null;
+    pointsEarned: number;
+    pointsRedeemed: number;
     createdAt: string;
   }>;
 };
