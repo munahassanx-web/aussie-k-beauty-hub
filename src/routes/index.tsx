@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useBuyNow } from "@/hooks/use-buy-now";
 import heroKoreanModel from "@/assets/hero-korean-model.jpg";
 import heroVideo from "@/assets/hero-video.mp4.asset.json";
 import productFlatlay from "@/assets/product-flatlay.jpg";
@@ -491,8 +492,10 @@ function Bestsellers() {
 }
 
 function BundleOffer() {
+  const { buy, modal } = useBuyNow();
   const bundles = [
     {
+      priceId: "starter_bundle_onetime",
       tag: "Starter Ritual",
       name: "The Glass Skin Starter",
       desc: "A 4-step intro to Korean skincare — cleanse, hydrate, treat, protect.",
@@ -504,6 +507,7 @@ function BundleOffer() {
       featured: false,
     },
     {
+      priceId: "complete_glow_bundle_onetime",
       tag: "Best Value · Save 25%",
       name: "The Complete Glow Edit",
       desc: "Our most-loved 7-step ritual, advisor-built. A full month of glass-skin results.",
@@ -515,6 +519,7 @@ function BundleOffer() {
       featured: true,
     },
     {
+      priceId: "calm_clear_bundle_onetime",
       tag: "Concern Kit",
       name: "Calm & Clear Bundle",
       desc: "For breakout-prone, sensitive skin. Centella, heartleaf and gentle actives.",
@@ -594,13 +599,14 @@ function BundleOffer() {
                 </div>
 
                 <button
+                  onClick={() => buy({ priceId: b.priceId, name: b.name, priceLabel: `A$${b.price}` })}
                   className={`mt-5 w-full rounded-full py-3.5 text-xs font-semibold uppercase tracking-[0.22em] transition ${
                     b.featured
                       ? "bg-hanbok text-paper hover:bg-hanbok-deep"
                       : "bg-ink text-paper hover:bg-hanbok"
                   }`}
                 >
-                  Add bundle to cart
+                  Buy this bundle
                 </button>
               </div>
             </article>
@@ -611,6 +617,7 @@ function BundleOffer() {
           30-day satisfaction guarantee · Free express shipping · Authenticity card included
         </p>
       </div>
+      {modal}
     </section>
   );
 }

@@ -28,6 +28,10 @@ export type ClubSummary = {
     amountCents: number;
     currency: string;
     isSubscriptionOrder: boolean;
+    fulfillmentStatus: string;
+    trackingNumber: string | null;
+    pointsEarned: number;
+    pointsRedeemed: number;
     createdAt: string;
   }>;
 };
@@ -55,7 +59,7 @@ export const getClubSummary = createServerFn({ method: 'GET' })
           .order('created_at', { ascending: false }),
         supabase
           .from('orders')
-          .select('id, amount_cents, currency, is_subscription_order, created_at')
+          .select('id, amount_cents, currency, is_subscription_order, fulfillment_status, tracking_number, points_earned, points_redeemed, created_at')
           .eq('user_id', userId)
           .order('created_at', { ascending: false })
           .limit(10),
@@ -96,6 +100,10 @@ export const getClubSummary = createServerFn({ method: 'GET' })
         amountCents: o.amount_cents as number,
         currency: o.currency as string,
         isSubscriptionOrder: Boolean(o.is_subscription_order),
+        fulfillmentStatus: (o.fulfillment_status as string) ?? 'processing',
+        trackingNumber: (o.tracking_number as string | null) ?? null,
+        pointsEarned: (o.points_earned as number) ?? 0,
+        pointsRedeemed: (o.points_redeemed as number) ?? 0,
         createdAt: o.created_at as string,
       })),
     };
@@ -188,3 +196,131 @@ export const createBillingPortal = createServerFn({ method: 'POST' })
       return { error: getStripeErrorMessage(error) };
     }
   });
+
+// ------------------------------------------------------------
+// Product / bundle checkout (one-time or subscription).
+// Supports optional points redemption at 100 pts = A$5 off.
+// ------------------------------------------------------------
+
+
+async function resolveOrCreateCustomer(
+  stripe: ReturnType<typeof createStripeClient>,
+  userId: string,
+  email: string | undefined,
+): Promise<string> {
+  if (!/^[a-zA-Z0-9_-]+$/.test(userId)) throw new Error('Invalid userId');
+  const search = await stripe.customers.search({
+    query: `metadata['userId']:'${userId}'`,
+    limit: 1,
+  });
+  if (search.data.length) return search.data[0].id;
+  if (email) {
+    const existing = await stripe.customers.list({ email, limit: 1 });
+    if (existing.data.length) {
+      await stripe.customers.update(existing.data[0].id, {
+        metadata: { ...existing.data[0].metadata, userId },
+      });
+      return existing.data[0].id;
+    }
+  }
+  const created = await stripe.customers.create({
+    ...(email && { email }),
+    metadata: { userId },
+  });
+  return created.id;
+}
+
+export const createProductCheckout = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(
+    (data: {
+      priceId: string;
+      quantity?: number;
+      redeemPoints?: number;
+      returnUrl: string;
+      environment: StripeEnv;
+    }) => {
+      if (!/^[a-z0-9_]+$/.test(data.priceId)) throw new Error('Invalid priceId');
+      if (data.quantity && (data.quantity < 1 || data.quantity > 10)) throw new Error('Invalid quantity');
+      if (data.redeemPoints && data.redeemPoints < 0) throw new Error('Invalid redeemPoints');
+      return data;
+    },
+  )
+  .handler(async ({ data, context }): Promise<CheckoutResult> => {
+    try {
+      const { supabase, userId } = context;
+      const { data: userRes } = await supabase.auth.getUser();
+      const email = userRes.user?.email ?? undefined;
+
+      // Validate redemption against live balance (100 pts = $5 off, max 100% of order)
+      let redeemPoints = 0;
+      let discountCents = 0;
+      if (data.redeemPoints && data.redeemPoints >= 100) {
+        const { data: ledger } = await supabase
+          .from('points_ledger')
+          .select('delta')
+          .eq('user_id', userId);
+        const balance = (ledger ?? []).reduce((sum, row) => sum + (row.delta as number), 0);
+        redeemPoints = Math.min(data.redeemPoints, balance);
+        redeemPoints = Math.floor(redeemPoints / 100) * 100; // round down to 100s
+        discountCents = (redeemPoints / 100) * 500; // A$5 per 100 points
+      }
+
+      const stripe = createStripeClient(data.environment);
+      const prices = await stripe.prices.list({ lookup_keys: [data.priceId] });
+      if (!prices.data.length) return { error: 'Price not found' };
+      const price = prices.data[0];
+      const isRecurring = price.type === 'recurring';
+      const quantity = data.quantity ?? 1;
+
+      const customerId = await resolveOrCreateCustomer(stripe, userId, email);
+
+      // Points redemption applied via a one-off Stripe coupon
+      const discounts: { coupon: string }[] = [];
+      if (discountCents > 0) {
+        // Cap coupon at unit_amount * quantity so it can't exceed order total
+        const orderCents = (price.unit_amount ?? 0) * quantity;
+        const cappedDiscount = Math.min(discountCents, orderCents);
+        if (cappedDiscount > 0) {
+          const coupon = await stripe.coupons.create({
+            amount_off: cappedDiscount,
+            currency: price.currency,
+            duration: 'once',
+            name: `${redeemPoints} points reward`,
+            metadata: { userId, pointsRedeemed: String(redeemPoints) },
+          });
+          discounts.push({ coupon: coupon.id });
+        }
+      }
+
+      // Resolve product name for dashboard descriptor (one-off only)
+      let description: string | undefined;
+      if (!isRecurring) {
+        const productId = typeof price.product === 'string' ? price.product : price.product.id;
+        const product = await stripe.products.retrieve(productId);
+        description = product.name;
+      }
+
+      const session = await stripe.checkout.sessions.create({
+        line_items: [{ price: price.id, quantity }],
+        mode: isRecurring ? 'subscription' : 'payment',
+        ui_mode: 'embedded_page',
+        return_url: data.returnUrl,
+        customer: customerId,
+        ...(discounts.length && !isRecurring && { discounts }),
+        ...(discounts.length && isRecurring && { subscription_data: { metadata: { userId }, discounts } as any }),
+        ...(!discounts.length && isRecurring && { subscription_data: { metadata: { userId } } }),
+        ...(!isRecurring && { payment_intent_data: { description } }),
+        metadata: {
+          userId,
+          priceId: data.priceId,
+          pointsRedeemed: String(redeemPoints),
+        },
+      });
+
+      return { clientSecret: session.client_secret ?? '' };
+    } catch (error) {
+      return { error: getStripeErrorMessage(error) };
+    }
+  });
+

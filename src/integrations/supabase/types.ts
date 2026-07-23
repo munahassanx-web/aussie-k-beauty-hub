@@ -43,36 +43,54 @@ export type Database = {
           amount_cents: number
           created_at: string
           currency: string
+          discount_cents: number
           environment: string
+          fulfillment_status: string
           id: string
           is_subscription_order: boolean
+          line_items: Json | null
+          points_earned: number
+          points_redeemed: number
           status: string
           stripe_payment_intent_id: string | null
           stripe_session_id: string | null
+          tracking_number: string | null
           user_id: string | null
         }
         Insert: {
           amount_cents: number
           created_at?: string
           currency?: string
+          discount_cents?: number
           environment?: string
+          fulfillment_status?: string
           id?: string
           is_subscription_order?: boolean
+          line_items?: Json | null
+          points_earned?: number
+          points_redeemed?: number
           status?: string
           stripe_payment_intent_id?: string | null
           stripe_session_id?: string | null
+          tracking_number?: string | null
           user_id?: string | null
         }
         Update: {
           amount_cents?: number
           created_at?: string
           currency?: string
+          discount_cents?: number
           environment?: string
+          fulfillment_status?: string
           id?: string
           is_subscription_order?: boolean
+          line_items?: Json | null
+          points_earned?: number
+          points_redeemed?: number
           status?: string
           stripe_payment_intent_id?: string | null
           stripe_session_id?: string | null
+          tracking_number?: string | null
           user_id?: string | null
         }
         Relationships: []

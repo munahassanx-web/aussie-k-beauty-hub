@@ -11,7 +11,16 @@ function getSupabase(): any {
 }
 
 const CIRCLE_PRICE_IDS = new Set(['circle_monthly', 'circle_yearly']);
-const RESTOCK_PRICE_IDS = new Set<string>(); // add product SKU ids when subscribed products exist
+// Products offered as Restock subscriptions (routine staples only)
+const RESTOCK_PRICE_IDS = new Set<string>([
+  'snail_essence_sub',
+  'centella_toner_sub',
+  'vitc_serum_sub',
+  'rice_cleanser_sub',
+  'relief_sun_sub',
+  'cica_cream_sub',
+  'heartleaf_ampoule_sub',
+]);
 
 function resolvePriceLookup(price: any): string | null {
   return price?.lookup_key || price?.metadata?.lovable_external_id || price?.id || null;
@@ -100,44 +109,21 @@ async function recomputeMembership(userId: string) {
 }
 
 async function handleTransactionCompleted(txn: any, env: StripeEnv) {
-  // Payments platform sends a transaction event. Extract fields defensively.
   const userId = txn.metadata?.userId || txn.customer_metadata?.userId || txn.subscription?.metadata?.userId;
   const amountCents = txn.amount_total ?? txn.amount ?? txn.amount_paid ?? 0;
   const currency = (txn.currency ?? 'aud').toLowerCase();
   const sessionId = txn.checkout_session_id ?? txn.session_id ?? txn.id;
   const paymentIntentId = txn.payment_intent_id ?? txn.payment_intent ?? null;
   const isSubscription = Boolean(txn.subscription_id || txn.subscription || txn.mode === 'subscription');
+  const pointsRedeemed = Number(txn.metadata?.pointsRedeemed ?? 0) || 0;
+  const discountCents = Number(txn.total_details?.amount_discount ?? txn.discount_amount ?? 0) || 0;
 
   if (!userId || !amountCents) {
-    console.log('transaction.completed skipped — missing userId or amount', { userId, amountCents });
+    console.log('transaction.completed skipped', { userId, amountCents });
     return;
   }
 
   const supabase = getSupabase();
-
-  // Insert order (idempotent by session/pi id)
-  const { data: order, error: orderErr } = await supabase
-    .from('orders')
-    .upsert(
-      {
-        user_id: userId,
-        stripe_session_id: sessionId,
-        stripe_payment_intent_id: paymentIntentId,
-        amount_cents: amountCents,
-        currency,
-        is_subscription_order: isSubscription,
-        environment: env,
-        status: 'paid',
-      },
-      { onConflict: 'stripe_session_id' },
-    )
-    .select('id')
-    .single();
-
-  if (orderErr || !order) {
-    console.error('order upsert failed', orderErr);
-    return;
-  }
 
   // Award points based on current membership tier
   const { data: membership } = await supabase
@@ -151,17 +137,53 @@ async function handleTransactionCompleted(txn: any, env: StripeEnv) {
   let multiplier = 1;
   if (tier === 'circle') multiplier = 2;
   else if (tier === 'restock' && isSubscription) multiplier = 1.5;
-
   const pointsEarned = Math.floor(dollars * multiplier);
 
+  // Insert order (idempotent by session id)
+  const { data: order, error: orderErr } = await supabase
+    .from('orders')
+    .upsert(
+      {
+        user_id: userId,
+        stripe_session_id: sessionId,
+        stripe_payment_intent_id: paymentIntentId,
+        amount_cents: amountCents,
+        currency,
+        is_subscription_order: isSubscription,
+        environment: env,
+        status: 'paid',
+        fulfillment_status: 'processing',
+        points_earned: pointsEarned,
+        points_redeemed: pointsRedeemed,
+        discount_cents: discountCents,
+      },
+      { onConflict: 'stripe_session_id' },
+    )
+    .select('id')
+    .single();
+
+  if (orderErr || !order) {
+    console.error('order upsert failed', orderErr);
+    return;
+  }
+
   if (pointsEarned > 0) {
-    // Unique index on (order_id) where reason='order_earn' makes this idempotent
     await supabase.from('points_ledger').insert({
       user_id: userId,
       delta: pointsEarned,
       reason: 'order_earn',
       order_id: order.id,
       metadata: { tier, multiplier, is_subscription: isSubscription },
+    });
+  }
+
+  if (pointsRedeemed > 0) {
+    await supabase.from('points_ledger').insert({
+      user_id: userId,
+      delta: -pointsRedeemed,
+      reason: 'redeem',
+      order_id: order.id,
+      metadata: { discount_cents: discountCents },
     });
   }
 }
