@@ -175,11 +175,12 @@ export function SiteHeader() {
               <SearchIcon />
             </button>
             <Link
-              to="/contact"
-              aria-label="Account"
-              className="hidden h-9 w-9 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary md:flex"
+              to={user ? "/club" : "/auth"}
+              aria-label={user ? "Your account" : "Sign in"}
+              className="hidden items-center gap-2 rounded-full border border-border px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/80 hover:border-primary hover:text-primary md:inline-flex"
             >
               <UserIcon />
+              {user ? "Club" : "Sign in"}
             </Link>
             <button
               aria-label="Bag"
