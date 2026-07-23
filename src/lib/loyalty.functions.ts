@@ -323,8 +323,4 @@ export const createProductCheckout = createServerFn({ method: 'POST' })
       return { error: getStripeErrorMessage(error) };
     }
   });
-      return { url: portal.url };
-    } catch (error) {
-      return { error: getStripeErrorMessage(error) };
-    }
-  });
+
