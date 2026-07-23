@@ -276,31 +276,32 @@ function Hero() {
           className="h-full w-full object-cover"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-transparent to-ink/55" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/35 via-ink/20 to-ink/65" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col items-center justify-between px-6 py-12 text-center">
-        {/* Top: brand wordmark */}
-        <div className="flex w-full flex-col items-center pt-6">
+      <div className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col items-center justify-center px-6 py-12 text-center">
+        <div className="flex max-w-3xl flex-col items-center gap-5">
           <span className="text-[10px] font-medium uppercase tracking-[0.4em] text-paper/75">
             Melbourne · Est. by skin nerds
           </span>
-          <h1 className="mt-4 font-display text-6xl leading-none text-paper md:text-[8.5rem] lg:text-[10rem]">
+
+          <h1 className="font-display text-7xl leading-[0.9] text-paper md:text-[8.5rem] lg:text-[10rem]">
             skin grocer
           </h1>
-        </div>
 
-        {/* Bottom: minimal tagline + single CTA */}
-        <div className="flex w-full flex-col items-center gap-6 pb-4">
-          <p className="max-w-lg text-base leading-relaxed text-paper/90 md:text-lg">
-            Most skincare advice is built for someone else's climate — not yours.
-          </p>
-          <p className="max-w-md text-xs uppercase tracking-[0.2em] text-paper/60">
-            Korean skincare, curated and delivered for Australian skin.
-          </p>
+          <div className="mt-4 flex flex-col items-center gap-3">
+            <p className="max-w-xl font-display text-2xl leading-snug text-paper/95 md:text-3xl lg:text-4xl">
+              Most skincare advice is built for someone else's climate —{" "}
+              <span className="italic text-accent">not yours.</span>
+            </p>
+            <p className="max-w-md text-xs uppercase tracking-[0.22em] text-paper/60">
+              Korean skincare, curated and delivered for Australian skin.
+            </p>
+          </div>
+
           <Link
             to="/shop"
-            className="group inline-flex items-center gap-3 rounded-full bg-paper px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-ink transition hover:bg-accent"
+            className="group mt-4 inline-flex items-center gap-3 rounded-full bg-paper px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-ink transition hover:bg-accent"
           >
             Shop now
             <span className="transition-transform group-hover:translate-x-1">→</span>
