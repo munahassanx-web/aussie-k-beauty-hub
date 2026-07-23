@@ -190,12 +190,18 @@ export const createBillingPortal = createServerFn({ method: 'POST' })
       const portal = await stripe.billingPortal.sessions.create({
         customer: sub.stripe_customer_id as string,
         return_url: data.returnUrl,
+      });
+      return { url: portal.url };
+    } catch (error) {
+      return { error: getStripeErrorMessage(error) };
+    }
   });
 
 // ------------------------------------------------------------
 // Product / bundle checkout (one-time or subscription).
 // Supports optional points redemption at 100 pts = A$5 off.
 // ------------------------------------------------------------
+
 
 async function resolveOrCreateCustomer(
   stripe: ReturnType<typeof createStripeClient>,
