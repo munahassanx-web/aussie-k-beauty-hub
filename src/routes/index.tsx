@@ -259,13 +259,22 @@ function Hero() {
             </p>
           </div>
 
-          <Link
-            to="/shop"
-            className="group mt-4 inline-flex items-center gap-3 rounded-full bg-paper px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-ink transition hover:bg-accent"
-          >
-            Shop now
-            <span className="transition-transform group-hover:translate-x-1">→</span>
-          </Link>
+          <div className="mt-4 flex flex-col items-center gap-3 sm:flex-row">
+            <Link
+              to="/shop"
+              className="group inline-flex items-center gap-3 rounded-full bg-paper px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-ink transition hover:bg-accent"
+            >
+              Shop now
+              <span className="transition-transform group-hover:translate-x-1">→</span>
+            </Link>
+            <Link
+              to="/consultation"
+              className="group inline-flex items-center gap-3 rounded-full border border-paper/40 px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-paper transition hover:border-paper hover:bg-paper hover:text-ink"
+            >
+              Take the 2-minute skin quiz
+              <span className="transition-transform group-hover:translate-x-1">→</span>
+            </Link>
+          </div>
         </div>
       </div>
 
