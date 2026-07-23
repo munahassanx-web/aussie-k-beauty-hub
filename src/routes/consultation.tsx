@@ -139,15 +139,6 @@ const DEPTHS: Record<string, { title: string; hint: string; steps: number }> = {
 
 type StepKey = "cleanse" | "tone" | "treat" | "essence" | "moisturise" | "mask" | "protect";
 
-type Product = {
-  id: string;
-  name: string;
-  step: StepKey;
-  skinTypes: string[];
-  concerns: string[];
-  zones: (ZoneKey | "any")[];
-  sensitiveOk: boolean;
-};
 
 type Product = {
   id: string;
