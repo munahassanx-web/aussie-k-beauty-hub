@@ -87,7 +87,11 @@ function Shop() {
     });
   }, [category, brand, concern]);
 
+  const activeLabels = [
+    brand ? { label: `Brand: ${brand}`, clear: { brand: undefined } } : null,
+    concern ? { label: `Concern: ${concern}`, clear: { concern: undefined } } : null,
   ].filter(Boolean) as { label: string; clear: Record<string, undefined> }[];
+
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-16">
