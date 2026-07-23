@@ -25,14 +25,15 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const categories = [
-  { name: "Cleansers", count: "32 products", img: textureMacro },
-  { name: "Toners & Essences", count: "28 products", img: ritualScene },
-  { name: "Serums", count: "41 products", img: productFlatlay },
-  { name: "Moisturisers", count: "26 products", img: brandSpotlight },
-  { name: "SPF", count: "18 products", img: skinMacro },
-  { name: "Masks", count: "22 products", img: categoryMasks },
+const categories: { name: string; count: string; img: string; search: { category: "cleanse" | "tone" | "treat" | "moisturise" | "protect" | "masks" } }[] = [
+  { name: "Cleansers", count: "Melt & rinse", img: textureMacro, search: { category: "cleanse" } },
+  { name: "Toners & Essences", count: "Prep & hydrate", img: ritualScene, search: { category: "tone" } },
+  { name: "Serums", count: "Treat & target", img: productFlatlay, search: { category: "treat" } },
+  { name: "Moisturisers", count: "Seal & protect", img: brandSpotlight, search: { category: "moisturise" } },
+  { name: "SPF", count: "Everyday defence", img: skinMacro, search: { category: "protect" } },
+  { name: "Masks", count: "Weekly rituals", img: categoryMasks, search: { category: "masks" } },
 ];
+
 
 const concerns: { name: string; desc: string; color: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" }[] = [
   { name: "Hydration & Glow", desc: "Plump, dewy, glass-skin finish", color: "from-hanbok/15", slug: "hydration" },
@@ -343,8 +344,10 @@ function Categories() {
           <Link
             key={c.name}
             to="/shop"
+            search={c.search}
             className="group relative aspect-[3/4] overflow-hidden rounded-2xl bg-secondary lift"
           >
+
             <img
               src={c.img}
               alt={c.name}
