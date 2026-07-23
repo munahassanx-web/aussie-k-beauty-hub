@@ -87,10 +87,10 @@ const megaMenus: Record<string, MegaSection[]> = {
     {
       heading: "Skin Journal",
       links: [
-        { label: "Ingredient Guides", to: "/journal" },
-        { label: "Routine Building", to: "/journey" },
-        { label: "Korean Skincare 101", to: "/journal" },
-        { label: "Sunscreen in Australia", to: "/journal" },
+        { label: "Ingredient Guides", to: "/journal/snail-mucin-why-your-skin-loves-it" },
+        { label: "Routine Building", to: "/journal/the-10-step-routine-demystified" },
+        { label: "Korean Skincare 101", to: "/journal/centella-vs-heartleaf" },
+        { label: "Sunscreen in Australia", to: "/journal/sunscreen-every-single-day" },
       ],
     },
     {
