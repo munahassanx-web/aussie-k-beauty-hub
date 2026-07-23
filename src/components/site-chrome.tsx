@@ -4,9 +4,10 @@ import { useAuth } from "@/hooks/use-auth";
 import logoAsset from "@/assets/skin-grocer-seal.png.asset.json";
 const logo = logoAsset.url;
 
+type MegaLink = { label: string; to: string; search?: Record<string, string> };
 type MegaSection = {
   heading: string;
-  links: { label: string; to: string }[];
+  links: MegaLink[];
 };
 
 const megaMenus: Record<string, MegaSection[]> = {
@@ -14,12 +15,12 @@ const megaMenus: Record<string, MegaSection[]> = {
     {
       heading: "By Category",
       links: [
-        { label: "Cleansers", to: "/shop" },
-        { label: "Toners & Essences", to: "/shop" },
-        { label: "Serums & Ampoules", to: "/shop" },
-        { label: "Moisturisers", to: "/shop" },
-        { label: "Masks & Treatments", to: "/shop" },
-        { label: "Sun Protection", to: "/shop" },
+        { label: "Cleansers", to: "/shop", search: { category: "cleanse" } },
+        { label: "Toners & Essences", to: "/shop", search: { category: "tone" } },
+        { label: "Serums & Ampoules", to: "/shop", search: { category: "treat" } },
+        { label: "Moisturisers", to: "/shop", search: { category: "moisturise" } },
+        { label: "Masks & Treatments", to: "/shop", search: { category: "masks" } },
+        { label: "Sun Protection", to: "/shop", search: { category: "protect" } },
       ],
     },
     {
@@ -28,7 +29,7 @@ const megaMenus: Record<string, MegaSection[]> = {
         { label: "AM Routine", to: "/journey" },
         { label: "PM Routine", to: "/journey" },
         { label: "Weekly Rituals", to: "/journey" },
-        { label: "Travel Edits", to: "/shop" },
+        { label: "Build Mine (Quiz)", to: "/consultation" },
       ],
     },
     {
@@ -36,8 +37,8 @@ const megaMenus: Record<string, MegaSection[]> = {
       links: [
         { label: "Bestsellers", to: "/shop" },
         { label: "New Arrivals", to: "/shop" },
-        { label: "Subscribe & Save", to: "/shop" },
-        { label: "Bundles", to: "/shop" },
+        { label: "Subscribe & Save", to: "/club" },
+        { label: "Bundles", to: "/" },
       ],
     },
   ],
@@ -45,19 +46,19 @@ const megaMenus: Record<string, MegaSection[]> = {
     {
       heading: "Skin Goals",
       links: [
-        { label: "Hydration & Glow", to: "/skin-concerns" },
-        { label: "Acne & Breakouts", to: "/skin-concerns" },
-        { label: "Pigmentation", to: "/skin-concerns" },
-        { label: "Sensitivity & Redness", to: "/skin-concerns" },
-        { label: "Anti-Ageing", to: "/skin-concerns" },
-        { label: "Barrier Repair", to: "/skin-concerns" },
+        { label: "Hydration & Glow", to: "/shop", search: { concern: "hydration" } },
+        { label: "Acne & Breakouts", to: "/shop", search: { concern: "acne" } },
+        { label: "Pigmentation", to: "/shop", search: { concern: "pigmentation" } },
+        { label: "Sensitivity & Redness", to: "/shop", search: { concern: "sensitivity" } },
+        { label: "Anti-Ageing", to: "/shop", search: { concern: "anti-aging" } },
+        { label: "Barrier Repair", to: "/shop", search: { concern: "barrier" } },
       ],
     },
     {
       heading: "Find Your Routine",
       links: [
         { label: "Take the Routine Consultation", to: "/consultation" },
-        { label: "Ingredient Finder", to: "/journal" },
+        { label: "Ingredient Finder", to: "/journal/snail-mucin-why-your-skin-loves-it" },
         { label: "Talk to an Advisor", to: "/contact" },
       ],
     },
@@ -66,19 +67,19 @@ const megaMenus: Record<string, MegaSection[]> = {
     {
       heading: "K-Beauty Icons",
       links: [
-        { label: "COSRX", to: "/brands" },
-        { label: "Beauty of Joseon", to: "/brands" },
-        { label: "Anua", to: "/brands" },
-        { label: "Round Lab", to: "/brands" },
-        { label: "Skin1004", to: "/brands" },
+        { label: "COSRX", to: "/shop", search: { brand: "COSRX" } },
+        { label: "Beauty of Joseon", to: "/shop", search: { brand: "Beauty of Joseon" } },
+        { label: "Anua", to: "/shop", search: { brand: "Anua" } },
+        { label: "SKIN1004", to: "/shop", search: { brand: "SKIN1004" } },
+        { label: "Numbuzin", to: "/shop", search: { brand: "Numbuzin" } },
       ],
     },
     {
       heading: "Premium Imports",
       links: [
-        { label: "Sulwhasoo", to: "/brands" },
-        { label: "Hera", to: "/brands" },
-        { label: "Tirtir", to: "/brands" },
+        { label: "Abib", to: "/shop", search: { brand: "Abib" } },
+        { label: "Mediheal", to: "/shop", search: { brand: "Mediheal" } },
+        { label: "Some By Mi", to: "/shop", search: { brand: "Some By Mi" } },
         { label: "View All Brands", to: "/brands" },
       ],
     },
@@ -89,8 +90,10 @@ const megaMenus: Record<string, MegaSection[]> = {
       links: [
         { label: "Ingredient Guides", to: "/journal/snail-mucin-why-your-skin-loves-it" },
         { label: "Routine Building", to: "/journal/the-10-step-routine-demystified" },
-        { label: "Korean Skincare 101", to: "/journal/centella-vs-heartleaf" },
+        { label: "Centella vs Heartleaf", to: "/journal/centella-vs-heartleaf" },
         { label: "Sunscreen in Australia", to: "/journal/sunscreen-every-single-day" },
+        { label: "Barrier-First Routine", to: "/journal/building-a-barrier-first-routine" },
+        { label: "Layering Serums", to: "/journal/layering-serums-without-pilling" },
       ],
     },
     {
@@ -99,11 +102,12 @@ const megaMenus: Record<string, MegaSection[]> = {
         { label: "Our Story", to: "/about" },
         { label: "Authenticity Promise", to: "/about" },
         { label: "Reviews", to: "/reviews" },
-        { label: "Vending Partnerships", to: "/contact" },
+        { label: "Contact / Vending", to: "/contact" },
       ],
     },
   ],
 };
+
 
 const announcements = [
   "Next-day Melbourne dispatch on orders before 2pm",
