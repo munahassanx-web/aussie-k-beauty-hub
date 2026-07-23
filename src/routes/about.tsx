@@ -1,13 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import glow from "@/assets/glow.jpg";
+import ourStoryAsset from "@/assets/our-story.jpg.asset.json";
+const ourStory = ourStoryAsset.url;
 
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About — Skin Grocer" },
-      { name: "description", content: "Skin Grocer is an Australian-owned team dedicated to authentic, clean and affordable Korean skincare — stocked locally, delivered next-day." },
+      { name: "description", content: "Skin Grocer was started by a Melbourne mum who struggled to find authentic, accessible Korean skincare. Locally stocked, honestly guided, delivered next-day across Australia." },
       { property: "og:title", content: "About — Skin Grocer" },
-      { property: "og:description", content: "An Australian team obsessed with authentic K-beauty." },
+      { property: "og:description", content: "Melbourne-based K-beauty, founded by a mum who made skincare simpler for every Australian woman." },
       { property: "og:url", content: "/about" },
     ],
     links: [{ rel: "canonical", href: "/about" }],
@@ -20,34 +21,41 @@ function About() {
     <>
       <section className="mx-auto max-w-4xl px-6 py-20 text-center">
         <p className="text-xs uppercase tracking-[0.2em] text-primary">Our story</p>
-        <h1 className="mt-4 text-5xl text-foreground md:text-7xl">A grocer's approach <em className="not-italic text-primary">to skincare.</em></h1>
+        <h1 className="mt-4 text-5xl text-foreground md:text-7xl">
+          Skincare that fits <em className="not-italic text-primary">real life.</em>
+        </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-          We treat skincare like the corner grocer treats produce — pick the best,
-          stock it fresh, know it inside out, and pass on a fair price.
+          Founded by a Melbourne mum who was tired of fakes, foreign shipping fees,
+          and guessing what actually worked. Skin Grocer was built for every woman
+          who wants a simple, trusted routine without the mall run.
         </p>
       </section>
 
       <section className="mx-auto grid max-w-7xl items-center gap-14 px-6 pb-24 md:grid-cols-2">
-        <img src={glow} alt="Glowing skin close-up" loading="lazy" width={1200} height={1400} className="aspect-[4/5] w-full rounded-[2rem] object-cover" />
+        <img
+          src={ourStory}
+          alt="A woman at home applying moisturiser"
+          loading="lazy"
+          width={1200}
+          height={1400}
+          className="aspect-[4/5] w-full rounded-[2rem] object-cover"
+        />
         <div className="space-y-5 text-muted-foreground">
           <p className="text-lg">
-            Skin Grocer is a proudly <span className="font-medium text-foreground">Australian owned and operated</span> skincare destination,
-            built by a small team who fell in love with Korean skincare and were
-            tired of paying triple the price — or rolling the dice on knock-offs.
+            Skin Grocer started at a kitchen table in Melbourne. As a stay-at-home mum, I found it hard to get my hands on
+            <span className="font-medium text-foreground"> authentic K-beauty</span>.
+            The good brands were overseas, the local shelves were limited, and ordering online meant currency fees, long waits, and the risk of knock-offs.
           </p>
           <p>
-            We work directly with verified brand partners in Korea, Japan and a
-            handful of other premium markets, then warehouse everything locally in
-            Sydney. That means three things you can count on: <span className="font-medium text-foreground">authenticity</span>,
-            <span className="font-medium text-foreground"> affordability</span>, and
-            <span className="font-medium text-foreground"> next-day delivery</span>.
+            I was not especially tech-savvy, and neither were most of my friends. We just wanted a reliable place to buy the skincare we kept hearing about — and someone to tell us
+            <span className="font-medium text-foreground"> how and when to use it</span>,
+            in a language that made sense for our skin and our climate.
           </p>
           <p>
-            And because skincare can be overwhelming, we don't just sell you a
-            bottle and disappear. Every product ships with clear application
-            guidance, and our team is on hand to help you build a ritual that
-            actually fits your skin — from the very first cleanse to the final
-            layer of SPF.
+            So I built exactly that. A small, Melbourne-based team that sources real Korean skincare directly from verified brand partners, warehouses it locally, and answers every question like we are talking over a cup of tea. No call centres, no confusing routines, no inflated prices.
+          </p>
+          <p>
+            Today we are focused on bringing the Korean products the Australian market has not seen yet — the gentle, results-driven formulas that work for busy mums, working women, and anyone who does not have time to wander a shopping mall. Because great skin should not be a part-time job.
           </p>
         </div>
       </section>
@@ -57,12 +65,12 @@ function About() {
           <h2 className="text-4xl text-foreground md:text-5xl">What we stand for</h2>
           <div className="mt-12 grid gap-8 md:grid-cols-3">
             {[
-              { n: "01", t: "Authenticity, always", d: "Direct partnerships only. No grey-market, no guesswork." },
-              { n: "02", t: "Fair, honest pricing", d: "We cut the import middlemen so you don't pay tourist tax." },
-              { n: "03", t: "Service that stays", d: "We guide your routine long after the parcel lands." },
-              { n: "04", t: "Locally stocked", d: "Every product warehoused in Sydney, ready to ship today." },
-              { n: "05", t: "Clean by default", d: "We vet ingredient lists before anything earns a shelf." },
-              { n: "06", t: "Community first", d: "A small Aussie team that answers every message." },
+              { n: "01", t: "Authenticity, always", d: "Direct brand partnerships. Every product is the real thing, no grey-market copies." },
+              { n: "02", t: "Built by a mum, for mums", d: "Simple routines, clear guidance, and a team that understands real schedules." },
+              { n: "03", t: "Locally stocked", d: "Everything is warehoused in Melbourne, so orders ship fast — no overseas waits." },
+              { n: "04", t: "Honest guidance", d: "We explain how to use each product and why it suits your skin." },
+              { n: "05", t: "Fair local pricing", d: "No surprise currency fees or inflated import mark-ups. Just Australian prices." },
+              { n: "06", t: "Community first", d: "A small team that reads and replies to every message personally." },
             ].map((v) => (
               <div key={v.n} className="rounded-3xl bg-background p-8">
                 <p className="font-display text-3xl text-accent">{v.n}</p>
@@ -75,11 +83,11 @@ function About() {
       </section>
 
       <section className="mx-auto max-w-3xl px-6 py-24 text-center">
-        <h2 className="text-4xl text-foreground md:text-5xl">Ready to glow?</h2>
-        <p className="mt-4 text-muted-foreground">Browse the shelves or let us build your routine.</p>
+        <h2 className="text-4xl text-foreground md:text-5xl">Ready to simplify your routine?</h2>
+        <p className="mt-4 text-muted-foreground">Shop the edit or take the quiz for a personalised ritual.</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link to="/shop" className="rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">Shop the edit</Link>
-          <Link to="/journey" className="rounded-full border border-foreground/20 px-7 py-3 text-sm font-medium hover:bg-foreground/5">Start your journey</Link>
+          <Link to="/consultation" className="rounded-full border border-foreground/20 px-7 py-3 text-sm font-medium hover:bg-foreground/5">Take the skin quiz</Link>
         </div>
       </section>
     </>
