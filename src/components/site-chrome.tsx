@@ -159,11 +159,12 @@ export function SiteHeader() {
 
           <nav className="hidden items-center gap-8 lg:flex">
             {Object.keys(megaMenus).map((key) => (
-              <Link
+              <button
                 key={key}
-                to={topLevelLinks[key].to}
+                type="button"
                 onMouseEnter={() => setOpenMenu(key)}
                 onFocus={() => setOpenMenu(key)}
+                onClick={() => setOpenMenu(openMenu === key ? null : key)}
                 aria-expanded={openMenu === key}
                 className={`relative py-2 text-[13px] font-medium uppercase tracking-[0.16em] transition-colors ${
                   openMenu === key ? "text-primary" : "text-foreground/75 hover:text-primary"
@@ -175,7 +176,7 @@ export function SiteHeader() {
                     openMenu === key ? "w-full" : "w-0"
                   }`}
                 />
-              </Link>
+              </button>
             ))}
             <Link
               to="/journal"
@@ -227,7 +228,7 @@ export function SiteHeader() {
         {/* Mega panel */}
         {openMenu && megaMenus[openMenu] && (
           <div
-            className="absolute left-0 right-0 hidden border-t border-border/60 bg-background/98 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.18)] backdrop-blur-md lg:block"
+            className="absolute left-0 right-0 z-50 hidden border-t border-border/60 bg-background shadow-[0_30px_60px_-30px_rgba(0,0,0,0.18)] backdrop-blur-md lg:block"
             onMouseEnter={() => setOpenMenu(openMenu)}
           >
             <div className="mx-auto grid max-w-7xl gap-12 px-6 py-10 md:grid-cols-4">
