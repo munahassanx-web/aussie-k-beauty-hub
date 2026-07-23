@@ -1,5 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { useBuyNow } from "@/hooks/use-buy-now";
+import maskMedihealSheet from "@/assets/mask-mediheal-sheet.jpg";
+import maskDynastyCream from "@/assets/mask-dynasty-cream.jpg";
+import maskNumbuzinEye from "@/assets/mask-numbuzin-eye.jpg";
+import maskSomeByMiClay from "@/assets/mask-somebymi-clay.jpg";
+import maskAbibSleeping from "@/assets/mask-abib-sleeping.jpg";
+import maskAnuaHeartleaf from "@/assets/mask-anua-heartleaf.jpg";
+import maskSkin1004Centella from "@/assets/mask-skin1004-centella.jpg";
+import productSnail from "@/assets/product-snail-essence.jpg";
+import productCentellaToner from "@/assets/product-centella-toner.jpg";
+import productVitC from "@/assets/product-vitc-serum.jpg";
+import productRice from "@/assets/product-rice-cleanser.jpg";
+import productReliefSun from "@/assets/product-relief-sun.jpg";
+import productCicaCream from "@/assets/product-cica-cream.jpg";
+import productHeartleaf from "@/assets/product-heartleaf-ampoule.jpg";
 
 export const Route = createFileRoute("/consultation")({
   head: () => ({
