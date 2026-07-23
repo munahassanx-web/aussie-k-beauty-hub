@@ -100,6 +100,10 @@ export const getClubSummary = createServerFn({ method: 'GET' })
         amountCents: o.amount_cents as number,
         currency: o.currency as string,
         isSubscriptionOrder: Boolean(o.is_subscription_order),
+        fulfillmentStatus: (o.fulfillment_status as string) ?? 'processing',
+        trackingNumber: (o.tracking_number as string | null) ?? null,
+        pointsEarned: (o.points_earned as number) ?? 0,
+        pointsRedeemed: (o.points_redeemed as number) ?? 0,
         createdAt: o.created_at as string,
       })),
     };
