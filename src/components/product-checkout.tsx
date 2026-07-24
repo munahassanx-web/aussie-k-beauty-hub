@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
 import { getStripe, getStripeEnvironment } from '@/lib/stripe';
 import { createProductCheckout } from '@/lib/loyalty.functions';
+import { ProductIngredients } from '@/components/product-ingredients';
 
 export type ProductCheckoutOptions = {
   priceId: string;
