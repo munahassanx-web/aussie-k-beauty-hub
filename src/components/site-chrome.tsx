@@ -14,7 +14,7 @@ const topLevelLinks: Record<string, MegaLink> = {
   Shop: { label: "Shop", to: "/shop" },
   Concerns: { label: "Concerns", to: "/skin-concerns" },
   Brands: { label: "Brands", to: "/brands" },
-  Learn: { label: "Learn", to: "/journal" },
+  Journal: { label: "Journal", to: "/journal" },
 };
 
 const megaMenus: Record<string, MegaSection[]> = {
@@ -65,7 +65,7 @@ const megaMenus: Record<string, MegaSection[]> = {
       heading: "Find Your Routine",
       links: [
         { label: "Take the Routine Consultation", to: "/consultation" },
-        { label: "Ingredient Finder", to: "/journal/snail-mucin-why-your-skin-loves-it" },
+        { label: "Ingredient Finder", to: "/learn/snail-mucin" },
         { label: "Talk to an Advisor", to: "/contact" },
       ],
     },
@@ -91,7 +91,7 @@ const megaMenus: Record<string, MegaSection[]> = {
       ],
     },
   ],
-  Learn: [
+  Journal: [
     {
       heading: "Skin Journal",
       links: [
