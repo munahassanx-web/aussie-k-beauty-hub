@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      ingredients: {
+        Row: {
+          avoid_if: string[]
+          category: string
+          created_at: string
+          good_for: string[]
+          id: string
+          name_chinese: string | null
+          name_english: string
+          name_korean: string | null
+          updated_at: string
+          what_it_does: string
+        }
+        Insert: {
+          avoid_if?: string[]
+          category: string
+          created_at?: string
+          good_for?: string[]
+          id?: string
+          name_chinese?: string | null
+          name_english: string
+          name_korean?: string | null
+          updated_at?: string
+          what_it_does: string
+        }
+        Update: {
+          avoid_if?: string[]
+          category?: string
+          created_at?: string
+          good_for?: string[]
+          id?: string
+          name_chinese?: string | null
+          name_english?: string
+          name_korean?: string | null
+          updated_at?: string
+          what_it_does?: string
+        }
+        Relationships: []
+      }
       memberships: {
         Row: {
           circle_since: string | null
@@ -129,6 +168,38 @@ export type Database = {
             columns: ["order_id"]
             isOneToOne: false
             referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_ingredients: {
+        Row: {
+          created_at: string
+          id: string
+          ingredient_id: string
+          is_hero_ingredient: boolean
+          product_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ingredient_id: string
+          is_hero_ingredient?: boolean
+          product_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ingredient_id?: string
+          is_hero_ingredient?: boolean
+          product_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_ingredients_ingredient_id_fkey"
+            columns: ["ingredient_id"]
+            isOneToOne: false
+            referencedRelation: "ingredients"
             referencedColumns: ["id"]
           },
         ]
