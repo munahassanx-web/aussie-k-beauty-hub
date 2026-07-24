@@ -78,6 +78,16 @@ function Shop() {
   const { category = "all", brand, concern } = Route.useSearch();
   const navigate = Route.useNavigate();
   const { buy, modal } = useBuyNow();
+  const [compare, setCompare] = useState<CompareItem[]>([]);
+  const [compareOpen, setCompareOpen] = useState(false);
+
+  const toggleCompare = (p: (typeof items)[number]) => {
+    setCompare((prev) => {
+      if (prev.find((x) => x.priceId === p.priceId)) return prev.filter((x) => x.priceId !== p.priceId);
+      if (prev.length >= 3) return prev;
+      return [...prev, { priceId: p.priceId, name: p.name, brand: p.brand, price: p.price, image: p.image }];
+    });
+  };
 
   const visible = useMemo(() => {
     return items.filter((p) => {
