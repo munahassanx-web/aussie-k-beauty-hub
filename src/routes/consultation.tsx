@@ -530,7 +530,8 @@ function Result({ answers, onRestart }: { answers: Answers; onRestart: () => voi
                         >
                           Buy
                         </button>
-                      </div>
+                    </div>
+                    <WhyThisIngredient productId={p.priceId} />
                     </div>
                   </div>
                 ))}
