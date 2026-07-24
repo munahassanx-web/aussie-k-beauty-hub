@@ -192,6 +192,13 @@ export function SiteHeader() {
               </div>
             ))}
             <Link
+              to="/learn"
+              onMouseEnter={() => setOpenMenu(null)}
+              className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
+            >
+              Learn
+            </Link>
+            <Link
               to="/journal"
               onMouseEnter={() => setOpenMenu(null)}
               className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
