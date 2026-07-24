@@ -136,13 +136,91 @@ function IngredientDetailPage() {
             {[i.name_korean, i.name_chinese].filter(Boolean).join(" · ")}
           </p>
         )}
+        {i.also_known_as?.length > 0 && (
+          <p className="mt-2 text-sm text-muted-foreground">
+            Also known as: <span className="text-foreground/80">{i.also_known_as.join(", ")}</span>
+          </p>
+        )}
       </header>
 
       <section className="mt-10 grid gap-10 md:grid-cols-3">
-        <div className="md:col-span-2">
-          <h2 className="font-display text-2xl text-foreground">What it actually does</h2>
-          <p className="mt-4 text-lg leading-relaxed text-foreground/85">{i.what_it_does}</p>
+        <div className="md:col-span-2 space-y-10">
+          <div>
+            <h2 className="font-display text-2xl text-foreground">What it actually does</h2>
+            <p className="mt-4 text-lg leading-relaxed text-foreground/85">{i.what_it_does}</p>
+          </div>
+
+          {i.how_to_use && (
+            <div>
+              <h2 className="font-display text-2xl text-foreground">How to use it</h2>
+              <p className="mt-4 text-base leading-relaxed text-foreground/85">{i.how_to_use}</p>
+            </div>
+          )}
+
+          {i.science_note && (
+            <div className="rounded-2xl border border-border bg-secondary/30 p-6">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+                The science, in plain English
+              </p>
+              <p className="mt-3 text-base leading-relaxed text-foreground/85">{i.science_note}</p>
+            </div>
+          )}
+
+          {i.common_myth && (
+            <div
+              className="rounded-2xl border-l-4 p-6"
+              style={{ borderColor: "#AD8A4E", backgroundColor: "#FBF7EF" }}
+            >
+              <p
+                className="text-[11px] font-semibold uppercase tracking-[0.2em]"
+                style={{ color: "#AD8A4E" }}
+              >
+                Myth vs reality
+              </p>
+              <p className="mt-3 text-base leading-relaxed text-foreground/85">{i.common_myth}</p>
+            </div>
+          )}
+
+          {(i.pairs_well_with?.length > 0 || i.avoid_pairing_with?.length > 0) && (
+            <div className="grid gap-6 sm:grid-cols-2">
+              {i.pairs_well_with?.length > 0 && (
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
+                    Pairs well with
+                  </p>
+                  <ul className="mt-3 flex flex-wrap gap-1.5">
+                    {i.pairs_well_with.map((tag) => (
+                      <li
+                        key={tag}
+                        className="rounded-full border border-border bg-background px-2.5 py-0.5 text-[11px] text-foreground/80"
+                      >
+                        {tag}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {i.avoid_pairing_with?.length > 0 && (
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-clay">
+                    Don't layer with
+                  </p>
+                  <ul className="mt-3 flex flex-wrap gap-1.5">
+                    {i.avoid_pairing_with.map((tag) => (
+                      <li
+                        key={tag}
+                        className="rounded-full border border-border bg-background px-2.5 py-0.5 text-[11px] text-foreground/80"
+                      >
+                        {tag}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
         </div>
+
 
         <aside className="space-y-6 rounded-2xl border border-border bg-secondary/40 p-6">
           <div>
