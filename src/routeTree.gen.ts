@@ -13,7 +13,6 @@ import { Route as SkinConcernsRouteImport } from './routes/skin-concerns'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ReviewsRouteImport } from './routes/reviews'
-import { Route as LearnRouteImport } from './routes/learn'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -23,6 +22,7 @@ import { Route as BrandsRouteImport } from './routes/brands'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LearnIndexRouteImport } from './routes/learn.index'
 import { Route as LearnSlugRouteImport } from './routes/learn.$slug'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
@@ -45,11 +45,6 @@ const ShopRoute = ShopRouteImport.update({
 const ReviewsRoute = ReviewsRouteImport.update({
   id: '/reviews',
   path: '/reviews',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LearnRoute = LearnRouteImport.update({
-  id: '/learn',
-  path: '/learn',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JourneyRoute = JourneyRouteImport.update({
@@ -97,10 +92,15 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LearnIndexRoute = LearnIndexRouteImport.update({
+  id: '/learn/',
+  path: '/learn/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LearnSlugRoute = LearnSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => LearnRoute,
+  id: '/learn/$slug',
+  path: '/learn/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const JournalSlugRoute = JournalSlugRouteImport.update({
   id: '/$slug',
@@ -124,13 +124,13 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
-  '/learn': typeof LearnRouteWithChildren
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/learn/': typeof LearnIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -143,13 +143,13 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
-  '/learn': typeof LearnRouteWithChildren
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/learn': typeof LearnIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
@@ -163,13 +163,13 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
-  '/learn': typeof LearnRouteWithChildren
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/learn/': typeof LearnIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
@@ -184,13 +184,13 @@ export interface FileRouteTypes {
     | '/contact'
     | '/journal'
     | '/journey'
-    | '/learn'
     | '/reviews'
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
     | '/journal/$slug'
     | '/learn/$slug'
+    | '/learn/'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -203,13 +203,13 @@ export interface FileRouteTypes {
     | '/contact'
     | '/journal'
     | '/journey'
-    | '/learn'
     | '/reviews'
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
     | '/journal/$slug'
     | '/learn/$slug'
+    | '/learn'
     | '/api/public/payments/webhook'
   id:
     | '__root__'
@@ -222,13 +222,13 @@ export interface FileRouteTypes {
     | '/contact'
     | '/journal'
     | '/journey'
-    | '/learn'
     | '/reviews'
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
     | '/journal/$slug'
     | '/learn/$slug'
+    | '/learn/'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -242,11 +242,12 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   JournalRoute: typeof JournalRouteWithChildren
   JourneyRoute: typeof JourneyRoute
-  LearnRoute: typeof LearnRouteWithChildren
   ReviewsRoute: typeof ReviewsRoute
   ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkinConcernsRoute: typeof SkinConcernsRoute
+  LearnSlugRoute: typeof LearnSlugRoute
+  LearnIndexRoute: typeof LearnIndexRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
@@ -278,13 +279,6 @@ declare module '@tanstack/react-router' {
       path: '/reviews'
       fullPath: '/reviews'
       preLoaderRoute: typeof ReviewsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/learn': {
-      id: '/learn'
-      path: '/learn'
-      fullPath: '/learn'
-      preLoaderRoute: typeof LearnRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/journey': {
@@ -350,12 +344,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/learn/': {
+      id: '/learn/'
+      path: '/learn'
+      fullPath: '/learn/'
+      preLoaderRoute: typeof LearnIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/learn/$slug': {
       id: '/learn/$slug'
-      path: '/$slug'
+      path: '/learn/$slug'
       fullPath: '/learn/$slug'
       preLoaderRoute: typeof LearnSlugRouteImport
-      parentRoute: typeof LearnRoute
+      parentRoute: typeof rootRouteImport
     }
     '/journal/$slug': {
       id: '/journal/$slug'
@@ -385,16 +386,6 @@ const JournalRouteChildren: JournalRouteChildren = {
 const JournalRouteWithChildren =
   JournalRoute._addFileChildren(JournalRouteChildren)
 
-interface LearnRouteChildren {
-  LearnSlugRoute: typeof LearnSlugRoute
-}
-
-const LearnRouteChildren: LearnRouteChildren = {
-  LearnSlugRoute: LearnSlugRoute,
-}
-
-const LearnRouteWithChildren = LearnRoute._addFileChildren(LearnRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -405,23 +396,14 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   JournalRoute: JournalRouteWithChildren,
   JourneyRoute: JourneyRoute,
-  LearnRoute: LearnRouteWithChildren,
   ReviewsRoute: ReviewsRoute,
   ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkinConcernsRoute: SkinConcernsRoute,
+  LearnSlugRoute: LearnSlugRoute,
+  LearnIndexRoute: LearnIndexRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
