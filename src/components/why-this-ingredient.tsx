@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
+import { ingredientSlug } from "@/lib/product-catalog";
 
 type Row = {
   is_hero_ingredient: boolean;
