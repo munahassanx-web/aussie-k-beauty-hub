@@ -16,38 +16,56 @@ export type Database = {
     Tables: {
       ingredients: {
         Row: {
+          also_known_as: string[]
           avoid_if: string[]
+          avoid_pairing_with: string[]
           category: string
+          common_myth: string | null
           created_at: string
           good_for: string[]
+          how_to_use: string | null
           id: string
           name_chinese: string | null
           name_english: string
           name_korean: string | null
+          pairs_well_with: string[]
+          science_note: string | null
           updated_at: string
           what_it_does: string
         }
         Insert: {
+          also_known_as?: string[]
           avoid_if?: string[]
+          avoid_pairing_with?: string[]
           category: string
+          common_myth?: string | null
           created_at?: string
           good_for?: string[]
+          how_to_use?: string | null
           id?: string
           name_chinese?: string | null
           name_english: string
           name_korean?: string | null
+          pairs_well_with?: string[]
+          science_note?: string | null
           updated_at?: string
           what_it_does: string
         }
         Update: {
+          also_known_as?: string[]
           avoid_if?: string[]
+          avoid_pairing_with?: string[]
           category?: string
+          common_myth?: string | null
           created_at?: string
           good_for?: string[]
+          how_to_use?: string | null
           id?: string
           name_chinese?: string | null
           name_english?: string
           name_korean?: string | null
+          pairs_well_with?: string[]
+          science_note?: string | null
           updated_at?: string
           what_it_does?: string
         }
