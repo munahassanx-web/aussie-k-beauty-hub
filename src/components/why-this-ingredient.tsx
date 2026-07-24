@@ -56,7 +56,7 @@ export function WhyThisIngredient({ productId }: { productId: string }) {
                     <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">{ing.what_it_does}</p>
                     <Link
                       to="/learn/$slug"
-                      params={{ slug: slugify(ing.name_english) }}
+                      params={{ slug: ingredientSlug(ing.name_english) }}
                       className="mt-1 inline-block text-[10px] uppercase tracking-wider text-primary hover:underline"
                     >
                       Learn more →
