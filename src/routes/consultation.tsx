@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useBuyNow } from "@/hooks/use-buy-now";
+import { WhyThisIngredient } from "@/components/why-this-ingredient";
 import maskMedihealSheet from "@/assets/mask-mediheal-sheet.jpg";
 import maskDynastyCream from "@/assets/mask-dynasty-cream.jpg";
 import maskNumbuzinEye from "@/assets/mask-numbuzin-eye.jpg";
