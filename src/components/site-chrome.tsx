@@ -304,6 +304,14 @@ export function SiteHeader() {
                   <span className="text-base text-primary">→</span>
                 </Link>
                 <Link
+                  to="/learn"
+                  onClick={closeMenus}
+                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                >
+                  Learn
+                  <span className="text-base text-primary">→</span>
+                </Link>
+                <Link
                   to="/journal/$slug"
                   params={{ slug: "snail-mucin-why-your-skin-loves-it" }}
                   onClick={closeMenus}
