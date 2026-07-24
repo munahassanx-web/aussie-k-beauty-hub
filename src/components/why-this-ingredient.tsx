@@ -9,9 +9,8 @@ type Row = {
   ingredients: { id: string; name_english: string; what_it_does: string } | null;
 };
 
-function slugify(s: string) {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-}
+
+
 
 async function fetchHero(productId: string) {
   const { data, error } = await supabase
