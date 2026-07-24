@@ -52,6 +52,8 @@ export function ProductCheckout({
           </button>
         </div>
 
+        {!started && <ProductIngredients productId={options.priceId} />}
+
         {!started ? (
           <div className="space-y-4">
             {canRedeem ? (
