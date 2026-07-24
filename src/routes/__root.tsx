@@ -119,6 +119,7 @@ function RootComponent() {
         </main>
         <SiteFooter />
       </div>
+      <ChatWidget />
     </QueryClientProvider>
   );
 }
