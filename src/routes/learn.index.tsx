@@ -23,7 +23,7 @@ async function fetchAllIngredients(): Promise<Ingredient[]> {
   return (data ?? []) as Ingredient[];
 }
 
-export const Route = createFileRoute("/learn")({
+export const Route = createFileRoute("/learn/")({
   head: () => ({
     meta: [
       { title: "Learn — Ingredient Encyclopedia | Skin Grocer" },
