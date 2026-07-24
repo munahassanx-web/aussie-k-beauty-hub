@@ -148,13 +148,26 @@ function Shop() {
         <p className="mt-16 text-muted-foreground">No products match those filters. <button onClick={() => navigate({ search: {} })} className="text-primary underline">Clear filters</button>.</p>
       ) : (
         <div className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-          {visible.map((p) => (
+          {visible.map((p) => {
+            const isSelected = compare.some((x) => x.priceId === p.priceId);
+            const disabled = !isSelected && compare.length >= 3;
+            return (
             <div key={p.name} className="group">
               <div className="relative aspect-square overflow-hidden rounded-2xl bg-secondary">
                 <img src={p.image} alt={p.name} loading="lazy" width={1024} height={1024} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 {p.tag && (
                   <span className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-primary backdrop-blur">{p.tag}</span>
                 )}
+                <label className={`absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-foreground backdrop-blur ${disabled ? "opacity-40" : "cursor-pointer"}`}>
+                  <input
+                    type="checkbox"
+                    checked={isSelected}
+                    disabled={disabled}
+                    onChange={() => toggleCompare(p)}
+                    className="h-3.5 w-3.5 accent-primary"
+                  />
+                  Compare
+                </label>
               </div>
               <div className="mt-4">
                 <p className="text-xs uppercase tracking-wider text-muted-foreground">{p.brand}</p>
@@ -170,10 +183,19 @@ function Shop() {
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
       {modal}
+      <CompareDrawer
+        items={compare}
+        onRemove={(id) => setCompare((prev) => prev.filter((x) => x.priceId !== id))}
+        onClear={() => setCompare([])}
+        onOpen={() => setCompareOpen(true)}
+      />
+      <CompareModal items={compare} open={compareOpen} onClose={() => setCompareOpen(false)} />
+
 
       <div className="mt-20 rounded-3xl bg-secondary/60 p-10 text-center md:p-16">
         <h2 className="text-3xl text-foreground md:text-4xl">Not sure where to start?</h2>
