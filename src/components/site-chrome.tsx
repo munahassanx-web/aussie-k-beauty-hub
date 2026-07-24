@@ -388,6 +388,7 @@ export function SiteFooter() {
         <div className="md:col-span-2">
           <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">Learn</h4>
           <ul className="mt-5 space-y-3 text-sm text-paper/70">
+            <li><Link to="/learn" className="hover:text-paper">Ingredients A–Z</Link></li>
             <li><Link to="/journal" className="hover:text-paper">Skin Journal</Link></li>
             <li><Link to="/about" className="hover:text-paper">About Us</Link></li>
             <li><Link to="/reviews" className="hover:text-paper">Reviews</Link></li>
