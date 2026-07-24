@@ -13,6 +13,7 @@ import { Route as SkinConcernsRouteImport } from './routes/skin-concerns'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ReviewsRouteImport } from './routes/reviews'
+import { Route as LearnRouteImport } from './routes/learn'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -43,6 +44,11 @@ const ShopRoute = ShopRouteImport.update({
 const ReviewsRoute = ReviewsRouteImport.update({
   id: '/reviews',
   path: '/reviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnRoute = LearnRouteImport.update({
+  id: '/learn',
+  path: '/learn',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JourneyRoute = JourneyRouteImport.update({
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
+  '/learn': typeof LearnRoute
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
+  '/learn': typeof LearnRoute
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
+  '/learn': typeof LearnRoute
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -166,6 +175,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/journal'
     | '/journey'
+    | '/learn'
     | '/reviews'
     | '/shop'
     | '/sitemap.xml'
@@ -183,6 +193,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/journal'
     | '/journey'
+    | '/learn'
     | '/reviews'
     | '/shop'
     | '/sitemap.xml'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/journal'
     | '/journey'
+    | '/learn'
     | '/reviews'
     | '/shop'
     | '/sitemap.xml'
@@ -218,6 +230,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   JournalRoute: typeof JournalRouteWithChildren
   JourneyRoute: typeof JourneyRoute
+  LearnRoute: typeof LearnRoute
   ReviewsRoute: typeof ReviewsRoute
   ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -253,6 +266,13 @@ declare module '@tanstack/react-router' {
       path: '/reviews'
       fullPath: '/reviews'
       preLoaderRoute: typeof ReviewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn': {
+      id: '/learn'
+      path: '/learn'
+      fullPath: '/learn'
+      preLoaderRoute: typeof LearnRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/journey': {
@@ -356,6 +376,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   JournalRoute: JournalRouteWithChildren,
   JourneyRoute: JourneyRoute,
+  LearnRoute: LearnRoute,
   ReviewsRoute: ReviewsRoute,
   ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
