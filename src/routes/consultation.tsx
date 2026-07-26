@@ -1,36 +1,30 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useBuyNow } from "@/hooks/use-buy-now";
 import { WhyThisIngredient } from "@/components/why-this-ingredient";
-import maskMedihealSheet from "@/assets/mask-mediheal-sheet.jpg";
-import maskDynastyCream from "@/assets/mask-dynasty-cream.jpg";
-import maskNumbuzinEye from "@/assets/mask-numbuzin-eye.jpg";
-import maskSomeByMiClay from "@/assets/mask-somebymi-clay.jpg";
-import maskAbibSleeping from "@/assets/mask-abib-sleeping.jpg";
-import maskAnuaHeartleaf from "@/assets/mask-anua-heartleaf.jpg";
-import maskSkin1004Centella from "@/assets/mask-skin1004-centella.jpg";
-import productSnail from "@/assets/product-snail-essence.jpg";
-import productCentellaToner from "@/assets/product-centella-toner.jpg";
-import productVitC from "@/assets/product-vitc-serum.jpg";
-import productRice from "@/assets/product-rice-cleanser.jpg";
-import productReliefSun from "@/assets/product-relief-sun.jpg";
-import productCicaCream from "@/assets/product-cica-cream.jpg";
-import productHeartleaf from "@/assets/product-heartleaf-ampoule.jpg";
+import { CONSULT_PRODUCT_MAP } from "@/lib/consult-catalog";
+import {
+  runConsultation,
+  askConsultantFollowUp,
+  saveConsultationLead,
+  type ConsultAnswers,
+  type ConsultationResult,
+} from "@/lib/consultation.functions";
 
 export const Route = createFileRoute("/consultation")({
   head: () => ({
     meta: [
-      { title: "Routine Consultation — Skin Grocer" },
+      { title: "Skin Consultation — Skin Grocer" },
       {
         name: "description",
         content:
-          "A 2-minute Korean skincare consultation tuned to your Australian climate, skin type, and concerns. Get a personalised routine built by Skin Grocer.",
+          "A three-minute conversation with a K-beauty consultant. Tell us about your skin and your Australian climate, and we'll build a routine with the reasoning behind every step.",
       },
-      { property: "og:title", content: "Routine Consultation — Skin Grocer" },
+      { property: "og:title", content: "Skin Consultation — Skin Grocer" },
       {
         property: "og:description",
         content:
-          "Most skincare advice is built for someone else's climate. Answer 8 quick questions for a routine matched to where you live in Australia.",
+          "No wrong answers. Tell us about your skin and we'll build your routine — the same way we would for a friend who asked us in person.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -40,297 +34,297 @@ export const Route = createFileRoute("/consultation")({
   component: ConsultationPage,
 });
 
-// ---------- Reference data (ported from consultation source) ----------
+// ---------------------------------------------------------------- questions
 
-type ZoneKey = "tropical" | "dry" | "coastal" | "cool";
+type Option = { value: string; title: string; hint?: string };
 
-const STATES: { code: string; name: string; capital: string; zone: ZoneKey }[] = [
-  { code: "nsw", name: "New South Wales", capital: "Sydney", zone: "coastal" },
-  { code: "vic", name: "Victoria", capital: "Melbourne", zone: "cool" },
-  { code: "qld", name: "Queensland", capital: "Brisbane", zone: "coastal" },
-  { code: "wa", name: "Western Australia", capital: "Perth", zone: "dry" },
-  { code: "sa", name: "South Australia", capital: "Adelaide", zone: "dry" },
-  { code: "tas", name: "Tasmania", capital: "Hobart", zone: "cool" },
-  { code: "act", name: "Australian Capital Territory", capital: "Canberra", zone: "cool" },
-  { code: "nt", name: "Northern Territory", capital: "Darwin", zone: "tropical" },
+const SKIN_TYPES: Option[] = [
+  { value: "Oily", title: "Oily", hint: "Shine comes back not long after cleansing" },
+  { value: "Dry", title: "Dry", hint: "Feels tight, sometimes flaky" },
+  { value: "Combination", title: "Combination", hint: "Oily through the T-zone, drier at the cheeks" },
+  { value: "Sensitive", title: "Sensitive", hint: "Flushes or stings easily with new products" },
+  { value: "Not sure", title: "Not sure", hint: "Completely fine — we'll work it out from the rest" },
 ];
 
-const ZONES: Record<ZoneKey, { label: string; profile: string; texture: string; spf: string }> = {
-  tropical: {
-    label: "Tropical North",
-    profile:
-      "Heat and humidity stay high year-round. Skin tends to run oilier, congestion and sweat-triggered breakouts are common, and SPF needs frequent reapplication to hold up through the day.",
-    texture: "lightweight, gel-based, non-comedogenic",
-    spf: "a fluid, matte-finish SPF you won't mind reapplying",
-  },
-  dry: {
-    label: "Dry Interior & West",
-    profile:
-      "Low humidity, strong dry heat, and wide day-to-night temperature swings pull moisture out of skin fast. Barrier support and humectants matter more here than almost anywhere else in the country.",
-    texture: "richer, humectant- and ceramide-heavy",
-    spf: "a hydrating SPF that won't add to the tightness",
-  },
-  coastal: {
-    label: "Temperate East Coast",
-    profile:
-      "Strong, consistent UV with moderate humidity most of the year. A steady routine with genuine antioxidant protection does more here than any single hero product.",
-    texture: "balanced, lightweight-to-medium",
-    spf: "a daily broad-spectrum SPF with added antioxidants",
-  },
-  cool: {
-    label: "Cool South",
-    profile:
-      "Real seasons. Winters run dry and cold enough to trigger flaking and sensitivity, even though the UV index stays higher than most people expect for the latitude.",
-    texture: "richer in winter, lighter in summer",
-    spf: "SPF every day, even in a Melbourne or Hobart winter",
-  },
-};
+const CONCERNS: Option[] = [
+  { value: "Dullness", title: "Dullness", hint: "Skin looks flat even when you're well rested" },
+  { value: "Breakouts", title: "Breakouts", hint: "Congestion, spots, or blocked pores" },
+  { value: "Fine lines / ageing", title: "Fine lines & ageing", hint: "Early lines, or skin losing its bounce" },
+  { value: "Redness / sensitivity", title: "Redness & sensitivity", hint: "Flushing or reactive patches" },
+  { value: "Uneven tone", title: "Uneven tone", hint: "Dark marks or patchiness" },
+  { value: "Dehydration", title: "Dehydration", hint: "Tight and thirsty, even if you're also oily" },
+];
 
-const AGE_BANDS: Record<string, string> = {
-  teens: "Under 20",
-  twenties: "20s",
-  thirties: "30s",
-  forties: "40s",
-  fiftyplus: "50+",
-};
+const FAMILIARITY: Option[] = [
+  { value: "New and curious", title: "New and curious", hint: "You've heard the hype, haven't started" },
+  { value: "Knows a few brands", title: "You know a few brands", hint: "COSRX, Beauty of Joseon, that world" },
+  { value: "Past the beginner brands", title: "Past the beginner brands", hint: "You want what isn't in every haul video" },
+];
 
-const SKIN_TYPES: Record<string, { title: string; hint: string }> = {
-  oily: { title: "Oily", hint: "Skin feels slick or looks shiny shortly after cleansing, often with visible pores or regular breakouts" },
-  dry: { title: "Dry", hint: "Skin feels tight shortly after washing, may flake or show dry patches, with few breakouts" },
-  combo: { title: "Combination", hint: "Oily through the T-zone, but balanced or dry at the cheeks" },
-  normal: { title: "Normal", hint: "Rarely feels tight or greasy, breakouts are infrequent, texture is generally even" },
-  sensitive: { title: "Sensitive / reactive", hint: "Prone to redness, stinging, or bumps, especially with new products or weather changes" },
-};
+const GAPS: Option[] = [
+  { value: "Daily SPF", title: "Daily SPF" },
+  { value: "A treatment step (serum / ampoule)", title: "A treatment step" },
+  { value: "Proper hydration layer", title: "A proper hydration layer" },
+  { value: "A gentle cleanser", title: "A gentle cleanser" },
+  { value: "Anything for the eye area", title: "Anything for the eye area" },
+  { value: "Consistency — I start and stop", title: "Consistency — I start and stop" },
+  { value: "Honestly, I don't have a routine yet", title: "Honestly, no routine yet" },
+];
 
-const CONCERNS: Record<string, { title: string; hint: string; active: string }> = {
-  dehydration: { title: "Dehydration & tightness", hint: "Skin feels tight or rough within hours of moisturising", active: "hyaluronic acid + ceramides" },
-  breakouts: { title: "Breakouts & congestion", hint: "Regular blackheads, whiteheads, or inflamed spots", active: "centella + gentle BHA" },
-  dullness: { title: "Dullness & uneven tone", hint: "Skin looks flat or tired even when well-rested", active: "propolis + niacinamide" },
-  aging: { title: "Fine lines & firmness", hint: "Early lines, or skin that's begun to lose bounce", active: "collagen + peptides" },
-  redness: { title: "Redness & sensitivity", hint: "Flushing, stinging, or visible redness that flares easily", active: "heartleaf + centella" },
-  sundamage: { title: "Sun damage & pigmentation", hint: "Dark spots, patchiness, or visible sun-related ageing", active: "niacinamide + rice + probiotics" },
-};
+const SUN: Option[] = [
+  { value: "Outdoors most days", title: "Outdoors most days", hint: "Work, school run, or commute in full sun" },
+  { value: "A mix", title: "A mix", hint: "Some sun, mostly indoors on weekdays" },
+  { value: "Mostly indoors", title: "Mostly indoors", hint: "But still an Australian UV index" },
+];
 
-const SECONDARY: Record<string, string> = {
-  texture: "Rough or uneven texture",
-  pores: "Enlarged pores",
-  darkcircles: "Dark circles / puffiness",
-  dryness_patch: "Dry, flaky patches",
-  oil_control: "Midday shine / oil breakthrough",
-  barrier: "A compromised, easily-irritated barrier",
-};
+const AIR: Option[] = [
+  { value: "Air-conditioning most of the day", title: "Air-conditioning most of the day" },
+  { value: "Indoor heating through winter", title: "Indoor heating through winter" },
+  { value: "Both, depending on the season", title: "Both, depending on the season" },
+  { value: "Neither, really", title: "Neither, really" },
+];
 
-const SENSITIVITY: Record<string, { title: string; hint: string }> = {
-  none: { title: "Rarely reacts", hint: "New products almost never cause irritation" },
-  mild: { title: "Occasionally reactive", hint: "Fragrance or strong actives sometimes cause redness" },
-  high: { title: "Reacts easily", hint: "New products often cause stinging, redness, or breakouts" },
-};
+const BUDGET: Option[] = [
+  { value: "Under $50 / month", title: "Under $50 a month" },
+  { value: "$50–$100 / month", title: "$50 – $100 a month" },
+  { value: "$100–$200 / month", title: "$100 – $200 a month" },
+  { value: "Whatever it takes to get it right", title: "Whatever it takes to get it right" },
+];
 
-const EXPOSURE: Record<string, { title: string; hint: string }> = {
-  outdoor: { title: "Mostly outdoors", hint: "Work, commute, or lifestyle keeps you in direct sun most days" },
-  mixed: { title: "A mix of both", hint: "Some outdoor time, but mostly indoors on weekdays" },
-  indoor: { title: "Mostly indoors", hint: "Air-conditioned office or home for most of the day" },
-};
+const STEPS = ["skin", "concerns", "familiarity", "gaps", "sun", "air", "budget", "words"] as const;
+type Phase = "intro" | (typeof STEPS)[number] | "result";
 
-const DEPTHS: Record<string, { title: string; hint: string; steps: number }> = {
-  minimal: { title: "Minimal", hint: "3 steps — cleanse, treat, protect", steps: 3 },
-  moderate: { title: "Moderate", hint: "5 steps — the everyday ritual", steps: 5 },
-  full: { title: "Full Ritual", hint: "7 steps — the complete K-beauty layer-up", steps: 7 },
-};
-
-type StepKey = "cleanse" | "tone" | "treat" | "essence" | "moisturise" | "mask" | "protect";
-
-
-type Product = {
-  id: string;
-  name: string;
-  brand: string;
-  price: string;
-  priceId: string;
-  image: string;
-  step: StepKey;
-  skinTypes: string[];
+type Draft = {
+  skinType: string | null;
   concerns: string[];
-  zones: (ZoneKey | "any")[];
-  sensitiveOk: boolean;
+  familiarity: string | null;
+  gaps: string[];
+  sunExposure: string | null;
+  indoorAir: string | null;
+  budget: string | null;
+  freeText: string;
+  name: string;
+  email: string;
+  consent: boolean;
 };
 
-const PRODUCTS: Product[] = [
-  // Cleanse
-  { id: "rice-cleanser", name: "Rice Probiotics Cleansing Foam", brand: "I'm From", price: "$30", priceId: "rice_cleanser_onetime", image: productRice, step: "cleanse", skinTypes: ["dry", "normal", "combo", "sensitive"], concerns: ["dehydration", "redness", "dullness"], zones: ["dry", "cool", "coastal"], sensitiveOk: true },
-  { id: "heartleaf-ampoule-cleanse", name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", priceId: "heartleaf_ampoule_onetime", image: productHeartleaf, step: "cleanse", skinTypes: ["oily", "combo", "sensitive", "any"], concerns: ["redness", "breakouts"], zones: ["tropical", "coastal", "any"], sensitiveOk: true },
-
-  // Tone
-  { id: "centella-toner", name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", priceId: "centella_toner_onetime", image: productCentellaToner, step: "tone", skinTypes: ["any"], concerns: ["redness", "breakouts", "dehydration"], zones: ["any"], sensitiveOk: true },
-  { id: "snail-essence-tone", name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", priceId: "snail_essence_onetime", image: productSnail, step: "tone", skinTypes: ["dry", "normal", "combo"], concerns: ["dehydration", "aging"], zones: ["dry", "cool", "any"], sensitiveOk: true },
-
-  // Treat
-  { id: "vitc-serum", name: "Vitamin C Brightening Serum", brand: "Beauty of Joseon", price: "$36", priceId: "vitc_serum_onetime", image: productVitC, step: "treat", skinTypes: ["any"], concerns: ["dullness", "sundamage"], zones: ["any"], sensitiveOk: false },
-  { id: "heartleaf-ampoule", name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", priceId: "heartleaf_ampoule_onetime", image: productHeartleaf, step: "treat", skinTypes: ["any"], concerns: ["redness", "breakouts", "aging", "dehydration"], zones: ["any"], sensitiveOk: true },
-  { id: "snail-essence", name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", priceId: "snail_essence_onetime", image: productSnail, step: "treat", skinTypes: ["any"], concerns: ["dehydration", "aging"], zones: ["any"], sensitiveOk: true },
-
-  // Essence
-  { id: "snail-essence-e", name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", priceId: "snail_essence_onetime", image: productSnail, step: "essence", skinTypes: ["any"], concerns: ["dehydration", "aging"], zones: ["any"], sensitiveOk: true },
-  { id: "centella-toner-e", name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", priceId: "centella_toner_onetime", image: productCentellaToner, step: "essence", skinTypes: ["any"], concerns: ["redness", "breakouts"], zones: ["any"], sensitiveOk: true },
-
-  // Moisturise
-  { id: "cica-cream", name: "Cica Recovery Cream", brand: "Anua", price: "$34", priceId: "cica_cream_onetime", image: productCicaCream, step: "moisturise", skinTypes: ["any"], concerns: ["redness", "dehydration", "aging"], zones: ["any"], sensitiveOk: true },
-  { id: "abib-sleeping", name: "Pep-Talk Peptide Sleeping Mask", brand: "Abib", price: "$34", priceId: "mask_abib_sleeping_onetime", image: maskAbibSleeping, step: "moisturise", skinTypes: ["dry", "normal", "combo"], concerns: ["aging", "dehydration"], zones: ["dry", "cool"], sensitiveOk: true },
-
-  // Mask
-  { id: "mask-mediheal", name: "Real Ferment Micro Essence Sheet Mask", brand: "Mediheal", price: "$6", priceId: "mask_mediheal_sheet_onetime", image: maskMedihealSheet, step: "mask", skinTypes: ["any"], concerns: ["dehydration", "dullness"], zones: ["any"], sensitiveOk: true },
-  { id: "mask-dynasty", name: "Dynasty Cream Mask", brand: "Beauty of Joseon", price: "$5", priceId: "mask_dynasty_cream_onetime", image: maskDynastyCream, step: "mask", skinTypes: ["dry", "normal"], concerns: ["dehydration", "aging"], zones: ["dry", "cool"], sensitiveOk: true },
-  { id: "mask-numbuzin-eye", name: "Bakuchiol Retinol Eye Mask", brand: "Numbuzin", price: "$32", priceId: "mask_numbuzin_eye_onetime", image: maskNumbuzinEye, step: "mask", skinTypes: ["any"], concerns: ["aging"], zones: ["any"], sensitiveOk: true },
-  { id: "mask-somebymi", name: "AHA-BHA-PHA Miracle Clay Mask", brand: "Some By Mi", price: "$28", priceId: "mask_somebymi_clay_onetime", image: maskSomeByMiClay, step: "mask", skinTypes: ["oily", "combo"], concerns: ["breakouts"], zones: ["tropical", "coastal"], sensitiveOk: false },
-  { id: "mask-anua-heartleaf", name: "Heartleaf 77% Soothing Sheet Mask", brand: "Anua", price: "$6", priceId: "mask_anua_heartleaf_onetime", image: maskAnuaHeartleaf, step: "mask", skinTypes: ["sensitive", "any"], concerns: ["redness"], zones: ["any"], sensitiveOk: true },
-
-  // Protect
-  { id: "relief-sun", name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", priceId: "relief_sun_onetime", image: productReliefSun, step: "protect", skinTypes: ["any"], concerns: ["sundamage"], zones: ["any"], sensitiveOk: true },
-  { id: "mask-skin1004-sun", name: "Centella Hyalu-Cica Water-Fit Sun Mask", brand: "SKIN1004", price: "$8", priceId: "mask_skin1004_centella_onetime", image: maskSkin1004Centella, step: "protect", skinTypes: ["any"], concerns: ["sundamage", "redness"], zones: ["tropical", "coastal", "any"], sensitiveOk: true },
-];
-
-type Answers = {
-  state: string | null;
-  age: string | null;
-  skin: string | null;
-  concern: string | null;
-  secondary: string[];
-  sensitivity: string | null;
-  exposure: string | null;
-  depth: string | null;
+const EMPTY: Draft = {
+  skinType: null,
+  concerns: [],
+  familiarity: null,
+  gaps: [],
+  sunExposure: null,
+  indoorAir: null,
+  budget: null,
+  freeText: "",
+  name: "",
+  email: "",
+  consent: false,
 };
 
-const EMPTY_ANSWERS: Answers = {
-  state: null, age: null, skin: null, concern: null, secondary: [], sensitivity: null, exposure: null, depth: null,
-};
-
-function bestProductsFor(stepKey: StepKey, answers: Answers, limit = 2): Product[] {
-  const candidates = PRODUCTS.filter((p) => p.step === stepKey);
-  if (!candidates.length) return [];
-  const zoneKey = STATES.find((s) => s.code === answers.state)?.zone;
-  const scored = candidates.map((p) => {
-    let score = 0;
-    if (p.skinTypes.includes("any") || (answers.skin && p.skinTypes.includes(answers.skin))) score += 1;
-    if (p.concerns.includes("any") || (answers.concern && p.concerns.includes(answers.concern))) score += 2;
-    if (zoneKey && (p.zones.includes("any") || p.zones.includes(zoneKey))) score += 1;
-    if (answers.sensitivity === "high" && !p.sensitiveOk) score -= 5;
-    return { p, score };
-  }).filter((x) => x.score > 0).sort((a, b) => b.score - a.score);
-  // Deduplicate by product id
-  const seen = new Set<string>();
-  const out: Product[] = [];
-  for (const { p } of scored) {
-    if (seen.has(p.name)) continue;
-    seen.add(p.name);
-    out.push(p);
-    if (out.length >= limit) break;
-  }
-  return out;
-}
-
-const STEP_ORDER = ["intro", "state", "age", "skin", "concern", "secondary", "sensitivity", "exposure", "depth", "result"] as const;
-type Phase = (typeof STEP_ORDER)[number];
+// ------------------------------------------------------------------- page
 
 function ConsultationPage() {
   const [phase, setPhase] = useState<Phase>("intro");
-  const [answers, setAnswers] = useState<Answers>(EMPTY_ANSWERS);
+  const [draft, setDraft] = useState<Draft>(EMPTY);
+  const [result, setResult] = useState<ConsultationResult | null>(null);
+  const [thinking, setThinking] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const idx = STEP_ORDER.indexOf(phase);
-  useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, [phase]);
+  const stepIndex = STEPS.indexOf(phase as (typeof STEPS)[number]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [phase]);
 
-  const go = (delta: number) => setPhase(STEP_ORDER[Math.max(0, Math.min(STEP_ORDER.length - 1, idx + delta))]);
-  const restart = () => { setAnswers(EMPTY_ANSWERS); setPhase("intro"); };
+  const set = <K extends keyof Draft>(k: K, v: Draft[K]) => setDraft((d) => ({ ...d, [k]: v }));
+  const next = () => setPhase(STEPS[Math.min(STEPS.length - 1, stepIndex + 1)]);
+  const back = () => (stepIndex <= 0 ? setPhase("intro") : setPhase(STEPS[stepIndex - 1]));
+
+  const answers: ConsultAnswers = {
+    skinType: draft.skinType ?? "Not sure",
+    concerns: draft.concerns,
+    familiarity: draft.familiarity ?? "New and curious",
+    gaps: draft.gaps,
+    sunExposure: draft.sunExposure ?? "A mix",
+    indoorAir: draft.indoorAir ?? "Neither, really",
+    budget: draft.budget ?? "Under $50 / month",
+    freeText: draft.freeText,
+    name: draft.name,
+  };
+
+  async function submit() {
+    setThinking(true);
+    setError(null);
+    try {
+      const res = await runConsultation({ data: { answers } });
+      setResult(res);
+      setPhase("result");
+      // Consent-gated lead capture — never blocks the consultation itself.
+      if (draft.consent && draft.email) {
+        saveConsultationLead({
+          data: {
+            name: draft.name,
+            email: draft.email,
+            skinType: answers.skinType,
+            concerns: answers.concerns,
+            gaps: answers.gaps,
+            budget: answers.budget,
+            consent: true,
+            recommended: res.routine.map((r) => r.priceId),
+          },
+        }).catch(() => undefined);
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Something went wrong. Try again?");
+    } finally {
+      setThinking(false);
+    }
+  }
 
   return (
-    <div className="min-h-screen bg-cream py-10 md:py-16">
-      <div className="mx-auto max-w-2xl px-4">
+    <div className="min-h-screen bg-cream py-12 md:py-20">
+      <div className="mx-auto max-w-2xl px-5">
         <div className="text-center">
           <p className="font-display text-lg tracking-[0.18em] text-ink">SKIN GROCER</p>
-          <p className="mt-1 text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Routine Consultation</p>
+          <p className="mt-1 text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+            Skin Consultation
+          </p>
         </div>
 
-        <div className="mt-8 overflow-hidden border border-border bg-paper shadow-[0_22px_44px_-24px_rgba(43,38,32,0.35)]">
-          {phase === "intro" && <Intro onStart={() => setPhase("state")} />}
-          {phase === "state" && (
-            <StepCard stepIndex={0} eyebrow="Step 1 of 8" question="Where in Australia are you based?"
-              hint="We'll use this to account for local UV intensity, humidity, and seasonal shifts in your routine."
-              onBack={null} onNext={answers.state ? () => go(1) : null}>
-              <OptionList
-                options={STATES.map((s) => ({ value: s.code, title: s.capital, hint: s.name }))}
-                value={answers.state} onChange={(v) => setAnswers((a) => ({ ...a, state: v }))}
-              />
-            </StepCard>
-          )}
-          {phase === "age" && (
-            <StepCard stepIndex={1} eyebrow="Step 2 of 8" question="What's your age range?"
-              hint="This helps calibrate how much emphasis to put on prevention versus repair."
-              onBack={() => go(-1)} onNext={answers.age ? () => go(1) : null}>
-              <OptionList
-                options={Object.entries(AGE_BANDS).map(([k, v]) => ({ value: k, title: v }))}
-                value={answers.age} onChange={(v) => setAnswers((a) => ({ ...a, age: v }))}
-              />
-            </StepCard>
-          )}
+        <div className="mt-10">
+          {phase === "intro" && <Intro onStart={() => setPhase("skin")} />}
+
           {phase === "skin" && (
-            <StepCard stepIndex={2} eyebrow="Step 3 of 8" question="How would you describe your skin type?"
-              onBack={() => go(-1)} onNext={answers.skin ? () => go(1) : null}>
-              <OptionList
-                options={Object.entries(SKIN_TYPES).map(([k, v]) => ({ value: k, title: v.title, hint: v.hint }))}
-                value={answers.skin} onChange={(v) => setAnswers((a) => ({ ...a, skin: v }))}
-              />
-            </StepCard>
+            <Question
+              index={0}
+              prompt="Let's start with how your skin usually behaves."
+              aside="No wrong answers — pick the one that sounds most like you."
+              onBack={back}
+              onNext={draft.skinType ? next : null}
+            >
+              <Choices options={SKIN_TYPES} value={draft.skinType} onChange={(v) => set("skinType", v)} />
+            </Question>
           )}
-          {phase === "concern" && (
-            <StepCard stepIndex={3} eyebrow="Step 4 of 8" question="What's the one concern you'd most like this routine to address?"
-              onBack={() => go(-1)} onNext={answers.concern ? () => go(1) : null}>
-              <OptionList
-                options={Object.entries(CONCERNS).map(([k, v]) => ({ value: k, title: v.title, hint: v.hint }))}
-                value={answers.concern} onChange={(v) => setAnswers((a) => ({ ...a, concern: v }))}
+
+          {phase === "concerns" && (
+            <Question
+              index={1}
+              prompt="What would you most like to change?"
+              aside="Pick up to two. Two well-targeted concerns beat six half-addressed ones."
+              onBack={back}
+              onNext={draft.concerns.length ? next : null}
+            >
+              <Choices
+                multi
+                max={2}
+                options={CONCERNS}
+                values={draft.concerns}
+                onToggle={(v) =>
+                  set(
+                    "concerns",
+                    draft.concerns.includes(v)
+                      ? draft.concerns.filter((x) => x !== v)
+                      : draft.concerns.length >= 2
+                        ? [draft.concerns[1], v]
+                        : [...draft.concerns, v],
+                  )
+                }
               />
-            </StepCard>
+            </Question>
           )}
-          {phase === "secondary" && (
-            <StepCard stepIndex={4} eyebrow="Step 5 of 8" question="Anything else you've noticed?"
-              hint="Select all that apply — optional, but it sharpens the recommendation."
-              onBack={() => go(-1)} onNext={() => go(1)}>
-              <OptionList multi
-                options={Object.entries(SECONDARY).map(([k, v]) => ({ value: k, title: v }))}
-                value={answers.secondary}
-                onToggle={(v) => setAnswers((a) => ({ ...a, secondary: a.secondary.includes(v) ? a.secondary.filter((x) => x !== v) : [...a.secondary, v] }))}
+
+          {phase === "familiarity" && (
+            <Question
+              index={2}
+              prompt="How deep are you into K-beauty already?"
+              aside="This is so we pitch the answer at the right level — not so we sell you more."
+              onBack={back}
+              onNext={draft.familiarity ? next : null}
+            >
+              <Choices options={FAMILIARITY} value={draft.familiarity} onChange={(v) => set("familiarity", v)} />
+            </Question>
+          )}
+
+          {phase === "gaps" && (
+            <Question
+              index={3}
+              prompt="What's missing from what you do now?"
+              aside="Select anything that applies."
+              onBack={back}
+              onNext={next}
+            >
+              <Choices
+                multi
+                options={GAPS}
+                values={draft.gaps}
+                onToggle={(v) =>
+                  set("gaps", draft.gaps.includes(v) ? draft.gaps.filter((x) => x !== v) : [...draft.gaps, v])
+                }
               />
-            </StepCard>
+            </Question>
           )}
-          {phase === "sensitivity" && (
-            <StepCard stepIndex={5} eyebrow="Step 6 of 8" question="How does your skin usually handle new products?"
-              onBack={() => go(-1)} onNext={answers.sensitivity ? () => go(1) : null}>
-              <OptionList
-                options={Object.entries(SENSITIVITY).map(([k, v]) => ({ value: k, title: v.title, hint: v.hint }))}
-                value={answers.sensitivity} onChange={(v) => setAnswers((a) => ({ ...a, sensitivity: v }))}
-              />
-            </StepCard>
+
+          {phase === "sun" && (
+            <Question
+              index={4}
+              prompt="How much sun does your day actually involve?"
+              aside="Almost all of Australia sits at a UV index Korean routines aren't written for. It changes what we'd recommend."
+              onBack={back}
+              onNext={draft.sunExposure ? next : null}
+            >
+              <Choices options={SUN} value={draft.sunExposure} onChange={(v) => set("sunExposure", v)} />
+            </Question>
           )}
-          {phase === "exposure" && (
-            <StepCard stepIndex={6} eyebrow="Step 7 of 8" question="How much direct sun does your day-to-day involve?"
-              onBack={() => go(-1)} onNext={answers.exposure ? () => go(1) : null}>
-              <OptionList
-                options={Object.entries(EXPOSURE).map(([k, v]) => ({ value: k, title: v.title, hint: v.hint }))}
-                value={answers.exposure} onChange={(v) => setAnswers((a) => ({ ...a, exposure: v }))}
-              />
-            </StepCard>
+
+          {phase === "air" && (
+            <Question
+              index={5}
+              prompt="And the air you sit in all day?"
+              aside="Air-conditioning and winter heating quietly pull more water out of skin than the weather does."
+              onBack={back}
+              onNext={draft.indoorAir ? next : null}
+            >
+              <Choices options={AIR} value={draft.indoorAir} onChange={(v) => set("indoorAir", v)} />
+            </Question>
           )}
-          {phase === "depth" && (
-            <StepCard stepIndex={7} eyebrow="Step 8 of 8" question="How much routine do you actually want to commit to?"
-              onBack={() => go(-1)} onNext={answers.depth ? () => go(1) : null}>
-              <OptionList
-                options={Object.entries(DEPTHS).map(([k, v]) => ({ value: k, title: v.title, hint: v.hint }))}
-                value={answers.depth} onChange={(v) => setAnswers((a) => ({ ...a, depth: v }))}
-              />
-            </StepCard>
+
+          {phase === "budget" && (
+            <Question
+              index={6}
+              prompt="What feels comfortable to spend each month?"
+              aside="We'd rather build something you'll actually keep up than something impressive."
+              onBack={back}
+              onNext={draft.budget ? next : null}
+            >
+              <Choices options={BUDGET} value={draft.budget} onChange={(v) => set("budget", v)} />
+            </Question>
           )}
-          {phase === "result" && <Result answers={answers} onRestart={restart} />}
+
+          {phase === "words" && (
+            <FinalStep
+              draft={draft}
+              set={set}
+              onBack={back}
+              onSubmit={submit}
+              thinking={thinking}
+              error={error}
+            />
+          )}
+
+          {phase === "result" && result && (
+            <Results
+              result={result}
+              answers={answers}
+              onRestart={() => {
+                setDraft(EMPTY);
+                setResult(null);
+                setPhase("intro");
+              }}
+            />
+          )}
         </div>
 
-        <p className="mt-6 text-center text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+        <p className="mt-8 text-center text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
           Guidance only — not a substitute for a dermatologist
         </p>
       </div>
@@ -338,69 +332,103 @@ function ConsultationPage() {
   );
 }
 
+// ------------------------------------------------------------------ pieces
+
 function Intro({ onStart }: { onStart: () => void }) {
   return (
-    <div className="p-8 md:p-10">
-      <p className="text-[10px] uppercase tracking-[0.22em] text-primary">A Skin Grocer Consultation</p>
-      <h1 className="mt-3 font-display text-3xl leading-tight text-ink md:text-4xl">
-        Let's build a routine around your skin — and your climate.
+    <div className="border border-border bg-paper p-8 md:p-12">
+      <p className="text-[10px] uppercase tracking-[0.22em] text-primary">Three minutes, in your words</p>
+      <h1 className="mt-4 font-display text-3xl leading-[1.15] text-ink md:text-[2.6rem]">
+        No wrong answers here.
       </h1>
-      <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-        Most routine advice is written for someone else's weather. This consultation factors in where
-        you live in Australia alongside your skin type, sensitivity, and concerns, then matches you
-        to Korean formulas suited to your conditions — not a generic global default.
+      <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
+        Tell us about your skin and we'll build your routine — the same way we would for a friend who
+        asked us in person. A few questions, then a proper conversation about what's actually going on
+        with your skin.
       </p>
-      <div className="mt-6 flex gap-8 text-xs uppercase tracking-[0.08em] text-muted-foreground">
-        <div><span className="block font-display text-xl text-ink">8</span>questions</div>
-        <div><span className="block font-display text-xl text-ink">~2</span>minutes</div>
-        <div><span className="block font-display text-xl text-ink">1</span>routine, built for you</div>
+      <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
+        It replaces the hours of tabs, reviews and conflicting YouTube advice with one honest
+        three-minute conversation — with someone who knows both Korean formulations and Australian
+        conditions.
+      </p>
+      <div className="mt-8 grid grid-cols-3 gap-4 border-y border-border py-5 text-[11px] uppercase tracking-[0.08em] text-muted-foreground">
+        <div>
+          <span className="block font-display text-2xl normal-case tracking-normal text-ink">7</span>
+          questions
+        </div>
+        <div>
+          <span className="block font-display text-2xl normal-case tracking-normal text-ink">~3</span>
+          minutes
+        </div>
+        <div>
+          <span className="block font-display text-2xl normal-case tracking-normal text-ink">1</span>
+          routine, reasoned
+        </div>
       </div>
       <button
         onClick={onStart}
         className="mt-8 w-full bg-ink py-4 text-[11px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-primary"
       >
-        Begin Consultation
+        Start the conversation
       </button>
     </div>
   );
 }
 
-function Progress({ current, total }: { current: number; total: number }) {
+function Marker({ index }: { index: number }) {
   return (
-    <div className="mb-6 flex gap-1.5">
-      {Array.from({ length: total }).map((_, i) => (
-        <div
-          key={i}
-          className={`h-[3px] flex-1 ${i < current ? "bg-accent/50" : i === current ? "bg-primary" : "bg-border"}`}
-        />
-      ))}
+    <div className="mb-7 flex items-baseline gap-4">
+      <span className="font-display text-2xl italic text-primary">
+        {String(index + 1).padStart(2, "0")}
+      </span>
+      <div className="flex flex-1 gap-1">
+        {STEPS.map((_, i) => (
+          <span
+            key={i}
+            className={`h-px flex-1 ${i <= index ? "bg-primary" : "bg-border"}`}
+            aria-hidden
+          />
+        ))}
+      </div>
+      <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+        of {STEPS.length}
+      </span>
     </div>
   );
 }
 
-function StepCard({ stepIndex, eyebrow, question, hint, children, onBack, onNext }: {
-  stepIndex: number; eyebrow: string; question: string; hint?: string;
-  children: React.ReactNode; onBack: (() => void) | null; onNext: (() => void) | null;
+function Question({
+  index,
+  prompt,
+  aside,
+  children,
+  onBack,
+  onNext,
+}: {
+  index: number;
+  prompt: string;
+  aside?: string;
+  children: React.ReactNode;
+  onBack: () => void;
+  onNext: (() => void) | null;
 }) {
   return (
-    <div className="p-7 md:p-9">
-      <Progress current={stepIndex} total={8} />
-      <p className="text-[10px] uppercase tracking-[0.22em] text-primary">{eyebrow}</p>
-      <h2 className="mt-2 font-display text-2xl leading-tight text-ink">{question}</h2>
-      {hint && <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{hint}</p>}
-      <div className="mt-5">{children}</div>
-      <div className="mt-6 flex items-center justify-between">
+    <div className="border border-border bg-paper p-7 md:p-10">
+      <Marker index={index} />
+      <h2 className="font-display text-[1.7rem] leading-snug text-ink">{prompt}</h2>
+      {aside && <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">{aside}</p>}
+      <div className="mt-7">{children}</div>
+      <div className="mt-8 flex items-center justify-between">
         <button
-          onClick={onBack ?? undefined}
-          disabled={!onBack}
-          className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground disabled:invisible hover:text-ink"
+          onClick={onBack}
+          className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:text-ink"
         >
           ← Back
         </button>
         <button
           onClick={onNext ?? undefined}
           disabled={!onNext}
-          className="bg-ink px-6 py-3 text-[10px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-primary disabled:cursor-not-allowed disabled:bg-border disabled:text-muted-foreground"
+          className="bg-ink px-7 py-3 text-[10px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-primary disabled:cursor-not-allowed disabled:bg-border disabled:text-muted-foreground"
         >
           Continue
         </button>
@@ -409,31 +437,31 @@ function StepCard({ stepIndex, eyebrow, question, hint, children, onBack, onNext
   );
 }
 
-type Option = { value: string; title: string; hint?: string };
-
-function OptionList(props:
-  | { options: Option[]; value: string | null; onChange: (v: string) => void; multi?: false; onToggle?: never }
-  | { options: Option[]; value: string[]; onToggle: (v: string) => void; multi: true; onChange?: never }
+function Choices(
+  props:
+    | { options: Option[]; value: string | null; onChange: (v: string) => void; multi?: false; max?: never }
+    | { options: Option[]; values: string[]; onToggle: (v: string) => void; multi: true; max?: number },
 ) {
-  const isSelected = (v: string) => props.multi ? props.value.includes(v) : props.value === v;
-  const handle = (v: string) => props.multi ? props.onToggle(v) : props.onChange(v);
+  const selected = (v: string) => (props.multi ? props.values.includes(v) : props.value === v);
   return (
     <div className="flex flex-col gap-2">
       {props.options.map((o) => {
-        const sel = isSelected(o.value);
+        const sel = selected(o.value);
         return (
           <button
             key={o.value}
-            onClick={() => handle(o.value)}
-            className={`flex items-start justify-between gap-3 border px-4 py-3 text-left text-sm transition-colors ${
-              sel ? "border-primary bg-accent/25 text-ink" : "border-border bg-paper text-ink hover:border-primary/60"
+            onClick={() => (props.multi ? props.onToggle(o.value) : props.onChange(o.value))}
+            className={`flex items-start justify-between gap-3 border px-5 py-4 text-left transition-colors ${
+              sel
+                ? "border-primary bg-accent/25 text-ink"
+                : "border-border bg-paper text-ink hover:border-primary/60"
             }`}
           >
             <span className="flex-1">
-              <span className="block font-medium">{o.title}</span>
+              <span className="block text-[15px] font-medium leading-snug">{o.title}</span>
               {o.hint && <span className="mt-1 block text-xs text-muted-foreground">{o.hint}</span>}
             </span>
-            <span className={`mt-0.5 text-primary transition-opacity ${sel ? "opacity-100" : "opacity-0"}`}>✓</span>
+            <span className={`mt-1 text-primary transition-opacity ${sel ? "opacity-100" : "opacity-0"}`}>✓</span>
           </button>
         );
       })}
@@ -441,111 +469,255 @@ function OptionList(props:
   );
 }
 
-function Result({ answers, onRestart }: { answers: Answers; onRestart: () => void }) {
-  const { buy, modal } = useBuyNow();
-  const routine = useMemo(() => {
-    const st = STATES.find((s) => s.code === answers.state)!;
-    const zone = ZONES[st.zone];
-    const concern = answers.concern ? CONCERNS[answers.concern] : null;
-    const depthCount = answers.depth ? DEPTHS[answers.depth].steps : 5;
-    const gentle = answers.sensitivity === "high";
-    const all: { key: StepKey; name: string; desc: string; picks: Product[] }[] = [
-      { key: "cleanse", name: "Cleanse", desc: `A ${gentle ? "fragrance-free, " : ""}${zone.texture} cleanser suited to ${zone.label.toLowerCase()} conditions${gentle ? ", low on stripping actives given how easily your skin reacts" : ""}.`, picks: [] },
-      { key: "tone", name: "Tone / Prep", desc: "Rebalances skin and preps it to absorb what comes next.", picks: [] },
-      { key: "treat", name: "Treat", desc: `Targets your main concern with ${concern?.active ?? "targeted actives"}${gentle ? ", introduced gradually to avoid irritation" : ""}.`, picks: [] },
-      { key: "essence", name: "Essence / Booster", desc: `An extra hydration layer — especially useful given ${zone.label.toLowerCase()} conditions.`, picks: [] },
-      { key: "moisturise", name: "Moisturise", desc: `A ${zone.texture} moisturiser to lock everything in.`, picks: [] },
-      { key: "mask", name: "Eye Care / Mask", desc: "Weekly firming or brightening treatment for extra care.", picks: [] },
-      { key: "protect", name: "Protect", desc: zone.spf + (answers.exposure === "outdoor" ? ", reapplied through the day given your sun exposure" : "") + ".", picks: [] },
-    ];
-    const trimmed = all.slice(0, depthCount);
-    trimmed.forEach((s) => { s.picks = bestProductsFor(s.key, answers, 2); });
-    return { st, zone, trimmed };
-  }, [answers]);
+function FinalStep({
+  draft,
+  set,
+  onBack,
+  onSubmit,
+  thinking,
+  error,
+}: {
+  draft: Draft;
+  set: <K extends keyof Draft>(k: K, v: Draft[K]) => void;
+  onBack: () => void;
+  onSubmit: () => void;
+  thinking: boolean;
+  error: string | null;
+}) {
+  return (
+    <div className="border border-border bg-paper p-7 md:p-10">
+      <Marker index={7} />
+      <h2 className="font-display text-[1.7rem] leading-snug text-ink">
+        Anything else you'd tell a consultant in person?
+      </h2>
+      <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">
+        Describe your skin in your own words, or ask us something outright — "will this help my
+        hormonal breakouts?", "is retinol too much for me?". This is the part that makes the routine
+        yours.
+      </p>
 
-  const skinLabel = answers.skin ? SKIN_TYPES[answers.skin].title : "";
-  const { st, zone, trimmed } = routine;
+      <textarea
+        value={draft.freeText}
+        onChange={(e) => set("freeText", e.target.value)}
+        rows={5}
+        maxLength={1200}
+        placeholder="My skin gets oily by lunchtime but still feels tight, and I break out along my jaw before my period…"
+        className="mt-5 w-full resize-none border border-border bg-cream px-4 py-3 text-sm leading-relaxed text-ink outline-none placeholder:text-muted-foreground/70 focus:border-primary"
+      />
+
+      <div className="mt-6 grid gap-3 sm:grid-cols-2">
+        <label className="block">
+          <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">First name</span>
+          <input
+            value={draft.name}
+            onChange={(e) => set("name", e.target.value)}
+            className="mt-1.5 w-full border border-border bg-cream px-3 py-2.5 text-sm text-ink outline-none focus:border-primary"
+            placeholder="So we can talk to you properly"
+          />
+        </label>
+        <label className="block">
+          <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Email</span>
+          <input
+            type="email"
+            value={draft.email}
+            onChange={(e) => set("email", e.target.value)}
+            className="mt-1.5 w-full border border-border bg-cream px-3 py-2.5 text-sm text-ink outline-none focus:border-primary"
+            placeholder="you@example.com"
+          />
+        </label>
+      </div>
+
+      <label className="mt-4 flex cursor-pointer items-start gap-3 border border-border bg-cream px-4 py-3">
+        <input
+          type="checkbox"
+          checked={draft.consent}
+          onChange={(e) => set("consent", e.target.checked)}
+          className="mt-0.5 h-4 w-4 shrink-0 accent-[#AD8A4E]"
+        />
+        <span className="text-xs leading-relaxed text-muted-foreground">
+          Email me my routine and occasional Skin Grocer notes on new arrivals and skincare guidance.
+          You can unsubscribe any time. <span className="text-ink">Optional</span> — your consultation
+          works either way.
+        </span>
+      </label>
+
+      {error && <p className="mt-4 text-xs text-destructive">{error}</p>}
+
+      <div className="mt-7 flex items-center justify-between">
+        <button
+          onClick={onBack}
+          className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:text-ink"
+        >
+          ← Back
+        </button>
+        <button
+          onClick={onSubmit}
+          disabled={thinking}
+          className="bg-ink px-7 py-3 text-[10px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-primary disabled:cursor-wait disabled:bg-border disabled:text-muted-foreground"
+        >
+          {thinking ? "Reading your answers…" : "Build my routine"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ------------------------------------------------------------------ result
+
+function Results({
+  result,
+  answers,
+  onRestart,
+}: {
+  result: ConsultationResult;
+  answers: ConsultAnswers;
+  onRestart: () => void;
+}) {
+  const { buy, modal } = useBuyNow();
+  const [thread, setThread] = useState<Array<{ role: "user" | "assistant"; content: string }>>([]);
+  const [question, setQuestion] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const threadEnd = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (thread.length) threadEnd.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [thread]);
+
+  async function ask() {
+    const q = question.trim();
+    if (!q || busy) return;
+    setQuestion("");
+    setErr(null);
+    setThread((t) => [...t, { role: "user", content: q }]);
+    setBusy(true);
+    try {
+      const { reply } = await askConsultantFollowUp({
+        data: { answers, history: thread, question: q },
+      });
+      setThread((t) => [...t, { role: "assistant", content: reply }]);
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "That didn't send. Try again?");
+    } finally {
+      setBusy(false);
+    }
+  }
 
   return (
-    <div className="p-7 md:p-9">
-      <p className="text-[10px] uppercase tracking-[0.22em] text-primary">Your Routine</p>
-      <h2 className="mt-2 font-display text-3xl leading-tight text-ink">
-        {zone.label} · {skinLabel} Skin
+    <div className="border border-border bg-paper p-7 md:p-10">
+      <p className="text-[10px] uppercase tracking-[0.22em] text-primary">Your consultation</p>
+      <h2 className="mt-3 font-display text-[1.9rem] leading-snug text-ink">
+        {answers.name ? `Here's your routine, ${answers.name}.` : "Here's your routine."}
       </h2>
 
-      <div className="mt-4 flex flex-wrap gap-1.5">
-        {[
-          `${st.capital}, ${st.name}`,
-          `${skinLabel} skin`,
-          answers.age ? AGE_BANDS[answers.age] : "",
-          answers.sensitivity ? SENSITIVITY[answers.sensitivity].title : "",
-        ].filter(Boolean).map((f) => (
-          <span key={f} className="border border-border px-2.5 py-1 text-[10px] uppercase tracking-[0.05em] text-muted-foreground">{f}</span>
-        ))}
+      <p className="mt-5 whitespace-pre-line text-[15px] leading-relaxed text-ink/85">{result.opening}</p>
+
+      <div className="mt-6 flex flex-wrap gap-1.5">
+        {[answers.skinType, ...answers.concerns, answers.sunExposure, answers.indoorAir]
+          .filter(Boolean)
+          .map((f) => (
+            <span
+              key={f}
+              className="border border-border px-2.5 py-1 text-[10px] uppercase tracking-[0.05em] text-muted-foreground"
+            >
+              {f}
+            </span>
+          ))}
       </div>
 
-      <div className="mt-5 border-l-2 border-primary bg-cream px-4 py-3 text-xs leading-relaxed text-muted-foreground">
-        <b className="text-ink">Why this routine:</b> {zone.profile}
-        {answers.secondary.length > 0 && (
-          <> We've also factored in {answers.secondary.map((k) => SECONDARY[k]).join(", ").toLowerCase()}.</>
-        )}
-      </div>
-
-      <div className="mt-6 space-y-8">
-        {trimmed.map((s, i) => (
-          <div key={s.key} className="border-b border-dashed border-border pb-8 last:border-b-0">
-            <div className="flex gap-4">
-              <div className="w-6 shrink-0 font-display text-lg italic text-primary">{i + 1}</div>
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-ink">{s.name}</p>
-                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.desc}</p>
+      <div className="mt-9 space-y-7">
+        {result.routine.map((r, i) => {
+          const p = CONSULT_PRODUCT_MAP[r.priceId];
+          if (!p) return null;
+          return (
+            <div key={`${r.priceId}-${i}`} className="border-b border-dashed border-border pb-7 last:border-b-0">
+              <div className="flex items-baseline gap-3">
+                <span className="font-display text-lg italic text-primary">{i + 1}</span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{p.step}</span>
+              </div>
+              <div className="mt-3 flex gap-4">
+                <Link to="/shop" className="block h-24 w-24 shrink-0 overflow-hidden bg-secondary">
+                  <img src={p.image} alt={p.name} loading="lazy" className="h-full w-full object-cover" />
+                </Link>
+                <div className="flex-1">
+                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{p.brand}</p>
+                  <p className="mt-0.5 font-display text-lg leading-snug text-ink">{p.name}</p>
+                  <p className="mt-2 border-l-2 border-primary pl-3 text-[13px] leading-relaxed text-muted-foreground">
+                    {r.why}
+                  </p>
+                  <div className="mt-3 flex items-center gap-3">
+                    <span className="text-sm text-ink">{p.price} AUD</span>
+                    <button
+                      onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
+                      className="bg-ink px-4 py-2 text-[10px] font-medium uppercase tracking-wider text-paper hover:bg-primary"
+                    >
+                      Add it
+                    </button>
+                  </div>
+                  <WhyThisIngredient productId={p.priceId} />
+                </div>
               </div>
             </div>
-            {s.picks.length > 0 && (
-              <div className="mt-4 ml-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {s.picks.map((p) => (
-                  <div key={p.id} className="group border border-border bg-paper p-3">
-                    <Link
-                      to="/shop"
-                      className="block aspect-square overflow-hidden bg-secondary"
-                    >
-                      <img
-                        src={p.image}
-                        alt={p.name}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </Link>
-                    <p className="mt-3 text-[10px] uppercase tracking-wider text-muted-foreground">{p.brand}</p>
-                    <p className="mt-0.5 text-xs font-medium leading-snug text-ink">{p.name}</p>
-                    <div className="mt-2 flex items-center justify-between">
-                      <span className="text-xs text-ink">{p.price}</span>
-                      <div className="flex items-center gap-2">
-                        <Link to="/shop" className="text-[10px] uppercase tracking-wider text-muted-foreground hover:text-ink">
-                          View
-                        </Link>
-                        <button
-                          onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
-                          className="bg-ink px-3 py-1.5 text-[10px] font-medium uppercase tracking-wider text-paper hover:bg-primary"
-                        >
-                          Buy
-                        </button>
-                    </div>
-                    <WhyThisIngredient productId={p.priceId} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      <div className="mt-8 flex flex-col items-center gap-3">
-        <Link to="/shop" className="bg-ink px-8 py-3 text-[10px] font-medium uppercase tracking-[0.18em] text-paper hover:bg-primary">
-          Shop the Full Range
+      {/* Follow-up conversation */}
+      <div className="mt-9 border-t border-border pt-7">
+        <p className="text-[15px] leading-relaxed text-ink/85">{result.closing}</p>
+
+        {thread.length > 0 && (
+          <div className="mt-5 space-y-4">
+            {thread.map((m, i) => (
+              <div
+                key={i}
+                className={
+                  m.role === "user"
+                    ? "ml-auto max-w-[85%] bg-accent/30 px-4 py-3 text-sm leading-relaxed text-ink"
+                    : "max-w-[92%] border-l-2 border-primary bg-cream px-4 py-3 text-sm leading-relaxed text-ink/85"
+                }
+              >
+                {m.content}
+              </div>
+            ))}
+            {busy && <p className="text-xs italic text-muted-foreground">Thinking it through…</p>}
+            <div ref={threadEnd} />
+          </div>
+        )}
+
+        {err && <p className="mt-3 text-xs text-destructive">{err}</p>}
+
+        <div className="mt-5 flex gap-2">
+          <input
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") ask();
+            }}
+            placeholder="Ask a follow-up…"
+            className="flex-1 border border-border bg-cream px-4 py-3 text-sm text-ink outline-none placeholder:text-muted-foreground/70 focus:border-primary"
+          />
+          <button
+            onClick={ask}
+            disabled={busy || !question.trim()}
+            className="bg-ink px-5 text-[10px] font-medium uppercase tracking-[0.18em] text-paper hover:bg-primary disabled:bg-border disabled:text-muted-foreground"
+          >
+            Ask
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-9 flex flex-col items-center gap-3">
+        <Link
+          to="/shop"
+          className="bg-ink px-8 py-3 text-[10px] font-medium uppercase tracking-[0.18em] text-paper hover:bg-primary"
+        >
+          Shop the full range
         </Link>
-        <button onClick={onRestart} className="border border-border px-4 py-2 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:border-ink hover:text-ink">
+        <button
+          onClick={onRestart}
+          className="border border-border px-4 py-2 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:border-ink hover:text-ink"
+        >
           Start over
         </button>
       </div>

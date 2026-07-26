@@ -282,6 +282,7 @@ export type Database = {
           email: string | null
           id: string
           marketing_consent: boolean
+          name: string | null
           recommended_products: string[]
           skin_concerns: string[]
           skin_type: string | null
@@ -295,6 +296,7 @@ export type Database = {
           email?: string | null
           id?: string
           marketing_consent?: boolean
+          name?: string | null
           recommended_products?: string[]
           skin_concerns?: string[]
           skin_type?: string | null
@@ -308,6 +310,7 @@ export type Database = {
           email?: string | null
           id?: string
           marketing_consent?: boolean
+          name?: string | null
           recommended_products?: string[]
           skin_concerns?: string[]
           skin_type?: string | null
