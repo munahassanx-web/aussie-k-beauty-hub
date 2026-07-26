@@ -95,6 +95,33 @@ export type Database = {
         }
         Relationships: []
       }
+      newsletter_log: {
+        Row: {
+          created_at: string
+          id: string
+          send_date: string
+          subject_line: string | null
+          theme: string
+          topic: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          send_date: string
+          subject_line?: string | null
+          theme: string
+          topic: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          send_date?: string
+          subject_line?: string | null
+          theme?: string
+          topic?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           amount_cents: number
@@ -246,6 +273,84 @@ export type Database = {
         }
         Relationships: []
       }
+      quiz_responses: {
+        Row: {
+          budget_band: string | null
+          created_at: string
+          current_routine_gaps: string[]
+          customer_id: string | null
+          email: string | null
+          id: string
+          marketing_consent: boolean
+          recommended_products: string[]
+          skin_concerns: string[]
+          skin_type: string | null
+          source: string
+        }
+        Insert: {
+          budget_band?: string | null
+          created_at?: string
+          current_routine_gaps?: string[]
+          customer_id?: string | null
+          email?: string | null
+          id?: string
+          marketing_consent?: boolean
+          recommended_products?: string[]
+          skin_concerns?: string[]
+          skin_type?: string | null
+          source?: string
+        }
+        Update: {
+          budget_band?: string | null
+          created_at?: string
+          current_routine_gaps?: string[]
+          customer_id?: string | null
+          email?: string | null
+          id?: string
+          marketing_consent?: boolean
+          recommended_products?: string[]
+          skin_concerns?: string[]
+          skin_type?: string | null
+          source?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          created_at: string
+          customer_id: string | null
+          id: string
+          is_published: boolean
+          product_id: string
+          rating: number
+          review_text: string | null
+          sentiment_score: number | null
+          tags: string[]
+        }
+        Insert: {
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          is_published?: boolean
+          product_id: string
+          rating: number
+          review_text?: string | null
+          sentiment_score?: number | null
+          tags?: string[]
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          is_published?: boolean
+          product_id?: string
+          rating?: number
+          review_text?: string | null
+          sentiment_score?: number | null
+          tags?: string[]
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           cancel_at_period_end: boolean | null
@@ -291,6 +396,30 @@ export type Database = {
           stripe_subscription_id?: string
           updated_at?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      support_signals: {
+        Row: {
+          created_at: string
+          frequency: number
+          id: string
+          theme: string
+          week_starting: string
+        }
+        Insert: {
+          created_at?: string
+          frequency?: number
+          id?: string
+          theme: string
+          week_starting: string
+        }
+        Update: {
+          created_at?: string
+          frequency?: number
+          id?: string
+          theme?: string
+          week_starting?: string
         }
         Relationships: []
       }
