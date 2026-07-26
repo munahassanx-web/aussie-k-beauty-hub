@@ -1,0 +1,3 @@
+drop policy if exists "Anyone can submit a quiz response" on public.quiz_responses;
+create policy "Anonymous visitors can submit a quiz response" on public.quiz_responses for insert to anon with check (customer_id is null);
+create policy "Signed-in customers can submit their own quiz response" on public.quiz_responses for insert to authenticated with check (customer_id is null or customer_id = auth.uid());
