@@ -52,7 +52,7 @@ const CONCERNS: Option[] = [
   { value: "Fine lines / ageing", title: "Fine lines & ageing", hint: "Early lines, or skin losing its bounce" },
   { value: "Redness / sensitivity", title: "Redness & sensitivity", hint: "Flushing or reactive patches" },
   { value: "Uneven tone", title: "Uneven tone", hint: "Dark marks or patchiness" },
-  { value: "Dehydration", title: "Dehydration", hint: "Tight and thirsty, even if you're also oily" },
+  { value: "Dehydration", title: "Dehydration", hint: "Lacks water, not oil — even oily skin can feel tight" },
 ];
 
 const FAMILIARITY: Option[] = [
