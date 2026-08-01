@@ -267,7 +267,7 @@ function Hero() {
             {[
               "Sourced Direct from Seoul",
               "Authenticity Verified",
-              "Next-Day from Melbourne",
+              "Order by 12pm, on your doorstep tomorrow",
               "Built for Your Skin",
             ].map((b) => (
               <span
