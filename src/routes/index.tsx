@@ -12,6 +12,16 @@ import brandSpotlight from "@/assets/brand-spotlight.jpg";
 import skinMacro from "@/assets/skin-macro.jpg";
 import customers from "@/assets/customers.jpg";
 import categoryMasks from "@/assets/category-masks.jpg";
+import bojReliefSun from "@/assets/boj-relief-sun-aqua.webp.asset.json";
+import biodanceCleanser from "@/assets/biodance-foam-cleanser.jpg.asset.json";
+import aesturaCica from "@/assets/aestura-cica365-serum.webp.asset.json";
+import anuaPdrnCream from "@/assets/anua-pdrn-cream.webp.asset.json";
+import bojEyeSerum from "@/assets/boj-revive-eye-serum.webp.asset.json";
+import bojGlowSerum from "@/assets/boj-glow-serum.webp.asset.json";
+import biodanceMask from "@/assets/biodance-collagen-mask.webp.asset.json";
+import medicubeEye from "@/assets/medicube-pdrn-eye.webp.asset.json";
+import skin1004Ampoule from "@/assets/skin1004-centella-ampoule.webp.asset.json";
+import torridenSerum from "@/assets/torriden-divein-serum.webp.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -461,35 +471,66 @@ function BundleOffer() {
       tag: "Starter Ritual",
       name: "The Glass Skin Starter",
       desc: "A 4-step intro to Korean skincare — cleanse, hydrate, treat, protect.",
-      includes: ["Anua Heartleaf Cleansing Oil", "Round Lab 1025 Dokdo Toner", "COSRX Snail 96 Essence", "Beauty of Joseon Relief Sun SPF50+"],
+      includes: [
+        "Biodance Collagen Mask to Foam Cleanser",
+        "Torriden DIVE IN 5D Hyaluronic Acid Serum",
+        "Anua PDRN Hyaluronic Acid 100 Cream",
+        "Beauty of Joseon Relief Sun SPF50+",
+      ],
+      products: [
+        { img: biodanceCleanser.url, alt: "Biodance Collagen Mask to Foam Cleanser" },
+        { img: torridenSerum.url, alt: "Torriden DIVE IN 5D Hyaluronic Acid Intensive Serum" },
+        { img: anuaPdrnCream.url, alt: "Anua PDRN Hyaluronic Acid 100 Moisturizing Cream" },
+        { img: bojReliefSun.url, alt: "Beauty of Joseon Relief Sun Aqua-Fresh SPF50+" },
+      ],
       original: 138,
       price: 109,
       save: 29,
-      img: productFlatlay,
       featured: false,
     },
     {
       priceId: "complete_glow_bundle_onetime",
       tag: "Best Value · Save 25%",
       name: "The Complete Glow Edit",
-      desc: "Our most-loved 7-step ritual, advisor-built. A full month of glass-skin results.",
-      includes: ["Double cleanse duo", "Hydrating toner + essence", "Brightening serum", "Barrier moisturiser", "SPF50+ finish", "Free overnight mask"],
+      desc: "Our most-loved ritual, advisor-built. A full month of glass-skin results.",
+      includes: [
+        "Beauty of Joseon Glow Serum: Propolis + Niacinamide",
+        "SKIN1004 Madagascar Centella Probio-Cica Ampoule",
+        "Beauty of Joseon Revive Eye Serum: Ginseng + Retinal",
+        "Biodance Bio-Collagen Real Deep Mask",
+        "Beauty of Joseon Relief Sun SPF50+",
+      ],
+      products: [
+        { img: bojGlowSerum.url, alt: "Beauty of Joseon Glow Serum Propolis + Niacinamide" },
+        { img: skin1004Ampoule.url, alt: "SKIN1004 Madagascar Centella Probio-Cica Intensive Ampoule" },
+        { img: bojEyeSerum.url, alt: "Beauty of Joseon Revive Eye Serum Ginseng + Retinal" },
+        { img: biodanceMask.url, alt: "Biodance Bio-Collagen Real Deep Mask" },
+      ],
       original: 264,
       price: 198,
       save: 66,
-      img: ritualScene,
       featured: true,
     },
     {
       priceId: "calm_clear_bundle_onetime",
       tag: "Concern Kit",
       name: "Calm & Clear Bundle",
-      desc: "For breakout-prone, sensitive skin. Centella, heartleaf and gentle actives.",
-      includes: ["Anua Heartleaf 77% Toner", "SKIN1004 Madagascar Centella Ampoule", "Beauty of Joseon Calming Serum", "Numbuzin Soothing Cream"],
+      desc: "For breakout-prone, sensitive skin. Centella, cica and gentle actives.",
+      includes: [
+        "Aestura A-Cica365 Soothing Relief Serum pH4.5",
+        "SKIN1004 Madagascar Centella Probio-Cica Ampoule",
+        "Anua PDRN Hyaluronic Acid 100 Cream",
+        "Medicube PDRN Pink Peptide Eye Cream",
+      ],
+      products: [
+        { img: aesturaCica.url, alt: "Aestura A-Cica365 Soothing Relief Serum pH4.5" },
+        { img: skin1004Ampoule.url, alt: "SKIN1004 Madagascar Centella Probio-Cica Intensive Ampoule" },
+        { img: anuaPdrnCream.url, alt: "Anua PDRN Hyaluronic Acid 100 Moisturizing Cream" },
+        { img: medicubeEye.url, alt: "Medicube PDRN Pink Peptide Eye Cream" },
+      ],
       original: 156,
       price: 124,
       save: 32,
-      img: textureMacro,
       featured: false,
     },
   ];
@@ -534,7 +575,19 @@ function BundleOffer() {
                 </div>
               )}
               <div className="relative aspect-[5/3] overflow-hidden bg-sand">
-                <img src={b.img} alt={b.name} loading="lazy" className="h-full w-full object-cover" />
+                <div className="grid h-full w-full grid-cols-4">
+                  {b.products.map((p) => (
+                    <div key={p.alt} className="flex items-center justify-center bg-paper p-2">
+                      <img
+                        src={p.img}
+                        alt={p.alt}
+                        title={p.alt}
+                        loading="lazy"
+                        className="h-full w-full object-contain mix-blend-multiply transition-transform duration-500 hover:scale-105"
+                      />
+                    </div>
+                  ))}
+                </div>
                 <span className="absolute left-4 top-4 rounded-full bg-paper/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-hanbok-deep backdrop-blur">
                   {b.tag}
                 </span>
