@@ -658,16 +658,15 @@ function ProvenanceCard() {
   return (
     <section className="bg-ink text-paper">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-2 md:items-center">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-gradient-to-br from-hanbok-deep/40 to-ink">
-          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_50%_50%,_rgba(234,215,178,0.25),_transparent_70%)]" />
-          <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-paper/15 bg-ink/70 p-5 backdrop-blur">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-ink">
+          <img
+            src={authenticityCard.url}
+            alt="Skin Grocer authenticity card surrounded by Aestura, Beauty of Joseon and COSRX products"
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute left-4 top-4 rounded-full border border-paper/20 bg-ink/60 px-4 py-2 backdrop-blur">
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-accent">Provenance card</p>
-            <p className="mt-3 font-display text-xl text-paper">Batch BJ-24-0719 · Sealed in Seoul</p>
-            <div className="mt-3 grid grid-cols-3 gap-3 text-xs text-paper/70">
-              <div><p className="text-paper/50">Manufactured</p><p>2024 · 07 · 19</p></div>
-              <div><p className="text-paper/50">Imported</p><p>2024 · 08 · 02</p></div>
-              <div><p className="text-paper/50">Expires</p><p>2027 · 07 · 19</p></div>
-            </div>
           </div>
         </div>
 
