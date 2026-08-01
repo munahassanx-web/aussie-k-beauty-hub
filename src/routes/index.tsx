@@ -44,12 +44,6 @@ const concerns: { name: string; desc: string; color: string; slug: "hydration" |
   { name: "Sensitivity", desc: "Repair and soothe the barrier", color: "from-hanbok/10", slug: "sensitivity" },
 ];
 
-const bestsellers: { brand: string; name: string; price: number; rating: number; reviews: number; tag: string; priceId: string }[] = [
-  { brand: "COSRX", name: "Advanced Snail 96 Mucin Power Essence", price: 32, rating: 4.9, reviews: 1284, tag: "Bestseller", priceId: "snail_essence_onetime" },
-  { brand: "Beauty of Joseon", name: "Relief Sun SPF50+", price: 22, rating: 4.9, reviews: 2310, tag: "AU Cult", priceId: "relief_sun_onetime" },
-  { brand: "Anua", name: "Heartleaf Soothing Ampoule", price: 38, rating: 4.8, reviews: 902, tag: "Editor's Pick", priceId: "heartleaf_ampoule_onetime" },
-  { brand: "SKIN1004", name: "Centella Calming Toner", price: 28, rating: 4.8, reviews: 644, tag: "Restocked", priceId: "centella_toner_onetime" },
-];
 
 const ingredients = [
   { name: "Snail Mucin", role: "Repair & glow" },
@@ -84,7 +78,7 @@ function HomePage() {
       <Categories />
       <Concerns />
       <ApplicationMoment />
-      <Bestsellers />
+      
       <BrandMarquee />
       <ProvenanceCard />
 
@@ -458,69 +452,6 @@ function Concerns() {
   );
 }
 
-function Bestsellers() {
-  const [hover, setHover] = useState<number | null>(null);
-  const { buy, modal } = useBuyNow();
-  const covers = [productFlatlay, ritualScene, textureMacro, brandSpotlight];
-  return (
-    <section className="mx-auto max-w-7xl px-6 py-24">
-      <div className="flex items-end justify-between gap-6">
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Loved by Australia</p>
-          <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">This week's bestsellers.</h2>
-        </div>
-        <Link to="/shop" className="text-sm font-medium text-primary underline-grow">View all bestsellers →</Link>
-      </div>
-
-      <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {bestsellers.map((p, i) => (
-          <article
-            key={p.name}
-            onMouseEnter={() => setHover(i)}
-            onMouseLeave={() => setHover(null)}
-            className="group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card transition-all duration-500 hover:border-hanbok/40 hover:shadow-[0_24px_50px_-30px_rgba(46,63,110,0.35)]"
-          >
-            <div className="relative aspect-square overflow-hidden bg-sand">
-              <Link to="/shop" search={{ brand: p.brand }} className="block h-full w-full">
-              <img
-                src={covers[i % 4]}
-                alt={p.name}
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <span className="absolute left-3 top-3 rounded-full bg-paper/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-hanbok-deep backdrop-blur">
-                {p.tag}
-              </span>
-              </Link>
-              <button
-                onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `A$${p.price}` })}
-                className={`absolute inset-x-3 bottom-3 rounded-full bg-ink py-3 text-xs font-semibold uppercase tracking-[0.18em] text-paper transition-all duration-300 ${
-                  hover === i ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-                }`}
-              >
-                Quick Add · A${p.price}
-              </button>
-            </div>
-            <div className="flex flex-1 flex-col p-5">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-clay">{p.brand}</p>
-              <h3 className="mt-2 font-display text-lg leading-tight text-ink">{p.name}</h3>
-              <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-                <span className="text-accent">★★★★★</span>
-                <span>{p.rating} ({p.reviews.toLocaleString()})</span>
-              </div>
-              <div className="mt-4 flex items-end justify-between">
-                <p className="font-display text-xl text-ink">A${p.price}</p>
-                <span className="text-[11px] uppercase tracking-[0.18em] text-hanbok-deep">Subscribe & save</span>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-      {modal}
-    </section>
-  );
-
-}
 
 function BundleOffer() {
   const { buy, modal } = useBuyNow();
