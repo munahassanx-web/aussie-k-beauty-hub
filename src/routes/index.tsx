@@ -262,6 +262,29 @@ function Hero() {
             </p>
           </div>
 
+          {/* Trust badges */}
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+            {[
+              "Sourced Direct from Seoul",
+              "Authenticity Verified",
+              "Next-Day from Melbourne",
+              "Built for Your Skin",
+            ].map((b) => (
+              <span
+                key={b}
+                className="inline-flex items-center gap-2 rounded-full border border-paper/25 bg-paper/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.16em] text-paper/90 backdrop-blur-sm"
+              >
+                <span className="h-1 w-1 rounded-full bg-accent" />
+                {b}
+              </span>
+            ))}
+          </div>
+
+          {/* Provenance supporting line */}
+          <p className="mt-2 max-w-md text-balance text-xs leading-relaxed text-paper/65">
+            Every order arrives batch-verified, with a provenance card tracing it from Seoul to your door.
+          </p>
+
           <div className="mt-4 flex flex-col items-center gap-3 sm:flex-row">
             <Link
               to="/shop"
@@ -272,10 +295,10 @@ function Hero() {
             </Link>
             <Link
               to="/consultation"
-              className="group inline-flex items-center gap-3 rounded-full border border-paper/40 px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-paper transition hover:border-paper hover:bg-paper hover:text-ink"
+              className="group inline-flex items-center gap-2.5 rounded-full border border-paper/50 bg-transparent px-8 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-paper transition hover:border-paper hover:bg-paper/10"
             >
-              Take the 2-minute skin quiz
-              <span className="transition-transform group-hover:translate-x-1">→</span>
+              <SparkleIcon className="h-4 w-4 text-accent" />
+              <span>Take the 2-minute skin quiz</span>
             </Link>
           </div>
         </div>
@@ -293,6 +316,24 @@ function Hero() {
         </div>
       </div>
     </section>
+  );
+}
+
+function SparkleIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+    </svg>
   );
 }
 
