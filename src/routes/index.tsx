@@ -399,11 +399,11 @@ function Categories() {
 
             <img
               src={c.img}
-              alt={c.name}
+              alt={`${c.name} — ${c.label}`}
               loading="lazy"
-              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+              className="h-full w-full object-contain p-6 transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/5 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-4">
               <p className="font-display text-lg text-paper">{c.name}</p>
               <p className="text-[11px] uppercase tracking-[0.18em] text-paper/70">{c.count}</p>
