@@ -81,11 +81,12 @@ function HomePage() {
       <WhyPillars />
       <BundleOffer />
       <Categories />
-      
       <Concerns />
+      <ApplicationMoment />
       <Bestsellers />
       <BrandMarquee />
       <ProvenanceCard />
+
 
       <IngredientStrip />
       <RitualCTA />
