@@ -575,7 +575,19 @@ function BundleOffer() {
                 </div>
               )}
               <div className="relative aspect-[5/3] overflow-hidden bg-sand">
-                <img src={b.img} alt={b.name} loading="lazy" className="h-full w-full object-cover" />
+                <div className="grid h-full w-full grid-cols-4">
+                  {b.products.map((p) => (
+                    <div key={p.alt} className="flex items-center justify-center bg-paper p-2">
+                      <img
+                        src={p.img}
+                        alt={p.alt}
+                        title={p.alt}
+                        loading="lazy"
+                        className="h-full w-full object-contain mix-blend-multiply transition-transform duration-500 hover:scale-105"
+                      />
+                    </div>
+                  ))}
+                </div>
                 <span className="absolute left-4 top-4 rounded-full bg-paper/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-hanbok-deep backdrop-blur">
                   {b.tag}
                 </span>
