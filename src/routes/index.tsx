@@ -80,16 +80,13 @@ function HomePage() {
       <PromoBar />
       <Hero />
       <Promise />
+      <ProvenanceCard />
       <WhyPillars />
       <BundleOffer />
       <Categories />
       <Concerns />
       <ApplicationMoment />
-      
       <BrandMarquee />
-      <ProvenanceCard />
-
-
       <IngredientStrip />
       <RitualCTA />
       <ParallaxScene />
