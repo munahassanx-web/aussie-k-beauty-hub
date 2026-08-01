@@ -123,6 +123,68 @@ function WhyPillars() {
             honestly priced, and here to guide you from your first cleanse to your final SPF.
           </p>
         </div>
+
+        {/* Personal consultation — the core differentiator */}
+        <div className="mt-12 overflow-hidden rounded-3xl bg-ink text-paper">
+          <div className="grid md:grid-cols-5">
+            <div className="p-8 md:col-span-3 md:p-12">
+              <div className="flex items-center gap-3">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent">
+                  <SparkleIcon className="h-3.5 w-3.5" />
+                  Free · 2 minutes
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-paper/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/70">
+                  Made for you
+                </span>
+              </div>
+              <h3 className="mt-6 font-display text-3xl leading-tight md:text-4xl">
+                Your personal K-beauty consultation
+              </h3>
+              <p className="mt-4 max-w-lg text-paper/75">
+                Not sure where to start? Answer a few questions and we'll build a routine around your skin type, your concerns, and your budget — then explain every step so you never feel lost.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <Link
+                  to="/consultation"
+                  className="group inline-flex items-center gap-2.5 rounded-full bg-paper px-8 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-ink transition hover:bg-accent"
+                >
+                  Take the 2-minute quiz
+                  <span className="transition-transform group-hover:translate-x-1">→</span>
+                </Link>
+                <Link
+                  to="/journey"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-paper/80 underline-offset-4 transition hover:text-paper hover:underline"
+                >
+                  See how it works
+                </Link>
+              </div>
+              <div className="mt-8 flex flex-wrap gap-4 text-xs uppercase tracking-[0.18em] text-paper/55">
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                  Curated for Australian skin
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                  No spam, no obligation
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                  Real products, real results
+                </span>
+              </div>
+            </div>
+            <div className="relative hidden items-center justify-center bg-hanbok-deep/15 md:col-span-2 md:flex">
+              <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `radial-gradient(circle at 70% 30%, var(--accent), transparent 50%)` }} />
+              <div className="relative text-center">
+                <div className="mx-auto flex h-28 w-28 items-center justify-center rounded-full border border-paper/20 bg-paper/10 backdrop-blur">
+                  <SparkleIcon className="h-12 w-12 text-accent" />
+                </div>
+                <p className="mt-5 text-[10px] uppercase tracking-[0.2em] text-paper/60">Personalised to you</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-3">
           {pillars.map((p, i) => (
             <div key={p.t} className="flex flex-col gap-3 bg-paper p-8">
@@ -429,67 +491,6 @@ function Concerns() {
           </p>
         </div>
 
-        {/* Personal consultation — the main differentiator */}
-        <div className="mt-12 overflow-hidden rounded-3xl bg-ink text-paper">
-          <div className="grid md:grid-cols-5">
-            <div className="p-8 md:col-span-3 md:p-12">
-              <div className="flex items-center gap-3">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent">
-                  <SparkleIcon className="h-3.5 w-3.5" />
-                  Free · 2 minutes
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-paper/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/70">
-                  <HeartIcon className="h-3.5 w-3.5" />
-                  Made for you
-                </span>
-              </div>
-              <h3 className="mt-6 font-display text-3xl leading-tight md:text-4xl">
-                Your personal K-beauty consultation
-              </h3>
-              <p className="mt-4 max-w-lg text-paper/75">
-                Not sure where to start? Answer a few questions and we'll build a routine around your skin type, your concerns, and your budget — then explain every step so you never feel lost.
-              </p>
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Link
-                  to="/consultation"
-                  className="group inline-flex items-center gap-2.5 rounded-full bg-paper px-8 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-ink transition hover:bg-accent"
-                >
-                  Take the 2-minute quiz
-                  <span className="transition-transform group-hover:translate-x-1">→</span>
-                </Link>
-                <Link
-                  to="/journey"
-                  className="inline-flex items-center gap-2 text-sm font-medium text-paper/80 underline-offset-4 transition hover:text-paper hover:underline"
-                >
-                  See how it works
-                </Link>
-              </div>
-              <div className="mt-8 flex flex-wrap gap-4 text-xs uppercase tracking-[0.18em] text-paper/55">
-                <span className="inline-flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  Curated for Australian skin
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  No spam, no obligation
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  Real products, real results
-                </span>
-              </div>
-            </div>
-            <div className="relative hidden items-center justify-center bg-hanbok-deep/15 md:col-span-2 md:flex">
-              <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `radial-gradient(circle at 70% 30%, var(--accent), transparent 50%)` }} />
-              <div className="relative text-center">
-                <div className="mx-auto flex h-28 w-28 items-center justify-center rounded-full border border-paper/20 bg-paper/10 backdrop-blur">
-                  <SparkleIcon className="h-12 w-12 text-accent" />
-                </div>
-                <p className="mt-5 text-[10px] uppercase tracking-[0.2em] text-paper/60">Personalised to you</p>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {concerns.map((c) => (
@@ -514,23 +515,6 @@ function Concerns() {
   );
 }
 
-function HeartIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-    </svg>
-  );
-}
 
 
 function BundleOffer() {
