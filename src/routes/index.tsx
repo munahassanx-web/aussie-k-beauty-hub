@@ -81,11 +81,12 @@ function HomePage() {
       <WhyPillars />
       <BundleOffer />
       <Categories />
-      
       <Concerns />
+      <ApplicationMoment />
       <Bestsellers />
       <BrandMarquee />
       <ProvenanceCard />
+
 
       <IngredientStrip />
       <RitualCTA />
@@ -656,8 +657,8 @@ function ProvenanceCard() {
   return (
     <section className="bg-ink text-paper">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-2 md:items-center">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-3xl">
-          <img src={applyingSerum.url} alt="Woman applying serum to her face in soft natural light, glass skin glow" loading="lazy" className="h-full w-full object-cover" />
+        <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-gradient-to-br from-hanbok-deep/40 to-ink">
+          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_50%_50%,_rgba(234,215,178,0.25),_transparent_70%)]" />
           <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-paper/15 bg-ink/70 p-5 backdrop-blur">
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-accent">Provenance card</p>
             <p className="mt-3 font-display text-xl text-paper">Batch BJ-24-0719 · Sealed in Seoul</p>
@@ -698,6 +699,43 @@ function ProvenanceCard() {
     </section>
   );
 }
+
+function ApplicationMoment() {
+  return (
+    <section className="relative overflow-hidden bg-ink">
+      <div className="absolute inset-0">
+        <img
+          src={applyingSerum.url}
+          alt="Woman applying a lightweight Korean serum to her face in soft natural light"
+          loading="lazy"
+          className="h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/40 to-ink/20" />
+      </div>
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-28 md:grid-cols-2 md:items-center">
+        <div className="text-paper">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">The daily ritual</p>
+          <h2 className="mt-4 max-w-md font-display text-4xl leading-tight md:text-5xl">
+            Skincare that fits into <span className="italic">real life.</span>
+          </h2>
+          <p className="mt-5 max-w-lg text-paper/80">
+            Two minutes in the morning, two at night. We build routines that work for busy mums,
+            shift workers, students — anyone who wants healthy skin without the 10-step confusion.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link to="/consultation" className="rounded-full bg-paper px-7 py-3.5 text-sm font-medium text-ink hover:bg-accent">
+              Build your routine
+            </Link>
+            <Link to="/shop" className="rounded-full border border-paper/40 px-7 py-3.5 text-sm font-medium text-paper hover:bg-paper/10">
+              Shop the ritual
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
 function IngredientStrip() {
   return (
