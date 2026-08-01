@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useBuyNow } from "@/hooks/use-buy-now";
-import heroKoreanModel from "@/assets/hero-korean-model.jpg";
+import applyingSerum from "@/assets/applying-serum.png.asset.json";
+import brandLineup from "@/assets/brand-lineup.png.asset.json";
 import heroVideo from "@/assets/hero-video.mp4.asset.json";
 import productFlatlay from "@/assets/product-flatlay.jpg";
 import textureMacro from "@/assets/texture-macro.jpg";
@@ -204,7 +205,7 @@ function ParallaxScene() {
     >
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat md:bg-fixed"
-        style={{ backgroundImage: `url(${heroKoreanModel})` }}
+        style={{ backgroundImage: `url(${applyingSerum.url})` }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/10 to-ink/60" />
       <div className="relative mx-auto flex min-h-[80vh] max-w-7xl flex-col items-start justify-end px-6 py-24">
@@ -656,7 +657,7 @@ function ProvenanceCard() {
     <section className="bg-ink text-paper">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-2 md:items-center">
         <div className="relative aspect-[4/5] overflow-hidden rounded-3xl">
-          <img src={productFlatlay} alt="Sealed K-beauty products" loading="lazy" className="h-full w-full object-cover" />
+          <img src={brandLineup.url} alt="Authentic Korean skincare — Beauty of Joseon, COSRX, Torriden, Aestura and Biodance" loading="lazy" className="h-full w-full object-cover" />
           <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-paper/15 bg-ink/70 p-5 backdrop-blur">
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-accent">Provenance card</p>
             <p className="mt-3 font-display text-xl text-paper">Batch BJ-24-0719 · Sealed in Seoul</p>
