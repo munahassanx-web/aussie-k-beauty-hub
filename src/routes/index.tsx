@@ -37,13 +37,13 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const categories: { name: string; count: string; img: string; search: { category: "cleanse" | "tone" | "treat" | "moisturise" | "protect" | "masks" } }[] = [
-  { name: "Cleansers", count: "Melt & rinse", img: textureMacro, search: { category: "cleanse" } },
-  { name: "Toners & Essences", count: "Prep & hydrate", img: ritualScene, search: { category: "tone" } },
-  { name: "Serums", count: "Treat & target", img: productFlatlay, search: { category: "treat" } },
-  { name: "Moisturisers", count: "Seal & protect", img: brandSpotlight, search: { category: "moisturise" } },
-  { name: "SPF", count: "Everyday defence", img: skinMacro, search: { category: "protect" } },
-  { name: "Masks", count: "Weekly rituals", img: categoryMasks, search: { category: "masks" } },
+const categories: { name: string; count: string; img: string; label: string; search: { category: "cleanse" | "tone" | "treat" | "moisturise" | "protect" | "masks" } }[] = [
+  { name: "Cleansers", count: "Melt & rinse", img: biodanceCleanser.url, label: "BIODANCE Foam Cleanser", search: { category: "cleanse" } },
+  { name: "Toners & Essences", count: "Prep & hydrate", img: skin1004Ampoule.url, label: "SKIN1004 Centella Ampoule", search: { category: "tone" } },
+  { name: "Serums", count: "Treat & target", img: bojGlowSerum.url, label: "Beauty of Joseon Glow Serum", search: { category: "treat" } },
+  { name: "Moisturisers", count: "Seal & protect", img: anuaPdrnCream.url, label: "Anua PDRN Cream", search: { category: "moisturise" } },
+  { name: "SPF", count: "Everyday defence", img: bojReliefSun.url, label: "Beauty of Joseon Relief Sun", search: { category: "protect" } },
+  { name: "Masks", count: "Weekly rituals", img: biodanceMask.url, label: "BIODANCE Bio-Collagen Mask", search: { category: "masks" } },
 ];
 
 
