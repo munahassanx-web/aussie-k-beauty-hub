@@ -204,7 +204,7 @@ function ParallaxScene() {
     >
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat md:bg-fixed"
-        style={{ backgroundImage: `url(${heroKoreanModel})` }}
+        style={{ backgroundImage: `url(${applyingSerum.url})` }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/10 to-ink/60" />
       <div className="relative mx-auto flex min-h-[80vh] max-w-7xl flex-col items-start justify-end px-6 py-24">
