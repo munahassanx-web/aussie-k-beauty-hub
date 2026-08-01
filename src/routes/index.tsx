@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useBuyNow } from "@/hooks/use-buy-now";
 import heroKoreanModel from "@/assets/hero-korean-model.jpg";
+import applyingSerum from "@/assets/applying-serum.png.asset.json";
+import brandLineup from "@/assets/brand-lineup.png.asset.json";
 import heroVideo from "@/assets/hero-video.mp4.asset.json";
 import productFlatlay from "@/assets/product-flatlay.jpg";
 import textureMacro from "@/assets/texture-macro.jpg";
