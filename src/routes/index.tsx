@@ -5,13 +5,10 @@ import applyingSerum from "@/assets/applying-serum.png.asset.json";
 import authenticityCard from "@/assets/authenticity-card.png.asset.json";
 import brandLineup from "@/assets/brand-lineup.png.asset.json";
 import heroVideo from "@/assets/hero-video.mp4.asset.json";
-import productFlatlay from "@/assets/product-flatlay.jpg";
 import textureMacro from "@/assets/texture-macro.jpg";
 import ritualScene from "@/assets/ritual-scene.jpg";
 import brandSpotlight from "@/assets/brand-spotlight.jpg";
-import skinMacro from "@/assets/skin-macro.jpg";
 import customers from "@/assets/customers.jpg";
-import categoryMasks from "@/assets/category-masks.jpg";
 import bojReliefSun from "@/assets/boj-relief-sun-aqua.webp.asset.json";
 import biodanceCleanser from "@/assets/biodance-foam-cleanser.jpg.asset.json";
 import aesturaCica from "@/assets/aestura-cica365-serum.webp.asset.json";
@@ -37,13 +34,13 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const categories: { name: string; count: string; img: string; search: { category: "cleanse" | "tone" | "treat" | "moisturise" | "protect" | "masks" } }[] = [
-  { name: "Cleansers", count: "Melt & rinse", img: textureMacro, search: { category: "cleanse" } },
-  { name: "Toners & Essences", count: "Prep & hydrate", img: ritualScene, search: { category: "tone" } },
-  { name: "Serums", count: "Treat & target", img: productFlatlay, search: { category: "treat" } },
-  { name: "Moisturisers", count: "Seal & protect", img: brandSpotlight, search: { category: "moisturise" } },
-  { name: "SPF", count: "Everyday defence", img: skinMacro, search: { category: "protect" } },
-  { name: "Masks", count: "Weekly rituals", img: categoryMasks, search: { category: "masks" } },
+const categories: { name: string; count: string; img: string; label: string; search: { category: "cleanse" | "tone" | "treat" | "moisturise" | "protect" | "masks" } }[] = [
+  { name: "Cleansers", count: "Melt & rinse", img: biodanceCleanser.url, label: "BIODANCE Foam Cleanser", search: { category: "cleanse" } },
+  { name: "Toners & Essences", count: "Prep & hydrate", img: skin1004Ampoule.url, label: "SKIN1004 Centella Ampoule", search: { category: "tone" } },
+  { name: "Serums", count: "Treat & target", img: bojGlowSerum.url, label: "Beauty of Joseon Glow Serum", search: { category: "treat" } },
+  { name: "Moisturisers", count: "Seal & protect", img: anuaPdrnCream.url, label: "Anua PDRN Cream", search: { category: "moisturise" } },
+  { name: "SPF", count: "Everyday defence", img: bojReliefSun.url, label: "Beauty of Joseon Relief Sun", search: { category: "protect" } },
+  { name: "Masks", count: "Weekly rituals", img: biodanceMask.url, label: "BIODANCE Bio-Collagen Mask", search: { category: "masks" } },
 ];
 
 
@@ -399,11 +396,11 @@ function Categories() {
 
             <img
               src={c.img}
-              alt={c.name}
+              alt={`${c.name} — ${c.label}`}
               loading="lazy"
-              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+              className="h-full w-full object-contain p-6 transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/5 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-4">
               <p className="font-display text-lg text-paper">{c.name}</p>
               <p className="text-[11px] uppercase tracking-[0.18em] text-paper/70">{c.count}</p>
