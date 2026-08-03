@@ -1,6 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import ourStoryAsset from "@/assets/our-story.jpg.asset.json";
+import founderAsset from "@/assets/founder-portrait.jpg.asset.json";
+import warehouseAsset from "@/assets/warehouse-pack.jpg.asset.json";
+import batchVerifyAsset from "@/assets/batch-verify.jpg.asset.json";
 const ourStory = ourStoryAsset.url;
+
 
 export const Route = createFileRoute("/about")({
   head: () => ({
