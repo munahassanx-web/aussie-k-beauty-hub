@@ -391,7 +391,7 @@ export function SiteFooter() {
             <li><Link to="/shop" className="hover:text-paper">All Products</Link></li>
             <li><Link to="/brands" className="hover:text-paper">Brands</Link></li>
             <li><Link to="/skin-concerns" className="hover:text-paper">By Concern</Link></li>
-            <li><Link to="/journey" className="hover:text-paper">Routines</Link></li>
+            <li><Link to="/routines" className="hover:text-paper">Routine Kits</Link></li>
           </ul>
         </div>
 
