@@ -23,81 +23,13 @@ export const Route = createFileRoute("/about")({
 function About() {
   return (
     <>
-      <section className="mx-auto max-w-4xl px-6 pt-20 pb-12 text-center">
-        <p className="text-xs uppercase tracking-[0.2em] text-primary">Our story</p>
-        <h1 className="mt-4 text-5xl text-foreground md:text-7xl">
-          Proof, not promises.
+      <section className="mx-auto max-w-6xl px-6 py-24">
+        <p className="text-center text-xs uppercase tracking-[0.2em] text-primary">Our Story</p>
+        <h1 className="mt-4 text-center text-5xl text-foreground md:text-7xl">
+          Built on <em className="not-italic text-accent">proof</em>, not promises.
         </h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-          You shouldn't have to gamble on whether your K-beauty is real. So we built the shelf we couldn't find — sourced direct, checked by hand, sent from Melbourne.
-        </p>
-      </section>
 
-      <section className="mx-auto max-w-6xl px-6 pb-20">
-        <figure className="overflow-hidden rounded-[2rem]">
-          <img
-            src={verifyAsset.url}
-            alt="Gloved hands checking a batch code on a Korean skincare bottle with a jeweller's loupe against a verification checklist"
-            loading="lazy"
-            width={1200}
-            height={896}
-            className="aspect-[16/10] w-full object-cover"
-          />
-        </figure>
-        <div className="mt-10 grid gap-8 md:grid-cols-3">
-          <p className="font-display text-2xl leading-snug text-foreground md:col-span-1">
-            Every bottle we sell has been in our hands before it reaches yours.
-          </p>
-          <div className="space-y-4 text-muted-foreground md:col-span-2">
-            <p>
-              We buy through verified brand partners and official Korean distributors — never grey-market middlemen. Every carton that lands in Melbourne is opened, and every batch code, seal and expiry is cross-checked before a single unit goes live.
-            </p>
-            <p>
-              If it doesn't match the manifest, it goes straight back. If we wouldn't put it on our own faces, it never makes the shelf.
-            </p>
-            <p className="font-display text-xl text-foreground">
-              Authenticity isn't a marketing word for us. It's the whole point.
-            </p>
-          </div>
-        </div>
-      </section>
-
-
-      {/* A note from the team */}
-      <section className="border-y border-border/60 bg-background py-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-primary">A note from us</p>
-            <h2 className="mt-4 text-4xl text-foreground md:text-5xl">Small team. Real stock. No guesswork.</h2>
-            <div className="mt-6 space-y-4 text-muted-foreground">
-              <p>
-                We are a small Melbourne-based team built by people who were tired of gambling on overseas checkouts and hoping the bottle that finally turned up was real.
-              </p>
-              <p>
-                So we do the checking ourselves. We know which distributor each carton came from, we cross-check the batch codes and seals before anything is packed, and if we would not put it on our own faces, it does not go on the shelf.
-              </p>
-              <p>
-                If something is not right, you are not emailing a call centre — you are emailing us. That is the whole promise, and it is not a big one to keep when the team is this small.
-              </p>
-            </div>
-            <div className="mt-8">
-              <img
-                src={signatureAsset}
-                alt="Handwritten signature from the Skin Grocer team"
-                loading="lazy"
-                width={288}
-                height={96}
-                className="h-16 w-auto opacity-90"
-              />
-              <p className="mt-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                Skin Grocer · Melbourne, Australia · Est. by skin nerds
-              </p>
-            </div>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/contact" className="rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">Message us directly</Link>
-              <Link to="/journey" className="rounded-full border border-foreground/20 px-7 py-3 text-sm font-medium hover:bg-foreground/5">See how we verify</Link>
-            </div>
-          </div>
+        <div className="mt-16 grid items-center gap-12 md:grid-cols-2">
           <figure className="m-0">
             <img
               src={deskFlatlay}
@@ -107,10 +39,41 @@ function About() {
               height={768}
               className="aspect-[4/3] w-full rounded-[2rem] object-cover"
             />
-            <figcaption className="mt-4 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            <figcaption className="mt-4 text-center text-xs uppercase tracking-[0.18em] text-muted-foreground">
               Melbourne · Where every order is checked by hand
             </figcaption>
           </figure>
+
+          <div className="space-y-5 text-foreground">
+            <p className="text-lg leading-relaxed">
+              Skin Grocer started with a simple frustration: it was almost impossible to know if the K-beauty sitting on an Australian shelf was actually what it claimed to be.
+            </p>
+            <p className="leading-relaxed text-muted-foreground">
+              So we built the thing we couldn't find — direct relationships with Korean distributors, batch verification on every arrival, and a provenance card in every parcel that traces your product from factory floor to your bathroom shelf.
+            </p>
+            <p className="leading-relaxed text-muted-foreground">
+              We're a small, Melbourne-based team who'd rather show you the receipts than tell you to trust us.
+            </p>
+
+            <div className="mt-8 flex items-center gap-4">
+              <img
+                src={signatureAsset}
+                alt="Handwritten signature from the Skin Grocer team"
+                loading="lazy"
+                width={288}
+                height={96}
+                className="h-14 w-auto opacity-90"
+              />
+              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                Skin Grocer<br />Melbourne, Australia · Est. by skin nerds
+              </p>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link to="/contact" className="rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">Message us directly</Link>
+              <Link to="/journey" className="rounded-full border border-foreground/20 px-7 py-3 text-sm font-medium hover:bg-foreground/5">See how we verify</Link>
+            </div>
+          </div>
         </div>
       </section>
 
