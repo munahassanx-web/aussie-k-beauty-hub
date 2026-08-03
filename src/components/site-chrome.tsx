@@ -192,12 +192,20 @@ export function SiteHeader() {
               </div>
             ))}
             <Link
+              to="/routines"
+              onMouseEnter={() => setOpenMenu(null)}
+              className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
+            >
+              Routines
+            </Link>
+            <Link
               to="/learn"
               onMouseEnter={() => setOpenMenu(null)}
               className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
             >
               Learn
             </Link>
+
           </nav>
 
           <div className="flex items-center gap-4">
@@ -297,6 +305,14 @@ export function SiteHeader() {
                   <span className="text-base text-primary">→</span>
                 </Link>
                 <Link
+                  to="/routines"
+                  onClick={closeMenus}
+                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                >
+                  Routine Kits
+                  <span className="text-base text-primary">→</span>
+                </Link>
+                <Link
                   to="/learn"
                   onClick={closeMenus}
                   className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
@@ -304,6 +320,7 @@ export function SiteHeader() {
                   Learn
                   <span className="text-base text-primary">→</span>
                 </Link>
+
                 <Link
                   to="/journal/$slug"
                   params={{ slug: "snail-mucin-why-your-skin-loves-it" }}
@@ -374,7 +391,7 @@ export function SiteFooter() {
             <li><Link to="/shop" className="hover:text-paper">All Products</Link></li>
             <li><Link to="/brands" className="hover:text-paper">Brands</Link></li>
             <li><Link to="/skin-concerns" className="hover:text-paper">By Concern</Link></li>
-            <li><Link to="/journey" className="hover:text-paper">Routines</Link></li>
+            <li><Link to="/routines" className="hover:text-paper">Routine Kits</Link></li>
           </ul>
         </div>
 

@@ -249,6 +249,54 @@ export type Database = {
           },
         ]
       }
+      products: {
+        Row: {
+          amount_to_use: string | null
+          brand: string
+          created_at: string
+          frequency: string | null
+          how_to_apply: string | null
+          id: string
+          name: string
+          pairs_well_with: string[]
+          pro_tip: string | null
+          routine_order: number
+          routine_step: string
+          suggested_bundle: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount_to_use?: string | null
+          brand: string
+          created_at?: string
+          frequency?: string | null
+          how_to_apply?: string | null
+          id: string
+          name: string
+          pairs_well_with?: string[]
+          pro_tip?: string | null
+          routine_order: number
+          routine_step: string
+          suggested_bundle?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount_to_use?: string | null
+          brand?: string
+          created_at?: string
+          frequency?: string | null
+          how_to_apply?: string | null
+          id?: string
+          name?: string
+          pairs_well_with?: string[]
+          pro_tip?: string | null
+          routine_order?: number
+          routine_step?: string
+          suggested_bundle?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -351,6 +399,33 @@ export type Database = {
           review_text?: string | null
           sentiment_score?: number | null
           tags?: string[]
+        }
+        Relationships: []
+      }
+      routine_bundles: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          product_names: string[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id: string
+          name: string
+          product_names?: string[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          product_names?: string[]
+          updated_at?: string
         }
         Relationships: []
       }

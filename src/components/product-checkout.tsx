@@ -3,6 +3,8 @@ import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe
 import { getStripe, getStripeEnvironment } from '@/lib/stripe';
 import { createProductCheckout } from '@/lib/loyalty.functions';
 import { ProductIngredients } from '@/components/product-ingredients';
+import { ProductGuideSection } from '@/components/product-guide-section';
+
 
 export type ProductCheckoutOptions = {
   priceId: string;
@@ -53,6 +55,8 @@ export function ProductCheckout({
         </div>
 
         {!started && <ProductIngredients productId={options.priceId} />}
+        {!started && <ProductGuideSection reference={options.name} />}
+
 
         {!started ? (
           <div className="space-y-4">
