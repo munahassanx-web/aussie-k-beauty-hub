@@ -11,7 +11,7 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About — Skin Grocer" },
-      { name: "description", content: "Founded by a Melbourne mum who couldn't find authentic K-beauty without fakes, fees or long waits. Skin Grocer sources directly from Korea, verifies every batch, and ships locally from Melbourne." },
+      { name: "description", content: "A Melbourne-based team sourcing authentic K-beauty directly from Korea, batch-verifying every arrival, and shipping locally with a provenance card in every parcel." },
       { property: "og:title", content: "About — Skin Grocer" },
       { property: "og:description", content: "Australian K-beauty built on authenticity: direct from Seoul, verified in Melbourne, guided like a friend." },
       { property: "og:url", content: "/about" },
