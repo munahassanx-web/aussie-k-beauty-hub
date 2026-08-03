@@ -62,42 +62,54 @@ function About() {
         </div>
       </section>
 
-      {/* Founder presence */}
+      {/* A note from the team */}
       <section className="border-y border-border/60 bg-background py-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
-          <figure className="m-0">
-            <img
-              src={founderAsset.url}
-              alt="Skin Grocer's founder in her Melbourne workspace, surrounded by Korean skincare stock"
-              loading="lazy"
-              width={1200}
-              height={1504}
-              className="aspect-[4/5] w-full rounded-[2rem] object-cover"
-            />
-            <figcaption className="mt-4 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-              Melbourne · Founder &amp; head of everything
-            </figcaption>
-          </figure>
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-primary">A note from the founder</p>
-            <h2 className="mt-4 text-4xl text-foreground md:text-5xl">Hi — I'm the person behind Skin Grocer.</h2>
+            <p className="text-xs uppercase tracking-[0.2em] text-primary">A note from us</p>
+            <h2 className="mt-4 text-4xl text-foreground md:text-5xl">Small team. Real stock. No guesswork.</h2>
             <div className="mt-6 space-y-4 text-muted-foreground">
               <p>
-                I'm a mum from Melbourne, not a beauty conglomerate. I started this because I was tired of gambling on overseas checkouts and hoping the bottle that finally turned up was real.
+                We are a small Melbourne-based team built by people who were tired of gambling on overseas checkouts and hoping the bottle that finally turned up was real.
               </p>
               <p>
-                So I do the checking myself. I know which distributor each carton came from, I check the batch codes before anything is packed, and if I would not put it on my own face, it does not go on the shelf.
+                So we do the checking ourselves. We know which distributor each carton came from, we cross-check the batch codes and seals before anything is packed, and if we would not put it on our own faces, it does not go on the shelf.
               </p>
               <p>
-                If something is not right, you are not emailing a call centre — you are emailing me. That is the whole promise, and it is not a big one to keep when the team is this small.
+                If something is not right, you are not emailing a call centre — you are emailing us. That is the whole promise, and it is not a big one to keep when the team is this small.
               </p>
             </div>
-            <p className="mt-6 font-display text-2xl text-foreground">Small team. Real stock. No guesswork.</p>
+            <div className="mt-8">
+              <img
+                src={signatureAsset}
+                alt="Handwritten signature from the Skin Grocer team"
+                loading="lazy"
+                width={288}
+                height={96}
+                className="h-16 w-auto opacity-90"
+              />
+              <p className="mt-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                Skin Grocer · Melbourne, Australia · Est. by skin nerds
+              </p>
+            </div>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/contact" className="rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">Message us directly</Link>
               <Link to="/journey" className="rounded-full border border-foreground/20 px-7 py-3 text-sm font-medium hover:bg-foreground/5">See how we verify</Link>
             </div>
           </div>
+          <figure className="m-0">
+            <img
+              src={deskFlatlay}
+              alt="Hands writing a note at the Skin Grocer desk, surrounded by Korean skincare samples and a provenance card"
+              loading="lazy"
+              width={1024}
+              height={768}
+              className="aspect-[4/3] w-full rounded-[2rem] object-cover"
+            />
+            <figcaption className="mt-4 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              Melbourne · Where every order is checked by hand
+            </figcaption>
+          </figure>
         </div>
       </section>
 
