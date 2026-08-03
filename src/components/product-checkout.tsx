@@ -55,6 +55,8 @@ export function ProductCheckout({
         </div>
 
         {!started && <ProductIngredients productId={options.priceId} />}
+        {!started && <ProductGuideSection reference={options.name} />}
+
 
         {!started ? (
           <div className="space-y-4">
