@@ -1,6 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import ourStoryAsset from "@/assets/our-story.jpg.asset.json";
+import founderAsset from "@/assets/founder-portrait.jpg.asset.json";
+import warehouseAsset from "@/assets/warehouse-pack.jpg.asset.json";
+import batchVerifyAsset from "@/assets/batch-verify.jpg.asset.json";
 const ourStory = ourStoryAsset.url;
+
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -56,6 +60,99 @@ function About() {
           </p>
         </div>
       </section>
+
+      {/* Founder presence */}
+      <section className="border-y border-border/60 bg-background py-24">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+          <figure className="m-0">
+            <img
+              src={founderAsset.url}
+              alt="Skin Grocer's founder in her Melbourne workspace, surrounded by Korean skincare stock"
+              loading="lazy"
+              width={1200}
+              height={1504}
+              className="aspect-[4/5] w-full rounded-[2rem] object-cover"
+            />
+            <figcaption className="mt-4 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              Melbourne · Founder &amp; head of everything
+            </figcaption>
+          </figure>
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-primary">A note from the founder</p>
+            <h2 className="mt-4 text-4xl text-foreground md:text-5xl">Hi — I'm the person behind Skin Grocer.</h2>
+            <div className="mt-6 space-y-4 text-muted-foreground">
+              <p>
+                I'm a mum from Melbourne, not a beauty conglomerate. I started this because I was tired of gambling on overseas checkouts and hoping the bottle that finally turned up was real.
+              </p>
+              <p>
+                So I do the checking myself. I know which distributor each carton came from, I check the batch codes before anything is packed, and if I would not put it on my own face, it does not go on the shelf.
+              </p>
+              <p>
+                If something is not right, you are not emailing a call centre — you are emailing me. That is the whole promise, and it is not a big one to keep when the team is this small.
+              </p>
+            </div>
+            <p className="mt-6 font-display text-2xl text-foreground">Small team. Real stock. No guesswork.</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link to="/contact" className="rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">Message us directly</Link>
+              <Link to="/journey" className="rounded-full border border-foreground/20 px-7 py-3 text-sm font-medium hover:bg-foreground/5">See how we verify</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Proof of process */}
+      <section className="mx-auto max-w-7xl px-6 py-24">
+        <div className="max-w-2xl">
+          <p className="text-xs uppercase tracking-[0.2em] text-primary">Proof, not promises</p>
+          <h2 className="mt-4 text-4xl text-foreground md:text-5xl">What actually happens before it reaches you</h2>
+          <p className="mt-4 text-muted-foreground">
+            Authenticity is a process, not a badge. Here is ours — the same three steps behind every order.
+          </p>
+        </div>
+        <div className="mt-12 grid gap-8 md:grid-cols-3">
+          {[
+            {
+              img: warehouseAsset.url,
+              alt: "Korean skincare being packed by hand in the Melbourne warehouse",
+              step: "Step 01",
+              t: "Sourced direct, stocked locally",
+              d: "We buy through verified brand partners and official distributors only, then warehouse it all in Melbourne — so nothing sits on a container for a month.",
+            },
+            {
+              img: batchVerifyAsset.url,
+              alt: "Hands checking a batch code on a skincare bottle against a verification sheet",
+              step: "Step 02",
+              t: "Every batch checked by hand",
+              d: "Batch codes, seals and expiry dates are cross-checked against the supplier manifest before stock is listed. Anything that does not match goes straight back.",
+            },
+            {
+              img: ourStory,
+              alt: "An order packed with a provenance card ready to ship",
+              step: "Step 03",
+              t: "Packed with a provenance card",
+              d: "Your order ships with a card tracing the product from its Korean source to our Melbourne shelf — so you can see the chain, not just trust it.",
+            },
+          ].map((s) => (
+            <article key={s.step} className="overflow-hidden rounded-3xl border border-border/60 bg-background">
+              <img
+                src={s.img}
+                alt={s.alt}
+                loading="lazy"
+                width={1408}
+                height={1008}
+                className="aspect-[4/3] w-full object-cover"
+              />
+              <div className="p-7">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-accent">{s.step}</p>
+                <h3 className="mt-3 font-display text-xl text-foreground">{s.t}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{s.d}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+
 
       <section className="bg-secondary/50 py-24">
         <div className="mx-auto max-w-7xl px-6">
