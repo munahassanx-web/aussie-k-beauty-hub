@@ -126,22 +126,23 @@ function About() {
         <div className="mt-12 grid gap-8 md:grid-cols-3">
           {[
             {
-              img: warehouseAsset.url,
-              alt: "Korean skincare being packed by hand in the Melbourne warehouse",
+              img: warehouseStockAsset.url,
+              alt: "Cartons of Korean skincare stock being handled on shelves in the Melbourne warehouse",
               step: "Step 01",
               t: "Sourced direct, stocked locally",
               d: "We buy through verified brand partners and official distributors only, then warehouse it all in Melbourne — so nothing sits on a container for a month.",
             },
             {
-              img: batchVerifyAsset.url,
+              img: verifyAsset.url,
               alt: "Hands checking a batch code on a skincare bottle against a verification sheet",
               step: "Step 02",
               t: "Every batch checked by hand",
               d: "Batch codes, seals and expiry dates are cross-checked against the supplier manifest before stock is listed. Anything that does not match goes straight back.",
             },
             {
-              img: ourStory,
-              alt: "An order packed with a provenance card ready to ship",
+              img: packingAsset.url,
+              alt: "An order being packed by hand into a cream box with a wax-sealed provenance card",
+
               step: "Step 03",
               t: "Packed with a provenance card",
               d: "Your order ships with a card tracing the product from its Korean source to our Melbourne shelf — so you can see the chain, not just trust it.",
