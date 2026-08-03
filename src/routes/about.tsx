@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import ourStoryAsset from "@/assets/our-story.jpg.asset.json";
-import warehouseAsset from "@/assets/warehouse-pack.jpg.asset.json";
-import batchVerifyAsset from "@/assets/batch-verify.jpg.asset.json";
+import verifyAsset from "@/assets/verify-batch-code.png.asset.json";
+import packingAsset from "@/assets/packing-wax-seal.png.asset.json";
+import warehouseStockAsset from "@/assets/warehouse-stock.png.asset.json";
 import deskFlatlay from "@/assets/founder-desk-flatlay.jpg";
 import signatureAsset from "@/assets/signature-skin-grocer.png";
-const ourStory = ourStoryAsset.url;
 
 
 export const Route = createFileRoute("/about")({
@@ -24,43 +23,45 @@ export const Route = createFileRoute("/about")({
 function About() {
   return (
     <>
-      <section className="mx-auto max-w-4xl px-6 py-20 text-center">
-        <p className="text-xs uppercase tracking-[0.2em] text-primary">Built on proof, not promises</p>
+      <section className="mx-auto max-w-4xl px-6 pt-20 pb-12 text-center">
+        <p className="text-xs uppercase tracking-[0.2em] text-primary">Our story</p>
         <h1 className="mt-4 text-5xl text-foreground md:text-7xl">
-          The K-beauty we couldn't find in Australia.
+          Proof, not promises.
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-          Skin Grocer started with a simple frustration: it was almost impossible to know if the K-beauty sitting on an Australian shelf was actually what it claimed to be. So we built the thing we couldn't find.
+        <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
+          You shouldn't have to gamble on whether your K-beauty is real. So we built the shelf we couldn't find — sourced direct, checked by hand, sent from Melbourne.
         </p>
       </section>
 
-      <section className="mx-auto grid max-w-7xl items-center gap-14 px-6 pb-24 md:grid-cols-2">
-        <img
-          src={ourStory}
-          alt="A woman at home applying moisturiser"
-          loading="lazy"
-          width={1200}
-          height={1400}
-          className="aspect-[4/5] w-full rounded-[2rem] object-cover"
-        />
-        <div className="space-y-6 text-muted-foreground">
-          <p className="text-lg">
-            It started with a simple frustration. The K-beauty everyone was raving about was either impossible to find locally, impossible to trust, or both — overseas sites, mystery stock, and inflated prices that made every order feel like a gamble.
+      <section className="mx-auto max-w-6xl px-6 pb-20">
+        <figure className="overflow-hidden rounded-[2rem]">
+          <img
+            src={verifyAsset.url}
+            alt="Gloved hands checking a batch code on a Korean skincare bottle with a jeweller's loupe against a verification checklist"
+            loading="lazy"
+            width={1200}
+            height={896}
+            className="aspect-[16/10] w-full object-cover"
+          />
+        </figure>
+        <div className="mt-10 grid gap-8 md:grid-cols-3">
+          <p className="font-display text-2xl leading-snug text-foreground md:col-span-1">
+            Every bottle we sell has been in our hands before it reaches yours.
           </p>
-          <p>
-            So we built the thing we couldn't find. Direct relationships with Korean distributors. Batch verification on every arrival. And a provenance card in every parcel that traces your product from the factory floor to your bathroom shelf.
-          </p>
-          <p>
-            We are a small, Melbourne-based team who'd rather show you the receipts than tell you to trust us. We know which distributor each carton came from, we cross-check batch codes and seals before anything is listed, and if we would not put it on our own faces, it does not go on the shelf.
-          </p>
-          <p>
-            Our customers are busy mums, working women, and anyone who does not have time to wander a shopping mall or decode a foreign checkout. We are constantly bringing in the Korean brands the Australian market has not seen yet — because great skin should not be a part-time job, and it should never come with a side of doubt.
-          </p>
-          <p className="font-display text-xl text-foreground">
-            Authenticity is not a marketing word for us. It is the whole point.
-          </p>
+          <div className="space-y-4 text-muted-foreground md:col-span-2">
+            <p>
+              We buy through verified brand partners and official Korean distributors — never grey-market middlemen. Every carton that lands in Melbourne is opened, and every batch code, seal and expiry is cross-checked before a single unit goes live.
+            </p>
+            <p>
+              If it doesn't match the manifest, it goes straight back. If we wouldn't put it on our own faces, it never makes the shelf.
+            </p>
+            <p className="font-display text-xl text-foreground">
+              Authenticity isn't a marketing word for us. It's the whole point.
+            </p>
+          </div>
         </div>
       </section>
+
 
       {/* A note from the team */}
       <section className="border-y border-border/60 bg-background py-24">
@@ -125,22 +126,23 @@ function About() {
         <div className="mt-12 grid gap-8 md:grid-cols-3">
           {[
             {
-              img: warehouseAsset.url,
-              alt: "Korean skincare being packed by hand in the Melbourne warehouse",
+              img: warehouseStockAsset.url,
+              alt: "Cartons of Korean skincare stock being handled on shelves in the Melbourne warehouse",
               step: "Step 01",
               t: "Sourced direct, stocked locally",
               d: "We buy through verified brand partners and official distributors only, then warehouse it all in Melbourne — so nothing sits on a container for a month.",
             },
             {
-              img: batchVerifyAsset.url,
+              img: verifyAsset.url,
               alt: "Hands checking a batch code on a skincare bottle against a verification sheet",
               step: "Step 02",
               t: "Every batch checked by hand",
               d: "Batch codes, seals and expiry dates are cross-checked against the supplier manifest before stock is listed. Anything that does not match goes straight back.",
             },
             {
-              img: ourStory,
-              alt: "An order packed with a provenance card ready to ship",
+              img: packingAsset.url,
+              alt: "An order being packed by hand into a cream box with a wax-sealed provenance card",
+
               step: "Step 03",
               t: "Packed with a provenance card",
               d: "Your order ships with a card tracing the product from its Korean source to our Melbourne shelf — so you can see the chain, not just trust it.",
