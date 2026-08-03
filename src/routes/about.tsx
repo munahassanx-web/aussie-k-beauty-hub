@@ -45,19 +45,19 @@ function About() {
         />
         <div className="space-y-6 text-muted-foreground">
           <p className="text-lg">
-            It started at a kitchen table in Melbourne. As a stay-at-home mum, I wanted the skincare everyone was raving about — the gentle Korean formulas, the glass-skin serums, the sunscreens that actually felt good. But getting my hands on them meant navigating overseas websites I didn't trust, paying currency conversion and shipping fees, and waiting weeks for a parcel that might — or might not — be the real thing.
+            It started with a simple frustration. The K-beauty everyone was raving about was either impossible to find locally, impossible to trust, or both — overseas sites, mystery stock, and inflated prices that made every order feel like a gamble.
           </p>
           <p>
-            I was not particularly tech-savvy. Neither were most of my friends. We just wanted someone to cut through the noise and tell us <span className="font-medium text-foreground">what to use, when to use it, and why it suited our skin and our Australian climate</span>. Not a sales pitch. Not a 12-step routine. Just honest guidance from someone who got it.
+            So we built the thing we couldn't find. Direct relationships with Korean distributors. Batch verification on every arrival. And a provenance card in every parcel that traces your product from the factory floor to your bathroom shelf.
           </p>
           <p>
-            So I built exactly that. Skin Grocer is a small, Melbourne-based team that sources real Korean skincare directly from verified brand partners, warehouses it locally, and answers every question like we are chatting over a cup of tea. <span className="font-medium text-foreground">No call centres. No confusing routines. No inflated prices. No grey-market stock.</span>
+            We are a small, Melbourne-based team who'd rather show you the receipts than tell you to trust us. We know which distributor each carton came from, we cross-check batch codes and seals before anything is listed, and if we would not put it on our own faces, it does not go on the shelf.
           </p>
           <p>
-            Authenticity is not a marketing word for us — it is the whole point. Every batch is tracked, every product is the genuine article, and we are constantly bringing in the Korean brands the Australian market has not seen yet. Because busy mums, working women, and anyone who does not have time to wander a shopping mall deserve skincare that works — and a team they can trust.
+            Our customers are busy mums, working women, and anyone who does not have time to wander a shopping mall or decode a foreign checkout. We are constantly bringing in the Korean brands the Australian market has not seen yet — because great skin should not be a part-time job, and it should never come with a side of doubt.
           </p>
           <p className="font-display text-xl text-foreground">
-            Great skin should not be a part-time job. And it should never come with a side of doubt.
+            Authenticity is not a marketing word for us. It is the whole point.
           </p>
         </div>
       </section>
