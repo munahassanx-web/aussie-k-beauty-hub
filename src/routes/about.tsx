@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import ourStoryAsset from "@/assets/our-story.jpg.asset.json";
-import founderAsset from "@/assets/founder-portrait.jpg.asset.json";
 import warehouseAsset from "@/assets/warehouse-pack.jpg.asset.json";
 import batchVerifyAsset from "@/assets/batch-verify.jpg.asset.json";
+import deskFlatlay from "@/assets/founder-desk-flatlay.jpg";
+import signatureAsset from "@/assets/signature-skin-grocer.png";
 const ourStory = ourStoryAsset.url;
 
 
@@ -10,7 +11,7 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About — Skin Grocer" },
-      { name: "description", content: "Founded by a Melbourne mum who couldn't find authentic K-beauty without fakes, fees or long waits. Skin Grocer sources directly from Korea, verifies every batch, and ships locally from Melbourne." },
+      { name: "description", content: "A Melbourne-based team sourcing authentic K-beauty directly from Korea, batch-verifying every arrival, and shipping locally with a provenance card in every parcel." },
       { property: "og:title", content: "About — Skin Grocer" },
       { property: "og:description", content: "Australian K-beauty built on authenticity: direct from Seoul, verified in Melbourne, guided like a friend." },
       { property: "og:url", content: "/about" },
@@ -24,12 +25,12 @@ function About() {
   return (
     <>
       <section className="mx-auto max-w-4xl px-6 py-20 text-center">
-        <p className="text-xs uppercase tracking-[0.2em] text-primary">Our story</p>
+        <p className="text-xs uppercase tracking-[0.2em] text-primary">Built on proof, not promises</p>
         <h1 className="mt-4 text-5xl text-foreground md:text-7xl">
-          Built from one woman's<br className="hidden md:block" /> frustration. Made for every Australian<br className="hidden md:block" /> who was tired of guessing.
+          The K-beauty we couldn't find in Australia.
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-          Skin Grocer started when a Melbourne mum couldn't find the Korean skincare she kept hearing about — without the fakes, the foreign fees, or the four-week wait. Today we are the place she wished existed.
+          Skin Grocer started with a simple frustration: it was almost impossible to know if the K-beauty sitting on an Australian shelf was actually what it claimed to be. So we built the thing we couldn't find.
         </p>
       </section>
 
@@ -44,59 +45,71 @@ function About() {
         />
         <div className="space-y-6 text-muted-foreground">
           <p className="text-lg">
-            It started at a kitchen table in Melbourne. As a stay-at-home mum, I wanted the skincare everyone was raving about — the gentle Korean formulas, the glass-skin serums, the sunscreens that actually felt good. But getting my hands on them meant navigating overseas websites I didn't trust, paying currency conversion and shipping fees, and waiting weeks for a parcel that might — or might not — be the real thing.
+            It started with a simple frustration. The K-beauty everyone was raving about was either impossible to find locally, impossible to trust, or both — overseas sites, mystery stock, and inflated prices that made every order feel like a gamble.
           </p>
           <p>
-            I was not particularly tech-savvy. Neither were most of my friends. We just wanted someone to cut through the noise and tell us <span className="font-medium text-foreground">what to use, when to use it, and why it suited our skin and our Australian climate</span>. Not a sales pitch. Not a 12-step routine. Just honest guidance from someone who got it.
+            So we built the thing we couldn't find. Direct relationships with Korean distributors. Batch verification on every arrival. And a provenance card in every parcel that traces your product from the factory floor to your bathroom shelf.
           </p>
           <p>
-            So I built exactly that. Skin Grocer is a small, Melbourne-based team that sources real Korean skincare directly from verified brand partners, warehouses it locally, and answers every question like we are chatting over a cup of tea. <span className="font-medium text-foreground">No call centres. No confusing routines. No inflated prices. No grey-market stock.</span>
+            We are a small, Melbourne-based team who'd rather show you the receipts than tell you to trust us. We know which distributor each carton came from, we cross-check batch codes and seals before anything is listed, and if we would not put it on our own faces, it does not go on the shelf.
           </p>
           <p>
-            Authenticity is not a marketing word for us — it is the whole point. Every batch is tracked, every product is the genuine article, and we are constantly bringing in the Korean brands the Australian market has not seen yet. Because busy mums, working women, and anyone who does not have time to wander a shopping mall deserve skincare that works — and a team they can trust.
+            Our customers are busy mums, working women, and anyone who does not have time to wander a shopping mall or decode a foreign checkout. We are constantly bringing in the Korean brands the Australian market has not seen yet — because great skin should not be a part-time job, and it should never come with a side of doubt.
           </p>
           <p className="font-display text-xl text-foreground">
-            Great skin should not be a part-time job. And it should never come with a side of doubt.
+            Authenticity is not a marketing word for us. It is the whole point.
           </p>
         </div>
       </section>
 
-      {/* Founder presence */}
+      {/* A note from the team */}
       <section className="border-y border-border/60 bg-background py-24">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
-          <figure className="m-0">
-            <img
-              src={founderAsset.url}
-              alt="Skin Grocer's founder in her Melbourne workspace, surrounded by Korean skincare stock"
-              loading="lazy"
-              width={1200}
-              height={1504}
-              className="aspect-[4/5] w-full rounded-[2rem] object-cover"
-            />
-            <figcaption className="mt-4 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-              Melbourne · Founder &amp; head of everything
-            </figcaption>
-          </figure>
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-primary">A note from the founder</p>
-            <h2 className="mt-4 text-4xl text-foreground md:text-5xl">Hi — I'm the person behind Skin Grocer.</h2>
+            <p className="text-xs uppercase tracking-[0.2em] text-primary">A note from us</p>
+            <h2 className="mt-4 text-4xl text-foreground md:text-5xl">Small team. Real stock. No guesswork.</h2>
             <div className="mt-6 space-y-4 text-muted-foreground">
               <p>
-                I'm a mum from Melbourne, not a beauty conglomerate. I started this because I was tired of gambling on overseas checkouts and hoping the bottle that finally turned up was real.
+                We are a small Melbourne-based team built by people who were tired of gambling on overseas checkouts and hoping the bottle that finally turned up was real.
               </p>
               <p>
-                So I do the checking myself. I know which distributor each carton came from, I check the batch codes before anything is packed, and if I would not put it on my own face, it does not go on the shelf.
+                So we do the checking ourselves. We know which distributor each carton came from, we cross-check the batch codes and seals before anything is packed, and if we would not put it on our own faces, it does not go on the shelf.
               </p>
               <p>
-                If something is not right, you are not emailing a call centre — you are emailing me. That is the whole promise, and it is not a big one to keep when the team is this small.
+                If something is not right, you are not emailing a call centre — you are emailing us. That is the whole promise, and it is not a big one to keep when the team is this small.
               </p>
             </div>
-            <p className="mt-6 font-display text-2xl text-foreground">Small team. Real stock. No guesswork.</p>
+            <div className="mt-8">
+              <img
+                src={signatureAsset}
+                alt="Handwritten signature from the Skin Grocer team"
+                loading="lazy"
+                width={288}
+                height={96}
+                className="h-16 w-auto opacity-90"
+              />
+              <p className="mt-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                Skin Grocer · Melbourne, Australia · Est. by skin nerds
+              </p>
+            </div>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/contact" className="rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">Message us directly</Link>
               <Link to="/journey" className="rounded-full border border-foreground/20 px-7 py-3 text-sm font-medium hover:bg-foreground/5">See how we verify</Link>
             </div>
           </div>
+          <figure className="m-0">
+            <img
+              src={deskFlatlay}
+              alt="Hands writing a note at the Skin Grocer desk, surrounded by Korean skincare samples and a provenance card"
+              loading="lazy"
+              width={1024}
+              height={768}
+              className="aspect-[4/3] w-full rounded-[2rem] object-cover"
+            />
+            <figcaption className="mt-4 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              Melbourne · Where every order is checked by hand
+            </figcaption>
+          </figure>
         </div>
       </section>
 
