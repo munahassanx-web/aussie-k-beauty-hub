@@ -192,12 +192,20 @@ export function SiteHeader() {
               </div>
             ))}
             <Link
+              to="/routines"
+              onMouseEnter={() => setOpenMenu(null)}
+              className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
+            >
+              Routines
+            </Link>
+            <Link
               to="/learn"
               onMouseEnter={() => setOpenMenu(null)}
               className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
             >
               Learn
             </Link>
+
           </nav>
 
           <div className="flex items-center gap-4">
