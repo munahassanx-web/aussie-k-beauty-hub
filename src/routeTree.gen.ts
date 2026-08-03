@@ -22,9 +22,12 @@ import { Route as BrandsRouteImport } from './routes/brands'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RoutinesIndexRouteImport } from './routes/routines.index'
 import { Route as LearnIndexRouteImport } from './routes/learn.index'
+import { Route as RoutinesBundleIdRouteImport } from './routes/routines.$bundleId'
 import { Route as LearnSlugRouteImport } from './routes/learn.$slug'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
+import { Route as GuideProductIdRouteImport } from './routes/guide.$productId'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const SkinConcernsRoute = SkinConcernsRouteImport.update({
@@ -92,9 +95,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RoutinesIndexRoute = RoutinesIndexRouteImport.update({
+  id: '/routines/',
+  path: '/routines/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LearnIndexRoute = LearnIndexRouteImport.update({
   id: '/learn/',
   path: '/learn/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoutinesBundleIdRoute = RoutinesBundleIdRouteImport.update({
+  id: '/routines/$bundleId',
+  path: '/routines/$bundleId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LearnSlugRoute = LearnSlugRouteImport.update({
@@ -106,6 +119,11 @@ const JournalSlugRoute = JournalSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => JournalRoute,
+} as any)
+const GuideProductIdRoute = GuideProductIdRouteImport.update({
+  id: '/guide/$productId',
+  path: '/guide/$productId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
@@ -128,9 +146,12 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/guide/$productId': typeof GuideProductIdRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/routines/$bundleId': typeof RoutinesBundleIdRoute
   '/learn/': typeof LearnIndexRoute
+  '/routines/': typeof RoutinesIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -147,9 +168,12 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/guide/$productId': typeof GuideProductIdRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/routines/$bundleId': typeof RoutinesBundleIdRoute
   '/learn': typeof LearnIndexRoute
+  '/routines': typeof RoutinesIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
@@ -167,9 +191,12 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/guide/$productId': typeof GuideProductIdRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
+  '/routines/$bundleId': typeof RoutinesBundleIdRoute
   '/learn/': typeof LearnIndexRoute
+  '/routines/': typeof RoutinesIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
@@ -188,9 +215,12 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/guide/$productId'
     | '/journal/$slug'
     | '/learn/$slug'
+    | '/routines/$bundleId'
     | '/learn/'
+    | '/routines/'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -207,9 +237,12 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/guide/$productId'
     | '/journal/$slug'
     | '/learn/$slug'
+    | '/routines/$bundleId'
     | '/learn'
+    | '/routines'
     | '/api/public/payments/webhook'
   id:
     | '__root__'
@@ -226,9 +259,12 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/guide/$productId'
     | '/journal/$slug'
     | '/learn/$slug'
+    | '/routines/$bundleId'
     | '/learn/'
+    | '/routines/'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -246,8 +282,11 @@ export interface RootRouteChildren {
   ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkinConcernsRoute: typeof SkinConcernsRoute
+  GuideProductIdRoute: typeof GuideProductIdRoute
   LearnSlugRoute: typeof LearnSlugRoute
+  RoutinesBundleIdRoute: typeof RoutinesBundleIdRoute
   LearnIndexRoute: typeof LearnIndexRoute
+  RoutinesIndexRoute: typeof RoutinesIndexRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
@@ -344,11 +383,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/routines/': {
+      id: '/routines/'
+      path: '/routines'
+      fullPath: '/routines/'
+      preLoaderRoute: typeof RoutinesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/learn/': {
       id: '/learn/'
       path: '/learn'
       fullPath: '/learn/'
       preLoaderRoute: typeof LearnIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/routines/$bundleId': {
+      id: '/routines/$bundleId'
+      path: '/routines/$bundleId'
+      fullPath: '/routines/$bundleId'
+      preLoaderRoute: typeof RoutinesBundleIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/learn/$slug': {
@@ -364,6 +417,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/journal/$slug'
       preLoaderRoute: typeof JournalSlugRouteImport
       parentRoute: typeof JournalRoute
+    }
+    '/guide/$productId': {
+      id: '/guide/$productId'
+      path: '/guide/$productId'
+      fullPath: '/guide/$productId'
+      preLoaderRoute: typeof GuideProductIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
@@ -400,8 +460,11 @@ const rootRouteChildren: RootRouteChildren = {
   ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkinConcernsRoute: SkinConcernsRoute,
+  GuideProductIdRoute: GuideProductIdRoute,
   LearnSlugRoute: LearnSlugRoute,
+  RoutinesBundleIdRoute: RoutinesBundleIdRoute,
   LearnIndexRoute: LearnIndexRoute,
+  RoutinesIndexRoute: RoutinesIndexRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
