@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import ourStoryAsset from "@/assets/our-story.jpg.asset.json";
-import founderAsset from "@/assets/founder-portrait.jpg.asset.json";
 import warehouseAsset from "@/assets/warehouse-pack.jpg.asset.json";
 import batchVerifyAsset from "@/assets/batch-verify.jpg.asset.json";
+import deskFlatlay from "@/assets/founder-desk-flatlay.jpg";
+import signatureAsset from "@/assets/signature-skin-grocer.png";
 const ourStory = ourStoryAsset.url;
 
 
