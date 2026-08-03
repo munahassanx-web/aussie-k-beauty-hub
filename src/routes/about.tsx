@@ -25,12 +25,12 @@ function About() {
   return (
     <>
       <section className="mx-auto max-w-4xl px-6 py-20 text-center">
-        <p className="text-xs uppercase tracking-[0.2em] text-primary">Our story</p>
+        <p className="text-xs uppercase tracking-[0.2em] text-primary">Built on proof, not promises</p>
         <h1 className="mt-4 text-5xl text-foreground md:text-7xl">
-          Built from one woman's<br className="hidden md:block" /> frustration. Made for every Australian<br className="hidden md:block" /> who was tired of guessing.
+          The K-beauty we couldn't find in Australia.
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-          Skin Grocer started when a Melbourne mum couldn't find the Korean skincare she kept hearing about — without the fakes, the foreign fees, or the four-week wait. Today we are the place she wished existed.
+          Skin Grocer started with a simple frustration: it was almost impossible to know if the K-beauty sitting on an Australian shelf was actually what it claimed to be. So we built the thing we couldn't find.
         </p>
       </section>
 
