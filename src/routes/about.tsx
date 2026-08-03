@@ -6,9 +6,9 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About — Skin Grocer" },
-      { name: "description", content: "Skin Grocer was started by a Melbourne mum who struggled to find authentic, accessible Korean skincare. Locally stocked, honestly guided, delivered next-day across Australia." },
+      { name: "description", content: "Founded by a Melbourne mum who couldn't find authentic K-beauty without fakes, fees or long waits. Skin Grocer sources directly from Korea, verifies every batch, and ships locally from Melbourne." },
       { property: "og:title", content: "About — Skin Grocer" },
-      { property: "og:description", content: "Melbourne-based K-beauty, founded by a mum who made skincare simpler for every Australian woman." },
+      { property: "og:description", content: "Australian K-beauty built on authenticity: direct from Seoul, verified in Melbourne, guided like a friend." },
       { property: "og:url", content: "/about" },
     ],
     links: [{ rel: "canonical", href: "/about" }],
@@ -22,12 +22,10 @@ function About() {
       <section className="mx-auto max-w-4xl px-6 py-20 text-center">
         <p className="text-xs uppercase tracking-[0.2em] text-primary">Our story</p>
         <h1 className="mt-4 text-5xl text-foreground md:text-7xl">
-          Skincare that fits <em className="not-italic text-primary">real life.</em>
+          Built from one woman's<br className="hidden md:block" /> frustration. Made for every Australian<br className="hidden md:block" /> who was tired of guessing.
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-          Founded by a Melbourne mum who was tired of fakes, foreign shipping fees,
-          and guessing what actually worked. Skin Grocer was built for every woman
-          who wants a simple, trusted routine without the mall run.
+          Skin Grocer started when a Melbourne mum couldn't find the Korean skincare she kept hearing about — without the fakes, the foreign fees, or the four-week wait. Today we are the place she wished existed.
         </p>
       </section>
 
@@ -40,22 +38,21 @@ function About() {
           height={1400}
           className="aspect-[4/5] w-full rounded-[2rem] object-cover"
         />
-        <div className="space-y-5 text-muted-foreground">
+        <div className="space-y-6 text-muted-foreground">
           <p className="text-lg">
-            Skin Grocer started at a kitchen table in Melbourne. As a stay-at-home mum, I found it hard to get my hands on
-            <span className="font-medium text-foreground"> authentic K-beauty</span>.
-            The good brands were overseas, the local shelves were limited, and ordering online meant currency fees, long waits, and the risk of knock-offs.
+            It started at a kitchen table in Melbourne. As a stay-at-home mum, I wanted the skincare everyone was raving about — the gentle Korean formulas, the glass-skin serums, the sunscreens that actually felt good. But getting my hands on them meant navigating overseas websites I didn't trust, paying currency conversion and shipping fees, and waiting weeks for a parcel that might — or might not — be the real thing.
           </p>
           <p>
-            I was not especially tech-savvy, and neither were most of my friends. We just wanted a reliable place to buy the skincare we kept hearing about — and someone to tell us
-            <span className="font-medium text-foreground"> how and when to use it</span>,
-            in a language that made sense for our skin and our climate.
+            I was not particularly tech-savvy. Neither were most of my friends. We just wanted someone to cut through the noise and tell us <span className="font-medium text-foreground">what to use, when to use it, and why it suited our skin and our Australian climate</span>. Not a sales pitch. Not a 12-step routine. Just honest guidance from someone who got it.
           </p>
           <p>
-            So I built exactly that. A small, Melbourne-based team that sources real Korean skincare directly from verified brand partners, warehouses it locally, and answers every question like we are talking over a cup of tea. No call centres, no confusing routines, no inflated prices.
+            So I built exactly that. Skin Grocer is a small, Melbourne-based team that sources real Korean skincare directly from verified brand partners, warehouses it locally, and answers every question like we are chatting over a cup of tea. <span className="font-medium text-foreground">No call centres. No confusing routines. No inflated prices. No grey-market stock.</span>
           </p>
           <p>
-            Today we are focused on bringing the Korean products the Australian market has not seen yet — the gentle, results-driven formulas that work for busy mums, working women, and anyone who does not have time to wander a shopping mall. Because great skin should not be a part-time job.
+            Authenticity is not a marketing word for us — it is the whole point. Every batch is tracked, every product is the genuine article, and we are constantly bringing in the Korean brands the Australian market has not seen yet. Because busy mums, working women, and anyone who does not have time to wander a shopping mall deserve skincare that works — and a team they can trust.
+          </p>
+          <p className="font-display text-xl text-foreground">
+            Great skin should not be a part-time job. And it should never come with a side of doubt.
           </p>
         </div>
       </section>
@@ -63,14 +60,17 @@ function About() {
       <section className="bg-secondary/50 py-24">
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="text-4xl text-foreground md:text-5xl">What we stand for</h2>
+          <p className="mt-4 max-w-2xl text-muted-foreground">
+            These six principles guide every product we stock, every answer we give, and every order we pack.
+          </p>
           <div className="mt-12 grid gap-8 md:grid-cols-3">
             {[
-              { n: "01", t: "Authenticity, always", d: "Direct brand partnerships. Every product is the real thing, no grey-market copies." },
-              { n: "02", t: "Built by a mum, for mums", d: "Simple routines, clear guidance, and a team that understands real schedules." },
-              { n: "03", t: "Locally stocked", d: "Everything is warehoused in Melbourne, so orders ship fast — no overseas waits." },
-              { n: "04", t: "Honest guidance", d: "We explain how to use each product and why it suits your skin." },
-              { n: "05", t: "Fair local pricing", d: "No surprise currency fees or inflated import mark-ups. Just Australian prices." },
-              { n: "06", t: "Community first", d: "A small team that reads and replies to every message personally." },
+              { n: "01", t: "Authenticity, always", d: "Direct brand partnerships. Every product is the real thing, sourced through verified channels — never grey-market copies." },
+              { n: "02", t: "Built by a mum, for real life", d: "Simple routines, clear guidance, and a team that understands busy schedules and tired skin." },
+              { n: "03", t: "Locally stocked in Melbourne", d: "Everything is warehoused here, so orders ship fast — no overseas waits, no surprise delays." },
+              { n: "04", t: "Honest guidance", d: "We explain how to use each product and why it suits your skin, your climate and your goals." },
+              { n: "05", t: "Fair local pricing", d: "No currency conversion sting, no inflated import mark-ups. Just Australian prices for Australian women." },
+              { n: "06", t: "Community first", d: "A small team that reads and replies to every message personally. You are never just an order number." },
             ].map((v) => (
               <div key={v.n} className="rounded-3xl bg-background p-8">
                 <p className="font-display text-3xl text-accent">{v.n}</p>
@@ -93,3 +93,4 @@ function About() {
     </>
   );
 }
+
