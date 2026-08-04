@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      guide_views: {
+        Row: {
+          bundle_id: string | null
+          created_at: string
+          id: string
+          product_id: string
+          referrer: string | null
+          source: string
+        }
+        Insert: {
+          bundle_id?: string | null
+          created_at?: string
+          id?: string
+          product_id: string
+          referrer?: string | null
+          source?: string
+        }
+        Update: {
+          bundle_id?: string | null
+          created_at?: string
+          id?: string
+          product_id?: string
+          referrer?: string | null
+          source?: string
+        }
+        Relationships: []
+      }
       ingredients: {
         Row: {
           also_known_as: string[]
