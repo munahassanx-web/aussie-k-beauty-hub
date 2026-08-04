@@ -80,6 +80,29 @@ function BundlePage() {
               'Use these in order — cleanse first, protect last. Each step links to its full application guide.'}
           </p>
 
+          <a
+            href={`/guides/routines/${bundle.id}.pdf`}
+            download
+            className="mt-7 inline-flex items-center gap-2 rounded-full border border-primary px-5 py-2.5 text-xs font-medium uppercase tracking-wider text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Download PDF
+          </a>
+
           <ol className="mt-12 space-y-4">
             {steps.map((g, i) => (
               <li key={g.id}>
