@@ -1,9 +1,12 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { fetchGuideById, bundleSlug } from '@/lib/application-guides';
+import { trackGuideView, resolveSource } from '@/lib/guide-analytics';
 import { ApplicationGuideDetails } from '@/components/application-guide';
 import { PairsWellWith } from '@/components/pairs-well-with';
 import { ProductIngredients } from '@/components/product-ingredients';
+
 
 export const Route = createFileRoute('/guide/$productId')({
   head: () => ({
@@ -33,6 +36,12 @@ function GuidePage() {
     queryFn: () => fetchGuideById(productId),
     staleTime: 5 * 60_000,
   });
+
+  useEffect(() => {
+    void trackGuideView({ productId, source: resolveSource('web') });
+  }, [productId]);
+
+
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-14">
