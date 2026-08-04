@@ -46,6 +46,11 @@ function BundlePage() {
     staleTime: 5 * 60_000,
   });
 
+  useEffect(() => {
+    void trackGuideView({ bundleId, source: resolveSource('routine') });
+  }, [bundleId]);
+
+
   const bundle = bundleQ.data;
   const guides = guidesQ.data ?? [];
   const steps: ProductGuide[] = bundle
