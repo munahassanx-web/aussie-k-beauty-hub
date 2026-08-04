@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { trackGuideView, resolveSource } from '@/lib/guide-analytics';
 import {
   fetchAllGuides,
   fetchBundleById,
@@ -8,6 +10,7 @@ import {
   ROUTINE_ORDER_LABELS,
   type ProductGuide,
 } from '@/lib/application-guides';
+
 
 export const Route = createFileRoute('/routines/$bundleId')({
   head: () => ({

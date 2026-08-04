@@ -37,6 +37,12 @@ function GuidePage() {
     staleTime: 5 * 60_000,
   });
 
+  useEffect(() => {
+    void trackGuideView({ productId, source: resolveSource('web') });
+  }, [productId]);
+
+
+
   return (
     <div className="mx-auto max-w-3xl px-6 py-14">
       <p className="text-xs uppercase tracking-[0.2em] text-primary">How to use</p>
