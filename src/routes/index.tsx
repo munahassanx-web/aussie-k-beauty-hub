@@ -413,7 +413,7 @@ function Stat({ n, l }: { n: string; l: string }) {
 function Promise() {
   const items = [
     { t: "100% Authentic", d: "Direct from Korea, batch-verified, sealed." },
-    { t: "Next-Day from MEL", d: "Order by 2pm, on your doorstep tomorrow." },
+    { t: "Next-Day from MEL", d: "Order by 12pm, on your doorstep tomorrow." },
     { t: "Expert Guidance", d: "Real advisors reply within 1 business hour." },
     { t: "Subscribe & Save 10%", d: "Routine refills, paused or skipped any time." },
   ];
