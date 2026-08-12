@@ -3,21 +3,25 @@ import featureSerum from "@/assets/learn-feature-serum.jpg";
 import petri from "@/assets/learn-petri.jpg";
 import portraitDeep from "@/assets/learn-portrait-deep.jpg";
 import routineFlatlay from "@/assets/learn-routine-flatlay.jpg";
+import { articlesByPillar, getLearnArticle, type LearnArticle } from "@/lib/learn-articles";
 
 export const Route = createFileRoute("/learn/hub")({
   head: () => ({
     meta: [
-      { title: "Learn Hub — Korean Skincare, Actually Explained | Skin Grocer" },
+      { title: "Learn Hub — Seoul Skincare Logic, Written For Australia | Skin Grocer" },
       {
         name: "description",
         content:
-          "Ingredient science, Australian regulatory context and routine logic behind every K-beauty product we curate — explained quickly, never dumbed down.",
+          "Prevention-first Korean skincare, decoded for Australian climate and skin. What Korean women actually buy — sourced from Hwahae and Olive Young data, not TikTok.",
       },
-      { property: "og:title", content: "Learn Hub — Korean Skincare, Actually Explained" },
+      {
+        property: "og:title",
+        content: "Learn Hub — Seoul Skincare Logic, Written For Australia",
+      },
       {
         property: "og:description",
         content:
-          "Ingredients decoded, concerns addressed, routines simplified — the Skin Grocer Learn Hub.",
+          "Prevention over repair. Domestic Korean data over social trends. Ingredients, concerns and routines explained for Australian conditions.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -28,112 +32,55 @@ export const Route = createFileRoute("/learn/hub")({
 });
 
 const stats = [
-  { big: "40", cap: "SKUs, each passing our 3-question filter" },
-  { big: "9", cap: "Korean brands cross-validated via Hwahae & Glowpick" },
-  { big: "32", cap: "Ingredients evaluated for Australian conditions" },
-  { big: "100%", cap: "Australian regulatory context on every piece" },
+  { big: "10M+", cap: "Korean-language reviews we read rankings from, not feeds" },
+  { big: "85%", cap: "of Korea's domestic beauty retail we track for real demand" },
+  { big: "12–18", cap: "months Australia usually lags Korean shelves. We close it" },
+  { big: "0", cap: "products stocked on social virality alone" },
 ];
 
-type Article = { meta: string; title: string; blurb: string; read: string };
+const feature = getLearnArticle("prevention-over-repair")!;
+const secondaryFeatures = [
+  getLearnArticle("seoul-vs-tiktok")!,
+  getLearnArticle("pdrn-explained")!,
+];
 
 const pillars: {
   tag: string;
   heading: string;
   lede: string;
-  count: string;
   image: string;
   reverse?: boolean;
-  articles: Article[];
+  articles: LearnArticle[];
 }[] = [
   {
     tag: "01",
     heading: "Ingredients, Decoded.",
-    lede: "PDRN or peptides? Cica or ceramides? Your routine shouldn't require a chemistry degree. We read the research, then translate it — including what the TGA does and doesn't allow here.",
-    count: "12 articles",
+    lede: "PDRN or peptides? Cica or ceramides? We read the Korean formulation data and the domestic review volume, then translate it — including what the TGA does and doesn't allow here.",
     image: petri,
-    articles: [
-      {
-        meta: "Ingredient · Active",
-        title: "PDRN: What Salmon DNA Actually Does For Your Skin",
-        blurb:
-          "The science behind the peptide everyone's suddenly stocking — and where to start.",
-        read: "6 min read",
-      },
-      {
-        meta: "Ingredient · Barrier",
-        title: "Centella Asiatica: Why It's In Almost Everything We Stock",
-        blurb: "Cica isn't a trend here — it's the backbone of our barrier-repair range.",
-        read: "5 min read",
-      },
-      {
-        meta: "Ingredient · Regulation",
-        title: "TGA vs Korean Sunscreen Standards, Decoded",
-        blurb: "Filters, testing and water resistance, compared side by side.",
-        read: "7 min read",
-      },
-    ],
+    articles: articlesByPillar("ingredients"),
   },
   {
     tag: "02",
     heading: "Concerns, Addressed.",
-    lede: "Pigmentation, sensitivity, barrier damage — shown on real Australian skin, across every tone, in the climate you actually live in.",
-    count: "9 articles",
+    lede: "Pigmentation, sensitivity, barrier damage — written for the full range of Australian skin tones, in the climate you actually live in, not the one the product was formulated for.",
     image: portraitDeep,
     reverse: true,
-    articles: [
-      {
-        meta: "Concern · Tone",
-        title: "K-Beauty, Finally Demonstrated On Deeper Skin",
-        blurb: "Redness, pigmentation and product cast, honestly shown.",
-        read: "8 min read",
-      },
-      {
-        meta: "Concern · Sensitivity",
-        title: "Why Australian Barriers Struggle More Than Korean Skin",
-        blurb: "Aircon, harder water, higher UV — the climate case.",
-        read: "6 min read",
-      },
-      {
-        meta: "Concern · Pigmentation",
-        title: "Uneven Tone, Not \u201CWhitening\u201D: Getting The Language Right",
-        blurb: "What to look for when you actually want brightness.",
-        read: "4 min read",
-      },
-    ],
+    articles: articlesByPillar("concerns"),
   },
   {
     tag: "03",
     heading: "Routines, Simplified.",
-    lede: "Ten steps is a marketing structure, not a rule. Here's the order that holds up in a Brisbane summer and a Melbourne winter.",
-    count: "11 articles",
+    lede: "Ten steps is an export artefact, not a rule. Here's the order that holds up in a Brisbane summer, a Melbourne winter and an air-conditioned office.",
     image: routineFlatlay,
-    articles: [
-      {
-        meta: "Routine · Order",
-        title: "The Correct Layering Order For Humid Australian Summers",
-        blurb: "When Korean 7-step logic breaks down in 35°C heat.",
-        read: "5 min read",
-      },
-      {
-        meta: "Routine · Acids",
-        title: "How Often Melanin-Rich Skin Should Actually Use Acids",
-        blurb: "Frequency guidance by skin type and concern.",
-        read: "6 min read",
-      },
-      {
-        meta: "Routine · Climate",
-        title: "Rebuilding Your Routine For Melbourne Winter vs Brisbane Summer",
-        blurb: "How a routine should shift across Australian climate zones.",
-        read: "7 min read",
-      },
-    ],
+    articles: articlesByPillar("routines"),
   },
 ];
 
-function ArticleCard({ a }: { a: Article }) {
+function ArticleCard({ a }: { a: LearnArticle }) {
   return (
     <Link
-      to="/learn"
+      to="/learn/article/$slug"
+      params={{ slug: a.slug }}
       className="group flex h-full flex-col border-t border-foreground/15 pt-5 transition-colors hover:border-clay"
     >
       <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-clay">{a.meta}</p>
@@ -149,53 +96,61 @@ function ArticleCard({ a }: { a: Article }) {
 }
 
 function LearnHubPage() {
+  const seoul = articlesByPillar("seoul");
+
   return (
     <div>
       {/* Hero */}
       <section className="px-6 pt-20 pb-14 text-center md:pt-28 md:pb-20">
         <p className="text-[11px] font-semibold uppercase tracking-[0.34em] text-clay">
-          The Skin Grocer Learn Hub
+          Seoul → Melbourne · The Skin Grocer Learn Hub
         </p>
         <h1 className="mx-auto mt-7 max-w-5xl font-display text-[42px] uppercase leading-[0.92] tracking-[-0.03em] text-foreground sm:text-6xl md:text-[86px]">
-          Korean skincare,
+          Fix it before
           <br />
-          actually explained.
+          it breaks.
         </h1>
-        <p className="mx-auto mt-8 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
-          Not beginner tutorials. The ingredient science, the Australian regulation and the routine
-          logic behind every product we curate — quick to read, never dumbed down.
+        <p className="mx-auto mt-8 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+          Korean women aren't chasing glass skin — they're managing skin health so nothing ever
+          needs correcting. We read the Korean-language rankings, reviews and regulation, then write
+          it up for Australian climate, Australian skin tones and Australian rules.
+        </p>
+        <p className="mx-auto mt-6 max-w-xl text-[12.5px] uppercase leading-relaxed tracking-[0.14em] text-muted-foreground/70">
+          Sourced from domestic Korean demand data. Never from a fifteen-second video.
         </p>
       </section>
 
       {/* Latest articles */}
       <section className="mx-auto max-w-6xl border-t border-foreground/15 px-6 py-10 md:py-14">
         <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-foreground">
-          Latest Articles
+          Start here
         </p>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-[1.55fr_1fr] lg:gap-14">
           <article className="grid gap-7 sm:grid-cols-2 sm:items-center">
             <img
-              src={featureSerum}
-              alt="Glass test tubes and a gold dropper filled with serum"
+              src={feature.cover}
+              alt={feature.coverAlt}
               width={1408}
               height={1008}
               className="h-full max-h-[420px] w-full rounded-sm object-cover"
             />
             <div>
-              <h2 className="font-display text-[30px] leading-[1.12] text-foreground md:text-[38px]">
-                Can You Layer Vitamin C And PDRN Together?
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-clay">
+                {feature.meta}
+              </p>
+              <h2 className="mt-3 font-display text-[30px] leading-[1.12] text-foreground md:text-[38px]">
+                {feature.title}
               </h2>
               <p className="mt-4 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                8 min read · Skin Grocer Curation Desk
+                {feature.read} · Skin Grocer Curation Desk
               </p>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                There's more information about what goes into our products than ever — and with it,
-                a lot of myths about which actives can share a shelf. Here's what the formulation
-                data actually supports.
+                {feature.standfirst}
               </p>
               <Link
-                to="/learn"
+                to="/learn/article/$slug"
+                params={{ slug: feature.slug }}
                 className="mt-6 inline-block border-b border-foreground pb-1 text-[12px] font-semibold uppercase tracking-[0.2em] text-foreground transition-colors hover:border-clay hover:text-clay"
               >
                 Read more
@@ -204,22 +159,16 @@ function LearnHubPage() {
           </article>
 
           <div className="space-y-8 lg:border-l lg:border-foreground/15 lg:pl-14">
-            {[
-              {
-                img: petri,
-                title: "The Beginner's Guide To K-Beauty Actives",
-                read: "4 min read",
-              },
-              {
-                img: routineFlatlay,
-                title: "How To Use Niacinamide In A Humid Climate",
-                read: "8 min read",
-              },
-            ].map((c) => (
-              <Link key={c.title} to="/learn" className="group block">
+            {secondaryFeatures.map((c) => (
+              <Link
+                key={c.slug}
+                to="/learn/article/$slug"
+                params={{ slug: c.slug }}
+                className="group block"
+              >
                 <img
-                  src={c.img}
-                  alt={c.title}
+                  src={c.cover}
+                  alt={c.coverAlt}
                   loading="lazy"
                   className="h-44 w-full rounded-sm object-cover"
                 />
@@ -237,12 +186,21 @@ function LearnHubPage() {
         </div>
       </section>
 
-      {/* Stats band */}
+      {/* Seoul Signal band */}
       <section className="mt-6 bg-ink px-6 py-16 md:py-20">
-        <p className="mx-auto max-w-2xl text-center text-[13px] leading-relaxed text-background/70">
-          Since day one in Melbourne, every product we list has been researched, batch-verified and
-          written up before it reaches a shelf.
-        </p>
+        <div className="mx-auto max-w-5xl text-center">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-background/60">
+            The Seoul Signal
+          </p>
+          <h2 className="mx-auto mt-6 max-w-3xl font-display text-[30px] leading-[1.05] text-background md:text-[46px]">
+            We don't report what's trending. We report what Korean women repurchase.
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-[13.5px] leading-relaxed text-background/70">
+            Every piece here starts with domestic Korean signals — Hwahae review volume, Olive Young
+            Korea category rankings, real shelf space in Seoul — then gets cross-checked against
+            Australian UV, humidity, water hardness and TGA rules before we publish or stock a thing.
+          </p>
+        </div>
         <div className="mx-auto mt-12 grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((s) => (
             <div key={s.cap} className="text-center">
@@ -253,6 +211,29 @@ function LearnHubPage() {
                 {s.cap}
               </p>
             </div>
+          ))}
+        </div>
+        <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2">
+          {seoul.map((a) => (
+            <Link
+              key={a.slug}
+              to="/learn/article/$slug"
+              params={{ slug: a.slug }}
+              className="group flex h-full flex-col border-t border-background/25 pt-5 transition-colors hover:border-background"
+            >
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-background/60">
+                {a.meta}
+              </p>
+              <h3 className="mt-3 font-display text-xl leading-[1.2] text-background md:text-[26px]">
+                {a.title}
+              </h3>
+              <p className="mt-3 flex-1 text-[13.5px] leading-relaxed text-background/65">
+                {a.blurb}
+              </p>
+              <p className="mt-5 text-[11px] uppercase tracking-[0.22em] text-background/50">
+                {a.read}
+              </p>
+            </Link>
           ))}
         </div>
       </section>
@@ -276,7 +257,7 @@ function LearnHubPage() {
               </figure>
               <div>
                 <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-clay">
-                  {p.tag} — {p.count}
+                  {p.tag} — {p.articles.length} articles
                 </span>
                 <h2 className="mt-5 font-display text-[34px] uppercase leading-[0.96] tracking-[-0.02em] text-foreground md:text-[52px]">
                   {p.heading}
@@ -286,10 +267,11 @@ function LearnHubPage() {
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link
-                    to="/learn"
+                    to="/learn/article/$slug"
+                    params={{ slug: p.articles[0].slug }}
                     className="rounded-full bg-foreground px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] text-background transition-opacity hover:opacity-85"
                   >
-                    Explore articles
+                    Start reading
                   </Link>
                   <Link
                     to="/learn"
@@ -303,7 +285,7 @@ function LearnHubPage() {
 
             <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {p.articles.map((a) => (
-                <ArticleCard key={a.title} a={a} />
+                <ArticleCard key={a.slug} a={a} />
               ))}
             </div>
           </section>
@@ -315,14 +297,14 @@ function LearnHubPage() {
         <div className="grid items-center gap-10 rounded-sm bg-sand px-8 py-14 md:grid-cols-[1.2fr_1fr] md:px-14">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-clay">
-              The Curation Desk
+              The Seoul Signal · Fortnightly
             </p>
             <h2 className="mt-5 font-display text-[34px] uppercase leading-[0.98] tracking-[-0.02em] text-foreground md:text-5xl">
-              Get the fortnightly version.
+              What Seoul is buying, before Australia hears about it.
             </h2>
             <p className="mt-5 max-w-md text-[15px] leading-relaxed text-foreground/70">
-              The newest pieces from Learn, plus what's actually happening in Korea right now — in
-              your inbox every two weeks.
+              Every two weeks: what's climbing the Korean domestic rankings, what Korean women are
+              actually repurchasing, and which of it is worth your money in an Australian climate.
             </p>
           </div>
           <div className="md:justify-self-end">
