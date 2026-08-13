@@ -315,13 +315,15 @@ function Hero() {
             skin grocer
           </h1>
 
-          <div className="mt-4 flex flex-col items-center gap-3">
-            <p className="max-w-3xl text-balance font-display text-2xl leading-snug text-paper/95 md:text-3xl lg:text-4xl">
-              Most skincare advice is built for someone else's climate —{" "}
-              <span className="italic text-accent">not yours.</span>
+          <div className="mt-4 flex flex-col items-center gap-4">
+            <p className="max-w-3xl text-balance font-display text-2xl leading-snug text-paper/95 md:text-3xl lg:text-[2.6rem]">
+              Authentic Korean skincare, stocked in Melbourne and{" "}
+              <span className="italic text-accent">matched to your skin</span> — not someone
+              else&apos;s climate.
             </p>
-            <p className="max-w-md text-xs uppercase tracking-[0.22em] text-paper/60">
-              Korean skincare, curated and delivered for Australian skin.
+            <p className="max-w-xl text-balance text-sm leading-relaxed text-paper/75 md:text-base">
+              We source direct from Seoul, verify every batch, and teach you exactly what to use and
+              in what order. Order by 12pm and it&apos;s on your doorstep tomorrow.
             </p>
           </div>
 
@@ -331,11 +333,11 @@ function Hero() {
               "Sourced Direct from Seoul",
               "Authenticity Verified",
               "Order by 12pm, on your doorstep tomorrow",
-              "Built for Your Skin",
+              "Guided routines, not guesswork",
             ].map((b) => (
               <span
                 key={b}
-                className="inline-flex items-center gap-2 rounded-full border border-paper/25 bg-paper/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.16em] text-paper/90 backdrop-blur-sm"
+                className="inline-flex items-center gap-2 rounded-full border border-paper/25 bg-paper/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.16em] text-paper/90 backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-accent/70 hover:bg-paper/20"
               >
                 <span className="h-1 w-1 rounded-full bg-accent" />
                 {b}
@@ -351,19 +353,29 @@ function Hero() {
           <div className="mt-4 flex flex-col items-center gap-3 sm:flex-row">
             <Link
               to="/shop"
-              className="group inline-flex items-center gap-3 rounded-full bg-paper px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-ink transition hover:bg-accent"
+              className="group inline-flex items-center gap-3 rounded-full bg-paper px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-ink shadow-[0_0_0_0_transparent] transition duration-300 hover:-translate-y-0.5 hover:bg-accent hover:shadow-[0_18px_40px_-18px_var(--color-accent)]"
             >
               Shop now
-              <span className="transition-transform group-hover:translate-x-1">→</span>
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
             <Link
               to="/consultation"
-              className="group inline-flex items-center gap-2.5 rounded-full border border-paper/50 bg-transparent px-8 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-paper transition hover:border-paper hover:bg-paper/10"
+              className="group inline-flex items-center gap-2.5 rounded-full border border-paper/50 bg-transparent px-8 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-paper transition duration-300 hover:-translate-y-0.5 hover:border-accent hover:bg-paper/10 hover:shadow-[0_18px_40px_-22px_var(--color-accent)]"
             >
-              <SparkleIcon className="h-4 w-4 text-accent" />
+              <SparkleIcon className="h-4 w-4 text-accent transition-transform duration-500 group-hover:rotate-90" />
               <span>Take the 2-minute skin quiz</span>
             </Link>
           </div>
+
+          <Link
+            to="/learn/hub"
+            className="group mt-4 inline-flex items-center gap-3 rounded-full border border-accent/50 bg-accent/10 px-7 py-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-paper backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-accent hover:bg-accent/25 hover:shadow-[0_20px_45px_-20px_var(--color-accent)]"
+          >
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+            <span className="underline-grow">Learn Hub — Korean skincare, actually explained</span>
+            <span className="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+          </Link>
+
         </div>
       </div>
 
