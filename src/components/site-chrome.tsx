@@ -328,6 +328,15 @@ export function SiteHeader() {
                   Learn
                   <span className="text-base text-primary">→</span>
                 </Link>
+                <Link
+                  to="/grocery-list"
+                  onClick={closeMenus}
+                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                >
+                  Grocery List
+                  <span className="text-base text-primary">→</span>
+                </Link>
+
 
                 <Link
                   to="/journal/$slug"
