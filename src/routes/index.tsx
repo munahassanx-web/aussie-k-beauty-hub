@@ -415,6 +415,31 @@ function Stat({ n, l }: { n: string; l: string }) {
   );
 }
 
+function LearnStrip() {
+  return (
+    <section className="border-y border-border/60 bg-paper">
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 py-16 text-center">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">The Learn Hub</p>
+        <h2 className="max-w-2xl font-display text-4xl text-ink md:text-5xl">
+          Korean skincare, <span className="italic text-hanbok-deep">actually explained.</span>
+        </h2>
+        <p className="max-w-xl text-ink/70">
+          Ingredients decoded, concerns addressed, routines simplified — written for Australian skin
+          and climate, not copied from a label.
+        </p>
+        <Link
+          to="/learn/hub"
+          className="group inline-flex items-center gap-3 rounded-full border border-hanbok/40 bg-hanbok/5 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-ink transition duration-300 hover:-translate-y-1 hover:border-hanbok hover:bg-hanbok/15 hover:shadow-[0_20px_45px_-22px_var(--color-hanbok)]"
+        >
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+          <span className="underline-grow">Explore the Learn Hub</span>
+          <span className="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+        </Link>
+      </div>
+    </section>
+  );
+}
+
 function Promise() {
   const items = [
     { t: "100% Authentic", d: "Direct from Korea, batch-verified, sealed." },
