@@ -24,11 +24,11 @@ export function ApplicationGuideDetails({ guide }: { guide: ProductGuide }) {
       {guide.pro_tip && (
         <div
           className="rounded-2xl border-2 p-5"
-          style={{ borderColor: '#AD8A4E', backgroundColor: '#FBF7EF' }}
+          style={{ borderColor: '#3F7D62', backgroundColor: '#F1F8F4' }}
         >
           <p
             className="text-[10px] font-semibold uppercase tracking-[0.18em]"
-            style={{ color: '#AD8A4E' }}
+            style={{ color: '#3F7D62' }}
           >
             Pro tip
           </p>
