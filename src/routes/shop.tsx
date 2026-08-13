@@ -3,24 +3,7 @@ import { useMemo, useState } from "react";
 import { z } from "zod";
 import { useBuyNow } from "@/hooks/use-buy-now";
 import { CompareDrawer, CompareModal, type CompareItem } from "@/components/product-compare";
-import maskMedihealSheet from "@/assets/mask-mediheal-sheet.jpg";
-import maskDynastyCream from "@/assets/mask-dynasty-cream.jpg";
-import maskNumbuzinEye from "@/assets/mask-numbuzin-eye.jpg";
-import maskSomeByMiClay from "@/assets/mask-somebymi-clay.jpg";
-import maskAbibSleeping from "@/assets/mask-abib-sleeping.jpg";
-import maskNumbuzinVita from "@/assets/mask-numbuzin-vita.jpg";
-import maskAnuaHeartleaf from "@/assets/mask-anua-heartleaf.jpg";
-import maskSkin1004Centella from "@/assets/mask-skin1004-centella.jpg";
-import productSnail from "@/assets/product-snail-essence.jpg";
-import productCentellaToner from "@/assets/product-centella-toner.jpg";
-import productVitC from "@/assets/product-vitc-serum.jpg";
-import productRice from "@/assets/product-rice-cleanser.jpg";
-import productReliefSun from "@/assets/product-relief-sun.jpg";
-import productCicaCream from "@/assets/product-cica-cream.jpg";
-import productHeartleaf from "@/assets/product-heartleaf-ampoule.jpg";
-
-type Category = "Cleanse" | "Tone" | "Treat" | "Moisturise" | "Protect" | "Masks";
-type Concern = "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier";
+import { SHOP_PRODUCTS, type Category } from "@/lib/shop-catalog";
 
 const searchSchema = z.object({
   category: z.enum(["all", "cleanse", "tone", "treat", "moisturise", "protect", "masks"]).optional(),
@@ -43,26 +26,8 @@ export const Route = createFileRoute("/shop")({
   component: Shop,
 });
 
-const items: {
-  name: string; brand: string; price: string; priceId: string;
-  tag: string | null; category: Category; image: string; concerns: Concern[];
-}[] = [
-  { name: "Hydrating Snail Mucin Essence", brand: "COSRX", price: "$32", priceId: "snail_essence_onetime", tag: "Bestseller", category: "Treat", image: productSnail, concerns: ["hydration", "barrier", "acne"] },
-  { name: "Centella Calming Toner", brand: "SKIN1004", price: "$28", priceId: "centella_toner_onetime", tag: "New", category: "Tone", image: productCentellaToner, concerns: ["sensitivity", "acne", "barrier"] },
-  { name: "Vitamin C Brightening Serum", brand: "Beauty of Joseon", price: "$36", priceId: "vitc_serum_onetime", tag: null, category: "Treat", image: productVitC, concerns: ["pigmentation", "anti-aging"] },
-  { name: "Rice Probiotics Cleansing Foam", brand: "I'm From", price: "$30", priceId: "rice_cleanser_onetime", tag: null, category: "Cleanse", image: productRice, concerns: ["hydration", "pigmentation"] },
-  { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", priceId: "relief_sun_onetime", tag: "Cult", category: "Protect", image: productReliefSun, concerns: ["pigmentation", "anti-aging", "sensitivity"] },
-  { name: "Cica Recovery Cream", brand: "Anua", price: "$34", priceId: "cica_cream_onetime", tag: null, category: "Moisturise", image: productCicaCream, concerns: ["sensitivity", "barrier", "acne"] },
-  { name: "Heartleaf Soothing Ampoule", brand: "Anua", price: "$38", priceId: "heartleaf_ampoule_onetime", tag: "New", category: "Treat", image: productHeartleaf, concerns: ["sensitivity", "acne", "barrier"] },
-  { name: "Real Ferment Micro Essence Sheet Mask", brand: "Mediheal", price: "$6", priceId: "mask_mediheal_sheet_onetime", tag: "Bestseller", category: "Masks", image: maskMedihealSheet, concerns: ["hydration"] },
-  { name: "Dynasty Cream Mask", brand: "Beauty of Joseon", price: "$5", priceId: "mask_dynasty_cream_onetime", tag: null, category: "Masks", image: maskDynastyCream, concerns: ["hydration", "anti-aging"] },
-  { name: "Bakuchiol Retinol Eye Mask", brand: "Numbuzin", price: "$32", priceId: "mask_numbuzin_eye_onetime", tag: "New", category: "Masks", image: maskNumbuzinEye, concerns: ["anti-aging"] },
-  { name: "AHA-BHA-PHA 30 Days Miracle Clay Mask", brand: "Some By Mi", price: "$28", priceId: "mask_somebymi_clay_onetime", tag: null, category: "Masks", image: maskSomeByMiClay, concerns: ["acne"] },
-  { name: "Pep-Talk Peptide Sleeping Mask", brand: "Abib", price: "$34", priceId: "mask_abib_sleeping_onetime", tag: null, category: "Masks", image: maskAbibSleeping, concerns: ["anti-aging", "hydration"] },
-  { name: "Vita Propolis Ampoule Sheet Mask", brand: "Numbuzin", price: "$7", priceId: "mask_numbuzin_vita_onetime", tag: null, category: "Masks", image: maskNumbuzinVita, concerns: ["pigmentation", "barrier"] },
-  { name: "Heartleaf 77% Soothing Sheet Mask", brand: "Anua", price: "$6", priceId: "mask_anua_heartleaf_onetime", tag: "Cult", category: "Masks", image: maskAnuaHeartleaf, concerns: ["sensitivity"] },
-  { name: "Madagascar Centella Hyalu-Cica Water-Fit Sun Mask", brand: "SKIN1004", price: "$8", priceId: "mask_skin1004_centella_onetime", tag: null, category: "Masks", image: maskSkin1004Centella, concerns: ["sensitivity", "hydration"] },
-];
+const items = SHOP_PRODUCTS;
+
 
 const filters = ["all", "cleanse", "tone", "treat", "moisturise", "protect", "masks"] as const;
 const filterLabels: Record<(typeof filters)[number], string> = {
