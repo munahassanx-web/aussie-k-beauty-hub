@@ -35,6 +35,12 @@
   --color-clay: var(--clay);
   --color-ink: var(--ink);
   --color-paper: var(--paper);
+  --color-grocer-green: var(--grocer-green);
+  --color-grocer-tomato: var(--grocer-tomato);
+  --color-grocer-butter: var(--grocer-butter);
+  --color-grocer-brown: var(--grocer-brown);
+  --color-grocer-cream: var(--grocer-cream);
+
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "Inter", system-ui, sans-serif;
 }
@@ -49,6 +55,13 @@
   --hanbok: oklch(0.46 0.09 252);
   --hanbok-deep: oklch(0.34 0.08 254);
   --ink: oklch(0.18 0.012 250);
+  /* Grocery-list editorial accents: cream, soft green, tomato, butter, deep brown */
+  --grocer-cream: oklch(0.965 0.018 88);
+  --grocer-green: oklch(0.62 0.075 145);
+  --grocer-tomato: oklch(0.58 0.17 27);
+  --grocer-butter: oklch(0.9 0.09 95);
+  --grocer-brown: oklch(0.34 0.045 55);
+
 
   --background: oklch(0.975 0.012 80);
   --foreground: oklch(0.18 0.012 250);
