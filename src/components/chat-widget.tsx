@@ -129,7 +129,7 @@ export function ChatWidget() {
                             to="/learn/$slug"
                             params={{ slug: ing.slug }}
                             onClick={() => setOpen(false)}
-                            className="rounded-full border border-[#3F7D62]/50 bg-[#3F7D62]/10 px-2.5 py-1 text-xs text-foreground transition hover:bg-[#3F7D62]/20"
+                            className="rounded-full border border-[#1F2A37]/50 bg-[#1F2A37]/10 px-2.5 py-1 text-xs text-foreground transition hover:bg-[#1F2A37]/20"
                           >
                             {ing.name}
                           </Link>
