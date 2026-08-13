@@ -68,6 +68,13 @@ const journal: { tag: string; title: string; read: string; slug: string }[] = [
 ];
 
 
+const heroProducts: { name: string; brand: string; price: string; image: string }[] = [
+  { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22 AUD", image: bojReliefSun.url },
+  { name: "Glow Serum Propolis + Niacinamide", brand: "Beauty of Joseon", price: "$36 AUD", image: bojGlowSerum.url },
+  { name: "Bio-Collagen Real Deep Mask", brand: "BIODANCE", price: "$18 AUD", image: biodanceMask.url },
+  { name: "Madagascar Centella Ampoule", brand: "SKIN1004", price: "$34 AUD", image: skin1004Ampoule.url },
+];
+
 const reviews = [
   { name: "Lara · Carlton VIC", quote: "Genuinely changed my skin in three weeks. The advisor reply email helped me build a routine I actually stick to." },
   { name: "Priya · Brunswick VIC", quote: "Ordered at 11am, in my hands by 4pm next day. Authentic batch codes, sealed exactly as expected." },
