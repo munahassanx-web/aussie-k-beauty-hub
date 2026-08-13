@@ -2,13 +2,13 @@
 // site as collectible issues. Each issue follows the same eight-part structure
 // so readers learn the format and come back for it.
 
-import torridenSerum from "@/assets/torriden-divein-serum.webp";
-import aesturaSerum from "@/assets/aestura-cica365-serum.webp";
-import anuaPdrn from "@/assets/anua-pdrn-cream.webp";
-import medicubePdrn from "@/assets/medicube-pdrn-eye.webp";
-import bojGlow from "@/assets/boj-glow-serum.webp";
-import skin1004 from "@/assets/skin1004-centella-ampoule.webp";
-import biodanceMask from "@/assets/biodance-collagen-mask.webp";
+import torridenSerum from "@/assets/torriden-divein-serum.webp.asset.json";
+import aesturaSerum from "@/assets/aestura-cica365-serum.webp.asset.json";
+import anuaPdrn from "@/assets/anua-pdrn-cream.webp.asset.json";
+import medicubePdrn from "@/assets/medicube-pdrn-eye.webp.asset.json";
+import bojGlow from "@/assets/boj-glow-serum.webp.asset.json";
+import skin1004 from "@/assets/skin1004-centella-ampoule.webp.asset.json";
+import biodanceMask from "@/assets/biodance-collagen-mask.webp.asset.json";
 import centellaToner from "@/assets/product-centella-toner.jpg";
 import cicaCream from "@/assets/product-cica-cream.jpg";
 import riceCleanser from "@/assets/product-rice-cleanser.jpg";
@@ -162,21 +162,21 @@ export const newsletterIssues: NewsletterIssue[] = [
           name: "PDRN Hyaluronic Acid Capsule 100 Serum",
           brand: "Anua",
           price: "$44",
-          image: anuaPdrn,
+          image: anuaPdrn.url,
           note: "The easiest entry point — PDRN plus multi-weight HA, no fragrance.",
         },
         {
           name: "PDRN Pink Peptide Eye Serum",
           brand: "Medicube",
           price: "$46",
-          image: medicubePdrn,
+          image: medicubePdrn.url,
           note: "Where Koreans usually start: the thin skin that shows dehydration first.",
         },
         {
           name: "Atobarrier365 Cream",
           brand: "AESTURA",
           price: "$42",
-          image: aesturaSerum,
+          image: aesturaSerum.url,
           note: "Not PDRN, but the barrier cream Korean dermatology clinics pair it with.",
         },
       ],
@@ -189,7 +189,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         pick: "Atobarrier365 Cream",
         brand: "AESTURA",
         why: "Ceramide-led occlusive that holds oil in skin that genuinely doesn't make enough.",
-        image: aesturaSerum,
+        image: aesturaSerum.url,
       },
       {
         emoji: "🍋",
@@ -197,7 +197,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         pick: "Glow Serum: Propolis + Niacinamide",
         brand: "Beauty of Joseon",
         why: "2% niacinamide with propolis — clarity without the sting of an acid.",
-        image: bojGlow,
+        image: bojGlow.url,
       },
       {
         emoji: "🌶️",
@@ -205,7 +205,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         pick: "Madagascar Centella Ampoule",
         brand: "SKIN1004",
         why: "One ingredient, 100% centella extract. Nothing in it to react to.",
-        image: skin1004,
+        image: skin1004.url,
       },
       {
         emoji: "🍚",
@@ -213,7 +213,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         pick: "DIVE-IN Low Molecular HA Serum",
         brand: "Torriden",
         why: "Five weights of hyaluronic acid, applied damp. The thirst fix.",
-        image: torridenSerum,
+        image: torridenSerum.url,
       },
       {
         emoji: "🫛",
@@ -221,7 +221,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         pick: "Bio-Collagen Real Deep Mask",
         brand: "BIODANCE",
         why: "Overnight hydrogel that softens congestion without scrubbing at it.",
-        image: biodanceMask,
+        image: biodanceMask.url,
       },
     ],
 
@@ -230,8 +230,8 @@ export const newsletterIssues: NewsletterIssue[] = [
         "The \"I can't be bothered\" routine. Four steps, roughly five minutes, and honestly better for most Australian skin than eleven products applied inconsistently.",
       steps: [
         { step: "01 · Cleanse", what: "Low-foam, no squeak. If your face feels tight after, the cleanser is wrong.", pick: "Rice Probiotics Cleansing Foam", brand: "I'm From", image: riceCleanser },
-        { step: "02 · Hydrate", what: "Toner or HA serum onto damp skin. Two light passes, not one heavy one.", pick: "DIVE-IN Low Molecular HA Serum", brand: "Torriden", image: torridenSerum },
-        { step: "03 · Treat", what: "One active. Niacinamide by day, or nothing at all on a bad skin week.", pick: "Glow Serum: Propolis + Niacinamide", brand: "Beauty of Joseon", image: bojGlow },
+        { step: "02 · Hydrate", what: "Toner or HA serum onto damp skin. Two light passes, not one heavy one.", pick: "DIVE-IN Low Molecular HA Serum", brand: "Torriden", image: torridenSerum.url },
+        { step: "03 · Treat", what: "One active. Niacinamide by day, or nothing at all on a bad skin week.", pick: "Glow Serum: Propolis + Niacinamide", brand: "Beauty of Joseon", image: bojGlow.url },
         { step: "04 · Moisturise", what: "Seal it. Morning: add SPF over the top, every single day, all year.", pick: "Cica Recovery Cream", brand: "Anua", image: cicaCream },
       ],
       closer:
@@ -269,9 +269,9 @@ export const newsletterIssues: NewsletterIssue[] = [
     basket: {
       forWho: "For dehydrated skin",
       items: [
-        { name: "DIVE-IN Low Molecular HA Serum", brand: "Torriden", price: "$36", image: torridenSerum, note: "Water in." },
+        { name: "DIVE-IN Low Molecular HA Serum", brand: "Torriden", price: "$36", image: torridenSerum.url, note: "Water in." },
         { name: "1025 Dokdo Toner", brand: "Round Lab", price: "$32", image: centellaToner, note: "The layer underneath." },
-        { name: "Atobarrier365 Cream", brand: "AESTURA", price: "$42", image: aesturaSerum, note: "Water stays in." },
+        { name: "Atobarrier365 Cream", brand: "AESTURA", price: "$42", image: aesturaSerum.url, note: "Water stays in." },
         { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", image: reliefSun, note: "Non-negotiable." },
       ],
     },
