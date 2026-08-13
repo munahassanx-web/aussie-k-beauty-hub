@@ -68,12 +68,6 @@ const journal: { tag: string; title: string; read: string; slug: string }[] = [
 ];
 
 
-const heroProducts: { name: string; brand: string; price: string; image: string }[] = [
-  { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22 AUD", image: bojReliefSun.url },
-  { name: "Glow Serum Propolis + Niacinamide", brand: "Beauty of Joseon", price: "$36 AUD", image: bojGlowSerum.url },
-  { name: "Bio-Collagen Real Deep Mask", brand: "BIODANCE", price: "$18 AUD", image: biodanceMask.url },
-  { name: "Madagascar Centella Ampoule", brand: "SKIN1004", price: "$34 AUD", image: skin1004Ampoule.url },
-];
 
 const reviews = [
   { name: "Lara · Carlton VIC", quote: "Genuinely changed my skin in three weeks. The advisor reply email helped me build a routine I actually stick to." },
@@ -347,28 +341,6 @@ function Hero() {
           </div>
         </div>
 
-        {/* Hero products */}
-        <div className="mt-14 grid w-full max-w-4xl grid-cols-2 gap-4 md:grid-cols-4">
-          {heroProducts.map((p) => (
-            <Link
-              key={p.name}
-              to="/shop"
-              className="group rounded-2xl border border-paper/15 bg-paper/10 p-3 text-left backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-accent/60 hover:bg-paper/20"
-            >
-              <div className="aspect-square overflow-hidden rounded-xl bg-paper/90">
-                <img
-                  src={p.image}
-                  alt={p.name}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <p className="mt-3 text-[10px] uppercase tracking-[0.18em] text-paper/60">{p.brand}</p>
-              <p className="mt-1 text-sm leading-snug text-paper">{p.name}</p>
-              <p className="mt-1 text-xs text-accent">{p.price}</p>
-            </Link>
-          ))}
-        </div>
       </div>
 
 
