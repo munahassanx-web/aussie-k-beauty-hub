@@ -124,7 +124,7 @@ function IngredientDetailPage() {
       <header className="mt-8 border-b border-border pb-10">
         <p
           className="text-[11px] font-semibold uppercase tracking-[0.24em]"
-          style={{ color: "#AD8A4E" }}
+          style={{ color: "#3F7D62" }}
         >
           {i.category}
         </p>
@@ -169,11 +169,11 @@ function IngredientDetailPage() {
           {i.common_myth && (
             <div
               className="rounded-2xl border-l-4 p-6"
-              style={{ borderColor: "#AD8A4E", backgroundColor: "#FBF7EF" }}
+              style={{ borderColor: "#3F7D62", backgroundColor: "#F1F8F4" }}
             >
               <p
                 className="text-[11px] font-semibold uppercase tracking-[0.2em]"
-                style={{ color: "#AD8A4E" }}
+                style={{ color: "#3F7D62" }}
               >
                 Myth vs reality
               </p>
@@ -285,7 +285,7 @@ function IngredientDetailPage() {
                     ? "rounded-2xl border-2 p-5"
                     : "rounded-2xl border border-border bg-background p-5"
                 }
-                style={p.isHero ? { borderColor: "#AD8A4E", backgroundColor: "#FBF7EF" } : undefined}
+                style={p.isHero ? { borderColor: "#3F7D62", backgroundColor: "#F1F8F4" } : undefined}
               >
                 <div className="flex gap-4">
                   {p.image ? (
@@ -303,7 +303,7 @@ function IngredientDetailPage() {
                     {p.isHero && (
                       <p
                         className="text-[10px] font-semibold uppercase tracking-[0.18em]"
-                        style={{ color: "#AD8A4E" }}
+                        style={{ color: "#3F7D62" }}
                       >
                         Hero ingredient
                       </p>

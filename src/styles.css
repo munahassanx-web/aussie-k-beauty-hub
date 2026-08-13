@@ -47,42 +47,43 @@
 
 :root {
   --radius: 0.5rem;
-  /* Brand palette: warm sand + hanbok blue + ink on paper */
-  --paper: oklch(0.975 0.012 80);
-  --sand: oklch(0.92 0.025 78);
-  --sand-deep: oklch(0.84 0.04 72);
-  --clay: oklch(0.74 0.07 55);
-  --hanbok: oklch(0.46 0.09 252);
-  --hanbok-deep: oklch(0.34 0.08 254);
-  --ink: oklch(0.18 0.012 250);
-  /* Grocery-list editorial accents: cream, soft green, tomato, butter, deep brown */
-  --grocer-cream: oklch(0.965 0.018 88);
-  --grocer-green: oklch(0.62 0.075 145);
+  /* Brand palette: clean white base + signature mint/sage */
+  --paper: oklch(0.995 0.002 165);
+  --sand: oklch(0.965 0.022 165);
+  --sand-deep: oklch(0.915 0.04 165);
+  --clay: oklch(0.55 0.085 163);
+  --hanbok: oklch(0.66 0.105 164);
+  --hanbok-deep: oklch(0.48 0.085 165);
+  --ink: oklch(0.19 0.015 165);
+  /* Grocery-list editorial accents */
+  --grocer-cream: oklch(0.98 0.012 165);
+  --grocer-green: oklch(0.58 0.095 163);
   --grocer-tomato: oklch(0.58 0.17 27);
   --grocer-butter: oklch(0.9 0.09 95);
-  --grocer-brown: oklch(0.34 0.045 55);
+  --grocer-brown: oklch(0.34 0.03 165);
 
 
-  --background: oklch(0.975 0.012 80);
-  --foreground: oklch(0.18 0.012 250);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.19 0.015 165);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.012 250);
+  --card-foreground: oklch(0.19 0.015 165);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.012 250);
-  --primary: oklch(0.34 0.08 254);
-  --primary-foreground: oklch(0.98 0.012 80);
-  --secondary: oklch(0.92 0.025 78);
-  --secondary-foreground: oklch(0.18 0.012 250);
-  --muted: oklch(0.94 0.018 80);
-  --muted-foreground: oklch(0.45 0.02 250);
-  --accent: oklch(0.74 0.07 55);
-  --accent-foreground: oklch(0.18 0.012 250);
+  --popover-foreground: oklch(0.19 0.015 165);
+  --primary: oklch(0.48 0.085 165);
+  --primary-foreground: oklch(0.99 0.005 165);
+  --secondary: oklch(0.965 0.022 165);
+  --secondary-foreground: oklch(0.19 0.015 165);
+  --muted: oklch(0.972 0.008 165);
+  --muted-foreground: oklch(0.47 0.02 165);
+  --accent: oklch(0.82 0.09 165);
+  --accent-foreground: oklch(0.19 0.015 165);
   --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.88 0.018 80);
-  --input: oklch(0.88 0.018 80);
-  --ring: oklch(0.46 0.09 252);
+  --border: oklch(0.915 0.012 165);
+  --input: oklch(0.915 0.012 165);
+  --ring: oklch(0.66 0.105 164);
 }
+
 
 @layer base {
   * { border-color: var(--color-border); }

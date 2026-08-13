@@ -40,7 +40,7 @@ export function WhyThisIngredient({ productId }: { productId: string }) {
         {open ? "Hide" : "Why this ingredient?"} {open ? "▲" : "▼"}
       </button>
       {open && (
-        <div className="mt-2 border-l-2 pl-3" style={{ borderColor: "#AD8A4E" }}>
+        <div className="mt-2 border-l-2 pl-3" style={{ borderColor: "#3F7D62" }}>
           {isLoading ? (
             <p className="text-[11px] text-muted-foreground">Loading…</p>
           ) : !data || data.length === 0 ? (
