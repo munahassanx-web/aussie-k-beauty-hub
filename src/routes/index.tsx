@@ -68,6 +68,13 @@ const journal: { tag: string; title: string; read: string; slug: string }[] = [
 ];
 
 
+const heroProducts: { name: string; brand: string; price: string; image: string }[] = [
+  { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22 AUD", image: bojReliefSun.url },
+  { name: "Glow Serum Propolis + Niacinamide", brand: "Beauty of Joseon", price: "$36 AUD", image: bojGlowSerum.url },
+  { name: "Bio-Collagen Real Deep Mask", brand: "BIODANCE", price: "$18 AUD", image: biodanceMask.url },
+  { name: "Madagascar Centella Ampoule", brand: "SKIN1004", price: "$34 AUD", image: skin1004Ampoule.url },
+];
+
 const reviews = [
   { name: "Lara · Carlton VIC", quote: "Genuinely changed my skin in three weeks. The advisor reply email helped me build a routine I actually stick to." },
   { name: "Priya · Brunswick VIC", quote: "Ordered at 11am, in my hands by 4pm next day. Authentic batch codes, sealed exactly as expected." },
@@ -85,6 +92,8 @@ function HomePage() {
       <BundleOffer />
       <Categories />
       <Concerns />
+      <LearnStrip />
+
       <ApplicationMoment />
       <BrandMarquee />
       <IngredientStrip />
@@ -305,55 +314,25 @@ function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-ink/35 via-ink/20 to-ink/65" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col items-center justify-center px-6 py-12 text-center">
+      <div className="relative mx-auto flex min-h-[86vh] max-w-7xl flex-col items-center justify-center px-6 py-16 text-center">
         <div className="flex max-w-3xl flex-col items-center gap-5">
           <span className="text-[10px] font-medium uppercase tracking-[0.4em] text-paper/75">
-            Melbourne · Est. by skin nerds
+            Melbourne · Authentic Korean skincare
           </span>
 
           <h1 className="font-display text-7xl leading-[0.9] text-paper md:text-[8.5rem] lg:text-[10rem]">
             skin grocer
           </h1>
 
-          <div className="mt-4 flex flex-col items-center gap-4">
-            <p className="max-w-3xl text-balance font-display text-2xl leading-snug text-paper/95 md:text-3xl lg:text-[2.6rem]">
-              Authentic Korean skincare, stocked in Melbourne and{" "}
-              <span className="italic text-accent">matched to your skin</span> — not someone
-              else&apos;s climate.
-            </p>
-            <p className="max-w-xl text-balance text-sm leading-relaxed text-paper/75 md:text-base">
-              We source direct from Seoul, verify every batch, and teach you exactly what to use and
-              in what order. Order by 12pm and it&apos;s on your doorstep tomorrow.
-            </p>
-          </div>
-
-          {/* Trust badges */}
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-            {[
-              "Sourced Direct from Seoul",
-              "Authenticity Verified",
-              "Order by 12pm, on your doorstep tomorrow",
-              "Guided routines, not guesswork",
-            ].map((b) => (
-              <span
-                key={b}
-                className="inline-flex items-center gap-2 rounded-full border border-paper/25 bg-paper/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.16em] text-paper/90 backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-accent/70 hover:bg-paper/20"
-              >
-                <span className="h-1 w-1 rounded-full bg-accent" />
-                {b}
-              </span>
-            ))}
-          </div>
-
-          {/* Provenance supporting line */}
-          <p className="mt-2 max-w-md text-balance text-xs leading-relaxed text-paper/65">
-            Every order arrives batch-verified, with a provenance card tracing it from Seoul to your door.
+          <p className="max-w-2xl text-balance font-display text-2xl leading-snug text-paper/95 md:text-3xl">
+            Sourced from Seoul, stocked in Melbourne,{" "}
+            <span className="italic text-accent">matched to your skin</span>.
           </p>
 
           <div className="mt-4 flex flex-col items-center gap-3 sm:flex-row">
             <Link
               to="/shop"
-              className="group inline-flex items-center gap-3 rounded-full bg-paper px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-ink shadow-[0_0_0_0_transparent] transition duration-300 hover:-translate-y-0.5 hover:bg-accent hover:shadow-[0_18px_40px_-18px_var(--color-accent)]"
+              className="group inline-flex items-center gap-3 rounded-full bg-paper px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-ink transition duration-300 hover:-translate-y-0.5 hover:bg-accent hover:shadow-[0_18px_40px_-18px_var(--color-accent)]"
             >
               Shop now
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -366,18 +345,32 @@ function Hero() {
               <span>Take the 2-minute skin quiz</span>
             </Link>
           </div>
+        </div>
 
-          <Link
-            to="/learn/hub"
-            className="group mt-4 inline-flex items-center gap-3 rounded-full border border-accent/50 bg-accent/10 px-7 py-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-paper backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-accent hover:bg-accent/25 hover:shadow-[0_20px_45px_-20px_var(--color-accent)]"
-          >
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
-            <span className="underline-grow">Learn Hub — Korean skincare, actually explained</span>
-            <span className="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
-          </Link>
-
+        {/* Hero products */}
+        <div className="mt-14 grid w-full max-w-4xl grid-cols-2 gap-4 md:grid-cols-4">
+          {heroProducts.map((p) => (
+            <Link
+              key={p.name}
+              to="/shop"
+              className="group rounded-2xl border border-paper/15 bg-paper/10 p-3 text-left backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-accent/60 hover:bg-paper/20"
+            >
+              <div className="aspect-square overflow-hidden rounded-xl bg-paper/90">
+                <img
+                  src={p.image}
+                  alt={p.name}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <p className="mt-3 text-[10px] uppercase tracking-[0.18em] text-paper/60">{p.brand}</p>
+              <p className="mt-1 text-sm leading-snug text-paper">{p.name}</p>
+              <p className="mt-1 text-xs text-accent">{p.price}</p>
+            </Link>
+          ))}
         </div>
       </div>
+
 
       {/* Floating ticker */}
       <div className="relative border-t border-paper/15 bg-ink/70 backdrop-blur">
@@ -419,6 +412,31 @@ function Stat({ n, l }: { n: string; l: string }) {
       <p className="font-display text-2xl text-ink">{n}</p>
       <p className="mt-1 leading-tight text-ink/60">{l}</p>
     </div>
+  );
+}
+
+function LearnStrip() {
+  return (
+    <section className="border-y border-border/60 bg-paper">
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 py-16 text-center">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">The Learn Hub</p>
+        <h2 className="max-w-2xl font-display text-4xl text-ink md:text-5xl">
+          Korean skincare, <span className="italic text-hanbok-deep">actually explained.</span>
+        </h2>
+        <p className="max-w-xl text-ink/70">
+          Ingredients decoded, concerns addressed, routines simplified — written for Australian skin
+          and climate, not copied from a label.
+        </p>
+        <Link
+          to="/learn/hub"
+          className="group inline-flex items-center gap-3 rounded-full border border-hanbok/40 bg-hanbok/5 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-ink transition duration-300 hover:-translate-y-1 hover:border-hanbok hover:bg-hanbok/15 hover:shadow-[0_20px_45px_-22px_var(--color-hanbok)]"
+        >
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+          <span className="underline-grow">Explore the Learn Hub</span>
+          <span className="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+        </Link>
+      </div>
+    </section>
   );
 }
 
