@@ -478,7 +478,8 @@ function Categories() {
 
 function Concerns() {
   return (
-    <section className="bg-secondary">
+    <section className="bg-sand">
+
       <div className="mx-auto max-w-7xl px-6 py-24">
         <div className="grid items-end gap-6 md:grid-cols-2">
           <div>
