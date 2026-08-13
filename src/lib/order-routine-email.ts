@@ -35,7 +35,7 @@ export function renderOrderRoutineHtml(guides: ProductGuide[], siteUrl = ''): st
             siteUrl
               ? `<p style="margin:8px 0 0;font-size:12px;"><a href="${siteUrl}/guide/${encodeURIComponent(
                   g.id,
-                )}" style="color:#3F7D62;">Read the full guide</a></p>`
+                )}" style="color:#1F2A37;">Read the full guide</a></p>`
               : ''
           }
         </td>

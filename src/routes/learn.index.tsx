@@ -143,7 +143,7 @@ function LearnPage() {
                 >
                   <p
                     className="text-[10px] font-semibold uppercase tracking-[0.2em]"
-                    style={{ color: "#3F7D62" }}
+                    style={{ color: "#1F2A37" }}
                   >
                     {i.category}
                   </p>

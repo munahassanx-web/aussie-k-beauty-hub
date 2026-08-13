@@ -532,7 +532,7 @@ function FinalStep({
           type="checkbox"
           checked={draft.consent}
           onChange={(e) => set("consent", e.target.checked)}
-          className="mt-0.5 h-4 w-4 shrink-0 accent-[#3F7D62]"
+          className="mt-0.5 h-4 w-4 shrink-0 accent-[#1F2A37]"
         />
         <span className="text-xs leading-relaxed text-muted-foreground">
           Email me my routine and occasional Skin Grocer notes on new arrivals and skincare guidance.
