@@ -305,7 +305,7 @@ function Hero() {
           className="h-full w-full object-cover"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/35 via-ink/20 to-ink/65" />
+        <div className="absolute inset-0 bg-gradient-to-b from-hanbok-deep/35 via-ink/20 to-hanbok-deep/70" />
       </div>
 
       <div className="relative mx-auto flex min-h-[86vh] max-w-7xl flex-col items-center justify-center px-6 py-16 text-center">
