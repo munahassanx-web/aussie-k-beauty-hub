@@ -23,6 +23,7 @@ import { Route as ShopRouteImport } from './routes/shop'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SkinConcernsRouteImport } from './routes/skin-concerns'
 import { Route as GroceryListIndexRouteImport } from './routes/grocery-list.index'
+import { Route as GroceryListSlugRouteImport } from './routes/grocery-list.$slug'
 import { Route as GuideProductIdRouteImport } from './routes/guide.$productId'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as LearnIndexRouteImport } from './routes/learn.index'
@@ -103,6 +104,11 @@ const GroceryListIndexRoute = GroceryListIndexRouteImport.update({
   path: '/grocery-list/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GroceryListSlugRoute = GroceryListSlugRouteImport.update({
+  id: '/grocery-list/$slug',
+  path: '/grocery-list/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuideProductIdRoute = GuideProductIdRouteImport.update({
   id: '/guide/$productId',
   path: '/guide/$productId',
@@ -164,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
@@ -189,6 +196,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
@@ -215,6 +223,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
@@ -242,6 +251,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/grocery-list/$slug'
     | '/guide/$productId'
     | '/journal/$slug'
     | '/learn/$slug'
@@ -267,6 +277,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/grocery-list/$slug'
     | '/guide/$productId'
     | '/journal/$slug'
     | '/learn/$slug'
@@ -292,6 +303,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/grocery-list/$slug'
     | '/guide/$productId'
     | '/journal/$slug'
     | '/learn/$slug'
@@ -318,6 +330,7 @@ export interface RootRouteChildren {
   ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkinConcernsRoute: typeof SkinConcernsRoute
+  GroceryListSlugRoute: typeof GroceryListSlugRoute
   GuideProductIdRoute: typeof GuideProductIdRoute
   LearnSlugRoute: typeof LearnSlugRoute
   LearnHubRoute: typeof LearnHubRoute
@@ -429,6 +442,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GroceryListIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/grocery-list/$slug': {
+      id: '/grocery-list/$slug'
+      path: '/grocery-list/$slug'
+      fullPath: '/grocery-list/$slug'
+      preLoaderRoute: typeof GroceryListSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guide/$productId': {
       id: '/guide/$productId'
       path: '/guide/$productId'
@@ -520,6 +540,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkinConcernsRoute: SkinConcernsRoute,
+  GroceryListSlugRoute: GroceryListSlugRoute,
   GuideProductIdRoute: GuideProductIdRoute,
   LearnSlugRoute: LearnSlugRoute,
   LearnHubRoute: LearnHubRoute,
