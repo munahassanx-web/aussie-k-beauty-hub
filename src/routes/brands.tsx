@@ -40,7 +40,8 @@ function BrandsPage() {
       <h1 className="mt-3 text-5xl text-foreground md:text-7xl">13 hand-picked <em className="not-italic text-primary">brands</em>.</h1>
       <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
         Every brand on Skin Grocer is sourced through verified partners and
-        warehoused locally in Melbourne for next-day delivery.
+        warehoused locally in Melbourne for next-day delivery to metro and most
+        regional areas (remote postcodes may take 1–2 extra days).
       </p>
 
       <div className="mt-14 grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

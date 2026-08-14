@@ -44,7 +44,8 @@ function Contact() {
           </div>
           <div>
             <dt className="text-xs uppercase tracking-wider text-muted-foreground">Next-day cutoff</dt>
-            <dd className="mt-1 font-display text-2xl text-foreground">Order by 12pm</dd>
+            <dd className="mt-1 font-display text-2xl text-foreground">Order by 12pm*</dd>
+            <p className="mt-2 text-xs text-muted-foreground">*Next-day delivery covers metro and most regional areas. Remote postcodes may take 1–2 extra days.</p>
           </div>
         </dl>
       </div>

@@ -76,7 +76,8 @@ function Shop() {
         <h1 className="mt-3 text-5xl text-foreground md:text-6xl">Carefully sourced. <em className="not-italic text-primary">Always authentic.</em></h1>
         <p className="mt-5 text-lg text-muted-foreground">
           Every product on Skin Grocer is sourced directly through verified
-          brand partners and stocked here in Australia for next-day delivery.
+          brand partners and stocked here in Australia for next-day delivery to metro
+          and most regional areas — remote postcodes may take 1–2 extra days.
         </p>
       </div>
 
