@@ -33,7 +33,6 @@ import { Route as LearnSlugRouteImport } from './routes/learn.$slug'
 import { Route as LearnHubRouteImport } from './routes/learn.hub'
 import { Route as RoutinesIndexRouteImport } from './routes/routines.index'
 import { Route as RoutinesBundleIdRouteImport } from './routes/routines.$bundleId'
-import { Route as ApiPublicDiagPricesRouteImport } from './routes/api/public/diag-prices'
 import { Route as LearnArticleSlugRouteImport } from './routes/learn.article.$slug'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
@@ -157,11 +156,6 @@ const RoutinesBundleIdRoute = RoutinesBundleIdRouteImport.update({
   path: '/routines/$bundleId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicDiagPricesRoute = ApiPublicDiagPricesRouteImport.update({
-  id: '/api/public/diag-prices',
-  path: '/api/public/diag-prices',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LearnArticleSlugRoute = LearnArticleSlugRouteImport.update({
   id: '/learn/article/$slug',
   path: '/learn/article/$slug',
@@ -199,7 +193,6 @@ export interface FileRoutesByFullPath {
   '/grocery-list/': typeof GroceryListIndexRoute
   '/learn/': typeof LearnIndexRoute
   '/routines/': typeof RoutinesIndexRoute
-  '/api/public/diag-prices': typeof ApiPublicDiagPricesRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -228,7 +221,6 @@ export interface FileRoutesByTo {
   '/grocery-list': typeof GroceryListIndexRoute
   '/learn': typeof LearnIndexRoute
   '/routines': typeof RoutinesIndexRoute
-  '/api/public/diag-prices': typeof ApiPublicDiagPricesRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -258,7 +250,6 @@ export interface FileRoutesById {
   '/grocery-list/': typeof GroceryListIndexRoute
   '/learn/': typeof LearnIndexRoute
   '/routines/': typeof RoutinesIndexRoute
-  '/api/public/diag-prices': typeof ApiPublicDiagPricesRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -289,7 +280,6 @@ export interface FileRouteTypes {
     | '/grocery-list/'
     | '/learn/'
     | '/routines/'
-    | '/api/public/diag-prices'
     | '/learn/article/$slug'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -318,7 +308,6 @@ export interface FileRouteTypes {
     | '/grocery-list'
     | '/learn'
     | '/routines'
-    | '/api/public/diag-prices'
     | '/learn/article/$slug'
     | '/api/public/payments/webhook'
   id:
@@ -347,7 +336,6 @@ export interface FileRouteTypes {
     | '/grocery-list/'
     | '/learn/'
     | '/routines/'
-    | '/api/public/diag-prices'
     | '/learn/article/$slug'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -375,7 +363,6 @@ export interface RootRouteChildren {
   GroceryListIndexRoute: typeof GroceryListIndexRoute
   LearnIndexRoute: typeof LearnIndexRoute
   RoutinesIndexRoute: typeof RoutinesIndexRoute
-  ApiPublicDiagPricesRoute: typeof ApiPublicDiagPricesRoute
   LearnArticleSlugRoute: typeof LearnArticleSlugRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
@@ -550,13 +537,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoutinesBundleIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/diag-prices': {
-      id: '/api/public/diag-prices'
-      path: '/api/public/diag-prices'
-      fullPath: '/api/public/diag-prices'
-      preLoaderRoute: typeof ApiPublicDiagPricesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/learn/article/$slug': {
       id: '/learn/article/$slug'
       path: '/learn/article/$slug'
@@ -620,7 +600,6 @@ const rootRouteChildren: RootRouteChildren = {
   GroceryListIndexRoute: GroceryListIndexRoute,
   LearnIndexRoute: LearnIndexRoute,
   RoutinesIndexRoute: RoutinesIndexRoute,
-  ApiPublicDiagPricesRoute: ApiPublicDiagPricesRoute,
   LearnArticleSlugRoute: LearnArticleSlugRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
