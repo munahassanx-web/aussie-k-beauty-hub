@@ -690,7 +690,7 @@ function ProvenanceCard() {
         <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-ink">
           <img
             src={authenticityCard.url}
-            alt="Skin Grocer authenticity card surrounded by Aestura, Beauty of Joseon and COSRX products"
+            alt="Skin Grocer authenticity card surrounded by AESTURA, Beauty of Joseon and MEDICUBE products"
             loading="lazy"
             className="h-full w-full object-cover"
           />
