@@ -227,10 +227,10 @@ function BrandMarquee() {
 
 function PromoBar() {
   const messages = [
-    "Limited drop · Save up to 25% on advisor-built bundles",
+    "Save up to 25% on advisor-built bundles",
     "Free express AU shipping on every bundle",
     "Bundle + Subscribe = an extra 10% off, forever",
-    "Only 48 Glow Edit kits left this week",
+    "Free routine card + samples in every bundle",
   ];
   const [i, setI] = useState(0);
   useEffect(() => {
@@ -588,7 +588,7 @@ function BundleOffer() {
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full bg-hanbok-deep/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-hanbok-deep">
-              <span className="h-1.5 w-1.5 rounded-full bg-clay" /> Limited drop · This week only
+              <span className="h-1.5 w-1.5 rounded-full bg-clay" /> Advisor-built bundles
             </p>
             <h2 className="mt-4 font-display text-4xl text-ink md:text-5xl">
               Skip the guesswork.<br />
@@ -618,7 +618,7 @@ function BundleOffer() {
             >
               {b.featured && (
                 <div className="absolute right-4 top-4 z-10 rounded-full bg-hanbok px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-paper">
-                  Most popular
+                  Advisor pick
                 </div>
               )}
               <div className="relative aspect-[5/3] overflow-hidden bg-sand">
