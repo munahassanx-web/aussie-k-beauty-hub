@@ -460,8 +460,8 @@ function CategoryTile({ c, i }: { c: (typeof categories)[number]; i: number }) {
           src={c.img}
           alt={`${c.name} — ${c.label}`}
           loading="lazy"
-          className={`h-full w-full object-contain p-8 transition-transform duration-700 group-hover:scale-105 group-hover:translate-x-[18%] ${
-            revealed ? "scale-105 translate-x-[18%]" : ""
+          className={`h-full w-full object-contain p-8 transition-transform duration-700 group-hover:[transform:translateX(16%)_scale(1.05)] ${
+            revealed ? "[transform:translateX(16%)_scale(1.05)]" : ""
           }`}
         />
 
