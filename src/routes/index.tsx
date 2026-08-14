@@ -12,13 +12,6 @@ import authenticityCard from "@/assets/authenticity-card.png.asset.json";
 import brandLineup from "@/assets/brand-lineup.png.asset.json";
 import textureMacro from "@/assets/texture-macro.jpg";
 import ritualScene from "@/assets/ritual-scene.jpg";
-import concernHydration from "@/assets/concerns/hydration.jpg";
-import concernAcne from "@/assets/concerns/acne.jpg";
-import concernPigmentation from "@/assets/concerns/pigmentation.jpg";
-import concernSensitivity from "@/assets/concerns/sensitivity.jpg";
-import concernAntiAging from "@/assets/concerns/anti-aging.jpg";
-import concernBarrier from "@/assets/concerns/barrier.jpg";
-
 import brandSpotlight from "@/assets/brand-spotlight.jpg";
 import customers from "@/assets/customers.jpg";
 
@@ -502,32 +495,17 @@ function Concerns() {
               key={c.name}
               to="/shop"
               search={{ concern: c.slug }}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-paper lift"
+              className={`group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br ${c.color} to-paper p-7 lift`}
             >
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <img
-                  src={c.img}
-                  alt={`${c.name} — Korean skincare texture`}
-                  loading="lazy"
-                  width={1024}
-                  height={768}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <span className="absolute left-4 top-4 rounded-full bg-paper/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-hanbok-deep backdrop-blur-sm">
-                  Concern
-                </span>
-              </div>
-              <div className="p-7">
-                <h3 className="font-display text-2xl text-ink">{c.name}</h3>
-                <p className="mt-2 text-sm text-ink/70">{c.desc}</p>
-                <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                  Shop the edit
-                  <span className="transition-transform group-hover:translate-x-1">→</span>
-                </span>
-              </div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-hanbok-deep">Concern</p>
+              <h3 className="mt-4 font-display text-2xl text-ink">{c.name}</h3>
+              <p className="mt-2 text-sm text-ink/70">{c.desc}</p>
+              <span className="mt-8 inline-flex items-center gap-1 text-sm font-medium text-primary">
+                Shop the edit
+                <span className="transition-transform group-hover:translate-x-1">→</span>
+              </span>
             </Link>
           ))}
-
         </div>
       </div>
     </section>
