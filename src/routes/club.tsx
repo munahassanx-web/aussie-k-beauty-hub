@@ -308,7 +308,7 @@ function TierCard({
     >
       {tier.highlight && !isCurrent && (
         <span className="mb-3 self-start rounded-full bg-ink px-3 py-1 text-[9px] font-medium uppercase tracking-widest text-paper">
-          Most popular
+          Recommended
         </span>
       )}
       {isCurrent && (
