@@ -6,7 +6,7 @@ import authenticityCheck from "@/assets/hero-slides/authenticity-check.jpg";
 import overwhelmed from "@/assets/hero-slides/overwhelmed.jpg";
 import localDispatch from "@/assets/hero-slides/local-dispatch.jpg";
 
-const SLIDE_MS = 5000;
+
 
 type Slide = {
   type: "video" | "image";
@@ -72,9 +72,9 @@ export function HeroCarousel() {
 
   useEffect(() => {
     if (paused) return;
-    const id = setTimeout(next, SLIDE_MS);
+    const id = setTimeout(next, slides[active].durationMs);
     return () => clearTimeout(id);
-  }, [paused, next, key]);
+  }, [paused, next, key, active]);
 
 
   const goTo = (i: number) => {
@@ -193,7 +193,7 @@ export function HeroCarousel() {
               }`}
               style={
                 i === active
-                  ? ({ animationDuration: `${SLIDE_MS}ms` } as React.CSSProperties)
+                  ? ({ animationDuration: `${slides[active].durationMs}ms` } as React.CSSProperties)
                   : undefined
               }
             />
