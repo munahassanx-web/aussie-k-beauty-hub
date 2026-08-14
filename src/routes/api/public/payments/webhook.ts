@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { createClient } from '@supabase/supabase-js';
-import { type StripeEnv, verifyWebhook } from '@/lib/stripe.server';
+import { type StripeEnv, createStripeClient, verifyWebhook } from '@/lib/stripe.server';
 
 let _supabase: any = null;
 function getSupabase(): any {
@@ -11,20 +11,16 @@ function getSupabase(): any {
 }
 
 const CIRCLE_PRICE_IDS = new Set(['circle_monthly', 'circle_yearly']);
-// Products offered as Restock subscriptions (routine staples only)
-const RESTOCK_PRICE_IDS = new Set<string>([
-  'snail_essence_sub',
-  'centella_toner_sub',
-  'vitc_serum_sub',
-  'rice_cleanser_sub',
-  'relief_sun_sub',
-  'cica_cream_sub',
-  'heartleaf_ampoule_sub',
-]);
 
 function resolvePriceLookup(price: any): string | null {
   return price?.lookup_key || price?.metadata?.lovable_external_id || price?.id || null;
 }
+
+function isRestockPrice(priceId: string | null): boolean {
+  return Boolean(priceId && priceId.startsWith('restock_'));
+}
+
+// ---------------------------------------------------------------- subscriptions
 
 async function upsertSubscription(sub: any, env: StripeEnv) {
   const userId = sub.metadata?.userId;
@@ -55,7 +51,7 @@ async function upsertSubscription(sub: any, env: StripeEnv) {
     { onConflict: 'stripe_subscription_id' },
   );
 
-  await recomputeMembership(userId as string);
+  await recomputeMembership(userId as string, env);
 }
 
 async function markSubscriptionCanceled(sub: any, env: StripeEnv) {
@@ -66,35 +62,36 @@ async function markSubscriptionCanceled(sub: any, env: StripeEnv) {
     .eq('environment', env);
 
   const userId = sub.metadata?.userId;
-  if (userId) await recomputeMembership(userId as string);
+  if (userId) await recomputeMembership(userId as string, env);
 }
 
-async function recomputeMembership(userId: string) {
+async function recomputeMembership(userId: string, env: StripeEnv) {
   const supabase = getSupabase();
-  const { data: subs } = await supabase
-    .from('subscriptions')
-    .select('price_id, status, current_period_end, cancel_at_period_end')
-    .eq('user_id', userId);
+  const [{ data: subs }, { data: existing }] = await Promise.all([
+    supabase
+      .from('subscriptions')
+      .select('price_id, status, current_period_end')
+      .eq('user_id', userId)
+      .eq('environment', env),
+    supabase.from('memberships').select('circle_since').eq('user_id', userId).maybeSingle(),
+  ]);
 
   let tier: 'basket' | 'restock' | 'circle' = 'basket';
   let hasActive = false;
-  let circleSince: string | null = null;
 
   for (const s of subs ?? []) {
     const active = s.status === 'active' || s.status === 'trialing' || s.status === 'past_due';
-    const gracePeriod = s.status === 'canceled' && s.current_period_end && new Date(s.current_period_end as string) > new Date();
-    if (!active && !gracePeriod) continue;
+    const grace =
+      s.status === 'canceled' && s.current_period_end && new Date(s.current_period_end as string) > new Date();
+    if (!active && !grace) continue;
     hasActive = true;
-    if (CIRCLE_PRICE_IDS.has(s.price_id as string)) {
-      tier = 'circle';
-      circleSince = new Date().toISOString();
-    } else if (tier !== 'circle' && RESTOCK_PRICE_IDS.has(s.price_id as string)) {
-      tier = 'restock';
-    } else if (tier === 'basket') {
-      // Any other recurring product opts them into Restock tier
-      tier = 'restock';
-    }
+    if (CIRCLE_PRICE_IDS.has(s.price_id as string)) tier = 'circle';
+    else if (tier !== 'circle' && isRestockPrice(s.price_id as string)) tier = 'restock';
   }
+
+  // circle_since is set once, on the first upgrade to Circle, and never overwritten.
+  const circleSince =
+    tier === 'circle' ? (existing?.circle_since as string | null) ?? new Date().toISOString() : (existing?.circle_since as string | null) ?? null;
 
   await supabase.from('memberships').upsert(
     {
@@ -108,108 +105,244 @@ async function recomputeMembership(userId: string) {
   );
 }
 
-async function handleTransactionCompleted(txn: any, env: StripeEnv) {
-  const userId = txn.metadata?.userId || txn.customer_metadata?.userId || txn.subscription?.metadata?.userId;
-  const amountCents = txn.amount_total ?? txn.amount ?? txn.amount_paid ?? 0;
-  const currency = (txn.currency ?? 'aud').toLowerCase();
-  const sessionId = txn.checkout_session_id ?? txn.session_id ?? txn.id;
-  const paymentIntentId = txn.payment_intent_id ?? txn.payment_intent ?? null;
-  const isSubscription = Boolean(txn.subscription_id || txn.subscription || txn.mode === 'subscription');
-  const pointsRedeemed = Number(txn.metadata?.pointsRedeemed ?? 0) || 0;
-  const discountCents = Number(txn.total_details?.amount_discount ?? txn.discount_amount ?? 0) || 0;
+// ---------------------------------------------------------------- orders
 
-  if (!userId || !amountCents) {
-    console.log('transaction.completed skipped', { userId, amountCents });
-    return;
-  }
-
-  const supabase = getSupabase();
-
-  // Award points based on current membership tier
-  const { data: membership } = await supabase
+async function pointsMultiplier(userId: string, isSubscription: boolean): Promise<{ tier: string; multiplier: number }> {
+  const { data: membership } = await getSupabase()
     .from('memberships')
     .select('tier')
     .eq('user_id', userId)
     .maybeSingle();
+  const tier = (membership?.tier as string) ?? 'basket';
+  if (tier === 'circle') return { tier, multiplier: 2 };
+  if (tier === 'restock' && isSubscription) return { tier, multiplier: 1.5 };
+  return { tier, multiplier: 1 };
+}
 
-  const tier = (membership?.tier as 'basket' | 'restock' | 'circle') ?? 'basket';
-  const dollars = Math.floor(amountCents / 100);
-  let multiplier = 1;
-  if (tier === 'circle') multiplier = 2;
-  else if (tier === 'restock' && isSubscription) multiplier = 1.5;
-  const pointsEarned = Math.floor(dollars * multiplier);
+async function awardPoints(
+  userId: string,
+  orderId: string,
+  pointsEarned: number,
+  pointsRedeemed: number,
+  meta: Record<string, unknown>,
+) {
+  const supabase = getSupabase();
+  if (pointsEarned > 0) {
+    // Unique index on (order_id, reason) makes this safe against webhook retries.
+    await supabase
+      .from('points_ledger')
+      .upsert(
+        { user_id: userId, delta: pointsEarned, reason: 'order_earn', order_id: orderId, metadata: meta },
+        { onConflict: 'order_id,reason' },
+      );
+  }
+  if (pointsRedeemed > 0) {
+    await supabase
+      .from('points_ledger')
+      .upsert(
+        { user_id: userId, delta: -pointsRedeemed, reason: 'redeem', order_id: orderId, metadata: meta },
+        { onConflict: 'order_id,reason' },
+      );
+  }
+}
 
-  // Insert order (idempotent by session id)
-  const { data: order, error: orderErr } = await supabase
+/** Fulfils a completed Checkout Session (one-off order, or first subscription order). */
+async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean) {
+  const userId = session.metadata?.userId;
+  if (!userId) {
+    console.error('checkout session without userId metadata', session.id);
+    return;
+  }
+
+  const supabase = getSupabase();
+  const stripe = createStripeClient(env);
+
+  let lineItems: Array<{ name: string; quantity: number; amountCents: number }> = [];
+  try {
+    const items = await stripe.checkout.sessions.listLineItems(session.id, { limit: 50, expand: ['data.price.product'] });
+    lineItems = items.data.map((item: any) => ({
+      name: item.description ?? item.price?.product?.name ?? 'Item',
+      quantity: item.quantity ?? 1,
+      amountCents: item.amount_total ?? 0,
+    }));
+  } catch (e) {
+    console.error('could not list line items', e);
+  }
+
+  const shipping = session.collected_information?.shipping_details ?? session.shipping_details ?? null;
+  const address = shipping?.address ?? null;
+  const amountCents = session.amount_total ?? 0;
+  const shippingCents = session.total_details?.amount_shipping ?? 0;
+  const discountCents = session.total_details?.amount_discount ?? 0;
+  const pointsRedeemed = Number(session.metadata?.pointsRedeemed ?? 0) || 0;
+  const isSubscription = session.mode === 'subscription';
+
+  const { tier, multiplier } = await pointsMultiplier(userId, isSubscription);
+  // Points are earned on product spend only — never on shipping.
+  const productCents = Math.max(0, amountCents - shippingCents);
+  const pointsEarned = paid ? Math.floor(Math.floor(productCents / 100) * multiplier) : 0;
+
+  const { data: order, error } = await supabase
     .from('orders')
     .upsert(
       {
         user_id: userId,
-        stripe_session_id: sessionId,
-        stripe_payment_intent_id: paymentIntentId,
+        stripe_session_id: session.id,
+        stripe_payment_intent_id: session.payment_intent ?? null,
         amount_cents: amountCents,
-        currency,
+        currency: (session.currency ?? 'aud').toLowerCase(),
         is_subscription_order: isSubscription,
         environment: env,
-        status: 'paid',
-        fulfillment_status: 'processing',
+        status: paid ? 'paid' : 'pending',
+        fulfillment_status: paid ? 'processing' : 'awaiting_payment',
         points_earned: pointsEarned,
         points_redeemed: pointsRedeemed,
         discount_cents: discountCents,
+        shipping_cents: shippingCents,
+        shipping_method: session.shipping_cost?.shipping_rate ? 'standard' : null,
+        line_items: lineItems,
+        shipping_name: shipping?.name ?? null,
+        shipping_phone: session.customer_details?.phone ?? null,
+        shipping_line1: address?.line1 ?? null,
+        shipping_line2: address?.line2 ?? null,
+        shipping_city: address?.city ?? null,
+        shipping_state: address?.state ?? null,
+        shipping_postcode: address?.postal_code ?? null,
+        shipping_country: address?.country ?? null,
       },
       { onConflict: 'stripe_session_id' },
     )
     .select('id')
     .single();
 
-  if (orderErr || !order) {
-    console.error('order upsert failed', orderErr);
+  if (error || !order) {
+    console.error('order upsert failed', error);
     return;
   }
 
-  if (pointsEarned > 0) {
-    await supabase.from('points_ledger').insert({
-      user_id: userId,
-      delta: pointsEarned,
-      reason: 'order_earn',
-      order_id: order.id,
-      metadata: { tier, multiplier, is_subscription: isSubscription },
-    });
-  }
-
-  if (pointsRedeemed > 0) {
-    await supabase.from('points_ledger').insert({
-      user_id: userId,
-      delta: -pointsRedeemed,
-      reason: 'redeem',
-      order_id: order.id,
-      metadata: { discount_cents: discountCents },
+  if (paid) {
+    await awardPoints(userId, order.id, pointsEarned, pointsRedeemed, {
+      tier,
+      multiplier,
+      is_subscription: isSubscription,
     });
   }
 }
+
+async function markSessionFailed(session: any, env: StripeEnv) {
+  await getSupabase()
+    .from('orders')
+    .update({ status: 'failed', fulfillment_status: 'cancelled', updated_at: new Date().toISOString() })
+    .eq('stripe_session_id', session.id)
+    .eq('environment', env);
+}
+
+/** Subscription renewals: each paid invoice after the first becomes its own order. */
+async function handleInvoicePaid(invoice: any, env: StripeEnv) {
+  const billingReason = invoice.billing_reason;
+  if (billingReason !== 'subscription_cycle' && billingReason !== 'subscription_update') return;
+
+  const supabase = getSupabase();
+  const subscriptionId =
+    invoice.subscription ?? invoice.parent?.subscription_details?.subscription ?? invoice.lines?.data?.[0]?.subscription;
+  if (!subscriptionId) return;
+
+  const { data: sub } = await supabase
+    .from('subscriptions')
+    .select('user_id, price_id')
+    .eq('stripe_subscription_id', subscriptionId)
+    .eq('environment', env)
+    .maybeSingle();
+  if (!sub?.user_id) {
+    console.error('renewal for unknown subscription', subscriptionId);
+    return;
+  }
+
+  const userId = sub.user_id as string;
+  const amountCents = invoice.amount_paid ?? 0;
+  const { tier, multiplier } = await pointsMultiplier(userId, true);
+  const pointsEarned = Math.floor(Math.floor(amountCents / 100) * multiplier);
+
+  const { data: order, error } = await supabase
+    .from('orders')
+    .upsert(
+      {
+        user_id: userId,
+        stripe_invoice_id: invoice.id,
+        amount_cents: amountCents,
+        currency: (invoice.currency ?? 'aud').toLowerCase(),
+        is_subscription_order: true,
+        environment: env,
+        status: 'paid',
+        fulfillment_status: 'processing',
+        points_earned: pointsEarned,
+        points_redeemed: 0,
+        discount_cents: 0,
+        shipping_cents: 0,
+        line_items: (invoice.lines?.data ?? []).map((l: any) => ({
+          name: l.description ?? 'Restock delivery',
+          quantity: l.quantity ?? 1,
+          amountCents: l.amount ?? 0,
+        })),
+      },
+      { onConflict: 'stripe_invoice_id' },
+    )
+    .select('id')
+    .single();
+
+  if (error || !order) {
+    console.error('renewal order upsert failed', error);
+    return;
+  }
+
+  await awardPoints(userId, order.id, pointsEarned, 0, { tier, multiplier, renewal: true });
+}
+
+async function handleInvoiceFailed(invoice: any, env: StripeEnv) {
+  const subscriptionId = invoice.subscription ?? invoice.parent?.subscription_details?.subscription;
+  if (!subscriptionId) return;
+  const supabase = getSupabase();
+  const { data: sub } = await supabase
+    .from('subscriptions')
+    .select('user_id')
+    .eq('stripe_subscription_id', subscriptionId)
+    .eq('environment', env)
+    .maybeSingle();
+  // Stripe keeps retrying; we only refresh entitlement from the subscription status.
+  if (sub?.user_id) await recomputeMembership(sub.user_id as string, env);
+}
+
+// ---------------------------------------------------------------- router
 
 async function handleWebhook(req: Request, env: StripeEnv) {
   const event = await verifyWebhook(req, env);
   console.log('webhook event', event.type);
 
   switch (event.type) {
-    case 'subscription.created':
     case 'customer.subscription.created':
-      await upsertSubscription(event.data.object, env);
-      break;
-    case 'subscription.updated':
     case 'customer.subscription.updated':
       await upsertSubscription(event.data.object, env);
       break;
-    case 'subscription.canceled':
     case 'customer.subscription.deleted':
       await markSubscriptionCanceled(event.data.object, env);
       break;
-    case 'transaction.completed':
-      await handleTransactionCompleted(event.data.object, env);
+    case 'checkout.session.completed': {
+      const session = event.data.object;
+      // "unpaid" means a delayed-notification method that hasn't settled yet.
+      await handleCheckoutSession(session, env, session.payment_status !== 'unpaid');
       break;
-    case 'transaction.payment_failed':
-      console.log('payment failed', event.data.object?.id);
+    }
+    case 'checkout.session.async_payment_succeeded':
+      await handleCheckoutSession(event.data.object, env, true);
+      break;
+    case 'checkout.session.async_payment_failed':
+      await markSessionFailed(event.data.object, env);
+      break;
+    case 'invoice.paid':
+      await handleInvoicePaid(event.data.object, env);
+      break;
+    case 'invoice.payment_failed':
+      await handleInvoiceFailed(event.data.object, env);
       break;
     default:
       console.log('unhandled event', event.type);
