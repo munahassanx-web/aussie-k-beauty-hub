@@ -562,9 +562,6 @@ function BundleOffer() {
                 </div>
               )}
               <BundleCardMedia bundle={b} explainer={explainer} />
-            </article>
-            );
-          })}
               <div className="flex flex-1 flex-col p-6">
                 <h3 className="font-display text-2xl leading-tight text-ink">{b.name}</h3>
                 <p className="mt-2 text-sm text-ink/70">{b.desc}</p>
