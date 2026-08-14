@@ -5,16 +5,8 @@ import notStocked from "@/assets/hero-slides/not-stocked.jpg";
 import authenticityCheck from "@/assets/hero-slides/authenticity-check.jpg";
 import overwhelmed from "@/assets/hero-slides/overwhelmed.jpg";
 import localDispatch from "@/assets/hero-slides/local-dispatch.jpg";
-import { SHOP_PRODUCTS, type ShopProduct } from "@/lib/shop-catalog";
 
 const SLIDE_MS = 5000;
-
-const featuredHardToFind: ShopProduct[] = [
-  SHOP_PRODUCTS.find((p) => p.name === "Aqua Squalane Serum")!,
-  SHOP_PRODUCTS.find((p) => p.name === "Hyper PDRN Repair Ampoule 30ml")!,
-  SHOP_PRODUCTS.find((p) => p.name === "Ceramic Milk Ampoule 40ml")!,
-  SHOP_PRODUCTS.find((p) => p.name === "Black Rice 5 Ceramide Barrier Moisturizing Cream")!,
-].filter(Boolean);
 
 type Slide = {
   type: "video" | "image";
@@ -22,7 +14,6 @@ type Slide = {
   eyebrow: string;
   headline: string;
   body: string;
-  products?: ShopProduct[];
 };
 
 const slides: Slide[] = [
@@ -39,7 +30,6 @@ const slides: Slide[] = [
     eyebrow: "What you can't find locally",
     headline: "Mecca doesn't stock it.",
     body: "Big Australian retailers focus on the same handful of names. We dig deeper — sourcing undiscovered Seoul formulas that rarely make it onto local shelves, no grey market.",
-    products: featuredHardToFind,
   },
   {
     type: "image" as const,
@@ -159,43 +149,6 @@ export function HeroCarousel() {
               <span>Take the 2-minute skin quiz</span>
             </Link>
           </div>
-
-          {slides[active].products && (
-            <div className="w-full max-w-5xl pt-4">
-              <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-paper/70">
-                Under-the-radar Korean brands, hand-picked for Australia
-              </p>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                {slides[active].products.map((product) => (
-                  <Link
-                    key={product.priceId}
-                    to="/shop"
-                    className="group flex flex-col items-center gap-2 rounded-xl border border-paper/15 bg-ink/40 p-3 text-center backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-paper/40 hover:bg-ink/60"
-                  >
-                    <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-paper/10">
-                      <img
-                        src={product.image}
-                        alt={`${product.brand} ${product.name}`}
-                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div className="flex flex-col items-center gap-0.5">
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-paper/70">
-                        {product.brand}
-                      </span>
-                      <span className="line-clamp-2 text-xs font-medium leading-tight text-paper">
-                        {product.name}
-                      </span>
-                      <span className="text-xs font-semibold text-paper">
-                        {product.price}
-                      </span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
