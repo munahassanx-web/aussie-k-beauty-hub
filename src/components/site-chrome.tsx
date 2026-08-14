@@ -120,7 +120,7 @@ const announcements = [
   "Next-day Melbourne dispatch on orders before 12pm",
   "Free express AU shipping over $80",
   "Authenticity guaranteed — sourced direct from Korea",
-  "10% off first order with code GLOW10",
+  "30-day glow-or-refund guarantee on every order",
 ];
 
 export function SiteHeader() {
