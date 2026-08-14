@@ -30,7 +30,7 @@ const brands: BrandCard[] = [
   {
     name: "AESTURA",
     tag: "Dermatologist-backed barrier repair, born in a Korean hospital lab",
-    hero: "/products/aestura/atobarrier-365-cream-80ml.png",
+    hero: "/products/aestura/atobarrier365-cream.png",
     from: "#e8f0f7", to: "#b9cede", ink: "dark",
   },
   {
@@ -78,7 +78,7 @@ const brands: BrandCard[] = [
   {
     name: "S.NATURE",
     tag: "Aqua Oasis hydration built on squalane and botanicals",
-    hero: "/products/s-nature/aqua-squalane-serum-50ml.png",
+    hero: "/products/s-nature/aqua-squalane-serum.png",
     from: "#e6f5f7", to: "#95cbd4", ink: "dark",
   },
   {
