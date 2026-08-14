@@ -10,7 +10,7 @@ import calmClearExplainer from "@/assets/bundle-explainers/calm-clear-bundle.png
 import applyingSerum from "@/assets/applying-serum.png.asset.json";
 import authenticityCard from "@/assets/authenticity-card.png.asset.json";
 import brandLineup from "@/assets/brand-lineup.png.asset.json";
-import heroVideo from "@/assets/hero-video.mp4.asset.json";
+import brandLineup from "@/assets/brand-lineup.png.asset.json";
 import textureMacro from "@/assets/texture-macro.jpg";
 import ritualScene from "@/assets/ritual-scene.jpg";
 import brandSpotlight from "@/assets/brand-spotlight.jpg";
@@ -297,74 +297,6 @@ function ParallaxScene() {
 }
 
 
-
-function Hero() {
-  return (
-    <section className="relative overflow-hidden bg-ink">
-      <div className="absolute inset-0">
-        <video
-          src={heroVideo.url}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          aria-label="Women with healthy, glassy skin laughing together"
-          className="h-full w-full object-cover"
-        />
-        {/* Soft directional scrim: keeps the footage bright, darkens only behind the copy */}
-        <div className="absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_55%,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.28)_45%,rgba(0,0,0,0.08)_75%,transparent_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/70 to-transparent" />
-      </div>
-
-      <div className="relative mx-auto flex min-h-[86vh] max-w-7xl flex-col items-center justify-center px-6 py-16 text-center">
-        <div className="flex w-full max-w-4xl flex-col items-center gap-6">
-          <span className="rounded-full bg-paper/15 px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-paper backdrop-blur">
-            Melbourne · Authentic Korean skincare
-          </span>
-
-          <h1 className="font-display text-6xl font-black leading-[0.9] text-paper drop-shadow-[0_6px_30px_rgba(0,0,0,0.6)] md:text-[7.5rem] lg:text-[9rem]">
-            skin grocer
-          </h1>
-
-          <p className="max-w-2xl text-balance text-lg font-medium text-paper drop-shadow-[0_3px_14px_rgba(0,0,0,0.7)] md:text-xl">
-            Most skincare advice is built for someone else's climate — not yours. Authentic K-beauty,
-            stored locally in Melbourne. Order by 12pm and it's on your doorstep tomorrow.*
-          </p>
-
-          <div className="flex flex-col items-center gap-3 sm:flex-row">
-            <Link
-              to="/shop"
-              className="group inline-flex items-center gap-3 rounded-full bg-paper px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-ink transition duration-300 hover:-translate-y-0.5 hover:bg-accent hover:shadow-[0_18px_40px_-18px_var(--color-accent)]"
-            >
-              Shop now
-              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </Link>
-            <Link
-              to="/consultation"
-              className="group inline-flex items-center gap-2.5 rounded-full border border-paper/50 bg-transparent px-8 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-paper transition duration-300 hover:-translate-y-0.5 hover:border-accent hover:bg-paper/10 hover:shadow-[0_18px_40px_-22px_var(--color-accent)]"
-            >
-              <SparkleIcon className="h-4 w-4 text-accent transition-transform duration-500 group-hover:rotate-90" />
-              <span>Take the 2-minute skin quiz</span>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Floating ticker */}
-      <div className="relative border-t border-paper/15 bg-ink/70 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 overflow-x-auto px-6 py-3 text-[11px] uppercase tracking-[0.22em] text-paper/70 no-scrollbar">
-          {["Sourced direct from Seoul", "Sealed & batch-checked", "Next-day VIC delivery", "Express AU shipping", "Advisor-built routines"].map((t) => (
-            <span key={t} className="flex items-center gap-3 whitespace-nowrap">
-              <span className="h-1 w-1 rounded-full bg-accent" />
-              {t}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function SparkleIcon({ className }: { className?: string }) {
   return (
