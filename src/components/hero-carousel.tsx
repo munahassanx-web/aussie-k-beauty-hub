@@ -163,7 +163,7 @@ export function HeroCarousel() {
           {slides[active].products && (
             <div className="w-full max-w-5xl pt-4">
               <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-paper/70">
-                Hand-picked from Korea, hard to find here
+                Under-the-radar Korean brands, hand-picked for Australia
               </p>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {slides[active].products.map((product) => (
