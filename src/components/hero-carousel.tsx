@@ -122,13 +122,13 @@ export function HeroMedia({ index }: { index: number }) {
                 width={1920}
                 height={1088}
                 loading={i === 0 ? "eager" : "lazy"}
-                className={`h-full w-full object-cover brightness-110 saturate-[1.05] ${active ? "animate-ken-burns" : ""}`}
+                className={`h-full w-full object-cover brightness-125 saturate-[1.08] ${active ? "animate-ken-burns" : ""}`}
               />
             )}
           </div>
         );
       })}
-      <div className="absolute inset-0 bg-gradient-to-b from-ink/35 via-ink/30 to-ink/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/25 via-ink/20 to-ink/50" />
     </div>
   );
 }
