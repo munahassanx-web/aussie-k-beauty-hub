@@ -35,12 +35,12 @@ export const Route = createFileRoute("/")({
 });
 
 const categories: { name: string; count: string; img: string; label: string; search: { category: "cleanse" | "tone" | "treat" | "moisturise" | "protect" | "masks" } }[] = [
-  { name: "Cleansers", count: "Melt & rinse", img: biodanceCleanser.url, label: "BIODANCE Foam Cleanser", search: { category: "cleanse" } },
-  { name: "Toners & Essences", count: "Prep & hydrate", img: skin1004Ampoule.url, label: "SKIN1004 Centella Ampoule", search: { category: "tone" } },
-  { name: "Serums", count: "Treat & target", img: bojGlowSerum.url, label: "Beauty of Joseon Glow Serum", search: { category: "treat" } },
-  { name: "Moisturisers", count: "Seal & protect", img: anuaPdrnCream.url, label: "Anua PDRN Cream", search: { category: "moisturise" } },
-  { name: "SPF", count: "Everyday defence", img: bojReliefSun.url, label: "Beauty of Joseon Relief Sun", search: { category: "protect" } },
-  { name: "Masks", count: "Weekly rituals", img: biodanceMask.url, label: "BIODANCE Bio-Collagen Mask", search: { category: "masks" } },
+  { name: "Cleansers", count: "Melt & rinse", img: "/products/beplain/mung-bean-cleansing-oil-200ml.png", label: "beplain Mung Bean Cleansing Oil", search: { category: "cleanse" } },
+  { name: "Toners & Essences", count: "Prep & hydrate", img: "/products/wellage/real-hyaluronic-toner-200ml.png", label: "WELLAGE Real Hyaluronic Toner", search: { category: "tone" } },
+  { name: "Serums", count: "Treat & target", img: "/products/medicube/pdrn-pink-peptide-serum-30ml.png", label: "MEDICUBE PDRN Pink Peptide Serum", search: { category: "treat" } },
+  { name: "Moisturisers", count: "Seal & protect", img: "/products/aestura/atobarrier365-cream.png", label: "AESTURA Atobarrier365 Cream", search: { category: "moisturise" } },
+  { name: "SPF", count: "Everyday defence", img: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", label: "AESTURA Derma UV365 Mineral Sun Cream", search: { category: "protect" } },
+  { name: "Masks", count: "Weekly rituals", img: "/products/biodance/bio-collagen-real-deep-mask.png", label: "BIODANCE Bio Collagen Real Deep Mask", search: { category: "masks" } },
 ];
 
 
@@ -203,11 +203,9 @@ function WhyPillars() {
 
 function BrandMarquee() {
   const brands = [
-    "COSRX", "Beauty of Joseon", "Anua", "Round Lab", "SKIN1004", "Numbuzin",
-    "Abib", "Mixsoon", "Haruharu Wonder", "Isntree", "Klairs", "Pyunkang Yul",
-    "TIRTIR", "Mediheal", "Some By Mi", "Torriden", "Kahi", "Rom&nd",
-    "Laneige", "Dr. Jart+", "Innisfree", "Etude", "Missha", "Purito",
-    "iUNIK", "Manyo", "Peripera", "Kaine", "Sulwhasoon", "d'Alba",
+    "AESTURA", "BIODANCE", "Beauty of Joseon", "Dr.G", "HARUHARU WONDER",
+    "ISNTREE", "MEDICUBE", "ROUND LAB", "S.NATURE", "TIRTIR",
+    "TORRIDEN", "WELLAGE", "beplain",
   ];
   const row = [...brands, ...brands];
   return (
@@ -215,7 +213,7 @@ function BrandMarquee() {
       <div className="mx-auto mb-8 max-w-7xl px-6">
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">The Brand Cabinet</p>
         <h2 className="mt-3 max-w-2xl font-display text-3xl leading-tight md:text-4xl">
-          30+ authentic Korean labels, <span className="italic text-accent">all under one Australian roof.</span>
+          13 hand-picked Korean labels, <span className="italic text-accent">all under one Australian roof.</span>
         </h2>
       </div>
       <div className="flex animate-marquee gap-10 whitespace-nowrap">
