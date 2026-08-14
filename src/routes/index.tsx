@@ -512,7 +512,7 @@ function Concerns() {
 
 function BundleOffer() {
   const { buy, modal } = useBuyNow();
-  const bundles = [
+  const bundleDefs = [
     {
       priceId: "starter_bundle_onetime",
       tag: "Starter Ritual",
