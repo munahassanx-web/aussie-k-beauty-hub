@@ -135,7 +135,7 @@ export function HeroMedia({ index }: { index: number }) {
 
 export function HeroSlideCopy({ index }: { index: number }) {
   return (
-    <div className="relative mt-4 min-h-[13rem] w-full sm:min-h-[11rem]">
+    <div className="relative mb-5 mt-6 min-h-[16rem] w-full sm:min-h-[14rem] md:min-h-[18rem]">
       {HERO_SLIDES.map((slide, i) => {
         const active = i === index;
         return (
