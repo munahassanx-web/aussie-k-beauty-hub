@@ -113,7 +113,7 @@ export function HeroMedia({ index }: { index: number }) {
                 playsInline
                 preload="auto"
                 aria-label={slide.alt}
-                className="h-full w-full object-cover brightness-110"
+                className="h-full w-full object-cover brightness-125"
               />
             ) : (
               <img
