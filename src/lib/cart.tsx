@@ -11,7 +11,7 @@ export type CartLine = {
 };
 
 export const FLAT_SHIPPING_CENTS = 995;
-export const FREE_SHIPPING_THRESHOLD_CENTS = 7500;
+export const FREE_SHIPPING_THRESHOLD_CENTS = 8000;
 
 const STORAGE_KEY = 'sg-cart-v1';
 
