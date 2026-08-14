@@ -163,7 +163,7 @@ export function HeroMedia({ index }: { index: number }) {
 
 export function HeroSlideCopy({ index }: { index: number }) {
   return (
-    <div className="relative mt-4 min-h-[15rem] w-full sm:min-h-[13rem]">
+    <div className="relative mt-4 min-h-[13rem] w-full sm:min-h-[11rem]">
       {HERO_SLIDES.map((slide, i) => {
         const active = i === index;
         return (
@@ -174,35 +174,16 @@ export function HeroSlideCopy({ index }: { index: number }) {
               active ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
             }`}
           >
-            <span className="rounded-full bg-grocer-butter px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.28em] text-ink shadow-[0_10px_30px_-14px_rgba(0,0,0,0.9)]">
+            <span className="rounded-full bg-grocer-butter px-5 py-2 text-[11px] font-black uppercase tracking-[0.28em] text-ink shadow-[0_10px_30px_-14px_rgba(0,0,0,0.9)]">
               {slide.eyebrow}
             </span>
-            <p className="max-w-3xl text-balance font-display text-4xl font-black leading-[1.03] text-paper drop-shadow-[0_4px_18px_rgba(0,0,0,0.65)] md:text-6xl">
+            <p className="max-w-4xl text-balance text-center font-display text-4xl font-black leading-[1.02] text-paper drop-shadow-[0_6px_24px_rgba(0,0,0,0.75)] md:text-6xl lg:text-7xl">
               {slide.headline}{" "}
               <span className="text-grocer-butter">{slide.accent}</span>
             </p>
-            <p className="max-w-xl text-balance text-base font-semibold text-paper md:text-lg drop-shadow-[0_2px_10px_rgba(0,0,0,0.75)]">
+            <p className="max-w-2xl text-balance text-center text-lg font-bold text-paper md:text-xl drop-shadow-[0_3px_14px_rgba(0,0,0,0.85)]">
               {slide.sub}
             </p>
-
-            <div className="mt-1 flex flex-wrap items-center justify-center gap-2">
-              {slide.products.map((p) => (
-                <span
-                  key={p.img}
-                  className="flex items-center gap-2.5 rounded-full border border-paper/25 bg-ink/55 py-1.5 pl-1.5 pr-4 backdrop-blur-md"
-                >
-                  <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-paper">
-                    <img src={p.img} alt={`${p.brand} ${p.name}`} loading="lazy" className="h-8 w-8 object-contain" />
-                  </span>
-                  <span className="text-left leading-tight">
-                    <span className="block text-[9px] font-bold uppercase tracking-[0.2em] text-grocer-butter">
-                      {p.brand}
-                    </span>
-                    <span className="block text-[11px] font-semibold text-paper">{p.name}</span>
-                  </span>
-                </span>
-              ))}
-            </div>
           </div>
         );
       })}
