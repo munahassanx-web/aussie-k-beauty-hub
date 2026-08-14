@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useBuyNow } from "@/hooks/use-buy-now";
 import { NewsletterForm } from "@/components/newsletter-form";
+import { HeroCarousel } from "@/components/hero-carousel";
 import { bundleMath, BUNDLE_DEFINITIONS, bundleSavingsSummary } from "@/lib/shop-catalog";
 import glassSkinStarterExplainer from "@/assets/bundle-explainers/glass-skin-starter.png.asset.json";
 import completeGlowExplainer from "@/assets/bundle-explainers/complete-glow-edit.png.asset.json";
@@ -88,7 +89,7 @@ function HomePage() {
   return (
     <div>
       <PromoBar />
-      <Hero />
+      <HeroCarousel />
       <Promise />
       <ProvenanceCard />
       <WhyPillars />
