@@ -183,7 +183,18 @@ export type Database = {
           line_items: Json | null
           points_earned: number
           points_redeemed: number
+          shipping_cents: number
+          shipping_city: string | null
+          shipping_country: string | null
+          shipping_line1: string | null
+          shipping_line2: string | null
+          shipping_method: string | null
+          shipping_name: string | null
+          shipping_phone: string | null
+          shipping_postcode: string | null
+          shipping_state: string | null
           status: string
+          stripe_invoice_id: string | null
           stripe_payment_intent_id: string | null
           stripe_session_id: string | null
           tracking_number: string | null
@@ -201,7 +212,18 @@ export type Database = {
           line_items?: Json | null
           points_earned?: number
           points_redeemed?: number
+          shipping_cents?: number
+          shipping_city?: string | null
+          shipping_country?: string | null
+          shipping_line1?: string | null
+          shipping_line2?: string | null
+          shipping_method?: string | null
+          shipping_name?: string | null
+          shipping_phone?: string | null
+          shipping_postcode?: string | null
+          shipping_state?: string | null
           status?: string
+          stripe_invoice_id?: string | null
           stripe_payment_intent_id?: string | null
           stripe_session_id?: string | null
           tracking_number?: string | null
@@ -219,7 +241,18 @@ export type Database = {
           line_items?: Json | null
           points_earned?: number
           points_redeemed?: number
+          shipping_cents?: number
+          shipping_city?: string | null
+          shipping_country?: string | null
+          shipping_line1?: string | null
+          shipping_line2?: string | null
+          shipping_method?: string | null
+          shipping_name?: string | null
+          shipping_phone?: string | null
+          shipping_postcode?: string | null
+          shipping_state?: string | null
           status?: string
+          stripe_invoice_id?: string | null
           stripe_payment_intent_id?: string | null
           stripe_session_id?: string | null
           tracking_number?: string | null
