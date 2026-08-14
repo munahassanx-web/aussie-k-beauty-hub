@@ -6,7 +6,7 @@ import authenticityCheck from "@/assets/hero-slides/authenticity-check.jpg";
 import overwhelmed from "@/assets/hero-slides/overwhelmed.jpg";
 import localDispatch from "@/assets/hero-slides/local-dispatch.jpg";
 
-const SLIDE_MS = 6500;
+const SLIDE_MS = 5000;
 
 const slides = [
   {
