@@ -5,8 +5,6 @@ import authenticityCheck from "@/assets/hero-slides/authenticity-check.jpg";
 import overwhelmed from "@/assets/hero-slides/overwhelmed.jpg";
 import localDispatch from "@/assets/hero-slides/local-dispatch.jpg";
 
-export type HeroProduct = { name: string; brand: string; img: string };
-
 export type HeroSlide = {
   id: string;
   kind: "video" | "image";
@@ -16,7 +14,6 @@ export type HeroSlide = {
   headline: string;
   accent: string;
   sub: string;
-  products: HeroProduct[];
 };
 
 export const HERO_SLIDES: HeroSlide[] = [
@@ -29,71 +26,46 @@ export const HERO_SLIDES: HeroSlide[] = [
     headline: "What Korea is",
     accent: "actually raving about.",
     sub: "Not TikTok trends — the shelf staples Seoul repurchases, stocked here in Melbourne.",
-    products: [
-      { brand: "Medicube", name: "PDRN Pink Peptide Serum", img: "/products/medicube/pdrn-pink-peptide-serum-30ml.png" },
-      { brand: "Torriden", name: "Dive-In Serum", img: "/products/torriden/dive-in-serum.png" },
-      { brand: "Round Lab", name: "1025 Dokdo Toner", img: "/products/round-lab/1025-dokdo-toner-100ml.png" },
-    ],
   },
   {
     id: "not-stocked",
     kind: "image",
     src: notStocked,
-    alt: "Shopper looking at an empty gap on a beauty store shelf",
+    alt: "Shopper looking at an empty gap on a beauty store shelf, with hard-to-find Korean products in the foreground",
     eyebrow: "The hard-to-find problem",
     headline: "Mecca doesn't",
     accent: "stock it.",
     sub: "Cult Korean labels you can't buy in an Australian store — on our shelf, not a waitlist.",
-    products: [
-      { brand: "Biodance", name: "Bio-Collagen Real Deep Mask", img: "/products/biodance/bio-collagen-real-deep-mask.png" },
-      { brand: "Wellage", name: "Hyper PDRN Repair Ampoule", img: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.png" },
-      { brand: "TIRTIR", name: "Ceramic Milk Ampoule", img: "/products/tirtir/ceramic-milk-ampoule-40ml.png" },
-    ],
   },
   {
     id: "authentic",
     kind: "image",
     src: authenticityCheck,
-    alt: "Hands checking a printed batch code on a sealed skincare carton",
+    alt: "Hands checking a batch code on a sealed Korean skincare box with verified products nearby",
     eyebrow: "The authenticity problem",
     headline: "Amazon might",
     accent: "not be real.",
     sub: "Every carton batch-checked on arrival. Sealed, verified, provenance-carded.",
-    products: [
-      { brand: "Beauty of Joseon", name: "Revive Eye Serum", img: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.png" },
-      { brand: "Dr.G", name: "R.E.D Blemish Soothing Cream", img: "/products/dr-g/r-e-d-blemish-clear-soothing-cream-70ml.png" },
-      { brand: "Isntree", name: "Hyaluronic Acid Water Essence", img: "/products/isntree/hyaluronic-acid-water-essence-50ml.png" },
-    ],
   },
   {
     id: "confusing",
     kind: "image",
     src: overwhelmed,
-    alt: "Woman surrounded by skincare bottles, unsure what to use",
+    alt: "Woman holding a simple routine guide with just three curated products on the vanity",
     eyebrow: "The what-do-I-do-with-this problem",
     headline: "Ten steps,",
     accent: "no instructions.",
     sub: "Every product ships with a plain-English guide: what it does, when, and what it pairs with.",
-    products: [
-      { brand: "Beplain", name: "Mung Bean Cleansing Oil", img: "/products/beplain/mung-bean-cleansing-oil-200ml.png" },
-      { brand: "Haruharu Wonder", name: "Black Rice Hyaluronic Toner", img: "/products/haruharu-wonder/black-rice-hyaluronic-toner-150ml.png" },
-      { brand: "Aestura", name: "Atobarrier 365 Cream", img: "/products/aestura/atobarrier365-cream.png" },
-    ],
   },
   {
     id: "local",
     kind: "image",
     src: localDispatch,
-    alt: "Hands packing a cream parcel at a Melbourne warehouse bench",
+    alt: "Hands packing Korean skincare products into a Melbourne shipping box",
     eyebrow: "East to West, the simple way",
     headline: "No shipping",
     accent: "from Seoul.",
     sub: "It's already here. Order by 12pm and it's on your doorstep tomorrow.*",
-    products: [
-      { brand: "S.Nature", name: "Aqua Squalane Serum", img: "/products/s-nature/aqua-squalane-serum.png" },
-      { brand: "Medicube", name: "Collagen Jelly Cream", img: "/products/medicube/collagen-jelly-cream-110ml.png" },
-      { brand: "Torriden", name: "Dive-In Soothing Cream", img: "/products/torriden/dive-in-soothing-cream.png" },
-    ],
   },
 ];
 
