@@ -444,6 +444,80 @@ function Promise() {
   );
 }
 
+function CategoryTile({ c, i }: { c: (typeof categories)[number]; i: number }) {
+  const [revealed, setRevealed] = useState(false);
+  const on = revealed ? "opacity-100" : "opacity-0";
+  const off = revealed ? "opacity-0" : "opacity-100";
+
+  return (
+    <div
+      className={`group relative aspect-[4/3] overflow-hidden rounded-3xl lift ${
+        i % 3 === 0 ? "bg-sand" : i % 3 === 1 ? "bg-secondary" : "bg-sand-deep/50"
+      }`}
+    >
+      <Link to="/shop" search={c.search} className="absolute inset-0 block">
+        <img
+          src={c.img}
+          alt={`${c.name} — ${c.label}`}
+          loading="lazy"
+          className={`h-full w-full object-contain p-8 transition-transform duration-700 group-hover:scale-105 group-hover:translate-x-[12%] ${
+            revealed ? "scale-105 translate-x-[12%]" : ""
+          }`}
+        />
+
+        {/* Default state */}
+        <div className={`absolute inset-0 transition-opacity duration-500 group-hover:opacity-0 ${off}`}>
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 p-5">
+            <p className="font-display text-2xl text-paper">{c.name}</p>
+            <p className="text-[11px] uppercase tracking-[0.18em] text-paper/75">{c.count}</p>
+          </div>
+        </div>
+
+        {/* Hover / tap reveal — un-tinted photo, type sits directly on the image */}
+        <div
+          className={`absolute inset-0 flex flex-col justify-between p-6 transition-opacity duration-500 group-hover:opacity-100 ${on}`}
+        >
+          <div className="flex items-start justify-between gap-4">
+            <h3 className="max-w-[62%] text-3xl font-black uppercase leading-[0.85] tracking-tighter text-ink">
+              {c.name}
+            </h3>
+            <div className="text-right">
+              <p className="text-sm font-bold tracking-tight text-ink">{c.price}</p>
+              <p className="text-[9px] font-bold uppercase tracking-widest text-ink/50">{c.size}</p>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <p className="max-w-[68%] text-[11px] font-medium uppercase leading-relaxed tracking-wide text-ink">
+              {c.benefit}
+            </p>
+            <div className="flex items-center gap-3">
+              <span className="h-px w-6 bg-hanbok-deep" />
+              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-ink/60">{c.ingredient}</p>
+            </div>
+          </div>
+
+          <span className="pointer-events-none absolute bottom-6 right-6 font-display text-sm italic text-ink/30">
+            {c.brand}
+          </span>
+        </div>
+      </Link>
+
+      <button
+        type="button"
+        aria-label={revealed ? `Hide ${c.name} details` : `Show ${c.name} details`}
+        aria-pressed={revealed}
+        onClick={() => setRevealed((v) => !v)}
+        className="absolute right-3 top-3 z-10 rounded-full bg-paper/85 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-ink shadow-sm backdrop-blur md:hidden"
+      >
+        {revealed ? "Close" : "Info"}
+      </button>
+    </div>
+  );
+}
+
+
 function Categories() {
   return (
     <section className="mx-auto max-w-7xl px-6 py-24">
