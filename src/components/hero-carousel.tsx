@@ -30,6 +30,7 @@ const slides = [
     eyebrow: "What you can't find locally",
     headline: "Mecca doesn't stock it.",
     body: "The best-selling Korean staples Australian customers love are rarely on local shelves. We bring them here — direct from Seoul, no grey market.",
+    products: featuredHardToFind,
   },
   {
     type: "image" as const,
