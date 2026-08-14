@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useBuyNow } from "@/hooks/use-buy-now";
+import { NewsletterForm } from "@/components/newsletter-form";
 import { bundleMath, BUNDLE_DEFINITIONS, bundleSavingsSummary } from "@/lib/shop-catalog";
 import applyingSerum from "@/assets/applying-serum.png.asset.json";
 import authenticityCard from "@/assets/authenticity-card.png.asset.json";
@@ -857,16 +858,7 @@ function NewsletterStrip() {
           New arrivals before they sell through, advisor-built routine notes and
           the occasional Seoul travel diary. One email a week, no spam.
         </p>
-        <form className="mt-3 flex w-full max-w-md overflow-hidden rounded-full border border-ink/15 bg-paper">
-          <input
-            type="email"
-            placeholder="your@email.com"
-            className="w-full bg-transparent px-5 py-3.5 text-sm text-ink placeholder:text-ink/40 focus:outline-none"
-          />
-          <button className="bg-primary px-6 text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground hover:bg-hanbok">
-            Join
-          </button>
-        </form>
+        <NewsletterForm source="homepage" />
       </div>
     </section>
   );

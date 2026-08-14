@@ -1,3 +1,4 @@
+import { NewsletterForm } from "@/components/newsletter-form";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
@@ -435,16 +436,7 @@ export function SiteFooter() {
           <p className="mt-5 text-sm text-paper/70">
             Restocks, new arrivals, ritual notes. No spam, ever.
           </p>
-          <form className="mt-4 flex overflow-hidden rounded-full border border-paper/25">
-            <input
-              type="email"
-              placeholder="your@email.com"
-              className="w-full bg-transparent px-5 py-3 text-sm text-paper placeholder:text-paper/40 focus:outline-none"
-            />
-            <button className="bg-accent px-5 text-xs font-semibold uppercase tracking-[0.18em] text-ink hover:bg-accent/85">
-              Join
-            </button>
-          </form>
+          <NewsletterForm source="footer" variant="dark" />
           <p className="mt-3 text-xs text-paper/45">By subscribing you agree to our Privacy Policy.</p>
         </div>
       </div>
