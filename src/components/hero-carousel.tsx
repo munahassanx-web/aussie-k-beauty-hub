@@ -14,7 +14,6 @@ type Slide = {
   eyebrow: string;
   headline: string;
   body: string;
-  products?: ShopProduct[];
 };
 
 const slides: Slide[] = [
@@ -31,7 +30,6 @@ const slides: Slide[] = [
     eyebrow: "What you can't find locally",
     headline: "Mecca doesn't stock it.",
     body: "Big Australian retailers focus on the same handful of names. We dig deeper — sourcing undiscovered Seoul formulas that rarely make it onto local shelves, no grey market.",
-    products: featuredHardToFind,
   },
   {
     type: "image" as const,
