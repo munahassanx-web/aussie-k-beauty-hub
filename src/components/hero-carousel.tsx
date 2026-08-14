@@ -10,10 +10,10 @@ import { SHOP_PRODUCTS, type ShopProduct } from "@/lib/shop-catalog";
 const SLIDE_MS = 5000;
 
 const featuredHardToFind: ShopProduct[] = [
-  SHOP_PRODUCTS.find((p) => p.name === "PDRN Pink Peptide Serum 30ml")!,
-  SHOP_PRODUCTS.find((p) => p.name === "Dive In Serum")!,
-  SHOP_PRODUCTS.find((p) => p.name === "Revive Eye Serum: Ginseng + Retinal 30ml")!,
-  SHOP_PRODUCTS.find((p) => p.name === "Bio Collagen Real Deep Mask")!,
+  SHOP_PRODUCTS.find((p) => p.name === "Aqua Squalane Serum")!,
+  SHOP_PRODUCTS.find((p) => p.name === "Hyper PDRN Repair Ampoule 30ml")!,
+  SHOP_PRODUCTS.find((p) => p.name === "Ceramic Milk Ampoule 40ml")!,
+  SHOP_PRODUCTS.find((p) => p.name === "Black Rice 5 Ceramide Barrier Moisturizing Cream")!,
 ].filter(Boolean);
 
 type Slide = {
