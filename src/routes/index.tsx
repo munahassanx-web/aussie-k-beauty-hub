@@ -545,10 +545,12 @@ function BundleOffer() {
         </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {bundles.map((b) => (
+          {bundles.map((b) => {
+            const explainer = BUNDLE_EXPLAINERS[b.priceId];
+            return (
             <article
               key={b.name}
-              className={`relative flex flex-col overflow-hidden rounded-3xl border bg-paper transition-all duration-500 lift ${
+              className={`relative flex flex-col overflow-hidden rounded-3xl border bg-paper transition-all duration-500 lift group ${
                 b.featured
                   ? "border-hanbok shadow-[0_30px_60px_-30px_rgba(46,63,110,0.45)] md:-translate-y-3"
                   : "border-border/70"
@@ -559,24 +561,10 @@ function BundleOffer() {
                   Advisor pick
                 </div>
               )}
-              <div className="relative aspect-[5/3] overflow-hidden bg-sand">
-                <div className="grid h-full w-full grid-cols-4">
-                  {b.products.map((p) => (
-                    <div key={p.alt} className="flex items-center justify-center bg-paper p-2">
-                      <img
-                        src={p.img}
-                        alt={p.alt}
-                        title={p.alt}
-                        loading="lazy"
-                        className="h-full w-full object-contain mix-blend-multiply transition-transform duration-500 hover:scale-105"
-                      />
-                    </div>
-                  ))}
-                </div>
-                <span className="absolute left-4 top-4 rounded-full bg-paper/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-hanbok-deep backdrop-blur">
-                  {b.tag}
-                </span>
-              </div>
+              <BundleCardMedia bundle={b} explainer={explainer} />
+            </article>
+            );
+          })}
               <div className="flex flex-1 flex-col p-6">
                 <h3 className="font-display text-2xl leading-tight text-ink">{b.name}</h3>
                 <p className="mt-2 text-sm text-ink/70">{b.desc}</p>
