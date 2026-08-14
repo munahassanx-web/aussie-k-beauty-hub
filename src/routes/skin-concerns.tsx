@@ -1,5 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import skinMacro from "@/assets/skin-macro.jpg";
+import imgHydration from "@/assets/concerns/page-hydration.jpg";
+import imgAcne from "@/assets/concerns/page-acne.jpg";
+import imgPigmentation from "@/assets/concerns/page-pigmentation.jpg";
+import imgSensitivity from "@/assets/concerns/page-sensitivity.jpg";
+import imgAntiAging from "@/assets/concerns/page-anti-aging.jpg";
+import imgBarrier from "@/assets/concerns/page-barrier.jpg";
 
 export const Route = createFileRoute("/skin-concerns")({
   head: () => ({
@@ -14,13 +19,13 @@ export const Route = createFileRoute("/skin-concerns")({
   component: ConcernsPage,
 });
 
-const concerns: { name: string; desc: string; products: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier" }[] = [
-  { name: "Dry Skin & Hydration", desc: "Intense hydration & glow.", products: "Hydration edit", slug: "hydration" },
-  { name: "Acne & Breakouts", desc: "Calm congestion & balance oil.", products: "Clear-skin edit", slug: "acne" },
-  { name: "Pigmentation", desc: "Brightening & dark spot correction.", products: "Bright-skin edit", slug: "pigmentation" },
-  { name: "Sensitive Skin", desc: "Calming & barrier strengthening.", products: "Calm edit", slug: "sensitivity" },
-  { name: "Anti-Ageing", desc: "Firmness, elasticity & wrinkle care.", products: "Firm edit", slug: "anti-aging" },
-  { name: "Barrier Repair", desc: "Rebuild a compromised skin barrier.", products: "Repair edit", slug: "barrier" },
+const concerns: { name: string; desc: string; products: string; img: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier" }[] = [
+  { name: "Dry Skin & Hydration", desc: "Intense hydration & glow.", products: "Hydration edit", img: imgHydration, slug: "hydration" },
+  { name: "Acne & Breakouts", desc: "Calm congestion & balance oil.", products: "Clear-skin edit", img: imgAcne, slug: "acne" },
+  { name: "Pigmentation", desc: "Brightening & dark spot correction.", products: "Bright-skin edit", img: imgPigmentation, slug: "pigmentation" },
+  { name: "Sensitive Skin", desc: "Calming & barrier strengthening.", products: "Calm edit", img: imgSensitivity, slug: "sensitivity" },
+  { name: "Anti-Ageing", desc: "Firmness, elasticity & wrinkle care.", products: "Firm edit", img: imgAntiAging, slug: "anti-aging" },
+  { name: "Barrier Repair", desc: "Rebuild a compromised skin barrier.", products: "Repair edit", img: imgBarrier, slug: "barrier" },
 ];
 
 function ConcernsPage() {
@@ -38,7 +43,7 @@ function ConcernsPage() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {concerns.map((c) => (
             <Link to="/shop" search={{ concern: c.slug }} key={c.name} className="group relative aspect-[4/5] overflow-hidden rounded-3xl">
-              <img src={skinMacro} alt={c.name} loading="lazy" width={1024} height={1024} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <img src={c.img} alt={`${c.name} — Korean skincare texture`} loading="lazy" width={1024} height={1280} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/30 to-transparent" />
               <div className="absolute bottom-0 p-7 text-background">
                 <p className="text-xs uppercase tracking-[0.2em] text-accent">{c.products}</p>
