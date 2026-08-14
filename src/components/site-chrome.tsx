@@ -234,15 +234,15 @@ export function SiteHeader() {
               <UserIcon />
               {user ? "Club" : "Sign in"}
             </Link>
-            <Link
-              to="/shop"
-              onClick={closeMenus}
-              aria-label="Shop products"
+            <button
+              type="button"
+              onClick={() => { closeMenus(); cart.setOpen(true); }}
+              aria-label={`Open basket (${cart.count} items)`}
               className="relative flex h-9 w-9 items-center justify-center rounded-full text-foreground/80 hover:bg-secondary hover:text-primary"
             >
               <BagIcon />
-              <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground">0</span>
-            </Link>
+              <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground">{cart.count}</span>
+            </button>
             <button
               type="button"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}

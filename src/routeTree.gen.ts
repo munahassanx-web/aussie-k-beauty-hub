@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BrandsRouteImport } from './routes/brands'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ClubRouteImport } from './routes/club'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -22,6 +23,7 @@ import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SkinConcernsRouteImport } from './routes/skin-concerns'
+import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as GroceryListIndexRouteImport } from './routes/grocery-list.index'
 import { Route as GroceryListSlugRouteImport } from './routes/grocery-list.$slug'
 import { Route as GuideProductIdRouteImport } from './routes/guide.$productId'
@@ -52,6 +54,11 @@ const AuthRoute = AuthRouteImport.update({
 const BrandsRoute = BrandsRouteImport.update({
   id: '/brands',
   path: '/brands',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClubRoute = ClubRouteImport.update({
@@ -98,6 +105,11 @@ const SkinConcernsRoute = SkinConcernsRouteImport.update({
   id: '/skin-concerns',
   path: '/skin-concerns',
   getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
+  id: '/return',
+  path: '/return',
+  getParentRoute: () => CheckoutRoute,
 } as any)
 const GroceryListIndexRoute = GroceryListIndexRouteImport.update({
   id: '/grocery-list/',
@@ -161,6 +173,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/brands': typeof BrandsRoute
+  '/checkout': typeof CheckoutRouteWithChildren
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
@@ -170,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
   '/journal/$slug': typeof JournalSlugRoute
@@ -187,6 +201,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/brands': typeof BrandsRoute
+  '/checkout': typeof CheckoutRouteWithChildren
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
@@ -196,6 +211,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
   '/journal/$slug': typeof JournalSlugRoute
@@ -214,6 +230,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/brands': typeof BrandsRoute
+  '/checkout': typeof CheckoutRouteWithChildren
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
@@ -223,6 +240,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
   '/journal/$slug': typeof JournalSlugRoute
@@ -242,6 +260,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/brands'
+    | '/checkout'
     | '/club'
     | '/consultation'
     | '/contact'
@@ -251,6 +270,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
     | '/journal/$slug'
@@ -268,6 +288,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/brands'
+    | '/checkout'
     | '/club'
     | '/consultation'
     | '/contact'
@@ -277,6 +298,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
     | '/journal/$slug'
@@ -294,6 +316,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/brands'
+    | '/checkout'
     | '/club'
     | '/consultation'
     | '/contact'
@@ -303,6 +326,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
     | '/journal/$slug'
@@ -321,6 +345,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   BrandsRoute: typeof BrandsRoute
+  CheckoutRoute: typeof CheckoutRouteWithChildren
   ClubRoute: typeof ClubRoute
   ConsultationRoute: typeof ConsultationRoute
   ContactRoute: typeof ContactRoute
@@ -370,6 +395,13 @@ declare module '@tanstack/react-router' {
       path: '/brands'
       fullPath: '/brands'
       preLoaderRoute: typeof BrandsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/club': {
@@ -434,6 +466,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/skin-concerns'
       preLoaderRoute: typeof SkinConcernsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/checkout/return': {
+      id: '/checkout/return'
+      path: '/return'
+      fullPath: '/checkout/return'
+      preLoaderRoute: typeof CheckoutReturnRouteImport
+      parentRoute: typeof CheckoutRoute
     }
     '/grocery-list/': {
       id: '/grocery-list/'
@@ -515,6 +554,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface CheckoutRouteChildren {
+  CheckoutReturnRoute: typeof CheckoutReturnRoute
+}
+
+const CheckoutRouteChildren: CheckoutRouteChildren = {
+  CheckoutReturnRoute: CheckoutReturnRoute,
+}
+
+const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
+  CheckoutRouteChildren,
+)
+
 interface JournalRouteChildren {
   JournalSlugRoute: typeof JournalSlugRoute
 }
@@ -531,6 +582,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   BrandsRoute: BrandsRoute,
+  CheckoutRoute: CheckoutRouteWithChildren,
   ClubRoute: ClubRoute,
   ConsultationRoute: ConsultationRoute,
   ContactRoute: ContactRoute,
