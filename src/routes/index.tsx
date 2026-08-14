@@ -227,8 +227,9 @@ function BrandMarquee() {
 }
 
 function PromoBar() {
+  const { maxPercent } = bundleSavingsSummary();
   const messages = [
-    "Save up to 25% on advisor-built bundles",
+    `Save up to ${maxPercent}% on advisor-built bundles`,
     "Free express AU shipping on every bundle",
     "Bundle + Subscribe = an extra 10% off, forever",
     "Free routine card + samples in every bundle",
