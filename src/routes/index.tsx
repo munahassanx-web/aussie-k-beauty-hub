@@ -29,14 +29,26 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const categories: { name: string; count: string; img: string; label: string; search: { category: "cleanse" | "tone" | "treat" | "moisturise" | "protect" | "masks" } }[] = [
-  { name: "Cleansers", count: "Melt & rinse", img: "/products/beplain/mung-bean-cleansing-oil-200ml.png", label: "beplain Mung Bean Cleansing Oil", search: { category: "cleanse" } },
-  { name: "Toners & Essences", count: "Prep & hydrate", img: "/products/wellage/real-hyaluronic-toner-200ml.png", label: "WELLAGE Real Hyaluronic Toner", search: { category: "tone" } },
-  { name: "Serums", count: "Treat & target", img: "/products/medicube/pdrn-pink-peptide-serum-30ml.png", label: "MEDICUBE PDRN Pink Peptide Serum", search: { category: "treat" } },
-  { name: "Moisturisers", count: "Seal & protect", img: "/products/aestura/atobarrier365-cream.png", label: "AESTURA Atobarrier365 Cream", search: { category: "moisturise" } },
-  { name: "SPF", count: "Everyday defence", img: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", label: "AESTURA Derma UV365 Mineral Sun Cream", search: { category: "protect" } },
-  { name: "Masks", count: "Sheet & overnight masks", img: "/products/biodance/bio-collagen-real-deep-mask.png", label: "BIODANCE Bio Collagen Real Deep Mask", search: { category: "masks" } },
+const categories: {
+  name: string;
+  count: string;
+  img: string;
+  label: string;
+  brand: string;
+  price: string;
+  size: string;
+  benefit: string;
+  ingredient: string;
+  search: { category: "cleanse" | "tone" | "treat" | "moisturise" | "protect" | "masks" };
+}[] = [
+  { name: "Cleansers", count: "Melt & rinse", img: "/products/beplain/mung-bean-cleansing-oil-200ml.png", label: "beplain Mung Bean Cleansing Oil", brand: "beplain", price: "A$35", size: "200ml", benefit: "Dissolves SPF, makeup and sebum, rinses clean without stripping.", ingredient: "Mung bean extract", search: { category: "cleanse" } },
+  { name: "Toners & Essences", count: "Prep & hydrate", img: "/products/wellage/real-hyaluronic-toner-200ml.png", label: "WELLAGE Real Hyaluronic Toner", brand: "WELLAGE", price: "A$28", size: "200ml", benefit: "A watery first layer that preps skin so everything after absorbs better.", ingredient: "Hyaluronic acid", search: { category: "tone" } },
+  { name: "Serums", count: "Treat & target", img: "/products/medicube/pdrn-pink-peptide-serum-30ml.png", label: "MEDICUBE PDRN Pink Peptide Serum", brand: "MEDICUBE", price: "A$40", size: "30ml", benefit: "Concentrated step aimed at firmness and elasticity.", ingredient: "PDRN + peptides", search: { category: "treat" } },
+  { name: "Moisturisers", count: "Seal & protect", img: "/products/aestura/atobarrier365-cream.png", label: "AESTURA Atobarrier365 Cream", brand: "AESTURA", price: "A$55", size: "Cream", benefit: "Seals in the layers underneath and supports a dry, reactive barrier.", ingredient: "Ceramides", search: { category: "moisturise" } },
+  { name: "SPF", count: "Everyday defence", img: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", label: "AESTURA Derma UV365 Mineral Sun Cream", brand: "AESTURA", price: "A$38", size: "Sun cream", benefit: "A mineral daily sunscreen that finishes moisturising, not chalky.", ingredient: "Mineral UV filters", search: { category: "protect" } },
+  { name: "Masks", count: "Sheet & overnight masks", img: "/products/biodance/bio-collagen-real-deep-mask.png", label: "BIODANCE Bio Collagen Real Deep Mask", brand: "BIODANCE", price: "A$38", size: "Hydrogel mask", benefit: "An overnight hydrogel mask that melts down onto skin as you sleep.", ingredient: "Bio-collagen", search: { category: "masks" } },
 ];
+
 
 
 const concerns: { name: string; desc: string; color: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier" }[] = [
@@ -432,6 +444,80 @@ function Promise() {
   );
 }
 
+function CategoryTile({ c, i }: { c: (typeof categories)[number]; i: number }) {
+  const [revealed, setRevealed] = useState(false);
+  const on = revealed ? "opacity-100" : "opacity-0";
+  const off = revealed ? "opacity-0" : "opacity-100";
+
+  return (
+    <div
+      className={`group relative aspect-[4/3] overflow-hidden rounded-3xl lift ${
+        i % 3 === 0 ? "bg-sand" : i % 3 === 1 ? "bg-secondary" : "bg-sand-deep/50"
+      }`}
+    >
+      <Link to="/shop" search={c.search} className="absolute inset-0 block">
+        <img
+          src={c.img}
+          alt={`${c.name} — ${c.label}`}
+          loading="lazy"
+          className={`h-full w-full object-contain p-8 transition-transform duration-700 group-hover:[transform:translateX(16%)_scale(1.05)] ${
+            revealed ? "[transform:translateX(16%)_scale(1.05)]" : ""
+          }`}
+        />
+
+        {/* Default state */}
+        <div className={`absolute inset-0 transition-opacity duration-500 group-hover:opacity-0 ${off}`}>
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 p-5">
+            <p className="font-display text-2xl text-paper">{c.name}</p>
+            <p className="text-[11px] uppercase tracking-[0.18em] text-paper/75">{c.count}</p>
+          </div>
+        </div>
+
+        {/* Hover / tap reveal — un-tinted photo, type sits directly on the image */}
+        <div
+          className={`absolute inset-0 flex flex-col justify-between p-6 transition-opacity duration-500 group-hover:opacity-100 ${on}`}
+        >
+          <div className="flex items-start justify-between gap-4">
+            <h3 className="max-w-[62%] font-sans text-3xl font-black uppercase leading-[0.85] tracking-tighter text-ink">
+              {c.name}
+            </h3>
+            <div className="text-right">
+              <p className="text-sm font-bold tracking-tight text-ink">{c.price}</p>
+              <p className="text-[9px] font-bold uppercase tracking-widest text-ink/50">{c.size}</p>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <p className="max-w-[56%] font-sans text-[11px] font-medium uppercase leading-relaxed tracking-wide text-ink">
+              {c.benefit}
+            </p>
+            <div className="flex items-center gap-3">
+              <span className="h-px w-6 bg-hanbok-deep" />
+              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-ink/60">{c.ingredient}</p>
+            </div>
+          </div>
+
+          <span className="pointer-events-none absolute bottom-6 right-6 font-display text-sm italic text-ink/30">
+            {c.brand}
+          </span>
+        </div>
+      </Link>
+
+      <button
+        type="button"
+        aria-label={revealed ? `Hide ${c.name} details` : `Show ${c.name} details`}
+        aria-pressed={revealed}
+        onClick={() => setRevealed((v) => !v)}
+        className="absolute right-3 top-3 z-10 rounded-full bg-paper/85 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-ink shadow-sm backdrop-blur md:hidden"
+      >
+        {revealed ? "Close" : "Info"}
+      </button>
+    </div>
+  );
+}
+
+
 function Categories() {
   return (
     <section className="mx-auto max-w-7xl px-6 py-24">
@@ -444,29 +530,10 @@ function Categories() {
       </div>
       <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((c, i) => (
-          <Link
-            key={c.name}
-            to="/shop"
-            search={c.search}
-            className={`group relative aspect-[4/3] overflow-hidden rounded-3xl lift ${
-              i % 3 === 0 ? "bg-sand" : i % 3 === 1 ? "bg-secondary" : "bg-sand-deep/50"
-            }`}
-          >
-
-            <img
-              src={c.img}
-              alt={`${c.name} — ${c.label}`}
-              loading="lazy"
-              className="h-full w-full object-contain p-8 transition-transform duration-700 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 p-5">
-              <p className="font-display text-2xl text-paper">{c.name}</p>
-              <p className="text-[11px] uppercase tracking-[0.18em] text-paper/75">{c.count}</p>
-            </div>
-          </Link>
+          <CategoryTile key={c.name} c={c} i={i} />
         ))}
       </div>
+
 
     </section>
   );
