@@ -34,11 +34,13 @@ const categories: { name: string; count: string; img: string; label: string; sea
 ];
 
 
-const concerns: { name: string; desc: string; color: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" }[] = [
+const concerns: { name: string; desc: string; color: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier" }[] = [
   { name: "Hydration & Glow", desc: "Plump, dewy, glass-skin finish", color: "from-hanbok/15", slug: "hydration" },
   { name: "Acne & Breakouts", desc: "Calm congestion, balance oil", color: "from-clay/20", slug: "acne" },
   { name: "Pigmentation", desc: "Brighten and even skin tone", color: "from-sand-deep/40", slug: "pigmentation" },
   { name: "Sensitivity", desc: "Repair and soothe the barrier", color: "from-hanbok/10", slug: "sensitivity" },
+  { name: "Anti-Ageing", desc: "Firmness, elasticity & wrinkle care", color: "from-clay/15", slug: "anti-aging" },
+  { name: "Barrier Repair", desc: "Rebuild a compromised skin barrier", color: "from-sand-deep/30", slug: "barrier" },
 ];
 
 
@@ -483,7 +485,7 @@ function Concerns() {
         </div>
 
 
-        <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {concerns.map((c) => (
             <Link
               key={c.name}
@@ -876,7 +878,7 @@ function ReviewsCarousel() {
         <div className="md:col-span-5">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Customer Notes</p>
           <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">
-            3,400+ reviews. <span className="italic text-hanbok-deep">4.9 stars.</span>
+            1,200+ reviews. <span className="italic text-hanbok-deep">4.9 stars.</span>
           </h2>
           <p className="mt-5 text-ink/70">From real customers across Melbourne, Sydney and beyond.</p>
           <Link to="/reviews" className="mt-8 inline-flex text-sm font-medium text-primary underline-grow">

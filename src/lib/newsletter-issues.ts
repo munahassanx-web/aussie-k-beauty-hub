@@ -261,7 +261,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         { name: "Dive In Serum", brand: "TORRIDEN", price: "A$38", image: "/products/torriden/dive-in-serum.png", note: "Water in." },
         { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "A$18", image: "/products/round-lab/1025-dokdo-toner-100ml.png", note: "The layer underneath." },
         { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.png", note: "Water stays in." },
-        { name: "Derma UV365 Barrier Moisture Mineral Sun Cream", brand: "AESTURA", price: "A$10", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", note: "Non-negotiable." },
+        { name: "Derma UV365 Barrier Moisture Mineral Sun Cream", brand: "AESTURA", price: "A$38", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", note: "Non-negotiable." },
       ],
     },
 
