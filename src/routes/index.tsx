@@ -51,15 +51,14 @@ const categories: {
 
 
 
-const concerns: { name: string; desc: string; img: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier" }[] = [
-  { name: "Hydration & Glow", desc: "Plump, dewy, glass-skin finish", img: concernHydration, slug: "hydration" },
-  { name: "Acne & Breakouts", desc: "Calm congestion, balance oil", img: concernAcne, slug: "acne" },
-  { name: "Pigmentation", desc: "Brighten and even skin tone", img: concernPigmentation, slug: "pigmentation" },
-  { name: "Sensitivity", desc: "Repair and soothe the barrier", img: concernSensitivity, slug: "sensitivity" },
-  { name: "Anti-Ageing", desc: "Firmness, elasticity & wrinkle care", img: concernAntiAging, slug: "anti-aging" },
-  { name: "Barrier Repair", desc: "Rebuild a compromised skin barrier", img: concernBarrier, slug: "barrier" },
+const concerns: { name: string; desc: string; color: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier" }[] = [
+  { name: "Hydration & Glow", desc: "Plump, dewy, glass-skin finish", color: "from-hanbok/15", slug: "hydration" },
+  { name: "Acne & Breakouts", desc: "Calm congestion, balance oil", color: "from-clay/20", slug: "acne" },
+  { name: "Pigmentation", desc: "Brighten and even skin tone", color: "from-sand-deep/40", slug: "pigmentation" },
+  { name: "Sensitivity", desc: "Repair and soothe the barrier", color: "from-hanbok/10", slug: "sensitivity" },
+  { name: "Anti-Ageing", desc: "Firmness, elasticity & wrinkle care", color: "from-clay/15", slug: "anti-aging" },
+  { name: "Barrier Repair", desc: "Rebuild a compromised skin barrier", color: "from-sand-deep/30", slug: "barrier" },
 ];
-
 
 
 const ingredients = [
