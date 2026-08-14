@@ -134,7 +134,8 @@ function Checkout() {
               Continue to payment
             </button>
             <p className="text-xs text-muted-foreground">
-              Delivery address is collected on the next step. We ship within Australia only.
+              Pay with Apple Pay, Google Pay, or card. Delivery address is collected on the next
+              step. We ship within Australia only.
             </p>
           </div>
         ) : (
