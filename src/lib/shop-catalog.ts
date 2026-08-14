@@ -188,3 +188,81 @@ export function bundleSavingsSummary() {
   const maxPercent = Math.max(...computed.map((c) => c.percent));
   return { maxSave, maxPercent };
 }
+
+// ---------------------------------------------------------------------------
+// Checkout helpers — resolving a price id to cart line data.
+// ---------------------------------------------------------------------------
+
+/** "$35" | "A$35" -> 3500 */
+export function priceToCents(price: string): number {
+  const n = Number(String(price).replace(/[^0-9.]/g, ''));
+  return Number.isFinite(n) ? Math.round(n * 100) : 0;
+}
+
+/** Routine staples available as a monthly Restock subscription (15% off). */
+export const RESTOCK_PRICE_BY_PRODUCT: Record<string, string> = {
+  beplain_mung_bean_cleansing_oil_200ml_onetime: 'restock_beplain_mung_bean_cleansing_oil_200ml_monthly',
+  beplain_mung_bean_ph_balanced_cleansing_foam_80ml_onetime: 'restock_beplain_mung_bean_ph_balanced_cleansing_foam_80ml_monthly',
+  round_lab_1025_dokdo_toner_100ml_onetime: 'restock_round_lab_1025_dokdo_toner_100ml_monthly',
+  round_lab_birch_juice_moisturizing_cream_80ml_onetime: 'restock_round_lab_birch_juice_moisturizing_cream_80ml_monthly',
+  wellage_real_hyaluronic_toner_200ml_onetime: 'restock_wellage_real_hyaluronic_toner_200ml_monthly',
+  isntree_hyaluronic_acid_water_essence_50ml_onetime: 'restock_isntree_hyaluronic_acid_water_essence_50ml_monthly',
+  aestura_atobarrier365_cream_onetime: 'restock_aestura_atobarrier365_cream_monthly',
+  aestura_derma_uv365_barrier_moisture_mineral_sun_cream_onetime: 'restock_aestura_derma_uv365_mineral_sun_cream_monthly',
+};
+
+export const RESTOCK_DISCOUNT_PERCENT = 15;
+
+export function restockPriceIdFor(oneTimePriceId: string): string | null {
+  return RESTOCK_PRICE_BY_PRODUCT[oneTimePriceId] ?? null;
+}
+
+export function restockCentsFor(oneTimeCents: number): number {
+  return Math.round((oneTimeCents * (100 - RESTOCK_DISCOUNT_PERCENT)) / 100 / 5) * 5;
+}
+
+export type CatalogEntry = {
+  priceId: string;
+  name: string;
+  brand: string;
+  image: string;
+  unitCents: number;
+};
+
+/** Look up any purchasable price id — product, bundle, or Restock subscription. */
+export function catalogEntryFor(priceId: string): CatalogEntry | null {
+  const product = SHOP_PRODUCTS.find((p) => p.priceId === priceId);
+  if (product) {
+    return {
+      priceId,
+      name: product.name,
+      brand: product.brand,
+      image: product.image,
+      unitCents: priceToCents(product.price),
+    };
+  }
+  const bundle = BUNDLE_DEFINITIONS.find((b) => b.priceId === priceId);
+  if (bundle) {
+    return {
+      priceId,
+      name: bundle.name,
+      brand: 'Skin Grocer',
+      image: bundle.products[0]?.img ?? '/products/placeholder.png',
+      unitCents: bundle.price * 100,
+    };
+  }
+  const restockSource = Object.entries(RESTOCK_PRICE_BY_PRODUCT).find(([, sub]) => sub === priceId);
+  if (restockSource) {
+    const base = SHOP_PRODUCTS.find((p) => p.priceId === restockSource[0]);
+    if (base) {
+      return {
+        priceId,
+        name: `${base.name} — monthly Restock`,
+        brand: base.brand,
+        image: base.image,
+        unitCents: restockCentsFor(priceToCents(base.price)),
+      };
+    }
+  }
+  return null;
+}
