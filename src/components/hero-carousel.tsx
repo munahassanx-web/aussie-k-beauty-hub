@@ -5,16 +5,8 @@ import notStocked from "@/assets/hero-slides/not-stocked.jpg";
 import authenticityCheck from "@/assets/hero-slides/authenticity-check.jpg";
 import overwhelmed from "@/assets/hero-slides/overwhelmed.jpg";
 import localDispatch from "@/assets/hero-slides/local-dispatch.jpg";
-import { SHOP_PRODUCTS, type ShopProduct } from "@/lib/shop-catalog";
 
 const SLIDE_MS = 5000;
-
-const featuredHardToFind: ShopProduct[] = [
-  SHOP_PRODUCTS.find((p) => p.name === "Aqua Squalane Serum")!,
-  SHOP_PRODUCTS.find((p) => p.name === "Hyper PDRN Repair Ampoule 30ml")!,
-  SHOP_PRODUCTS.find((p) => p.name === "Ceramic Milk Ampoule 40ml")!,
-  SHOP_PRODUCTS.find((p) => p.name === "Black Rice 5 Ceramide Barrier Moisturizing Cream")!,
-].filter(Boolean);
 
 type Slide = {
   type: "video" | "image";
