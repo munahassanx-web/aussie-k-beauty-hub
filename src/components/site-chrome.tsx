@@ -2,6 +2,7 @@ import { NewsletterForm } from "@/components/newsletter-form";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
+import { useCart } from "@/lib/cart";
 import logoAsset from "@/assets/skin-grocer-seal.png.asset.json";
 const logo = logoAsset.url;
 
@@ -128,6 +129,7 @@ export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user } = useAuth();
+  const cart = useCart();
 
   const closeMenus = () => {
     setOpenMenu(null);
