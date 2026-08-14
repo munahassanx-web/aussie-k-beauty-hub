@@ -9,7 +9,7 @@ import calmClearExplainer from "@/assets/bundle-explainers/calm-clear-bundle.png
 import applyingSerum from "@/assets/applying-serum.png.asset.json";
 import authenticityCard from "@/assets/authenticity-card.png.asset.json";
 import brandLineup from "@/assets/brand-lineup.png.asset.json";
-import heroVideo from "@/assets/hero-video.mp4.asset.json";
+import { HeroMedia, HeroProgress, HeroSlideCopy, useHeroCarousel } from "@/components/hero-carousel";
 import textureMacro from "@/assets/texture-macro.jpg";
 import ritualScene from "@/assets/ritual-scene.jpg";
 import brandSpotlight from "@/assets/brand-spotlight.jpg";
@@ -298,40 +298,26 @@ function ParallaxScene() {
 
 
 function Hero() {
+  const { index, go, paused, setPaused, slideMs } = useHeroCarousel();
   return (
-    <section className="relative overflow-hidden bg-ink">
-      <div className="absolute inset-0">
-        <video
-          key={heroVideo.url}
-          src={heroVideo.url}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          aria-label="Models with glowing glassy skin laughing"
-          className="h-full w-full object-cover"
-        />
-
-        <div className="absolute inset-0 bg-gradient-to-b from-hanbok-deep/35 via-ink/20 to-hanbok-deep/70" />
-      </div>
+    <section
+      className="relative overflow-hidden bg-ink"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={() => setPaused(false)}
+    >
+      <HeroMedia index={index} />
 
       <div className="relative mx-auto flex min-h-[86vh] max-w-7xl flex-col items-center justify-center px-6 py-16 text-center">
-        <div className="flex max-w-3xl flex-col items-center gap-5">
-          <span className="text-[10px] font-medium uppercase tracking-[0.4em] text-paper/75">
-            Melbourne · Authentic Korean skincare
-          </span>
-
+        <div className="flex w-full max-w-3xl flex-col items-center gap-6">
           <h1 className="font-display text-7xl leading-[0.9] text-paper md:text-[8.5rem] lg:text-[10rem]">
             skin grocer
           </h1>
 
-          <p className="max-w-2xl text-balance font-display text-2xl leading-snug text-paper/95 md:text-3xl">
-            Sourced from Seoul, stocked in Melbourne,{" "}
-            <span className="italic text-accent">matched to your skin</span>.
-          </p>
+          <HeroSlideCopy index={index} />
 
-          <div className="mt-4 flex flex-col items-center gap-3 sm:flex-row">
+          <div className="flex flex-col items-center gap-3 sm:flex-row">
             <Link
               to="/shop"
               className="group inline-flex items-center gap-3 rounded-full bg-paper px-10 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-ink transition duration-300 hover:-translate-y-0.5 hover:bg-accent hover:shadow-[0_18px_40px_-18px_var(--color-accent)]"
@@ -347,9 +333,13 @@ function Hero() {
               <span>Take the 2-minute skin quiz</span>
             </Link>
           </div>
-        </div>
 
+          <div className="mt-4">
+            <HeroProgress index={index} go={go} paused={paused} slideMs={slideMs} />
+          </div>
+        </div>
       </div>
+
 
 
       {/* Floating ticker */}
