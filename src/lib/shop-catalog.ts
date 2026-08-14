@@ -101,3 +101,89 @@ export function bundleMath(includes: string[], bundlePrice: number) {
     percent: original > 0 ? Math.round((save / original) * 100) : 0,
   };
 }
+
+export type BundleProduct = { img: string; alt: string };
+
+export type BundleDefinition = {
+  priceId: string;
+  tag: string;
+  name: string;
+  desc: string;
+  includes: string[];
+  products: BundleProduct[];
+  price: number;
+  featured: boolean;
+};
+
+/** Canonical bundle definitions — single source of truth for both landing promos and the bundle grid. */
+export const BUNDLE_DEFINITIONS: BundleDefinition[] = [
+  {
+    priceId: "starter_bundle_onetime",
+    tag: "Starter Ritual",
+    name: "The Glass Skin Starter",
+    desc: "A 4-step intro to Korean skincare — cleanse, tone, hydrate, protect.",
+    includes: [
+      "ROUND LAB 1025 Dokdo Cleanser 150ml",
+      "WELLAGE Real Hyaluronic Toner 200ml",
+      "TORRIDEN Dive In Serum",
+      "AESTURA Derma UV365 Barrier Moisture Mineral Sun Cream",
+    ],
+    products: [
+      { img: "/products/round-lab/1025-dokdo-cleanser-150ml.png", alt: "ROUND LAB 1025 Dokdo Cleanser 150ml" },
+      { img: "/products/wellage/real-hyaluronic-toner-200ml.png", alt: "WELLAGE Real Hyaluronic Toner 200ml" },
+      { img: "/products/torriden/dive-in-serum.png", alt: "TORRIDEN Dive In Serum" },
+      { img: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", alt: "AESTURA Derma UV365 Barrier Moisture Mineral Sun Cream" },
+    ],
+    price: 79,
+    featured: false,
+  },
+  {
+    priceId: "complete_glow_bundle_onetime",
+    tag: "Best Value · Save 25%",
+    name: "The Complete Glow Edit",
+    desc: "Our most-loved ritual, advisor-built. A full month of glass-skin results.",
+    includes: [
+      "MEDICUBE PDRN Pink Niacinamide Whip Cleanser 120g",
+      "MEDICUBE PDRN Pink Cica Soothing Toner 250ml",
+      "MEDICUBE PDRN Pink Peptide Serum 30ml",
+      "MEDICUBE Collagen Jelly Cream 110ml",
+      "BIODANCE Bio Collagen Real Deep Mask",
+    ],
+    products: [
+      { img: "/products/medicube/pdrn-pink-niacinamide-whip-cleanser-120g.png", alt: "MEDICUBE PDRN Pink Niacinamide Whip Cleanser 120g" },
+      { img: "/products/medicube/pdrn-pink-cica-soothing-toner-250ml.png", alt: "MEDICUBE PDRN Pink Cica Soothing Toner 250ml" },
+      { img: "/products/medicube/pdrn-pink-peptide-serum-30ml.png", alt: "MEDICUBE PDRN Pink Peptide Serum 30ml" },
+      { img: "/products/biodance/bio-collagen-real-deep-mask.png", alt: "BIODANCE Bio Collagen Real Deep Mask" },
+    ],
+    price: 142,
+    featured: true,
+  },
+  {
+    priceId: "calm_clear_bundle_onetime",
+    tag: "Concern Kit",
+    name: "Calm & Clear Bundle",
+    desc: "For breakout-prone, sensitive skin. Cica, BHA and barrier repair.",
+    includes: [
+      "Dr.G Red Blemish Clear Soothing Foam 150ml",
+      "ISNTREE Chestnut BHA 2% Clear Liquid 100ml",
+      "beplain Cicaful Ampoule 30ml",
+      "AESTURA Atobarrier365 Cream (2nd Generation)",
+    ],
+    products: [
+      { img: "/products/dr-g/red-blemish-clear-soothing-foam-150ml.png", alt: "Dr.G Red Blemish Clear Soothing Foam 150ml" },
+      { img: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.png", alt: "ISNTREE Chestnut BHA 2% Clear Liquid 100ml" },
+      { img: "/products/beplain/cicaful-ampoule-30ml.png", alt: "beplain Cicaful Ampoule 30ml" },
+      { img: "/products/aestura/atobarrier365-cream.png", alt: "AESTURA Atobarrier365 Cream" },
+    ],
+    price: 128,
+    featured: false,
+  },
+];
+
+/** Live aggregate savings across all bundles — for promos, tickers, and hero banners. */
+export function bundleSavingsSummary() {
+  const computed = BUNDLE_DEFINITIONS.map((b) => bundleMath(b.includes, b.price));
+  const maxSave = Math.max(...computed.map((c) => c.save));
+  const maxPercent = Math.max(...computed.map((c) => c.percent));
+  return { maxSave, maxPercent };
+}
