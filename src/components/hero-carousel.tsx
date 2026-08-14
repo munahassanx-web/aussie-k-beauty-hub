@@ -14,6 +14,7 @@ type Slide = {
   eyebrow: string;
   headline: string;
   body: string;
+  durationMs: number;
 };
 
 const slides: Slide[] = [
