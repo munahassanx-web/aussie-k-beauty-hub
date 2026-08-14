@@ -1,36 +1,34 @@
-import { useState } from 'react';
-import { useNavigate } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
-import { useAuth } from '@/hooks/use-auth';
-import { getClubSummary } from '@/lib/loyalty.functions';
-import { isPaymentsConfigured } from '@/lib/stripe';
-import { ProductCheckout, type ProductCheckoutOptions } from '@/components/product-checkout';
+import { useCart } from '@/lib/cart';
+import { catalogEntryFor, priceToCents } from '@/lib/shop-catalog';
 
-// Shared hook for launching product/bundle checkout from anywhere.
+export type BuyOptions = {
+  priceId: string;
+  name: string;
+  priceLabel: string;
+  brand?: string;
+  image?: string;
+};
+
+/**
+ * Shared "add to basket" action used by every product, bundle and article CTA.
+ * Resolves display data from the catalog so every entry point stays consistent.
+ */
 export function useBuyNow() {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const [options, setOptions] = useState<ProductCheckoutOptions | null>(null);
+  const cart = useCart();
 
-  const summaryQ = useQuery({
-    queryKey: ['club-summary', user?.id],
-    queryFn: () => getClubSummary(),
-    enabled: !!user,
-  });
-
-  function buy(opts: Omit<ProductCheckoutOptions, 'pointsBalance'>) {
-    if (!user) {
-      navigate({ to: '/auth' });
-      return;
-    }
-    if (!isPaymentsConfigured()) {
-      alert('Payments are not configured for this build.');
-      return;
-    }
-    setOptions({ ...opts, pointsBalance: summaryQ.data?.pointsBalance ?? 0 });
+  function buy(opts: BuyOptions) {
+    const entry = catalogEntryFor(opts.priceId);
+    cart.add({
+      priceId: opts.priceId,
+      name: entry?.name ?? opts.name,
+      brand: entry?.brand ?? opts.brand ?? 'Skin Grocer',
+      image: entry?.image ?? opts.image ?? '/favicon.ico',
+      unitCents: entry?.unitCents ?? priceToCents(opts.priceLabel),
+      recurring: opts.priceId.startsWith('restock_') || opts.priceId.startsWith('circle_'),
+    });
+    cart.setOpen(true);
   }
 
-  const modal = options ? <ProductCheckout options={options} onClose={() => setOptions(null)} /> : null;
-
-  return { buy, modal };
+  // Kept for call-site compatibility — the cart drawer now renders globally.
+  return { buy, modal: null };
 }

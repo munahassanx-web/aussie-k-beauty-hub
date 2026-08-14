@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { z } from "zod";
 import { useBuyNow } from "@/hooks/use-buy-now";
 import { CompareDrawer, CompareModal, type CompareItem } from "@/components/product-compare";
-import { SHOP_PRODUCTS, type Category } from "@/lib/shop-catalog";
+import { SHOP_PRODUCTS, restockPriceIdFor, type Category } from "@/lib/shop-catalog";
 
 const searchSchema = z.object({
   category: z.enum(["all", "cleanse", "tone", "treat", "moisturise", "protect", "masks"]).optional(),
@@ -144,9 +144,17 @@ function Shop() {
                     onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
                     className="text-xs font-medium uppercase tracking-wider text-primary hover:underline"
                   >
-                    Buy →
+                    Add to basket →
                   </button>
                 </div>
+                {restockPriceIdFor(p.priceId) && (
+                  <button
+                    onClick={() => buy({ priceId: restockPriceIdFor(p.priceId)!, name: p.name, priceLabel: `${p.price} AUD` })}
+                    className="mt-2 w-full rounded-full border border-border py-1.5 text-[11px] uppercase tracking-wider text-foreground hover:bg-secondary"
+                  >
+                    Subscribe & save 15%
+                  </button>
+                )}
               </div>
             </div>
             );
