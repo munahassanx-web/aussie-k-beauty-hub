@@ -12,6 +12,13 @@ import authenticityCard from "@/assets/authenticity-card.png.asset.json";
 import brandLineup from "@/assets/brand-lineup.png.asset.json";
 import textureMacro from "@/assets/texture-macro.jpg";
 import ritualScene from "@/assets/ritual-scene.jpg";
+import concernHydration from "@/assets/concerns/hydration.jpg";
+import concernAcne from "@/assets/concerns/acne.jpg";
+import concernPigmentation from "@/assets/concerns/pigmentation.jpg";
+import concernSensitivity from "@/assets/concerns/sensitivity.jpg";
+import concernAntiAging from "@/assets/concerns/anti-aging.jpg";
+import concernBarrier from "@/assets/concerns/barrier.jpg";
+
 import brandSpotlight from "@/assets/brand-spotlight.jpg";
 import customers from "@/assets/customers.jpg";
 
