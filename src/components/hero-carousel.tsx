@@ -66,9 +66,10 @@ export function HeroCarousel() {
 
   useEffect(() => {
     if (paused) return;
-    const id = setInterval(next, SLIDE_MS);
-    return () => clearInterval(id);
-  }, [paused, next]);
+    const id = setTimeout(next, SLIDE_MS);
+    return () => clearTimeout(id);
+  }, [paused, next, key]);
+
 
   const goTo = (i: number) => {
     setActive(i);
