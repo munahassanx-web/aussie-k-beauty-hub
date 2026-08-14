@@ -1,6 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GroceryLabel } from "@/components/grocery-label";
 import { newsletterIssues, upcomingIssues } from "@/lib/newsletter-issues";
+import issue01 from "@/assets/issues/issue-01-hydration.jpg";
+import issue02 from "@/assets/issues/issue-02-barrier.jpg";
+import issue03 from "@/assets/issues/issue-03-routine.jpg";
+import issue04 from "@/assets/issues/issue-04-pdrn.jpg";
+import issue05 from "@/assets/issues/issue-05-pigmentation.jpg";
+import issue06 from "@/assets/issues/issue-06-undiscovered.jpg";
+
+const issueCovers: Record<string, { src: string; alt: string }> = {
+  "01": { src: issue01, alt: "Macro droplet of clear hydrating serum beading on cool glass" },
+  "02": { src: issue02, alt: "Translucent lipid layers illustrating an intact skin barrier" },
+  "03": { src: issue03, alt: "Woman pressing moisturiser into her cheek in morning light" },
+  "04": { src: issue04, alt: "Pink ampoule fluid drawing into fine strands on a lab slide" },
+  "05": { src: issue05, alt: "Close crop of sun pigmentation and freckles in hard sunlight" },
+  "06": { src: issue06, alt: "Neon-lit Seoul side street at dusk with hangul signage" },
+};
 
 export const Route = createFileRoute("/grocery-list/")({
   head: () => ({
