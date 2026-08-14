@@ -54,12 +54,12 @@ export function shippingOptionFor(subtotal: number) {
   const amount = shippingCentsFor(subtotal, false);
   return {
     shipping_rate_data: {
-      type: 'fixed_amount',
+      type: 'fixed_amount' as const,
       fixed_amount: { amount, currency: 'aud' },
       display_name: amount === 0 ? 'Free standard shipping' : 'Standard shipping',
       delivery_estimate: {
-        minimum: { unit: 'business_day', value: 1 },
-        maximum: { unit: 'business_day', value: 3 },
+        minimum: { unit: 'business_day' as const, value: 1 },
+        maximum: { unit: 'business_day' as const, value: 3 },
       },
     },
   };
