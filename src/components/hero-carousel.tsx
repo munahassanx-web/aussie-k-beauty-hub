@@ -5,8 +5,16 @@ import notStocked from "@/assets/hero-slides/not-stocked.jpg";
 import authenticityCheck from "@/assets/hero-slides/authenticity-check.jpg";
 import overwhelmed from "@/assets/hero-slides/overwhelmed.jpg";
 import localDispatch from "@/assets/hero-slides/local-dispatch.jpg";
+import { SHOP_PRODUCTS, type ShopProduct } from "@/lib/shop-catalog";
 
 const SLIDE_MS = 5000;
+
+const featuredHardToFind: ShopProduct[] = [
+  SHOP_PRODUCTS.find((p) => p.name === "PDRN Pink Peptide Serum 30ml")!,
+  SHOP_PRODUCTS.find((p) => p.name === "Dive In Serum")!,
+  SHOP_PRODUCTS.find((p) => p.name === "Revive Eye Serum: Ginseng + Retinal 30ml")!,
+  SHOP_PRODUCTS.find((p) => p.name === "Bio Collagen Real Deep Mask")!,
+].filter(Boolean);
 
 const slides = [
   {
