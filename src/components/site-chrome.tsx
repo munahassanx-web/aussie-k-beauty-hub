@@ -35,7 +35,7 @@ const megaMenus: Record<string, MegaSection[]> = {
       links: [
         { label: "AM Routine", to: "/journey" },
         { label: "PM Routine", to: "/journey" },
-        { label: "Masks & Sheet Masks", to: "/journey" },
+        { label: "Weekly Treatments", to: "/journey" },
         { label: "Build Mine (Quiz)", to: "/consultation" },
       ],
     },
