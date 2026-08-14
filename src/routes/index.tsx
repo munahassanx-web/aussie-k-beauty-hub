@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useBuyNow } from "@/hooks/use-buy-now";
+import { bundleMath } from "@/lib/shop-catalog";
 import applyingSerum from "@/assets/applying-serum.png.asset.json";
 import authenticityCard from "@/assets/authenticity-card.png.asset.json";
 import brandLineup from "@/assets/brand-lineup.png.asset.json";
