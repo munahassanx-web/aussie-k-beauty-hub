@@ -9,16 +9,6 @@ import textureMacro from "@/assets/texture-macro.jpg";
 import ritualScene from "@/assets/ritual-scene.jpg";
 import brandSpotlight from "@/assets/brand-spotlight.jpg";
 import customers from "@/assets/customers.jpg";
-import bojReliefSun from "@/assets/boj-relief-sun-aqua.webp.asset.json";
-import biodanceCleanser from "@/assets/biodance-foam-cleanser.jpg.asset.json";
-import aesturaCica from "@/assets/aestura-cica365-serum.webp.asset.json";
-import anuaPdrnCream from "@/assets/anua-pdrn-cream.webp.asset.json";
-import bojEyeSerum from "@/assets/boj-revive-eye-serum.webp.asset.json";
-import bojGlowSerum from "@/assets/boj-glow-serum.webp.asset.json";
-import biodanceMask from "@/assets/biodance-collagen-mask.webp.asset.json";
-import medicubeEye from "@/assets/medicube-pdrn-eye.webp.asset.json";
-import skin1004Ampoule from "@/assets/skin1004-centella-ampoule.webp.asset.json";
-import torridenSerum from "@/assets/torriden-divein-serum.webp.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -35,12 +25,12 @@ export const Route = createFileRoute("/")({
 });
 
 const categories: { name: string; count: string; img: string; label: string; search: { category: "cleanse" | "tone" | "treat" | "moisturise" | "protect" | "masks" } }[] = [
-  { name: "Cleansers", count: "Melt & rinse", img: biodanceCleanser.url, label: "BIODANCE Foam Cleanser", search: { category: "cleanse" } },
-  { name: "Toners & Essences", count: "Prep & hydrate", img: skin1004Ampoule.url, label: "SKIN1004 Centella Ampoule", search: { category: "tone" } },
-  { name: "Serums", count: "Treat & target", img: bojGlowSerum.url, label: "Beauty of Joseon Glow Serum", search: { category: "treat" } },
-  { name: "Moisturisers", count: "Seal & protect", img: anuaPdrnCream.url, label: "Anua PDRN Cream", search: { category: "moisturise" } },
-  { name: "SPF", count: "Everyday defence", img: bojReliefSun.url, label: "Beauty of Joseon Relief Sun", search: { category: "protect" } },
-  { name: "Masks", count: "Weekly rituals", img: biodanceMask.url, label: "BIODANCE Bio-Collagen Mask", search: { category: "masks" } },
+  { name: "Cleansers", count: "Melt & rinse", img: "/products/beplain/mung-bean-cleansing-oil-200ml.png", label: "beplain Mung Bean Cleansing Oil", search: { category: "cleanse" } },
+  { name: "Toners & Essences", count: "Prep & hydrate", img: "/products/wellage/real-hyaluronic-toner-200ml.png", label: "WELLAGE Real Hyaluronic Toner", search: { category: "tone" } },
+  { name: "Serums", count: "Treat & target", img: "/products/medicube/pdrn-pink-peptide-serum-30ml.png", label: "MEDICUBE PDRN Pink Peptide Serum", search: { category: "treat" } },
+  { name: "Moisturisers", count: "Seal & protect", img: "/products/aestura/atobarrier365-cream.png", label: "AESTURA Atobarrier365 Cream", search: { category: "moisturise" } },
+  { name: "SPF", count: "Everyday defence", img: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", label: "AESTURA Derma UV365 Mineral Sun Cream", search: { category: "protect" } },
+  { name: "Masks", count: "Weekly rituals", img: "/products/biodance/bio-collagen-real-deep-mask.png", label: "BIODANCE Bio Collagen Real Deep Mask", search: { category: "masks" } },
 ];
 
 
@@ -203,11 +193,9 @@ function WhyPillars() {
 
 function BrandMarquee() {
   const brands = [
-    "COSRX", "Beauty of Joseon", "Anua", "Round Lab", "SKIN1004", "Numbuzin",
-    "Abib", "Mixsoon", "Haruharu Wonder", "Isntree", "Klairs", "Pyunkang Yul",
-    "TIRTIR", "Mediheal", "Some By Mi", "Torriden", "Kahi", "Rom&nd",
-    "Laneige", "Dr. Jart+", "Innisfree", "Etude", "Missha", "Purito",
-    "iUNIK", "Manyo", "Peripera", "Kaine", "Sulwhasoon", "d'Alba",
+    "AESTURA", "BIODANCE", "Beauty of Joseon", "Dr.G", "HARUHARU WONDER",
+    "ISNTREE", "MEDICUBE", "ROUND LAB", "S.NATURE", "TIRTIR",
+    "TORRIDEN", "WELLAGE", "beplain",
   ];
   const row = [...brands, ...brands];
   return (
@@ -215,7 +203,7 @@ function BrandMarquee() {
       <div className="mx-auto mb-8 max-w-7xl px-6">
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">The Brand Cabinet</p>
         <h2 className="mt-3 max-w-2xl font-display text-3xl leading-tight md:text-4xl">
-          30+ authentic Korean labels, <span className="italic text-accent">all under one Australian roof.</span>
+          13 hand-picked Korean labels, <span className="italic text-accent">all under one Australian roof.</span>
         </h2>
       </div>
       <div className="flex animate-marquee gap-10 whitespace-nowrap">
@@ -527,22 +515,22 @@ function BundleOffer() {
       priceId: "starter_bundle_onetime",
       tag: "Starter Ritual",
       name: "The Glass Skin Starter",
-      desc: "A 4-step intro to Korean skincare — cleanse, hydrate, treat, protect.",
+      desc: "A 4-step intro to Korean skincare — cleanse, tone, hydrate, protect.",
       includes: [
-        "Biodance Collagen Mask to Foam Cleanser",
-        "Torriden DIVE IN 5D Hyaluronic Acid Serum",
-        "Anua PDRN Hyaluronic Acid 100 Cream",
-        "Beauty of Joseon Relief Sun SPF50+",
+        "ROUND LAB 1025 Dokdo Cleanser 150ml",
+        "WELLAGE Real Hyaluronic Toner 200ml",
+        "TORRIDEN Dive In Serum",
+        "AESTURA Derma UV365 Barrier Moisture Mineral Sun Cream",
       ],
       products: [
-        { img: biodanceCleanser.url, alt: "Biodance Collagen Mask to Foam Cleanser" },
-        { img: torridenSerum.url, alt: "Torriden DIVE IN 5D Hyaluronic Acid Intensive Serum" },
-        { img: anuaPdrnCream.url, alt: "Anua PDRN Hyaluronic Acid 100 Moisturizing Cream" },
-        { img: bojReliefSun.url, alt: "Beauty of Joseon Relief Sun Aqua-Fresh SPF50+" },
+        { img: "/products/round-lab/1025-dokdo-cleanser-150ml.png", alt: "ROUND LAB 1025 Dokdo Cleanser 150ml" },
+        { img: "/products/wellage/real-hyaluronic-toner-200ml.png", alt: "WELLAGE Real Hyaluronic Toner 200ml" },
+        { img: "/products/torriden/dive-in-serum.png", alt: "TORRIDEN Dive In Serum" },
+        { img: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", alt: "AESTURA Derma UV365 Barrier Moisture Mineral Sun Cream" },
       ],
-      original: 138,
-      price: 109,
-      save: 29,
+      original: 100,
+      price: 79,
+      save: 21,
       featured: false,
     },
     {
@@ -551,43 +539,43 @@ function BundleOffer() {
       name: "The Complete Glow Edit",
       desc: "Our most-loved ritual, advisor-built. A full month of glass-skin results.",
       includes: [
-        "Beauty of Joseon Glow Serum: Propolis + Niacinamide",
-        "SKIN1004 Madagascar Centella Probio-Cica Ampoule",
-        "Beauty of Joseon Revive Eye Serum: Ginseng + Retinal",
-        "Biodance Bio-Collagen Real Deep Mask",
-        "Beauty of Joseon Relief Sun SPF50+",
+        "MEDICUBE PDRN Pink Niacinamide Whip Cleanser 120g",
+        "MEDICUBE PDRN Pink Cica Soothing Toner 250ml",
+        "MEDICUBE PDRN Pink Peptide Serum 30ml",
+        "MEDICUBE Collagen Jelly Cream 110ml",
+        "BIODANCE Bio Collagen Real Deep Mask",
       ],
       products: [
-        { img: bojGlowSerum.url, alt: "Beauty of Joseon Glow Serum Propolis + Niacinamide" },
-        { img: skin1004Ampoule.url, alt: "SKIN1004 Madagascar Centella Probio-Cica Intensive Ampoule" },
-        { img: bojEyeSerum.url, alt: "Beauty of Joseon Revive Eye Serum Ginseng + Retinal" },
-        { img: biodanceMask.url, alt: "Biodance Bio-Collagen Real Deep Mask" },
+        { img: "/products/medicube/pdrn-pink-niacinamide-whip-cleanser-120g.png", alt: "MEDICUBE PDRN Pink Niacinamide Whip Cleanser 120g" },
+        { img: "/products/medicube/pdrn-pink-cica-soothing-toner-250ml.png", alt: "MEDICUBE PDRN Pink Cica Soothing Toner 250ml" },
+        { img: "/products/medicube/pdrn-pink-peptide-serum-30ml.png", alt: "MEDICUBE PDRN Pink Peptide Serum 30ml" },
+        { img: "/products/biodance/bio-collagen-real-deep-mask.png", alt: "BIODANCE Bio Collagen Real Deep Mask" },
       ],
-      original: 264,
-      price: 198,
-      save: 66,
+      original: 190,
+      price: 142,
+      save: 48,
       featured: true,
     },
     {
       priceId: "calm_clear_bundle_onetime",
       tag: "Concern Kit",
       name: "Calm & Clear Bundle",
-      desc: "For breakout-prone, sensitive skin. Centella, cica and gentle actives.",
+      desc: "For breakout-prone, sensitive skin. Cica, BHA and barrier repair.",
       includes: [
-        "Aestura A-Cica365 Soothing Relief Serum pH4.5",
-        "SKIN1004 Madagascar Centella Probio-Cica Ampoule",
-        "Anua PDRN Hyaluronic Acid 100 Cream",
-        "Medicube PDRN Pink Peptide Eye Cream",
+        "Dr.G Red Blemish Clear Soothing Foam 150ml",
+        "ISNTREE Chestnut BHA 2% Clear Liquid 100ml",
+        "beplain Cicaful Ampoule 30ml",
+        "AESTURA Atobarrier365 Cream (2nd Generation)",
       ],
       products: [
-        { img: aesturaCica.url, alt: "Aestura A-Cica365 Soothing Relief Serum pH4.5" },
-        { img: skin1004Ampoule.url, alt: "SKIN1004 Madagascar Centella Probio-Cica Intensive Ampoule" },
-        { img: anuaPdrnCream.url, alt: "Anua PDRN Hyaluronic Acid 100 Moisturizing Cream" },
-        { img: medicubeEye.url, alt: "Medicube PDRN Pink Peptide Eye Cream" },
+        { img: "/products/dr-g/red-blemish-clear-soothing-foam-150ml.png", alt: "Dr.G Red Blemish Clear Soothing Foam 150ml" },
+        { img: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.png", alt: "ISNTREE Chestnut BHA 2% Clear Liquid 100ml" },
+        { img: "/products/beplain/cicaful-ampoule-30ml.png", alt: "beplain Cicaful Ampoule 30ml" },
+        { img: "/products/aestura/atobarrier365-cream.png", alt: "AESTURA Atobarrier365 Cream" },
       ],
-      original: 156,
-      price: 124,
-      save: 32,
+      original: 161,
+      price: 128,
+      save: 33,
       featured: false,
     },
   ];
@@ -602,7 +590,7 @@ function BundleOffer() {
             </p>
             <h2 className="mt-4 font-display text-4xl text-ink md:text-5xl">
               Skip the guesswork.<br />
-              <span className="italic text-hanbok-deep">Save up to A$66.</span>
+              <span className="italic text-hanbok-deep">Save up to A$48.</span>
             </h2>
             <p className="mt-4 max-w-md text-sm text-ink/70">
               Advisor-built bundles, sealed direct from Seoul. Cheaper than buying each step alone — and they arrive tomorrow.
@@ -702,7 +690,7 @@ function ProvenanceCard() {
         <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-ink">
           <img
             src={authenticityCard.url}
-            alt="Skin Grocer authenticity card surrounded by Aestura, Beauty of Joseon and COSRX products"
+            alt="Skin Grocer authenticity card surrounded by AESTURA, Beauty of Joseon and MEDICUBE products"
             loading="lazy"
             className="h-full w-full object-cover"
           />
