@@ -2,17 +2,6 @@
 // site as collectible issues. Each issue follows the same eight-part structure
 // so readers learn the format and come back for it.
 
-import torridenSerum from "@/assets/torriden-divein-serum.webp.asset.json";
-import aesturaSerum from "@/assets/aestura-cica365-serum.webp.asset.json";
-import anuaPdrn from "@/assets/anua-pdrn-cream.webp.asset.json";
-import medicubePdrn from "@/assets/medicube-pdrn-eye.webp.asset.json";
-import bojGlow from "@/assets/boj-glow-serum.webp.asset.json";
-import skin1004 from "@/assets/skin1004-centella-ampoule.webp.asset.json";
-import biodanceMask from "@/assets/biodance-collagen-mask.webp.asset.json";
-import centellaToner from "@/assets/product-centella-toner.jpg";
-import cicaCream from "@/assets/product-cica-cream.jpg";
-import riceCleanser from "@/assets/product-rice-cleanser.jpg";
-import reliefSun from "@/assets/product-relief-sun.jpg";
 import portraitDeep from "@/assets/learn-portrait-deep.jpg";
 import routineFlatlay from "@/assets/learn-routine-flatlay.jpg";
 import textureMacro from "@/assets/texture-macro.jpg";
@@ -134,10 +123,10 @@ export const newsletterIssues: NewsletterIssue[] = [
         "Who can skip it: if you have genuinely oily, comfortable skin that never feels tight, and your moisturiser already sits well, a toner is optional. So is it if you're using a hydrating essence or a low-molecular HA serum on damp skin — that's the same job, done once. What we'd never recommend is an astringent, alcohol-forward toner used daily. That's the 1998 product, and it's the reason half of Australia thinks toner does nothing.",
       ],
       pick: {
-        name: "1025 Dokdo Toner",
-        brand: "Round Lab",
-        price: "$32",
-        image: centellaToner,
+        name: "1025 Dokdo Toner 100ml",
+        brand: "ROUND LAB",
+        price: "A$18",
+        image: "/products/round-lab/1025-dokdo-toner-100ml.png",
         note: "Deep-sea mineral water, no fragrance, no sting. The one we hand to people who've never used a toner they liked.",
         reasons: [
           "Lightweight hydration that absorbs in seconds — no tacky film",
@@ -159,24 +148,24 @@ export const newsletterIssues: NewsletterIssue[] = [
         "Honestly? It's a very good hydrator and a good barrier-support ingredient, and it plays well with a sensitised, over-exfoliated face — which is a common Australian problem. It is not a retinoid replacement, and topical PDRN will not do what an injection does. Buy it if you want comfortable, calm, well-hydrated skin without irritation. Don't buy it expecting to erase a wrinkle.",
       tryIt: [
         {
-          name: "PDRN Hyaluronic Acid Capsule 100 Serum",
-          brand: "Anua",
-          price: "$44",
-          image: anuaPdrn.url,
-          note: "The easiest entry point — PDRN plus multi-weight HA, no fragrance.",
+          name: "Hyper PDRN Repair Ampoule 30ml",
+          brand: "WELLAGE",
+          price: "A$40",
+          image: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.png",
+          note: "The easiest entry point — a concentrated PDRN repair ampoule, no fragrance.",
         },
         {
-          name: "PDRN Pink Peptide Eye Serum",
-          brand: "Medicube",
-          price: "$46",
-          image: medicubePdrn.url,
+          name: "PDRN Pink Peptide Eye Cream 30ml",
+          brand: "MEDICUBE",
+          price: "A$38",
+          image: "/products/medicube/pdrn-pink-peptide-eye-cream-30ml.png",
           note: "Where Koreans usually start: the thin skin that shows dehydration first.",
         },
         {
-          name: "Atobarrier365 Cream",
+          name: "Atobarrier365 Cream (2nd Generation)",
           brand: "AESTURA",
-          price: "$42",
-          image: aesturaSerum.url,
+          price: "A$55",
+          image: "/products/aestura/atobarrier365-cream.png",
           note: "Not PDRN, but the barrier cream Korean dermatology clinics pair it with.",
         },
       ],
@@ -186,42 +175,42 @@ export const newsletterIssues: NewsletterIssue[] = [
       {
         emoji: "🥑",
         concern: "Dry",
-        pick: "Atobarrier365 Cream",
+        pick: "Atobarrier365 Cream (2nd Generation)",
         brand: "AESTURA",
         why: "Ceramide-led occlusive that holds oil in skin that genuinely doesn't make enough.",
-        image: aesturaSerum.url,
+        image: "/products/aestura/atobarrier365-cream.png",
       },
       {
         emoji: "🍋",
         concern: "Dull",
-        pick: "Glow Serum: Propolis + Niacinamide",
+        pick: "Revive Eye Serum: Ginseng + Retinal",
         brand: "Beauty of Joseon",
-        why: "2% niacinamide with propolis — clarity without the sting of an acid.",
-        image: bojGlow.url,
+        why: "Ginseng with a low-dose retinal — brightens tired, dull skin without the sting of an acid.",
+        image: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.png",
       },
       {
         emoji: "🌶️",
         concern: "Irritated",
-        pick: "Madagascar Centella Ampoule",
-        brand: "SKIN1004",
-        why: "One ingredient, 100% centella extract. Nothing in it to react to.",
-        image: skin1004.url,
+        pick: "Cicaful Ampoule 30ml",
+        brand: "beplain",
+        why: "Centella-led and stripped back. Calming, fragrance-free, nothing in it to react to.",
+        image: "/products/beplain/cicaful-ampoule-30ml.png",
       },
       {
         emoji: "🍚",
         concern: "Dehydrated",
-        pick: "DIVE-IN Low Molecular HA Serum",
-        brand: "Torriden",
-        why: "Five weights of hyaluronic acid, applied damp. The thirst fix.",
-        image: torridenSerum.url,
+        pick: "Dive In Serum",
+        brand: "TORRIDEN",
+        why: "Low-molecular hyaluronic acid, applied damp. The thirst fix.",
+        image: "/products/torriden/dive-in-serum.png",
       },
       {
         emoji: "🫛",
         concern: "Congested",
-        pick: "Bio-Collagen Real Deep Mask",
+        pick: "Bio Collagen Real Deep Mask",
         brand: "BIODANCE",
         why: "Overnight hydrogel that softens congestion without scrubbing at it.",
-        image: biodanceMask.url,
+        image: "/products/biodance/bio-collagen-real-deep-mask.png",
       },
     ],
 
@@ -229,10 +218,10 @@ export const newsletterIssues: NewsletterIssue[] = [
       intro:
         "The \"I can't be bothered\" routine. Four steps, roughly five minutes, and honestly better for most Australian skin than eleven products applied inconsistently.",
       steps: [
-        { step: "01 · Cleanse", what: "Low-foam, no squeak. If your face feels tight after, the cleanser is wrong.", pick: "Rice Probiotics Cleansing Foam", brand: "I'm From", image: riceCleanser },
-        { step: "02 · Hydrate", what: "Toner or HA serum onto damp skin. Two light passes, not one heavy one.", pick: "DIVE-IN Low Molecular HA Serum", brand: "Torriden", image: torridenSerum.url },
-        { step: "03 · Treat", what: "One active. Niacinamide by day, or nothing at all on a bad skin week.", pick: "Glow Serum: Propolis + Niacinamide", brand: "Beauty of Joseon", image: bojGlow.url },
-        { step: "04 · Moisturise", what: "Seal it. Morning: add SPF over the top, every single day, all year.", pick: "Cica Recovery Cream", brand: "Anua", image: cicaCream },
+        { step: "01 · Cleanse", what: "Low-foam, no squeak. If your face feels tight after, the cleanser is wrong.", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.png" },
+        { step: "02 · Hydrate", what: "Toner or HA serum onto damp skin. Two light passes, not one heavy one.", pick: "Dive In Serum", brand: "TORRIDEN", image: "/products/torriden/dive-in-serum.png" },
+        { step: "03 · Treat", what: "One active. Niacinamide by day, or nothing at all on a bad skin week.", pick: "Revive Eye Serum: Ginseng + Retinal", brand: "Beauty of Joseon", image: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.png" },
+        { step: "04 · Moisturise", what: "Seal it. Morning: add SPF over the top, every single day, all year.", pick: "Dive In Soothing Cream", brand: "TORRIDEN", image: "/products/torriden/dive-in-soothing-cream.png" },
       ],
       closer:
         "That's it. You don't need eleven products to have a good skincare routine — you need four you'll actually use, and a sunscreen you don't hate.",
@@ -251,10 +240,10 @@ export const newsletterIssues: NewsletterIssue[] = [
     },
 
     weTriedIt: {
-      product: "Aqua Squalane Cream",
+      product: "Aqua Squalane Moisturizing Cream",
       brand: "S.NATURE",
       duration: "2 weeks, one tester in Melbourne, one in Brisbane",
-      image: cicaCream,
+      image: "/products/s-nature/aqua-squalane-moisturizing-cream.png",
       scores: [
         { label: "Texture", value: "9/10" },
         { label: "Dry skin", value: "⭐⭐⭐⭐⭐" },
@@ -269,10 +258,10 @@ export const newsletterIssues: NewsletterIssue[] = [
     basket: {
       forWho: "For dehydrated skin",
       items: [
-        { name: "DIVE-IN Low Molecular HA Serum", brand: "Torriden", price: "$36", image: torridenSerum.url, note: "Water in." },
-        { name: "1025 Dokdo Toner", brand: "Round Lab", price: "$32", image: centellaToner, note: "The layer underneath." },
-        { name: "Atobarrier365 Cream", brand: "AESTURA", price: "$42", image: aesturaSerum.url, note: "Water stays in." },
-        { name: "Relief Sun SPF50+", brand: "Beauty of Joseon", price: "$22", image: reliefSun, note: "Non-negotiable." },
+        { name: "Dive In Serum", brand: "TORRIDEN", price: "A$38", image: "/products/torriden/dive-in-serum.png", note: "Water in." },
+        { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "A$18", image: "/products/round-lab/1025-dokdo-toner-100ml.png", note: "The layer underneath." },
+        { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.png", note: "Water stays in." },
+        { name: "Derma UV365 Barrier Moisture Mineral Sun Cream", brand: "AESTURA", price: "A$10", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", note: "Non-negotiable." },
       ],
     },
 
