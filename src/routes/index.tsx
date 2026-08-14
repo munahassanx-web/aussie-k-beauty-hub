@@ -407,7 +407,7 @@ function LearnStrip() {
 function Promise() {
   const items = [
     { t: "100% Authentic", d: "Direct from Korea, batch-verified, sealed." },
-    { t: "Next-Day from MEL", d: "Order by 12pm, on your doorstep tomorrow." },
+    { t: "Next-Day from MEL*", d: "Order by 12pm, on your doorstep tomorrow — metro and most regional areas; remote postcodes may take 1–2 extra days." },
     { t: "Expert Guidance", d: "Real advisors reply within 1 business hour." },
     { t: "Subscribe & Save 10%", d: "Routine refills, paused or skipped any time." },
   ];
@@ -532,7 +532,7 @@ function BundleOffer() {
               <span className="italic text-hanbok-deep">Save up to A${maxSave}.</span>
             </h2>
             <p className="mt-4 max-w-md text-sm text-ink/70">
-              Advisor-built bundles, sealed direct from Seoul. Cheaper than buying each step alone — and they arrive tomorrow.
+              Advisor-built bundles, sealed direct from Seoul. Cheaper than buying each step alone — and they arrive next day to metro and most regional areas (remote postcodes may take 1–2 extra days).
             </p>
           </div>
           <ul className="grid gap-2 text-sm text-ink/80 md:text-right">
