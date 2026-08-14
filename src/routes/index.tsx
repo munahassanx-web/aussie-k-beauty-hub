@@ -851,11 +851,11 @@ function NewsletterStrip() {
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 px-6 py-20 text-center">
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">The Skin Grocer Drop</p>
         <h2 className="font-display text-4xl text-ink md:text-5xl">
-          10% off your first ritual.
+          Restock alerts, routine guides, Seoul intel.
         </h2>
         <p className="max-w-xl text-ink/70">
-          Restock alerts, routine guides and the occasional Seoul travel diary.
-          One email a week, no spam.
+          New arrivals before they sell through, advisor-built routine notes and
+          the occasional Seoul travel diary. One email a week, no spam.
         </p>
         <form className="mt-3 flex w-full max-w-md overflow-hidden rounded-full border border-ink/15 bg-paper">
           <input
