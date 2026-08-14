@@ -16,7 +16,16 @@ const featuredHardToFind: ShopProduct[] = [
   SHOP_PRODUCTS.find((p) => p.name === "Bio Collagen Real Deep Mask")!,
 ].filter(Boolean);
 
-const slides = [
+type Slide = {
+  type: "video" | "image";
+  src: string;
+  eyebrow: string;
+  headline: string;
+  body: string;
+  products?: ShopProduct[];
+};
+
+const slides: Slide[] = [
   {
     type: "video" as const,
     src: heroVideo.url,
