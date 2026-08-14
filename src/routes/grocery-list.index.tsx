@@ -112,40 +112,72 @@ function GroceryListIndex() {
               key={i.slug}
               to="/grocery-list/$slug"
               params={{ slug: i.slug }}
-              className="group flex flex-col justify-between rounded-sm border-2 border-grocer-brown/20 bg-background p-6 transition-colors hover:border-grocer-tomato"
+              className="group flex flex-col overflow-hidden rounded-sm border-2 border-grocer-brown/20 bg-background transition-colors hover:border-grocer-tomato"
             >
-              <div>
-                <p className="font-display text-6xl leading-none text-grocer-butter">{i.number}</p>
-                <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-grocer-green">
-                  {i.theme}
-                </p>
-                <h3 className="mt-2 font-display text-2xl leading-tight text-grocer-brown">
-                  {i.title}
-                </h3>
+              {issueCovers[i.number] && (
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    src={issueCovers[i.number].src}
+                    alt={issueCovers[i.number].alt}
+                    loading="lazy"
+                    width={1200}
+                    height={900}
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <span className="absolute left-4 top-4 rounded-sm bg-background/90 px-2.5 py-1 font-display text-lg leading-none text-grocer-brown">
+                    {i.number}
+                  </span>
+                </div>
+              )}
+              <div className="flex flex-1 flex-col justify-between p-6">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-grocer-green">
+                    {i.theme}
+                  </p>
+                  <h3 className="mt-2 font-display text-2xl leading-tight text-grocer-brown">
+                    {i.title}
+                  </h3>
+                </div>
+                <span className="mt-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-grocer-tomato">
+                  Read now →
+                </span>
               </div>
-              <span className="mt-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-grocer-tomato">
-                Read now →
-              </span>
             </Link>
           ))}
 
           {upcomingIssues.map((i) => (
             <div
               key={i.number}
-              className="flex flex-col justify-between rounded-sm border-2 border-dashed border-grocer-brown/20 p-6 opacity-80"
+              className="flex flex-col overflow-hidden rounded-sm border-2 border-dashed border-grocer-brown/20 opacity-90"
             >
-              <div>
-                <p className="font-display text-6xl leading-none text-grocer-brown/15">{i.number}</p>
-                <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-grocer-brown/50">
-                  {i.theme}
+              {issueCovers[i.number] && (
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    src={issueCovers[i.number].src}
+                    alt={issueCovers[i.number].alt}
+                    loading="lazy"
+                    width={1200}
+                    height={900}
+                    className="h-full w-full object-cover grayscale-[35%]"
+                  />
+                  <span className="absolute left-4 top-4 rounded-sm bg-background/90 px-2.5 py-1 font-display text-lg leading-none text-grocer-brown/70">
+                    {i.number}
+                  </span>
+                </div>
+              )}
+              <div className="flex flex-1 flex-col justify-between p-6">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-grocer-brown/50">
+                    {i.theme}
+                  </p>
+                  <h3 className="mt-2 font-display text-2xl leading-tight text-grocer-brown/70">
+                    {i.title}
+                  </h3>
+                </div>
+                <p className="mt-8 text-[11px] uppercase tracking-[0.18em] text-foreground/45">
+                  Coming · Hero: {i.heroes}
                 </p>
-                <h3 className="mt-2 font-display text-2xl leading-tight text-grocer-brown/70">
-                  {i.title}
-                </h3>
               </div>
-              <p className="mt-8 text-[11px] uppercase tracking-[0.18em] text-foreground/45">
-                Coming · Hero: {i.heroes}
-              </p>
             </div>
           ))}
         </div>
