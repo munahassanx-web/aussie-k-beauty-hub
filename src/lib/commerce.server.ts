@@ -50,7 +50,7 @@ export function shippingCentsFor(subtotal: number, isSubscription: boolean): num
   return subtotal >= FREE_SHIPPING_THRESHOLD_CENTS ? 0 : FLAT_SHIPPING_CENTS;
 }
 
-export function shippingOptionFor(subtotal: number): Stripe.Checkout.SessionCreateParams.ShippingOption {
+export function shippingOptionFor(subtotal: number) {
   const amount = shippingCentsFor(subtotal, false);
   return {
     shipping_rate_data: {
