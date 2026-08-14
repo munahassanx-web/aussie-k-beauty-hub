@@ -1,5 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import skinMacro from "@/assets/skin-macro.jpg";
+import imgHydration from "@/assets/concerns/page-hydration.jpg";
+import imgAcne from "@/assets/concerns/page-acne.jpg";
+import imgPigmentation from "@/assets/concerns/page-pigmentation.jpg";
+import imgSensitivity from "@/assets/concerns/page-sensitivity.jpg";
+import imgAntiAging from "@/assets/concerns/page-anti-aging.jpg";
+import imgBarrier from "@/assets/concerns/page-barrier.jpg";
 
 export const Route = createFileRoute("/skin-concerns")({
   head: () => ({
