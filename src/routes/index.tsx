@@ -595,7 +595,8 @@ function BundleOffer() {
                 </button>
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
 
         <p className="mt-8 text-center text-xs uppercase tracking-[0.22em] text-muted-foreground">
