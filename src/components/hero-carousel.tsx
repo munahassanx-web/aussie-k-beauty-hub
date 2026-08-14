@@ -10,10 +10,10 @@ import { SHOP_PRODUCTS, type ShopProduct } from "@/lib/shop-catalog";
 const SLIDE_MS = 5000;
 
 const featuredHardToFind: ShopProduct[] = [
-  SHOP_PRODUCTS.find((p) => p.name === "PDRN Pink Peptide Serum 30ml")!,
-  SHOP_PRODUCTS.find((p) => p.name === "Dive In Serum")!,
-  SHOP_PRODUCTS.find((p) => p.name === "Revive Eye Serum: Ginseng + Retinal 30ml")!,
-  SHOP_PRODUCTS.find((p) => p.name === "Bio Collagen Real Deep Mask")!,
+  SHOP_PRODUCTS.find((p) => p.name === "Aqua Squalane Serum")!,
+  SHOP_PRODUCTS.find((p) => p.name === "Hyper PDRN Repair Ampoule 30ml")!,
+  SHOP_PRODUCTS.find((p) => p.name === "Ceramic Milk Ampoule 40ml")!,
+  SHOP_PRODUCTS.find((p) => p.name === "Black Rice 5 Ceramide Barrier Moisturizing Cream")!,
 ].filter(Boolean);
 
 type Slide = {
@@ -38,7 +38,7 @@ const slides: Slide[] = [
     src: notStocked,
     eyebrow: "What you can't find locally",
     headline: "Mecca doesn't stock it.",
-    body: "The best-selling Korean staples Australian customers love are rarely on local shelves. We bring them here — direct from Seoul, no grey market.",
+    body: "Big Australian retailers focus on the same handful of names. We dig deeper — sourcing undiscovered Seoul formulas that rarely make it onto local shelves, no grey market.",
     products: featuredHardToFind,
   },
   {
@@ -163,7 +163,7 @@ export function HeroCarousel() {
           {slides[active].products && (
             <div className="w-full max-w-5xl pt-4">
               <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-paper/70">
-                Hand-picked from Korea, hard to find here
+                Under-the-radar Korean brands, hand-picked for Australia
               </p>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {slides[active].products.map((product) => (
