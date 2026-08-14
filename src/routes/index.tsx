@@ -456,29 +456,10 @@ function Categories() {
       </div>
       <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((c, i) => (
-          <Link
-            key={c.name}
-            to="/shop"
-            search={c.search}
-            className={`group relative aspect-[4/3] overflow-hidden rounded-3xl lift ${
-              i % 3 === 0 ? "bg-sand" : i % 3 === 1 ? "bg-secondary" : "bg-sand-deep/50"
-            }`}
-          >
-
-            <img
-              src={c.img}
-              alt={`${c.name} — ${c.label}`}
-              loading="lazy"
-              className="h-full w-full object-contain p-8 transition-transform duration-700 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 p-5">
-              <p className="font-display text-2xl text-paper">{c.name}</p>
-              <p className="text-[11px] uppercase tracking-[0.18em] text-paper/75">{c.count}</p>
-            </div>
-          </Link>
+          <CategoryTile key={c.name} c={c} i={i} />
         ))}
       </div>
+
 
     </section>
   );
