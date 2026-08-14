@@ -460,8 +460,8 @@ function CategoryTile({ c, i }: { c: (typeof categories)[number]; i: number }) {
           src={c.img}
           alt={`${c.name} — ${c.label}`}
           loading="lazy"
-          className={`h-full w-full object-contain p-8 transition-transform duration-700 group-hover:scale-105 group-hover:translate-x-[12%] ${
-            revealed ? "scale-105 translate-x-[12%]" : ""
+          className={`h-full w-full object-contain p-8 transition-transform duration-700 group-hover:scale-105 group-hover:translate-x-[18%] ${
+            revealed ? "scale-105 translate-x-[18%]" : ""
           }`}
         />
 
@@ -479,7 +479,7 @@ function CategoryTile({ c, i }: { c: (typeof categories)[number]; i: number }) {
           className={`absolute inset-0 flex flex-col justify-between p-6 transition-opacity duration-500 group-hover:opacity-100 ${on}`}
         >
           <div className="flex items-start justify-between gap-4">
-            <h3 className="max-w-[62%] text-3xl font-black uppercase leading-[0.85] tracking-tighter text-ink">
+            <h3 className="max-w-[62%] font-sans text-3xl font-black uppercase leading-[0.85] tracking-tighter text-ink">
               {c.name}
             </h3>
             <div className="text-right">
@@ -489,7 +489,7 @@ function CategoryTile({ c, i }: { c: (typeof categories)[number]; i: number }) {
           </div>
 
           <div className="space-y-3">
-            <p className="max-w-[68%] text-[11px] font-medium uppercase leading-relaxed tracking-wide text-ink">
+            <p className="max-w-[56%] font-sans text-[11px] font-medium uppercase leading-relaxed tracking-wide text-ink">
               {c.benefit}
             </p>
             <div className="flex items-center gap-3">
