@@ -69,3 +69,35 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   { name: "Mung Bean Pore Tight-Up Soothing Cream", brand: "beplain", price: "$28", priceId: "beplain_mung_bean_pore_tight_up_soothing_cream_onetime", tag: null, category: "Moisturise", image: "/products/beplain/mung-bean-pore-tight-up-soothing-cream.png", concerns: ["acne","sensitivity"] },
   { name: "Milk Ceramide Moisturizing Cream", brand: "beplain", price: "$35", priceId: "beplain_milk_ceramide_moisturizing_cream_onetime", tag: null, category: "Moisturise", image: "/products/beplain/milk-ceramide-moisturizing-cream.png", concerns: ["hydration","barrier"] },
 ];
+
+/** Numeric price (AUD) for a catalog product. */
+export function productPrice(p: ShopProduct): number {
+  return Number(p.price.replace(/[^0-9.]/g, ""));
+}
+
+const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+
+/** Find a catalog product from a "BRAND Product Name" label. */
+export function findCatalogProduct(label: string): ShopProduct | undefined {
+  const n = norm(label);
+  return SHOP_PRODUCTS.find((p) => n === norm(`${p.brand} ${p.name}`))
+    ?? SHOP_PRODUCTS.find((p) => n.includes(norm(p.name)) && n.includes(norm(p.brand)))
+    ?? SHOP_PRODUCTS.find((p) => n.includes(norm(p.name)));
+}
+
+/**
+ * Live bundle maths: sums the CURRENT catalog price of each included product,
+ * so displayed "individual total" / "save" figures can never drift from the catalog.
+ */
+export function bundleMath(includes: string[], bundlePrice: number) {
+  const original = includes.reduce((sum, label) => {
+    const p = findCatalogProduct(label);
+    return sum + (p ? productPrice(p) : 0);
+  }, 0);
+  const save = Math.max(0, original - bundlePrice);
+  return {
+    original,
+    save,
+    percent: original > 0 ? Math.round((save / original) * 100) : 0,
+  };
+}
