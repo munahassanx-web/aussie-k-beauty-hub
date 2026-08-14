@@ -600,7 +600,7 @@ function BundleOffer() {
             </p>
             <h2 className="mt-4 font-display text-4xl text-ink md:text-5xl">
               Skip the guesswork.<br />
-              <span className="italic text-hanbok-deep">Save up to A$66.</span>
+              <span className="italic text-hanbok-deep">Save up to A$48.</span>
             </h2>
             <p className="mt-4 max-w-md text-sm text-ink/70">
               Advisor-built bundles, sealed direct from Seoul. Cheaper than buying each step alone — and they arrive tomorrow.
