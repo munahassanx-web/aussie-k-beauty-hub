@@ -9,16 +9,6 @@ import textureMacro from "@/assets/texture-macro.jpg";
 import ritualScene from "@/assets/ritual-scene.jpg";
 import brandSpotlight from "@/assets/brand-spotlight.jpg";
 import customers from "@/assets/customers.jpg";
-import bojReliefSun from "@/assets/boj-relief-sun-aqua.webp.asset.json";
-import biodanceCleanser from "@/assets/biodance-foam-cleanser.jpg.asset.json";
-import aesturaCica from "@/assets/aestura-cica365-serum.webp.asset.json";
-import anuaPdrnCream from "@/assets/anua-pdrn-cream.webp.asset.json";
-import bojEyeSerum from "@/assets/boj-revive-eye-serum.webp.asset.json";
-import bojGlowSerum from "@/assets/boj-glow-serum.webp.asset.json";
-import biodanceMask from "@/assets/biodance-collagen-mask.webp.asset.json";
-import medicubeEye from "@/assets/medicube-pdrn-eye.webp.asset.json";
-import skin1004Ampoule from "@/assets/skin1004-centella-ampoule.webp.asset.json";
-import torridenSerum from "@/assets/torriden-divein-serum.webp.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
