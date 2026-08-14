@@ -38,7 +38,7 @@ const slides: Slide[] = [
     src: notStocked,
     eyebrow: "What you can't find locally",
     headline: "Mecca doesn't stock it.",
-    body: "The best-selling Korean staples Australian customers love are rarely on local shelves. We bring them here — direct from Seoul, no grey market.",
+    body: "Big Australian retailers focus on the same handful of names. We dig deeper — sourcing undiscovered Seoul formulas that rarely make it onto local shelves, no grey market.",
     products: featuredHardToFind,
   },
   {
