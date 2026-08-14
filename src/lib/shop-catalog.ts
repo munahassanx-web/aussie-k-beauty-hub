@@ -153,6 +153,7 @@ export const BUNDLE_DEFINITIONS: BundleDefinition[] = [
       { img: "/products/medicube/pdrn-pink-niacinamide-whip-cleanser-120g.png", alt: "MEDICUBE PDRN Pink Niacinamide Whip Cleanser 120g" },
       { img: "/products/medicube/pdrn-pink-cica-soothing-toner-250ml.png", alt: "MEDICUBE PDRN Pink Cica Soothing Toner 250ml" },
       { img: "/products/medicube/pdrn-pink-peptide-serum-30ml.png", alt: "MEDICUBE PDRN Pink Peptide Serum 30ml" },
+      { img: "/products/medicube/collagen-jelly-cream-110ml.png", alt: "MEDICUBE Collagen Jelly Cream 110ml" },
       { img: "/products/biodance/bio-collagen-real-deep-mask.png", alt: "BIODANCE Bio Collagen Real Deep Mask" },
     ],
     price: 142,

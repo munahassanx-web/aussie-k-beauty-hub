@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { useBuyNow } from "@/hooks/use-buy-now";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { bundleMath, BUNDLE_DEFINITIONS, bundleSavingsSummary } from "@/lib/shop-catalog";
+import glassSkinStarterExplainer from "@/assets/bundle-explainers/glass-skin-starter.png.asset.json";
+import completeGlowExplainer from "@/assets/bundle-explainers/complete-glow-edit.png.asset.json";
+import calmClearExplainer from "@/assets/bundle-explainers/calm-clear-bundle.png.asset.json";
 import applyingSerum from "@/assets/applying-serum.png.asset.json";
 import authenticityCard from "@/assets/authenticity-card.png.asset.json";
 import brandLineup from "@/assets/brand-lineup.png.asset.json";
@@ -513,6 +516,75 @@ function Concerns() {
 
 
 
+const BUNDLE_EXPLAINERS: Record<string, string> = {
+  starter_bundle_onetime: glassSkinStarterExplainer.url,
+  complete_glow_bundle_onetime: completeGlowExplainer.url,
+  calm_clear_bundle_onetime: calmClearExplainer.url,
+};
+
+function BundleCardMedia({
+  bundle,
+  explainer,
+}: {
+  bundle: { products: { img: string; alt: string }[]; tag: string; name: string };
+  explainer?: string;
+}) {
+  const [revealed, setRevealed] = useState(false);
+
+  return (
+    <div
+      className="relative aspect-[5/3] overflow-hidden bg-sand"
+      onMouseEnter={() => setRevealed(true)}
+      onMouseLeave={() => setRevealed(false)}
+      onFocus={() => setRevealed(true)}
+      onBlur={() => setRevealed(false)}
+    >
+      <div
+        className={`grid h-full w-full transition-opacity duration-300 ${revealed ? "opacity-0" : "opacity-100"}`}
+        style={{ gridTemplateColumns: `repeat(${bundle.products.length}, minmax(0, 1fr))` }}
+      >
+        {bundle.products.map((p) => (
+          <div key={p.alt} className="flex items-center justify-center bg-paper p-2">
+            <img
+              src={p.img}
+              alt={p.alt}
+              title={p.alt}
+              loading="lazy"
+              className="h-full w-full object-contain mix-blend-multiply"
+            />
+          </div>
+        ))}
+      </div>
+
+      {explainer && (
+        <img
+          src={explainer}
+          alt={`What's inside the ${bundle.name} bundle`}
+          loading="lazy"
+          aria-hidden={!revealed}
+          className={`pointer-events-none absolute inset-0 h-full w-full bg-paper object-contain transition-opacity duration-300 ${
+            revealed ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      )}
+
+      <span className="absolute left-4 top-4 z-10 rounded-full bg-paper/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-hanbok-deep backdrop-blur">
+        {bundle.tag}
+      </span>
+
+      {explainer && (
+        <button
+          type="button"
+          onClick={() => setRevealed((v) => !v)}
+          className="absolute bottom-3 right-3 z-10 rounded-full bg-ink/85 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-paper md:hidden"
+        >
+          {revealed ? "Hide" : "What's inside"}
+        </button>
+      )}
+    </div>
+  );
+}
+
 function BundleOffer() {
   const { buy, modal } = useBuyNow();
 
@@ -545,10 +617,12 @@ function BundleOffer() {
         </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {bundles.map((b) => (
+          {bundles.map((b) => {
+            const explainer = BUNDLE_EXPLAINERS[b.priceId];
+            return (
             <article
               key={b.name}
-              className={`relative flex flex-col overflow-hidden rounded-3xl border bg-paper transition-all duration-500 lift ${
+              className={`relative flex flex-col overflow-hidden rounded-3xl border bg-paper transition-all duration-500 lift group ${
                 b.featured
                   ? "border-hanbok shadow-[0_30px_60px_-30px_rgba(46,63,110,0.45)] md:-translate-y-3"
                   : "border-border/70"
@@ -559,24 +633,7 @@ function BundleOffer() {
                   Advisor pick
                 </div>
               )}
-              <div className="relative aspect-[5/3] overflow-hidden bg-sand">
-                <div className="grid h-full w-full grid-cols-4">
-                  {b.products.map((p) => (
-                    <div key={p.alt} className="flex items-center justify-center bg-paper p-2">
-                      <img
-                        src={p.img}
-                        alt={p.alt}
-                        title={p.alt}
-                        loading="lazy"
-                        className="h-full w-full object-contain mix-blend-multiply transition-transform duration-500 hover:scale-105"
-                      />
-                    </div>
-                  ))}
-                </div>
-                <span className="absolute left-4 top-4 rounded-full bg-paper/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-hanbok-deep backdrop-blur">
-                  {b.tag}
-                </span>
-              </div>
+              <BundleCardMedia bundle={b} explainer={explainer} />
               <div className="flex flex-1 flex-col p-6">
                 <h3 className="font-display text-2xl leading-tight text-ink">{b.name}</h3>
                 <p className="mt-2 text-sm text-ink/70">{b.desc}</p>
@@ -610,7 +667,8 @@ function BundleOffer() {
                 </button>
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
 
         <p className="mt-8 text-center text-xs uppercase tracking-[0.22em] text-muted-foreground">
