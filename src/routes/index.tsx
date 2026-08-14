@@ -310,8 +310,8 @@ function Hero() {
       <HeroMedia index={index} />
 
       <div className="relative mx-auto flex min-h-[86vh] max-w-7xl flex-col items-center justify-center px-6 py-16 text-center">
-        <div className="flex w-full max-w-3xl flex-col items-center gap-6">
-          <h1 className="font-display text-7xl leading-[0.9] text-paper md:text-[8.5rem] lg:text-[10rem]">
+        <div className="flex w-full max-w-4xl flex-col items-center gap-6">
+          <h1 className="font-display text-6xl font-black leading-[0.9] text-paper drop-shadow-[0_6px_30px_rgba(0,0,0,0.6)] md:text-[7.5rem] lg:text-[9rem]">
             skin grocer
           </h1>
 

@@ -5,6 +5,8 @@ import authenticityCheck from "@/assets/hero-slides/authenticity-check.jpg";
 import overwhelmed from "@/assets/hero-slides/overwhelmed.jpg";
 import localDispatch from "@/assets/hero-slides/local-dispatch.jpg";
 
+export type HeroProduct = { name: string; brand: string; img: string };
+
 export type HeroSlide = {
   id: string;
   kind: "video" | "image";
@@ -12,7 +14,9 @@ export type HeroSlide = {
   alt: string;
   eyebrow: string;
   headline: string;
+  accent: string;
   sub: string;
+  products: HeroProduct[];
 };
 
 export const HERO_SLIDES: HeroSlide[] = [
@@ -22,8 +26,14 @@ export const HERO_SLIDES: HeroSlide[] = [
     src: heroVideo.url,
     alt: "Women with healthy, glassy skin laughing together",
     eyebrow: "Melbourne · Authentic Korean skincare",
-    headline: "Glass skin isn't a filter.",
-    sub: "It's the right products, in the right order — and someone to show you how.",
+    headline: "What Korea is",
+    accent: "actually raving about.",
+    sub: "Not TikTok trends — the shelf staples Seoul repurchases, stocked here in Melbourne.",
+    products: [
+      { brand: "Medicube", name: "PDRN Pink Peptide Serum", img: "/products/medicube/pdrn-pink-peptide-serum-30ml.png" },
+      { brand: "Torriden", name: "Dive-In Serum", img: "/products/torriden/dive-in-serum.png" },
+      { brand: "Round Lab", name: "1025 Dokdo Toner", img: "/products/round-lab/1025-dokdo-toner-100ml.png" },
+    ],
   },
   {
     id: "not-stocked",
@@ -31,8 +41,14 @@ export const HERO_SLIDES: HeroSlide[] = [
     src: notStocked,
     alt: "Shopper looking at an empty gap on a beauty store shelf",
     eyebrow: "The hard-to-find problem",
-    headline: "Mecca doesn't stock it.",
-    sub: "The Korean labels you've saved on TikTok — on the shelf here, not on a waitlist.",
+    headline: "Mecca doesn't",
+    accent: "stock it.",
+    sub: "Cult Korean labels you can't buy in an Australian store — on our shelf, not a waitlist.",
+    products: [
+      { brand: "Biodance", name: "Bio-Collagen Real Deep Mask", img: "/products/biodance/bio-collagen-real-deep-mask.png" },
+      { brand: "Wellage", name: "Hyper PDRN Repair Ampoule", img: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.png" },
+      { brand: "TIRTIR", name: "Ceramic Milk Ampoule", img: "/products/tirtir/ceramic-milk-ampoule-40ml.png" },
+    ],
   },
   {
     id: "authentic",
@@ -40,8 +56,14 @@ export const HERO_SLIDES: HeroSlide[] = [
     src: authenticityCheck,
     alt: "Hands checking a printed batch code on a sealed skincare carton",
     eyebrow: "The authenticity problem",
-    headline: "Amazon might not be real.",
+    headline: "Amazon might",
+    accent: "not be real.",
     sub: "Every carton batch-checked on arrival. Sealed, verified, provenance-carded.",
+    products: [
+      { brand: "Beauty of Joseon", name: "Revive Eye Serum", img: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.png" },
+      { brand: "Dr.G", name: "R.E.D Blemish Soothing Cream", img: "/products/dr-g/r-e-d-blemish-clear-soothing-cream-70ml.png" },
+      { brand: "Isntree", name: "Hyaluronic Acid Water Essence", img: "/products/isntree/hyaluronic-acid-water-essence-50ml.png" },
+    ],
   },
   {
     id: "confusing",
@@ -49,17 +71,29 @@ export const HERO_SLIDES: HeroSlide[] = [
     src: overwhelmed,
     alt: "Woman surrounded by skincare bottles, unsure what to use",
     eyebrow: "The what-do-I-do-with-this problem",
-    headline: "Ten steps, no instructions.",
-    sub: "Every product ships with a plain-English guide: what it does, when to use it, what it pairs with.",
+    headline: "Ten steps,",
+    accent: "no instructions.",
+    sub: "Every product ships with a plain-English guide: what it does, when, and what it pairs with.",
+    products: [
+      { brand: "Beplain", name: "Mung Bean Cleansing Oil", img: "/products/beplain/mung-bean-cleansing-oil-200ml.png" },
+      { brand: "Haruharu Wonder", name: "Black Rice Hyaluronic Toner", img: "/products/haruharu-wonder/black-rice-hyaluronic-toner-150ml.png" },
+      { brand: "Aestura", name: "Atobarrier 365 Cream", img: "/products/aestura/atobarrier365-cream.png" },
+    ],
   },
   {
     id: "local",
     kind: "image",
     src: localDispatch,
     alt: "Hands packing a cream parcel at a Melbourne warehouse bench",
-    eyebrow: "The six-week-wait problem",
-    headline: "No shipping from Seoul.",
+    eyebrow: "East to West, the simple way",
+    headline: "No shipping",
+    accent: "from Seoul.",
     sub: "It's already here. Order by 12pm and it's on your doorstep tomorrow.*",
+    products: [
+      { brand: "S.Nature", name: "Aqua Squalane Serum", img: "/products/s-nature/aqua-squalane-serum.png" },
+      { brand: "Medicube", name: "Collagen Jelly Cream", img: "/products/medicube/collagen-jelly-cream-110ml.png" },
+      { brand: "Torriden", name: "Dive-In Soothing Cream", img: "/products/torriden/dive-in-soothing-cream.png" },
+    ],
   },
 ];
 
@@ -122,31 +156,53 @@ export function HeroMedia({ index }: { index: number }) {
           </div>
         );
       })}
-      <div className="absolute inset-0 bg-gradient-to-b from-hanbok-deep/45 via-ink/35 to-hanbok-deep/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/55 to-ink/90" />
     </div>
   );
 }
 
 export function HeroSlideCopy({ index }: { index: number }) {
   return (
-    <div className="relative mt-4 min-h-[11rem] w-full sm:min-h-[9.5rem]">
+    <div className="relative mt-4 min-h-[15rem] w-full sm:min-h-[13rem]">
       {HERO_SLIDES.map((slide, i) => {
         const active = i === index;
         return (
           <div
             key={slide.id}
             aria-hidden={!active}
-            className={`absolute inset-0 flex flex-col items-center gap-3 transition-all duration-700 ease-out ${
+            className={`absolute inset-0 flex flex-col items-center gap-4 transition-all duration-700 ease-out ${
               active ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
             }`}
           >
-            <span className="text-[10px] font-medium uppercase tracking-[0.32em] text-paper/70">
+            <span className="rounded-full bg-grocer-butter px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.28em] text-ink shadow-[0_10px_30px_-14px_rgba(0,0,0,0.9)]">
               {slide.eyebrow}
             </span>
-            <p className="max-w-3xl text-balance font-display text-3xl leading-tight text-paper md:text-4xl">
-              {slide.headline}
+            <p className="max-w-3xl text-balance font-display text-4xl font-black leading-[1.03] text-paper drop-shadow-[0_4px_18px_rgba(0,0,0,0.65)] md:text-6xl">
+              {slide.headline}{" "}
+              <span className="text-grocer-butter">{slide.accent}</span>
             </p>
-            <p className="max-w-xl text-balance text-sm text-paper/80 md:text-base">{slide.sub}</p>
+            <p className="max-w-xl text-balance text-base font-semibold text-paper md:text-lg drop-shadow-[0_2px_10px_rgba(0,0,0,0.75)]">
+              {slide.sub}
+            </p>
+
+            <div className="mt-1 flex flex-wrap items-center justify-center gap-2">
+              {slide.products.map((p) => (
+                <span
+                  key={p.img}
+                  className="flex items-center gap-2.5 rounded-full border border-paper/25 bg-ink/55 py-1.5 pl-1.5 pr-4 backdrop-blur-md"
+                >
+                  <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-paper">
+                    <img src={p.img} alt={`${p.brand} ${p.name}`} loading="lazy" className="h-8 w-8 object-contain" />
+                  </span>
+                  <span className="text-left leading-tight">
+                    <span className="block text-[9px] font-bold uppercase tracking-[0.2em] text-grocer-butter">
+                      {p.brand}
+                    </span>
+                    <span className="block text-[11px] font-semibold text-paper">{p.name}</span>
+                  </span>
+                </span>
+              ))}
+            </div>
           </div>
         );
       })}
