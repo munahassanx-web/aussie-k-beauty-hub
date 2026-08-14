@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 const emailSchema = z
   .string()
   .trim()
-  .min(5, { message: "Please enter your email address." })
+  .min(5, { message: "Please enter a valid email address." })
   .max(255, { message: "That email address is too long." })
   .email({ message: "Please enter a valid email address." });
 
