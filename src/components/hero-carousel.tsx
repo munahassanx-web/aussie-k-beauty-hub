@@ -159,6 +159,43 @@ export function HeroCarousel() {
               <span>Take the 2-minute skin quiz</span>
             </Link>
           </div>
+
+          {slides[active].products && (
+            <div className="w-full max-w-5xl pt-4">
+              <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-paper/70">
+                Hand-picked from Korea, hard to find here
+              </p>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {slides[active].products.map((product) => (
+                  <Link
+                    key={product.priceId}
+                    to="/shop"
+                    className="group flex flex-col items-center gap-2 rounded-xl border border-paper/15 bg-ink/40 p-3 text-center backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-paper/40 hover:bg-ink/60"
+                  >
+                    <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-paper/10">
+                      <img
+                        src={product.image}
+                        alt={`${product.brand} ${product.name}`}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="flex flex-col items-center gap-0.5">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-paper/70">
+                        {product.brand}
+                      </span>
+                      <span className="line-clamp-2 text-xs font-medium leading-tight text-paper">
+                        {product.name}
+                      </span>
+                      <span className="text-xs font-semibold text-paper">
+                        {product.price}
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
