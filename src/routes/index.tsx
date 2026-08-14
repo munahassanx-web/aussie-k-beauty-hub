@@ -513,6 +513,75 @@ function Concerns() {
 
 
 
+const BUNDLE_EXPLAINERS: Record<string, string> = {
+  starter_bundle_onetime: glassSkinStarterExplainer.url,
+  complete_glow_bundle_onetime: completeGlowExplainer.url,
+  calm_clear_bundle_onetime: calmClearExplainer.url,
+};
+
+function BundleCardMedia({
+  bundle,
+  explainer,
+}: {
+  bundle: { products: { img: string; alt: string }[]; tag: string; name: string };
+  explainer?: string;
+}) {
+  const [revealed, setRevealed] = useState(false);
+
+  return (
+    <div
+      className="relative aspect-[5/3] overflow-hidden bg-sand"
+      onMouseEnter={() => setRevealed(true)}
+      onMouseLeave={() => setRevealed(false)}
+      onFocus={() => setRevealed(true)}
+      onBlur={() => setRevealed(false)}
+    >
+      <div
+        className={`grid h-full w-full transition-opacity duration-300 ${revealed ? "opacity-0" : "opacity-100"}`}
+        style={{ gridTemplateColumns: `repeat(${bundle.products.length}, minmax(0, 1fr))` }}
+      >
+        {bundle.products.map((p) => (
+          <div key={p.alt} className="flex items-center justify-center bg-paper p-2">
+            <img
+              src={p.img}
+              alt={p.alt}
+              title={p.alt}
+              loading="lazy"
+              className="h-full w-full object-contain mix-blend-multiply"
+            />
+          </div>
+        ))}
+      </div>
+
+      {explainer && (
+        <img
+          src={explainer}
+          alt={`What's inside the ${bundle.name} bundle`}
+          loading="lazy"
+          aria-hidden={!revealed}
+          className={`pointer-events-none absolute inset-0 h-full w-full bg-paper object-contain transition-opacity duration-300 ${
+            revealed ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      )}
+
+      <span className="absolute left-4 top-4 z-10 rounded-full bg-paper/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-hanbok-deep backdrop-blur">
+        {bundle.tag}
+      </span>
+
+      {explainer && (
+        <button
+          type="button"
+          onClick={() => setRevealed((v) => !v)}
+          className="absolute bottom-3 right-3 z-10 rounded-full bg-ink/85 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-paper md:hidden"
+        >
+          {revealed ? "Hide" : "What's inside"}
+        </button>
+      )}
+    </div>
+  );
+}
+
 function BundleOffer() {
   const { buy, modal } = useBuyNow();
 
