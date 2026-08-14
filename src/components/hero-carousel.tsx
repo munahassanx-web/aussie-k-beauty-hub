@@ -24,6 +24,7 @@ const slides: Slide[] = [
     eyebrow: "Melbourne · Authentic Korean skincare",
     headline: "skin grocer",
     body: "Most skincare advice is built for someone else's climate — not yours. Authentic K-beauty, stored locally in Melbourne. Order by 12pm and it's on your doorstep tomorrow.*",
+    durationMs: 2500,
   },
   {
     type: "image" as const,
@@ -31,6 +32,7 @@ const slides: Slide[] = [
     eyebrow: "What you can't find locally",
     headline: "Mecca doesn't stock it.",
     body: "Big Australian retailers focus on the same handful of names. We dig deeper — sourcing undiscovered Seoul formulas that rarely make it onto local shelves, no grey market.",
+    durationMs: 5000,
   },
   {
     type: "image" as const,
@@ -38,6 +40,7 @@ const slides: Slide[] = [
     eyebrow: "Why authenticity matters",
     headline: "Amazon might not be real.",
     body: "Every item is batch-checked, sealed, and sourced through authorised channels. No fakes, no reformulated exports, no guesswork.",
+    durationMs: 5000,
   },
   {
     type: "image" as const,
@@ -45,6 +48,7 @@ const slides: Slide[] = [
     eyebrow: "How to use it",
     headline: "Ten steps, no instructions.",
     body: "Korean routines can feel overwhelming. We translate every product into plain English: what it does, where it fits, and how much to use.",
+    durationMs: 5000,
   },
   {
     type: "image" as const,
@@ -52,6 +56,7 @@ const slides: Slide[] = [
     eyebrow: "From Melbourne, not Seoul",
     headline: "No shipping from Seoul.",
     body: "We hold stock locally so your routine arrives fast — next-day VIC, express Australia-wide, and same-day dispatch on orders before 12pm.*",
+    durationMs: 5000,
   },
 ];
 
