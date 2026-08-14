@@ -530,9 +530,7 @@ function BundleOffer() {
         { img: "/products/torriden/dive-in-serum.png", alt: "TORRIDEN Dive In Serum" },
         { img: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", alt: "AESTURA Derma UV365 Barrier Moisture Mineral Sun Cream" },
       ],
-      original: 100,
       price: 79,
-      save: 21,
       featured: false,
     },
     {
@@ -553,9 +551,7 @@ function BundleOffer() {
         { img: "/products/medicube/pdrn-pink-peptide-serum-30ml.png", alt: "MEDICUBE PDRN Pink Peptide Serum 30ml" },
         { img: "/products/biodance/bio-collagen-real-deep-mask.png", alt: "BIODANCE Bio Collagen Real Deep Mask" },
       ],
-      original: 190,
       price: 142,
-      save: 48,
       featured: true,
     },
     {
@@ -575,12 +571,14 @@ function BundleOffer() {
         { img: "/products/beplain/cicaful-ampoule-30ml.png", alt: "beplain Cicaful Ampoule 30ml" },
         { img: "/products/aestura/atobarrier365-cream.png", alt: "AESTURA Atobarrier365 Cream" },
       ],
-      original: 161,
       price: 128,
-      save: 33,
       featured: false,
     },
   ];
+
+  // Totals are computed live from the current catalog prices — never hardcoded.
+  const bundles = bundleDefs.map((b) => ({ ...b, ...bundleMath(b.includes, b.price) }));
+  const maxSave = Math.max(...bundles.map((b) => b.save));
 
   return (
     <section id="bundles" className="scroll-mt-20 bg-secondary">
@@ -592,14 +590,14 @@ function BundleOffer() {
             </p>
             <h2 className="mt-4 font-display text-4xl text-ink md:text-5xl">
               Skip the guesswork.<br />
-              <span className="italic text-hanbok-deep">Save up to A$48.</span>
+              <span className="italic text-hanbok-deep">Save up to A${maxSave}.</span>
             </h2>
             <p className="mt-4 max-w-md text-sm text-ink/70">
               Advisor-built bundles, sealed direct from Seoul. Cheaper than buying each step alone — and they arrive tomorrow.
             </p>
           </div>
           <ul className="grid gap-2 text-sm text-ink/80 md:text-right">
-            <li>✓ Save up to 25% vs. individual prices</li>
+            <li>✓ Save up to {Math.max(...bundles.map((b) => b.percent))}% vs. individual prices</li>
             <li>✓ Free express shipping, every bundle</li>
             <li>✓ 30-day glow-or-refund guarantee</li>
             <li>✓ Free routine card + samples inside</li>
