@@ -3,6 +3,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { z } from "zod";
 import { submitContactForm } from "@/lib/contact.functions";
+import { getMapsApiKey } from "@/lib/maps.functions";
+
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
@@ -27,10 +29,16 @@ export const Route = createFileRoute("/contact")({
     ],
     links: [{ rel: "canonical", href: "/contact" }],
   }),
+  loader: async () => {
+    const key = await getMapsApiKey();
+    return { mapsKey: key };
+  },
   component: Contact,
 });
 
 function Contact() {
+  const { mapsKey } = Route.useLoaderData();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -79,8 +87,8 @@ function Contact() {
     }
   };
 
-  const mapsKey = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY;
   const warehouseQuery = "Unit 13/30 Willandra Drive, Epping VIC 3076, Australia";
+
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-20">
