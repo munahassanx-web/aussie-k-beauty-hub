@@ -122,10 +122,11 @@ export function ImageLightbox({ open, onOpenChange, images, index, onIndexChange
           0 to reset, and Escape to close.
         </DialogDescription>
 
-        <div className="grid h-full grid-rows-[1fr_auto]">
+        <div className="grid h-dvh min-h-0 grid-rows-[minmax(0,1fr)_auto] overflow-hidden">
           <div
             ref={containerRef}
-            className="relative overflow-hidden bg-secondary"
+            className="relative min-h-0 overflow-hidden bg-secondary"
+
             style={{ touchAction: 'none', cursor: zoom > 1 ? 'grab' : 'default' }}
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
