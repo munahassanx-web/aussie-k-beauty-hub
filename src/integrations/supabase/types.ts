@@ -156,11 +156,13 @@ export type Database = {
         Row: {
           approved_at: string | null
           content: Json
+          cover_alt: string | null
           cover_url: string | null
           created_at: string
           factcheck: Json | null
           id: string
           issue_number: string | null
+          published_at: string | null
           slug: string | null
           source_signal_ids: string[] | null
           status: string
@@ -171,11 +173,13 @@ export type Database = {
         Insert: {
           approved_at?: string | null
           content?: Json
+          cover_alt?: string | null
           cover_url?: string | null
           created_at?: string
           factcheck?: Json | null
           id?: string
           issue_number?: string | null
+          published_at?: string | null
           slug?: string | null
           source_signal_ids?: string[] | null
           status?: string
@@ -186,11 +190,13 @@ export type Database = {
         Update: {
           approved_at?: string | null
           content?: Json
+          cover_alt?: string | null
           cover_url?: string | null
           created_at?: string
           factcheck?: Json | null
           id?: string
           issue_number?: string | null
+          published_at?: string | null
           slug?: string | null
           source_signal_ids?: string[] | null
           status?: string
