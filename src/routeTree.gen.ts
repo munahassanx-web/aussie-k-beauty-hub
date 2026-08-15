@@ -29,6 +29,7 @@ import { Route as GuideProductIdRouteImport } from './routes/guide.$productId'
 import { Route as LearnIndexRouteImport } from './routes/learn.index'
 import { Route as LearnSlugRouteImport } from './routes/learn.$slug'
 import { Route as LearnHubRouteImport } from './routes/learn.hub'
+import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as RoutinesIndexRouteImport } from './routes/routines.index'
 import { Route as RoutinesBundleIdRouteImport } from './routes/routines.$bundleId'
 import { Route as LearnArticleSlugRouteImport } from './routes/learn.article.$slug'
@@ -134,6 +135,11 @@ const LearnHubRoute = LearnHubRouteImport.update({
   path: '/learn/hub',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductSlugRoute = ProductSlugRouteImport.update({
+  id: '/product/$slug',
+  path: '/product/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RoutinesIndexRoute = RoutinesIndexRouteImport.update({
   id: '/routines/',
   path: '/routines/',
@@ -175,6 +181,7 @@ export interface FileRoutesByFullPath {
   '/guide/$productId': typeof GuideProductIdRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/learn/hub': typeof LearnHubRoute
+  '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
   '/grocery-list/': typeof GroceryListIndexRoute
   '/learn/': typeof LearnIndexRoute
@@ -201,6 +208,7 @@ export interface FileRoutesByTo {
   '/guide/$productId': typeof GuideProductIdRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/learn/hub': typeof LearnHubRoute
+  '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
   '/grocery-list': typeof GroceryListIndexRoute
   '/learn': typeof LearnIndexRoute
@@ -228,6 +236,7 @@ export interface FileRoutesById {
   '/guide/$productId': typeof GuideProductIdRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/learn/hub': typeof LearnHubRoute
+  '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
   '/grocery-list/': typeof GroceryListIndexRoute
   '/learn/': typeof LearnIndexRoute
@@ -256,6 +265,7 @@ export interface FileRouteTypes {
     | '/guide/$productId'
     | '/learn/$slug'
     | '/learn/hub'
+    | '/product/$slug'
     | '/routines/$bundleId'
     | '/grocery-list/'
     | '/learn/'
@@ -282,6 +292,7 @@ export interface FileRouteTypes {
     | '/guide/$productId'
     | '/learn/$slug'
     | '/learn/hub'
+    | '/product/$slug'
     | '/routines/$bundleId'
     | '/grocery-list'
     | '/learn'
@@ -308,6 +319,7 @@ export interface FileRouteTypes {
     | '/guide/$productId'
     | '/learn/$slug'
     | '/learn/hub'
+    | '/product/$slug'
     | '/routines/$bundleId'
     | '/grocery-list/'
     | '/learn/'
@@ -334,6 +346,7 @@ export interface RootRouteChildren {
   GuideProductIdRoute: typeof GuideProductIdRoute
   LearnSlugRoute: typeof LearnSlugRoute
   LearnHubRoute: typeof LearnHubRoute
+  ProductSlugRoute: typeof ProductSlugRoute
   RoutinesBundleIdRoute: typeof RoutinesBundleIdRoute
   GroceryListIndexRoute: typeof GroceryListIndexRoute
   LearnIndexRoute: typeof LearnIndexRoute
@@ -484,6 +497,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnHubRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/product/$slug': {
+      id: '/product/$slug'
+      path: '/product/$slug'
+      fullPath: '/product/$slug'
+      preLoaderRoute: typeof ProductSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/routines/': {
       id: '/routines/'
       path: '/routines'
@@ -545,6 +565,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuideProductIdRoute: GuideProductIdRoute,
   LearnSlugRoute: LearnSlugRoute,
   LearnHubRoute: LearnHubRoute,
+  ProductSlugRoute: ProductSlugRoute,
   RoutinesBundleIdRoute: RoutinesBundleIdRoute,
   GroceryListIndexRoute: GroceryListIndexRoute,
   LearnIndexRoute: LearnIndexRoute,
