@@ -3,6 +3,8 @@ import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { ingredientSlug } from "@/lib/product-catalog";
+import { FaqSection } from "@/components/faq-section";
+import { INGREDIENT_FAQS, faqJsonLd } from "@/lib/faqs";
 
 type Ingredient = {
   id: string;
@@ -42,6 +44,7 @@ export const Route = createFileRoute("/learn/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/learn" }],
+    scripts: [faqJsonLd(INGREDIENT_FAQS)],
   }),
   component: LearnPage,
 });
@@ -167,6 +170,14 @@ function LearnPage() {
           </ul>
         )}
       </div>
+
+      <FaqSection
+        id="ingredient-faq"
+        eyebrow="Ingredient questions"
+        title="PDRN, cica, niacinamide, snail mucin — what they actually do."
+        intro="The ingredient questions Australians search for most, answered without the marketing language."
+        items={INGREDIENT_FAQS}
+      />
     </div>
   );
 }

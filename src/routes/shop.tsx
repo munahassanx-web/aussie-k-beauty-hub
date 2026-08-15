@@ -5,6 +5,8 @@ import { useBuyNow } from "@/hooks/use-buy-now";
 import { CompareDrawer, CompareModal, type CompareItem } from "@/components/product-compare";
 import { SHOP_PRODUCTS, restockPriceIdFor, type Category } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
+import { FaqSection } from "@/components/faq-section";
+import { SHOP_FAQS, faqJsonLd } from "@/lib/faqs";
 
 
 const searchSchema = z.object({
@@ -24,6 +26,7 @@ export const Route = createFileRoute("/shop")({
       { property: "og:url", content: "/shop" },
     ],
     links: [{ rel: "canonical", href: "/shop" }],
+    scripts: [faqJsonLd(SHOP_FAQS)],
   }),
   component: Shop,
 });
@@ -185,6 +188,14 @@ function Shop() {
           Take the 2-minute quiz
         </Link>
       </div>
+
+      <FaqSection
+        id="shopping-faq"
+        eyebrow="Buying guide"
+        title="What to buy, in what order, and what not to mix."
+        intro="Everything you need to choose between a toner, an essence and an ampoule — and how to layer them safely."
+        items={SHOP_FAQS}
+      />
     </div>
   );
 }
