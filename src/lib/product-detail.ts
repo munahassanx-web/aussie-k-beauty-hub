@@ -87,7 +87,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   medicube_collagen_jelly_cream_110ml_onetime: [
     {
       src: '/products/editorial/medicube/collagen-jelly-cream-110ml-studio.png',
-      alt: 'MEDICUBE Collagen Jelly Cream jar with lid and a glossy jelly swatch on a clean white studio backdrop',
+      alt: 'MEDICUBE Collagen Jelly Cream open jar with the lid beside it, showing the glossy jelly cream inside on a clean white studio backdrop',
     },
   ],
   beauty_of_joseon_revive_eye_serum_ginseng_plus_retinal_30ml_onetime: [
