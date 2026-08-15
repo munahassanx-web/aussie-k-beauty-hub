@@ -1,10 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { GroceryLabel, SectionHeading } from "@/components/grocery-label";
 import { getIssue, newsletterIssues } from "@/lib/newsletter-issues";
+import { getPublishedIssue } from "@/lib/published-issues.functions";
 
 export const Route = createFileRoute("/grocery-list/$slug")({
-  loader: ({ params }) => {
-    const issue = getIssue(params.slug);
+  loader: async ({ params }) => {
+    const issue = getIssue(params.slug) ?? (await getPublishedIssue({ data: { slug: params.slug } }));
     if (!issue) throw notFound();
     return { issue };
   },

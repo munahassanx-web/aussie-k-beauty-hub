@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GroceryLabel } from "@/components/grocery-label";
 import { newsletterIssues, upcomingIssues } from "@/lib/newsletter-issues";
+import { listPublishedIssues } from "@/lib/published-issues.functions";
 import issue01 from "@/assets/issues/issue-01-hydration.jpg";
 import issue02 from "@/assets/issues/issue-02-barrier.jpg";
 import issue03 from "@/assets/issues/issue-03-routine.jpg";
@@ -18,6 +19,7 @@ const issueCovers: Record<string, { src: string; alt: string }> = {
 };
 
 export const Route = createFileRoute("/grocery-list/")({
+  loader: async () => ({ published: await listPublishedIssues() }),
   head: () => ({
     meta: [
       { title: "The Skin Grocery List — Skin Grocer's Fortnightly K-Beauty Newsletter" },
@@ -41,7 +43,11 @@ export const Route = createFileRoute("/grocery-list/")({
 });
 
 function GroceryListIndex() {
-  const latest = newsletterIssues[0];
+  const { published } = Route.useLoaderData();
+  const allIssues = [...published, ...newsletterIssues];
+  const liveNumbers = new Set(allIssues.map((i) => i.number));
+  const upcoming = upcomingIssues.filter((i) => !liveNumbers.has(i.number));
+  const latest = allIssues[0];
 
   return (
     <div className="bg-grocer-cream">
@@ -70,7 +76,7 @@ function GroceryListIndex() {
           className="group grid gap-8 border-y-2 border-grocer-brown/20 py-10 md:grid-cols-[1.1fr_1fr] md:items-center md:gap-14"
         >
           <img
-            src={latest.cover}
+            src={latest.cover || issueCovers[latest.number]?.src}
             alt={latest.coverAlt}
             className="h-[280px] w-full rounded-sm object-cover md:h-[420px]"
           />
@@ -107,18 +113,18 @@ function GroceryListIndex() {
         </div>
 
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {newsletterIssues.map((i) => (
+          {allIssues.map((i) => (
             <Link
               key={i.slug}
               to="/grocery-list/$slug"
               params={{ slug: i.slug }}
               className="group flex flex-col overflow-hidden rounded-sm border-2 border-grocer-brown/20 bg-background transition-colors hover:border-grocer-tomato"
             >
-              {issueCovers[i.number] && (
+              {(i.cover || issueCovers[i.number]) && (
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img
-                    src={issueCovers[i.number].src}
-                    alt={issueCovers[i.number].alt}
+                    src={i.cover || issueCovers[i.number].src}
+                    alt={i.coverAlt || issueCovers[i.number]?.alt || i.title}
                     loading="lazy"
                     width={1200}
                     height={900}
@@ -145,7 +151,7 @@ function GroceryListIndex() {
             </Link>
           ))}
 
-          {upcomingIssues.map((i) => (
+          {upcoming.map((i) => (
             <div
               key={i.number}
               className="flex flex-col overflow-hidden rounded-sm border-2 border-dashed border-grocer-brown/20 opacity-90"
