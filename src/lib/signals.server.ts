@@ -405,3 +405,10 @@ export async function readCover(path: string): Promise<ArrayBuffer | null> {
   if (error || !data) return null;
   return await data.arrayBuffer();
 }
+
+/** Anon-key client for public reads (RLS applies). */
+export function publicClient() {
+  return createClient<Database>(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!, {
+    auth: { persistSession: false },
+  });
+}
