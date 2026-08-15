@@ -97,7 +97,7 @@ function Contact() {
           </div>
           <div>
             <dt className="text-xs uppercase tracking-wider text-muted-foreground">Warehouse</dt>
-            <dd className="mt-1 font-display text-2xl text-foreground">Melbourne, Australia</dd>
+            <dd className="mt-1 font-display text-2xl text-foreground">Unit 13/30 Willandra Drive, Epping VIC 3076</dd>
           </div>
           <div>
             <dt className="text-xs uppercase tracking-wider text-muted-foreground">Hours</dt>
