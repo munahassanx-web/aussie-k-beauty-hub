@@ -120,7 +120,9 @@ function Shop() {
             return (
             <div key={p.name} className="group">
               <div className="relative aspect-square overflow-hidden rounded-2xl bg-secondary">
-                <img src={p.image} alt={p.name} loading="lazy" width={1024} height={1024} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <Link to="/product/$slug" params={{ slug: productSlug(p) }} aria-label={`View ${p.brand} ${p.name}`}>
+                  <img src={p.image} alt={p.name} loading="lazy" width={1024} height={1024} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                </Link>
                 {p.tag && (
                   <span className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-primary backdrop-blur">{p.tag}</span>
                 )}
@@ -137,7 +139,8 @@ function Shop() {
               </div>
               <div className="mt-4">
                 <p className="text-xs uppercase tracking-wider text-muted-foreground">{p.brand}</p>
-                <h3 className="mt-1 font-display text-lg text-foreground">{p.name}</h3>
+                <Link to="/product/$slug" params={{ slug: productSlug(p) }} className="mt-1 block font-display text-lg text-foreground hover:text-primary">{p.name}</Link>
+
                 <div className="mt-2 flex items-center justify-between">
                   <span className="text-sm text-foreground">{p.price}</span>
                   <button
