@@ -163,6 +163,8 @@ function ArticlePage() {
         </section>
       </div>
 
+      <ArticleProductPicks article={article} />
+
       {related.length > 0 && (
         <section className="mx-auto mt-20 max-w-6xl px-6 pb-24">
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-foreground">
