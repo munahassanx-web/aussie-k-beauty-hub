@@ -196,11 +196,78 @@ const CATEGORY_HOW_TO: Record<Category, string[]> = {
   ],
 };
 
+/**
+ * Verified, brand-sourced copy for individual SKUs. Anything listed here is
+ * taken from the brand's own product information (or an authorised stockist)
+ * rather than generated from category rules.
+ */
+type CopyOverride = {
+  description: string;
+  benefits?: string[];
+  howToUse?: string[];
+  texture?: string;
+  fullInci?: string;
+  ingredients?: HeroIngredient[];
+};
+
+const COPY: Record<string, CopyOverride> = {
+  torriden_dive_in_serum_onetime: {
+    description:
+      'TORRIDEN DIVE-IN Low Molecular Hyaluronic Acid Serum is a lightweight, watery serum built around a 5D-Complex of five hyaluronic acid forms in different molecular weights, so hydration sits at more than one depth instead of just the surface. D-Panthenol, allantoin and madecassoside calm the skin as it absorbs, and the pale blue tint comes from naturally derived malachite extract — no added colourant. Suitable for all skin types, including reactive skin. Made in Korea. 50ml.',
+    texture:
+      'Thin, watery gel that spreads like an essence and sinks in within seconds with no tack or film.',
+    benefits: [
+      'Five hyaluronic acid forms (5D-Complex) hydrate at different depths',
+      'D-Panthenol, allantoin and madecassoside soothe reactive, tight skin',
+      'Weightless watery finish that layers under sunscreen or makeup',
+      'Fragrance-free and suitable for all skin types',
+      'Authentic Korean stock, shipped from our Melbourne warehouse',
+    ],
+    howToUse: [
+      'After cleansing and toner, use the dropper to take 3–5 drops.',
+      'Spread evenly over the whole face and press in with your palms.',
+      'Layer a second application on drier areas for a stronger moisture effect.',
+      'Follow with a moisturiser to seal it in — and SPF in the morning.',
+    ],
+    ingredients: [
+      {
+        name: '5D-Complex Hyaluronic Acid',
+        korean: '히알루론산',
+        what: 'Five hyaluronic acid forms — sodium hyaluronate, hydrolyzed hyaluronic acid (500 ppm), sodium acetylated hyaluronate, sodium hyaluronate crosspolymer and hydrolyzed sodium hyaluronate — at different molecular weights so water is held at several layers rather than only on the surface.',
+        goodFor: ['Dehydration', 'Tightness', 'All skin types'],
+      },
+      {
+        name: 'D-Panthenol & Allantoin',
+        what: 'Provitamin B5 and allantoin work together to soften, calm and support the skin barrier, which is why the serum sits well on skin that stings easily.',
+        goodFor: ['Sensitivity', 'Barrier support', 'Softness'],
+      },
+      {
+        name: 'Madecassoside & Malachite Extract',
+        korean: '병풀 · 공작석',
+        what: 'Madecassoside is the calming fraction of centella asiatica; malachite extract is a mineral extract that gives the serum its natural pale blue colour and a fortifying finish.',
+        goodFor: ['Redness', 'Calming', 'Barrier support'],
+      },
+    ],
+    fullInci:
+      'Purified Water, Butylene Glycol, Glycerin, Dipropylene Glycol, 1,2-Hexanediol, Panthenol, Sodium Hyaluronate, Hydrolyzed Hyaluronic Acid (500 ppm), Sodium Acetylated Hyaluronate, Sodium Hyaluronate Crosspolymer, Hydrolyzed Sodium Hyaluronate, Allantoin, Trehalose, Betaine, Propanediol, Portulaca Oleracea Extract, Hamamelis Virginiana (Witch Hazel) Extract, Madecassoside, Madecassic Acid, Ceramide NP, Beta-Glucan, Malachite Extract, Cholesterol, Pentylene Glycol, Glyceryl Acrylate/Acrylic Acid Copolymer, PVM/MA Copolymer, Polyglyceryl-10 Laurate, Xanthan Gum, Tromethamine, Carbomer, Ethylhexylglycerin, Scutellaria Baicalensis Root Extract, Paeonia Suffruticosa Root Extract',
+  },
+};
+
+export function productTexture(p: ShopProduct): string | undefined {
+  return COPY[p.priceId]?.texture;
+}
+
+export function productInci(p: ShopProduct): string | undefined {
+  return COPY[p.priceId]?.fullInci;
+}
+
 export function howToUse(p: ShopProduct): string[] {
-  return CATEGORY_HOW_TO[p.category];
+  return COPY[p.priceId]?.howToUse ?? CATEGORY_HOW_TO[p.category];
 }
 
 export function productDescription(p: ShopProduct): string {
+  const override = COPY[p.priceId]?.description;
+  if (override) return override;
   const concerns = p.concerns.map((c) => CONCERN_LABEL[c]);
   const list =
     concerns.length > 1
@@ -210,6 +277,8 @@ export function productDescription(p: ShopProduct): string {
 }
 
 export function productBenefits(p: ShopProduct): string[] {
+  const override = COPY[p.priceId]?.benefits;
+  if (override) return override;
   const base = p.concerns.map((c) => {
     switch (c) {
       case 'hydration':
