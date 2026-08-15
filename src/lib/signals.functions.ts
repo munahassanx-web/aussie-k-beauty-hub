@@ -6,6 +6,7 @@ import {
   factCheck,
   harvestFirecrawl,
   harvestReddit,
+  generateCover,
   harvestYouTube,
   saveSignals,
   slugify,
@@ -195,4 +196,73 @@ export const amIAdmin = createServerFn({ method: "GET" })
       rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown }>;
     }).rpc("has_role", { _user_id: context.userId, _role: "admin" });
     return { admin: data === true };
+  });
+
+export const generateIssueCover = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => {
+    const { id, prompt } = (input ?? {}) as { id?: unknown; prompt?: unknown };
+    if (typeof id !== "string") throw new Error("Draft id required");
+    return { id, prompt: typeof prompt === "string" ? prompt.slice(0, 800) : "" };
+  })
+  .handler(async ({ context, data }) => {
+    await assertAdmin(context.supabase as never, context.userId);
+    const apiKey = process.env["LOVABLE_API_KEY"];
+    if (!apiKey) throw new Error("Missing LOVABLE_API_KEY");
+    const client = adminClient();
+    const { data: draft, error } = await client
+      .from("newsletter_drafts")
+      .select("id,title,theme,content")
+      .eq("id", data.id)
+      .single();
+    if (error) throw new Error(error.message);
+
+    const content = (draft.content ?? {}) as { coverPrompt?: string };
+    const prompt =
+      data.prompt || content.coverPrompt || `${draft.title}. ${draft.theme ?? ""}`;
+
+    const { path } = await generateCover(apiKey, draft.id, prompt);
+    const { error: upErr } = await client
+      .from("newsletter_drafts")
+      .update({
+        cover_url: path,
+        cover_alt: `Cover art for ${draft.title}`,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", data.id);
+    if (upErr) throw new Error(upErr.message);
+    return { coverUrl: `/api/public/issue-cover/${draft.id}?v=${Date.now()}` };
+  });
+
+export const publishDraft = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => {
+    const { id, publish } = (input ?? {}) as { id?: unknown; publish?: unknown };
+    if (typeof id !== "string") throw new Error("Draft id required");
+    return { id, publish: publish !== false };
+  })
+  .handler(async ({ context, data }) => {
+    await assertAdmin(context.supabase as never, context.userId);
+    const client = adminClient();
+    const { data: draft, error } = await client
+      .from("newsletter_drafts")
+      .select("id,slug,title,cover_url,content")
+      .eq("id", data.id)
+      .single();
+    if (error) throw new Error(error.message);
+    if (data.publish && !draft.cover_url) {
+      throw new Error("Generate a cover image before publishing.");
+    }
+    const now = new Date().toISOString();
+    const { error: upErr } = await client
+      .from("newsletter_drafts")
+      .update({
+        status: data.publish ? "published" : "approved",
+        approved_at: now,
+        published_at: data.publish ? now : null,
+        updated_at: now,
+      })
+      .eq("id", data.id);
+    if (upErr) throw new Error(upErr.message);
+    return { ok: true, slug: draft.slug, published: data.publish };
   });
