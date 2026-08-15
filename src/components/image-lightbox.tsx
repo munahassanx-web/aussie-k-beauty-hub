@@ -23,6 +23,11 @@ export function ImageLightbox({ open, onOpenChange, images, index, onIndexChange
   const containerRef = useRef<HTMLDivElement | null>(null);
   const dragRef = useRef<{ x: number; y: number; ox: number; oy: number } | null>(null);
 
+  // Mirror the view state in refs so zooming reads current values without
+  // running side effects inside a state updater (which React may call twice).
+  const viewRef = useRef({ zoom: 1, offset: { x: 0, y: 0 } });
+  viewRef.current = { zoom, offset };
+
   const count = images.length;
   const image = images[index];
 
@@ -37,19 +42,20 @@ export function ImageLightbox({ open, onOpenChange, images, index, onIndexChange
   }, [open, index, reset]);
 
   const zoomAt = useCallback((nextZoom: number, px?: number, py?: number) => {
-    setZoom((current) => {
-      const next = clamp(nextZoom, MIN_ZOOM, MAX_ZOOM);
-      const rect = containerRef.current?.getBoundingClientRect();
-      const anchorX = px ?? (rect ? rect.width / 2 : 0);
-      const anchorY = py ?? (rect ? rect.height / 2 : 0);
-      const k = next / current;
-      setOffset((o) =>
-        next === MIN_ZOOM
-          ? { x: 0, y: 0 }
-          : { x: anchorX - (anchorX - o.x) * k, y: anchorY - (anchorY - o.y) * k },
-      );
-      return next;
-    });
+    const { zoom: current, offset: o } = viewRef.current;
+    const next = clamp(nextZoom, MIN_ZOOM, MAX_ZOOM);
+    if (next === current) return;
+    const rect = containerRef.current?.getBoundingClientRect();
+    const anchorX = px ?? (rect ? rect.width / 2 : 0);
+    const anchorY = py ?? (rect ? rect.height / 2 : 0);
+    const k = next / current;
+    const nextOffset =
+      next === MIN_ZOOM
+        ? { x: 0, y: 0 }
+        : { x: anchorX - (anchorX - o.x) * k, y: anchorY - (anchorY - o.y) * k };
+    viewRef.current = { zoom: next, offset: nextOffset };
+    setZoom(next);
+    setOffset(nextOffset);
   }, []);
 
   // Native non-passive wheel listener: React's onWheel is passive, so
@@ -63,13 +69,15 @@ export function ImageLightbox({ open, onOpenChange, images, index, onIndexChange
       e.preventDefault();
       const dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 100 : 1);
       const rect = el.getBoundingClientRect();
-      setZoom((z) => {
-        zoomAtRef.current(z * Math.exp(-dy * 0.0015), e.clientX - rect.left, e.clientY - rect.top);
-        return z;
-      });
+      zoomAtRef.current(
+        viewRef.current.zoom * Math.exp(-dy * 0.0015),
+        e.clientX - rect.left,
+        e.clientY - rect.top,
+      );
     };
     el.addEventListener('wheel', onWheel, { passive: false });
     return () => el.removeEventListener('wheel', onWheel);
+
   }, [open]);
 
   const step = (delta: number) => onIndexChange((index + delta + count) % count);
