@@ -4,6 +4,8 @@ import { z } from "zod";
 import { useBuyNow } from "@/hooks/use-buy-now";
 import { CompareDrawer, CompareModal, type CompareItem } from "@/components/product-compare";
 import { SHOP_PRODUCTS, restockPriceIdFor, type Category } from "@/lib/shop-catalog";
+import { productSlug } from "@/lib/product-detail";
+
 
 const searchSchema = z.object({
   category: z.enum(["all", "cleanse", "tone", "treat", "moisturise", "protect", "masks"]).optional(),
