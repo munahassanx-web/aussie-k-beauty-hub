@@ -36,7 +36,7 @@ function Contact() {
           </div>
           <div>
             <dt className="text-xs uppercase tracking-wider text-muted-foreground">Warehouse</dt>
-            <dd className="mt-1 font-display text-2xl text-foreground">Sydney, NSW</dd>
+            <dd className="mt-1 font-display text-2xl text-foreground">Melbourne, Australia</dd>
           </div>
           <div>
             <dt className="text-xs uppercase tracking-wider text-muted-foreground">Hours</dt>
