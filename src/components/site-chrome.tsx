@@ -92,7 +92,7 @@ const megaMenus: Record<string, MegaSection[]> = {
       ],
     },
   ],
-
+};
 
 const announcements = [
   "Next-day Melbourne dispatch on orders before 12pm* — see footer",
