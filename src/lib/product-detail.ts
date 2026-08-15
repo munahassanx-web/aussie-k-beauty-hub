@@ -74,29 +74,62 @@ const LIFESTYLE: Record<Category, GalleryImage[]> = {
 const EDITORIAL: Record<string, GalleryImage[]> = {
   torriden_dive_in_serum_onetime: [
     {
+      src: '/products/editorial/torriden/dive-in-serum-block.png',
+      alt: 'Torriden Dive In Serum staged against a warm sand colour block on a white studio floor',
+    },
+    {
       src: '/products/editorial/torriden/dive-in-serum-studio.png',
       alt: 'Torriden Dive In Serum on a clean white studio backdrop with a hydrating gel swatch',
+    },
+    {
+      src: '/products/editorial/torriden/dive-in-serum-texture.png',
+      alt: 'Macro swatch of the clear hydrating gel texture of Torriden Dive In Serum',
     },
   ],
   medicube_pdrn_pink_peptide_serum_30ml_onetime: [
     {
+      src: '/products/editorial/medicube/pdrn-pink-peptide-serum-30ml-block.png',
+      alt: 'MEDICUBE PDRN Pink Peptide Serum staged against a blush colour block on a white studio floor',
+    },
+    {
       src: '/products/editorial/medicube/pdrn-pink-peptide-serum-30ml-studio.png',
       alt: 'MEDICUBE PDRN Pink Peptide Serum with a serum droplet swatch on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/medicube/pdrn-pink-peptide-serum-30ml-apply.png',
+      alt: 'A dropper of MEDICUBE PDRN Pink Peptide Serum dispensing onto the back of a hand',
     },
   ],
   medicube_collagen_jelly_cream_110ml_onetime: [
     {
+      src: '/products/editorial/medicube/collagen-jelly-cream-110ml-block.png',
+      alt: 'MEDICUBE Collagen Jelly Cream jar staged against a pale sand colour block on a white studio floor',
+    },
+    {
       src: '/products/editorial/medicube/collagen-jelly-cream-110ml-studio.png',
       alt: 'MEDICUBE Collagen Jelly Cream open jar with the lid beside it, showing the glossy jelly cream inside on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/medicube/collagen-jelly-cream-110ml-texture.png',
+      alt: 'Macro swatch of the bouncy jelly cream texture of MEDICUBE Collagen Jelly Cream',
     },
   ],
   beauty_of_joseon_revive_eye_serum_ginseng_plus_retinal_30ml_onetime: [
     {
+      src: '/products/editorial/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml-block.png',
+      alt: 'Beauty of Joseon Revive Eye Serum staged against a blush-beige colour block on a white studio floor',
+    },
+    {
       src: '/products/editorial/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml-studio.png',
       alt: 'Beauty of Joseon Revive Eye Serum tube lying down with the cap off and a small amount of serum squeezed out, on a clean white studio backdrop',
     },
+    {
+      src: '/products/editorial/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml-apply.png',
+      alt: 'Beauty of Joseon Revive Eye Serum being patted onto the back of a hand with a fingertip',
+    },
   ],
 };
+
 
 export function galleryFor(p: ShopProduct): GalleryImage[] {
   return [
