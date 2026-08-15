@@ -70,11 +70,6 @@ const ingredients = [
   { name: "Madecassoside", role: "Sensitive calm" },
 ];
 
-const journal: { tag: string; title: string; read: string; slug: string }[] = [
-  { tag: "Routines", title: "The 10-step routine, demystified", read: "6 min", slug: "the-10-step-routine-demystified" },
-  { tag: "Ingredients", title: "Snail mucin: why your skin actually loves it", read: "4 min", slug: "snail-mucin-why-your-skin-loves-it" },
-  { tag: "Australia", title: "Sunscreen, every single day", read: "5 min", slug: "sunscreen-every-single-day" },
-];
 
 
 
