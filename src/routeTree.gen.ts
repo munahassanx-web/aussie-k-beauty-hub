@@ -36,6 +36,7 @@ import { Route as RoutinesBundleIdRouteImport } from './routes/routines.$bundleI
 import { Route as AdminIssuesIdRouteImport } from './routes/admin.issues.$id'
 import { Route as LearnArticleSlugRouteImport } from './routes/learn.article.$slug'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
+import { Route as ApiPublicSignalsHarvestRouteImport } from './routes/api/public/signals/harvest'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -173,6 +174,11 @@ const ApiPublicPaymentsWebhookRoute =
     path: '/api/public/payments/webhook',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicSignalsHarvestRoute = ApiPublicSignalsHarvestRouteImport.update({
+  id: '/api/public/signals/harvest',
+  path: '/api/public/signals/harvest',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -202,6 +208,7 @@ export interface FileRoutesByFullPath {
   '/admin/issues/$id': typeof AdminIssuesIdRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -231,6 +238,7 @@ export interface FileRoutesByTo {
   '/admin/issues/$id': typeof AdminIssuesIdRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -261,6 +269,7 @@ export interface FileRoutesById {
   '/admin/issues/$id': typeof AdminIssuesIdRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -292,6 +301,7 @@ export interface FileRouteTypes {
     | '/admin/issues/$id'
     | '/learn/article/$slug'
     | '/api/public/payments/webhook'
+    | '/api/public/signals/harvest'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -321,6 +331,7 @@ export interface FileRouteTypes {
     | '/admin/issues/$id'
     | '/learn/article/$slug'
     | '/api/public/payments/webhook'
+    | '/api/public/signals/harvest'
   id:
     | '__root__'
     | '/'
@@ -350,6 +361,7 @@ export interface FileRouteTypes {
     | '/admin/issues/$id'
     | '/learn/article/$slug'
     | '/api/public/payments/webhook'
+    | '/api/public/signals/harvest'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -379,6 +391,7 @@ export interface RootRouteChildren {
   AdminIssuesIdRoute: typeof AdminIssuesIdRoute
   LearnArticleSlugRoute: typeof LearnArticleSlugRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
+  ApiPublicSignalsHarvestRoute: typeof ApiPublicSignalsHarvestRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -572,6 +585,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/signals/harvest': {
+      id: '/api/public/signals/harvest'
+      path: '/api/public/signals/harvest'
+      fullPath: '/api/public/signals/harvest'
+      preLoaderRoute: typeof ApiPublicSignalsHarvestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -614,6 +634,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminIssuesIdRoute: AdminIssuesIdRoute,
   LearnArticleSlugRoute: LearnArticleSlugRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
+  ApiPublicSignalsHarvestRoute: ApiPublicSignalsHarvestRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
