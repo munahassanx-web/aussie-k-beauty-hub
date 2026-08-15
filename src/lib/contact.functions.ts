@@ -17,13 +17,15 @@ export const submitContactForm = createServerFn({ method: 'POST' })
   .handler(async ({ data }): Promise<{ success: true }> => {
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
 
-    const { error } = await supabaseAdmin.from('contact_submissions').insert({
-      name: data.name,
-      email: data.email,
-      topic: data.topic,
-      message: data.message,
-      source: 'website',
-    });
+    const { error } = await supabaseAdmin
+      .from('contact_submissions' as any)
+      .insert({
+        name: data.name,
+        email: data.email,
+        topic: data.topic,
+        message: data.message,
+        source: 'website',
+      });
 
     if (error) {
       console.error('Contact submission error:', error);
