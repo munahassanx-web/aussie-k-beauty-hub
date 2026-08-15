@@ -17,7 +17,6 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ClubRouteImport } from './routes/club'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as JournalRouteImport } from './routes/journal'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as ShopRouteImport } from './routes/shop'
@@ -76,11 +75,6 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const JournalRoute = JournalRouteImport.update({
-  id: '/journal',
-  path: '/journal',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const JourneyRoute = JourneyRouteImport.update({
   id: '/journey',
   path: '/journey',
@@ -127,9 +121,9 @@ const GuideProductIdRoute = GuideProductIdRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const JournalSlugRoute = JournalSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => JournalRoute,
+  id: '/journal/$slug',
+  path: '/journal/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LearnIndexRoute = LearnIndexRouteImport.update({
   id: '/learn/',
@@ -177,7 +171,6 @@ export interface FileRoutesByFullPath {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
-  '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
@@ -205,7 +198,6 @@ export interface FileRoutesByTo {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
-  '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
@@ -234,7 +226,6 @@ export interface FileRoutesById {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
-  '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
@@ -264,7 +255,6 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
-    | '/journal'
     | '/journey'
     | '/reviews'
     | '/shop'
@@ -292,7 +282,6 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
-    | '/journal'
     | '/journey'
     | '/reviews'
     | '/shop'
@@ -320,7 +309,6 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
-    | '/journal'
     | '/journey'
     | '/reviews'
     | '/shop'
@@ -349,7 +337,6 @@ export interface RootRouteChildren {
   ClubRoute: typeof ClubRoute
   ConsultationRoute: typeof ConsultationRoute
   ContactRoute: typeof ContactRoute
-  JournalRoute: typeof JournalRouteWithChildren
   JourneyRoute: typeof JourneyRoute
   ReviewsRoute: typeof ReviewsRoute
   ShopRoute: typeof ShopRoute
@@ -357,6 +344,7 @@ export interface RootRouteChildren {
   SkinConcernsRoute: typeof SkinConcernsRoute
   GroceryListSlugRoute: typeof GroceryListSlugRoute
   GuideProductIdRoute: typeof GuideProductIdRoute
+  JournalSlugRoute: typeof JournalSlugRoute
   LearnSlugRoute: typeof LearnSlugRoute
   LearnHubRoute: typeof LearnHubRoute
   RoutinesBundleIdRoute: typeof RoutinesBundleIdRoute
@@ -425,13 +413,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/journal': {
-      id: '/journal'
-      path: '/journal'
-      fullPath: '/journal'
-      preLoaderRoute: typeof JournalRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/journey': {
       id: '/journey'
       path: '/journey'
@@ -497,10 +478,10 @@ declare module '@tanstack/react-router' {
     }
     '/journal/$slug': {
       id: '/journal/$slug'
-      path: '/$slug'
+      path: '/journal/$slug'
       fullPath: '/journal/$slug'
       preLoaderRoute: typeof JournalSlugRouteImport
-      parentRoute: typeof JournalRoute
+      parentRoute: typeof rootRouteImport
     }
     '/learn/': {
       id: '/learn/'
@@ -566,17 +547,6 @@ const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
   CheckoutRouteChildren,
 )
 
-interface JournalRouteChildren {
-  JournalSlugRoute: typeof JournalSlugRoute
-}
-
-const JournalRouteChildren: JournalRouteChildren = {
-  JournalSlugRoute: JournalSlugRoute,
-}
-
-const JournalRouteWithChildren =
-  JournalRoute._addFileChildren(JournalRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -586,7 +556,6 @@ const rootRouteChildren: RootRouteChildren = {
   ClubRoute: ClubRoute,
   ConsultationRoute: ConsultationRoute,
   ContactRoute: ContactRoute,
-  JournalRoute: JournalRouteWithChildren,
   JourneyRoute: JourneyRoute,
   ReviewsRoute: ReviewsRoute,
   ShopRoute: ShopRoute,
@@ -594,6 +563,7 @@ const rootRouteChildren: RootRouteChildren = {
   SkinConcernsRoute: SkinConcernsRoute,
   GroceryListSlugRoute: GroceryListSlugRoute,
   GuideProductIdRoute: GuideProductIdRoute,
+  JournalSlugRoute: JournalSlugRoute,
   LearnSlugRoute: LearnSlugRoute,
   LearnHubRoute: LearnHubRoute,
   RoutinesBundleIdRoute: RoutinesBundleIdRoute,
