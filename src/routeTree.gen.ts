@@ -26,7 +26,6 @@ import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as GroceryListIndexRouteImport } from './routes/grocery-list.index'
 import { Route as GroceryListSlugRouteImport } from './routes/grocery-list.$slug'
 import { Route as GuideProductIdRouteImport } from './routes/guide.$productId'
-import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as LearnIndexRouteImport } from './routes/learn.index'
 import { Route as LearnSlugRouteImport } from './routes/learn.$slug'
 import { Route as LearnHubRouteImport } from './routes/learn.hub'
@@ -120,11 +119,6 @@ const GuideProductIdRoute = GuideProductIdRouteImport.update({
   path: '/guide/$productId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const JournalSlugRoute = JournalSlugRouteImport.update({
-  id: '/journal/$slug',
-  path: '/journal/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LearnIndexRoute = LearnIndexRouteImport.update({
   id: '/learn/',
   path: '/learn/',
@@ -179,7 +173,6 @@ export interface FileRoutesByFullPath {
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
-  '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/learn/hub': typeof LearnHubRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
@@ -206,7 +199,6 @@ export interface FileRoutesByTo {
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
-  '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/learn/hub': typeof LearnHubRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
@@ -234,7 +226,6 @@ export interface FileRoutesById {
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
-  '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/learn/hub': typeof LearnHubRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
@@ -263,7 +254,6 @@ export interface FileRouteTypes {
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
-    | '/journal/$slug'
     | '/learn/$slug'
     | '/learn/hub'
     | '/routines/$bundleId'
@@ -290,7 +280,6 @@ export interface FileRouteTypes {
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
-    | '/journal/$slug'
     | '/learn/$slug'
     | '/learn/hub'
     | '/routines/$bundleId'
@@ -317,7 +306,6 @@ export interface FileRouteTypes {
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
-    | '/journal/$slug'
     | '/learn/$slug'
     | '/learn/hub'
     | '/routines/$bundleId'
@@ -344,7 +332,6 @@ export interface RootRouteChildren {
   SkinConcernsRoute: typeof SkinConcernsRoute
   GroceryListSlugRoute: typeof GroceryListSlugRoute
   GuideProductIdRoute: typeof GuideProductIdRoute
-  JournalSlugRoute: typeof JournalSlugRoute
   LearnSlugRoute: typeof LearnSlugRoute
   LearnHubRoute: typeof LearnHubRoute
   RoutinesBundleIdRoute: typeof RoutinesBundleIdRoute
@@ -476,13 +463,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuideProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/journal/$slug': {
-      id: '/journal/$slug'
-      path: '/journal/$slug'
-      fullPath: '/journal/$slug'
-      preLoaderRoute: typeof JournalSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/learn/': {
       id: '/learn/'
       path: '/learn'
@@ -563,7 +543,6 @@ const rootRouteChildren: RootRouteChildren = {
   SkinConcernsRoute: SkinConcernsRoute,
   GroceryListSlugRoute: GroceryListSlugRoute,
   GuideProductIdRoute: GuideProductIdRoute,
-  JournalSlugRoute: JournalSlugRoute,
   LearnSlugRoute: LearnSlugRoute,
   LearnHubRoute: LearnHubRoute,
   RoutinesBundleIdRoute: RoutinesBundleIdRoute,
