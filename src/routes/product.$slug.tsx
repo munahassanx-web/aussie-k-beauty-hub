@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useBuyNow } from '@/hooks/use-buy-now';
 import { ProductReviews } from '@/components/product-reviews';
 import { restockPriceIdFor } from '@/lib/shop-catalog';
@@ -10,7 +10,9 @@ import {
   howToUse,
   productBenefits,
   productDescription,
+  productInci,
   productSlug,
+  productTexture,
   relatedProducts,
   routineStepLabel,
 } from '@/lib/product-detail';
@@ -61,10 +63,23 @@ function ProductPage() {
   const product = findProductBySlug(slug);
   const { buy } = useBuyNow();
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  const gallery = product ? galleryFor(product) : [];
+  const count = gallery.length;
+
+  useEffect(() => {
+    setActive(0);
+  }, [slug]);
+
+  useEffect(() => {
+    if (paused || count < 2) return;
+    const id = setInterval(() => setActive((i) => (i + 1) % count), 4500);
+    return () => clearInterval(id);
+  }, [paused, count, slug]);
 
   if (!product) return <ProductNotFound />;
 
-  const gallery = galleryFor(product);
   const ingredients = heroIngredients(product);
   const restockId = restockPriceIdFor(product.priceId);
   const related = relatedProducts(product);
@@ -79,23 +94,46 @@ function ProductPage() {
       </nav>
 
       <div className="mt-8 grid gap-12 lg:grid-cols-2">
-        {/* Gallery */}
-        <div>
-          <div className="aspect-square overflow-hidden rounded-3xl bg-secondary">
-            <img
-              src={gallery[active].src}
-              alt={gallery[active].alt}
-              width={1024}
-              height={1024}
-              className="h-full w-full object-cover"
-            />
+        {/* Gallery — auto-rotates while you read, pauses on hover */}
+        <div
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+        >
+          <div className="relative aspect-square overflow-hidden rounded-3xl bg-secondary">
+            {gallery.map((g, i) => (
+              <img
+                key={g.src}
+                src={g.src}
+                alt={g.alt}
+                width={1024}
+                height={1024}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                aria-hidden={i !== active}
+                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+                  i === active ? 'opacity-100' : 'opacity-0'
+                }`}
+              />
+            ))}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center gap-1.5 p-4">
+              {gallery.map((g, i) => (
+                <span
+                  key={g.src}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    i === active ? 'w-6 bg-foreground/70' : 'w-1.5 bg-foreground/25'
+                  }`}
+                />
+              ))}
+            </div>
           </div>
-          <div className="mt-4 flex gap-3">
+          <div className="mt-4 flex flex-wrap gap-3">
             {gallery.map((g, i) => (
               <button
                 key={g.src}
                 onClick={() => setActive(i)}
                 aria-label={`View image ${i + 1}`}
+                aria-current={i === active}
                 className={`h-20 w-20 overflow-hidden rounded-xl border-2 transition-colors ${
                   i === active ? 'border-primary' : 'border-transparent hover:border-border'
                 }`}
@@ -105,6 +143,7 @@ function ProductPage() {
             ))}
           </div>
         </div>
+
 
         {/* Buy box */}
         <div>
@@ -117,6 +156,15 @@ function ProductPage() {
 
           <p className="mt-5 text-muted-foreground">{productDescription(product)}</p>
 
+          {productTexture(product) && (
+            <p className="mt-4 text-sm text-foreground/85">
+              <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                Texture ·{' '}
+              </span>
+              {productTexture(product)}
+            </p>
+          )}
+
           <ul className="mt-6 space-y-2">
             {productBenefits(product).map((b) => (
               <li key={b} className="flex gap-2 text-sm text-foreground/85">
@@ -125,6 +173,7 @@ function ProductPage() {
               </li>
             ))}
           </ul>
+
 
           <div className="mt-8 space-y-3">
             <button
@@ -178,10 +227,25 @@ function ProductPage() {
             </div>
           ))}
         </div>
-        <p className="mt-4 text-xs text-muted-foreground">
-          Hero ingredients only. The full INCI list is printed on the carton of every product we
-          ship — ask us at hello@skingrocer.com.au if you need it before you buy.
-        </p>
+        {productInci(product) ? (
+          <details className="mt-6 rounded-2xl border border-border p-5">
+            <summary className="cursor-pointer text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              Full ingredient list (INCI)
+            </summary>
+            <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+              {productInci(product)}
+            </p>
+            <p className="mt-3 text-[11px] text-muted-foreground">
+              Formulas can change without notice — always check the carton before use.
+            </p>
+          </details>
+        ) : (
+          <p className="mt-4 text-xs text-muted-foreground">
+            Hero ingredients only. The full INCI list is printed on the carton of every product we
+            ship — ask us at hello@skingrocer.com.au if you need it before you buy.
+          </p>
+        )}
+
       </section>
 
       {/* How to use */}
