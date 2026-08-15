@@ -212,7 +212,7 @@ export async function harvestYouTube(apiKey: string | undefined): Promise<Harves
     if (!brand && !ingredient) continue;
     if (YT_NOISE.test(c.title)) continue;
     if (st && st.durationSec > 0 && st.durationSec < 60) continue; // Shorts
-    if (st && st.views < 3000) continue;
+    if (st && st.views < 1500) continue;
 
     const engagement = st ? st.views / 100 + st.likes + st.comments * 5 : 200;
     const publishedMs = c.publishedAt ? Date.parse(c.publishedAt) : null;
