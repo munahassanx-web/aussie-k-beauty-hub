@@ -33,9 +33,13 @@ const BRANDS = [
   "Innisfree", "Laneige", "Sulwhasoo", "COSRX", "Etude", "Hanyul", "Illiyoon",
 ];
 
+// Word-boundary match so short acronyms (AHA, BHA, PHA) don't fire on
+// substrings like "haha" or "alpha".
 function detect(list: string[], text: string): string | null {
-  const lower = text.toLowerCase();
-  const hit = list.find((k) => lower.includes(k.toLowerCase()));
+  const hit = list.find((k) => {
+    const escaped = k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, "i").test(text);
+  });
   return hit ?? null;
 }
 
@@ -96,23 +100,83 @@ export async function harvestReddit(): Promise<HarvestedItem[]> {
 
 // ---------------------------------------------------------------- YouTube
 
+const YT_QUERIES = [
+  "올리브영 신제품 추천",
+  "올리브영 랭킹 스킨케어",
+  "K뷰티 신제품 리뷰",
+  "korean skincare new release review",
+  "korean skincare routine 2026",
+  "k-beauty serum review",
+  "korean sunscreen review",
+  "PDRN exosome skincare korea",
+  "올리브영 세일 추천템",
+  "korean skincare ingredient trend",
+];
+
+/** Titles that are almost always low-signal reaction/Shorts filler. */
+const YT_NOISE = /#shorts|asmr|unboxing haul only|giveaway/i;
+
+type YtStat = { views: number; likes: number; comments: number; durationSec: number };
+
+function parseIsoDuration(iso: string): number {
+  const m = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(iso);
+  if (!m) return 0;
+  return Number(m[1] ?? 0) * 3600 + Number(m[2] ?? 0) * 60 + Number(m[3] ?? 0);
+}
+
+/** Second call to /videos gives real view counts — search results don't carry them. */
+async function fetchYtStats(apiKey: string, ids: string[]): Promise<Map<string, YtStat>> {
+  const map = new Map<string, YtStat>();
+  for (let i = 0; i < ids.length; i += 50) {
+    const batch = ids.slice(i, i + 50);
+    const url = new URL("https://www.googleapis.com/youtube/v3/videos");
+    url.searchParams.set("part", "statistics,contentDetails");
+    url.searchParams.set("id", batch.join(","));
+    url.searchParams.set("key", apiKey);
+    const res = await fetch(url);
+    if (!res.ok) continue;
+    const json = (await res.json()) as {
+      items?: Array<{
+        id?: string;
+        statistics?: { viewCount?: string; likeCount?: string; commentCount?: string };
+        contentDetails?: { duration?: string };
+      }>;
+    };
+    for (const it of json.items ?? []) {
+      if (!it.id) continue;
+      map.set(it.id, {
+        views: Number(it.statistics?.viewCount ?? 0),
+        likes: Number(it.statistics?.likeCount ?? 0),
+        comments: Number(it.statistics?.commentCount ?? 0),
+        durationSec: parseIsoDuration(it.contentDetails?.duration ?? ""),
+      });
+    }
+  }
+  return map;
+}
+
 export async function harvestYouTube(apiKey: string | undefined): Promise<HarvestedItem[]> {
   if (!apiKey) return [];
-  const queries = ["올리브영 추천", "korean skincare new release", "K뷰티 신제품"];
-  const out: HarvestedItem[] = [];
   const publishedAfter = new Date(Date.now() - 21 * 86_400_000).toISOString();
-  for (const q of queries) {
+  const candidates: Array<{
+    vid: string; title: string; description: string; channel: string; publishedAt: string | null; topic: string;
+  }> = [];
+
+  for (const q of YT_QUERIES) {
     try {
       const url = new URL("https://www.googleapis.com/youtube/v3/search");
       url.searchParams.set("part", "snippet");
       url.searchParams.set("type", "video");
-      url.searchParams.set("maxResults", "20");
+      url.searchParams.set("maxResults", "25");
       url.searchParams.set("order", "viewCount");
       url.searchParams.set("publishedAfter", publishedAfter);
       url.searchParams.set("q", q);
       url.searchParams.set("key", apiKey);
       const res = await fetch(url);
-      if (!res.ok) continue;
+      if (!res.ok) {
+        console.error(`[signals] youtube ${res.status}: ${await res.text()}`);
+        continue;
+      }
       const json = (await res.json()) as {
         items?: Array<{ id?: { videoId?: string }; snippet?: Record<string, string> }>;
       };
@@ -120,25 +184,56 @@ export async function harvestYouTube(apiKey: string | undefined): Promise<Harves
         const vid = it.id?.videoId;
         const s = it.snippet;
         if (!vid || !s?.title) continue;
-        const text = `${s.title} ${s.description ?? ""}`;
-        const publishedMs = s.publishedAt ? Date.parse(s.publishedAt) : null;
-        out.push({
-          source: "youtube",
-          source_url: `https://www.youtube.com/watch?v=${vid}`,
-          title: s.title.slice(0, 300),
-          excerpt: (s.description ?? "").slice(0, 600) || null,
-          brand: detect(BRANDS, text),
-          ingredient: detect(INGREDIENTS, text),
+        candidates.push({
+          vid,
+          title: s.title,
+          description: s.description ?? "",
+          channel: s.channelTitle ?? "",
+          publishedAt: s.publishedAt ?? null,
           topic: q,
-          score: velocityScore(500, publishedMs),
-          mentions: 1,
-          published_at: publishedMs ? new Date(publishedMs).toISOString() : null,
-          raw: { channel: s.channelTitle ?? "" },
         });
       }
     } catch {
       // ignore this query
     }
+  }
+
+  const unique = new Map(candidates.map((c) => [c.vid, c]));
+  const stats = await fetchYtStats(apiKey, [...unique.keys()]);
+
+  const out: HarvestedItem[] = [];
+  for (const c of unique.values()) {
+    const text = `${c.title} ${c.description}`;
+    const brand = detect(BRANDS, text);
+    const ingredient = detect(INGREDIENTS, text);
+    const st = stats.get(c.vid);
+
+    // Keep only substantive videos that actually name a brand or ingredient.
+    if (!brand && !ingredient) continue;
+    if (YT_NOISE.test(c.title)) continue;
+    if (st && st.durationSec > 0 && st.durationSec < 60) continue; // Shorts
+    if (st && st.views < 1500) continue;
+
+    const engagement = st ? st.views / 100 + st.likes + st.comments * 5 : 200;
+    const publishedMs = c.publishedAt ? Date.parse(c.publishedAt) : null;
+    out.push({
+      source: "youtube",
+      source_url: `https://www.youtube.com/watch?v=${c.vid}`,
+      title: c.title.slice(0, 300),
+      excerpt: c.description.slice(0, 600) || null,
+      brand,
+      ingredient,
+      topic: c.topic,
+      score: velocityScore(engagement, publishedMs),
+      mentions: st?.comments ?? 1,
+      published_at: publishedMs ? new Date(publishedMs).toISOString() : null,
+      raw: {
+        channel: c.channel,
+        views: st?.views ?? 0,
+        likes: st?.likes ?? 0,
+        comments: st?.comments ?? 0,
+      },
+    });
   }
   return out;
 }
