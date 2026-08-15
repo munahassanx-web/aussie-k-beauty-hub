@@ -79,135 +79,162 @@ function Contact() {
     }
   };
 
-  return (
-    <div className="mx-auto grid max-w-7xl gap-16 px-6 py-20 md:grid-cols-2">
-      <div>
-        <p className="text-xs uppercase tracking-[0.2em] text-primary">Contact</p>
-        <h1 className="mt-4 text-5xl text-foreground md:text-6xl">Say hello.</h1>
-        <p className="mt-5 max-w-md text-lg text-muted-foreground">
-          Whether you need help building a routine, tracking an order, or
-          hosting a Skin Grocer vending machine — our small Aussie team replies
-          personally, usually within a few hours.
-        </p>
+  const mapsKey = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY;
+  const warehouseQuery = "Unit 13/30 Willandra Drive, Epping VIC 3076, Australia";
 
-        <dl className="mt-10 space-y-6">
-          <div>
-            <dt className="text-xs uppercase tracking-wider text-muted-foreground">Email</dt>
-            <dd className="mt-1 font-display text-2xl text-foreground">hello@skingrocer.com.au</dd>
-          </div>
-          <div>
-            <dt className="text-xs uppercase tracking-wider text-muted-foreground">Warehouse</dt>
-            <dd className="mt-1 font-display text-2xl text-foreground">Unit 13/30 Willandra Drive, Epping VIC 3076</dd>
-          </div>
-          <div>
-            <dt className="text-xs uppercase tracking-wider text-muted-foreground">Hours</dt>
-            <dd className="mt-1 font-display text-2xl text-foreground">Mon–Sat, 9am–6pm AEST</dd>
-          </div>
-          <div>
-            <dt className="text-xs uppercase tracking-wider text-muted-foreground">Next-day cutoff</dt>
-            <dd className="mt-1 font-display text-2xl text-foreground">Order by 12pm*</dd>
-            <p className="mt-2 text-xs text-muted-foreground">*Next-day delivery covers metro and most regional areas. Remote postcodes may take 1–2 extra days.</p>
-          </div>
-        </dl>
+  return (
+    <div className="mx-auto max-w-7xl px-6 py-20">
+      <div className="grid gap-16 md:grid-cols-2">
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] text-primary">Contact</p>
+          <h1 className="mt-4 text-5xl text-foreground md:text-6xl">Say hello.</h1>
+          <p className="mt-5 max-w-md text-lg text-muted-foreground">
+            Whether you need help building a routine, tracking an order, or
+            hosting a Skin Grocer vending machine — our small Aussie team replies
+            personally, usually within a few hours.
+          </p>
+
+          <dl className="mt-10 space-y-6">
+            <div>
+              <dt className="text-xs uppercase tracking-wider text-muted-foreground">Email</dt>
+              <dd className="mt-1 font-display text-2xl text-foreground">hello@skingrocer.com.au</dd>
+            </div>
+            <div>
+              <dt className="text-xs uppercase tracking-wider text-muted-foreground">Warehouse</dt>
+              <dd className="mt-1 font-display text-2xl text-foreground">Unit 13/30 Willandra Drive, Epping VIC 3076</dd>
+            </div>
+            <div>
+              <dt className="text-xs uppercase tracking-wider text-muted-foreground">Hours</dt>
+              <dd className="mt-1 font-display text-2xl text-foreground">Mon–Sat, 9am–6pm AEST</dd>
+            </div>
+            <div>
+              <dt className="text-xs uppercase tracking-wider text-muted-foreground">Next-day cutoff</dt>
+              <dd className="mt-1 font-display text-2xl text-foreground">Order by 12pm*</dd>
+              <p className="mt-2 text-xs text-muted-foreground">*Next-day delivery covers metro and most regional areas. Remote postcodes may take 1–2 extra days.</p>
+            </div>
+          </dl>
+        </div>
+
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-3xl bg-secondary/60 p-8 md:p-10 h-fit"
+          noValidate
+        >
+          {status === "success" ? (
+            <div className="flex h-full flex-col items-center justify-center text-center">
+              <h2 className="font-display text-3xl text-foreground">Message received ✨</h2>
+              <p className="mt-3 text-muted-foreground">We'll be back to you shortly. In the meantime, your skin is in good hands.</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setStatus("idle");
+                  setFormData({ name: "", email: "", topic: topics[0], message: "" });
+                }}
+                className="mt-6 text-sm font-medium text-primary underline-offset-4 hover:underline"
+              >
+                Send another message
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-5">
+              <div>
+                <label htmlFor="name" className="text-sm font-medium text-foreground">Your name</label>
+                <input
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={(e) => updateField("name", e.target.value)}
+                  maxLength={100}
+                  className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+                  aria-invalid={!!errors.name}
+                  aria-describedby={errors.name ? "name-error" : undefined}
+                />
+                {errors.name && <p id="name-error" className="mt-1 text-sm text-destructive">{errors.name}</p>}
+              </div>
+              <div>
+                <label htmlFor="email" className="text-sm font-medium text-foreground">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => updateField("email", e.target.value)}
+                  maxLength={255}
+                  className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+                  aria-invalid={!!errors.email}
+                  aria-describedby={errors.email ? "email-error" : undefined}
+                />
+                {errors.email && <p id="email-error" className="mt-1 text-sm text-destructive">{errors.email}</p>}
+              </div>
+              <div>
+                <label htmlFor="topic" className="text-sm font-medium text-foreground">What can we help with?</label>
+                <select
+                  id="topic"
+                  name="topic"
+                  value={formData.topic}
+                  onChange={(e) => updateField("topic", e.target.value)}
+                  className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+                >
+                  {topics.map((topic) => (
+                    <option key={topic} value={topic}>{topic}</option>
+                  ))}
+                </select>
+                {errors.topic && <p id="topic-error" className="mt-1 text-sm text-destructive">{errors.topic}</p>}
+              </div>
+              <div>
+                <label htmlFor="message" className="text-sm font-medium text-foreground">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={(e) => updateField("message", e.target.value)}
+                  maxLength={2000}
+                  rows={5}
+                  className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+                  aria-invalid={!!errors.message}
+                  aria-describedby={errors.message ? "message-error" : undefined}
+                />
+                {errors.message && <p id="message-error" className="mt-1 text-sm text-destructive">{errors.message}</p>}
+                <p className="mt-1 text-xs text-muted-foreground text-right">{formData.message.length}/2000</p>
+              </div>
+              {status === "error" && (
+                <div className="rounded-xl bg-destructive/10 p-3 text-sm text-destructive">
+                  {errorMessage}
+                </div>
+              )}
+              <button
+                type="submit"
+                disabled={status === "loading"}
+                className="w-full rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {status === "loading" ? "Sending..." : "Send message"}
+              </button>
+            </div>
+          )}
+        </form>
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="rounded-3xl bg-secondary/60 p-8 md:p-10"
-        noValidate
-      >
-        {status === "success" ? (
-          <div className="flex h-full flex-col items-center justify-center text-center">
-            <h2 className="font-display text-3xl text-foreground">Message received ✨</h2>
-            <p className="mt-3 text-muted-foreground">We'll be back to you shortly. In the meantime, your skin is in good hands.</p>
-            <button
-              type="button"
-              onClick={() => {
-                setStatus("idle");
-                setFormData({ name: "", email: "", topic: topics[0], message: "" });
-              }}
-              className="mt-6 text-sm font-medium text-primary underline-offset-4 hover:underline"
-            >
-              Send another message
-            </button>
+      {mapsKey && (
+        <section className="mt-16">
+          <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Find us</h2>
+          <div className="mt-4 overflow-hidden rounded-3xl border border-border bg-secondary/30">
+            <iframe
+              title="Skin Grocer warehouse location"
+              src={`https://www.google.com/maps/embed/v1/place?key=${mapsKey}&q=${encodeURIComponent(warehouseQuery)}`}
+              width="100%"
+              height="420"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="w-full"
+            />
           </div>
-        ) : (
-          <div className="space-y-5">
-            <div>
-              <label htmlFor="name" className="text-sm font-medium text-foreground">Your name</label>
-              <input
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={(e) => updateField("name", e.target.value)}
-                maxLength={100}
-                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
-                aria-invalid={!!errors.name}
-                aria-describedby={errors.name ? "name-error" : undefined}
-              />
-              {errors.name && <p id="name-error" className="mt-1 text-sm text-destructive">{errors.name}</p>}
-            </div>
-            <div>
-              <label htmlFor="email" className="text-sm font-medium text-foreground">Email</label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => updateField("email", e.target.value)}
-                maxLength={255}
-                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
-                aria-invalid={!!errors.email}
-                aria-describedby={errors.email ? "email-error" : undefined}
-              />
-              {errors.email && <p id="email-error" className="mt-1 text-sm text-destructive">{errors.email}</p>}
-            </div>
-            <div>
-              <label htmlFor="topic" className="text-sm font-medium text-foreground">What can we help with?</label>
-              <select
-                id="topic"
-                name="topic"
-                value={formData.topic}
-                onChange={(e) => updateField("topic", e.target.value)}
-                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
-              >
-                {topics.map((topic) => (
-                  <option key={topic} value={topic}>{topic}</option>
-                ))}
-              </select>
-              {errors.topic && <p id="topic-error" className="mt-1 text-sm text-destructive">{errors.topic}</p>}
-            </div>
-            <div>
-              <label htmlFor="message" className="text-sm font-medium text-foreground">Message</label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={(e) => updateField("message", e.target.value)}
-                maxLength={2000}
-                rows={5}
-                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
-                aria-invalid={!!errors.message}
-                aria-describedby={errors.message ? "message-error" : undefined}
-              />
-              {errors.message && <p id="message-error" className="mt-1 text-sm text-destructive">{errors.message}</p>}
-              <p className="mt-1 text-xs text-muted-foreground text-right">{formData.message.length}/2000</p>
-            </div>
-            {status === "error" && (
-              <div className="rounded-xl bg-destructive/10 p-3 text-sm text-destructive">
-                {errorMessage}
-              </div>
-            )}
-            <button
-              type="submit"
-              disabled={status === "loading"}
-              className="w-full rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {status === "loading" ? "Sending..." : "Send message"}
-            </button>
-          </div>
-        )}
-      </form>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Unit 13/30 Willandra Drive, Epping VIC 3076 — locally stocked and dispatched from Melbourne.
+          </p>
+        </section>
+      )}
     </div>
   );
 }
