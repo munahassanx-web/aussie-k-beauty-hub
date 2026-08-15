@@ -4,6 +4,8 @@ import { useBuyNow } from '@/hooks/use-buy-now';
 import { Maximize2 as ExpandIcon } from 'lucide-react';
 import { ImageLightbox } from '@/components/image-lightbox';
 import { ProductReviews } from '@/components/product-reviews';
+import { FaqSection } from '@/components/faq-section';
+import { productFaqs, faqJsonLd } from '@/lib/faqs';
 
 import { restockPriceIdFor } from '@/lib/shop-catalog';
 import {
@@ -35,7 +37,12 @@ export const Route = createFileRoute('/product/$slug')({
         { property: 'og:description', content: description },
         { property: 'og:type', content: 'product' },
         { name: 'twitter:card', content: 'summary_large_image' },
+        { property: 'og:url', content: `https://skingrocer.com.au/product/${params.slug}` },
       ],
+      links: [{ rel: 'canonical', href: `https://skingrocer.com.au/product/${params.slug}` }],
+      scripts: p
+        ? [faqJsonLd(productFaqs(p, { steps: howToUse(p), description: productDescription(p) }))]
+        : [],
     };
   },
   loader: ({ params }) => {
@@ -529,6 +536,16 @@ function ProductPage() {
           Full application guide →
         </Link>
       </section>
+
+      <FaqSection
+        id="product-faq"
+        eyebrow="Product questions"
+        title={`${product.brand} ${product.name} — questions people ask`}
+        items={productFaqs(product, {
+          steps: howToUse(product),
+          description: productDescription(product),
+        })}
+      />
 
       <ProductReviews productId={product.priceId} />
 
