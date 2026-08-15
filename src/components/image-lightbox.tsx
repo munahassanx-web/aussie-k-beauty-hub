@@ -114,7 +114,7 @@ export function ImageLightbox({ open, onOpenChange, images, index, onIndexChange
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         onKeyDown={onKeyDown}
-        className="h-dvh max-w-none rounded-none border-0 bg-background p-0 sm:rounded-none"
+        className="left-0 top-0 h-dvh w-screen max-w-none translate-x-0 translate-y-0 gap-0 rounded-none border-0 bg-background p-0 sm:rounded-none"
       >
         <DialogTitle className="sr-only">{title}</DialogTitle>
         <DialogDescription className="sr-only">
