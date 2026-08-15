@@ -241,6 +241,10 @@ function LearnHubPage() {
         </p>
       </section>
 
+      <LearnFinder />
+
+      {!isFiltering && (
+        <>
       {/* Latest articles */}
       <section className="mx-auto max-w-6xl border-t border-foreground/15 px-6 py-10 md:py-14">
         <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-foreground">
