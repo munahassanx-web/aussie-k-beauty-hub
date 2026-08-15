@@ -259,7 +259,17 @@ function ProductPage() {
               </button>
             ))}
           </div>
+
+          <ImageLightbox
+            open={lightboxOpen}
+            onOpenChange={setLightboxOpen}
+            images={gallery}
+            index={active}
+            onIndexChange={setActive}
+            title={`${product.brand} ${product.name} — image viewer`}
+          />
         </div>
+
 
 
 
