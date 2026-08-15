@@ -91,13 +91,11 @@ function HomePage() {
       <Categories />
       <Concerns />
       <LearnStrip />
-
       <ApplicationMoment />
       <BrandMarquee />
       <IngredientStrip />
       <RitualCTA />
       <ParallaxScene />
-      <JournalPreview />
       <ReviewsCarousel />
       <NewsletterStrip />
     </div>
