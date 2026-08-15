@@ -1,3 +1,4 @@
+import { originArticles } from "@/lib/learn-origin-articles";
 import featureSerum from "@/assets/learn-feature-serum.jpg";
 import petri from "@/assets/learn-petri.jpg";
 import portraitDeep from "@/assets/learn-portrait-deep.jpg";
@@ -54,7 +55,7 @@ const SOURCE_BOM = {
   href: "http://www.bom.gov.au/climate/averages/",
 };
 
-export const learnArticles: LearnArticle[] = [
+const baseArticles: LearnArticle[] = [
   /* ---------------------------------------------------------------- CONCERNS */
   {
     slug: "deeper-skin-tones-k-beauty",
@@ -533,6 +534,9 @@ export const learnArticles: LearnArticle[] = [
     related: ["prevention-over-repair", "pdrn-explained", "centella-everywhere"],
   },
 ];
+
+export const learnArticles: LearnArticle[] = [...baseArticles, ...originArticles];
+
 
 export function getLearnArticle(slug: string) {
   return learnArticles.find((a) => a.slug === slug);

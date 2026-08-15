@@ -17,6 +17,7 @@ export const Route = createFileRoute("/learn/article/$slug")({
       };
     }
     const title = `${loaderData.title} | Skin Grocer Learn`;
+    const url = `https://skingrocer.com.au/learn/article/${loaderData.slug}`;
     return {
       meta: [
         { title },
@@ -24,7 +25,42 @@ export const Route = createFileRoute("/learn/article/$slug")({
         { property: "og:title", content: loaderData.title },
         { property: "og:description", content: loaderData.blurb },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: url },
         { name: "twitter:card", content: "summary_large_image" },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Article",
+                headline: loaderData.title,
+                description: loaderData.standfirst,
+                mainEntityOfPage: url,
+                about: loaderData.keyPoints,
+                articleSection: loaderData.pillar,
+                author: { "@type": "Organization", name: "Skin Grocer" },
+                publisher: { "@type": "Organization", name: "Skin Grocer" },
+                citation: loaderData.sources.map((s) => s.label),
+              },
+              {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Learn Hub",
+                    item: "https://skingrocer.com.au/learn/hub",
+                  },
+                  { "@type": "ListItem", position: 2, name: loaderData.title, item: url },
+                ],
+              },
+            ],
+          }),
+        },
       ],
     };
   },
