@@ -16,7 +16,6 @@ const topLevelLinks: Record<string, MegaLink> = {
   Shop: { label: "Shop", to: "/shop" },
   Concerns: { label: "Concerns", to: "/skin-concerns" },
   Brands: { label: "Brands", to: "/brands" },
-  Journal: { label: "Journal", to: "/journal" },
 };
 
 const megaMenus: Record<string, MegaSection[]> = {
