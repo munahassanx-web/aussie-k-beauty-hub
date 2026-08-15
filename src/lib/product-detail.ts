@@ -50,7 +50,7 @@ const LIFESTYLE: Record<Category, GalleryImage[]> = {
     { src: skinMacro, alt: 'Macro shot of hydrated, even-toned skin' },
   ],
   Treat: [
-    { src: applyingSerum, alt: 'Serum being pressed into the skin of a face' },
+    { src: applyingSerumAsset.url, alt: 'Serum being pressed into the skin of a face' },
     { src: learnFeatureSerum, alt: 'Serum dropper held against soft daylight' },
   ],
   Moisturise: [
