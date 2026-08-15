@@ -102,9 +102,15 @@ export async function harvestReddit(): Promise<HarvestedItem[]> {
 
 const YT_QUERIES = [
   "올리브영 신제품 추천",
-  "korean skincare new release review",
-  "K뷰티 신제품 리뷰",
   "올리브영 랭킹 스킨케어",
+  "K뷰티 신제품 리뷰",
+  "korean skincare new release review",
+  "korean skincare routine 2026",
+  "k-beauty serum review",
+  "korean sunscreen review",
+  "PDRN exosome skincare korea",
+  "올리브영 세일 추천템",
+  "korean skincare ingredient trend",
 ];
 
 /** Titles that are almost always low-signal reaction/Shorts filler. */
