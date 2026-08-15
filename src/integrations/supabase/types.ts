@@ -152,6 +152,54 @@ export type Database = {
         }
         Relationships: []
       }
+      newsletter_drafts: {
+        Row: {
+          approved_at: string | null
+          content: Json
+          cover_url: string | null
+          created_at: string
+          factcheck: Json | null
+          id: string
+          issue_number: string | null
+          slug: string | null
+          source_signal_ids: string[] | null
+          status: string
+          theme: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          content?: Json
+          cover_url?: string | null
+          created_at?: string
+          factcheck?: Json | null
+          id?: string
+          issue_number?: string | null
+          slug?: string | null
+          source_signal_ids?: string[] | null
+          status?: string
+          theme?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          content?: Json
+          cover_url?: string | null
+          created_at?: string
+          factcheck?: Json | null
+          id?: string
+          issue_number?: string | null
+          slug?: string | null
+          source_signal_ids?: string[] | null
+          status?: string
+          theme?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       newsletter_log: {
         Row: {
           created_at: string
@@ -540,6 +588,54 @@ export type Database = {
         }
         Relationships: []
       }
+      signal_items: {
+        Row: {
+          brand: string | null
+          excerpt: string | null
+          harvested_at: string
+          id: string
+          ingredient: string | null
+          mentions: number
+          published_at: string | null
+          raw: Json | null
+          score: number
+          source: string
+          source_url: string
+          title: string
+          topic: string | null
+        }
+        Insert: {
+          brand?: string | null
+          excerpt?: string | null
+          harvested_at?: string
+          id?: string
+          ingredient?: string | null
+          mentions?: number
+          published_at?: string | null
+          raw?: Json | null
+          score?: number
+          source: string
+          source_url: string
+          title: string
+          topic?: string | null
+        }
+        Update: {
+          brand?: string | null
+          excerpt?: string | null
+          harvested_at?: string
+          id?: string
+          ingredient?: string | null
+          mentions?: number
+          published_at?: string | null
+          raw?: Json | null
+          score?: number
+          source?: string
+          source_url?: string
+          title?: string
+          topic?: string | null
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           cancel_at_period_end: boolean | null
@@ -612,14 +708,43 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       my_points_balance: { Args: never; Returns: number }
     }
     Enums: {
+      app_role: "admin" | "moderator" | "user"
       member_tier: "basket" | "restock" | "circle"
     }
     CompositeTypes: {
@@ -748,6 +873,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "moderator", "user"],
       member_tier: ["basket", "restock", "circle"],
     },
   },
