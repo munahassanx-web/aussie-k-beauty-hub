@@ -355,3 +355,53 @@ export function slugify(text: string): string {
     .replace(/^-+|-+$/g, "")
     .slice(0, 60);
 }
+
+// ---------------------------------------------------------------- Cover art
+
+const COVER_STYLE =
+  "Editorial magazine cover photograph for a Korean-beauty newsletter. Minimal-luxury, natural light, " +
+  "warm neutral palette (cream, sand, soft charcoal), high white space, no text, no words, no logos, " +
+  "no watermarks, shallow depth of field, matte film grain, 4:5 portrait crop.";
+
+/** Generates an issue cover with the Lovable AI image model and stores it privately. */
+export async function generateCover(
+  apiKey: string,
+  draftId: string,
+  prompt: string,
+): Promise<{ path: string }> {
+  const res = await fetch(AI_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+    body: JSON.stringify({
+      model: "google/gemini-2.5-flash-image",
+      messages: [{ role: "user", content: `${COVER_STYLE}\n\nSubject: ${prompt}` }],
+      modalities: ["image", "text"],
+    }),
+  });
+  if (!res.ok) {
+    const body = await res.text();
+    if (res.status === 429) throw new Error("Image rate limit reached — try again in a minute.");
+    if (res.status === 402) throw new Error("AI credits exhausted — top up in Settings → Workspace.");
+    throw new Error(`Cover generation failed [${res.status}]: ${body}`);
+  }
+  const json = (await res.json()) as {
+    choices?: Array<{ message?: { images?: Array<{ image_url?: { url?: string } }> } }>;
+  };
+  const dataUrl = json.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+  if (!dataUrl?.startsWith("data:")) throw new Error("No image returned by the model.");
+
+  const base64 = dataUrl.slice(dataUrl.indexOf(",") + 1);
+  const binary = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+  const path = `${draftId}/${Date.now()}.png`;
+  const { error } = await adminClient()
+    .storage.from("newsletter-covers")
+    .upload(path, binary, { contentType: "image/png", upsert: true });
+  if (error) throw new Error(`Cover upload failed: ${error.message}`);
+  return { path };
+}
+
+export async function readCover(path: string): Promise<ArrayBuffer | null> {
+  const { data, error } = await adminClient().storage.from("newsletter-covers").download(path);
+  if (error || !data) return null;
+  return await data.arrayBuffer();
+}
