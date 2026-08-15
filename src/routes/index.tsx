@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useBuyNow } from "@/hooks/use-buy-now";
 import { NewsletterForm } from "@/components/newsletter-form";
+import { FaqSection } from "@/components/faq-section";
+import { HOME_FAQS, faqJsonLd } from "@/lib/faqs";
 import { HeroCarousel } from "@/components/hero-carousel";
 import { bundleMath, BUNDLE_DEFINITIONS, bundleSavingsSummary } from "@/lib/shop-catalog";
 import glassSkinStarterExplainer from "@/assets/bundle-explainers/glass-skin-starter.png.asset.json";
@@ -25,6 +27,7 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: "/" },
     ],
     links: [{ rel: "canonical", href: "/" }],
+    scripts: [faqJsonLd(HOME_FAQS)],
   }),
   component: HomePage,
 });
@@ -97,6 +100,14 @@ function HomePage() {
       <RitualCTA />
       <ParallaxScene />
       <ReviewsCarousel />
+      <FaqSection
+        id="k-beauty-faq"
+        eyebrow="Common questions"
+        title="Korean skincare, answered plainly."
+        intro="The questions Australians ask us most — about routines, ingredients, authenticity and delivery. Short answers first, detail underneath."
+        items={HOME_FAQS}
+        tone="sand"
+      />
       <NewsletterStrip />
     </div>
   );
