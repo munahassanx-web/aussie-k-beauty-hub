@@ -33,9 +33,13 @@ const BRANDS = [
   "Innisfree", "Laneige", "Sulwhasoo", "COSRX", "Etude", "Hanyul", "Illiyoon",
 ];
 
+// Word-boundary match so short acronyms (AHA, BHA, PHA) don't fire on
+// substrings like "haha" or "alpha".
 function detect(list: string[], text: string): string | null {
-  const lower = text.toLowerCase();
-  const hit = list.find((k) => lower.includes(k.toLowerCase()));
+  const hit = list.find((k) => {
+    const escaped = k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, "i").test(text);
+  });
   return hit ?? null;
 }
 
