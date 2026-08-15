@@ -7,7 +7,7 @@ import ritualScene from '@/assets/ritual-scene.jpg';
 import productFlatlay from '@/assets/product-flatlay.jpg';
 import textureMacro from '@/assets/texture-macro.jpg';
 import skinMacro from '@/assets/skin-macro.jpg';
-import applyingSerum from '@/assets/applying-serum.png';
+import applyingSerumAsset from '@/assets/applying-serum.png.asset.json';
 import learnFeatureSerum from '@/assets/learn-feature-serum.jpg';
 import heroDewy from '@/assets/hero-dewy.jpg';
 import glow from '@/assets/glow.jpg';
