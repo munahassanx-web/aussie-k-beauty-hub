@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useBuyNow } from '@/hooks/use-buy-now';
 import { ProductReviews } from '@/components/product-reviews';
 import { restockPriceIdFor } from '@/lib/shop-catalog';
@@ -10,7 +10,9 @@ import {
   howToUse,
   productBenefits,
   productDescription,
+  productInci,
   productSlug,
+  productTexture,
   relatedProducts,
   routineStepLabel,
 } from '@/lib/product-detail';
