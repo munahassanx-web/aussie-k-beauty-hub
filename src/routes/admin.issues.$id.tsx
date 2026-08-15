@@ -1,7 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { getDraft, runFactCheck, setDraftStatus } from "@/lib/signals.functions";
+import {
+  generateIssueCover,
+  getDraft,
+  publishDraft,
+  runFactCheck,
+  setDraftStatus,
+} from "@/lib/signals.functions";
 import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/admin/issues/$id")({
@@ -26,6 +32,8 @@ function DraftReview() {
   const fetchDraft = useServerFn(getDraft);
   const check = useServerFn(runFactCheck);
   const setStatus = useServerFn(setDraftStatus);
+  const makeCover = useServerFn(generateIssueCover);
+  const publish = useServerFn(publishDraft);
 
   const draftQ = useQuery({
     queryKey: ["draft", id],
@@ -40,6 +48,15 @@ function DraftReview() {
   });
   const statusM = useMutation({
     mutationFn: (status: "approved" | "rejected") => setStatus({ data: { id, status } }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["draft", id] }),
+  });
+
+  const coverM = useMutation({
+    mutationFn: () => makeCover({ data: { id, prompt: "" } }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["draft", id] }),
+  });
+  const publishM = useMutation({
+    mutationFn: (live: boolean) => publish({ data: { id, publish: live } }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["draft", id] }),
   });
 
@@ -98,6 +115,24 @@ function DraftReview() {
           Approve
         </button>
         <button
+          onClick={() => coverM.mutate()}
+          disabled={coverM.isPending}
+          className="rounded-full border border-input px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] disabled:opacity-60"
+        >
+          {coverM.isPending ? "Painting cover…" : draft.cover_url ? "Regenerate cover" : "Generate cover"}
+        </button>
+        <button
+          onClick={() => publishM.mutate(draft.status !== "published")}
+          disabled={publishM.isPending}
+          className="rounded-full bg-foreground px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] text-background disabled:opacity-60"
+        >
+          {publishM.isPending
+            ? "Working…"
+            : draft.status === "published"
+              ? "Unpublish"
+              : "Publish live"}
+        </button>
+        <button
           onClick={() => statusM.mutate("rejected")}
           disabled={statusM.isPending}
           className="rounded-full border border-destructive/50 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] text-destructive disabled:opacity-60"
@@ -105,6 +140,32 @@ function DraftReview() {
           Reject
         </button>
       </div>
+      {(coverM.isError || publishM.isError) && (
+        <p className="rounded-sm border border-destructive/40 bg-destructive/5 p-4 text-sm">
+          {String(((coverM.error ?? publishM.error) as Error).message)}
+        </p>
+      )}
+
+      {draft.cover_url && (
+        <section>
+          <h2 className="font-display text-2xl">Cover</h2>
+          <img
+            src={`/api/public/issue-cover/${draft.id}?v=${draft.updated_at ?? ""}`}
+            alt={draft.cover_alt ?? "Issue cover"}
+            className="mt-4 w-full max-w-sm rounded-sm object-cover"
+          />
+        </section>
+      )}
+
+      {draft.status === "published" && (
+        <p className="text-sm">
+          Live at{" "}
+          <a className="underline" href={`/grocery-list/${draft.slug}`}>
+            /grocery-list/{draft.slug}
+          </a>
+        </p>
+      )}
+
       {checkM.isError && (
         <p className="rounded-sm border border-destructive/40 bg-destructive/5 p-4 text-sm">
           {String((checkM.error as Error).message)}
