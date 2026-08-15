@@ -79,6 +79,8 @@ function ProductPage() {
   const prefersReducedMotion = usePrefersReducedMotion();
   // User-controlled play/pause; defaults to playing, but reduced-motion users start paused.
   const [userPaused, setUserPaused] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
 
   const gallery = product ? galleryFor(product) : [];
   const count = gallery.length;
