@@ -58,25 +58,64 @@ function ProductNotFound() {
   );
 }
 
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduced(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+  return reduced;
+}
+
 function ProductPage() {
   const { slug } = Route.useParams();
   const product = findProductBySlug(slug);
   const { buy } = useBuyNow();
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const prefersReducedMotion = usePrefersReducedMotion();
+  // User-controlled play/pause; defaults to playing, but reduced-motion users start paused.
+  const [userPaused, setUserPaused] = useState(false);
 
   const gallery = product ? galleryFor(product) : [];
   const count = gallery.length;
+  const playing = !hovered && !userPaused && !prefersReducedMotion && count > 1;
 
   useEffect(() => {
     setActive(0);
   }, [slug]);
 
   useEffect(() => {
-    if (paused || count < 2) return;
+    if (!playing) return;
     const id = setInterval(() => setActive((i) => (i + 1) % count), 4500);
     return () => clearInterval(id);
-  }, [paused, count, slug]);
+  }, [playing, count, slug]);
+
+  const step = (delta: number) => setActive((i) => (i + delta + count) % count);
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (count < 2) return;
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      setUserPaused(true);
+      step(1);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      setUserPaused(true);
+      step(-1);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      setUserPaused(true);
+      setActive(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      setUserPaused(true);
+      setActive(count - 1);
+    }
+  };
 
   if (!product) return <ProductNotFound />;
 
@@ -94,12 +133,19 @@ function ProductPage() {
       </nav>
 
       <div className="mt-8 grid gap-12 lg:grid-cols-2">
-        {/* Gallery — auto-rotates while you read, pauses on hover */}
+        {/* Gallery — auto-rotates while you read; pauses on hover, on focus,
+            when the visitor hits pause, or when they prefer reduced motion. */}
         <div
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onFocus={() => setPaused(true)}
-          onBlur={() => setPaused(false)}
+          role="group"
+          aria-roledescription="carousel"
+          aria-label={`${product.name} images`}
+          tabIndex={0}
+          onKeyDown={onKeyDown}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          onFocus={() => setHovered(true)}
+          onBlur={() => setHovered(false)}
+          className="rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
         >
           <div className="relative aspect-square overflow-hidden rounded-3xl bg-secondary">
             {gallery.map((g, i) => (
@@ -111,9 +157,9 @@ function ProductPage() {
                 height={1024}
                 loading={i === 0 ? 'eager' : 'lazy'}
                 aria-hidden={i !== active}
-                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-                  i === active ? 'opacity-100' : 'opacity-0'
-                }`}
+                className={`absolute inset-0 h-full w-full object-cover ${
+                  prefersReducedMotion ? '' : 'transition-opacity duration-700'
+                } ${i === active ? 'opacity-100' : 'opacity-0'}`}
               />
             ))}
             <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center gap-1.5 p-4">
@@ -127,12 +173,59 @@ function ProductPage() {
               ))}
             </div>
           </div>
+
+          {/* Announce the current slide to screen readers */}
+          <p aria-live="polite" className="sr-only">
+            {count > 0 ? `Image ${active + 1} of ${count}: ${gallery[active].alt}` : ''}
+          </p>
+
+          {count > 1 && (
+            <div className="mt-4 flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setUserPaused(true);
+                  step(-1);
+                }}
+                aria-label="Previous image"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:bg-secondary"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setUserPaused(true);
+                  step(1);
+                }}
+                aria-label="Next image"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:bg-secondary"
+              >
+                ›
+              </button>
+              <button
+                type="button"
+                onClick={() => setUserPaused((p) => !p)}
+                aria-pressed={userPaused || prefersReducedMotion}
+                className="ml-1 rounded-full border border-border px-4 py-2 text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:bg-secondary"
+              >
+                {userPaused || prefersReducedMotion ? 'Play slideshow' : 'Pause slideshow'}
+              </button>
+              <span className="ml-auto text-xs text-muted-foreground" aria-hidden="true">
+                Use ← → keys
+              </span>
+            </div>
+          )}
+
           <div className="mt-4 flex flex-wrap gap-3">
             {gallery.map((g, i) => (
               <button
                 key={g.src}
-                onClick={() => setActive(i)}
-                aria-label={`View image ${i + 1}`}
+                onClick={() => {
+                  setUserPaused(true);
+                  setActive(i);
+                }}
+                aria-label={`View image ${i + 1} of ${count}`}
                 aria-current={i === active}
                 className={`h-20 w-20 overflow-hidden rounded-xl border-2 transition-colors ${
                   i === active ? 'border-primary' : 'border-transparent hover:border-border'
@@ -143,6 +236,8 @@ function ProductPage() {
             ))}
           </div>
         </div>
+
+
 
 
         {/* Buy box */}
