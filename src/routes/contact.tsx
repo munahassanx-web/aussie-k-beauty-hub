@@ -87,8 +87,8 @@ function Contact() {
     }
   };
 
-  const mapsKey = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY;
   const warehouseQuery = "Unit 13/30 Willandra Drive, Epping VIC 3076, Australia";
+
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-20">
