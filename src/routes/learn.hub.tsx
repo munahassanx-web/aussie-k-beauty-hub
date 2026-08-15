@@ -17,6 +17,7 @@ const learnSearchSchema = z.object({
 
 export const Route = createFileRoute("/learn/hub")({
   validateSearch: zodValidator(learnSearchSchema),
+  search: { middlewares: [stripSearchParams({ q: "", tag: "" })] },
   head: () => ({
     meta: [
       { title: "Learn Hub — Seoul Skincare Logic, Written For Australia | Skin Grocer" },
