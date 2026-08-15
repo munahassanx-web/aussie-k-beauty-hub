@@ -191,33 +191,50 @@ export const TREND_FAQS: Faq[] = [
 // --- Product-level FAQs -----------------------------------------------------
 
 /** Generates factual, product-specific questions from catalog data. */
-export function productFaqs(p: ShopProduct, steps?: string[]): Faq[] {
-  const stepText = steps?.length
-    ? steps.join(' ')
+export function productFaqs(
+  p: ShopProduct,
+  opts?: { steps?: string[]; description?: string },
+): Faq[] {
+  const stepText = opts?.steps?.length
+    ? opts.steps.join(' ')
     : `Apply ${p.name} to clean skin as part of your routine, then follow with moisturiser and, in the morning, sunscreen.`;
 
-  const faqs: Faq[] = [
+  const concernText = p.concerns.length
+    ? ` It is most often chosen for ${p.concerns.map(concernLabel).join(', ')}.`
+    : '';
+
+  return [
     {
       q: `How do I use ${p.brand} ${p.name}?`,
       a: stepText,
     },
     {
       q: `What is ${p.brand} ${p.name} good for?`,
-      a: `${p.brand} ${p.name} is a ${p.category.toLowerCase()} step in a Korean skincare routine. ${p.blurb ?? ''}`.trim(),
+      a: `${p.brand} ${p.name} is the ${p.category.toLowerCase()} step in a Korean skincare routine.${concernText} ${opts?.description ?? ''}`.trim(),
     },
     {
-      q: `Is ${p.brand} ${p.name} authentic and where does it ship from?`,
-      a: `Yes. This unit is sourced from ${p.brand} or its authorised distributor and held in our Melbourne warehouse. Order before 12pm on a business day and it is dispatched the same day, with next-business-day delivery to most Australian metro addresses.`,
+      q: `Is ${p.brand} ${p.name} authentic, and where does it ship from?`,
+      a: `Yes. This stock is sourced from ${p.brand} or its authorised distributor and held in our Melbourne warehouse in Epping, Victoria. Order before 12pm on a business day and it is dispatched the same day, with next-business-day delivery to most Australian metro addresses.`,
     },
     {
       q: `What can I use ${p.brand} ${p.name} with?`,
       a: `It layers safely with hydrating and barrier ingredients such as hyaluronic acid, niacinamide, panthenol, ceramides and centella. Avoid using it in the same session as a strong exfoliating acid or retinal — alternate those on separate nights.`,
     },
     {
-      q: `How much is ${p.brand} ${p.name} in Australia?`,
+      q: `How much does ${p.brand} ${p.name} cost in Australia?`,
       a: `${p.brand} ${p.name} is ${p.price} AUD at Skin Grocer, priced in Australian dollars with no import surcharge at checkout. Subscribe & Save takes 15% off eligible repeat deliveries.`,
     },
   ];
+}
 
-  return faqs;
+function concernLabel(c: ShopProduct['concerns'][number]): string {
+  const map: Record<string, string> = {
+    hydration: 'hydration and glow',
+    acne: 'breakouts and congestion',
+    pigmentation: 'pigmentation and uneven tone',
+    sensitivity: 'sensitivity and redness',
+    'anti-aging': 'firmness and fine lines',
+    barrier: 'barrier repair',
+  };
+  return map[c] ?? c;
 }
