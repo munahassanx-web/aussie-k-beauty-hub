@@ -67,8 +67,43 @@ const LIFESTYLE: Record<Category, GalleryImage[]> = {
   ],
 };
 
+/**
+ * Bespoke editorial imagery generated from the real product shot.
+ * Keyed by priceId; these sit right after the packshot in the gallery.
+ */
+const EDITORIAL: Record<string, GalleryImage[]> = {
+  torriden_dive_in_serum_onetime: [
+    {
+      src: '/products/editorial/torriden/dive-in-serum-studio.png',
+      alt: 'Torriden Dive In Serum styled on a cream plaster pedestal in studio light',
+    },
+  ],
+  medicube_pdrn_pink_peptide_serum_30ml_onetime: [
+    {
+      src: '/products/editorial/medicube/pdrn-pink-peptide-serum-30ml-studio.png',
+      alt: 'MEDICUBE PDRN Pink Peptide Serum with a serum droplet swatch on cream stone',
+    },
+  ],
+  medicube_collagen_jelly_cream_110ml_onetime: [
+    {
+      src: '/products/editorial/medicube/collagen-jelly-cream-110ml-studio.png',
+      alt: 'MEDICUBE Collagen Jelly Cream jar open beside a glossy cream swatch',
+    },
+  ],
+  beauty_of_joseon_revive_eye_serum_ginseng_plus_retinal_30ml_onetime: [
+    {
+      src: '/products/editorial/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml-studio.png',
+      alt: 'Beauty of Joseon Revive Eye Serum on a travertine ledge in soft daylight',
+    },
+  ],
+};
+
 export function galleryFor(p: ShopProduct): GalleryImage[] {
-  return [{ src: p.image, alt: `${p.brand} ${p.name}` }, ...LIFESTYLE[p.category]];
+  return [
+    { src: p.image, alt: `${p.brand} ${p.name}` },
+    ...(EDITORIAL[p.priceId] ?? []),
+    ...LIFESTYLE[p.category],
+  ];
 }
 
 // --- editorial copy ---------------------------------------------------------
