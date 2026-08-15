@@ -416,6 +416,9 @@ function LearnHubPage() {
           </section>
         ))}
       </div>
+        </>
+      )}
+
 
       <FaqSection
         id="trends-faq"
