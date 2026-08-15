@@ -3,6 +3,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { z } from "zod";
 import { submitContactForm } from "@/lib/contact.functions";
+import { getMapsApiKey } from "@/lib/maps.functions";
+
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
