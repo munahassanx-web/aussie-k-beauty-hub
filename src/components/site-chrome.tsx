@@ -92,29 +92,6 @@ const megaMenus: Record<string, MegaSection[]> = {
       ],
     },
   ],
-  Journal: [
-    {
-      heading: "Skin Journal",
-      links: [
-        { label: "Ingredient Guides", to: "/journal/snail-mucin-why-your-skin-loves-it" },
-        { label: "Routine Building", to: "/journal/the-10-step-routine-demystified" },
-        { label: "Centella vs Heartleaf", to: "/journal/centella-vs-heartleaf" },
-        { label: "Sunscreen in Australia", to: "/journal/sunscreen-every-single-day" },
-        { label: "Barrier-First Routine", to: "/journal/building-a-barrier-first-routine" },
-        { label: "Layering Serums", to: "/journal/layering-serums-without-pilling" },
-      ],
-    },
-    {
-      heading: "About Skin Grocer",
-      links: [
-        { label: "Our Story", to: "/about" },
-        { label: "Authenticity Promise", to: "/about" },
-        { label: "Reviews", to: "/reviews" },
-        { label: "Contact / Vending", to: "/contact" },
-      ],
-    },
-  ],
-};
 
 
 const announcements = [
