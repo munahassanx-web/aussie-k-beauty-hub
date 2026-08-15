@@ -101,6 +101,54 @@ function ProductPage() {
 
   const step = (delta: number) => setActive((i) => (i + delta + count) % count);
 
+  // Touch swipe: drag the stage horizontally to move between images.
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const swipeRef = useRef<{ id: number; x: number; y: number; axis: 'x' | 'y' | null } | null>(null);
+  const [dragX, setDragX] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const swipedRef = useRef(false);
+
+  const stageWidth = () => stageRef.current?.getBoundingClientRect().width ?? 1;
+  const neighbor = dragX === 0 ? -1 : (active + (dragX < 0 ? 1 : -1) + count) % count;
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (count < 2 || e.pointerType === 'mouse') return;
+    swipeRef.current = { id: e.pointerId, x: e.clientX, y: e.clientY, axis: null };
+    swipedRef.current = false;
+  };
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    const s = swipeRef.current;
+    if (!s || s.id !== e.pointerId) return;
+    const dx = e.clientX - s.x;
+    const dy = e.clientY - s.y;
+    if (!s.axis) {
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      s.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      if (s.axis === 'x') {
+        setDragging(true);
+        setUserPaused(true);
+      }
+    }
+    if (s.axis !== 'x') return;
+    e.preventDefault();
+    swipedRef.current = true;
+    setDragX(dx);
+  };
+
+  const endSwipe = () => {
+    const s = swipeRef.current;
+    swipeRef.current = null;
+    setDragging(false);
+    if (s?.axis === 'x') {
+      const threshold = Math.min(80, stageWidth() * 0.18);
+      if (dragX <= -threshold) step(1);
+      else if (dragX >= threshold) step(-1);
+    }
+    setDragX(0);
+  };
+
+
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (count < 2) return;
     if (e.key === 'ArrowRight') {
