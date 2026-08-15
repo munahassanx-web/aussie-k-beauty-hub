@@ -11,6 +11,12 @@ import {
   slugify,
 } from "@/lib/signals.server";
 
+export type FactCheckReport = {
+  verdict?: string;
+  summary?: string;
+  claims?: Array<{ claim?: string; status?: string; note?: string; source?: string }>;
+};
+
 async function assertAdmin(supabase: { rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }> }, userId: string) {
   const { data, error } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
   if (error || data !== true) throw new Error("Unauthorized: admin only");
@@ -149,7 +155,7 @@ export const runFactCheck = createServerFn({ method: "POST" })
       .select("title,source_url,excerpt")
       .in("id", ids.length ? ids : ["00000000-0000-0000-0000-000000000000"]);
 
-    const report = await factCheck(apiKey, draft.content, (signals ?? []) as never);
+    const report = (await factCheck(apiKey, draft.content, (signals ?? []) as never)) as FactCheckReport;
     const { error: upErr } = await client
       .from("newsletter_drafts")
       .update({ factcheck: report as never, status: "checked", updated_at: new Date().toISOString() })
