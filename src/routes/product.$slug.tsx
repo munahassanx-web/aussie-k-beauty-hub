@@ -200,28 +200,54 @@ function ProductPage() {
           onBlur={() => setHovered(false)}
           className="rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
         >
-          <div className="relative aspect-square overflow-hidden rounded-3xl bg-secondary">
-            {gallery.map((g, i) => (
-              <img
-                key={g.src}
-                src={g.src}
-                alt={g.alt}
-                width={1024}
-                height={1024}
-                loading={i === 0 ? 'eager' : 'lazy'}
-                aria-hidden={i !== active}
-                className={`absolute inset-0 h-full w-full object-cover ${
-                  prefersReducedMotion ? '' : 'transition-opacity duration-700'
-                } ${i === active ? 'opacity-100' : 'opacity-0'}`}
-              />
-            ))}
+          <div
+            ref={stageRef}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={endSwipe}
+            onPointerCancel={endSwipe}
+            style={{ touchAction: count > 1 ? 'pan-y' : undefined }}
+            className="relative aspect-square touch-pan-y overflow-hidden rounded-3xl bg-secondary"
+          >
+            {gallery.map((g, i) => {
+              const isActive = i === active;
+              const isNeighbor = dragging && i === neighbor;
+              const visible = isActive || isNeighbor;
+              const x = isActive ? dragX : dragX + (dragX < 0 ? stageWidth() : -stageWidth());
+              return (
+                <img
+                  key={g.src}
+                  src={g.src}
+                  alt={g.alt}
+                  width={1024}
+                  height={1024}
+                  draggable={false}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  aria-hidden={!isActive}
+                  style={visible ? { transform: `translate3d(${x}px,0,0)` } : undefined}
+                  className={`absolute inset-0 h-full w-full select-none object-cover ${
+                    prefersReducedMotion || dragging
+                      ? ''
+                      : 'transition-[opacity,transform] duration-700'
+                  } ${visible ? 'opacity-100' : 'opacity-0'}`}
+                />
+              );
+            })}
 
             {/* Click (or focus + Enter) anywhere on the stage to open the fullscreen viewer */}
             <button
               type="button"
-              onClick={() => setLightboxOpen(true)}
+              onClick={() => {
+                // Ignore the click that ends a swipe gesture.
+                if (swipedRef.current) {
+                  swipedRef.current = false;
+                  return;
+                }
+                setLightboxOpen(true);
+              }}
               className="group absolute inset-0 cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
             >
+
               <span className="sr-only">
                 Open fullscreen viewer for image {active + 1} of {count}
               </span>
