@@ -93,7 +93,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   beauty_of_joseon_revive_eye_serum_ginseng_plus_retinal_30ml_onetime: [
     {
       src: '/products/editorial/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml-studio.png',
-      alt: 'Beauty of Joseon Revive Eye Serum close-up on a clean white studio backdrop',
+      alt: 'Beauty of Joseon Revive Eye Serum tube lying down with the cap off and a small amount of serum squeezed out, on a clean white studio backdrop',
     },
   ],
 };
