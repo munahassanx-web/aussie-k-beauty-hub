@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useBuyNow } from '@/hooks/use-buy-now';
 import { Maximize2 as ExpandIcon } from 'lucide-react';
 import { ImageLightbox } from '@/components/image-lightbox';
