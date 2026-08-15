@@ -534,6 +534,9 @@ const baseArticles: LearnArticle[] = [
   },
 ];
 
+export const learnArticles: LearnArticle[] = [...baseArticles, ...originArticles];
+
+
 export function getLearnArticle(slug: string) {
   return learnArticles.find((a) => a.slug === slug);
 }
