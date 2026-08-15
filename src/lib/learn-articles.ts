@@ -54,7 +54,7 @@ const SOURCE_BOM = {
   href: "http://www.bom.gov.au/climate/averages/",
 };
 
-export const learnArticles: LearnArticle[] = [
+const baseArticles: LearnArticle[] = [
   /* ---------------------------------------------------------------- CONCERNS */
   {
     slug: "deeper-skin-tones-k-beauty",
