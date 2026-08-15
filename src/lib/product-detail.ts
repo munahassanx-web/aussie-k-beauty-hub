@@ -74,16 +74,16 @@ const LIFESTYLE: Record<Category, GalleryImage[]> = {
 const EDITORIAL: Record<string, GalleryImage[]> = {
   torriden_dive_in_serum_onetime: [
     {
-      src: '/products/editorial/torriden/dive-in-serum-block.png',
-      alt: 'Torriden Dive In Serum staged against a warm sand colour block on a white studio floor',
+      src: '/products/editorial/torriden/dive-in-serum-hero.png',
+      alt: 'TORRIDEN DIVE-IN Low Molecular Hyaluronic Acid Serum 50ml bottle on a clean white studio backdrop',
     },
     {
-      src: '/products/editorial/torriden/dive-in-serum-studio.png',
-      alt: 'Torriden Dive In Serum on a clean white studio backdrop with a hydrating gel swatch',
+      src: '/products/editorial/torriden/dive-in-serum-info.png',
+      alt: 'Information panel listing the five hyaluronic acid forms in TORRIDEN DIVE-IN Serum: sodium hyaluronate, hydrolyzed hyaluronic acid, sodium acetylated hyaluronate, sodium hyaluronate crosspolymer and hydrolyzed sodium hyaluronate',
     },
     {
-      src: '/products/editorial/torriden/dive-in-serum-texture.png',
-      alt: 'Macro swatch of the clear hydrating gel texture of Torriden Dive In Serum',
+      src: '/products/editorial/torriden/dive-in-serum-apply.png',
+      alt: 'Close-up of the watery serum being pressed into bare cheek skin with one hand',
     },
   ],
   medicube_pdrn_pink_peptide_serum_30ml_onetime: [
