@@ -1,5 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useServerFn } from "@tanstack/react-router";
 import { useState } from "react";
+import { z } from "zod";
+import { submitContactForm } from "@/lib/contact.functions";
+
+const contactSchema = z.object({
+  name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
+  email: z.string().trim().email("Please enter a valid email").max(255, "Email must be less than 255 characters"),
+  topic: z.enum(["Routine guidance", "Order help", "Vending machine partnerships", "Something else"], {
+    message: "Please select a topic",
+  }),
+  message: z.string().trim().min(1, "Message is required").max(2000, "Message must be less than 2000 characters"),
+});
+
+const topics = ["Routine guidance", "Order help", "Vending machine partnerships", "Something else"] as const;
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -17,7 +30,54 @@ export const Route = createFileRoute("/contact")({
 });
 
 function Contact() {
-  const [sent, setSent] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    topic: topics[0],
+    message: "",
+  });
+  const [errors, setErrors] = useState<Partial<Record<keyof typeof formData, string>>>({});
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+  const submit = useServerFn(submitContactForm);
+
+  const updateField = (field: keyof typeof formData, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+  };
+
+  const validate = () => {
+    const result = contactSchema.safeParse(formData);
+    if (!result.success) {
+      const fieldErrors: Partial<Record<keyof typeof formData, string>> = {};
+      for (const issue of result.error.issues) {
+        const path = issue.path[0] as keyof typeof formData;
+        if (!fieldErrors[path]) fieldErrors[path] = issue.message;
+      }
+      setErrors(fieldErrors);
+      return false;
+    }
+    setErrors({});
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    setStatus("loading");
+    setErrorMessage("");
+    try {
+      await submit({ data: formData });
+      setStatus("success");
+    } catch (err) {
+      setStatus("error");
+      setErrorMessage(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    }
+  };
+
   return (
     <div className="mx-auto grid max-w-7xl gap-16 px-6 py-20 md:grid-cols-2">
       <div>
@@ -51,40 +111,98 @@ function Contact() {
       </div>
 
       <form
-        onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+        onSubmit={handleSubmit}
         className="rounded-3xl bg-secondary/60 p-8 md:p-10"
+        noValidate
       >
-        {sent ? (
+        {status === "success" ? (
           <div className="flex h-full flex-col items-center justify-center text-center">
             <h2 className="font-display text-3xl text-foreground">Message received ✨</h2>
             <p className="mt-3 text-muted-foreground">We'll be back to you shortly. In the meantime, your skin is in good hands.</p>
+            <button
+              type="button"
+              onClick={() => {
+                setStatus("idle");
+                setFormData({ name: "", email: "", topic: topics[0], message: "" });
+              }}
+              className="mt-6 text-sm font-medium text-primary underline-offset-4 hover:underline"
+            >
+              Send another message
+            </button>
           </div>
         ) : (
           <div className="space-y-5">
             <div>
-              <label className="text-sm font-medium text-foreground">Your name</label>
-              <input required className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
+              <label htmlFor="name" className="text-sm font-medium text-foreground">Your name</label>
+              <input
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={(e) => updateField("name", e.target.value)}
+                maxLength={100}
+                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+                aria-invalid={!!errors.name}
+                aria-describedby={errors.name ? "name-error" : undefined}
+              />
+              {errors.name && <p id="name-error" className="mt-1 text-sm text-destructive">{errors.name}</p>}
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Email</label>
-              <input required type="email" className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
+              <label htmlFor="email" className="text-sm font-medium text-foreground">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => updateField("email", e.target.value)}
+                maxLength={255}
+                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
+              />
+              {errors.email && <p id="email-error" className="mt-1 text-sm text-destructive">{errors.email}</p>}
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">What can we help with?</label>
-              <select className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary">
-                <option>Routine guidance</option>
-                <option>Order help</option>
-                <option>Vending machine partnerships</option>
-                <option>Something else</option>
-
+              <label htmlFor="topic" className="text-sm font-medium text-foreground">What can we help with?</label>
+              <select
+                id="topic"
+                name="topic"
+                value={formData.topic}
+                onChange={(e) => updateField("topic", e.target.value)}
+                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+              >
+                {topics.map((topic) => (
+                  <option key={topic} value={topic}>{topic}</option>
+                ))}
               </select>
+              {errors.topic && <p id="topic-error" className="mt-1 text-sm text-destructive">{errors.topic}</p>}
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Message</label>
-              <textarea required rows={5} className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
+              <label htmlFor="message" className="text-sm font-medium text-foreground">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={(e) => updateField("message", e.target.value)}
+                maxLength={2000}
+                rows={5}
+                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+                aria-invalid={!!errors.message}
+                aria-describedby={errors.message ? "message-error" : undefined}
+              />
+              {errors.message && <p id="message-error" className="mt-1 text-sm text-destructive">{errors.message}</p>}
+              <p className="mt-1 text-xs text-muted-foreground text-right">{formData.message.length}/2000</p>
             </div>
-            <button className="w-full rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">
-              Send message
+            {status === "error" && (
+              <div className="rounded-xl bg-destructive/10 p-3 text-sm text-destructive">
+                {errorMessage}
+              </div>
+            )}
+            <button
+              type="submit"
+              disabled={status === "loading"}
+              className="w-full rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {status === "loading" ? "Sending..." : "Send message"}
             </button>
           </div>
         )}
