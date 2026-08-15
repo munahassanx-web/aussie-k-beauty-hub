@@ -317,15 +317,6 @@ export function SiteHeader() {
                 </Link>
 
 
-                <Link
-                  to="/journal/$slug"
-                  params={{ slug: "snail-mucin-why-your-skin-loves-it" }}
-                  onClick={closeMenus}
-                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
-                >
-                  Ingredient Guides
-                  <span className="text-base text-primary">→</span>
-                </Link>
               </div>
 
               <div className="mt-5 space-y-6">
