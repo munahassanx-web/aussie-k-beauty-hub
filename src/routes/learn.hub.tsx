@@ -4,6 +4,8 @@ import petri from "@/assets/learn-petri.jpg";
 import portraitDeep from "@/assets/learn-portrait-deep.jpg";
 import routineFlatlay from "@/assets/learn-routine-flatlay.jpg";
 import { articlesByPillar, getLearnArticle, type LearnArticle } from "@/lib/learn-articles";
+import { FaqSection } from "@/components/faq-section";
+import { TREND_FAQS, faqJsonLd } from "@/lib/faqs";
 
 export const Route = createFileRoute("/learn/hub")({
   head: () => ({
@@ -27,6 +29,7 @@ export const Route = createFileRoute("/learn/hub")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/learn/hub" }],
+    scripts: [faqJsonLd(TREND_FAQS)],
   }),
   component: LearnHubPage,
 });
@@ -291,6 +294,15 @@ function LearnHubPage() {
           </section>
         ))}
       </div>
+
+      <FaqSection
+        id="trends-faq"
+        eyebrow="Seoul signal"
+        title="What Korea is buying now — and what to ignore."
+        intro="Trend questions answered from Korean domestic demand data, then pressure-tested against Australian climate and regulation."
+        items={TREND_FAQS}
+        tone="sand"
+      />
 
       {/* Newsletter */}
       <section className="mx-auto max-w-6xl px-6 py-20">
