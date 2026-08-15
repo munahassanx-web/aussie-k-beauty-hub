@@ -214,6 +214,65 @@ function Contact() {
         </form>
       </div>
 
+      <section className="mt-20">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-primary">Shipping</p>
+            <h2 className="mt-3 font-display text-3xl text-foreground md:text-4xl">Delivery coverage & timing.</h2>
+          </div>
+          <p className="max-w-md text-muted-foreground">
+            We ship Australia-wide from our Melbourne warehouse. Most orders are
+            picked, packed and dispatched the same day when placed before 12pm AEST.
+          </p>
+        </div>
+
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="rounded-2xl border border-border bg-secondary/30 p-6">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Melbourne metro</p>
+            <p className="mt-2 font-display text-2xl text-foreground">Next business day</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Order by 12pm AEST for next-day arrival on your doorstep.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-border bg-secondary/30 p-6">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Regional VIC & major metros</p>
+            <p className="mt-2 font-display text-2xl text-foreground">1–2 business days</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Covers regional Victoria, Sydney, Adelaide, Canberra and surrounding metros.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-border bg-secondary/30 p-6">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">QLD, TAS & WA</p>
+            <p className="mt-2 font-display text-2xl text-foreground">2–5 business days</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Standard transit times from Melbourne to Brisbane, Hobart and Perth.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-border bg-secondary/30 p-6">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">NT & remote postcodes</p>
+            <p className="mt-2 font-display text-2xl text-foreground">3–7 business days</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Remote areas may take a little longer; we’ll share tracking as soon as it ships.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border bg-secondary/30 p-6">
+          <div className="flex items-center gap-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background">
+              <span className="text-sm">$</span>
+            </div>
+            <div>
+              <p className="font-medium text-foreground">Free shipping over A$80</p>
+              <p className="text-sm text-muted-foreground">A$9.95 flat rate for orders under A$80.</p>
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            *All transit times are estimates from dispatch. Business days exclude public holidays.
+          </p>
+        </div>
+      </section>
+
       {mapsKey && (
         <section className="mt-16">
           <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Find us</h2>
