@@ -19,7 +19,7 @@ export const Route = createFileRoute("/api/public/signals/harvest")({
         }
         const [reddit, youtube, web] = await Promise.all([
           harvestReddit(),
-          harvestYouTube(process.env["YOUTUBE_API_KEY"]),
+          harvestYouTube(process.env["GOOGLE_API_KEY"]),
           harvestFirecrawl(process.env["FIRECRAWL_API_KEY"], process.env["LOVABLE_API_KEY"]),
         ]);
         const saved = await saveSignals([...reddit, ...youtube, ...web]);

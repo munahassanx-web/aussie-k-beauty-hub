@@ -29,7 +29,7 @@ export const runHarvest = createServerFn({ method: "POST" })
     await assertAdmin(context.supabase as never, context.userId);
     const [reddit, youtube, web] = await Promise.all([
       harvestReddit(),
-      harvestYouTube(process.env["YOUTUBE_API_KEY"]),
+      harvestYouTube(process.env["GOOGLE_API_KEY"]),
       harvestFirecrawl(process.env["FIRECRAWL_API_KEY"], process.env["LOVABLE_API_KEY"]),
     ]);
     const all = [...reddit, ...youtube, ...web];
@@ -37,7 +37,7 @@ export const runHarvest = createServerFn({ method: "POST" })
     return {
       saved,
       counts: { reddit: reddit.length, youtube: youtube.length, web: web.length },
-      youtubeEnabled: Boolean(process.env["YOUTUBE_API_KEY"]),
+      youtubeEnabled: Boolean(process.env["GOOGLE_API_KEY"]),
       firecrawlEnabled: Boolean(process.env["FIRECRAWL_API_KEY"]),
     };
   });
