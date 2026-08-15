@@ -325,24 +325,45 @@ function ProductPage() {
             </div>
           )}
 
-          <div className="mt-4 flex flex-wrap gap-3">
-            {gallery.map((g, i) => (
-              <button
-                key={g.src}
-                onClick={() => {
-                  setUserPaused(true);
-                  setActive(i);
-                }}
-                aria-label={`View image ${i + 1} of ${count}`}
-                aria-current={i === active}
-                className={`h-20 w-20 overflow-hidden rounded-xl border-2 transition-colors ${
-                  i === active ? 'border-primary' : 'border-transparent hover:border-border'
-                }`}
-              >
-                <img src={g.src} alt={g.alt} loading="lazy" className="h-full w-full object-cover" />
-              </button>
-            ))}
-          </div>
+          {/* Thumbnail strip — roving tabindex: Tab enters the strip on the
+              active thumb, then ← → Home End move focus and selection. */}
+          {count > 1 && (
+            <div
+              ref={stripRef}
+              role="tablist"
+              aria-label={`${product.name} image thumbnails`}
+              onKeyDown={onStripKeyDown}
+              className="mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2"
+            >
+              {gallery.map((g, i) => (
+                <button
+                  key={g.src}
+                  type="button"
+                  role="tab"
+                  id={`product-thumb-${i}`}
+                  aria-selected={i === active}
+                  aria-label={`Show image ${i + 1} of ${count}: ${g.alt}`}
+                  tabIndex={i === active ? 0 : -1}
+                  onClick={() => {
+                    setUserPaused(true);
+                    setActive(i);
+                  }}
+                  className={`relative h-20 w-20 shrink-0 snap-start overflow-hidden rounded-xl border-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                    i === active ? 'border-primary' : 'border-transparent hover:border-border'
+                  }`}
+                >
+                  <img
+                    src={g.src}
+                    alt=""
+                    loading="lazy"
+                    draggable={false}
+                    className="h-full w-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+
 
           <ImageLightbox
             open={lightboxOpen}
