@@ -29,10 +29,16 @@ export const Route = createFileRoute("/contact")({
     ],
     links: [{ rel: "canonical", href: "/contact" }],
   }),
+  loader: async () => {
+    const key = await getMapsApiKey();
+    return { mapsKey: key };
+  },
   component: Contact,
 });
 
 function Contact() {
+  const { mapsKey } = Route.useLoaderData();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
