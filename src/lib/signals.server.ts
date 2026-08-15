@@ -50,6 +50,8 @@ function velocityScore(engagement: number, publishedMs: number | null): number {
 
 const SUBREDDITS = ["AsianBeauty", "KoreanBeauty", "SkincareAddiction", "30PlusSkinCare"];
 
+// Reddit's public JSON blocks most datacentre IPs, so this is best-effort only;
+// the Firecrawl harvester covers Reddit properly via site: search.
 export async function harvestReddit(): Promise<HarvestedItem[]> {
   const out: HarvestedItem[] = [];
   for (const sub of SUBREDDITS) {
@@ -143,11 +145,13 @@ export async function harvestYouTube(apiKey: string | undefined): Promise<Harves
 
 // ------------------------------------------------------- Firecrawl (web/KR)
 
-const FIRECRAWL_QUERIES = [
-  "올리브영 랭킹 스킨케어 2026",
-  "화해 스킨케어 랭킹 신제품",
-  "korean skincare trend 2026 new ingredient",
-  "site:naver.com 스킨케어 신제품 추천",
+const FIRECRAWL_QUERIES: Array<{ query: string; source: string; freshness: string }> = [
+  { query: "올리브영 랭킹 스킨케어 신제품", source: "web/olive-young", freshness: "qdr:m" },
+  { query: "화해 스킨케어 랭킹 리뷰 신제품", source: "web/hwahae", freshness: "qdr:m" },
+  { query: "korean skincare trend new ingredient launch", source: "web/korea", freshness: "qdr:m" },
+  { query: "site:reddit.com/r/AsianBeauty korean skincare", source: "reddit/r/AsianBeauty", freshness: "qdr:w" },
+  { query: "site:reddit.com/r/KoreanBeauty routine recommendation", source: "reddit/r/KoreanBeauty", freshness: "qdr:w" },
+  { query: "site:reddit.com/r/SkincareAddiction korean product", source: "reddit/r/SkincareAddiction", freshness: "qdr:w" },
 ];
 
 export async function harvestFirecrawl(
@@ -169,12 +173,13 @@ export async function harvestFirecrawl(
     : { "Content-Type": "application/json", Authorization: `Bearer ${firecrawlKey}` };
 
   const out: HarvestedItem[] = [];
-  for (const query of FIRECRAWL_QUERIES) {
+  for (const q of FIRECRAWL_QUERIES) {
+    const { query, source, freshness } = q;
     try {
       const res = await fetch(endpoint, {
         method: "POST",
         headers,
-        body: JSON.stringify({ query, limit: 8, tbs: "qdr:m" }),
+        body: JSON.stringify({ query, limit: 8, tbs: freshness }),
       });
       if (!res.ok) {
         console.error(`[signals] firecrawl ${res.status}: ${await res.text()}`);
@@ -190,7 +195,7 @@ export async function harvestFirecrawl(
         if (!r.url || !r.title) continue;
         const text = `${r.title} ${r.description ?? ""}`;
         out.push({
-          source: "web/korea",
+          source,
           source_url: r.url,
           title: r.title.slice(0, 300),
           excerpt: (r.description ?? "").slice(0, 800) || null,
