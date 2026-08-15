@@ -1,7 +1,10 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import { useBuyNow } from '@/hooks/use-buy-now';
+import { Maximize2 as ExpandIcon } from 'lucide-react';
+import { ImageLightbox } from '@/components/image-lightbox';
 import { ProductReviews } from '@/components/product-reviews';
+
 import { restockPriceIdFor } from '@/lib/shop-catalog';
 import {
   findProductBySlug,
@@ -79,6 +82,8 @@ function ProductPage() {
   const prefersReducedMotion = usePrefersReducedMotion();
   // User-controlled play/pause; defaults to playing, but reduced-motion users start paused.
   const [userPaused, setUserPaused] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
 
   const gallery = product ? galleryFor(product) : [];
   const count = gallery.length;
@@ -162,6 +167,24 @@ function ProductPage() {
                 } ${i === active ? 'opacity-100' : 'opacity-0'}`}
               />
             ))}
+
+            {/* Click (or focus + Enter) anywhere on the stage to open the fullscreen viewer */}
+            <button
+              type="button"
+              onClick={() => setLightboxOpen(true)}
+              className="group absolute inset-0 cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+            >
+              <span className="sr-only">
+                Open fullscreen viewer for image {active + 1} of {count}
+              </span>
+              <span
+                aria-hidden="true"
+                className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background/85 text-foreground backdrop-blur transition-colors group-hover:bg-background"
+              >
+                <ExpandIcon className="h-4 w-4" />
+              </span>
+            </button>
+
             <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center gap-1.5 p-4">
               {gallery.map((g, i) => (
                 <span
@@ -178,6 +201,7 @@ function ProductPage() {
           <p aria-live="polite" className="sr-only">
             {count > 0 ? `Image ${active + 1} of ${count}: ${gallery[active].alt}` : ''}
           </p>
+
 
           {count > 1 && (
             <div className="mt-4 flex items-center gap-2">
@@ -235,7 +259,17 @@ function ProductPage() {
               </button>
             ))}
           </div>
+
+          <ImageLightbox
+            open={lightboxOpen}
+            onOpenChange={setLightboxOpen}
+            images={gallery}
+            index={active}
+            onIndexChange={setActive}
+            title={`${product.brand} ${product.name} — image viewer`}
+          />
         </div>
+
 
 
 
