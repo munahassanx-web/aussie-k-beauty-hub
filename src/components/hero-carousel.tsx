@@ -62,7 +62,6 @@ const slides: Slide[] = [
 
 export function HeroCarousel() {
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
   const [key, setKey] = useState(0);
 
   const next = useCallback(() => {
@@ -71,10 +70,9 @@ export function HeroCarousel() {
   }, []);
 
   useEffect(() => {
-    if (paused) return;
     const id = setTimeout(next, slides[active].durationMs);
     return () => clearTimeout(id);
-  }, [paused, next, key, active]);
+  }, [next, key, active]);
 
 
   const goTo = (i: number) => {
@@ -83,11 +81,8 @@ export function HeroCarousel() {
   };
 
   return (
-    <section
-      className="relative overflow-hidden bg-ink"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
+    <section className="relative overflow-hidden bg-ink">
+
       {/* Media layer */}
       <div className="absolute inset-0">
         {slides.map((slide, i) => {
