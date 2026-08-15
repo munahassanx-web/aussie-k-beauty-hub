@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getLearnArticle, learnArticles } from "@/lib/learn-articles";
+import { ArticleProductPicks } from "@/components/article-product-picks";
 
 export const Route = createFileRoute("/learn/article/$slug")({
   loader: ({ params }) => {
