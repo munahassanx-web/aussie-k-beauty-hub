@@ -1,13 +1,23 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, stripSearchParams } from "@tanstack/react-router";
+import { zodValidator, fallback } from "@tanstack/zod-adapter";
+import { z } from "zod";
 import featureSerum from "@/assets/learn-feature-serum.jpg";
 import petri from "@/assets/learn-petri.jpg";
 import portraitDeep from "@/assets/learn-portrait-deep.jpg";
 import routineFlatlay from "@/assets/learn-routine-flatlay.jpg";
 import { articlesByPillar, getLearnArticle, type LearnArticle } from "@/lib/learn-articles";
+import { filterArticles, tagGroups, tagsFor } from "@/lib/learn-tags";
 import { FaqSection } from "@/components/faq-section";
 import { TREND_FAQS, faqJsonLd } from "@/lib/faqs";
 
+const learnSearchSchema = z.object({
+  q: fallback(z.string(), "").default(""),
+  tag: fallback(z.string(), "").default(""),
+});
+
 export const Route = createFileRoute("/learn/hub")({
+  validateSearch: zodValidator(learnSearchSchema),
+  search: { middlewares: [stripSearchParams({ q: "", tag: "" })] },
   head: () => ({
     meta: [
       { title: "Learn Hub — Seoul Skincare Logic, Written For Australia | Skin Grocer" },
@@ -98,8 +108,117 @@ function ArticleCard({ a }: { a: LearnArticle }) {
   );
 }
 
+function LearnFinder() {
+  const { q, tag } = Route.useSearch();
+  const navigate = useNavigate({ from: "/learn/hub" });
+  const groups = tagGroups();
+  const isFiltering = q.trim().length > 0 || tag.length > 0;
+  const results = isFiltering ? filterArticles(q, tag) : [];
+
+  const setSearch = (next: { q?: string; tag?: string }) =>
+    navigate({ search: (prev) => ({ ...prev, ...next }), replace: true });
+
+  return (
+    <section
+      id="find"
+      aria-labelledby="find-heading"
+      className="mx-auto max-w-6xl border-t border-foreground/15 px-6 py-10 md:py-12"
+    >
+      <h2
+        id="find-heading"
+        className="text-[11px] font-semibold uppercase tracking-[0.28em] text-foreground"
+      >
+        Find an article
+      </h2>
+
+      <div className="mt-6 flex flex-col gap-4 md:flex-row md:items-center">
+        <label htmlFor="learn-search" className="sr-only">
+          Search Learn articles by ingredient, concern or routine step
+        </label>
+        <input
+          id="learn-search"
+          type="search"
+          value={q}
+          onChange={(e) => setSearch({ q: e.target.value })}
+          placeholder="Search ingredients, concerns, routine steps…"
+          className="w-full rounded-full border border-foreground/25 bg-background px-5 py-3 text-[14px] text-foreground outline-none placeholder:text-muted-foreground/70 focus:border-clay md:max-w-md"
+        />
+        {isFiltering && (
+          <button
+            type="button"
+            onClick={() => setSearch({ q: "", tag: "" })}
+            className="self-start text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground underline underline-offset-4 hover:text-clay"
+          >
+            Clear filters
+          </button>
+        )}
+      </div>
+
+      <div className="mt-7 space-y-4">
+        {groups.map((g) => (
+          <div key={g.group} className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
+            <span className="w-28 shrink-0 text-[10px] font-semibold uppercase tracking-[0.2em] text-clay">
+              {g.group}
+            </span>
+            {g.tags.map((t) => {
+              const active = tag === t;
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => setSearch({ tag: active ? "" : t })}
+                  className={`rounded-full border px-3.5 py-1.5 text-[12px] transition-colors ${
+                    active
+                      ? "border-foreground bg-foreground text-background"
+                      : "border-foreground/20 text-muted-foreground hover:border-foreground hover:text-foreground"
+                  }`}
+                >
+                  {t}
+                </button>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+
+      {isFiltering && (
+        <div className="mt-10" aria-live="polite">
+          <p className="text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
+            {results.length} {results.length === 1 ? "article" : "articles"}
+            {tag && ` tagged ${tag}`}
+            {q.trim() && ` matching “${q.trim()}”`}
+          </p>
+          {results.length === 0 ? (
+            <p className="mt-6 max-w-lg text-[15px] leading-relaxed text-muted-foreground">
+              Nothing matches yet. Try a broader term — “barrier”, “sunscreen”, “PDRN” — or{" "}
+              <Link to="/learn" className="underline underline-offset-4 hover:text-clay">
+                browse the ingredient encyclopedia
+              </Link>
+              .
+            </p>
+          ) : (
+            <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {results.map((a) => (
+                <div key={a.slug}>
+                  <ArticleCard a={a} />
+                  <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground/70">
+                    {tagsFor(a).slice(0, 4).join(" · ")}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </section>
+  );
+}
+
 function LearnHubPage() {
   const seoul = articlesByPillar("seoul");
+  const { q, tag } = Route.useSearch();
+  const isFiltering = q.trim().length > 0 || tag.length > 0;
 
   return (
     <div>
@@ -123,6 +242,10 @@ function LearnHubPage() {
         </p>
       </section>
 
+      <LearnFinder />
+
+      {!isFiltering && (
+        <>
       {/* Latest articles */}
       <section className="mx-auto max-w-6xl border-t border-foreground/15 px-6 py-10 md:py-14">
         <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-foreground">
@@ -294,6 +417,9 @@ function LearnHubPage() {
           </section>
         ))}
       </div>
+        </>
+      )}
+
 
       <FaqSection
         id="trends-faq"
