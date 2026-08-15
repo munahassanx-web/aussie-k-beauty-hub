@@ -1,13 +1,22 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { zodValidator, fallback } from "@tanstack/zod-adapter";
+import { z } from "zod";
 import featureSerum from "@/assets/learn-feature-serum.jpg";
 import petri from "@/assets/learn-petri.jpg";
 import portraitDeep from "@/assets/learn-portrait-deep.jpg";
 import routineFlatlay from "@/assets/learn-routine-flatlay.jpg";
 import { articlesByPillar, getLearnArticle, type LearnArticle } from "@/lib/learn-articles";
+import { filterArticles, tagGroups, tagsFor } from "@/lib/learn-tags";
 import { FaqSection } from "@/components/faq-section";
 import { TREND_FAQS, faqJsonLd } from "@/lib/faqs";
 
+const learnSearchSchema = z.object({
+  q: fallback(z.string(), "").default(""),
+  tag: fallback(z.string(), "").default(""),
+});
+
 export const Route = createFileRoute("/learn/hub")({
+  validateSearch: zodValidator(learnSearchSchema),
   head: () => ({
     meta: [
       { title: "Learn Hub — Seoul Skincare Logic, Written For Australia | Skin Grocer" },
