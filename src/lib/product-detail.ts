@@ -429,6 +429,8 @@ const CONCERN_FALLBACK: Record<Concern, HeroIngredient> = {
 };
 
 export function heroIngredients(p: ShopProduct): HeroIngredient[] {
+  const override = COPY[p.priceId]?.ingredients;
+  if (override) return override;
   const haystack = `${p.brand} ${p.name}`;
   const found: HeroIngredient[] = [];
   for (const rule of INGREDIENT_RULES) {
