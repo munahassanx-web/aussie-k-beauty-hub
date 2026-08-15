@@ -1,3 +1,4 @@
+import { originArticles } from "@/lib/learn-origin-articles";
 import featureSerum from "@/assets/learn-feature-serum.jpg";
 import petri from "@/assets/learn-petri.jpg";
 import portraitDeep from "@/assets/learn-portrait-deep.jpg";
