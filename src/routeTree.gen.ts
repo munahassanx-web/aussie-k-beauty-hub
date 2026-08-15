@@ -22,6 +22,7 @@ import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SkinConcernsRouteImport } from './routes/skin-concerns'
+import { Route as AdminSignalsRouteImport } from './routes/admin.signals'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as GroceryListIndexRouteImport } from './routes/grocery-list.index'
 import { Route as GroceryListSlugRouteImport } from './routes/grocery-list.$slug'
@@ -100,6 +101,11 @@ const SkinConcernsRoute = SkinConcernsRouteImport.update({
   path: '/skin-concerns',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSignalsRoute = AdminSignalsRouteImport.update({
+  id: '/admin/signals',
+  path: '/admin/signals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
   id: '/return',
   path: '/return',
@@ -176,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/admin/signals': typeof AdminSignalsRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
@@ -203,6 +210,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/admin/signals': typeof AdminSignalsRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
@@ -231,6 +239,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/admin/signals': typeof AdminSignalsRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
@@ -260,6 +269,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/admin/signals'
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/admin/signals'
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
@@ -314,6 +325,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/admin/signals'
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
@@ -342,6 +354,7 @@ export interface RootRouteChildren {
   ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkinConcernsRoute: typeof SkinConcernsRoute
+  AdminSignalsRoute: typeof AdminSignalsRoute
   GroceryListSlugRoute: typeof GroceryListSlugRoute
   GuideProductIdRoute: typeof GuideProductIdRoute
   LearnSlugRoute: typeof LearnSlugRoute
@@ -446,6 +459,13 @@ declare module '@tanstack/react-router' {
       path: '/skin-concerns'
       fullPath: '/skin-concerns'
       preLoaderRoute: typeof SkinConcernsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/signals': {
+      id: '/admin/signals'
+      path: '/admin/signals'
+      fullPath: '/admin/signals'
+      preLoaderRoute: typeof AdminSignalsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout/return': {
@@ -561,6 +581,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkinConcernsRoute: SkinConcernsRoute,
+  AdminSignalsRoute: AdminSignalsRoute,
   GroceryListSlugRoute: GroceryListSlugRoute,
   GuideProductIdRoute: GuideProductIdRoute,
   LearnSlugRoute: LearnSlugRoute,
