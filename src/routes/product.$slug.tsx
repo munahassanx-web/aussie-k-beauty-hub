@@ -180,7 +180,35 @@ function ProductPage() {
     }
   };
 
+  const stripRef = useRef<HTMLDivElement | null>(null);
+
+  const focusThumb = (i: number) => {
+    setUserPaused(true);
+    setActive(i);
+    const btn = stripRef.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[i];
+    btn?.focus();
+    btn?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  };
+
+  const onStripKeyDown = (e: React.KeyboardEvent) => {
+    if (count < 2) return;
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      focusThumb((active + 1) % count);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      focusThumb((active - 1 + count) % count);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      focusThumb(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      focusThumb(count - 1);
+    }
+  };
+
   if (!product) return <ProductNotFound />;
+
 
   const ingredients = heroIngredients(product);
   const restockId = restockPriceIdFor(product.priceId);
