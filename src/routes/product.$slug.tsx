@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useBuyNow } from '@/hooks/use-buy-now';
 import { Maximize2 as ExpandIcon } from 'lucide-react';
 import { ImageLightbox } from '@/components/image-lightbox';
@@ -101,6 +101,64 @@ function ProductPage() {
 
   const step = (delta: number) => setActive((i) => (i + delta + count) % count);
 
+  // Touch swipe: drag the stage horizontally to move between images.
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const swipeRef = useRef<{
+    id: number;
+    x: number;
+    y: number;
+    dx: number;
+    axis: 'x' | 'y' | null;
+  } | null>(null);
+  const [dragX, setDragX] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const swipedRef = useRef(false);
+
+  const stageWidth = () => stageRef.current?.getBoundingClientRect().width ?? 1;
+  const neighbor = dragX === 0 ? -1 : (active + (dragX < 0 ? 1 : -1) + count) % count;
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (count < 2 || e.pointerType === 'mouse') return;
+    swipeRef.current = { id: e.pointerId, x: e.clientX, y: e.clientY, dx: 0, axis: null };
+    swipedRef.current = false;
+  };
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    const s = swipeRef.current;
+    if (!s || s.id !== e.pointerId) return;
+    const dx = e.clientX - s.x;
+    const dy = e.clientY - s.y;
+    if (!s.axis) {
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      s.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      if (s.axis === 'x') {
+        setDragging(true);
+        setUserPaused(true);
+      }
+    }
+    if (s.axis !== 'x') return;
+    e.preventDefault();
+    swipedRef.current = true;
+    // Track the live delta in a ref too: pointerup can land in the same tick,
+    // before the state update has been applied.
+    s.dx = dx;
+    setDragX(dx);
+  };
+
+  const endSwipe = () => {
+    const s = swipeRef.current;
+    swipeRef.current = null;
+    setDragging(false);
+    if (s?.axis === 'x') {
+      const threshold = Math.min(80, stageWidth() * 0.18);
+      if (s.dx <= -threshold) step(1);
+      else if (s.dx >= threshold) step(-1);
+    }
+
+    setDragX(0);
+  };
+
+
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (count < 2) return;
     if (e.key === 'ArrowRight') {
@@ -152,28 +210,54 @@ function ProductPage() {
           onBlur={() => setHovered(false)}
           className="rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
         >
-          <div className="relative aspect-square overflow-hidden rounded-3xl bg-secondary">
-            {gallery.map((g, i) => (
-              <img
-                key={g.src}
-                src={g.src}
-                alt={g.alt}
-                width={1024}
-                height={1024}
-                loading={i === 0 ? 'eager' : 'lazy'}
-                aria-hidden={i !== active}
-                className={`absolute inset-0 h-full w-full object-cover ${
-                  prefersReducedMotion ? '' : 'transition-opacity duration-700'
-                } ${i === active ? 'opacity-100' : 'opacity-0'}`}
-              />
-            ))}
+          <div
+            ref={stageRef}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={endSwipe}
+            onPointerCancel={endSwipe}
+            style={{ touchAction: count > 1 ? 'pan-y' : undefined }}
+            className="relative aspect-square touch-pan-y overflow-hidden rounded-3xl bg-secondary"
+          >
+            {gallery.map((g, i) => {
+              const isActive = i === active;
+              const isNeighbor = dragging && i === neighbor;
+              const visible = isActive || isNeighbor;
+              const x = isActive ? dragX : dragX + (dragX < 0 ? stageWidth() : -stageWidth());
+              return (
+                <img
+                  key={g.src}
+                  src={g.src}
+                  alt={g.alt}
+                  width={1024}
+                  height={1024}
+                  draggable={false}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  aria-hidden={!isActive}
+                  style={visible ? { transform: `translate3d(${x}px,0,0)` } : undefined}
+                  className={`absolute inset-0 h-full w-full select-none object-cover ${
+                    prefersReducedMotion || dragging
+                      ? ''
+                      : 'transition-[opacity,transform] duration-700'
+                  } ${visible ? 'opacity-100' : 'opacity-0'}`}
+                />
+              );
+            })}
 
             {/* Click (or focus + Enter) anywhere on the stage to open the fullscreen viewer */}
             <button
               type="button"
-              onClick={() => setLightboxOpen(true)}
+              onClick={() => {
+                // Ignore the click that ends a swipe gesture.
+                if (swipedRef.current) {
+                  swipedRef.current = false;
+                  return;
+                }
+                setLightboxOpen(true);
+              }}
               className="group absolute inset-0 cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
             >
+
               <span className="sr-only">
                 Open fullscreen viewer for image {active + 1} of {count}
               </span>
