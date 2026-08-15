@@ -16,7 +16,6 @@ const topLevelLinks: Record<string, MegaLink> = {
   Shop: { label: "Shop", to: "/shop" },
   Concerns: { label: "Concerns", to: "/skin-concerns" },
   Brands: { label: "Brands", to: "/brands" },
-  Journal: { label: "Journal", to: "/journal" },
 };
 
 const megaMenus: Record<string, MegaSection[]> = {
@@ -93,30 +92,7 @@ const megaMenus: Record<string, MegaSection[]> = {
       ],
     },
   ],
-  Journal: [
-    {
-      heading: "Skin Journal",
-      links: [
-        { label: "Ingredient Guides", to: "/journal/snail-mucin-why-your-skin-loves-it" },
-        { label: "Routine Building", to: "/journal/the-10-step-routine-demystified" },
-        { label: "Centella vs Heartleaf", to: "/journal/centella-vs-heartleaf" },
-        { label: "Sunscreen in Australia", to: "/journal/sunscreen-every-single-day" },
-        { label: "Barrier-First Routine", to: "/journal/building-a-barrier-first-routine" },
-        { label: "Layering Serums", to: "/journal/layering-serums-without-pilling" },
-      ],
-    },
-    {
-      heading: "About Skin Grocer",
-      links: [
-        { label: "Our Story", to: "/about" },
-        { label: "Authenticity Promise", to: "/about" },
-        { label: "Reviews", to: "/reviews" },
-        { label: "Contact / Vending", to: "/contact" },
-      ],
-    },
-  ],
 };
-
 
 const announcements = [
   "Next-day Melbourne dispatch on orders before 12pm* — see footer",
@@ -341,15 +317,6 @@ export function SiteHeader() {
                 </Link>
 
 
-                <Link
-                  to="/journal/$slug"
-                  params={{ slug: "snail-mucin-why-your-skin-loves-it" }}
-                  onClick={closeMenus}
-                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
-                >
-                  Ingredient Guides
-                  <span className="text-base text-primary">→</span>
-                </Link>
               </div>
 
               <div className="mt-5 space-y-6">
@@ -424,9 +391,7 @@ export function SiteFooter() {
           <ul className="mt-5 space-y-3 text-sm text-paper/70">
             <li><Link to="/learn/hub" className="hover:text-paper">Learn Hub</Link></li>
             <li><Link to="/grocery-list" className="hover:text-paper">The Skin Grocery List</Link></li>
-
             <li><Link to="/learn" className="hover:text-paper">Ingredients A–Z</Link></li>
-            <li><Link to="/journal" className="hover:text-paper">Skin Journal</Link></li>
             <li><Link to="/about" className="hover:text-paper">About Us</Link></li>
             <li><Link to="/reviews" className="hover:text-paper">Reviews</Link></li>
             <li><Link to="/contact" className="hover:text-paper">Contact</Link></li>

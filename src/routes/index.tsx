@@ -70,11 +70,6 @@ const ingredients = [
   { name: "Madecassoside", role: "Sensitive calm" },
 ];
 
-const journal: { tag: string; title: string; read: string; slug: string }[] = [
-  { tag: "Routines", title: "The 10-step routine, demystified", read: "6 min", slug: "the-10-step-routine-demystified" },
-  { tag: "Ingredients", title: "Snail mucin: why your skin actually loves it", read: "4 min", slug: "snail-mucin-why-your-skin-loves-it" },
-  { tag: "Australia", title: "Sunscreen, every single day", read: "5 min", slug: "sunscreen-every-single-day" },
-];
 
 
 
@@ -96,13 +91,11 @@ function HomePage() {
       <Categories />
       <Concerns />
       <LearnStrip />
-
       <ApplicationMoment />
       <BrandMarquee />
       <IngredientStrip />
       <RitualCTA />
       <ParallaxScene />
-      <JournalPreview />
       <ReviewsCarousel />
       <NewsletterStrip />
     </div>
@@ -816,48 +809,6 @@ function RitualCTA() {
   );
 }
 
-function JournalPreview() {
-  return (
-    <section className="mx-auto max-w-7xl px-6 py-24">
-      <div className="flex items-end justify-between gap-6">
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Skin Journal</p>
-          <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">Read before you reach for the dropper.</h2>
-        </div>
-        <Link to="/journal" className="text-sm font-medium text-primary underline-grow">All articles →</Link>
-      </div>
-      <div className="mt-10 grid gap-6 md:grid-cols-3">
-        {journal.map((j, i) => (
-          <Link
-            key={j.title}
-            to="/journal/$slug"
-            params={{ slug: j.slug }}
-            className="group overflow-hidden rounded-2xl border border-border bg-card lift"
-          >
-
-            <div className="aspect-[4/3] overflow-hidden">
-              <img
-                src={[brandSpotlight, textureMacro, ritualScene][i]}
-                alt=""
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-            </div>
-            <div className="p-6">
-              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] text-clay">
-                <span>{j.tag}</span><span>·</span><span>{j.read} read</span>
-              </div>
-              <h3 className="mt-3 font-display text-xl leading-snug text-ink group-hover:text-primary">
-                {j.title}
-              </h3>
-              <p className="mt-4 text-sm font-medium text-primary">Read article →</p>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 function ReviewsCarousel() {
   const [i, setI] = useState(0);

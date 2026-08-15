@@ -17,7 +17,6 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ClubRouteImport } from './routes/club'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as JournalRouteImport } from './routes/journal'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as ShopRouteImport } from './routes/shop'
@@ -27,7 +26,6 @@ import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as GroceryListIndexRouteImport } from './routes/grocery-list.index'
 import { Route as GroceryListSlugRouteImport } from './routes/grocery-list.$slug'
 import { Route as GuideProductIdRouteImport } from './routes/guide.$productId'
-import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as LearnIndexRouteImport } from './routes/learn.index'
 import { Route as LearnSlugRouteImport } from './routes/learn.$slug'
 import { Route as LearnHubRouteImport } from './routes/learn.hub'
@@ -76,11 +74,6 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const JournalRoute = JournalRouteImport.update({
-  id: '/journal',
-  path: '/journal',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const JourneyRoute = JourneyRouteImport.update({
   id: '/journey',
   path: '/journey',
@@ -125,11 +118,6 @@ const GuideProductIdRoute = GuideProductIdRouteImport.update({
   id: '/guide/$productId',
   path: '/guide/$productId',
   getParentRoute: () => rootRouteImport,
-} as any)
-const JournalSlugRoute = JournalSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => JournalRoute,
 } as any)
 const LearnIndexRoute = LearnIndexRouteImport.update({
   id: '/learn/',
@@ -177,7 +165,6 @@ export interface FileRoutesByFullPath {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
-  '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
@@ -186,7 +173,6 @@ export interface FileRoutesByFullPath {
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
-  '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/learn/hub': typeof LearnHubRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
@@ -205,7 +191,6 @@ export interface FileRoutesByTo {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
-  '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
@@ -214,7 +199,6 @@ export interface FileRoutesByTo {
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
-  '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/learn/hub': typeof LearnHubRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
@@ -234,7 +218,6 @@ export interface FileRoutesById {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
-  '/journal': typeof JournalRouteWithChildren
   '/journey': typeof JourneyRoute
   '/reviews': typeof ReviewsRoute
   '/shop': typeof ShopRoute
@@ -243,7 +226,6 @@ export interface FileRoutesById {
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
-  '/journal/$slug': typeof JournalSlugRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/learn/hub': typeof LearnHubRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
@@ -264,7 +246,6 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
-    | '/journal'
     | '/journey'
     | '/reviews'
     | '/shop'
@@ -273,7 +254,6 @@ export interface FileRouteTypes {
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
-    | '/journal/$slug'
     | '/learn/$slug'
     | '/learn/hub'
     | '/routines/$bundleId'
@@ -292,7 +272,6 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
-    | '/journal'
     | '/journey'
     | '/reviews'
     | '/shop'
@@ -301,7 +280,6 @@ export interface FileRouteTypes {
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
-    | '/journal/$slug'
     | '/learn/$slug'
     | '/learn/hub'
     | '/routines/$bundleId'
@@ -320,7 +298,6 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
-    | '/journal'
     | '/journey'
     | '/reviews'
     | '/shop'
@@ -329,7 +306,6 @@ export interface FileRouteTypes {
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
-    | '/journal/$slug'
     | '/learn/$slug'
     | '/learn/hub'
     | '/routines/$bundleId'
@@ -349,7 +325,6 @@ export interface RootRouteChildren {
   ClubRoute: typeof ClubRoute
   ConsultationRoute: typeof ConsultationRoute
   ContactRoute: typeof ContactRoute
-  JournalRoute: typeof JournalRouteWithChildren
   JourneyRoute: typeof JourneyRoute
   ReviewsRoute: typeof ReviewsRoute
   ShopRoute: typeof ShopRoute
@@ -425,13 +400,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/journal': {
-      id: '/journal'
-      path: '/journal'
-      fullPath: '/journal'
-      preLoaderRoute: typeof JournalRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/journey': {
       id: '/journey'
       path: '/journey'
@@ -494,13 +462,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/guide/$productId'
       preLoaderRoute: typeof GuideProductIdRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/journal/$slug': {
-      id: '/journal/$slug'
-      path: '/$slug'
-      fullPath: '/journal/$slug'
-      preLoaderRoute: typeof JournalSlugRouteImport
-      parentRoute: typeof JournalRoute
     }
     '/learn/': {
       id: '/learn/'
@@ -566,17 +527,6 @@ const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
   CheckoutRouteChildren,
 )
 
-interface JournalRouteChildren {
-  JournalSlugRoute: typeof JournalSlugRoute
-}
-
-const JournalRouteChildren: JournalRouteChildren = {
-  JournalSlugRoute: JournalSlugRoute,
-}
-
-const JournalRouteWithChildren =
-  JournalRoute._addFileChildren(JournalRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -586,7 +536,6 @@ const rootRouteChildren: RootRouteChildren = {
   ClubRoute: ClubRoute,
   ConsultationRoute: ConsultationRoute,
   ContactRoute: ContactRoute,
-  JournalRoute: JournalRouteWithChildren,
   JourneyRoute: JourneyRoute,
   ReviewsRoute: ReviewsRoute,
   ShopRoute: ShopRoute,
