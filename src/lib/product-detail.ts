@@ -75,25 +75,25 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   torriden_dive_in_serum_onetime: [
     {
       src: '/products/editorial/torriden/dive-in-serum-studio.png',
-      alt: 'Torriden Dive In Serum styled on a cream plaster pedestal in studio light',
+      alt: 'Torriden Dive In Serum on a clean white studio backdrop with a hydrating gel swatch',
     },
   ],
   medicube_pdrn_pink_peptide_serum_30ml_onetime: [
     {
       src: '/products/editorial/medicube/pdrn-pink-peptide-serum-30ml-studio.png',
-      alt: 'MEDICUBE PDRN Pink Peptide Serum with a serum droplet swatch on cream stone',
+      alt: 'MEDICUBE PDRN Pink Peptide Serum with a serum droplet swatch on a clean white studio backdrop',
     },
   ],
   medicube_collagen_jelly_cream_110ml_onetime: [
     {
       src: '/products/editorial/medicube/collagen-jelly-cream-110ml-studio.png',
-      alt: 'MEDICUBE Collagen Jelly Cream jar open beside a glossy cream swatch',
+      alt: 'MEDICUBE Collagen Jelly Cream jar with lid and a glossy jelly swatch on a clean white studio backdrop',
     },
   ],
   beauty_of_joseon_revive_eye_serum_ginseng_plus_retinal_30ml_onetime: [
     {
       src: '/products/editorial/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml-studio.png',
-      alt: 'Beauty of Joseon Revive Eye Serum on a travertine ledge in soft daylight',
+      alt: 'Beauty of Joseon Revive Eye Serum close-up on a clean white studio backdrop',
     },
   ],
 };
