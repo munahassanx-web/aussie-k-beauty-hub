@@ -22,6 +22,7 @@ import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SkinConcernsRouteImport } from './routes/skin-concerns'
+import { Route as AdminSignalsRouteImport } from './routes/admin.signals'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as GroceryListIndexRouteImport } from './routes/grocery-list.index'
 import { Route as GroceryListSlugRouteImport } from './routes/grocery-list.$slug'
@@ -32,8 +33,10 @@ import { Route as LearnHubRouteImport } from './routes/learn.hub'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as RoutinesIndexRouteImport } from './routes/routines.index'
 import { Route as RoutinesBundleIdRouteImport } from './routes/routines.$bundleId'
+import { Route as AdminIssuesIdRouteImport } from './routes/admin.issues.$id'
 import { Route as LearnArticleSlugRouteImport } from './routes/learn.article.$slug'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
+import { Route as ApiPublicSignalsHarvestRouteImport } from './routes/api/public/signals/harvest'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -100,6 +103,11 @@ const SkinConcernsRoute = SkinConcernsRouteImport.update({
   path: '/skin-concerns',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSignalsRoute = AdminSignalsRouteImport.update({
+  id: '/admin/signals',
+  path: '/admin/signals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
   id: '/return',
   path: '/return',
@@ -150,6 +158,11 @@ const RoutinesBundleIdRoute = RoutinesBundleIdRouteImport.update({
   path: '/routines/$bundleId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIssuesIdRoute = AdminIssuesIdRouteImport.update({
+  id: '/admin/issues/$id',
+  path: '/admin/issues/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LearnArticleSlugRoute = LearnArticleSlugRouteImport.update({
   id: '/learn/article/$slug',
   path: '/learn/article/$slug',
@@ -161,6 +174,11 @@ const ApiPublicPaymentsWebhookRoute =
     path: '/api/public/payments/webhook',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicSignalsHarvestRoute = ApiPublicSignalsHarvestRouteImport.update({
+  id: '/api/public/signals/harvest',
+  path: '/api/public/signals/harvest',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -176,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/admin/signals': typeof AdminSignalsRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
@@ -186,8 +205,10 @@ export interface FileRoutesByFullPath {
   '/grocery-list/': typeof GroceryListIndexRoute
   '/learn/': typeof LearnIndexRoute
   '/routines/': typeof RoutinesIndexRoute
+  '/admin/issues/$id': typeof AdminIssuesIdRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -203,6 +224,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/admin/signals': typeof AdminSignalsRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
@@ -213,8 +235,10 @@ export interface FileRoutesByTo {
   '/grocery-list': typeof GroceryListIndexRoute
   '/learn': typeof LearnIndexRoute
   '/routines': typeof RoutinesIndexRoute
+  '/admin/issues/$id': typeof AdminIssuesIdRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -231,6 +255,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/admin/signals': typeof AdminSignalsRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
@@ -241,8 +266,10 @@ export interface FileRoutesById {
   '/grocery-list/': typeof GroceryListIndexRoute
   '/learn/': typeof LearnIndexRoute
   '/routines/': typeof RoutinesIndexRoute
+  '/admin/issues/$id': typeof AdminIssuesIdRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -260,6 +287,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/admin/signals'
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
@@ -270,8 +298,10 @@ export interface FileRouteTypes {
     | '/grocery-list/'
     | '/learn/'
     | '/routines/'
+    | '/admin/issues/$id'
     | '/learn/article/$slug'
     | '/api/public/payments/webhook'
+    | '/api/public/signals/harvest'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -287,6 +317,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/admin/signals'
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
@@ -297,8 +328,10 @@ export interface FileRouteTypes {
     | '/grocery-list'
     | '/learn'
     | '/routines'
+    | '/admin/issues/$id'
     | '/learn/article/$slug'
     | '/api/public/payments/webhook'
+    | '/api/public/signals/harvest'
   id:
     | '__root__'
     | '/'
@@ -314,6 +347,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/admin/signals'
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
@@ -324,8 +358,10 @@ export interface FileRouteTypes {
     | '/grocery-list/'
     | '/learn/'
     | '/routines/'
+    | '/admin/issues/$id'
     | '/learn/article/$slug'
     | '/api/public/payments/webhook'
+    | '/api/public/signals/harvest'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -342,6 +378,7 @@ export interface RootRouteChildren {
   ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkinConcernsRoute: typeof SkinConcernsRoute
+  AdminSignalsRoute: typeof AdminSignalsRoute
   GroceryListSlugRoute: typeof GroceryListSlugRoute
   GuideProductIdRoute: typeof GuideProductIdRoute
   LearnSlugRoute: typeof LearnSlugRoute
@@ -351,8 +388,10 @@ export interface RootRouteChildren {
   GroceryListIndexRoute: typeof GroceryListIndexRoute
   LearnIndexRoute: typeof LearnIndexRoute
   RoutinesIndexRoute: typeof RoutinesIndexRoute
+  AdminIssuesIdRoute: typeof AdminIssuesIdRoute
   LearnArticleSlugRoute: typeof LearnArticleSlugRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
+  ApiPublicSignalsHarvestRoute: typeof ApiPublicSignalsHarvestRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -448,6 +487,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkinConcernsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/signals': {
+      id: '/admin/signals'
+      path: '/admin/signals'
+      fullPath: '/admin/signals'
+      preLoaderRoute: typeof AdminSignalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/checkout/return': {
       id: '/checkout/return'
       path: '/return'
@@ -518,6 +564,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoutinesBundleIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/issues/$id': {
+      id: '/admin/issues/$id'
+      path: '/admin/issues/$id'
+      fullPath: '/admin/issues/$id'
+      preLoaderRoute: typeof AdminIssuesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/learn/article/$slug': {
       id: '/learn/article/$slug'
       path: '/learn/article/$slug'
@@ -530,6 +583,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/payments/webhook'
       fullPath: '/api/public/payments/webhook'
       preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/signals/harvest': {
+      id: '/api/public/signals/harvest'
+      path: '/api/public/signals/harvest'
+      fullPath: '/api/public/signals/harvest'
+      preLoaderRoute: typeof ApiPublicSignalsHarvestRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -561,6 +621,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkinConcernsRoute: SkinConcernsRoute,
+  AdminSignalsRoute: AdminSignalsRoute,
   GroceryListSlugRoute: GroceryListSlugRoute,
   GuideProductIdRoute: GuideProductIdRoute,
   LearnSlugRoute: LearnSlugRoute,
@@ -570,8 +631,10 @@ const rootRouteChildren: RootRouteChildren = {
   GroceryListIndexRoute: GroceryListIndexRoute,
   LearnIndexRoute: LearnIndexRoute,
   RoutinesIndexRoute: RoutinesIndexRoute,
+  AdminIssuesIdRoute: AdminIssuesIdRoute,
   LearnArticleSlugRoute: LearnArticleSlugRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
+  ApiPublicSignalsHarvestRoute: ApiPublicSignalsHarvestRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
