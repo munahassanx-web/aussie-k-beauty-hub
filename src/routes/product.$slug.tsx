@@ -103,7 +103,13 @@ function ProductPage() {
 
   // Touch swipe: drag the stage horizontally to move between images.
   const stageRef = useRef<HTMLDivElement | null>(null);
-  const swipeRef = useRef<{ id: number; x: number; y: number; axis: 'x' | 'y' | null } | null>(null);
+  const swipeRef = useRef<{
+    id: number;
+    x: number;
+    y: number;
+    dx: number;
+    axis: 'x' | 'y' | null;
+  } | null>(null);
   const [dragX, setDragX] = useState(0);
   const [dragging, setDragging] = useState(false);
   const swipedRef = useRef(false);
@@ -113,7 +119,7 @@ function ProductPage() {
 
   const onPointerDown = (e: React.PointerEvent) => {
     if (count < 2 || e.pointerType === 'mouse') return;
-    swipeRef.current = { id: e.pointerId, x: e.clientX, y: e.clientY, axis: null };
+    swipeRef.current = { id: e.pointerId, x: e.clientX, y: e.clientY, dx: 0, axis: null };
     swipedRef.current = false;
   };
 
@@ -133,6 +139,9 @@ function ProductPage() {
     if (s.axis !== 'x') return;
     e.preventDefault();
     swipedRef.current = true;
+    // Track the live delta in a ref too: pointerup can land in the same tick,
+    // before the state update has been applied.
+    s.dx = dx;
     setDragX(dx);
   };
 
@@ -142,9 +151,10 @@ function ProductPage() {
     setDragging(false);
     if (s?.axis === 'x') {
       const threshold = Math.min(80, stageWidth() * 0.18);
-      if (dragX <= -threshold) step(1);
-      else if (dragX >= threshold) step(-1);
+      if (s.dx <= -threshold) step(1);
+      else if (s.dx >= threshold) step(-1);
     }
+
     setDragX(0);
   };
 
