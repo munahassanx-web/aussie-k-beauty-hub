@@ -156,6 +156,15 @@ function ProductPage() {
 
           <p className="mt-5 text-muted-foreground">{productDescription(product)}</p>
 
+          {productTexture(product) && (
+            <p className="mt-4 text-sm text-foreground/85">
+              <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                Texture ·{' '}
+              </span>
+              {productTexture(product)}
+            </p>
+          )}
+
           <ul className="mt-6 space-y-2">
             {productBenefits(product).map((b) => (
               <li key={b} className="flex gap-2 text-sm text-foreground/85">
@@ -164,6 +173,7 @@ function ProductPage() {
               </li>
             ))}
           </ul>
+
 
           <div className="mt-8 space-y-3">
             <button
