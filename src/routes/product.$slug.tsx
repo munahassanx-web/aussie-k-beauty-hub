@@ -227,10 +227,25 @@ function ProductPage() {
             </div>
           ))}
         </div>
-        <p className="mt-4 text-xs text-muted-foreground">
-          Hero ingredients only. The full INCI list is printed on the carton of every product we
-          ship — ask us at hello@skingrocer.com.au if you need it before you buy.
-        </p>
+        {productInci(product) ? (
+          <details className="mt-6 rounded-2xl border border-border p-5">
+            <summary className="cursor-pointer text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              Full ingredient list (INCI)
+            </summary>
+            <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+              {productInci(product)}
+            </p>
+            <p className="mt-3 text-[11px] text-muted-foreground">
+              Formulas can change without notice — always check the carton before use.
+            </p>
+          </details>
+        ) : (
+          <p className="mt-4 text-xs text-muted-foreground">
+            Hero ingredients only. The full INCI list is printed on the carton of every product we
+            ship — ask us at hello@skingrocer.com.au if you need it before you buy.
+          </p>
+        )}
+
       </section>
 
       {/* How to use */}
