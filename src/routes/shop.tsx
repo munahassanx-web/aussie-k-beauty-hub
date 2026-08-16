@@ -5,6 +5,7 @@ import { useBuyNow } from "@/hooks/use-buy-now";
 import { CompareDrawer, CompareModal, type CompareItem } from "@/components/product-compare";
 import { SHOP_PRODUCTS, restockPriceIdFor, type Category } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
+import { WishlistButton } from "@/components/wishlist-button";
 import { FaqSection } from "@/components/faq-section";
 import { SHOP_FAQS, faqJsonLd } from "@/lib/faqs";
 
@@ -131,7 +132,8 @@ function Shop() {
                 {p.tag && (
                   <span className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-primary backdrop-blur">{p.tag}</span>
                 )}
-                <label className={`absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-foreground backdrop-blur ${disabled ? "opacity-40" : "cursor-pointer"}`}>
+                <WishlistButton productId={p.priceId} productName={`${p.brand} ${p.name}`} className="absolute right-3 top-3 shadow-sm" />
+                <label className={`absolute left-3 bottom-3 inline-flex items-center gap-1.5 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-foreground backdrop-blur ${disabled ? "opacity-40" : "cursor-pointer"}`}>
                   <input
                     type="checkbox"
                     checked={isSelected}
