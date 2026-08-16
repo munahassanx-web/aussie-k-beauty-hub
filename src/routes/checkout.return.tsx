@@ -108,10 +108,18 @@ function CheckoutReturn() {
         )}
       </div>
 
+      {receipt?.orderId && (
+        <p className="mt-4 text-sm text-muted-foreground">
+          Order ID <span className="font-mono text-foreground">{receipt.orderId}</span> — keep this to{' '}
+          <Link to="/track" className="underline">track your order</Link>.
+        </p>
+      )}
+
       <p className="mt-4 text-xs text-muted-foreground">*Metro and most regional areas. Remote postcodes may take 1–2 extra days.</p>
 
       <div className="mt-8 flex flex-wrap gap-3">
         <Link to="/club" className="rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">View your account</Link>
+        <Link to="/track" className="rounded-full border border-border px-7 py-3 text-sm font-medium text-foreground hover:bg-secondary">Track order</Link>
         <Link to="/shop" className="rounded-full border border-border px-7 py-3 text-sm font-medium text-foreground hover:bg-secondary">Keep shopping</Link>
       </div>
     </div>

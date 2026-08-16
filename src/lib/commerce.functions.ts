@@ -119,6 +119,7 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
   });
 
 export type OrderReceipt = {
+  orderId?: string;
   status: 'pending' | 'paid';
   amountCents: number;
   shippingCents: number;
@@ -154,6 +155,7 @@ export const getOrderBySession = createServerFn({ method: 'GET' })
       .maybeSingle();
     if (!order) return null;
     return {
+      orderId: order.id as string,
       status: (order.status as string) === 'paid' ? 'paid' : 'pending',
       amountCents: (order.amount_cents as number) ?? 0,
       shippingCents: (order.shipping_cents as number) ?? 0,
@@ -315,4 +317,57 @@ export const claimGuestOrders = createServerFn({ method: 'POST' })
   .handler(async ({ context }): Promise<{ claimed: number }> => {
     const { data } = await context.supabase.rpc('claim_guest_orders');
     return { claimed: typeof data === 'number' ? data : 0 };
+  });
+
+export type TrackedOrder = OrderReceipt & {
+  orderId: string;
+  placedAt: string;
+  fulfillmentStatus: string;
+  trackingNumber: string | null;
+};
+
+/**
+ * Guest order tracking: requires BOTH the order id (an unguessable uuid) and the
+ * email it was placed with, so knowing one alone reveals nothing.
+ */
+export const trackOrder = createServerFn({ method: 'POST' })
+  .inputValidator((data: { orderId: string; email: string }) => {
+    const orderId = data.orderId.trim().toLowerCase();
+    const email = data.email.trim().toLowerCase();
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(orderId)) {
+      throw new Error('That order ID does not look right. Check the confirmation email.');
+    }
+    if (!isValidEmail(email)) throw new Error('Enter the email you used at checkout.');
+    return { orderId, email };
+  })
+  .handler(async ({ data }): Promise<TrackedOrder | null> => {
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+    const { data: order } = await supabaseAdmin
+      .from('orders')
+      .select('*')
+      .eq('id', data.orderId)
+      .maybeSingle();
+    if (!order) return null;
+
+    const row = order as Record<string, any>;
+    const guestEmail = typeof row['guest_email'] === 'string' ? row['guest_email'].toLowerCase() : null;
+    let matches = guestEmail === data.email;
+    if (!matches && row['user_id']) {
+      const { data: profile } = await supabaseAdmin
+        .from('profiles')
+        .select('email')
+        .eq('id', row['user_id'])
+        .maybeSingle();
+      const accountEmail = typeof profile?.email === 'string' ? profile.email.toLowerCase() : null;
+      matches = accountEmail === data.email;
+    }
+    if (!matches) return null;
+
+    return {
+      ...mapOrderReceipt(row),
+      orderId: row['id'] as string,
+      placedAt: row['created_at'] as string,
+      fulfillmentStatus: (row['fulfillment_status'] as string) ?? 'processing',
+      trackingNumber: (row['tracking_number'] as string | null) ?? null,
+    };
   });
