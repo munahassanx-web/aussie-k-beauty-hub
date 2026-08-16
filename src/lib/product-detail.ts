@@ -156,6 +156,20 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'Toner being swept across the cheek with a cotton pad after cleansing',
     },
   ],
+  beauty_of_joseon_glow_serum_propolis_plus_niacinamide_30ml_onetime: [
+    {
+      src: '/products/editorial/beauty-of-joseon/glow-serum-propolis-niacinamide-30ml-hero.png',
+      alt: 'Beauty of Joseon Glow Serum: Propolis + Niacinamide 30ml glass dropper bottle with a golden serum droplet on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/beauty-of-joseon/glow-serum-propolis-niacinamide-30ml-info.png',
+      alt: 'Key ingredients panel for Beauty of Joseon Glow Serum: propolis extract, niacinamide, sodium hyaluronate, centella asiatica and betaine salicylate',
+    },
+    {
+      src: '/products/editorial/beauty-of-joseon/glow-serum-propolis-niacinamide-30ml-apply.png',
+      alt: 'Drops of pale gold propolis serum being patted into the cheek for a dewy glass-skin finish',
+    },
+  ],
 };
 
 
@@ -360,6 +374,46 @@ const COPY: Record<string, CopyOverride> = {
     ],
     fullInci:
       'Water, Prunus Mume Fruit Water, Dipropylene Glycol, Glycerin, Glycolic Acid, Butylene Glycol, Tromethamine, 1,2-Hexanediol, Hydroxyacetophenone, Salicylic Acid, Ethylhexylglycerin, Vigna Radiata Seed Extract, Disodium EDTA, Melia Azadirachta Leaf Extract, Melia Azadirachta Flower Extract, Coccinia Indica Fruit Extract, Ocimum Sanctum Leaf Extract, Curcuma Longa (Turmeric) Root Extract, Aloe Barbadensis Flower Extract, Solanum Melongena (Eggplant) Fruit Extract, Corallina Officinalis Extract, C12-14 Pareth-12, Xanthan Gum, Octyldodeceth-16',
+  },
+  beauty_of_joseon_glow_serum_propolis_plus_niacinamide_30ml_onetime: {
+    description:
+      "Beauty of Joseon Glow Serum: Propolis + Niacinamide is a cushiony smoothing serum built around propolis extract — the first ingredient in the formula — paired with niacinamide to help refine the look of pores, hydrate and calm the skin for a glassy glow. Sodium hyaluronate holds water in the surface layers while centella asiatica, tea tree and turmeric root extracts keep things comfortable, and a touch of betaine salicylate helps skin feel smoother over time. The brand recommends it for dry and combination skin. Made in Korea. 30ml.",
+    texture:
+      'Slightly viscous, honey-toned serum that spreads into a cushiony film and settles to a soft dewy finish rather than a sticky one.',
+    benefits: [
+      'Propolis extract — the highest-listed ingredient — comforts skin and leaves a lit-from-within glow',
+      'Niacinamide helps even out the look of tone and refine the appearance of pores',
+      'Sodium hyaluronate draws in and holds hydration for a plumper surface',
+      'Centella asiatica and tea tree extracts help keep reactive skin calm',
+      'Recommended by the brand for dry and combination skin',
+    ],
+    howToUse: [
+      'After toner, apply 2–3 drops to the face.',
+      'Pat gently with your fingertips to help absorption — don\'t rub.',
+      'Follow with moisturiser, and sunscreen in the morning.',
+      'Use both day and night.',
+    ],
+    ingredients: [
+      {
+        name: 'Propolis Extract',
+        korean: '프로폴리스',
+        what: 'A bee-derived resin extract and the first ingredient on the INCI list. It gives the serum its honey-gold colour and its signature comforting, glow-boosting feel. Skip it if you have a bee-product allergy.',
+        goodFor: ['Glow', 'Dry skin', 'Comfort'],
+      },
+      {
+        name: 'Niacinamide',
+        what: 'Vitamin B3 — one of the most studied brightening actives in K-beauty. It supports the barrier and helps the skin look more even in tone with a refined pore appearance.',
+        goodFor: ['Uneven tone', 'Pore appearance', 'Barrier support'],
+      },
+      {
+        name: 'Sodium Hyaluronate & Centella Asiatica',
+        korean: '병풀',
+        what: 'Sodium hyaluronate is the low-weight salt of hyaluronic acid, holding water in the upper layers; centella (cica) is the classic Korean soothing botanical for skin that flushes easily.',
+        goodFor: ['Hydration', 'Redness', 'Sensitive skin'],
+      },
+    ],
+    fullInci:
+      'Propolis Extract, Dipropylene Glycol, Glycerin, Butylene Glycol, Water, Niacinamide, 1,2-Hexanediol, Melia Azadirachta Flower Extract, Melia Azadirachta Leaf Extract, Sodium Hyaluronate, Curcuma Longa (Turmeric) Root Extract, Ocimum Sanctum Leaf Extract, Theobroma Cacao (Cocoa) Seed Extract, Melaleuca Alternifolia (Tea Tree) Extract, Centella Asiatica Extract, Corallina Officinalis Extract, Lotus Corniculatus Seed Extract, Calophyllum Inophyllum Seed Oil, Betaine Salicylate, Sodium Polyacryloyldimethyl Taurate, Tromethamine, Polyglyceryl-10 Laurate, Caprylyl Glycol, Ethylhexylglycerin, Dextrin, Pentylene Glycol, Octanediol, Tocopherol, Xanthan Gum, Carbomer',
   },
 };
 
