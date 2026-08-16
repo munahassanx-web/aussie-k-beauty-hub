@@ -723,6 +723,49 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'A mature woman patting milky toner into her cheeks with her palms',
     },
   ],
+
+  biodance_bio_collagen_real_deep_mask_onetime: [
+    {
+      src: '/products/editorial/biodance/bio-collagen-real-deep-mask-hero.png',
+      alt: 'BIODANCE Bio Collagen Real Deep Mask box and sheet mask on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/biodance/bio-collagen-real-deep-mask-info.png',
+      alt: 'Key ingredients panel for BIODANCE Bio Collagen Real Deep Mask: low molecular collagen, probiotics-galactomyces ferment filtrate and low molecular hyaluronic acid',
+    },
+    {
+      src: '/products/editorial/biodance/bio-collagen-real-deep-mask-apply.png',
+      alt: 'A woman pressing a clear hydrogel sheet mask onto her cheek with her fingertips',
+    },
+  ],
+  biodance_hydro_cera_nol_real_deep_mask_onetime: [
+    {
+      src: '/products/editorial/biodance/hydro-cera-nol-real-deep-mask-hero.png',
+      alt: 'BIODANCE Hydro Cera-Nol Real Deep Mask box and sheet mask on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/biodance/hydro-cera-nol-real-deep-mask-info.png',
+      alt: 'Key ingredients panel for BIODANCE Hydro Cera-Nol Real Deep Mask: ceramide, glacier water and panthenol',
+    },
+    {
+      src: '/products/editorial/biodance/hydro-cera-nol-real-deep-mask-apply.png',
+      alt: 'A woman smoothing the edge of a translucent hydrogel sheet mask along her jawline',
+    },
+  ],
+  biodance_refreshing_sea_kelp_real_deep_mask_onetime: [
+    {
+      src: '/products/editorial/biodance/refreshing-sea-kelp-real-deep-mask-hero.png',
+      alt: 'BIODANCE Refreshing Sea Kelp Real Deep Mask box on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/biodance/refreshing-sea-kelp-real-deep-mask-info.png',
+      alt: 'Key ingredients panel for BIODANCE Refreshing Sea Kelp Real Deep Mask: dasima sea kelp, kelp ferment filtrate and deep sea water',
+    },
+    {
+      src: '/products/editorial/biodance/refreshing-sea-kelp-real-deep-mask-apply.png',
+      alt: 'A woman peeling back a clear hydrogel sheet mask from her cheek',
+    },
+  ],
 };
 
 
