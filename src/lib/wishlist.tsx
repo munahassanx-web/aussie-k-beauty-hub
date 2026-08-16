@@ -63,7 +63,9 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
   const remove = useCallback(async (productId: string) => {
     const uid = await currentUserId(userIdRef.current);
-    if (!uid) throw new Error('You need to be signed in to change your wishlist.');
+    if (!uid) {
+      throw new Error('You need to be signed in to change your wishlist.');
+    }
 
     const previous = ids;
     setIds((prev) => prev.filter((id) => id !== productId));
