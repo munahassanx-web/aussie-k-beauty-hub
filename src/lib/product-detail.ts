@@ -766,6 +766,35 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'A woman peeling back a clear hydrogel sheet mask from her cheek',
     },
   ],
+
+  haruharu_wonder_black_rice_hyaluronic_toner_150ml_onetime: [
+    {
+      src: '/products/editorial/haruharu-wonder/black-rice-hyaluronic-toner-150ml-hero.png',
+      alt: 'HARUHARU WONDER Black Rice Hyaluronic Toner 150ml bottle on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/haruharu-wonder/black-rice-hyaluronic-toner-150ml-info.png',
+      alt: 'Key ingredients panel for HARUHARU WONDER Black Rice Hyaluronic Toner: fermented black rice extract, hyaluronic acid complex and panthenol',
+    },
+    {
+      src: '/products/editorial/haruharu-wonder/black-rice-hyaluronic-toner-150ml-apply.png',
+      alt: 'A woman pressing watery toner into her cheeks with both palms',
+    },
+  ],
+  haruharu_wonder_black_rice_5_ceramide_barrier_moisturizing_cream_onetime: [
+    {
+      src: '/products/editorial/haruharu-wonder/black-rice-5-ceramide-barrier-moisturizing-cream-hero.png',
+      alt: 'HARUHARU WONDER Black Rice 5 Ceramide Barrier Moisturizing Cream jar on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/haruharu-wonder/black-rice-5-ceramide-barrier-moisturizing-cream-info.png',
+      alt: 'Key ingredients panel for HARUHARU WONDER Black Rice 5 Ceramide Barrier Cream: five ceramides, fermented black rice extract and panthenol',
+    },
+    {
+      src: '/products/editorial/haruharu-wonder/black-rice-5-ceramide-barrier-moisturizing-cream-apply.png',
+      alt: 'A mature woman smoothing a rich white barrier cream along her cheek',
+    },
+  ],
 };
 
 
