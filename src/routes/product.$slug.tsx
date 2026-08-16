@@ -445,6 +445,14 @@ function ProductPage() {
 
 
           <div className="mt-8 space-y-3">
+            {product.comingSoon ? (
+              <div className="rounded-2xl border border-border bg-secondary/60 px-6 py-5 text-center">
+                <p className="text-sm font-medium text-foreground">Arriving soon · {product.price}</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  On its way to our Melbourne warehouse. Not available to order yet.
+                </p>
+              </div>
+            ) : (
             <button
               onClick={() =>
                 buy({ priceId: product.priceId, name: product.name, priceLabel: `${product.price} AUD` })
@@ -453,7 +461,8 @@ function ProductPage() {
             >
               Add to basket · {product.price}
             </button>
-            {restockId && (
+            )}
+            {!product.comingSoon && restockId && (
               <button
                 onClick={() =>
                   buy({ priceId: restockId, name: product.name, priceLabel: `${product.price} AUD` })

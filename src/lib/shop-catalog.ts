@@ -13,6 +13,8 @@ export type ShopProduct = {
   category: Category;
   image: string;
   concerns: Concern[];
+  /** Landed stock not yet in the Epping warehouse — shown but not purchasable. */
+  comingSoon?: boolean;
 };
 
 export const SHOP_PRODUCTS: ShopProduct[] = [
@@ -68,6 +70,10 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   { name: "Aqua Soy Yogurt Eye Cream", brand: "S.NATURE", price: "$35", priceId: "s_nature_aqua_soy_yogurt_eye_cream_onetime", tag: null, category: "Moisturise", image: "/products/s-nature/aqua-soy-yogurt-eye-cream.png", concerns: ["hydration","anti-aging"] },
   { name: "Mung Bean Pore Tight-Up Soothing Cream", brand: "beplain", price: "$28", priceId: "beplain_mung_bean_pore_tight_up_soothing_cream_onetime", tag: null, category: "Moisturise", image: "/products/beplain/mung-bean-pore-tight-up-soothing-cream.png", concerns: ["acne","sensitivity"] },
   { name: "Milk Ceramide Moisturizing Cream", brand: "beplain", price: "$35", priceId: "beplain_milk_ceramide_moisturizing_cream_onetime", tag: null, category: "Moisturise", image: "/products/beplain/milk-ceramide-moisturizing-cream.png", concerns: ["hydration","barrier"] },
+  { name: "Ginseng Cleansing Oil 210ml", brand: "Beauty of Joseon", price: "$30", priceId: "beauty_of_joseon_ginseng_cleansing_oil_210ml_onetime", tag: "Coming soon", category: "Cleanse", image: "/products/beauty-of-joseon/ginseng-cleansing-oil-210ml.png", concerns: ["hydration"], comingSoon: true },
+  { name: "Green Plum Refreshing Toner: AHA + BHA 150ml", brand: "Beauty of Joseon", price: "$32", priceId: "beauty_of_joseon_green_plum_refreshing_toner_150ml_onetime", tag: "Coming soon", category: "Tone", image: "/products/beauty-of-joseon/green-plum-refreshing-toner-aha-bha-150ml.png", concerns: ["acne"], comingSoon: true },
+  { name: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", price: "$34", priceId: "beauty_of_joseon_glow_serum_propolis_plus_niacinamide_30ml_onetime", tag: "Coming soon", category: "Treat", image: "/products/beauty-of-joseon/glow-serum-propolis-plus-niacinamide-30ml.png", concerns: ["hydration","pigmentation"], comingSoon: true },
+  { name: "Dynasty Cream 50ml", brand: "Beauty of Joseon", price: "$36", priceId: "beauty_of_joseon_dynasty_cream_50ml_onetime", tag: "Coming soon", category: "Moisturise", image: "/products/beauty-of-joseon/dynasty-cream-50ml.png", concerns: ["hydration","barrier"], comingSoon: true },
 ];
 
 /** Numeric price (AUD) for a catalog product. */

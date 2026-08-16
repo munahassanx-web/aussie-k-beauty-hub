@@ -148,14 +148,20 @@ function Shop() {
 
                 <div className="mt-2 flex items-center justify-between">
                   <span className="text-sm text-foreground">{p.price}</span>
-                  <button
-                    onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
-                    className="text-xs font-medium uppercase tracking-wider text-primary hover:underline"
-                  >
-                    Add to basket →
-                  </button>
+                  {p.comingSoon ? (
+                    <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      Arriving soon
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
+                      className="text-xs font-medium uppercase tracking-wider text-primary hover:underline"
+                    >
+                      Add to basket →
+                    </button>
+                  )}
                 </div>
-                {restockPriceIdFor(p.priceId) && (
+                {!p.comingSoon && restockPriceIdFor(p.priceId) && (
                   <button
                     onClick={() => buy({ priceId: restockPriceIdFor(p.priceId)!, name: p.name, priceLabel: `${p.price} AUD` })}
                     className="mt-2 w-full rounded-full border border-border py-1.5 text-[11px] uppercase tracking-wider text-foreground hover:bg-secondary"
