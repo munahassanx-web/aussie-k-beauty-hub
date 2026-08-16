@@ -83,12 +83,13 @@
   --input: oklch(0.912 0.004 265);
   --ring: oklch(0.36 0.018 265);
 
-  /* Consultation quiz stage — soft champagne / slate wash */
-  --quiz-stage-top: oklch(0.985 0.006 90);
-  --quiz-stage-bottom: oklch(0.945 0.012 255);
-  --quiz-glow-1: oklch(0.90 0.075 85);
-  --quiz-glow-2: oklch(0.80 0.065 255);
-  --quiz-glow-3: oklch(0.88 0.05 20);
+  /* Consultation quiz stage — dark cinematic wash */
+  --quiz-stage-top: oklch(0.24 0.018 265);
+  --quiz-stage-bottom: oklch(0.15 0.02 265);
+  --quiz-glow-1: oklch(0.72 0.10 85);
+  --quiz-glow-2: oklch(0.55 0.13 255);
+  --quiz-glow-3: oklch(0.60 0.10 20);
+
 }
 
 
@@ -191,39 +192,52 @@
 /* Ambient colour wash behind the quiz so the glass surfaces actually read */
 @utility quiz-stage {
   background:
+    radial-gradient(120% 70% at 50% -10%, color-mix(in oklab, var(--quiz-glow-1) 22%, transparent) 0%, transparent 60%),
     linear-gradient(180deg, var(--quiz-stage-top) 0%, var(--quiz-stage-bottom) 100%);
 }
 @utility quiz-aurora {
   position: absolute;
-  inset: -25%;
+  inset: -30%;
   pointer-events: none;
   background:
-    radial-gradient(38% 34% at 16% 18%, var(--quiz-glow-1) 0%, transparent 68%),
-    radial-gradient(42% 36% at 84% 14%, var(--quiz-glow-2) 0%, transparent 68%),
-    radial-gradient(48% 42% at 62% 86%, var(--quiz-glow-3) 0%, transparent 70%);
-  filter: blur(40px);
-  opacity: 0.85;
-  animation: quiz-aurora 26s ease-in-out infinite;
+    radial-gradient(38% 34% at 16% 18%, var(--quiz-glow-1) 0%, transparent 66%),
+    radial-gradient(44% 38% at 84% 12%, var(--quiz-glow-2) 0%, transparent 66%),
+    radial-gradient(52% 44% at 62% 88%, var(--quiz-glow-3) 0%, transparent 68%);
+  filter: blur(70px);
+  opacity: 0.55;
+  animation: quiz-aurora 22s ease-in-out infinite;
+}
+/* Frosted content panel floating on the cinematic stage */
+@utility quiz-panel {
+  border-radius: 1.25rem;
+  background: color-mix(in oklab, var(--color-paper) 92%, transparent);
+  backdrop-filter: blur(26px) saturate(150%);
+  border: 1px solid color-mix(in oklab, var(--color-paper) 60%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in oklab, var(--color-paper) 90%, transparent) inset,
+    0 40px 90px -40px rgb(0 0 0 / 0.75),
+    0 0 0 1px rgb(255 255 255 / 0.06);
 }
 
 @utility quiz-glass {
-  background: color-mix(in oklab, var(--color-paper) 46%, transparent);
-  backdrop-filter: blur(22px) saturate(165%);
-  border: 1px solid color-mix(in oklab, var(--color-paper) 75%, transparent);
+  background: color-mix(in oklab, var(--color-cream) 55%, transparent);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid color-mix(in oklab, var(--color-hanbok) 14%, transparent);
   box-shadow:
     0 1px 0 color-mix(in oklab, var(--color-paper) 85%, transparent) inset,
-    0 18px 44px -30px color-mix(in oklab, var(--color-hanbok) 70%, transparent);
+    0 14px 34px -26px color-mix(in oklab, var(--color-hanbok) 80%, transparent);
   transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease,
               border-color 0.35s ease, background 0.35s ease;
   &:hover {
-    transform: translateY(-7px) scale(1.012);
-    background: color-mix(in oklab, var(--color-paper) 68%, transparent);
-    border-color: color-mix(in oklab, var(--color-hanbok) 45%, transparent);
+    transform: translateY(-7px) scale(1.015);
+    background: color-mix(in oklab, var(--color-paper) 85%, transparent);
+    border-color: color-mix(in oklab, var(--color-hanbok) 55%, transparent);
     box-shadow:
-      0 0 0 1px color-mix(in oklab, var(--color-hanbok) 22%, transparent),
-      0 30px 60px -30px color-mix(in oklab, var(--color-hanbok) 75%, transparent);
+      0 0 0 1px color-mix(in oklab, var(--color-hanbok) 25%, transparent),
+      0 30px 60px -30px color-mix(in oklab, var(--color-hanbok) 85%, transparent);
   }
 }
+
 @utility quiz-glass-active {
   background: color-mix(in oklab, var(--color-hanbok) 14%, color-mix(in oklab, var(--color-paper) 70%, transparent));
   border-color: color-mix(in oklab, var(--color-hanbok) 70%, transparent);

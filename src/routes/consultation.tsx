@@ -187,8 +187,8 @@ function ConsultationPage() {
       <div className="relative mx-auto max-w-2xl px-5">
 
         <div className="text-center">
-          <p className="font-display text-lg tracking-[0.18em] text-ink">SKIN GROCER</p>
-          <p className="mt-1 text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+          <p className="font-display text-lg tracking-[0.18em] text-paper">SKIN GROCER</p>
+          <p className="mt-1 text-[10px] uppercase tracking-[0.28em] text-paper/55">
             Skin Consultation
           </p>
         </div>
@@ -343,7 +343,7 @@ function ConsultationPage() {
         </div>
 
 
-        <p className="mt-8 text-center text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+        <p className="mt-8 text-center text-[10px] uppercase tracking-[0.22em] text-paper/45">
           Guidance only — not a substitute for a dermatologist
         </p>
       </div>
@@ -355,7 +355,7 @@ function ConsultationPage() {
 
 function Intro({ onStart }: { onStart: () => void }) {
   return (
-    <div className="border border-border bg-paper p-8 md:p-12">
+    <div className="quiz-panel p-8 md:p-12">
       <p className="text-[10px] uppercase tracking-[0.22em] text-primary">Three minutes, in your words</p>
       <h1 className="mt-4 font-display text-3xl leading-[1.15] text-ink md:text-[2.6rem]">
         No wrong answers here.
@@ -398,18 +398,18 @@ function ProgressBar({ value, label }: { value: number; label: string }) {
   return (
     <div className="mt-8">
       <div className="flex items-baseline justify-between">
-        <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{label}</span>
-        <span className="font-display text-sm italic text-primary">{Math.round(value * 100)}%</span>
+        <span className="text-[10px] uppercase tracking-[0.22em] text-paper/60">{label}</span>
+        <span className="font-display text-sm italic text-paper/90">{Math.round(value * 100)}%</span>
       </div>
       <div
-        className="mt-2.5 h-[6px] w-full overflow-hidden rounded-full bg-border/60 shadow-[inset_0_1px_2px_rgba(0,0,0,0.08)]"
+        className="mt-2.5 h-[7px] w-full overflow-hidden rounded-full bg-paper/12 shadow-[inset_0_1px_3px_rgba(0,0,0,0.45)]"
         role="progressbar"
         aria-valuenow={Math.round(value * 100)}
         aria-valuemin={0}
         aria-valuemax={100}
       >
         <div
-          className="h-full rounded-full bg-gradient-to-r from-primary/60 via-primary to-ink shadow-[0_0_18px_rgba(0,0,0,0.35)]"
+          className="h-full rounded-full bg-gradient-to-r from-accent via-primary to-paper shadow-[0_0_22px_color-mix(in_oklab,var(--color-primary)_70%,transparent)]"
           style={{
             width: `${Math.max(3, value * 100)}%`,
             transition: "width 900ms cubic-bezier(0.22, 0.9, 0.24, 1)",
@@ -460,7 +460,7 @@ function Question({
   onNext: (() => void) | null;
 }) {
   return (
-    <div className="border border-border bg-paper p-7 md:p-10">
+    <div className="quiz-panel p-7 md:p-10">
       <Marker index={index} />
       <h2 className="font-display text-[1.7rem] leading-snug text-ink">{prompt}</h2>
       {aside && <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">{aside}</p>}
@@ -540,7 +540,7 @@ function FinalStep({
   error: string | null;
 }) {
   return (
-    <div className="border border-border bg-paper p-7 md:p-10">
+    <div className="quiz-panel p-7 md:p-10">
       <Marker index={7} />
       <h2 className="font-display text-[1.7rem] leading-snug text-ink">
         Anything else you'd tell a consultant in person?
@@ -767,7 +767,7 @@ function Results({
   }
 
   return (
-    <div className="border border-border bg-paper p-7 md:p-10">
+    <div className="quiz-panel p-7 md:p-10">
       <p className="text-[10px] uppercase tracking-[0.22em] text-primary">Your consultation</p>
       <h2 className="mt-3 font-display text-[1.9rem] leading-snug text-ink">
         {answers.name ? `Here's your routine, ${answers.name}.` : "Here's your routine."}
