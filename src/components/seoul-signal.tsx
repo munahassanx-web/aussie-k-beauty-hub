@@ -21,21 +21,28 @@ export function SeoulSignalStrip() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-paper/60">
-              The Seoul Signal · Fortnightly
+            <p className="inline-flex items-center gap-2 rounded-full border border-paper/25 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-paper/70">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-grocer-tomato" />
+              The Seoul Signal · Free · Fortnightly
             </p>
             <h2
               id="seoul-signal-home"
-              className="mt-6 max-w-xl font-display text-[32px] leading-[1.03] md:text-[52px]"
+              className="mt-6 max-w-xl font-display text-[34px] leading-[1.02] md:text-[56px]"
             >
-              Australia's closest read on what Korea is actually buying.
+              You&rsquo;re buying what Korea
+              <span className="text-grocer-tomato"> finished with a year ago.</span>
             </h2>
-            <p className="mt-6 max-w-lg text-[14.5px] leading-relaxed text-paper/70">
-              Every fortnight we read Korean-language review data, Olive Young category
-              rankings and Seoul shelf movement, then publish what's real — new launches,
-              ingredients moving from clinics to retail, and the trends not worth your money.
-              No other Australian retailer publishes this cycle. It's why brands land here first.
+            <p className="mt-6 max-w-lg text-[15px] leading-relaxed text-paper/75">
+              By the time a Korean product is marketed to you here, Seoul has already reviewed it,
+              ranked it, and in a lot of cases moved on. That lag is why your routine keeps feeling
+              one step behind and why you keep paying full price for last season&rsquo;s hero.
             </p>
+            <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-paper/75">
+              Every fortnight we read Korean-language reviews, Olive Young ranking movement and
+              Seoul shelf data, and publish what&rsquo;s actually working — plus the trends not worth
+              your money. Free to read, no product pitch.
+            </p>
+
 
             <dl className="mt-10 grid max-w-lg grid-cols-3 gap-6 border-t border-paper/20 pt-8">
               {[
