@@ -518,7 +518,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/beplain/mung-bean-pore-tight-up-soothing-cream-apply.png',
-      alt: 'A man pressing a light gel-cream into his cheek and nose area',
+      alt: 'A woman pressing a light gel-cream into her cheek and nose area',
     },
   ],
   beplain_milk_ceramide_moisturizing_cream_onetime: [
