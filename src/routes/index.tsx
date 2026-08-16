@@ -4,6 +4,7 @@ import { useBuyNow } from "@/hooks/use-buy-now";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { FaqSection } from "@/components/faq-section";
 import { HOME_FAQS, faqJsonLd } from "@/lib/faqs";
+import { Reveal } from "@/components/reveal";
 import { HeroCarousel } from "@/components/hero-carousel";
 import { SeoulSignalStrip } from "@/components/seoul-signal";
 import { KoreaRightNow } from "@/components/korea-right-now";
@@ -92,20 +93,20 @@ function HomePage() {
       <HeroCarousel />
       <Promise />
       <KoreaRightNow />
-      <Categories />
+      <Reveal><Categories /></Reveal>
       <BrandMarquee />
-      <IngredientStrip />
-      <ProvenanceCard />
+      <Reveal><IngredientStrip /></Reveal>
+      <Reveal><ProvenanceCard /></Reveal>
       <SkinQuizSection />
-      <BundleOffer />
-      <Concerns />
-      <WhyPillars />
+      <Reveal><BundleOffer /></Reveal>
+      <Reveal><Concerns /></Reveal>
+      <Reveal><WhyPillars /></Reveal>
       <ApplicationMoment />
       <RitualCTA />
       <ParallaxScene />
-      <LearnStrip />
+      <Reveal><LearnStrip /></Reveal>
       <SeoulSignalStrip />
-      <ReviewsCarousel />
+      <Reveal><ReviewsCarousel /></Reveal>
       <FaqSection
         id="k-beauty-faq"
         eyebrow="Common questions"
