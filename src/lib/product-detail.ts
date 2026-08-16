@@ -568,7 +568,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   aestura_a_cica_moisture_toner_onetime: [
     {
       src: '/products/editorial/aestura/a-cica-moisture-toner-hero.png',
-      alt: 'AESTURA A-Cica Moisture Toner on a clean white studio backdrop',
+      alt: 'AESTURA A-Cica Moisture Toner 25ml on a clean white studio backdrop',
     },
     {
       src: '/products/editorial/aestura/a-cica-moisture-toner-info.png',
@@ -582,7 +582,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   aestura_derma_uv365_barrier_moisture_mineral_sun_cream_onetime: [
     {
       src: '/products/editorial/aestura/derma-uv365-hero.png',
-      alt: 'AESTURA Derma UV365 Barrier Moisture Mineral Sun Cream on a clean white studio backdrop',
+      alt: 'AESTURA Derma UV365 Barrier Moisture Mineral Sun Cream 20ml on a clean white studio backdrop',
     },
     {
       src: '/products/editorial/aestura/derma-uv365-info.png',
