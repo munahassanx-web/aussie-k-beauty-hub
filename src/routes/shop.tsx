@@ -6,6 +6,8 @@ import { CompareDrawer, CompareModal, type CompareItem } from "@/components/prod
 import { SHOP_PRODUCTS, restockPriceIdFor, type Category } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
 import { WishlistButton } from "@/components/wishlist-button";
+import { Reveal } from "@/components/reveal";
+
 import { FaqSection } from "@/components/faq-section";
 import { SHOP_FAQS, faqJsonLd } from "@/lib/faqs";
 
