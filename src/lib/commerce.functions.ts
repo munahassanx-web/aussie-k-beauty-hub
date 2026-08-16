@@ -4,7 +4,9 @@ import { type StripeEnv, createStripeClient, getStripeErrorMessage } from '@/lib
 import {
   type CheckoutLineInput,
   computeRedemption,
+  isValidEmail,
   lineDescriptor,
+  mapOrderReceipt,
   resolveOrCreateCustomer,
   resolvePrices,
   shippingOptionFor,
