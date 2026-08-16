@@ -142,19 +142,46 @@ function Checkout() {
                 </div>
               </div>
             ) : (
-              points !== null && (
+              user && points !== null && (
                 <p className="text-xs text-muted-foreground">
                   You have {points} points. Earn 100+ to unlock rewards at checkout.
                 </p>
               )
             )}
+            {!user && (
+              <div className="rounded-2xl border border-border p-5">
+                <label htmlFor="guest-email" className="text-sm font-medium text-foreground">
+                  Email for your receipt
+                </label>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Guest checkout — we'll send your order confirmation and tracking here.
+                </p>
+                <input
+                  id="guest-email"
+                  type="email"
+                  autoComplete="email"
+                  value={guestEmail}
+                  onChange={(e) => setGuestEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className="mt-3 w-full rounded-full border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-primary"
+                />
+              </div>
+            )}
             {error && <p className="text-sm text-destructive">{error}</p>}
             <button
-              onClick={() => { setError(null); setStarted(true); }}
+              onClick={() => {
+                if (!user && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(guestEmail.trim())) {
+                  setError('Enter a valid email address so we can send your receipt.');
+                  return;
+                }
+                setError(null);
+                setStarted(true);
+              }}
               className="w-full rounded-full bg-primary py-3.5 text-sm font-medium uppercase tracking-wider text-primary-foreground hover:opacity-90"
             >
               Continue to payment
             </button>
+
             <p className="text-xs text-muted-foreground">
               Pay with Apple Pay, Google Pay, or card. Delivery address is collected on the next
               step. We ship within Australia only.
