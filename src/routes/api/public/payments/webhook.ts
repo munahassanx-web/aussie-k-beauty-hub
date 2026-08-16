@@ -428,7 +428,7 @@ async function handleWebhook(req: Request, env: StripeEnv) {
       await handleInvoiceFailed(event.data.object, env);
       break;
     default:
-      console.log('unhandled event', event.type);
+      logCommerce('webhook', 'event.unhandled', { type: event.type });
   }
 }
 
@@ -436,18 +436,23 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const trace = newTraceId();
+        const startedAt = Date.now();
         const rawEnv = new URL(request.url).searchParams.get('env');
         if (rawEnv !== 'sandbox' && rawEnv !== 'live') {
+          warnCommerce('webhook', 'request.invalid_env', { trace, rawEnv });
           return Response.json({ received: true, ignored: 'invalid env' });
         }
         try {
           await handleWebhook(request, rawEnv);
+          logCommerce('webhook', 'request.completed', { trace, env: rawEnv, elapsedMs: since(startedAt) });
           return Response.json({ received: true });
         } catch (e) {
-          console.error('webhook error', e);
+          errorCommerce('webhook', 'request.failed', e, { trace, env: rawEnv, elapsedMs: since(startedAt) });
           return new Response('Webhook error', { status: 400 });
         }
       },
     },
   },
 });
+
