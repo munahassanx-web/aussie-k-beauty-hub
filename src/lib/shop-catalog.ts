@@ -124,7 +124,7 @@ export type BundleDefinition = {
 /** Canonical bundle definitions — single source of truth for both landing promos and the bundle grid. */
 export const BUNDLE_DEFINITIONS: BundleDefinition[] = [
   {
-    priceId: "starter_bundle_onetime",
+    priceId: "bundle_glass_skin_starter_onetime",
     tag: "Starter Ritual",
     name: "The Glass Skin Starter",
     desc: "A 4-step intro to Korean skincare — cleanse, tone, hydrate, protect.",
@@ -144,7 +144,7 @@ export const BUNDLE_DEFINITIONS: BundleDefinition[] = [
     featured: false,
   },
   {
-    priceId: "complete_glow_bundle_onetime",
+    priceId: "bundle_complete_glow_onetime",
     tag: "Best Value · Save 25%",
     name: "The Complete Glow Edit",
     desc: "Our most-loved ritual, advisor-built. A full month of glass-skin results.",
@@ -166,7 +166,7 @@ export const BUNDLE_DEFINITIONS: BundleDefinition[] = [
     featured: true,
   },
   {
-    priceId: "calm_clear_bundle_onetime",
+    priceId: "bundle_calm_clear_onetime",
     tag: "Concern Kit",
     name: "Calm & Clear Bundle",
     desc: "For breakout-prone, sensitive skin. Cica, BHA and barrier repair.",
