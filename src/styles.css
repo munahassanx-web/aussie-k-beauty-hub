@@ -182,18 +182,23 @@
   animation: quiz-step-in 0.75s cubic-bezier(0.22, 0.9, 0.24, 1) both;
 }
 /* Ambient colour wash behind the quiz so the glass surfaces actually read */
+@utility quiz-stage {
+  background:
+    linear-gradient(180deg, var(--quiz-stage-top) 0%, var(--quiz-stage-bottom) 100%);
+}
 @utility quiz-aurora {
   position: absolute;
-  inset: -20%;
+  inset: -25%;
   pointer-events: none;
   background:
-    radial-gradient(42% 38% at 18% 22%, color-mix(in oklab, var(--color-grocer-butter) 85%, transparent) 0%, transparent 70%),
-    radial-gradient(46% 40% at 82% 18%, color-mix(in oklab, var(--color-hanbok) 26%, transparent) 0%, transparent 70%),
-    radial-gradient(50% 45% at 60% 88%, color-mix(in oklab, var(--color-grocer-tomato) 18%, transparent) 0%, transparent 72%);
-  filter: blur(18px);
-  opacity: 0.75;
+    radial-gradient(38% 34% at 16% 18%, var(--quiz-glow-1) 0%, transparent 68%),
+    radial-gradient(42% 36% at 84% 14%, var(--quiz-glow-2) 0%, transparent 68%),
+    radial-gradient(48% 42% at 62% 86%, var(--quiz-glow-3) 0%, transparent 70%);
+  filter: blur(40px);
+  opacity: 0.85;
   animation: quiz-aurora 26s ease-in-out infinite;
 }
+
 @utility quiz-glass {
   background: color-mix(in oklab, var(--color-paper) 46%, transparent);
   backdrop-filter: blur(22px) saturate(165%);
