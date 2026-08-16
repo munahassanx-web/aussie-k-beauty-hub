@@ -392,6 +392,32 @@ function Intro({ onStart }: { onStart: () => void }) {
   );
 }
 
+function ProgressBar({ value, label }: { value: number; label: string }) {
+  return (
+    <div className="mt-8">
+      <div className="flex items-baseline justify-between">
+        <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{label}</span>
+        <span className="font-display text-sm italic text-primary">{Math.round(value * 100)}%</span>
+      </div>
+      <div
+        className="mt-2.5 h-[3px] w-full overflow-hidden rounded-full bg-border/70"
+        role="progressbar"
+        aria-valuenow={Math.round(value * 100)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
+        <div
+          className="h-full rounded-full bg-gradient-to-r from-primary/70 via-primary to-ink shadow-[0_0_12px_rgba(0,0,0,0.18)]"
+          style={{
+            width: `${Math.max(2, value * 100)}%`,
+            transition: "width 700ms cubic-bezier(0.22, 0.9, 0.24, 1)",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
 function Marker({ index }: { index: number }) {
   return (
     <div className="mb-7 flex items-baseline gap-4">
@@ -402,7 +428,7 @@ function Marker({ index }: { index: number }) {
         {STEPS.map((_, i) => (
           <span
             key={i}
-            className={`h-px flex-1 ${i <= index ? "bg-primary" : "bg-border"}`}
+            className={`h-px flex-1 transition-colors duration-500 ${i <= index ? "bg-primary" : "bg-border"}`}
             aria-hidden
           />
         ))}
@@ -413,6 +439,7 @@ function Marker({ index }: { index: number }) {
     </div>
   );
 }
+
 
 function Question({
   index,
