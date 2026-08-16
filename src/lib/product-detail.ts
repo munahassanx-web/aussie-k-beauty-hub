@@ -128,14 +128,30 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'Beauty of Joseon Revive Eye Serum being patted onto the back of a hand with a fingertip',
     },
   ],
+  beauty_of_joseon_ginseng_cleansing_oil_210ml_onetime: [
+    {
+      src: '/products/editorial/beauty-of-joseon/ginseng-cleansing-oil-210ml-hero.png',
+      alt: 'Beauty of Joseon Ginseng Cleansing Oil 210ml pump bottle with a droplet of amber oil on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/beauty-of-joseon/ginseng-cleansing-oil-210ml-info.png',
+      alt: 'Key ingredients panel for Beauty of Joseon Ginseng Cleansing Oil: soybean oil, ginseng seed oil, camellia seed oil, olive fruit oil and ginseng root and berry extract',
+    },
+    {
+      src: '/products/editorial/beauty-of-joseon/ginseng-cleansing-oil-210ml-apply.png',
+      alt: 'Cleansing oil being massaged over dry skin on the cheek and jawline before emulsifying with water',
+    },
+  ],
 };
 
 
 export function galleryFor(p: ShopProduct): GalleryImage[] {
+  const editorial = EDITORIAL[p.priceId];
+  // When a SKU has bespoke, product-accurate editorial imagery we show only
+  // that — generic category lifestyle shots look random next to it.
   return [
     { src: p.image, alt: `${p.brand} ${p.name}` },
-    ...(EDITORIAL[p.priceId] ?? []),
-    ...LIFESTYLE[p.category],
+    ...(editorial ?? LIFESTYLE[p.category]),
   ];
 }
 
