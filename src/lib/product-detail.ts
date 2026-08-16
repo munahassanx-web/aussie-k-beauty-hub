@@ -381,6 +381,90 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'A woman smoothing a cooling gel-cream over a slightly flushed cheek',
     },
   ],
+  round_lab_1025_dokdo_toner_100ml_onetime: [
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-toner-100ml-hero.png',
+      alt: 'ROUND LAB 1025 Dokdo Toner 100ml bottle on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-toner-100ml-info.png',
+      alt: 'Key ingredients panel for ROUND LAB 1025 Dokdo Toner: Ulleungdo deep sea water, panthenol and hyaluronic acid in a low pH 5.5, fragrance-free formula',
+    },
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-toner-100ml-apply.png',
+      alt: 'A woman sweeping a toner-soaked cotton pad across her cheek in soft daylight',
+    },
+  ],
+  round_lab_1025_dokdo_lotion_200ml_onetime: [
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-lotion-200ml-hero.png',
+      alt: 'ROUND LAB 1025 Dokdo Lotion 200ml bottle on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-lotion-200ml-info.png',
+      alt: 'Key ingredients panel for ROUND LAB 1025 Dokdo Lotion: Ulleungdo deep sea water, squalane and panthenol in a lightweight milky texture',
+    },
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-lotion-200ml-apply.png',
+      alt: 'Fingertips patting a stripe of milky lotion into the cheek for a dewy finish',
+    },
+  ],
+  round_lab_1025_dokdo_cleanser_150ml_onetime: [
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-cleanser-150ml-hero.png',
+      alt: 'ROUND LAB 1025 Dokdo Cleanser 150ml tube on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-cleanser-150ml-info.png',
+      alt: 'Key ingredients panel for ROUND LAB 1025 Dokdo Cleanser: Ulleungdo deep sea water, panthenol and allantoin in a weakly acidic formula',
+    },
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-cleanser-150ml-apply.png',
+      alt: 'Cupped hands holding soft white cleansing foam above a basin',
+    },
+  ],
+  round_lab_birch_juice_moisturizing_cream_80ml_onetime: [
+    {
+      src: '/products/editorial/round-lab/birch-juice-moisturizing-cream-80ml-hero.png',
+      alt: 'ROUND LAB Birch Juice Moisturizing Cream 80ml jar on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/round-lab/birch-juice-moisturizing-cream-80ml-info.png',
+      alt: 'Key ingredients panel for ROUND LAB Birch Juice Moisturizing Cream: birch sap, hyaluronic acid and panthenol in a light gel-cream texture',
+    },
+    {
+      src: '/products/editorial/round-lab/birch-juice-moisturizing-cream-80ml-apply.png',
+      alt: 'A woman smoothing a glossy gel-cream along her jawline for a hydrated glow',
+    },
+  ],
+  round_lab_1025_dokdo_toner_plus_lotion_special_set_onetime: [
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-toner-plus-lotion-special-set-hero.png',
+      alt: 'ROUND LAB 1025 Dokdo Toner and Lotion 200ml special set on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-toner-plus-lotion-special-set-info.png',
+      alt: 'Panel explaining the ROUND LAB 1025 Dokdo hydrating duo: 200ml toner followed by 200ml lotion, both built on Ulleungdo deep sea water',
+    },
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-toner-plus-lotion-special-set-apply.png',
+      alt: 'A woman pressing hydrating lotion into both cheeks with her palms',
+    },
+  ],
+  round_lab_1025_dokdo_trial_kit_onetime: [
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-trial-kit-hero.png',
+      alt: 'ROUND LAB 1025 Dokdo Trial Kit with cleanser 30ml, toner 20ml, ampoule 10ml and cream 20ml',
+    },
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-trial-kit-info.png',
+      alt: 'Panel showing the four-step ROUND LAB 1025 Dokdo trial routine: cleanser, toner, ampoule and cream in travel sizes',
+    },
+    {
+      src: '/products/editorial/round-lab/1025-dokdo-trial-kit-apply.png',
+      alt: 'A woman pressing a drop of clear ampoule onto her cheekbone',
+    },
+  ],
 };
 
 
