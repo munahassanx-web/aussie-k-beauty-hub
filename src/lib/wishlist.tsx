@@ -62,8 +62,10 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   const has = useCallback((productId: string) => ids.includes(productId), [ids]);
 
   const remove = useCallback(async (productId: string) => {
+    console.log('[wishlist:remove] handler entered', { productId, contextUserId: userIdRef.current });
     const uid = await currentUserId(userIdRef.current);
     if (!uid) {
+      console.log('[wishlist:remove] early return: no authenticated user', { productId });
       throw new Error('You need to be signed in to change your wishlist.');
     }
 
@@ -78,12 +80,14 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
       .select('id');
 
     if (error) {
+      console.log('[wishlist:remove] early return: delete failed', { productId, message: error.message });
       setIds(previous);
       throw new Error(error.message);
     }
     // No rows deleted means the row is gone or not ours — resync with the server
     // rather than leaving the UI asserting something untrue.
     if (!data || data.length === 0) {
+      console.log('[wishlist:remove] no matching row returned; resyncing', { productId, uid });
       await fetchIds();
     }
   }, [ids, fetchIds]);
