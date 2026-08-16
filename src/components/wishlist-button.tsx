@@ -44,15 +44,21 @@ export function WishlistButton({
   const onClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const result = await toggle(productId);
-    if (result === 'signed-out') {
-      toast('Sign in to save favourites', {
-        description: 'Create a free account to keep your wishlist across devices.',
-        action: { label: 'Sign in', onClick: () => navigate({ to: '/auth' }) },
+    try {
+      const result = await toggle(productId);
+      if (result === 'signed-out') {
+        toast('Sign in to save favourites', {
+          description: 'Create a free account to keep your wishlist across devices.',
+          action: { label: 'Sign in', onClick: () => navigate({ to: '/auth' }) },
+        });
+        return;
+      }
+      toast.success(result === 'added' ? `${productName} saved to your wishlist` : `${productName} removed from your wishlist`);
+    } catch (err) {
+      toast.error(saved ? "Couldn't remove that item" : "Couldn't save that item", {
+        description: err instanceof Error ? err.message : 'Please try again in a moment.',
       });
-      return;
     }
-    toast.success(result === 'added' ? `${productName} saved to your wishlist` : `${productName} removed from your wishlist`);
   };
 
   if (variant === 'inline') {
