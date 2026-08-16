@@ -144,13 +144,13 @@ export function KoreaRightNow() {
               <Link
                 to="/product/$slug"
                 params={{ slug: productSlug(hero) }}
-                className="group block bg-paper/5"
+                className="group flex items-center justify-center bg-paper/5 p-8"
               >
                 <img
                   src={hero.image}
                   alt={`${hero.brand} ${hero.name}`}
                   loading="lazy"
-                  className="h-full max-h-[460px] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  className="max-h-[400px] w-full object-contain transition-transform duration-700 group-hover:scale-[1.03]"
                 />
               </Link>
               <div className="flex flex-col justify-center p-8 md:p-12">
@@ -226,7 +226,7 @@ export function KoreaRightNow() {
                   src={p.image}
                   alt={`${p.brand} ${p.name}`}
                   loading="lazy"
-                  className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  className="aspect-square w-full object-contain p-5 transition-transform duration-700 group-hover:scale-[1.04]"
                 />
               </Link>
               <Link to="/product/$slug" params={{ slug: productSlug(p) }} className="mt-4 block">
