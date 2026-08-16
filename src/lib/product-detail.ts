@@ -86,6 +86,76 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'Close-up of the watery serum being pressed into bare cheek skin with one hand',
     },
   ],
+  torriden_dive_in_soothing_cream_onetime: [
+    {
+      src: '/products/editorial/torriden/dive-in-soothing-cream-hero.png',
+      alt: 'TORRIDEN DIVE IN Soothing Cream jar on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/torriden/dive-in-soothing-cream-info.png',
+      alt: 'Key ingredients panel for TORRIDEN DIVE IN Soothing Cream: 5D hyaluronic acid complex, low molecular hyaluronic acid, panthenol, allantoin, fragrance-free and weakly acidic',
+    },
+    {
+      src: '/products/editorial/torriden/dive-in-soothing-cream-apply.png',
+      alt: 'Light blue gel-cream being smoothed onto the cheek with fingertips',
+    },
+  ],
+  torriden_balanceful_cleansing_gel_onetime: [
+    {
+      src: '/products/editorial/torriden/balanceful-cleansing-gel-hero.png',
+      alt: 'TORRIDEN BALANCEFUL Cleansing Gel pump bottle with a clear gel swatch on a white studio backdrop',
+    },
+    {
+      src: '/products/editorial/torriden/balanceful-cleansing-gel-info.png',
+      alt: 'Key ingredients panel for TORRIDEN BALANCEFUL Cleansing Gel: centella asiatica extract, madecassoside, panthenol, weakly acidic pH 5.5 and low-irritation fragrance-free formula',
+    },
+    {
+      src: '/products/editorial/torriden/balanceful-cleansing-gel-apply.png',
+      alt: 'Cleansing gel lathered into a soft foam in wet palms at the basin',
+    },
+  ],
+  torriden_dive_in_mask_pack_1pc_onetime: [
+    {
+      src: '/products/editorial/torriden/dive-in-mask-pack-1pc-hero.png',
+      alt: 'TORRIDEN DIVE IN Mask sheet mask sachet on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/torriden/dive-in-mask-pack-1pc-info.png',
+      alt: 'Key ingredients panel for TORRIDEN DIVE IN Mask: 5D hyaluronic acid, allantoin, panthenol, 27ml essence per sheet, fragrance-free',
+    },
+    {
+      src: '/products/editorial/torriden/dive-in-mask-pack-1pc-apply.png',
+      alt: 'Sheet mask being smoothed onto the cheek with fingertips',
+    },
+  ],
+  torriden_dive_in_trial_kit_onetime: [
+    {
+      src: '/products/editorial/torriden/dive-in-trial-kit-hero.png',
+      alt: 'TORRIDEN DIVE IN Trial Kit minis arranged in front of the box on a white studio backdrop',
+    },
+    {
+      src: '/products/editorial/torriden/dive-in-trial-kit-info.png',
+      alt: "What's inside the TORRIDEN DIVE IN Trial Kit: cleansing foam 30ml, toner 30ml, serum 10ml and soothing cream 20ml",
+    },
+    {
+      src: '/products/editorial/torriden/dive-in-trial-kit-apply.png',
+      alt: 'Travel-size skincare minis packed into a linen toiletry pouch',
+    },
+  ],
+  torriden_balanceful_trial_kit_onetime: [
+    {
+      src: '/products/editorial/torriden/balanceful-trial-kit-hero.png',
+      alt: 'TORRIDEN BALANCEFUL Trial Kit minis and toner pad sachet in front of the box on a white studio backdrop',
+    },
+    {
+      src: '/products/editorial/torriden/balanceful-trial-kit-info.png',
+      alt: "What's inside the TORRIDEN BALANCEFUL Trial Kit: cleansing gel mini, toner pad sachet, serum mini and cream mini with centella asiatica extract",
+    },
+    {
+      src: '/products/editorial/torriden/balanceful-trial-kit-apply.png',
+      alt: 'A toner pad being swept across the cheek with tweezers',
+    },
+  ],
   medicube_pdrn_pink_peptide_serum_30ml_onetime: [
     {
       src: '/products/editorial/medicube/pdrn-pink-peptide-serum-30ml-block.png',
