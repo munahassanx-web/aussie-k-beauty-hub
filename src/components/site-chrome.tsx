@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/lib/cart";
+import { ProductSearchOverlay } from "@/components/product-search";
 import logoAsset from "@/assets/skin-grocer-seal.png.asset.json";
 const logo = logoAsset.url;
 
@@ -104,6 +105,7 @@ const announcements = [
 export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const { user } = useAuth();
   const cart = useCart();
 
@@ -191,18 +193,26 @@ export function SiteHeader() {
             >
               Grocery List
             </Link>
+            <Link
+              to="/faq"
+              onMouseEnter={() => setOpenMenu(null)}
+              className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
+            >
+              FAQ
+            </Link>
 
 
           </nav>
 
           <div className="flex items-center gap-4">
-            <Link
-              to="/shop"
-              aria-label="Search"
-              className="hidden h-9 w-9 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary md:flex"
+            <button
+              type="button"
+              aria-label="Search products"
+              onClick={() => { closeMenus(); setSearchOpen(true); }}
+              className="flex h-9 w-9 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
             >
               <SearchIcon />
-            </Link>
+            </button>
             <Link
               to={user ? "/club" : "/auth"}
               onClick={closeMenus}
@@ -315,6 +325,22 @@ export function SiteHeader() {
                   Grocery List
                   <span className="text-base text-primary">→</span>
                 </Link>
+                <Link
+                  to="/faq"
+                  onClick={closeMenus}
+                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                >
+                  FAQ
+                  <span className="text-base text-primary">→</span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => { closeMenus(); setSearchOpen(true); }}
+                  className="flex items-center justify-between py-2 text-left font-display text-2xl text-foreground"
+                >
+                  Search
+                  <span className="text-base text-primary">→</span>
+                </button>
 
 
               </div>
@@ -352,11 +378,13 @@ export function SiteHeader() {
           </div>
         )}
       </div>
+      <ProductSearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 }
 
 export function SiteFooter() {
+  const [searchOpen, setSearchOpen] = useState(false);
   return (
     <footer className="bg-ink text-paper">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-12">
@@ -395,7 +423,13 @@ export function SiteFooter() {
             <li><Link to="/about" className="hover:text-paper">About Us</Link></li>
             <li><Link to="/reviews" className="hover:text-paper">Reviews</Link></li>
             <li><Link to="/contact" className="hover:text-paper">Contact</Link></li>
+            <li><Link to="/faq" className="hover:text-paper">FAQ</Link></li>
             <li><Link to="/track" className="hover:text-paper">Track your order</Link></li>
+            <li>
+              <button type="button" onClick={() => setSearchOpen(true)} className="hover:text-paper">
+                Search
+              </button>
+            </li>
           </ul>
         </div>
 
@@ -428,6 +462,7 @@ export function SiteFooter() {
           </div>
         </div>
       </div>
+      <ProductSearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </footer>
   );
 }
