@@ -187,6 +187,8 @@ function Shop() {
                 )}
               </div>
             </Reveal>
+            </Fragment>
+
             );
           })}
         </div>
