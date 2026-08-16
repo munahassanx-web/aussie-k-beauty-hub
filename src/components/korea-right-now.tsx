@@ -32,9 +32,9 @@ const WEEKLY_PICKS: Pick[] = [
     source: "Olive Young serum ranking",
   },
   {
-    priceId: "anua_heartleaf_77_soothing_toner_onetime",
-    signal: "Still the default first step for reactive, congested skin in Seoul. Heartleaf over acids.",
-    source: "Hwahae toner ranking",
+    priceId: "medicube_pdrn_pink_cica_soothing_toner_250ml_onetime",
+    signal: "Soothing-first toners keep outselling acid toners in Korea for reactive, congested skin.",
+    source: "Korean review platforms",
   },
   {
     priceId: "torriden_dive_in_serum_onetime",
@@ -42,9 +42,9 @@ const WEEKLY_PICKS: Pick[] = [
     source: "Weekly YouTube round-ups",
   },
   {
-    priceId: "beauty_of_joseon_relief_sun_rice_probiotics_50ml_onetime",
-    signal: "The rice-and-probiotics SPF that broke Korean sunscreen out of Korea. Still ranking.",
-    source: "Olive Young suncare ranking",
+    priceId: "aestura_derma_uv365_barrier_moisture_mineral_sun_cream_onetime",
+    signal: "Mineral SPF that behaves like a moisturiser — the Korean answer to daily reapplication.",
+    source: "Korean pharmacy suncare ranking",
   },
   {
     priceId: "aestura_atobarrier365_cream_onetime",
