@@ -214,6 +214,14 @@ export function SiteHeader() {
               <SearchIcon />
             </button>
             <Link
+              to="/wishlist"
+              onClick={closeMenus}
+              aria-label="Your saved products"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
+            >
+              <HeartIcon />
+            </Link>
+            <Link
               to={user ? "/club" : "/auth"}
               onClick={closeMenus}
               aria-label={user ? "Your account" : "Sign in"}
@@ -299,6 +307,10 @@ export function SiteHeader() {
                 ))}
                 <Link to={user ? "/club" : "/auth"} onClick={closeMenus} className="flex items-center justify-between py-2 font-display text-2xl text-foreground">
                   {user ? "Restock Club" : "Sign in"}
+                  <span className="text-base text-primary">→</span>
+                </Link>
+                <Link to="/wishlist" onClick={closeMenus} className="flex items-center justify-between py-2 font-display text-2xl text-foreground">
+                  Saved
                   <span className="text-base text-primary">→</span>
                 </Link>
                 <Link
@@ -478,6 +490,13 @@ function UserIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
       <circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 4-7 8-7s8 3 8 7" strokeLinecap="round" />
+    </svg>
+  );
+}
+function HeartIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <path d="M12 20s-7-4.35-7-9.15A4.1 4.1 0 0 1 12 8a4.1 4.1 0 0 1 7 2.85C19 15.65 12 20 12 20z" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

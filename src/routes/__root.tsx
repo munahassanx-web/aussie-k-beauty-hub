@@ -14,6 +14,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader, SiteFooter } from "../components/site-chrome";
 import { ChatWidget } from "../components/chat-widget";
 import { CartProvider } from "../lib/cart";
+import { WishlistProvider } from "../lib/wishlist";
+import { Toaster } from "sonner";
 import { CartDrawer } from "../components/cart-drawer";
 
 function NotFoundComponent() {
@@ -115,6 +117,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <CartProvider>
+        <WishlistProvider>
         <div className="flex min-h-screen flex-col">
           <SiteHeader />
           <main className="flex-1">
@@ -124,6 +127,8 @@ function RootComponent() {
         </div>
         <CartDrawer />
         <ChatWidget />
+        <Toaster position="bottom-right" richColors closeButton />
+        </WishlistProvider>
       </CartProvider>
     </QueryClientProvider>
   );

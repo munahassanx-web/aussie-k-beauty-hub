@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { useBuyNow } from '@/hooks/use-buy-now';
+import { WishlistButton } from '@/components/wishlist-button';
 import { Maximize2 as ExpandIcon } from 'lucide-react';
 import { ImageLightbox } from '@/components/image-lightbox';
 import { ProductReviews } from '@/components/product-reviews';
@@ -472,6 +473,11 @@ function ProductPage() {
                 Subscribe & save 15%
               </button>
             )}
+            <WishlistButton
+              variant="inline"
+              productId={product.priceId}
+              productName={`${product.brand} ${product.name}`}
+            />
           </div>
 
           <p className="mt-4 text-xs text-muted-foreground">
