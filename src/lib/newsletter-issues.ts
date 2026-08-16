@@ -4,7 +4,6 @@
 
 import portraitDeep from "@/assets/learn-portrait-deep.jpg";
 import routineFlatlay from "@/assets/learn-routine-flatlay.jpg";
-import textureMacro from "@/assets/texture-macro.jpg";
 import signalIssue01Cover from "@/assets/signal-issue-01-cover.jpg";
 
 export type IssuePick = {
