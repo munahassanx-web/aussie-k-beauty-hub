@@ -82,6 +82,13 @@
   --border: oklch(0.912 0.004 265);
   --input: oklch(0.912 0.004 265);
   --ring: oklch(0.36 0.018 265);
+
+  /* Consultation quiz stage — soft champagne / slate wash */
+  --quiz-stage-top: oklch(0.985 0.006 90);
+  --quiz-stage-bottom: oklch(0.945 0.012 255);
+  --quiz-glow-1: oklch(0.90 0.075 85);
+  --quiz-glow-2: oklch(0.80 0.065 255);
+  --quiz-glow-3: oklch(0.88 0.05 20);
 }
 
 
