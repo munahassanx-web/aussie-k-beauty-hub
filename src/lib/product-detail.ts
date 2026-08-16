@@ -175,16 +175,16 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
 
   medicube_collagen_jelly_cream_110ml_onetime: [
     {
-      src: '/products/editorial/medicube/collagen-jelly-cream-110ml-block.png',
-      alt: 'MEDICUBE Collagen Jelly Cream jar staged against a pale sand colour block on a white studio floor',
+      src: '/products/editorial/medicube/collagen-jelly-cream-110ml-hero.png',
+      alt: 'MEDICUBE Collagen Jelly Cream 110ml pink frosted jar on a clean white studio backdrop',
     },
     {
-      src: '/products/editorial/medicube/collagen-jelly-cream-110ml-studio.png',
-      alt: 'MEDICUBE Collagen Jelly Cream open jar with the lid beside it, showing the glossy jelly cream inside on a clean white studio backdrop',
+      src: '/products/editorial/medicube/collagen-jelly-cream-110ml-info.png',
+      alt: 'Key ingredients panel for MEDICUBE Collagen Jelly Cream: collagen, peptides and a jelly moisture film',
     },
     {
-      src: '/products/editorial/medicube/collagen-jelly-cream-110ml-texture.png',
-      alt: 'Macro swatch of the bouncy jelly cream texture of MEDICUBE Collagen Jelly Cream',
+      src: '/products/editorial/medicube/collagen-jelly-cream-110ml-apply.png',
+      alt: 'A woman smoothing bouncy pink jelly cream over her cheek with her fingertips',
     },
   ],
   medicube_pdrn_pink_cica_soothing_toner_250ml_onetime: [
@@ -245,16 +245,16 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   ],
   beauty_of_joseon_revive_eye_serum_ginseng_plus_retinal_30ml_onetime: [
     {
-      src: '/products/editorial/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml-block.png',
-      alt: 'Beauty of Joseon Revive Eye Serum staged against a blush-beige colour block on a white studio floor',
+      src: '/products/editorial/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml-hero.png',
+      alt: 'Beauty of Joseon Revive Eye Serum Ginseng + Retinal 30ml tube on a clean white studio backdrop',
     },
     {
-      src: '/products/editorial/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml-studio.png',
-      alt: 'Beauty of Joseon Revive Eye Serum tube lying down with the cap off and a small amount of serum squeezed out, on a clean white studio backdrop',
+      src: '/products/editorial/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml-info.png',
+      alt: 'Key ingredients panel for Beauty of Joseon Revive Eye Serum: ginseng root water, retinal and peptides',
     },
     {
       src: '/products/editorial/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml-apply.png',
-      alt: 'Beauty of Joseon Revive Eye Serum being patted onto the back of a hand with a fingertip',
+      alt: 'A mature woman patting eye serum along her under-eye with her ring finger',
     },
   ],
   beauty_of_joseon_ginseng_cleansing_oil_210ml_onetime: [
@@ -394,7 +394,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/round-lab/1025-dokdo-toner-100ml-apply.png',
-      alt: 'A woman sweeping a toner-soaked cotton pad across her cheek in soft daylight',
+      alt: 'A woman pressing ROUND LAB 1025 Dokdo Toner into her cheek with a cotton pad in soft daylight',
     },
   ],
   round_lab_1025_dokdo_lotion_200ml_onetime: [
@@ -795,7 +795,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'A mature woman smoothing a rich white barrier cream along her cheek',
     },
   ],
-s_nature_aqua_oasis_toner_onetime: [
+  s_nature_aqua_oasis_toner_onetime: [
     {
       src: '/products/editorial/s-nature/aqua-oasis-toner-hero.png',
       alt: 'S.NATURE Aqua Oasis Toner bottle on a clean white studio backdrop',
