@@ -182,8 +182,10 @@ function ConsultationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-cream py-12 md:py-20">
-      <div className="mx-auto max-w-2xl px-5">
+    <div className="relative min-h-screen overflow-hidden bg-cream py-12 md:py-20">
+      <div className="quiz-aurora" aria-hidden />
+      <div className="relative mx-auto max-w-2xl px-5">
+
         <div className="text-center">
           <p className="font-display text-lg tracking-[0.18em] text-ink">SKIN GROCER</p>
           <p className="mt-1 text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
