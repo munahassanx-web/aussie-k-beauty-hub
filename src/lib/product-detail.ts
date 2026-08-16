@@ -2,6 +2,8 @@
 // and lifestyle imagery for every SKU in the launch assortment.
 
 import { SHOP_PRODUCTS, type ShopProduct, type Category, type Concern } from '@/lib/shop-catalog';
+import { bespokeHeroIngredients } from '@/lib/hero-ingredients';
+
 
 import ritualScene from '@/assets/ritual-scene.jpg';
 import productFlatlay from '@/assets/product-flatlay.jpg';
@@ -1070,6 +1072,9 @@ const CONCERN_FALLBACK: Record<Concern, HeroIngredient> = {
 export function heroIngredients(p: ShopProduct): HeroIngredient[] {
   const override = COPY[p.priceId]?.ingredients;
   if (override) return override;
+  const bespoke = bespokeHeroIngredients(p.priceId);
+  if (bespoke) return bespoke;
+
   const haystack = `${p.brand} ${p.name}`;
   const found: HeroIngredient[] = [];
   for (const rule of INGREDIENT_RULES) {
