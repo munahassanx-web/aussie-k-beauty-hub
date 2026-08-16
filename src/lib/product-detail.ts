@@ -184,6 +184,62 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'Macro swatch of the bouncy jelly cream texture of MEDICUBE Collagen Jelly Cream',
     },
   ],
+  medicube_pdrn_pink_cica_soothing_toner_250ml_onetime: [
+    {
+      src: '/products/editorial/medicube/pdrn-pink-cica-soothing-toner-250ml-hero.png',
+      alt: 'MEDICUBE PDRN Pink Cica Soothing Toner 250ml bottle on a clean studio backdrop',
+    },
+    {
+      src: '/products/editorial/medicube/pdrn-pink-cica-soothing-toner-250ml-info.png',
+      alt: 'Key ingredients in MEDICUBE PDRN Pink Cica Soothing Toner: PDRN (salmon DNA), centella asiatica extract and sodium hyaluronate',
+    },
+    {
+      src: '/products/editorial/medicube/pdrn-pink-cica-soothing-toner-250ml-apply.png',
+      alt: 'A watery toner being swept across the cheek with a cotton pad',
+    },
+  ],
+  medicube_pdrn_pink_niacinamide_whip_cleanser_120g_onetime: [
+    {
+      src: '/products/editorial/medicube/pdrn-pink-niacinamide-whip-cleanser-120g-hero.png',
+      alt: 'MEDICUBE PDRN Pink Niacinamide Whip Cleanser 120g tube on a clean studio backdrop',
+    },
+    {
+      src: '/products/editorial/medicube/pdrn-pink-niacinamide-whip-cleanser-120g-info.png',
+      alt: 'Key ingredients in MEDICUBE PDRN Pink Niacinamide Whip Cleanser: 99% high purity salmon PDRN and niacinamide in a weakly acidic whipped foam',
+    },
+    {
+      src: '/products/editorial/medicube/pdrn-pink-niacinamide-whip-cleanser-120g-apply.png',
+      alt: 'Soft whipped cleansing foam lathered between two hands',
+    },
+  ],
+  medicube_pdrn_pink_peptide_eye_cream_30ml_onetime: [
+    {
+      src: '/products/editorial/medicube/pdrn-pink-peptide-eye-cream-30ml-hero.png',
+      alt: 'MEDICUBE PDRN Pink Peptide Eye Cream 30ml tube on a clean studio backdrop',
+    },
+    {
+      src: '/products/editorial/medicube/pdrn-pink-peptide-eye-cream-30ml-info.png',
+      alt: 'Key ingredients in MEDICUBE PDRN Pink Peptide Eye Cream: PDRN (sodium DNA), peptide complex and 5% niacinamide',
+    },
+    {
+      src: '/products/editorial/medicube/pdrn-pink-peptide-eye-cream-30ml-apply.png',
+      alt: 'A ring finger patting pale pink eye cream along the under-eye area',
+    },
+  ],
+  medicube_one_day_exosome_shot_pore_serum_2000_30ml_onetime: [
+    {
+      src: '/products/editorial/medicube/one-day-exosome-shot-pore-serum-2000-30ml-hero.png',
+      alt: 'MEDICUBE One Day Exosome Shot 2000 pore serum bottle on a clean studio backdrop',
+    },
+    {
+      src: '/products/editorial/medicube/one-day-exosome-shot-pore-serum-2000-30ml-info.png',
+      alt: 'Key ingredients in MEDICUBE One Day Exosome Shot 2000: lacto exosome with AHA, BHA and PHA for pore and texture care',
+    },
+    {
+      src: '/products/editorial/medicube/one-day-exosome-shot-pore-serum-2000-30ml-apply.png',
+      alt: 'Clear lightweight serum pressed into the cheek and nose area, showing refined pores',
+    },
+  ],
   beauty_of_joseon_revive_eye_serum_ginseng_plus_retinal_30ml_onetime: [
     {
       src: '/products/editorial/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml-block.png',
