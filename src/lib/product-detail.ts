@@ -158,18 +158,19 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   ],
   medicube_pdrn_pink_peptide_serum_30ml_onetime: [
     {
-      src: '/products/editorial/medicube/pdrn-pink-peptide-serum-30ml-block.png',
-      alt: 'MEDICUBE PDRN Pink Peptide Serum staged against a blush colour block on a white studio floor',
+      src: '/products/editorial/medicube/pdrn-pink-peptide-serum-30ml-hero.png',
+      alt: 'MEDICUBE PDRN Pink Peptide Serum 30ml pink glass dropper bottle on a soft blush studio backdrop',
     },
     {
-      src: '/products/editorial/medicube/pdrn-pink-peptide-serum-30ml-studio.png',
-      alt: 'MEDICUBE PDRN Pink Peptide Serum with a serum droplet swatch on a clean white studio backdrop',
+      src: '/products/editorial/medicube/pdrn-pink-peptide-serum-30ml-info.png',
+      alt: 'Key ingredients in MEDICUBE PDRN Pink Peptide Serum: PDRN (Sodium DNA) 1%, 5 types peptide complex, niacinamide and panthenol, 30ml',
     },
     {
       src: '/products/editorial/medicube/pdrn-pink-peptide-serum-30ml-apply.png',
-      alt: 'A dropper of MEDICUBE PDRN Pink Peptide Serum dispensing onto the back of a hand',
+      alt: 'A woman patting a few drops of serum into her cheek in soft studio light',
     },
   ],
+
   medicube_collagen_jelly_cream_110ml_onetime: [
     {
       src: '/products/editorial/medicube/collagen-jelly-cream-110ml-block.png',
