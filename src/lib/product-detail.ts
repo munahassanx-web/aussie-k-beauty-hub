@@ -465,6 +465,76 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'A woman pressing a drop of clear ampoule onto her cheekbone',
     },
   ],
+  beplain_cicaful_ampoule_30ml_onetime: [
+    {
+      src: '/products/editorial/beplain/cicaful-ampoule-30ml-hero.png',
+      alt: 'beplain Cicaful Ampoule 30ml on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/beplain/cicaful-ampoule-30ml-info.png',
+      alt: 'Key ingredients panel for beplain Cicaful Ampoule: Centella Asiatica extract, madecassoside and panthenol',
+    },
+    {
+      src: '/products/editorial/beplain/cicaful-ampoule-30ml-apply.png',
+      alt: 'A woman pressing a few drops of clear watery ampoule into her cheek',
+    },
+  ],
+  beplain_mung_bean_cleansing_oil_200ml_onetime: [
+    {
+      src: '/products/editorial/beplain/mung-bean-cleansing-oil-200ml-hero.png',
+      alt: 'beplain Mung Bean Cleansing Oil 200ml on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/beplain/mung-bean-cleansing-oil-200ml-info.png',
+      alt: 'Key ingredients panel for beplain Mung Bean Cleansing Oil: mung bean seed extract and a plant-derived oil blend',
+    },
+    {
+      src: '/products/editorial/beplain/mung-bean-cleansing-oil-200ml-apply.png',
+      alt: 'A woman massaging cleansing oil over dry skin with both hands',
+    },
+  ],
+  beplain_mung_bean_ph_balanced_cleansing_foam_80ml_onetime: [
+    {
+      src: '/products/editorial/beplain/mung-bean-ph-balanced-cleansing-foam-80ml-hero.png',
+      alt: 'beplain Mung Bean pH-Balanced Cleansing Foam 80ml on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/beplain/mung-bean-ph-balanced-cleansing-foam-80ml-info.png',
+      alt: 'Key ingredients panel for beplain Mung Bean Cleansing Foam: mung bean seed extract, weakly acidic pH 5.5, amino acid lather, fragrance-free',
+    },
+    {
+      src: '/products/editorial/beplain/mung-bean-ph-balanced-cleansing-foam-80ml-apply.png',
+      alt: 'A woman lathering soft white cleansing foam across her cheeks',
+    },
+  ],
+  beplain_mung_bean_pore_tight_up_soothing_cream_onetime: [
+    {
+      src: '/products/editorial/beplain/mung-bean-pore-tight-up-soothing-cream-hero.png',
+      alt: 'beplain Mung Bean Pore Tight-Up Soothing Cream on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/beplain/mung-bean-pore-tight-up-soothing-cream-info.png',
+      alt: 'Key ingredients panel for beplain Pore Tight-Up Soothing Cream: mung bean peptide, centella asiatica and panthenol in a fresh gel-cream',
+    },
+    {
+      src: '/products/editorial/beplain/mung-bean-pore-tight-up-soothing-cream-apply.png',
+      alt: 'A man pressing a light gel-cream into his cheek and nose area',
+    },
+  ],
+  beplain_milk_ceramide_moisturizing_cream_onetime: [
+    {
+      src: '/products/editorial/beplain/milk-ceramide-moisturizing-cream-hero.png',
+      alt: 'beplain Milk Ceramide Moisturizing Cream on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/beplain/milk-ceramide-moisturizing-cream-info.png',
+      alt: 'Key ingredients panel for beplain Milk Ceramide Moisturizing Cream: ceramide NP, milk protein extract and panthenol',
+    },
+    {
+      src: '/products/editorial/beplain/milk-ceramide-moisturizing-cream-apply.png',
+      alt: 'A mature woman smoothing a rich white cream along her jaw and cheek',
+    },
+  ],
 };
 
 
