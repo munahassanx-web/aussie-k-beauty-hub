@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/lib/cart";
+import { ProductSearchOverlay } from "@/components/product-search";
 import logoAsset from "@/assets/skin-grocer-seal.png.asset.json";
 const logo = logoAsset.url;
 
@@ -104,6 +105,7 @@ const announcements = [
 export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const { user } = useAuth();
   const cart = useCart();
 
@@ -190,6 +192,13 @@ export function SiteHeader() {
               className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
             >
               Grocery List
+            </Link>
+            <Link
+              to="/faq"
+              onMouseEnter={() => setOpenMenu(null)}
+              className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
+            >
+              FAQ
             </Link>
 
 
@@ -316,6 +325,22 @@ export function SiteHeader() {
                   Grocery List
                   <span className="text-base text-primary">→</span>
                 </Link>
+                <Link
+                  to="/faq"
+                  onClick={closeMenus}
+                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                >
+                  FAQ
+                  <span className="text-base text-primary">→</span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => { closeMenus(); setSearchOpen(true); }}
+                  className="flex items-center justify-between py-2 text-left font-display text-2xl text-foreground"
+                >
+                  Search
+                  <span className="text-base text-primary">→</span>
+                </button>
 
 
               </div>
@@ -353,6 +378,7 @@ export function SiteHeader() {
           </div>
         )}
       </div>
+      <ProductSearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 }
