@@ -384,6 +384,7 @@ export function SiteHeader() {
 }
 
 export function SiteFooter() {
+  const [searchOpen, setSearchOpen] = useState(false);
   return (
     <footer className="bg-ink text-paper">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-12">
@@ -422,7 +423,13 @@ export function SiteFooter() {
             <li><Link to="/about" className="hover:text-paper">About Us</Link></li>
             <li><Link to="/reviews" className="hover:text-paper">Reviews</Link></li>
             <li><Link to="/contact" className="hover:text-paper">Contact</Link></li>
+            <li><Link to="/faq" className="hover:text-paper">FAQ</Link></li>
             <li><Link to="/track" className="hover:text-paper">Track your order</Link></li>
+            <li>
+              <button type="button" onClick={() => setSearchOpen(true)} className="hover:text-paper">
+                Search
+              </button>
+            </li>
           </ul>
         </div>
 
@@ -455,6 +462,7 @@ export function SiteFooter() {
           </div>
         </div>
       </div>
+      <ProductSearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </footer>
   );
 }
