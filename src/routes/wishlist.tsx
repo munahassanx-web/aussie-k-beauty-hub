@@ -84,7 +84,16 @@ function WishlistPage() {
                   )}
                 </div>
                 <button
-                  onClick={() => void remove(p.priceId)}
+                  onClick={async () => {
+                    try {
+                      await remove(p.priceId);
+                      toast.success(`${p.name} removed from your wishlist`);
+                    } catch (err) {
+                      toast.error("Couldn't remove that item", {
+                        description: err instanceof Error ? err.message : 'Please try again in a moment.',
+                      });
+                    }
+                  }}
                   className="mt-2 w-full rounded-full border border-border py-1.5 text-[11px] uppercase tracking-wider text-muted-foreground hover:bg-secondary hover:text-foreground"
                 >
                   Remove
