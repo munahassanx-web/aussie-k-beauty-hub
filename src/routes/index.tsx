@@ -5,6 +5,8 @@ import { NewsletterForm } from "@/components/newsletter-form";
 import { FaqSection } from "@/components/faq-section";
 import { HOME_FAQS, faqJsonLd } from "@/lib/faqs";
 import { Reveal } from "@/components/reveal";
+import { EditorialBreak } from "@/components/editorial-break";
+
 import { HeroCarousel } from "@/components/hero-carousel";
 import { SeoulSignalStrip } from "@/components/seoul-signal";
 import { KoreaRightNow } from "@/components/korea-right-now";
