@@ -12,6 +12,15 @@ import {
   shippingOptionFor,
   subtotalCents,
 } from '@/lib/commerce.server';
+import {
+  errorCommerce,
+  logCommerce,
+  maskEmail,
+  newTraceId,
+  shortId,
+  since,
+  warnCommerce,
+} from '@/lib/commerce-log';
 
 type CheckoutResult = { clientSecret: string } | { error: string };
 
