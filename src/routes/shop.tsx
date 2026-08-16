@@ -127,8 +127,19 @@ function Shop() {
             const isSelected = compare.some((x) => x.priceId === p.priceId);
             const disabled = !isSelected && compare.length >= 3;
             return (
-            <Reveal key={p.name} delay={(i % 4) * 70} className="group">
+            <Fragment key={p.name}>
+            {i === 8 && (
+              <Reveal className="col-span-full py-10 text-center">
+                <p className="eyebrow eyebrow-rule justify-center text-muted-foreground">The Skin Grocer edit</p>
+                <p className="pull-quote mx-auto mt-6 max-w-3xl text-foreground">
+                  Every bottle here landed in Melbourne sealed, batch-checked and chosen for
+                  Australian skin — not shipped blind from a marketplace.
+                </p>
+              </Reveal>
+            )}
+            <Reveal delay={(i % 4) * 70} className="group">
               <div className="media-frame relative aspect-square rounded-2xl bg-secondary shadow-editorial">
+
                 <Link to="/product/$slug" params={{ slug: productSlug(p) }} aria-label={`View ${p.brand} ${p.name}`}>
                   <img src={p.image} alt={p.name} loading="lazy" width={1024} height={1024} className="h-full w-full object-cover" />
                 </Link>
