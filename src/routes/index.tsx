@@ -17,6 +17,7 @@ import textureMacro from "@/assets/texture-macro.jpg";
 import ritualScene from "@/assets/ritual-scene.jpg";
 import brandSpotlight from "@/assets/brand-spotlight.jpg";
 import customers from "@/assets/customers.jpg";
+import quizBareSkin from "@/assets/quiz-bare-skin.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
