@@ -182,8 +182,10 @@ function ConsultationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-cream py-12 md:py-20">
-      <div className="mx-auto max-w-2xl px-5">
+    <div className="quiz-stage relative min-h-screen overflow-hidden py-12 md:py-20">
+      <div className="quiz-aurora" aria-hidden />
+      <div className="relative mx-auto max-w-2xl px-5">
+
         <div className="text-center">
           <p className="font-display text-lg tracking-[0.18em] text-ink">SKIN GROCER</p>
           <p className="mt-1 text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
@@ -400,20 +402,21 @@ function ProgressBar({ value, label }: { value: number; label: string }) {
         <span className="font-display text-sm italic text-primary">{Math.round(value * 100)}%</span>
       </div>
       <div
-        className="mt-2.5 h-[3px] w-full overflow-hidden rounded-full bg-border/70"
+        className="mt-2.5 h-[6px] w-full overflow-hidden rounded-full bg-border/60 shadow-[inset_0_1px_2px_rgba(0,0,0,0.08)]"
         role="progressbar"
         aria-valuenow={Math.round(value * 100)}
         aria-valuemin={0}
         aria-valuemax={100}
       >
         <div
-          className="h-full rounded-full bg-gradient-to-r from-primary/70 via-primary to-ink shadow-[0_0_12px_rgba(0,0,0,0.18)]"
+          className="h-full rounded-full bg-gradient-to-r from-primary/60 via-primary to-ink shadow-[0_0_18px_rgba(0,0,0,0.35)]"
           style={{
-            width: `${Math.max(2, value * 100)}%`,
-            transition: "width 700ms cubic-bezier(0.22, 0.9, 0.24, 1)",
+            width: `${Math.max(3, value * 100)}%`,
+            transition: "width 900ms cubic-bezier(0.22, 0.9, 0.24, 1)",
           }}
         />
       </div>
+
     </div>
   );
 }
