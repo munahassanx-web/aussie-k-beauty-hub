@@ -196,13 +196,14 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <Link
-              to="/shop"
-              aria-label="Search"
-              className="hidden h-9 w-9 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary md:flex"
+            <button
+              type="button"
+              aria-label="Search products"
+              onClick={() => { closeMenus(); setSearchOpen(true); }}
+              className="flex h-9 w-9 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
             >
               <SearchIcon />
-            </Link>
+            </button>
             <Link
               to={user ? "/club" : "/auth"}
               onClick={closeMenus}

@@ -17,6 +17,7 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ClubRouteImport } from './routes/club'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as ReturnsPolicyRouteImport } from './routes/returns-policy'
@@ -81,6 +82,11 @@ const ConsultationRoute = ConsultationRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JourneyRoute = JourneyRouteImport.update({
@@ -219,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/returns-policy': typeof ReturnsPolicyRoute
@@ -254,6 +261,7 @@ export interface FileRoutesByTo {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/returns-policy': typeof ReturnsPolicyRoute
@@ -290,6 +298,7 @@ export interface FileRoutesById {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/returns-policy': typeof ReturnsPolicyRoute
@@ -327,6 +336,7 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
+    | '/faq'
     | '/journey'
     | '/privacy-policy'
     | '/returns-policy'
@@ -362,6 +372,7 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
+    | '/faq'
     | '/journey'
     | '/privacy-policy'
     | '/returns-policy'
@@ -397,6 +408,7 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
+    | '/faq'
     | '/journey'
     | '/privacy-policy'
     | '/returns-policy'
@@ -433,6 +445,7 @@ export interface RootRouteChildren {
   ClubRoute: typeof ClubRoute
   ConsultationRoute: typeof ConsultationRoute
   ContactRoute: typeof ContactRoute
+  FaqRoute: typeof FaqRoute
   JourneyRoute: typeof JourneyRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ReturnsPolicyRoute: typeof ReturnsPolicyRoute
@@ -515,6 +528,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/journey': {
@@ -716,6 +736,7 @@ const rootRouteChildren: RootRouteChildren = {
   ClubRoute: ClubRoute,
   ConsultationRoute: ConsultationRoute,
   ContactRoute: ContactRoute,
+  FaqRoute: FaqRoute,
   JourneyRoute: JourneyRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ReturnsPolicyRoute: ReturnsPolicyRoute,
