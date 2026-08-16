@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { z } from "zod";
 import { useBuyNow } from "@/hooks/use-buy-now";
 import { CompareDrawer, CompareModal, type CompareItem } from "@/components/product-compare";
