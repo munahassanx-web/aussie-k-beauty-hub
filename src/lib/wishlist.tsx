@@ -62,8 +62,13 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   const has = useCallback((productId: string) => ids.includes(productId), [ids]);
 
   const remove = useCallback(async (productId: string) => {
+    console.log('[wishlist-debug] remove entered', { productId, contextUserId: userIdRef.current });
     const uid = await currentUserId(userIdRef.current);
-    if (!uid) throw new Error('You need to be signed in to change your wishlist.');
+    console.log('[wishlist-debug] identity resolved', { hasUserId: Boolean(uid) });
+    if (!uid) {
+      console.log('[wishlist-debug] no authenticated user');
+      throw new Error('You need to be signed in to change your wishlist.');
+    }
 
     const previous = ids;
     setIds((prev) => prev.filter((id) => id !== productId));
@@ -74,6 +79,8 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
       .eq('user_id', uid)
       .eq('product_id', productId)
       .select('id');
+
+    console.log('[wishlist-debug] delete completed', { deletedRows: data?.length ?? 0, error: error?.message ?? null });
 
     if (error) {
       setIds(previous);
