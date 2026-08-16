@@ -95,3 +95,50 @@ export function lineDescriptor(lines: ResolvedLine[]): string {
 export function stripeFor(env: 'sandbox' | 'live'): Stripe {
   return createStripeClient(env);
 }
+
+export type OrderReceiptShape = {
+  status: 'pending' | 'paid';
+  amountCents: number;
+  shippingCents: number;
+  discountCents: number;
+  pointsEarned: number;
+  pointsRedeemed: number;
+  isSubscriptionOrder: boolean;
+  lineItems: Array<{ name: string; quantity: number; amountCents: number }>;
+  shipping: {
+    name: string | null;
+    line1: string | null;
+    line2: string | null;
+    city: string | null;
+    state: string | null;
+    postcode: string | null;
+  } | null;
+};
+
+/** Shapes a raw orders row into the receipt the confirmation page renders. */
+export function mapOrderReceipt(order: Record<string, any>): OrderReceiptShape {
+  return {
+    status: (order['status'] as string) === 'paid' ? 'paid' : 'pending',
+    amountCents: (order['amount_cents'] as number) ?? 0,
+    shippingCents: (order['shipping_cents'] as number) ?? 0,
+    discountCents: (order['discount_cents'] as number) ?? 0,
+    pointsEarned: (order['points_earned'] as number) ?? 0,
+    pointsRedeemed: (order['points_redeemed'] as number) ?? 0,
+    isSubscriptionOrder: Boolean(order['is_subscription_order']),
+    lineItems: Array.isArray(order['line_items']) ? order['line_items'] : [],
+    shipping: order['shipping_line1']
+      ? {
+          name: (order['shipping_name'] as string | null) ?? null,
+          line1: (order['shipping_line1'] as string | null) ?? null,
+          line2: (order['shipping_line2'] as string | null) ?? null,
+          city: (order['shipping_city'] as string | null) ?? null,
+          state: (order['shipping_state'] as string | null) ?? null,
+          postcode: (order['shipping_postcode'] as string | null) ?? null,
+        }
+      : null,
+  };
+}
+
+export function isValidEmail(value: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value) && value.length <= 254;
+}

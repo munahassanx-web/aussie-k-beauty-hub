@@ -234,3 +234,83 @@ export const updateProfileDetails = createServerFn({ method: 'POST' })
     if (error) return { error: error.message };
     return { ok: true };
   });
+
+/**
+ * Guest checkout — no account required. Points can't be earned or redeemed;
+ * the order is stored against the email and claimed if they sign up later.
+ */
+export const createGuestCartCheckout = createServerFn({ method: 'POST' })
+  .inputValidator(
+    (data: { items: CheckoutLineInput[]; email: string; returnUrl: string; environment: StripeEnv }) => {
+      if (!Array.isArray(data.items) || data.items.length === 0) throw new Error('Your cart is empty');
+      if (data.items.length > 20) throw new Error('Too many items in one order');
+      for (const item of data.items) {
+        if (!/^[a-z0-9_]+$/.test(item.priceId)) throw new Error('Invalid priceId');
+        if (!Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 10) {
+          throw new Error('Invalid quantity');
+        }
+      }
+      if (typeof data.email !== 'string' || !isValidEmail(data.email.trim())) {
+        throw new Error('Enter a valid email address');
+      }
+      return { ...data, email: data.email.trim().toLowerCase() };
+    },
+  )
+  .handler(async ({ data }): Promise<CheckoutResult> => {
+    try {
+      const stripe = createStripeClient(data.environment);
+      const lines = await resolvePrices(stripe, data.items);
+
+      if (lines.some((l) => l.price.type === 'recurring')) {
+        return { error: 'Restock subscriptions need an account. Please sign in to set one up.' };
+      }
+
+      const subtotal = subtotalCents(lines);
+      const session = await stripe.checkout.sessions.create({
+        line_items: lines.map((l) => ({ price: l.price.id, quantity: l.quantity })),
+        mode: 'payment',
+        ui_mode: 'embedded_page',
+        return_url: data.returnUrl,
+        customer_email: data.email,
+        shipping_address_collection: { allowed_countries: ['AU'] },
+        phone_number_collection: { enabled: true },
+        shipping_options: [shippingOptionFor(subtotal)],
+        payment_intent_data: { description: lineDescriptor(lines) },
+        metadata: {
+          guestEmail: data.email,
+          pointsRedeemed: '0',
+          itemCount: String(lines.reduce((sum, l) => sum + l.quantity, 0)),
+        },
+      });
+
+      return { clientSecret: session.client_secret ?? '' };
+    } catch (error) {
+      return { error: getStripeErrorMessage(error) };
+    }
+  });
+
+/** Receipt lookup for guest orders — keyed on the unguessable Stripe session id. */
+export const getGuestOrderBySession = createServerFn({ method: 'GET' })
+  .inputValidator((data: { sessionId: string }) => {
+    if (!/^[a-zA-Z0-9_]+$/.test(data.sessionId)) throw new Error('Invalid session id');
+    return data;
+  })
+  .handler(async ({ data }): Promise<OrderReceipt | null> => {
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+    const { data: order } = await supabaseAdmin
+      .from('orders')
+      .select('*')
+      .eq('stripe_session_id', data.sessionId)
+      .is('user_id', null)
+      .maybeSingle();
+    if (!order) return null;
+    return mapOrderReceipt(order as Record<string, any>);
+  });
+
+/** Links any guest orders placed with the signed-in user's email to their account. */
+export const claimGuestOrders = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<{ claimed: number }> => {
+    const { data } = await context.supabase.rpc('claim_guest_orders');
+    return { claimed: typeof data === 'number' ? data : 0 };
+  });
