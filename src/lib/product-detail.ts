@@ -795,7 +795,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'A mature woman smoothing a rich white barrier cream along her cheek',
     },
   ],
-}  s_nature_aqua_oasis_toner_onetime: [
+s_nature_aqua_oasis_toner_onetime: [
     {
       src: '/products/editorial/s-nature/aqua-oasis-toner-hero.png',
       alt: 'S.NATURE Aqua Oasis Toner bottle on a clean white studio backdrop',
