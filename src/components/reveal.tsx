@@ -42,7 +42,7 @@ export function Reveal({
     );
     io.observe(el);
     // Safety net: never leave content hidden
-    const t = window.setTimeout(() => setShown(true), 2500);
+    const t = window.setTimeout(() => setShown(true), 6000);
     return () => {
       io.disconnect();
       window.clearTimeout(t);
