@@ -536,8 +536,10 @@ export type Database = {
       }
       reviews: {
         Row: {
+          approved: boolean
           created_at: string
           customer_id: string | null
+          customer_name: string | null
           id: string
           is_published: boolean
           product_id: string
@@ -545,10 +547,13 @@ export type Database = {
           review_text: string | null
           sentiment_score: number | null
           tags: string[]
+          verified_purchase: boolean
         }
         Insert: {
+          approved?: boolean
           created_at?: string
           customer_id?: string | null
+          customer_name?: string | null
           id?: string
           is_published?: boolean
           product_id: string
@@ -556,10 +561,13 @@ export type Database = {
           review_text?: string | null
           sentiment_score?: number | null
           tags?: string[]
+          verified_purchase?: boolean
         }
         Update: {
+          approved?: boolean
           created_at?: string
           customer_id?: string | null
+          customer_name?: string | null
           id?: string
           is_published?: boolean
           product_id?: string
@@ -567,6 +575,7 @@ export type Database = {
           review_text?: string | null
           sentiment_score?: number | null
           tags?: string[]
+          verified_purchase?: boolean
         }
         Relationships: []
       }

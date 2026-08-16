@@ -44,10 +44,7 @@ function Reviews() {
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-primary">Reviews</p>
             <h1 className="mt-4 text-5xl text-foreground md:text-7xl">Loved by skin <em className="not-italic text-primary">all over Australia.</em></h1>
-            <div className="mt-8 flex items-center gap-4">
-              <Stars n={5} />
-              <p className="text-sm text-muted-foreground"><span className="font-medium text-foreground">4.9 / 5</span> · from 1,200+ verified customers</p>
-            </div>
+            <p className="mt-8 text-sm text-muted-foreground">Real feedback from real customers.</p>
           </div>
           <img src={customers} alt="Happy Skin Grocer customers" loading="lazy" width={1400} height={900} className="aspect-[4/3] w-full rounded-[2rem] object-cover" />
         </div>

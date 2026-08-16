@@ -556,7 +556,7 @@ function ProductPage() {
         })}
       />
 
-      <ProductReviews productId={product.priceId} />
+      <ProductReviews productId={product.priceId} productName={product.name} brand={product.brand} />
 
       {/* Related */}
       {related.length > 0 && (
