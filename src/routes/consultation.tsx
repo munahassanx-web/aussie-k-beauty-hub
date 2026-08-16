@@ -489,7 +489,7 @@ function Choices(
   const selected = (v: string) => (props.multi ? props.values.includes(v) : props.value === v);
   return (
     <div className="flex flex-col gap-2">
-      {props.options.map((o) => {
+      {props.options.map((o, i) => {
         const sel = selected(o.value);
         return (
           <button
