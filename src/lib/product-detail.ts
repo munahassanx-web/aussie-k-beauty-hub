@@ -535,6 +535,76 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'A mature woman smoothing a rich white cream along her jaw and cheek',
     },
   ],
+  isntree_hyaluronic_acid_water_essence_50ml_onetime: [
+    {
+      src: '/products/editorial/isntree/hyaluronic-acid-water-essence-50ml-hero.png',
+      alt: 'ISNTREE Hyaluronic Acid Water Essence 50ml on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/isntree/hyaluronic-acid-water-essence-50ml-info.png',
+      alt: 'Key ingredients panel for ISNTREE Hyaluronic Acid Water Essence: 11 types of hyaluronic acid, lightweight watery texture, fragrance-free',
+    },
+    {
+      src: '/products/editorial/isntree/hyaluronic-acid-water-essence-50ml-apply.png',
+      alt: 'A woman pressing a watery essence into her cheek with her fingertips',
+    },
+  ],
+  isntree_green_tea_fresh_toner_200ml_onetime: [
+    {
+      src: '/products/editorial/isntree/green-tea-fresh-toner-200ml-hero.png',
+      alt: 'ISNTREE Green Tea Fresh Toner 200ml on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/isntree/green-tea-fresh-toner-200ml-info.png',
+      alt: 'Key ingredients panel for ISNTREE Green Tea Fresh Toner: 80% Jeju green tea extract, green tea seed oil and a mildly acidic pH',
+    },
+    {
+      src: '/products/editorial/isntree/green-tea-fresh-toner-200ml-apply.png',
+      alt: 'A woman sweeping toner across her cheek with a cotton pad',
+    },
+  ],
+  isntree_chestnut_bha_2_percent_clear_liquid_100ml_onetime: [
+    {
+      src: '/products/editorial/isntree/chestnut-bha-2-percent-clear-liquid-100ml-hero.png',
+      alt: 'ISNTREE Chestnut BHA 2% Clear Liquid 100ml on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/isntree/chestnut-bha-2-percent-clear-liquid-100ml-info.png',
+      alt: 'Key ingredients panel for ISNTREE Chestnut BHA 2% Clear Liquid: 2% betaine salicylate, chestnut shell extract, alcohol-free and fragrance-free',
+    },
+    {
+      src: '/products/editorial/isntree/chestnut-bha-2-percent-clear-liquid-100ml-apply.png',
+      alt: 'A woman sweeping a clear exfoliating liquid over her nose and chin with a cotton pad',
+    },
+  ],
+  isntree_yam_root_vegan_milk_cleanser_220ml_onetime: [
+    {
+      src: '/products/editorial/isntree/yam-root-vegan-milk-cleanser-220ml-hero.png',
+      alt: 'ISNTREE Yam Root Vegan Milk Cleanser 220ml on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/isntree/yam-root-vegan-milk-cleanser-220ml-info.png',
+      alt: 'Key ingredients panel for ISNTREE Yam Root Vegan Milk Cleanser: yam root extract, pH 5.5 mild cleansing and a vegan formula',
+    },
+    {
+      src: '/products/editorial/isntree/yam-root-vegan-milk-cleanser-220ml-apply.png',
+      alt: 'A woman massaging creamy milk cleanser over her cheeks with both hands',
+    },
+  ],
+  isntree_yam_root_vegan_milk_toner_200ml_onetime: [
+    {
+      src: '/products/editorial/isntree/yam-root-vegan-milk-toner-200ml-hero.png',
+      alt: 'ISNTREE Yam Root Vegan Milk Toner 200ml on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/isntree/yam-root-vegan-milk-toner-200ml-info.png',
+      alt: 'Key ingredients panel for ISNTREE Yam Root Vegan Milk Toner: 80% yam root extract, milk-texture layering, vegan and fragrance-free',
+    },
+    {
+      src: '/products/editorial/isntree/yam-root-vegan-milk-toner-200ml-apply.png',
+      alt: 'A mature woman patting milky toner into her cheeks with her palms',
+    },
+  ],
 };
 
 
