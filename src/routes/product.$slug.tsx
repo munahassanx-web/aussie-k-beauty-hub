@@ -489,28 +489,8 @@ function ProductPage() {
 
       {/* Ingredients */}
       <section className="mt-16 border-t border-border pt-10">
-        <h2 className="font-display text-2xl text-foreground">What's actually in this</h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
-          {ingredients.map((ing) => (
-            <div key={ing.name} className="rounded-2xl border border-border bg-secondary/40 p-5">
-              <div className="flex flex-wrap items-baseline gap-x-2">
-                <p className="font-display text-lg text-foreground">{ing.name}</p>
-                {ing.korean && <p className="text-xs text-muted-foreground">{ing.korean}</p>}
-              </div>
-              <p className="mt-2 text-sm text-muted-foreground">{ing.what}</p>
-              <div className="mt-3 flex flex-wrap gap-1.5">
-                {ing.goodFor.map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full border border-border bg-background px-2.5 py-0.5 text-[11px] text-muted-foreground"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+        <IngredientPanel ingredients={ingredients} />
+
         {productInci(product) ? (
           <details className="mt-6 rounded-2xl border border-border p-5">
             <summary className="cursor-pointer text-xs uppercase tracking-[0.18em] text-muted-foreground">
