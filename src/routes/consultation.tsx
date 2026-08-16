@@ -632,9 +632,36 @@ function Results({
   const [err, setErr] = useState<string | null>(null);
   const threadEnd = useRef<HTMLDivElement>(null);
 
+  const steps: RoutineStep[] = result.routine
+    .map((r) => {
+      const p = CONSULT_PRODUCT_MAP[r.priceId];
+      return p ? { product: p, why: r.why, slot: slotFor(p.step) } : null;
+    })
+    .filter(Boolean) as RoutineStep[];
+
+  const routineTotal = `A$${steps
+    .reduce((sum, s) => sum + Number(s.product.price.replace(/[^0-9.]/g, "") || 0), 0)
+    .toFixed(2)
+    .replace(/\.00$/, "")}`;
+
+  async function addAll() {
+    steps.forEach((s) =>
+      buy({ priceId: s.product.priceId, name: s.product.name, priceLabel: `${s.product.price} AUD` }),
+    );
+    const { default: confetti } = await import("canvas-confetti");
+    const shots = [
+      { spread: 70, startVelocity: 45, particleCount: 60, origin: { y: 0.7 } },
+      { spread: 120, startVelocity: 30, particleCount: 40, decay: 0.92, origin: { y: 0.7 } },
+    ];
+    shots.forEach((s, i) =>
+      setTimeout(() => confetti({ ...s, scalar: 0.9, ticks: 160, colors: ["#1F2A37", "#C7A17A", "#F4F5F7"] }), i * 140),
+    );
+  }
+
   useEffect(() => {
     if (thread.length) threadEnd.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [thread]);
+
 
   async function ask() {
     const q = question.trim();
