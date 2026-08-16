@@ -4,7 +4,7 @@ import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe
 import { getStripe, getStripeEnvironment } from '@/lib/stripe';
 import { useAuth } from '@/hooks/use-auth';
 import { useCart, formatAud } from '@/lib/cart';
-import { createCartCheckout } from '@/lib/commerce.functions';
+import { createCartCheckout, createGuestCartCheckout } from '@/lib/commerce.functions';
 import { supabase } from '@/integrations/supabase/client';
 
 export const Route = createFileRoute('/checkout')({

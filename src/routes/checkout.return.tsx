@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { getOrderBySession, type OrderReceipt } from '@/lib/commerce.functions';
+import { getGuestOrderBySession, getOrderBySession, type OrderReceipt } from '@/lib/commerce.functions';
 import { useCart, formatAud } from '@/lib/cart';
 
 export const Route = createFileRoute('/checkout/return')({
@@ -34,7 +34,13 @@ function CheckoutReturn() {
     if (!sessionId || receipt || tries > 10) return;
     const timer = setTimeout(async () => {
       try {
-        const result = await getOrderBySession({ data: { sessionId } });
+        let result: OrderReceipt | null = null;
+        try {
+          result = await getOrderBySession({ data: { sessionId } });
+        } catch {
+          /* signed out — fall through to the guest lookup */
+        }
+        if (!result) result = await getGuestOrderBySession({ data: { sessionId } });
         if (result) setReceipt(result);
       } catch {
         /* keep polling — the webhook may not have landed yet */
