@@ -395,6 +395,7 @@ export function SiteFooter() {
             <li><Link to="/about" className="hover:text-paper">About Us</Link></li>
             <li><Link to="/reviews" className="hover:text-paper">Reviews</Link></li>
             <li><Link to="/contact" className="hover:text-paper">Contact</Link></li>
+            <li><Link to="/track" className="hover:text-paper">Track your order</Link></li>
           </ul>
         </div>
 
