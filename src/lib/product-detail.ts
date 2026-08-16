@@ -692,6 +692,22 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'A Black woman in her forties smoothing a rich pearlescent cream along her cheekbone',
     },
   ],
+  tirtir_ceramic_milk_ampoule_40ml_onetime: [
+    {
+      src: '/products/editorial/tirtir/ceramic-milk-ampoule-40ml-hero.png',
+      alt: 'TIRTIR Ceramic Milk Ampoule 40ml on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/tirtir/ceramic-milk-ampoule-40ml-info.png',
+      alt: 'Key ingredients panel for TIRTIR Ceramic Milk Ampoule: ceramide complex, niacinamide and a lightweight milky ampoule texture',
+    },
+    {
+      src: '/products/editorial/tirtir/ceramic-milk-ampoule-40ml-apply.png',
+      alt: 'A woman smoothing a milky white ampoule along her cheekbone with two fingers',
+    },
+  ],
+
+
 
   isntree_yam_root_vegan_milk_toner_200ml_onetime: [
     {
