@@ -25,6 +25,10 @@ export function Reveal({
       setShown(true);
       return;
     }
+    // Already in view on mount (direct deep-link / restored scroll)
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) setShown(true);
+
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
@@ -34,11 +38,17 @@ export function Reveal({
           }
         }
       },
-      { rootMargin: "0px 0px -12% 0px", threshold: 0.08 },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0 },
     );
     io.observe(el);
-    return () => io.disconnect();
+    // Safety net: never leave content hidden
+    const t = window.setTimeout(() => setShown(true), 2500);
+    return () => {
+      io.disconnect();
+      window.clearTimeout(t);
+    };
   }, []);
+
 
   return (
     <Tag
