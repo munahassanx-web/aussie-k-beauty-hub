@@ -78,14 +78,15 @@ function Shop() {
   return (
     <div className="mx-auto max-w-7xl px-6 py-16">
       <div className="max-w-2xl">
-        <p className="text-xs uppercase tracking-[0.2em] text-primary">The shop</p>
-        <h1 className="mt-3 text-5xl text-foreground md:text-6xl">Carefully sourced. <em className="not-italic text-primary">Always authentic.</em></h1>
-        <p className="mt-5 text-lg text-muted-foreground">
+        <p className="eyebrow eyebrow-rule">The skin edit</p>
+        <h1 className="display-section mt-4 text-foreground">Carefully sourced. <em className="not-italic text-primary">Always authentic.</em></h1>
+        <p className="lede mt-6">
           Every product on Skin Grocer is sourced directly through verified
           brand partners and stocked here in Australia for next-day delivery to metro
           and most regional areas — remote postcodes may take 1–2 extra days.
         </p>
       </div>
+
 
       <div className="mt-10 flex flex-wrap gap-2">
         {filters.map((c) => {
