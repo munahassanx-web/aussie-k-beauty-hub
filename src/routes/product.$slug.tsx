@@ -426,6 +426,15 @@ function ProductPage() {
           </p>
           <p className="mt-5 text-2xl text-foreground">{product.price} AUD</p>
 
+          {product.name.match(/\b\d+(?:\.\d+)?\s?(?:ml|g)\b/i)?.[0] && (
+            <p className="mt-2 text-sm text-foreground/85">
+              <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                Size ·{' '}
+              </span>
+              {product.name.match(/\b\d+(?:\.\d+)?\s?(?:ml|g)\b/i)?.[0]}
+            </p>
+          )}
+
           <p className="mt-5 text-muted-foreground">{productDescription(product)}</p>
 
           {productTexture(product) && (
