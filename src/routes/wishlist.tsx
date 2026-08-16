@@ -86,13 +86,10 @@ function WishlistPage() {
                 </div>
                 <button
                   onClick={async () => {
-                     console.log('[wishlist-debug] remove button clicked', p.priceId);
                     try {
                       await remove(p.priceId);
-                       console.log('[wishlist-debug] remove resolved', p.priceId);
                       toast.success(`${p.name} removed from your wishlist`);
                     } catch (err) {
-                       console.log('[wishlist-debug] remove rejected', err);
                       toast.error("Couldn't remove that item", {
                         description: err instanceof Error ? err.message : 'Please try again in a moment.',
                       });
