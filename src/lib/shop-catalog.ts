@@ -73,7 +73,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   { name: "Ginseng Cleansing Oil 210ml", brand: "Beauty of Joseon", price: "$30", priceId: "beauty_of_joseon_ginseng_cleansing_oil_210ml_onetime", tag: "New", category: "Cleanse", image: "/__l5e/assets-v1/fe49c055-3915-4c23-b5bd-546a3da91af4/boj-ginseng-cleansing-oil.jpg", concerns: ["hydration"] },
   { name: "Green Plum Refreshing Toner: AHA + BHA 150ml", brand: "Beauty of Joseon", price: "$32", priceId: "beauty_of_joseon_green_plum_refreshing_toner_150ml_onetime", tag: "New", category: "Tone", image: "/__l5e/assets-v1/0c13ffd9-43fb-4ff4-9759-eff5a6447a29/boj-green-plum-toner.jpg", concerns: ["acne"] },
   { name: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", price: "$34", priceId: "beauty_of_joseon_glow_serum_propolis_plus_niacinamide_30ml_onetime", tag: "Coming soon", category: "Treat", image: "/__l5e/assets-v1/6f6ac28f-f210-4977-aab1-24e3c6e4b51e/boj-glow-serum-propolis.jpg", concerns: ["hydration","pigmentation"], comingSoon: true },
-  { name: "Dynasty Cream 50ml", brand: "Beauty of Joseon", price: "$36", priceId: "beauty_of_joseon_dynasty_cream_50ml_onetime", tag: "New", category: "Moisturise", image: "/__l5e/assets-v1/fc527f9e-354c-4d12-ae4c-082c10aa329e/boj-dynasty-cream.jpg", concerns: ["hydration","barrier"] },
+  { name: "Dynasty Cream 50ml", brand: "Beauty of Joseon", price: "$36", priceId: "beauty_of_joseon_dynasty_cream_50ml_onetime", tag: "New", category: "Moisturise", image: "/__l5e/assets-v1/be8534f9-1f9e-409f-888c-112c2446879f/boj-dynasty-cream.jpg", concerns: ["hydration","barrier"] },
 
 ];
 
