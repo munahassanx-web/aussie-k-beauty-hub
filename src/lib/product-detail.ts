@@ -128,14 +128,30 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'Beauty of Joseon Revive Eye Serum being patted onto the back of a hand with a fingertip',
     },
   ],
+  beauty_of_joseon_ginseng_cleansing_oil_210ml_onetime: [
+    {
+      src: '/products/editorial/beauty-of-joseon/ginseng-cleansing-oil-210ml-hero.png',
+      alt: 'Beauty of Joseon Ginseng Cleansing Oil 210ml pump bottle with a droplet of amber oil on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/beauty-of-joseon/ginseng-cleansing-oil-210ml-info.png',
+      alt: 'Key ingredients panel for Beauty of Joseon Ginseng Cleansing Oil: soybean oil, ginseng seed oil, camellia seed oil, olive fruit oil and ginseng root and berry extract',
+    },
+    {
+      src: '/products/editorial/beauty-of-joseon/ginseng-cleansing-oil-210ml-apply.png',
+      alt: 'Cleansing oil being massaged over dry skin on the cheek and jawline before emulsifying with water',
+    },
+  ],
 };
 
 
 export function galleryFor(p: ShopProduct): GalleryImage[] {
+  const editorial = EDITORIAL[p.priceId];
+  // When a SKU has bespoke, product-accurate editorial imagery we show only
+  // that — generic category lifestyle shots look random next to it.
   return [
     { src: p.image, alt: `${p.brand} ${p.name}` },
-    ...(EDITORIAL[p.priceId] ?? []),
-    ...LIFESTYLE[p.category],
+    ...(editorial ?? LIFESTYLE[p.category]),
   ];
 }
 
@@ -251,7 +267,48 @@ const COPY: Record<string, CopyOverride> = {
     fullInci:
       'Purified Water, Butylene Glycol, Glycerin, Dipropylene Glycol, 1,2-Hexanediol, Panthenol, Sodium Hyaluronate, Hydrolyzed Hyaluronic Acid (500 ppm), Sodium Acetylated Hyaluronate, Sodium Hyaluronate Crosspolymer, Hydrolyzed Sodium Hyaluronate, Allantoin, Trehalose, Betaine, Propanediol, Portulaca Oleracea Extract, Hamamelis Virginiana (Witch Hazel) Extract, Madecassoside, Madecassic Acid, Ceramide NP, Beta-Glucan, Malachite Extract, Cholesterol, Pentylene Glycol, Glyceryl Acrylate/Acrylic Acid Copolymer, PVM/MA Copolymer, Polyglyceryl-10 Laurate, Xanthan Gum, Tromethamine, Carbomer, Ethylhexylglycerin, Scutellaria Baicalensis Root Extract, Paeonia Suffruticosa Root Extract',
   },
+  beauty_of_joseon_ginseng_cleansing_oil_210ml_onetime: {
+    description:
+      'Beauty of Joseon Ginseng Cleansing Oil is the first step of a double cleanse — a comfortably lightweight oil that uses micellar technology to lift away sunscreen, makeup, sebum and daily grime, then emulsifies with water into a soft milky lather and rinses clean. Soybean oil dissolves impurities without clogging pores, while ginseng seed oil and ginseng root and berry extracts help keep skin feeling soft rather than stripped. Clinically tested to be non-sensitising (24-hour human repeated insult patch test, Korea Dermatology Research Institute, 51 subjects). Alcohol-free and plant-based. Made in Korea. 210ml.',
+    texture:
+      'Fluid, golden-amber oil with a subtly calming herbal scent; it turns milky white the moment water hits it and rinses off without a greasy film.',
+    benefits: [
+      'Micellar cleansing technology lifts dirt, sebum, makeup and sunscreen without scrubbing',
+      'Soybean oil dissolves impurities without clogging pores',
+      'Ginseng seed oil and ginseng root/berry extract soothe skin exposed to daily environmental stress',
+      'Emulsifies cleanly with water — no heavy residue before your second cleanse',
+      'Alcohol-free and clinically tested to be non-sensitising',
+    ],
+    howToUse: [
+      'Pump 1–2 times onto dry hands and massage over dry skin, including sunscreen and makeup.',
+      'Add a little lukewarm water and keep massaging until the oil turns milky and emulsifies.',
+      'Rinse thoroughly with lukewarm water.',
+      'Follow with a water-based cleanser. Use morning and night.',
+    ],
+    ingredients: [
+      {
+        name: 'Soybean Oil',
+        korean: '대두유',
+        what: 'The base oil of the formula. It dissolves sunscreen, makeup and hardened sebum without clogging pores, and carries naturally occurring vitamin E (tocopherol is also listed separately).',
+        goodFor: ['Sunscreen removal', 'Congestion-prone skin', 'Daily cleansing'],
+      },
+      {
+        name: 'Ginseng Seed Oil & Ginseng Extracts',
+        korean: '인삼',
+        what: 'Panax ginseng seed oil plus root, leaf/stem and berry extracts — the brand\'s signature hanbang ingredient, included to comfort skin exposed to daily environmental elements so cleansing does not leave it tight.',
+        goodFor: ['Comfort', 'Environmental stress', 'Softness'],
+      },
+      {
+        name: 'Camellia & Olive Fruit Oil',
+        what: 'Lightweight plant oils that keep the slip long enough to massage properly, then rinse away with the micellar system instead of sitting on the skin.',
+        goodFor: ['Slip', 'Dry skin', 'Clean rinse-off'],
+      },
+    ],
+    fullInci:
+      'Glycine Soja (Soybean) Oil, Cetyl Ethylhexanoate, Sorbeth-30 Tetraoleate, Isododecane, Olea Europaea (Olive) Fruit Oil, Camellia Japonica Seed Oil, Hydrogenated Coconut Oil, Octyldodecanol, Polybutene, Caprylic/Capric Triglyceride, Aqua, Tocopherol, Panax Ginseng Seed Oil, Salvia Officinalis (Sage) Oil, Artemisia Vulgaris Oil, Ocimum Basilicum (Basil) Oil, Camphor, Corylus Avellana (Hazelnut) Seed Oil, Nigella Sativa Seed Oil, Butylene Glycol, Panax Ginseng Berry Extract, Glycerin, 1,2-Hexanediol, Methylpropanediol, Panax Ginseng Root Extract, Ethyl Hexanediol, Panax Ginseng Extract, Panax Ginseng Leaf/Stem Extract, Ethylhexylglycerin',
+  },
 };
+
 
 export function productTexture(p: ShopProduct): string | undefined {
   return COPY[p.priceId]?.texture;
