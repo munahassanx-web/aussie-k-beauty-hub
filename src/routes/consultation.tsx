@@ -191,8 +191,23 @@ function ConsultationPage() {
           </p>
         </div>
 
-        <div className="mt-10">
+        <ProgressBar
+          value={
+            phase === "intro" ? 0 : phase === "result" ? 1 : (stepIndex + 1) / STEPS.length
+          }
+          label={
+            phase === "intro"
+              ? "Ready when you are"
+              : phase === "result"
+                ? "Consultation complete"
+                : `Question ${stepIndex + 1} of ${STEPS.length}`
+          }
+        />
+
+        <div className="mt-8" key={phase}>
+          <div className="quiz-step">
           {phase === "intro" && <Intro onStart={() => setPhase("skin")} />}
+
 
           {phase === "skin" && (
             <Question
