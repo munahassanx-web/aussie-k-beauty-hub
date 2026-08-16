@@ -650,6 +650,49 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'A woman massaging creamy milk cleanser over her cheeks with both hands',
     },
   ],
+  dr_g_red_blemish_clear_soothing_foam_150ml_onetime: [
+    {
+      src: '/products/editorial/dr-g/red-blemish-clear-soothing-foam-150ml-hero.png',
+      alt: 'Dr.G R.E.D Blemish Clear Soothing Foam 150ml on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/dr-g/red-blemish-clear-soothing-foam-150ml-info.png',
+      alt: 'Key ingredients panel for Dr.G R.E.D Blemish Clear Soothing Foam: 10-Cica complex, pH balancing formula and a low-irritation lather',
+    },
+    {
+      src: '/products/editorial/dr-g/red-blemish-clear-soothing-foam-150ml-apply.png',
+      alt: 'A young Korean woman massaging white cleansing foam over her cheeks at a bright basin',
+    },
+  ],
+  dr_g_r_e_d_blemish_clear_soothing_cream_70ml_onetime: [
+    {
+      src: '/products/editorial/dr-g/r-e-d-blemish-clear-soothing-cream-70ml-hero.png',
+      alt: 'Dr.G R.E.D Blemish Clear Soothing Cream 70ml on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/dr-g/r-e-d-blemish-clear-soothing-cream-70ml-info.png',
+      alt: 'Key ingredients panel for Dr.G R.E.D Blemish Clear Soothing Cream: centella asiatica complex, panthenol and a fragrance-free gel-cream texture',
+    },
+    {
+      src: '/products/editorial/dr-g/r-e-d-blemish-clear-soothing-cream-70ml-apply.png',
+      alt: 'A woman with fair, flushed skin patting a white gel-cream into her cheek',
+    },
+  ],
+  dr_g_black_snail_cream_50ml_onetime: [
+    {
+      src: '/products/editorial/dr-g/black-snail-cream-50ml-hero.png',
+      alt: 'Dr.G Black Snail Cream 50ml on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/dr-g/black-snail-cream-50ml-info.png',
+      alt: 'Key ingredients panel for Dr.G Black Snail Cream: black snail mucin, propolis extract and pearl powder',
+    },
+    {
+      src: '/products/editorial/dr-g/black-snail-cream-50ml-apply.png',
+      alt: 'A Black woman in her forties smoothing a rich pearlescent cream along her cheekbone',
+    },
+  ],
+
   isntree_yam_root_vegan_milk_toner_200ml_onetime: [
     {
       src: '/products/editorial/isntree/yam-root-vegan-milk-toner-200ml-hero.png',
