@@ -167,3 +167,32 @@
   }
   &:hover::after { transform: scaleX(1); transform-origin: left; }
 }
+
+/* --- Consultation quiz: luxury motion + glass surfaces --- */
+@keyframes quiz-step-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.995); filter: blur(2px); }
+  to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@utility quiz-step {
+  animation: quiz-step-in 0.5s cubic-bezier(0.22, 0.9, 0.24, 1) both;
+}
+@utility quiz-glass {
+  background: color-mix(in oklab, var(--color-paper) 62%, transparent);
+  backdrop-filter: blur(14px) saturate(130%);
+  border: 1px solid color-mix(in oklab, var(--color-hanbok) 14%, transparent);
+  box-shadow: 0 1px 0 color-mix(in oklab, var(--color-paper) 70%, transparent) inset,
+              0 10px 30px -24px color-mix(in oklab, var(--color-hanbok) 45%, transparent);
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.45s ease,
+              border-color 0.35s ease, background 0.35s ease;
+  &:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in oklab, var(--color-hanbok) 32%, transparent);
+    box-shadow: 0 22px 44px -26px color-mix(in oklab, var(--color-hanbok) 55%, transparent);
+  }
+}
+@utility quiz-glass-active {
+  background: color-mix(in oklab, var(--color-hanbok) 8%, var(--color-paper));
+  border-color: color-mix(in oklab, var(--color-hanbok) 55%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-hanbok) 30%, transparent),
+              0 18px 40px -26px color-mix(in oklab, var(--color-hanbok) 60%, transparent);
+}
