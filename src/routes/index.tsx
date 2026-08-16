@@ -538,9 +538,9 @@ function Concerns() {
 
 
 const BUNDLE_EXPLAINERS: Record<string, string> = {
-  starter_bundle_onetime: glassSkinStarterExplainer.url,
-  complete_glow_bundle_onetime: completeGlowExplainer.url,
-  calm_clear_bundle_onetime: calmClearExplainer.url,
+  bundle_glass_skin_starter_onetime: glassSkinStarterExplainer.url,
+  bundle_complete_glow_onetime: completeGlowExplainer.url,
+  bundle_calm_clear_onetime: calmClearExplainer.url,
 };
 
 function BundleCardMedia({
