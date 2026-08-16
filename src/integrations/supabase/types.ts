@@ -262,6 +262,7 @@ export type Database = {
           discount_cents: number
           environment: string
           fulfillment_status: string
+          guest_email: string | null
           id: string
           is_subscription_order: boolean
           line_items: Json | null
@@ -291,6 +292,7 @@ export type Database = {
           discount_cents?: number
           environment?: string
           fulfillment_status?: string
+          guest_email?: string | null
           id?: string
           is_subscription_order?: boolean
           line_items?: Json | null
@@ -320,6 +322,7 @@ export type Database = {
           discount_cents?: number
           environment?: string
           fulfillment_status?: string
+          guest_email?: string | null
           id?: string
           is_subscription_order?: boolean
           line_items?: Json | null
@@ -740,6 +743,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_guest_orders: { Args: never; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

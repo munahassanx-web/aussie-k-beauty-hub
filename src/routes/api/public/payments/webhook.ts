@@ -148,9 +148,10 @@ async function awardPoints(
 
 /** Fulfils a completed Checkout Session (one-off order, or first subscription order). */
 async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean) {
-  const userId = session.metadata?.userId;
-  if (!userId) {
-    console.error('checkout session without userId metadata', session.id);
+  const userId = session.metadata?.userId ?? null;
+  const guestEmail = session.metadata?.guestEmail ?? session.customer_details?.email ?? null;
+  if (!userId && !guestEmail) {
+    console.error('checkout session without userId or guestEmail metadata', session.id);
     return;
   }
 
@@ -177,16 +178,20 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
   const pointsRedeemed = Number(session.metadata?.pointsRedeemed ?? 0) || 0;
   const isSubscription = session.mode === 'subscription';
 
-  const { tier, multiplier } = await pointsMultiplier(userId, isSubscription);
+  // Guest orders earn no points — there's no account to hold them.
+  const { tier, multiplier } = userId
+    ? await pointsMultiplier(userId, isSubscription)
+    : { tier: 'guest', multiplier: 0 };
   // Points are earned on product spend only — never on shipping.
   const productCents = Math.max(0, amountCents - shippingCents);
-  const pointsEarned = paid ? Math.floor(Math.floor(productCents / 100) * multiplier) : 0;
+  const pointsEarned = paid && userId ? Math.floor(Math.floor(productCents / 100) * multiplier) : 0;
 
   const { data: order, error } = await supabase
     .from('orders')
     .upsert(
       {
         user_id: userId,
+        guest_email: userId ? null : guestEmail,
         stripe_session_id: session.id,
         stripe_payment_intent_id: session.payment_intent ?? null,
         amount_cents: amountCents,
@@ -196,7 +201,7 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
         status: paid ? 'paid' : 'pending',
         fulfillment_status: paid ? 'processing' : 'awaiting_payment',
         points_earned: pointsEarned,
-        points_redeemed: pointsRedeemed,
+        points_redeemed: userId ? pointsRedeemed : 0,
         discount_cents: discountCents,
         shipping_cents: shippingCents,
         shipping_method: session.shipping_cost?.shipping_rate ? 'standard' : null,
@@ -220,7 +225,7 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
     return;
   }
 
-  if (paid) {
+  if (paid && userId) {
     await awardPoints(userId, order.id, pointsEarned, pointsRedeemed, {
       tier,
       multiplier,
