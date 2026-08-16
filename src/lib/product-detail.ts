@@ -311,7 +311,78 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'Rich white moisturiser being smoothed across the cheek with fingertips for a soft, well-fed finish',
     },
   ],
+  wellage_real_hyaluronic_toner_200ml_onetime: [
+    {
+      src: '/products/editorial/wellage/real-hyaluronic-toner-200ml-hero.png',
+      alt: 'WELLAGE Real Hyaluronic Toner 200ml bottle on a cool blue-white studio backdrop',
+    },
+    {
+      src: '/products/editorial/wellage/real-hyaluronic-toner-200ml-info.png',
+      alt: 'Key ingredients panel for WELLAGE Real Hyaluronic Toner: Real HA, HA Water 100 and panthenol in a mild 200ml formula',
+    },
+    {
+      src: '/products/editorial/wellage/real-hyaluronic-toner-200ml-apply.png',
+      alt: 'A woman sweeping a toner-soaked cotton pad across her cheek in soft daylight',
+    },
+  ],
+  wellage_hyper_pdrn_repair_ampoule_30ml_onetime: [
+    {
+      src: '/products/editorial/wellage/hyper-pdrn-repair-ampoule-30ml-hero.png',
+      alt: 'WELLAGE Hyper PDRN Repair Ampoule 30ml amber dropper bottle on a warm off-white studio backdrop',
+    },
+    {
+      src: '/products/editorial/wellage/hyper-pdrn-repair-ampoule-30ml-info.png',
+      alt: 'Key ingredients panel for WELLAGE Hyper PDRN Repair Ampoule: PDRN (sodium DNA), Real HA and soluble collagen, 30ml',
+    },
+    {
+      src: '/products/editorial/wellage/hyper-pdrn-repair-ampoule-30ml-apply.png',
+      alt: 'A woman patting a few drops of clear repair ampoule into her cheekbone',
+    },
+  ],
+  wellage_real_hyaluronic_blue_100_ampoule_60ml_onetime: [
+    {
+      src: '/products/editorial/wellage/real-hyaluronic-blue-100-ampoule-60ml-hero.png',
+      alt: 'WELLAGE Real Hyaluronic Blue 100 Ampoule 60ml bottle on a cool white-blue studio backdrop',
+    },
+    {
+      src: '/products/editorial/wellage/real-hyaluronic-blue-100-ampoule-60ml-info.png',
+      alt: 'Key ingredients panel for WELLAGE Real Hyaluronic Blue 100 Ampoule: Real HA, HA Water 100 and panthenol in a watery 60ml ampoule',
+    },
+    {
+      src: '/products/editorial/wellage/real-hyaluronic-blue-100-ampoule-60ml-apply.png',
+      alt: 'A glass dropper releasing a clear watery droplet into an open palm',
+    },
+  ],
+  wellage_real_hyaluronic_100_cream_80ml_onetime: [
+    {
+      src: '/products/editorial/wellage/real-hyaluronic-100-cream-80ml-hero.png',
+      alt: 'WELLAGE Real Hyaluronic 100 Cream 80ml tube on a pale grey-white studio backdrop',
+    },
+    {
+      src: '/products/editorial/wellage/real-hyaluronic-100-cream-80ml-info.png',
+      alt: 'Key ingredients panel for WELLAGE Real Hyaluronic 100 Cream: Real HA, HA-Aminosome and ceramide, 80ml',
+    },
+    {
+      src: '/products/editorial/wellage/real-hyaluronic-100-cream-80ml-apply.png',
+      alt: 'A woman smoothing a stripe of white moisturiser along her jawline',
+    },
+  ],
+  wellage_real_hyaluronic_soothing_cream_80ml_onetime: [
+    {
+      src: '/products/editorial/wellage/real-hyaluronic-soothing-cream-80ml-hero.png',
+      alt: 'WELLAGE Real Hyaluronic Soothing Cream 80ml tube on a soft mint-white studio backdrop',
+    },
+    {
+      src: '/products/editorial/wellage/real-hyaluronic-soothing-cream-80ml-info.png',
+      alt: 'Key ingredients panel for WELLAGE Real Hyaluronic Soothing Cream: Real HA, panthenol and centella asiatica in a cooling 80ml gel-cream',
+    },
+    {
+      src: '/products/editorial/wellage/real-hyaluronic-soothing-cream-80ml-apply.png',
+      alt: 'A woman smoothing a cooling gel-cream over a slightly flushed cheek',
+    },
+  ],
 };
+
 
 
 export function galleryFor(p: ShopProduct): GalleryImage[] {
