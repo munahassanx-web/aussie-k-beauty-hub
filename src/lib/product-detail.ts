@@ -2,6 +2,8 @@
 // and lifestyle imagery for every SKU in the launch assortment.
 
 import { SHOP_PRODUCTS, type ShopProduct, type Category, type Concern } from '@/lib/shop-catalog';
+import { bespokeHeroIngredients } from '@/lib/hero-ingredients';
+
 
 import ritualScene from '@/assets/ritual-scene.jpg';
 import productFlatlay from '@/assets/product-flatlay.jpg';
