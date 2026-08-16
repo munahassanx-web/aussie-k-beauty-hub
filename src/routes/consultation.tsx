@@ -182,7 +182,7 @@ function ConsultationPage() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-cream py-12 md:py-20">
+    <div className="quiz-stage relative min-h-screen overflow-hidden py-12 md:py-20">
       <div className="quiz-aurora" aria-hidden />
       <div className="relative mx-auto max-w-2xl px-5">
 
