@@ -119,6 +119,7 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
   });
 
 export type OrderReceipt = {
+  orderId?: string;
   status: 'pending' | 'paid';
   amountCents: number;
   shippingCents: number;
@@ -154,6 +155,7 @@ export const getOrderBySession = createServerFn({ method: 'GET' })
       .maybeSingle();
     if (!order) return null;
     return {
+      orderId: order.id as string,
       status: (order.status as string) === 'paid' ? 'paid' : 'pending',
       amountCents: (order.amount_cents as number) ?? 0,
       shippingCents: (order.shipping_cents as number) ?? 0,

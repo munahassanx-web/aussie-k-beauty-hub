@@ -97,6 +97,7 @@ export function stripeFor(env: 'sandbox' | 'live'): Stripe {
 }
 
 export type OrderReceiptShape = {
+  orderId?: string;
   status: 'pending' | 'paid';
   amountCents: number;
   shippingCents: number;
@@ -118,6 +119,7 @@ export type OrderReceiptShape = {
 /** Shapes a raw orders row into the receipt the confirmation page renders. */
 export function mapOrderReceipt(order: Record<string, any>): OrderReceiptShape {
   return {
+    orderId: order['id'] as string,
     status: (order['status'] as string) === 'paid' ? 'paid' : 'pending',
     amountCents: (order['amount_cents'] as number) ?? 0,
     shippingCents: (order['shipping_cents'] as number) ?? 0,
