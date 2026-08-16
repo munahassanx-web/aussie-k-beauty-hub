@@ -677,42 +677,40 @@ function Results({
           ))}
       </div>
 
-      <div className="mt-9 space-y-7">
-        {result.routine.map((r, i) => {
-          const p = CONSULT_PRODUCT_MAP[r.priceId];
-          if (!p) return null;
-          return (
-            <div key={`${r.priceId}-${i}`} className="border-b border-dashed border-border pb-7 last:border-b-0">
-              <div className="flex items-baseline gap-3">
-                <span className="font-display text-lg italic text-primary">{i + 1}</span>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{p.step}</span>
-              </div>
-              <div className="mt-3 flex gap-4">
-                <Link to="/shop" className="block h-24 w-24 shrink-0 overflow-hidden bg-secondary">
-                  <img src={p.image} alt={p.name} loading="lazy" className="h-full w-full object-cover" />
-                </Link>
-                <div className="flex-1">
-                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{p.brand}</p>
-                  <p className="mt-0.5 font-display text-lg leading-snug text-ink">{p.name}</p>
-                  <p className="mt-2 border-l-2 border-primary pl-3 text-[13px] leading-relaxed text-muted-foreground">
-                    {r.why}
-                  </p>
-                  <div className="mt-3 flex items-center gap-3">
-                    <span className="text-sm text-ink">{p.price} AUD</span>
-                    <button
-                      onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
-                      className="bg-ink px-4 py-2 text-[10px] font-medium uppercase tracking-wider text-paper hover:bg-primary"
-                    >
-                      Add it
-                    </button>
-                  </div>
-                  <WhyThisIngredient productId={p.priceId} />
-                </div>
-              </div>
-            </div>
-          );
-        })}
+      <div className="mt-9 rounded-2xl border border-border/70 bg-cream/60 p-1 md:p-2">
+        <div className="grid gap-2 md:grid-cols-2">
+          <RoutineColumn
+            title="Morning"
+            caption="Protect and prep for an Australian UV day"
+            icon="☀"
+            steps={steps.filter((s) => s.slot !== "pm")}
+            buy={buy}
+          />
+          <RoutineColumn
+            title="Evening"
+            caption="Repair while you sleep"
+            icon="☾"
+            steps={steps.filter((s) => s.slot !== "am")}
+            buy={buy}
+          />
+        </div>
       </div>
+
+      <div className="mt-6 rounded-2xl border border-border bg-paper p-5 text-center">
+        <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+          {steps.length} products · {routineTotal}
+        </p>
+        <button
+          onClick={addAll}
+          className="mt-3 w-full rounded-xl bg-ink py-4 text-[11px] font-medium uppercase tracking-[0.18em] text-paper transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary hover:shadow-[0_18px_40px_-22px_rgba(0,0,0,0.6)]"
+        >
+          Add full routine to cart
+        </button>
+        <p className="mt-2 text-[11px] text-muted-foreground">
+          Free shipping on orders over A$80 · Melbourne warehouse, same-day dispatch
+        </p>
+      </div>
+
 
       {/* Follow-up conversation */}
       <div className="mt-9 border-t border-border pt-7">
