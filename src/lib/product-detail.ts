@@ -139,7 +139,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/torriden/dive-in-trial-kit-apply.png',
-      alt: 'Travel-size skincare minis packed into a linen toiletry pouch',
+      alt: 'The four TORRIDEN DIVE IN travel sizes — Cleansing Foam, Toner, Serum and Soothing Cream — beside a linen travel pouch in soft window light',
     },
   ],
   torriden_balanceful_trial_kit_onetime: [
