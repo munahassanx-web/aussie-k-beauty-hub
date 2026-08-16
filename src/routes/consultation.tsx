@@ -191,8 +191,23 @@ function ConsultationPage() {
           </p>
         </div>
 
-        <div className="mt-10">
+        <ProgressBar
+          value={
+            phase === "intro" ? 0 : phase === "result" ? 1 : (stepIndex + 1) / STEPS.length
+          }
+          label={
+            phase === "intro"
+              ? "Ready when you are"
+              : phase === "result"
+                ? "Consultation complete"
+                : `Question ${stepIndex + 1} of ${STEPS.length}`
+          }
+        />
+
+        <div className="mt-8" key={phase}>
+          <div className="quiz-step">
           {phase === "intro" && <Intro onStart={() => setPhase("skin")} />}
+
 
           {phase === "skin" && (
             <Question
@@ -322,7 +337,9 @@ function ConsultationPage() {
               }}
             />
           )}
+          </div>
         </div>
+
 
         <p className="mt-8 text-center text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
           Guidance only — not a substitute for a dermatologist
@@ -375,6 +392,32 @@ function Intro({ onStart }: { onStart: () => void }) {
   );
 }
 
+function ProgressBar({ value, label }: { value: number; label: string }) {
+  return (
+    <div className="mt-8">
+      <div className="flex items-baseline justify-between">
+        <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{label}</span>
+        <span className="font-display text-sm italic text-primary">{Math.round(value * 100)}%</span>
+      </div>
+      <div
+        className="mt-2.5 h-[3px] w-full overflow-hidden rounded-full bg-border/70"
+        role="progressbar"
+        aria-valuenow={Math.round(value * 100)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
+        <div
+          className="h-full rounded-full bg-gradient-to-r from-primary/70 via-primary to-ink shadow-[0_0_12px_rgba(0,0,0,0.18)]"
+          style={{
+            width: `${Math.max(2, value * 100)}%`,
+            transition: "width 700ms cubic-bezier(0.22, 0.9, 0.24, 1)",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
 function Marker({ index }: { index: number }) {
   return (
     <div className="mb-7 flex items-baseline gap-4">
@@ -385,7 +428,7 @@ function Marker({ index }: { index: number }) {
         {STEPS.map((_, i) => (
           <span
             key={i}
-            className={`h-px flex-1 ${i <= index ? "bg-primary" : "bg-border"}`}
+            className={`h-px flex-1 transition-colors duration-500 ${i <= index ? "bg-primary" : "bg-border"}`}
             aria-hidden
           />
         ))}
@@ -396,6 +439,7 @@ function Marker({ index }: { index: number }) {
     </div>
   );
 }
+
 
 function Question({
   index,
@@ -445,24 +489,32 @@ function Choices(
   const selected = (v: string) => (props.multi ? props.values.includes(v) : props.value === v);
   return (
     <div className="flex flex-col gap-2">
-      {props.options.map((o) => {
+      {props.options.map((o, i) => {
         const sel = selected(o.value);
         return (
           <button
             key={o.value}
             onClick={() => (props.multi ? props.onToggle(o.value) : props.onChange(o.value))}
-            className={`flex items-start justify-between gap-3 border px-5 py-4 text-left transition-colors ${
-              sel
-                ? "border-primary bg-accent/25 text-ink"
-                : "border-border bg-paper text-ink hover:border-primary/60"
+            style={{ animationDelay: `${i * 45}ms` }}
+            className={`quiz-step quiz-glass flex items-start justify-between gap-3 rounded-xl px-5 py-4 text-left text-ink ${
+              sel ? "quiz-glass-active" : ""
             }`}
           >
             <span className="flex-1">
               <span className="block text-[15px] font-medium leading-snug">{o.title}</span>
               {o.hint && <span className="mt-1 block text-xs text-muted-foreground">{o.hint}</span>}
             </span>
-            <span className={`mt-1 text-primary transition-opacity ${sel ? "opacity-100" : "opacity-0"}`}>✓</span>
+            <span
+              className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border text-[11px] transition-all duration-300 ${
+                sel
+                  ? "scale-100 border-primary bg-primary text-paper opacity-100"
+                  : "scale-90 border-border text-transparent opacity-40"
+              }`}
+            >
+              ✓
+            </span>
           </button>
+
         );
       })}
     </div>
@@ -564,6 +616,87 @@ function FinalStep({
 
 // ------------------------------------------------------------------ result
 
+type RoutineStep = {
+  product: (typeof CONSULT_PRODUCT_MAP)[string];
+  why: string;
+  slot: "am" | "pm" | "both";
+};
+
+function slotFor(step: string): "am" | "pm" | "both" {
+  const s = step.toLowerCase();
+  if (s.includes("protect")) return "am";
+  if (s.includes("weekly") || s.includes("targeted") || s.includes("sleeping")) return "pm";
+  return "both";
+}
+
+function RoutineColumn({
+  title,
+  caption,
+  icon,
+  steps,
+  buy,
+}: {
+  title: string;
+  caption: string;
+  icon: string;
+  steps: RoutineStep[];
+  buy: (o: { priceId: string; name: string; priceLabel: string }) => void;
+}) {
+  return (
+    <div className="rounded-2xl border border-border/70 bg-paper/80 p-5">
+      <div className="flex items-baseline gap-2">
+        <span className="text-base text-primary">{icon}</span>
+        <h3 className="font-display text-xl text-ink">{title}</h3>
+      </div>
+      <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{caption}</p>
+
+      {steps.length === 0 ? (
+        <p className="mt-6 text-sm text-muted-foreground">Nothing extra needed here.</p>
+      ) : (
+        <ol className="relative mt-6 space-y-6 border-l border-dashed border-border pl-5">
+          {steps.map((s, i) => (
+            <li key={`${title}-${s.product.priceId}-${i}`} className="quiz-step relative" style={{ animationDelay: `${i * 70}ms` }}>
+              <span className="absolute -left-[26px] top-1.5 grid h-4 w-4 place-items-center rounded-full border border-primary bg-paper text-[9px] text-primary">
+                {i + 1}
+              </span>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{s.product.step}</p>
+              <div className="quiz-glass mt-2 flex gap-3 rounded-xl p-3">
+                <img
+                  src={s.product.image}
+                  alt={s.product.name}
+                  loading="lazy"
+                  className="h-16 w-16 shrink-0 rounded-lg object-cover"
+                />
+                <div className="flex-1">
+                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{s.product.brand}</p>
+                  <p className="font-display text-[15px] leading-snug text-ink">{s.product.name}</p>
+                  <p className="mt-1.5 text-[12px] leading-relaxed text-muted-foreground">{s.why}</p>
+                  <div className="mt-2 flex items-center gap-3">
+                    <span className="text-[13px] text-ink">{s.product.price} AUD</span>
+                    <button
+                      onClick={() =>
+                        buy({
+                          priceId: s.product.priceId,
+                          name: s.product.name,
+                          priceLabel: `${s.product.price} AUD`,
+                        })
+                      }
+                      className="rounded-full border border-ink px-3 py-1 text-[10px] uppercase tracking-wider text-ink transition-colors hover:bg-ink hover:text-paper"
+                    >
+                      Add it
+                    </button>
+                  </div>
+                  <WhyThisIngredient productId={s.product.priceId} />
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      )}
+    </div>
+  );
+}
+
 function Results({
   result,
   answers,
@@ -580,9 +713,36 @@ function Results({
   const [err, setErr] = useState<string | null>(null);
   const threadEnd = useRef<HTMLDivElement>(null);
 
+  const steps: RoutineStep[] = result.routine
+    .map((r) => {
+      const p = CONSULT_PRODUCT_MAP[r.priceId];
+      return p ? { product: p, why: r.why, slot: slotFor(p.step) } : null;
+    })
+    .filter(Boolean) as RoutineStep[];
+
+  const routineTotal = `A$${steps
+    .reduce((sum, s) => sum + Number(s.product.price.replace(/[^0-9.]/g, "") || 0), 0)
+    .toFixed(2)
+    .replace(/\.00$/, "")}`;
+
+  async function addAll() {
+    steps.forEach((s) =>
+      buy({ priceId: s.product.priceId, name: s.product.name, priceLabel: `${s.product.price} AUD` }),
+    );
+    const { default: confetti } = await import("canvas-confetti");
+    const shots = [
+      { spread: 70, startVelocity: 45, particleCount: 60, origin: { y: 0.7 } },
+      { spread: 120, startVelocity: 30, particleCount: 40, decay: 0.92, origin: { y: 0.7 } },
+    ];
+    shots.forEach((s, i) =>
+      setTimeout(() => confetti({ ...s, scalar: 0.9, ticks: 160, colors: ["#1F2A37", "#C7A17A", "#F4F5F7"] }), i * 140),
+    );
+  }
+
   useEffect(() => {
     if (thread.length) threadEnd.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [thread]);
+
 
   async function ask() {
     const q = question.trim();
@@ -625,42 +785,40 @@ function Results({
           ))}
       </div>
 
-      <div className="mt-9 space-y-7">
-        {result.routine.map((r, i) => {
-          const p = CONSULT_PRODUCT_MAP[r.priceId];
-          if (!p) return null;
-          return (
-            <div key={`${r.priceId}-${i}`} className="border-b border-dashed border-border pb-7 last:border-b-0">
-              <div className="flex items-baseline gap-3">
-                <span className="font-display text-lg italic text-primary">{i + 1}</span>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{p.step}</span>
-              </div>
-              <div className="mt-3 flex gap-4">
-                <Link to="/shop" className="block h-24 w-24 shrink-0 overflow-hidden bg-secondary">
-                  <img src={p.image} alt={p.name} loading="lazy" className="h-full w-full object-cover" />
-                </Link>
-                <div className="flex-1">
-                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{p.brand}</p>
-                  <p className="mt-0.5 font-display text-lg leading-snug text-ink">{p.name}</p>
-                  <p className="mt-2 border-l-2 border-primary pl-3 text-[13px] leading-relaxed text-muted-foreground">
-                    {r.why}
-                  </p>
-                  <div className="mt-3 flex items-center gap-3">
-                    <span className="text-sm text-ink">{p.price} AUD</span>
-                    <button
-                      onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
-                      className="bg-ink px-4 py-2 text-[10px] font-medium uppercase tracking-wider text-paper hover:bg-primary"
-                    >
-                      Add it
-                    </button>
-                  </div>
-                  <WhyThisIngredient productId={p.priceId} />
-                </div>
-              </div>
-            </div>
-          );
-        })}
+      <div className="mt-9 rounded-2xl border border-border/70 bg-cream/60 p-1 md:p-2">
+        <div className="grid gap-2 md:grid-cols-2">
+          <RoutineColumn
+            title="Morning"
+            caption="Protect and prep for an Australian UV day"
+            icon="☀"
+            steps={steps.filter((s) => s.slot !== "pm")}
+            buy={buy}
+          />
+          <RoutineColumn
+            title="Evening"
+            caption="Repair while you sleep"
+            icon="☾"
+            steps={steps.filter((s) => s.slot !== "am")}
+            buy={buy}
+          />
+        </div>
       </div>
+
+      <div className="mt-6 rounded-2xl border border-border bg-paper p-5 text-center">
+        <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+          {steps.length} products · {routineTotal}
+        </p>
+        <button
+          onClick={addAll}
+          className="mt-3 w-full rounded-xl bg-ink py-4 text-[11px] font-medium uppercase tracking-[0.18em] text-paper transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary hover:shadow-[0_18px_40px_-22px_rgba(0,0,0,0.6)]"
+        >
+          Add full routine to cart
+        </button>
+        <p className="mt-2 text-[11px] text-muted-foreground">
+          Free shipping on orders over A$80 · Melbourne warehouse, same-day dispatch
+        </p>
+      </div>
+
 
       {/* Follow-up conversation */}
       <div className="mt-9 border-t border-border pt-7">
