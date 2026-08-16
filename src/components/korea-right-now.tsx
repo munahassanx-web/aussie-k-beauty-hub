@@ -19,44 +19,51 @@ type Pick = {
  * r/AsianBeauty and r/KoreanBeauty discussion, and weekly YouTube round-ups.
  */
 const PRODUCT_OF_THE_WEEK: Pick = {
-  priceId: "biodance_bio_collagen_real_deep_mask_onetime",
+  priceId: "medicube_pdrn_pink_peptide_serum_30ml_onetime",
   signal:
-    "The overnight hydrogel mask that turns clear as it works. It is the single most re-bought sheet mask in our warehouse and still the mask Korean review platforms and Western reviewers keep benchmarking every new collagen mask against.",
-  source: "Olive Young mask ranking · r/AsianBeauty discussion",
+    "PDRN — the salmon-derived polynucleotide Korean clinics have used for years — is the single biggest ingredient story in Korea right now. Reviews on PDRN products in Korea are up roughly 103% year on year, and MEDICUBE's pink PDRN line is the range that took it from a clinic procedure to a shelf product. This is the serum at the centre of it.",
+  source: "Naver ingredient search growth · Olive Young bestsellers · Aug 2026",
 };
 
 const WEEKLY_PICKS: Pick[] = [
   {
-    priceId: "medicube_pdrn_pink_peptide_serum_30ml_onetime",
-    signal: "PDRN moved out of Korean clinics and into everyday shelves — this is the serum that did it.",
-    source: "Olive Young serum ranking",
-  },
-  {
-    priceId: "medicube_pdrn_pink_cica_soothing_toner_250ml_onetime",
-    signal: "Soothing-first toners keep outselling acid toners in Korea for reactive, congested skin.",
-    source: "Korean review platforms",
-  },
-  {
-    priceId: "torriden_dive_in_serum_onetime",
-    signal: "Low-molecular hyaluronic acid, no fragrance, cheap enough to use with a heavy hand.",
-    source: "Weekly YouTube round-ups",
-  },
-  {
-    priceId: "aestura_derma_uv365_barrier_moisture_mineral_sun_cream_onetime",
-    signal: "Mineral SPF that behaves like a moisturiser — the Korean answer to daily reapplication.",
-    source: "Korean pharmacy suncare ranking",
+    priceId: "beplain_mung_bean_ph_balanced_cleansing_foam_80ml_onetime",
+    signal:
+      "Sitting at #1 on Hwahae's trending ranking. Low-pH mung bean foam — Korea's answer to cleansers that leave skin tight.",
+    source: "Hwahae trending · 11 Aug 2026",
   },
   {
     priceId: "aestura_atobarrier365_cream_onetime",
-    signal: "Derm-counter ceramide cream. What Koreans buy when the barrier is genuinely damaged.",
-    source: "Korean pharmacy sales data",
+    signal:
+      "#2 on the same Hwahae ranking. The derm-counter ceramide cream Koreans reach for when the barrier is genuinely damaged.",
+    source: "Hwahae trending · 11 Aug 2026",
   },
   {
-    priceId: "tirtir_ceramic_milk_ampoule_40ml_onetime",
-    signal: "Milky ampoules are the current Seoul texture trend — glow without a heavy occlusive.",
-    source: "Korean beauty press",
+    priceId: "torriden_dive_in_serum_onetime",
+    signal:
+      "Torriden is currently ranked Korea's #1 brand on Hwahae, and low-molecular hyaluronic acid is the reason why.",
+    source: "Hwahae brand ranking · Jul 2026",
+  },
+  {
+    priceId: "round_lab_1025_dokdo_toner_100ml_onetime",
+    signal:
+      "Round Lab has held the top spot in Korea's weekly K-beauty brand ranking for weeks. Dokdo is the line doing it.",
+    source: "Kagit weekly ranking · week 31, 2026",
+  },
+  {
+    priceId: "s_nature_aqua_oasis_toner_onetime",
+    signal:
+      "S.NATURE's hydration line keeps surfacing at the top of Hwahae's bestseller lists — water-first, no fragrance load.",
+    source: "Hwahae bestsellers · Aug 2026",
+  },
+  {
+    priceId: "biodance_bio_collagen_real_deep_mask_onetime",
+    signal:
+      "The overnight hydrogel mask that turns clear as it works, and still the mask every new collagen mask gets benchmarked against.",
+    source: "Olive Young mask ranking · reviewer round-ups",
   },
 ];
+
 
 function byPriceId(id: string): ShopProduct | undefined {
   return SHOP_PRODUCTS.find((p) => p.priceId === id);
