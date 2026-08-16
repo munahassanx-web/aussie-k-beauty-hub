@@ -120,21 +120,21 @@ function Shop() {
       {visible.length === 0 ? (
         <p className="mt-16 text-muted-foreground">No products match those filters. <button onClick={() => navigate({ search: {} })} className="text-primary underline">Clear filters</button>.</p>
       ) : (
-        <div className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-          {visible.map((p) => {
+        <div className="mt-14 grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-4">
+          {visible.map((p, i) => {
             const isSelected = compare.some((x) => x.priceId === p.priceId);
             const disabled = !isSelected && compare.length >= 3;
             return (
-            <div key={p.name} className="group">
-              <div className="relative aspect-square overflow-hidden rounded-2xl bg-secondary">
+            <Reveal key={p.name} delay={(i % 4) * 70} className="group">
+              <div className="media-frame relative aspect-square rounded-2xl bg-secondary shadow-editorial">
                 <Link to="/product/$slug" params={{ slug: productSlug(p) }} aria-label={`View ${p.brand} ${p.name}`}>
-                  <img src={p.image} alt={p.name} loading="lazy" width={1024} height={1024} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <img src={p.image} alt={p.name} loading="lazy" width={1024} height={1024} className="h-full w-full object-cover" />
                 </Link>
                 {p.tag && (
-                  <span className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-primary backdrop-blur">{p.tag}</span>
+                  <span className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-primary backdrop-blur">{p.tag}</span>
                 )}
                 <WishlistButton productId={p.priceId} productName={`${p.brand} ${p.name}`} className="absolute right-3 top-3 shadow-sm" />
-                <label className={`absolute left-3 bottom-3 inline-flex items-center gap-1.5 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-foreground backdrop-blur ${disabled ? "opacity-40" : "cursor-pointer"}`}>
+                <label className={`absolute left-3 bottom-3 inline-flex items-center gap-1.5 rounded-full bg-background/90 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-foreground opacity-0 backdrop-blur transition-opacity duration-500 group-hover:opacity-100 focus-within:opacity-100 ${disabled ? "opacity-40" : "cursor-pointer"}`}>
                   <input
                     type="checkbox"
                     checked={isSelected}
@@ -145,38 +145,39 @@ function Shop() {
                   Compare
                 </label>
               </div>
-              <div className="mt-4">
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">{p.brand}</p>
-                <Link to="/product/$slug" params={{ slug: productSlug(p) }} className="mt-1 block font-display text-lg text-foreground hover:text-primary">{p.name}</Link>
+              <div className="mt-5">
+                <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{p.brand}</p>
+                <Link to="/product/$slug" params={{ slug: productSlug(p) }} className="mt-1.5 block font-display text-[1.15rem] leading-snug text-foreground transition-colors hover:text-primary">{p.name}</Link>
 
-                <div className="mt-2 flex items-center justify-between">
-                  <span className="text-sm text-foreground">{p.price}</span>
+                <div className="mt-3 flex items-center justify-between border-t border-border/70 pt-3">
+                  <span className="text-sm tabular-nums text-foreground">{p.price}</span>
                   {p.comingSoon ? (
-                    <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
                       Arriving soon
                     </span>
                   ) : (
                     <button
                       onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
-                      className="text-xs font-medium uppercase tracking-wider text-primary hover:underline"
+                      className="arrow-slide text-[10px] font-medium uppercase tracking-[0.18em] text-primary hover:underline"
                     >
-                      Add to basket →
+                      Add to basket <span className="arrow">→</span>
                     </button>
                   )}
                 </div>
                 {!p.comingSoon && restockPriceIdFor(p.priceId) && (
                   <button
                     onClick={() => buy({ priceId: restockPriceIdFor(p.priceId)!, name: p.name, priceLabel: `${p.price} AUD` })}
-                    className="mt-2 w-full rounded-full border border-border py-1.5 text-[11px] uppercase tracking-wider text-foreground hover:bg-secondary"
+                    className="mt-3 w-full rounded-full border border-border py-2 text-[10px] uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-secondary"
                   >
                     Subscribe & save 15%
                   </button>
                 )}
               </div>
-            </div>
+            </Reveal>
             );
           })}
         </div>
+
       )}
       {modal}
       <CompareDrawer
