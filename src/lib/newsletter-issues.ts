@@ -4,7 +4,7 @@
 
 import portraitDeep from "@/assets/learn-portrait-deep.jpg";
 import routineFlatlay from "@/assets/learn-routine-flatlay.jpg";
-import textureMacro from "@/assets/texture-macro.jpg";
+import signalIssue01Cover from "@/assets/signal-issue-01-cover.jpg";
 
 export type IssuePick = {
   name: string;
@@ -109,10 +109,11 @@ export const newsletterIssues: NewsletterIssue[] = [
     theme: "The Hydration Issue",
     date: "Fortnight of 13 August 2026",
     published: true,
-    cover: textureMacro,
-    coverAlt: "Macro texture of a clear hydrating serum",
+    cover: signalIssue01Cover,
+    coverAlt:
+      "Overhead flat lay of Korean skincare bottles, a Korean newspaper page and a hydrogel sheet mask in morning light",
     standfirst:
-      "The difference between dry and dehydrated skin, why Australian air keeps winning that argument, and the four products that actually fix it.",
+      "Korea spent this fortnight arguing about water, not actives: hydrating toners, low-molecular hyaluronic acid and overnight hydrogel masks. Here is what that argument means for skin living through an Australian summer — and the four products that actually fix dehydration.",
 
     bigQuestion: {
       question: "Do you actually need a toner?",

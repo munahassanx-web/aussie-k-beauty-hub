@@ -6,6 +6,7 @@ import { FaqSection } from "@/components/faq-section";
 import { HOME_FAQS, faqJsonLd } from "@/lib/faqs";
 import { HeroCarousel } from "@/components/hero-carousel";
 import { SeoulSignalStrip } from "@/components/seoul-signal";
+import { KoreaRightNow } from "@/components/korea-right-now";
 import { bundleMath, BUNDLE_DEFINITIONS, bundleSavingsSummary } from "@/lib/shop-catalog";
 import glassSkinStarterExplainer from "@/assets/bundle-explainers/glass-skin-starter.png.asset.json";
 import completeGlowExplainer from "@/assets/bundle-explainers/complete-glow-edit.png.asset.json";
@@ -17,6 +18,7 @@ import textureMacro from "@/assets/texture-macro.jpg";
 import ritualScene from "@/assets/ritual-scene.jpg";
 import brandSpotlight from "@/assets/brand-spotlight.jpg";
 import customers from "@/assets/customers.jpg";
+import quizBareSkin from "@/assets/quiz-bare-skin.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -89,18 +91,20 @@ function HomePage() {
       <PromoBar />
       <HeroCarousel />
       <Promise />
-      <SeoulSignalStrip />
-      <ProvenanceCard />
-      <WhyPillars />
-      <BundleOffer />
+      <KoreaRightNow />
       <Categories />
-      <Concerns />
-      <LearnStrip />
-      <ApplicationMoment />
       <BrandMarquee />
       <IngredientStrip />
+      <ProvenanceCard />
+      <SkinQuizSection />
+      <BundleOffer />
+      <Concerns />
+      <WhyPillars />
+      <ApplicationMoment />
       <RitualCTA />
       <ParallaxScene />
+      <LearnStrip />
+      <SeoulSignalStrip />
       <ReviewsCarousel />
       <FaqSection
         id="k-beauty-faq"
@@ -139,66 +143,8 @@ function WhyPillars() {
           </p>
         </div>
 
-        {/* Personal consultation — the core differentiator */}
-        <div className="mt-12 overflow-hidden rounded-3xl bg-ink text-paper">
-          <div className="grid md:grid-cols-5">
-            <div className="p-8 md:col-span-3 md:p-12">
-              <div className="flex items-center gap-3">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent">
-                  <SparkleIcon className="h-3.5 w-3.5" />
-                  Free · 2 minutes
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-paper/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/70">
-                  Made for you
-                </span>
-              </div>
-              <h3 className="mt-6 font-display text-3xl leading-tight md:text-4xl">
-                Your personal K-beauty consultation
-              </h3>
-              <p className="mt-4 max-w-lg text-paper/75">
-                Not sure where to start? Answer a few questions and we'll build a routine around your skin type, your concerns, and your budget — then explain every step so you never feel lost.
-              </p>
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Link
-                  to="/consultation"
-                  className="group inline-flex items-center gap-2.5 rounded-full bg-paper px-8 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-ink transition hover:bg-accent"
-                >
-                  Take the 2-minute quiz
-                  <span className="transition-transform group-hover:translate-x-1">→</span>
-                </Link>
-                <Link
-                  to="/journey"
-                  className="inline-flex items-center gap-2 text-sm font-medium text-paper/80 underline-offset-4 transition hover:text-paper hover:underline"
-                >
-                  See how it works
-                </Link>
-              </div>
-              <div className="mt-8 flex flex-wrap gap-4 text-xs uppercase tracking-[0.18em] text-paper/55">
-                <span className="inline-flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  Curated for Australian skin
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  No spam, no obligation
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  Real products, real results
-                </span>
-              </div>
-            </div>
-            <div className="relative hidden items-center justify-center bg-hanbok-deep/15 md:col-span-2 md:flex">
-              <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `radial-gradient(circle at 70% 30%, var(--accent), transparent 50%)` }} />
-              <div className="relative text-center">
-                <div className="mx-auto flex h-28 w-28 items-center justify-center rounded-full border border-paper/20 bg-paper/10 backdrop-blur">
-                  <SparkleIcon className="h-12 w-12 text-accent" />
-                </div>
-                <p className="mt-5 text-[10px] uppercase tracking-[0.2em] text-paper/60">Personalised to you</p>
-              </div>
-            </div>
-          </div>
-        </div>
+
+
 
         <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-3">
           {pillars.map((p, i) => (
@@ -214,6 +160,78 @@ function WhyPillars() {
   );
 }
 
+/**
+ * Free 2-minute skin quiz — led by the customer's problem, not a product pitch.
+ */
+function SkinQuizSection() {
+  const problems = [
+    {
+      pain: "You own eight products and your skin is still unhappy.",
+      help: "The quiz shows you which of them are doing the same job twice — and what's actually missing.",
+    },
+    {
+      pain: "Dry and flaky by 3pm, shiny by 6pm.",
+      help: "We read that as a barrier and climate issue, not an oil issue, and tell you what order to layer in.",
+    },
+    {
+      pain: "Everything you buy from TikTok stings, breaks you out, or does nothing.",
+      help: "Answer eight questions about your skin and we rule the wrong actives out before you spend anything.",
+    },
+  ];
+  return (
+    <section className="bg-paper" aria-labelledby="skin-quiz-heading">
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:items-center">
+        <div className="md:col-span-5">
+          <div className="overflow-hidden rounded-3xl bg-sand">
+            <img
+              src={quizBareSkin}
+              alt="Close-up of bare skin with visible dryness on the cheek in natural daylight"
+              loading="lazy"
+              width={1280}
+              height={1600}
+              className="h-full w-full object-cover"
+            />
+          </div>
+        </div>
+
+        <div className="md:col-span-7">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
+            Free service · 2 minutes · No account needed
+          </p>
+          <h2 id="skin-quiz-heading" className="mt-3 font-display text-4xl leading-[1.05] text-ink md:text-5xl">
+            Most people aren&rsquo;t using bad products.<br />
+            <span className="italic text-hanbok-deep">They&rsquo;re using the wrong ones for their skin.</span>
+          </h2>
+          <p className="mt-5 max-w-xl text-ink/70">
+            Eight plain questions about your skin, your climate and what you&rsquo;ve already tried.
+            You get a written read on what your skin is doing and the order to treat it in.
+            Nothing is added to a cart. You can use it and buy nothing.
+          </p>
+
+          <ul className="mt-8 grid gap-5 border-t border-border pt-8">
+            {problems.map((p) => (
+              <li key={p.pain}>
+                <p className="font-display text-lg leading-snug text-ink">{p.pain}</p>
+                <p className="mt-1.5 text-sm text-ink/65">{p.help}</p>
+              </li>
+            ))}
+          </ul>
+
+          <Link
+            to="/consultation"
+            className="group mt-10 inline-flex items-center gap-3 rounded-full bg-ink px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-paper transition hover:bg-hanbok-deep"
+          >
+            Start the free skin quiz
+            <span className="transition-transform group-hover:translate-x-1.5">→</span>
+          </Link>
+          <p className="mt-4 text-xs text-muted-foreground">
+            Read by a real advisor if you ask for one. We don&rsquo;t sell your answers.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 
 function BrandMarquee() {
