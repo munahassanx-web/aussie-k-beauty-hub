@@ -4,6 +4,8 @@ import { useBuyNow } from '@/hooks/use-buy-now';
 import { WishlistButton } from '@/components/wishlist-button';
 import { Maximize2 as ExpandIcon } from 'lucide-react';
 import { ImageLightbox } from '@/components/image-lightbox';
+import { IngredientPanel } from '@/components/ingredient-panel';
+
 import { ProductReviews } from '@/components/product-reviews';
 import { FaqSection } from '@/components/faq-section';
 import { productFaqs, faqJsonLd } from '@/lib/faqs';
