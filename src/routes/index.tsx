@@ -90,18 +90,20 @@ function HomePage() {
       <PromoBar />
       <HeroCarousel />
       <Promise />
-      <SeoulSignalStrip />
-      <ProvenanceCard />
-      <WhyPillars />
-      <BundleOffer />
+      <KoreaRightNow />
       <Categories />
-      <Concerns />
-      <LearnStrip />
-      <ApplicationMoment />
       <BrandMarquee />
       <IngredientStrip />
+      <ProvenanceCard />
+      <SkinQuizSection />
+      <BundleOffer />
+      <Concerns />
+      <WhyPillars />
+      <ApplicationMoment />
       <RitualCTA />
       <ParallaxScene />
+      <LearnStrip />
+      <SeoulSignalStrip />
       <ReviewsCarousel />
       <FaqSection
         id="k-beauty-faq"
