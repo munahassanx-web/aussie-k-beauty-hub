@@ -148,9 +148,10 @@ async function awardPoints(
 
 /** Fulfils a completed Checkout Session (one-off order, or first subscription order). */
 async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean) {
-  const userId = session.metadata?.userId;
-  if (!userId) {
-    console.error('checkout session without userId metadata', session.id);
+  const userId = session.metadata?.userId ?? null;
+  const guestEmail = session.metadata?.guestEmail ?? session.customer_details?.email ?? null;
+  if (!userId && !guestEmail) {
+    console.error('checkout session without userId or guestEmail metadata', session.id);
     return;
   }
 
