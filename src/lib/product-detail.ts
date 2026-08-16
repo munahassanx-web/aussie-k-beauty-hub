@@ -170,6 +170,20 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'Drops of pale gold propolis serum being patted into the cheek for a dewy glass-skin finish',
     },
   ],
+  beauty_of_joseon_dynasty_cream_50ml_onetime: [
+    {
+      src: '/products/editorial/beauty-of-joseon/dynasty-cream-50ml-hero.png',
+      alt: 'Beauty of Joseon Dynasty Cream 50ml jar with a swirl of rich white cream beside it on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/beauty-of-joseon/dynasty-cream-50ml-info.png',
+      alt: 'Key ingredients panel for Beauty of Joseon Dynasty Cream: rice bran water, ginseng root extract, niacinamide and squalane',
+    },
+    {
+      src: '/products/editorial/beauty-of-joseon/dynasty-cream-50ml-apply.png',
+      alt: 'Rich white moisturiser being smoothed across the cheek with fingertips for a soft, well-fed finish',
+    },
+  ],
 };
 
 
@@ -414,6 +428,44 @@ const COPY: Record<string, CopyOverride> = {
     ],
     fullInci:
       'Propolis Extract, Dipropylene Glycol, Glycerin, Butylene Glycol, Water, Niacinamide, 1,2-Hexanediol, Melia Azadirachta Flower Extract, Melia Azadirachta Leaf Extract, Sodium Hyaluronate, Curcuma Longa (Turmeric) Root Extract, Ocimum Sanctum Leaf Extract, Theobroma Cacao (Cocoa) Seed Extract, Melaleuca Alternifolia (Tea Tree) Extract, Centella Asiatica Extract, Corallina Officinalis Extract, Lotus Corniculatus Seed Extract, Calophyllum Inophyllum Seed Oil, Betaine Salicylate, Sodium Polyacryloyldimethyl Taurate, Tromethamine, Polyglyceryl-10 Laurate, Caprylyl Glycol, Ethylhexylglycerin, Dextrin, Pentylene Glycol, Octanediol, Tocopherol, Xanthan Gum, Carbomer',
+  },
+  beauty_of_joseon_dynasty_cream_50ml_onetime: {
+    description:
+      "Beauty of Joseon Dynasty Cream is the range's richest moisturiser — a hanbang cream built on rice bran water and Panax ginseng root extract, the two ingredients the brand's Joseon-era formulas are known for. Niacinamide works on the look of tone and dullness while squalane and plant butters seal in moisture, so skin feels fed rather than coated. Best suited to dry, dehydrated or winter-stressed skin, and rich enough to use as a night cream year-round. Made in Korea. 50ml.",
+    texture:
+      'A dense, buttery cream that melts on contact with warm skin and finishes satin — not greasy, but noticeably more occlusive than a gel-cream.',
+    benefits: [
+      'Rice bran water and ginseng root extract — the brand\'s signature hanbang pairing — for comfort and glow',
+      'Niacinamide helps skin look more even and less dull over time',
+      'Squalane and plant butters cushion a dry, tight moisture barrier',
+      'Rich enough for overnight repair, or for cold, dry Melbourne winters',
+      'Layers well over the Glow Serum or any hydrating essence',
+    ],
+    howToUse: [
+      'As the last step of your evening routine, warm a pea-to-almond-sized amount between your fingers.',
+      'Press it over damp skin — straight after serum works best — rather than rubbing it in.',
+      'Use a thinner layer in the morning under sunscreen if your skin runs dry.',
+      'For very dry patches, pat a second layer over the cheeks and around the mouth.',
+    ],
+    ingredients: [
+      {
+        name: 'Rice Bran Water',
+        korean: '쌀겨수',
+        what: 'Oryza sativa bran water — the base of the formula instead of plain water. A staple of Korean hanbang skincare, valued for leaving skin soft, hydrated and less dull-looking.',
+        goodFor: ['Dryness', 'Dullness', 'Daily use'],
+      },
+      {
+        name: 'Ginseng Root Extract',
+        korean: '인삼',
+        what: 'Panax ginseng root — the ingredient Beauty of Joseon is built around. Traditionally used for skin that looks tired and depleted; here it gives the cream its warm, restorative character.',
+        goodFor: ['Tired skin', 'Loss of bounce', 'Comfort'],
+      },
+      {
+        name: 'Niacinamide & Squalane',
+        what: 'Niacinamide (vitamin B3) supports the barrier and helps refine the look of tone; squalane is a lightweight emollient that keeps water from escaping without a heavy film.',
+        goodFor: ['Uneven tone', 'Barrier support', 'Moisture retention'],
+      },
+    ],
   },
 };
 
