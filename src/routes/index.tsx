@@ -156,6 +156,78 @@ function WhyPillars() {
   );
 }
 
+/**
+ * Free 2-minute skin quiz — led by the customer's problem, not a product pitch.
+ */
+function SkinQuizSection() {
+  const problems = [
+    {
+      pain: "You own eight products and your skin is still unhappy.",
+      help: "The quiz shows you which of them are doing the same job twice — and what's actually missing.",
+    },
+    {
+      pain: "Dry and flaky by 3pm, shiny by 6pm.",
+      help: "We read that as a barrier and climate issue, not an oil issue, and tell you what order to layer in.",
+    },
+    {
+      pain: "Everything you buy from TikTok stings, breaks you out, or does nothing.",
+      help: "Answer eight questions about your skin and we rule the wrong actives out before you spend anything.",
+    },
+  ];
+  return (
+    <section className="bg-paper" aria-labelledby="skin-quiz-heading">
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:items-center">
+        <div className="md:col-span-5">
+          <div className="overflow-hidden rounded-3xl bg-sand">
+            <img
+              src={quizBareSkin}
+              alt="Close-up of bare skin with visible dryness on the cheek in natural daylight"
+              loading="lazy"
+              width={1280}
+              height={1600}
+              className="h-full w-full object-cover"
+            />
+          </div>
+        </div>
+
+        <div className="md:col-span-7">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
+            Free service · 2 minutes · No account needed
+          </p>
+          <h2 id="skin-quiz-heading" className="mt-3 font-display text-4xl leading-[1.05] text-ink md:text-5xl">
+            Most people aren&rsquo;t using bad products.<br />
+            <span className="italic text-hanbok-deep">They&rsquo;re using the wrong ones for their skin.</span>
+          </h2>
+          <p className="mt-5 max-w-xl text-ink/70">
+            Eight plain questions about your skin, your climate and what you&rsquo;ve already tried.
+            You get a written read on what your skin is doing and the order to treat it in.
+            Nothing is added to a cart. You can use it and buy nothing.
+          </p>
+
+          <ul className="mt-8 grid gap-5 border-t border-border pt-8">
+            {problems.map((p) => (
+              <li key={p.pain}>
+                <p className="font-display text-lg leading-snug text-ink">{p.pain}</p>
+                <p className="mt-1.5 text-sm text-ink/65">{p.help}</p>
+              </li>
+            ))}
+          </ul>
+
+          <Link
+            to="/consultation"
+            className="group mt-10 inline-flex items-center gap-3 rounded-full bg-ink px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-paper transition hover:bg-hanbok-deep"
+          >
+            Start the free skin quiz
+            <span className="transition-transform group-hover:translate-x-1.5">→</span>
+          </Link>
+          <p className="mt-4 text-xs text-muted-foreground">
+            Read by a real advisor if you ask for one. We don&rsquo;t sell your answers.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 
 function BrandMarquee() {
