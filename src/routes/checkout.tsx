@@ -28,12 +28,15 @@ function Checkout() {
   const [points, setPoints] = useState<number | null>(null);
   const [started, setStarted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [guestMode, setGuestMode] = useState(false);
+  const [guestEmail, setGuestEmail] = useState('');
 
   useEffect(() => {
     if (!user) {
       setPoints(null);
       return;
     }
+    setGuestMode(false);
     supabase.rpc('my_points_balance').then(({ data }) => setPoints(typeof data === 'number' ? data : 0));
   }, [user]);
 
@@ -41,17 +44,19 @@ function Checkout() {
     Math.floor((points ?? 0) / 100) * 100,
     Math.floor(cart.subtotalCents / 500) * 100,
   );
-  const canRedeem = maxRedeem >= 100;
+  const canRedeem = Boolean(user) && maxRedeem >= 100;
+  const hasSubscription = cart.lines.some((l) => l.recurring);
 
   const fetchClientSecret = async (): Promise<string> => {
-    const result = await createCartCheckout({
-      data: {
-        items: cart.lines.map((l) => ({ priceId: l.priceId, quantity: l.quantity })),
-        redeemPoints: redeem,
-        environment: getStripeEnvironment(),
-        returnUrl: `${window.location.origin}/checkout/return?session_id={CHECKOUT_SESSION_ID}`,
-      },
-    });
+    const returnUrl = `${window.location.origin}/checkout/return?session_id={CHECKOUT_SESSION_ID}`;
+    const items = cart.lines.map((l) => ({ priceId: l.priceId, quantity: l.quantity }));
+    const result = user
+      ? await createCartCheckout({
+          data: { items, redeemPoints: redeem, environment: getStripeEnvironment(), returnUrl },
+        })
+      : await createGuestCartCheckout({
+          data: { items, email: guestEmail.trim(), environment: getStripeEnvironment(), returnUrl },
+        });
     if ('error' in result) throw new Error(result.error);
     return result.clientSecret;
   };
@@ -72,22 +77,39 @@ function Checkout() {
     );
   }
 
-  if (!user) {
+  if (!user && !guestMode) {
     return (
-      <div className="mx-auto max-w-3xl px-6 py-24 text-center">
-        <h1 className="font-display text-4xl text-foreground">Sign in to check out</h1>
+      <div className="mx-auto max-w-xl px-6 py-24 text-center">
+        <h1 className="font-display text-4xl text-foreground">How would you like to check out?</h1>
         <p className="mt-3 text-muted-foreground">
-          Your basket is saved. Signing in lets us track your order, points and Restock deliveries.
+          {hasSubscription
+            ? 'Restock subscriptions need an account so we can manage your deliveries.'
+            : 'No account needed — guest checkout takes about a minute.'}
         </p>
-        <button
-          onClick={() => navigate({ to: '/auth' })}
-          className="mt-6 rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90"
-        >
-          Sign in or create an account
-        </button>
+        <div className="mt-8 space-y-3">
+          <button
+            onClick={() => navigate({ to: '/auth' })}
+            className="w-full rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground hover:opacity-90"
+          >
+            Sign in or create an account
+          </button>
+          {!hasSubscription && (
+            <button
+              onClick={() => setGuestMode(true)}
+              className="w-full rounded-full border border-border px-7 py-3.5 text-sm font-medium text-foreground hover:bg-secondary"
+            >
+              Continue as guest
+            </button>
+          )}
+        </div>
+        <p className="mt-5 text-xs text-muted-foreground">
+          Members earn points and can redeem rewards. Guest orders are linked to your account
+          automatically if you sign up later with the same email.
+        </p>
       </div>
     );
   }
+
 
   return (
     <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 lg:grid-cols-[1fr_380px]">
