@@ -337,7 +337,9 @@ function ConsultationPage() {
               }}
             />
           )}
+          </div>
         </div>
+
 
         <p className="mt-8 text-center text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
           Guidance only — not a substitute for a dermatologist
