@@ -6,6 +6,7 @@ import { FaqSection } from "@/components/faq-section";
 import { HOME_FAQS, faqJsonLd } from "@/lib/faqs";
 import { HeroCarousel } from "@/components/hero-carousel";
 import { SeoulSignalStrip } from "@/components/seoul-signal";
+import { KoreaRightNow } from "@/components/korea-right-now";
 import { bundleMath, BUNDLE_DEFINITIONS, bundleSavingsSummary } from "@/lib/shop-catalog";
 import glassSkinStarterExplainer from "@/assets/bundle-explainers/glass-skin-starter.png.asset.json";
 import completeGlowExplainer from "@/assets/bundle-explainers/complete-glow-edit.png.asset.json";
