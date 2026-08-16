@@ -495,18 +495,26 @@ function Choices(
           <button
             key={o.value}
             onClick={() => (props.multi ? props.onToggle(o.value) : props.onChange(o.value))}
-            className={`flex items-start justify-between gap-3 border px-5 py-4 text-left transition-colors ${
-              sel
-                ? "border-primary bg-accent/25 text-ink"
-                : "border-border bg-paper text-ink hover:border-primary/60"
+            style={{ animationDelay: `${i * 45}ms` }}
+            className={`quiz-step quiz-glass flex items-start justify-between gap-3 rounded-xl px-5 py-4 text-left text-ink ${
+              sel ? "quiz-glass-active" : ""
             }`}
           >
             <span className="flex-1">
               <span className="block text-[15px] font-medium leading-snug">{o.title}</span>
               {o.hint && <span className="mt-1 block text-xs text-muted-foreground">{o.hint}</span>}
             </span>
-            <span className={`mt-1 text-primary transition-opacity ${sel ? "opacity-100" : "opacity-0"}`}>✓</span>
+            <span
+              className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border text-[11px] transition-all duration-300 ${
+                sel
+                  ? "scale-100 border-primary bg-primary text-paper opacity-100"
+                  : "scale-90 border-border text-transparent opacity-40"
+              }`}
+            >
+              ✓
+            </span>
           </button>
+
         );
       })}
     </div>
