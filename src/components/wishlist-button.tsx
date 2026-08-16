@@ -44,6 +44,7 @@ export function WishlistButton({
   const onClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (saved) return; // already saved: un-heart is disabled
     try {
       const result = await toggle(productId);
       if (result === 'signed-out') {
@@ -53,9 +54,9 @@ export function WishlistButton({
         });
         return;
       }
-      toast.success(result === 'added' ? `${productName} saved to your wishlist` : `${productName} removed from your wishlist`);
+      toast.success(`${productName} saved to your wishlist`);
     } catch (err) {
-      toast.error(saved ? "Couldn't remove that item" : "Couldn't save that item", {
+      toast.error("Couldn't save that item", {
         description: err instanceof Error ? err.message : 'Please try again in a moment.',
       });
     }
@@ -67,7 +68,7 @@ export function WishlistButton({
         type="button"
         onClick={onClick}
         aria-pressed={saved}
-        aria-label={saved ? `Remove ${productName} from wishlist` : `Save ${productName} to wishlist`}
+        aria-label={saved ? `${productName} saved to wishlist` : `Save ${productName} to wishlist`}
         className={`inline-flex w-full items-center justify-center gap-2 rounded-full border border-border px-7 py-3 text-xs uppercase tracking-wider transition-colors hover:bg-secondary ${saved ? 'text-primary' : 'text-foreground'} ${className}`}
       >
         <HeartIcon filled={saved} size={16} />
@@ -81,7 +82,7 @@ export function WishlistButton({
       type="button"
       onClick={onClick}
       aria-pressed={saved}
-      aria-label={saved ? `Remove ${productName} from wishlist` : `Save ${productName} to wishlist`}
+      aria-label={saved ? `${productName} saved to wishlist` : `Save ${productName} to wishlist`}
       title={signedIn ? undefined : 'Sign in to save favourites'}
       className={`flex h-9 w-9 items-center justify-center rounded-full bg-background/90 backdrop-blur transition-colors hover:text-primary ${saved ? 'text-primary' : 'text-foreground/70'} ${className}`}
     >

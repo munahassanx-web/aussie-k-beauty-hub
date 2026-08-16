@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
-import { toast } from 'sonner';
+
 import { useWishlist } from '@/lib/wishlist';
 import { useBuyNow } from '@/hooks/use-buy-now';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
@@ -23,7 +23,7 @@ export const Route = createFileRoute('/wishlist')({
 });
 
 function WishlistPage() {
-  const { ids, loading, signedIn, remove } = useWishlist();
+  const { ids, loading, signedIn } = useWishlist();
   const { buy } = useBuyNow();
 
   const saved = useMemo(
@@ -37,6 +37,12 @@ function WishlistPage() {
       <h1 className="mt-3 font-display text-5xl text-foreground md:text-6xl">Saved products</h1>
       <p className="mt-5 max-w-xl text-lg text-muted-foreground">
         Everything you've hearted, kept safely with your account so it's here next time you shop.
+      </p>
+      <p className="mt-3 max-w-xl text-base text-muted-foreground">
+        To remove a saved item, contact us at{' '}
+        <a href="mailto:hello@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:text-foreground">
+          hello@skingrocer.com.au
+        </a>.
       </p>
 
       {!signedIn && !loading ? (
@@ -84,21 +90,6 @@ function WishlistPage() {
                     </button>
                   )}
                 </div>
-                <button
-                  onClick={async () => {
-                    try {
-                      await remove(p.priceId);
-                      toast.success(`${p.name} removed from your wishlist`);
-                    } catch (err) {
-                      toast.error("Couldn't remove that item", {
-                        description: err instanceof Error ? err.message : 'Please try again in a moment.',
-                      });
-                    }
-                  }}
-                  className="mt-2 w-full rounded-full border border-border py-1.5 text-[11px] uppercase tracking-wider text-muted-foreground hover:bg-secondary hover:text-foreground"
-                >
-                  Remove
-                </button>
               </div>
             </div>
           ))}
