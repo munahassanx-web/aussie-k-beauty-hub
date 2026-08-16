@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
+import { toast } from 'sonner';
 import { useWishlist } from '@/lib/wishlist';
 import { useBuyNow } from '@/hooks/use-buy-now';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
