@@ -144,6 +144,22 @@ export function KoreaRightNow() {
           </Link>
         </div>
 
+        <ul className="mt-8 flex flex-wrap gap-2">
+          {[
+            "PDRN · #1 rising ingredient in Korea",
+            "Exosomes · clinic actives going retail",
+            "Azulene · the new calming hero",
+            "Low-molecular HA · barrier hydration",
+          ].map((t) => (
+            <li
+              key={t}
+              className="rounded-full border border-foreground/15 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/70"
+            >
+              {t}
+            </li>
+          ))}
+        </ul>
+
         {/* Product of the week */}
         {hero && (
           <div className="mt-12 overflow-hidden rounded-3xl bg-ink text-paper">
