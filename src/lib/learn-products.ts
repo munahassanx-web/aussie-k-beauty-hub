@@ -65,7 +65,7 @@ export function productsForArticle(article: LearnArticle, limit = 4): ShopProduc
   const concerns = tags.map((t) => CONCERN_BY_TAG[t]).filter(Boolean) as Concern[];
   const categories = tags.map((t) => CATEGORY_BY_TAG[t]).filter(Boolean) as ShopProduct["category"][];
 
-  const scored = SHOP_PRODUCTS.map((p) => {
+  const scored = SHOP_PRODUCTS.filter((p) => !p.comingSoon).map((p) => {
     const text = haystack(p);
     let score = 0;
     for (const { term, hero } of ingredientTerms) {
