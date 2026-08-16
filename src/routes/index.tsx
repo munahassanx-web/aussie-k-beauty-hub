@@ -853,7 +853,7 @@ function ReviewsCarousel() {
         <div className="md:col-span-5">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Customer Notes</p>
           <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">
-            1,200+ reviews. <span className="italic text-hanbok-deep">4.9 stars.</span>
+            Real feedback from <span className="italic text-hanbok-deep">real customers.</span>
           </h2>
           <p className="mt-5 text-ink/70">From real customers across Melbourne, Sydney and beyond.</p>
           <Link to="/reviews" className="mt-8 inline-flex text-sm font-medium text-primary underline-grow">
