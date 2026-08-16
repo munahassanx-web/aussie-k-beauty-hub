@@ -50,6 +50,21 @@ function Checkout() {
   const fetchClientSecret = async (): Promise<string> => {
     const returnUrl = `${window.location.origin}/checkout/return?session_id={CHECKOUT_SESSION_ID}`;
     const items = cart.lines.map((l) => ({ priceId: l.priceId, quantity: l.quantity }));
+    // Client-side breadcrumb so a broken total can be traced back to the exact basket.
+    console.log(
+      '[commerce] ' +
+        JSON.stringify({
+          scope: 'cart',
+          event: 'checkout.submitted',
+          mode: user ? 'member' : 'guest',
+          items,
+          subtotalCents: cart.subtotalCents,
+          shippingCents: cart.shippingCents,
+          totalCents: cart.totalCents,
+          redeemPoints: user ? redeem : 0,
+          environment: getStripeEnvironment(),
+        }),
+    );
     const result = user
       ? await createCartCheckout({
           data: { items, redeemPoints: redeem, environment: getStripeEnvironment(), returnUrl },
@@ -57,9 +72,13 @@ function Checkout() {
       : await createGuestCartCheckout({
           data: { items, email: guestEmail.trim(), environment: getStripeEnvironment(), returnUrl },
         });
-    if ('error' in result) throw new Error(result.error);
+    if ('error' in result) {
+      console.error('[commerce] ' + JSON.stringify({ scope: 'cart', event: 'checkout.failed', error: result.error }));
+      throw new Error(result.error);
+    }
     return result.clientSecret;
   };
+
 
   if (loading) {
     return <div className="mx-auto max-w-3xl px-6 py-24 text-sm text-muted-foreground">Loading…</div>;

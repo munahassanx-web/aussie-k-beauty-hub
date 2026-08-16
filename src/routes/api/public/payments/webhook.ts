@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { createClient } from '@supabase/supabase-js';
 import { type StripeEnv, createStripeClient, verifyWebhook } from '@/lib/stripe.server';
+import { errorCommerce, logCommerce, maskEmail, newTraceId, shortId, since, warnCommerce } from '@/lib/commerce-log';
 
 let _supabase: any = null;
 function getSupabase(): any {
@@ -25,7 +26,7 @@ function isRestockPrice(priceId: string | null): boolean {
 async function upsertSubscription(sub: any, env: StripeEnv) {
   const userId = sub.metadata?.userId;
   if (!userId) {
-    console.error('subscription missing userId metadata', sub.id);
+    warnCommerce('webhook', 'subscription.missing_user_metadata', { subscriptionId: sub.id, env });
     return;
   }
   const item = sub.items?.data?.[0];
@@ -34,7 +35,7 @@ async function upsertSubscription(sub: any, env: StripeEnv) {
   const periodStart = item?.current_period_start ?? sub.current_period_start;
   const periodEnd = item?.current_period_end ?? sub.current_period_end;
 
-  await getSupabase().from('subscriptions').upsert(
+  const { error } = await getSupabase().from('subscriptions').upsert(
     {
       user_id: userId,
       stripe_subscription_id: sub.id,
@@ -50,6 +51,21 @@ async function upsertSubscription(sub: any, env: StripeEnv) {
     },
     { onConflict: 'stripe_subscription_id' },
   );
+
+  if (error) {
+    errorCommerce('webhook', 'subscription.upsert_failed', error, { subscriptionId: sub.id, env });
+  } else {
+    logCommerce('webhook', 'subscription.upserted', {
+      subscriptionId: sub.id,
+      userId: shortId(userId),
+      priceId,
+      status: sub.status,
+      unitCents: item?.price?.unit_amount ?? null,
+      interval: item?.price?.recurring?.interval ?? null,
+      cancelAtPeriodEnd: sub.cancel_at_period_end ?? false,
+      env,
+    });
+  }
 
   await recomputeMembership(userId as string, env);
 }
@@ -148,10 +164,11 @@ async function awardPoints(
 
 /** Fulfils a completed Checkout Session (one-off order, or first subscription order). */
 async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean) {
+  const startedAt = Date.now();
   const userId = session.metadata?.userId ?? null;
   const guestEmail = session.metadata?.guestEmail ?? session.customer_details?.email ?? null;
   if (!userId && !guestEmail) {
-    console.error('checkout session without userId or guestEmail metadata', session.id);
+    warnCommerce('webhook', 'session.missing_identity_metadata', { sessionId: session.id, env });
     return;
   }
 
@@ -167,7 +184,7 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
       amountCents: item.amount_total ?? 0,
     }));
   } catch (e) {
-    console.error('could not list line items', e);
+    errorCommerce('webhook', 'session.line_items_failed', e, { sessionId: session.id, env });
   }
 
   const shipping = session.collected_information?.shipping_details ?? session.shipping_details ?? null;
@@ -185,6 +202,36 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
   // Points are earned on product spend only — never on shipping.
   const productCents = Math.max(0, amountCents - shippingCents);
   const pointsEarned = paid && userId ? Math.floor(Math.floor(productCents / 100) * multiplier) : 0;
+
+  logCommerce('webhook', 'session.totals', {
+    sessionId: session.id,
+    env,
+    paid,
+    paymentStatus: session.payment_status,
+    mode: session.mode,
+    userId: shortId(userId),
+    guestEmail: userId ? null : maskEmail(guestEmail),
+    amountSubtotalCents: session.amount_subtotal ?? null,
+    amountTotalCents: amountCents,
+    shippingCents,
+    discountCents,
+    productCents,
+    pointsRedeemed,
+    tier,
+    multiplier,
+    pointsEarned,
+    lineItems,
+  });
+
+  // Sanity check: Stripe's total should equal subtotal + shipping − discount.
+  const expected = (session.amount_subtotal ?? 0) + shippingCents - discountCents;
+  if (session.amount_subtotal != null && expected !== amountCents) {
+    warnCommerce('webhook', 'session.total_mismatch', {
+      sessionId: session.id,
+      expectedTotalCents: expected,
+      stripeTotalCents: amountCents,
+    });
+  }
 
   const { data: order, error } = await supabase
     .from('orders')
@@ -221,15 +268,32 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
     .single();
 
   if (error || !order) {
-    console.error('order upsert failed', error);
+    errorCommerce('webhook', 'order.upsert_failed', error, { sessionId: session.id, env });
     return;
   }
+
+  logCommerce('webhook', 'order.upserted', {
+    sessionId: session.id,
+    orderId: order.id,
+    status: paid ? 'paid' : 'pending',
+    amountTotalCents: amountCents,
+    hasShippingAddress: Boolean(address?.line1),
+    elapsedMs: since(startedAt),
+  });
 
   if (paid && userId) {
     await awardPoints(userId, order.id, pointsEarned, pointsRedeemed, {
       tier,
       multiplier,
       is_subscription: isSubscription,
+    });
+    logCommerce('points', 'ledger.written', {
+      orderId: order.id,
+      userId: shortId(userId),
+      pointsEarned,
+      pointsRedeemed,
+      tier,
+      multiplier,
     });
   }
 }
@@ -296,11 +360,21 @@ async function handleInvoicePaid(invoice: any, env: StripeEnv) {
     .single();
 
   if (error || !order) {
-    console.error('renewal order upsert failed', error);
+    errorCommerce('webhook', 'renewal.order_upsert_failed', error, { invoiceId: invoice.id, env });
     return;
   }
 
   await awardPoints(userId, order.id, pointsEarned, 0, { tier, multiplier, renewal: true });
+  logCommerce('webhook', 'renewal.order_recorded', {
+    invoiceId: invoice.id,
+    orderId: order.id,
+    userId: shortId(userId),
+    amountCents,
+    tier,
+    multiplier,
+    pointsEarned,
+    env,
+  });
 }
 
 async function handleInvoiceFailed(invoice: any, env: StripeEnv) {
@@ -321,7 +395,11 @@ async function handleInvoiceFailed(invoice: any, env: StripeEnv) {
 
 async function handleWebhook(req: Request, env: StripeEnv) {
   const event = await verifyWebhook(req, env);
-  console.log('webhook event', event.type);
+  logCommerce('webhook', 'event.received', {
+    type: event.type,
+    objectId: (event.data.object as any)?.id ?? null,
+    env,
+  });
 
   switch (event.type) {
     case 'customer.subscription.created':
@@ -350,7 +428,7 @@ async function handleWebhook(req: Request, env: StripeEnv) {
       await handleInvoiceFailed(event.data.object, env);
       break;
     default:
-      console.log('unhandled event', event.type);
+      logCommerce('webhook', 'event.unhandled', { type: event.type });
   }
 }
 
@@ -358,18 +436,23 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const trace = newTraceId();
+        const startedAt = Date.now();
         const rawEnv = new URL(request.url).searchParams.get('env');
         if (rawEnv !== 'sandbox' && rawEnv !== 'live') {
+          warnCommerce('webhook', 'request.invalid_env', { trace, rawEnv });
           return Response.json({ received: true, ignored: 'invalid env' });
         }
         try {
           await handleWebhook(request, rawEnv);
+          logCommerce('webhook', 'request.completed', { trace, env: rawEnv, elapsedMs: since(startedAt) });
           return Response.json({ received: true });
         } catch (e) {
-          console.error('webhook error', e);
+          errorCommerce('webhook', 'request.failed', e, { trace, env: rawEnv, elapsedMs: since(startedAt) });
           return new Response('Webhook error', { status: 400 });
         }
       },
     },
   },
 });
+

@@ -12,6 +12,15 @@ import {
   shippingOptionFor,
   subtotalCents,
 } from '@/lib/commerce.server';
+import {
+  errorCommerce,
+  logCommerce,
+  maskEmail,
+  newTraceId,
+  shortId,
+  since,
+  warnCommerce,
+} from '@/lib/commerce-log';
 
 type CheckoutResult = { clientSecret: string } | { error: string };
 
@@ -39,20 +48,47 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
     },
   )
   .handler(async ({ data, context }): Promise<CheckoutResult> => {
+    const trace = newTraceId();
+    const startedAt = Date.now();
     try {
       const { supabase, userId } = context;
       const { data: userRes } = await supabase.auth.getUser();
       const email = userRes.user?.email ?? undefined;
 
+      logCommerce('checkout', 'cart.received', {
+        trace,
+        userId: shortId(userId),
+        email: maskEmail(email),
+        environment: data.environment,
+        requestedRedeemPoints: data.redeemPoints ?? 0,
+        items: data.items.map((i) => ({ priceId: i.priceId, quantity: i.quantity })),
+      });
+
       const stripe = createStripeClient(data.environment);
       const lines = await resolvePrices(stripe, data.items);
 
+      logCommerce('checkout', 'prices.resolved', {
+        trace,
+        lines: lines.map((l) => ({
+          lookupKey: l.price.lookup_key,
+          stripePriceId: l.price.id,
+          unitCents: l.price.unit_amount,
+          currency: l.price.currency,
+          type: l.price.type,
+          interval: l.price.recurring?.interval ?? null,
+          quantity: l.quantity,
+          lineCents: (l.price.unit_amount ?? 0) * l.quantity,
+        })),
+      });
+
       const recurringCount = lines.filter((l) => l.price.type === 'recurring').length;
       if (recurringCount > 0 && recurringCount !== lines.length) {
+        warnCommerce('checkout', 'rejected.mixed_modes', { trace, recurringCount, lineCount: lines.length });
         return { error: 'Subscription items must be checked out separately from one-off items.' };
       }
       const isSubscription = recurringCount > 0;
       if (isSubscription && lines.length > 1) {
+        warnCommerce('checkout', 'rejected.multiple_subscriptions', { trace, lineCount: lines.length });
         return { error: 'Please set up one Restock subscription at a time.' };
       }
 
@@ -61,12 +97,22 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
       // Points redemption is validated against the live ledger balance.
       let redeemPoints = 0;
       let discountCents = 0;
+      let balance = 0;
       if (data.redeemPoints) {
         const { data: ledger } = await supabase.from('points_ledger').select('delta').eq('user_id', userId);
-        const balance = (ledger ?? []).reduce((sum, row) => sum + (row.delta as number), 0);
+        balance = (ledger ?? []).reduce((sum, row) => sum + (row.delta as number), 0);
         const result = computeRedemption(data.redeemPoints, balance, subtotal);
         redeemPoints = result.points;
         discountCents = result.discountCents;
+        logCommerce('points', 'redemption.computed', {
+          trace,
+          userId: shortId(userId),
+          requestedPoints: data.redeemPoints,
+          ledgerBalance: balance,
+          appliedPoints: redeemPoints,
+          discountCents,
+          subtotalCents: subtotal,
+        });
       }
 
       const discounts: { coupon: string }[] = [];
@@ -79,10 +125,23 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
           metadata: { userId, pointsRedeemed: String(redeemPoints) },
         });
         discounts.push({ coupon: coupon.id });
+        logCommerce('checkout', 'coupon.created', { trace, couponId: coupon.id, amountOffCents: discountCents });
       }
 
       const customerId = await resolveOrCreateCustomer(stripe, userId, email);
       const description = lineDescriptor(lines);
+      const shippingOption = isSubscription ? null : shippingOptionFor(subtotal);
+      const shippingCents = shippingOption?.shipping_rate_data.fixed_amount.amount ?? 0;
+
+      logCommerce('checkout', 'totals.computed', {
+        trace,
+        mode: isSubscription ? 'subscription' : 'payment',
+        subtotalCents: subtotal,
+        shippingCents,
+        discountCents,
+        expectedTotalCents: Math.max(0, subtotal + shippingCents - discountCents),
+        customerId: shortId(customerId),
+      });
 
       const session = await stripe.checkout.sessions.create({
         line_items: lines.map((l) => ({ price: l.price.id, quantity: l.quantity })),
@@ -101,7 +160,7 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
               },
             }
           : {
-              shipping_options: [shippingOptionFor(subtotal)],
+              shipping_options: [shippingOption!],
               payment_intent_data: { description },
               ...(discounts.length && { discounts }),
             }),
@@ -112,11 +171,24 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
         },
       });
 
+      logCommerce('checkout', 'session.created', {
+        trace,
+        sessionId: session.id,
+        mode: session.mode,
+        sessionAmountTotalCents: session.amount_total,
+        sessionAmountSubtotalCents: session.amount_subtotal,
+        sessionCurrency: session.currency,
+        pointsRedeemed: redeemPoints,
+        elapsedMs: since(startedAt),
+      });
+
       return { clientSecret: session.client_secret ?? '' };
     } catch (error) {
+      errorCommerce('checkout', 'session.failed', error, { trace, elapsedMs: since(startedAt) });
       return { error: getStripeErrorMessage(error) };
     }
   });
+
 
 export type OrderReceipt = {
   orderId?: string;
@@ -261,15 +333,48 @@ export const createGuestCartCheckout = createServerFn({ method: 'POST' })
     },
   )
   .handler(async ({ data }): Promise<CheckoutResult> => {
+    const trace = newTraceId();
+    const startedAt = Date.now();
     try {
+      logCommerce('guest_checkout', 'cart.received', {
+        trace,
+        email: maskEmail(data.email),
+        environment: data.environment,
+        items: data.items.map((i) => ({ priceId: i.priceId, quantity: i.quantity })),
+      });
+
       const stripe = createStripeClient(data.environment);
       const lines = await resolvePrices(stripe, data.items);
 
+      logCommerce('guest_checkout', 'prices.resolved', {
+        trace,
+        lines: lines.map((l) => ({
+          lookupKey: l.price.lookup_key,
+          stripePriceId: l.price.id,
+          unitCents: l.price.unit_amount,
+          currency: l.price.currency,
+          type: l.price.type,
+          quantity: l.quantity,
+          lineCents: (l.price.unit_amount ?? 0) * l.quantity,
+        })),
+      });
+
       if (lines.some((l) => l.price.type === 'recurring')) {
+        warnCommerce('guest_checkout', 'rejected.subscription_as_guest', { trace });
         return { error: 'Restock subscriptions need an account. Please sign in to set one up.' };
       }
 
       const subtotal = subtotalCents(lines);
+      const shippingOption = shippingOptionFor(subtotal);
+      const shippingCents = shippingOption.shipping_rate_data.fixed_amount.amount;
+
+      logCommerce('guest_checkout', 'totals.computed', {
+        trace,
+        subtotalCents: subtotal,
+        shippingCents,
+        expectedTotalCents: subtotal + shippingCents,
+      });
+
       const session = await stripe.checkout.sessions.create({
         line_items: lines.map((l) => ({ price: l.price.id, quantity: l.quantity })),
         mode: 'payment',
@@ -278,7 +383,7 @@ export const createGuestCartCheckout = createServerFn({ method: 'POST' })
         customer_email: data.email,
         shipping_address_collection: { allowed_countries: ['AU'] },
         phone_number_collection: { enabled: true },
-        shipping_options: [shippingOptionFor(subtotal)],
+        shipping_options: [shippingOption],
         payment_intent_data: { description: lineDescriptor(lines) },
         metadata: {
           guestEmail: data.email,
@@ -287,11 +392,22 @@ export const createGuestCartCheckout = createServerFn({ method: 'POST' })
         },
       });
 
+      logCommerce('guest_checkout', 'session.created', {
+        trace,
+        sessionId: session.id,
+        sessionAmountTotalCents: session.amount_total,
+        sessionAmountSubtotalCents: session.amount_subtotal,
+        sessionCurrency: session.currency,
+        elapsedMs: since(startedAt),
+      });
+
       return { clientSecret: session.client_secret ?? '' };
     } catch (error) {
+      errorCommerce('guest_checkout', 'session.failed', error, { trace, elapsedMs: since(startedAt) });
       return { error: getStripeErrorMessage(error) };
     }
   });
+
 
 /** Receipt lookup for guest orders — keyed on the unguessable Stripe session id. */
 export const getGuestOrderBySession = createServerFn({ method: 'GET' })
