@@ -132,8 +132,8 @@ function WhyPillars() {
     <section className="bg-paper">
       <div className="mx-auto max-w-7xl px-6 py-24">
         <div className="max-w-2xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Why Skin Grocer</p>
-          <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">
+          <p className="eyebrow eyebrow-rule text-clay">Why Skin Grocer</p>
+          <h2 className="display-section mt-4 text-ink">
             Australia's K-beauty grocer,<br />
             <span className="italic text-hanbok-deep">for every skincare ritual.</span>
           </h2>
@@ -195,7 +195,7 @@ function SkinQuizSection() {
         </div>
 
         <div className="md:col-span-7">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
+          <p className="eyebrow eyebrow-rule text-clay">
             Free service · 2 minutes · No account needed
           </p>
           <h2 id="skin-quiz-heading" className="mt-3 font-display text-4xl leading-[1.05] text-ink md:text-5xl">
@@ -353,8 +353,8 @@ function LearnStrip() {
   return (
     <section className="border-y border-border/60 bg-paper">
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 py-16 text-center">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">The Learn Hub</p>
-        <h2 className="max-w-2xl font-display text-4xl text-ink md:text-5xl">
+        <p className="eyebrow eyebrow-rule text-clay">The Learn Hub</p>
+        <h2 className="max-w-2xl display-section text-ink">
           Korean skincare, <span className="italic text-hanbok-deep">actually explained.</span>
         </h2>
         <p className="max-w-xl text-ink/70">
@@ -477,8 +477,8 @@ function Categories() {
     <section className="mx-auto max-w-7xl px-6 py-24">
       <div className="flex items-end justify-between gap-6">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Shop by Category</p>
-          <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">Every step of the ritual.</h2>
+          <p className="eyebrow eyebrow-rule text-clay">The ritual, step by step</p>
+          <h2 className="display-section mt-4 text-ink">Every step of the ritual.</h2>
         </div>
         <Link to="/shop" className="hidden text-sm font-medium text-primary underline-grow md:inline">Browse all →</Link>
       </div>
@@ -500,8 +500,8 @@ function Concerns() {
       <div className="mx-auto max-w-7xl px-6 py-24">
         <div className="grid items-end gap-6 md:grid-cols-2">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Shop by Concern</p>
-            <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">
+            <p className="eyebrow eyebrow-rule text-clay">Shop by Concern</p>
+            <h2 className="display-section mt-4 text-ink">
               Tell us your skin.<br />
               <span className="italic text-hanbok-deep">We'll match the ritual.</span>
             </h2>
@@ -621,7 +621,7 @@ function BundleOffer() {
             <p className="inline-flex items-center gap-2 rounded-full bg-hanbok-deep/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-hanbok-deep">
               <span className="h-1.5 w-1.5 rounded-full bg-clay" /> Advisor-built bundles
             </p>
-            <h2 className="mt-4 font-display text-4xl text-ink md:text-5xl">
+            <h2 className="mt-4 display-section text-ink">
               Skip the guesswork.<br />
               <span className="italic text-hanbok-deep">Save up to A${maxSave}.</span>
             </h2>
@@ -789,7 +789,7 @@ function IngredientStrip() {
   return (
     <section className="overflow-hidden border-b border-border bg-paper py-10">
       <div className="mx-auto mb-6 max-w-7xl px-6">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">The Ingredient Library</p>
+        <p className="eyebrow eyebrow-rule text-clay">The Ingredient Library</p>
       </div>
       <div className="flex animate-marquee gap-4 whitespace-nowrap">
         {[...ingredients, ...ingredients, ...ingredients].map((i, idx) => (
@@ -851,8 +851,8 @@ function ReviewsCarousel() {
     <section className="bg-sand">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:items-center">
         <div className="md:col-span-5">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Customer Notes</p>
-          <h2 className="mt-3 font-display text-4xl text-ink md:text-5xl">
+          <p className="eyebrow eyebrow-rule text-clay">Customer Notes</p>
+          <h2 className="display-section mt-4 text-ink">
             Real feedback from <span className="italic text-hanbok-deep">real customers.</span>
           </h2>
           <p className="mt-5 text-ink/70">From real customers across Melbourne, Sydney and beyond.</p>
@@ -887,8 +887,8 @@ function NewsletterStrip() {
   return (
     <section className="bg-secondary">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 px-6 py-20 text-center">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">The Skin Grocer Drop</p>
-        <h2 className="font-display text-4xl text-ink md:text-5xl">
+        <p className="eyebrow eyebrow-rule text-clay">The Skin Grocer Drop</p>
+        <h2 className="display-section text-ink">
           Restock alerts, routine guides, Seoul intel.
         </h2>
         <p className="max-w-xl text-ink/70">
