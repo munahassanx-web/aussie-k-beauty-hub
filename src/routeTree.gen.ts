@@ -18,7 +18,10 @@ import { Route as ClubRouteImport } from './routes/club'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as JourneyRouteImport } from './routes/journey'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as ReturnsPolicyRouteImport } from './routes/returns-policy'
 import { Route as ReviewsRouteImport } from './routes/reviews'
+import { Route as ShippingPolicyRouteImport } from './routes/shipping-policy'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SkinConcernsRouteImport } from './routes/skin-concerns'
@@ -85,9 +88,24 @@ const JourneyRoute = JourneyRouteImport.update({
   path: '/journey',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReturnsPolicyRoute = ReturnsPolicyRouteImport.update({
+  id: '/returns-policy',
+  path: '/returns-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReviewsRoute = ReviewsRouteImport.update({
   id: '/reviews',
   path: '/reviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShippingPolicyRoute = ShippingPolicyRouteImport.update({
+  id: '/shipping-policy',
+  path: '/shipping-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShopRoute = ShopRouteImport.update({
@@ -202,7 +220,10 @@ export interface FileRoutesByFullPath {
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
   '/journey': typeof JourneyRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/returns-policy': typeof ReturnsPolicyRoute
   '/reviews': typeof ReviewsRoute
+  '/shipping-policy': typeof ShippingPolicyRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
@@ -234,7 +255,10 @@ export interface FileRoutesByTo {
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
   '/journey': typeof JourneyRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/returns-policy': typeof ReturnsPolicyRoute
   '/reviews': typeof ReviewsRoute
+  '/shipping-policy': typeof ShippingPolicyRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
@@ -267,7 +291,10 @@ export interface FileRoutesById {
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
   '/journey': typeof JourneyRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/returns-policy': typeof ReturnsPolicyRoute
   '/reviews': typeof ReviewsRoute
+  '/shipping-policy': typeof ShippingPolicyRoute
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
@@ -301,7 +328,10 @@ export interface FileRouteTypes {
     | '/consultation'
     | '/contact'
     | '/journey'
+    | '/privacy-policy'
+    | '/returns-policy'
     | '/reviews'
+    | '/shipping-policy'
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
@@ -333,7 +363,10 @@ export interface FileRouteTypes {
     | '/consultation'
     | '/contact'
     | '/journey'
+    | '/privacy-policy'
+    | '/returns-policy'
     | '/reviews'
+    | '/shipping-policy'
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
@@ -365,7 +398,10 @@ export interface FileRouteTypes {
     | '/consultation'
     | '/contact'
     | '/journey'
+    | '/privacy-policy'
+    | '/returns-policy'
     | '/reviews'
+    | '/shipping-policy'
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
@@ -398,7 +434,10 @@ export interface RootRouteChildren {
   ConsultationRoute: typeof ConsultationRoute
   ContactRoute: typeof ContactRoute
   JourneyRoute: typeof JourneyRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  ReturnsPolicyRoute: typeof ReturnsPolicyRoute
   ReviewsRoute: typeof ReviewsRoute
+  ShippingPolicyRoute: typeof ShippingPolicyRoute
   ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkinConcernsRoute: typeof SkinConcernsRoute
@@ -485,11 +524,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JourneyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/returns-policy': {
+      id: '/returns-policy'
+      path: '/returns-policy'
+      fullPath: '/returns-policy'
+      preLoaderRoute: typeof ReturnsPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reviews': {
       id: '/reviews'
       path: '/reviews'
       fullPath: '/reviews'
       preLoaderRoute: typeof ReviewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shipping-policy': {
+      id: '/shipping-policy'
+      path: '/shipping-policy'
+      fullPath: '/shipping-policy'
+      preLoaderRoute: typeof ShippingPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/shop': {
@@ -657,7 +717,10 @@ const rootRouteChildren: RootRouteChildren = {
   ConsultationRoute: ConsultationRoute,
   ContactRoute: ContactRoute,
   JourneyRoute: JourneyRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
+  ReturnsPolicyRoute: ReturnsPolicyRoute,
   ReviewsRoute: ReviewsRoute,
+  ShippingPolicyRoute: ShippingPolicyRoute,
   ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkinConcernsRoute: SkinConcernsRoute,

@@ -399,6 +399,15 @@ export function SiteFooter() {
           </ul>
         </div>
 
+        <div className="md:col-span-2">
+          <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">Legal</h4>
+          <ul className="mt-5 space-y-3 text-sm text-paper/70">
+            <li><Link to="/shipping-policy" className="hover:text-paper">Shipping Policy</Link></li>
+            <li><Link to="/returns-policy" className="hover:text-paper">Returns & Refund Policy</Link></li>
+            <li><Link to="/privacy-policy" className="hover:text-paper">Privacy Policy</Link></li>
+          </ul>
+        </div>
+
         <div className="md:col-span-4">
           <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">The Drop</h4>
           <p className="mt-5 text-sm text-paper/70">
