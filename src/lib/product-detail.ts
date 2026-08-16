@@ -537,6 +537,63 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'A mature woman smoothing a rich white cream along her jaw and cheek',
     },
   ],
+  aestura_atobarrier365_cream_onetime: [
+    {
+      src: '/products/editorial/aestura/atobarrier365-cream-hero.png',
+      alt: 'AESTURA Atobarrier365 Cream on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/aestura/atobarrier365-cream-info.png',
+      alt: 'Key ingredients panel for AESTURA Atobarrier365 Cream: ceramide NP, lipid complex and a fragrance-free formula',
+    },
+    {
+      src: '/products/editorial/aestura/atobarrier365-cream-apply.png',
+      alt: 'A woman with pale, flushed cheeks smoothing a rich white barrier cream onto her cheek',
+    },
+  ],
+  aestura_atobarrier_365_hydro_soothing_cream_onetime: [
+    {
+      src: '/products/editorial/aestura/atobarrier-365-hydro-soothing-cream-hero.png',
+      alt: 'AESTURA Atobarrier365 Hydro Soothing Cream on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/aestura/atobarrier-365-hydro-soothing-cream-info.png',
+      alt: 'Key ingredients panel for AESTURA Atobarrier365 Hydro Soothing Cream: ceramide NP, hyaluronic acid and a soothing gel-cream base',
+    },
+    {
+      src: '/products/editorial/aestura/atobarrier-365-hydro-soothing-cream-apply.png',
+      alt: 'A young East Asian woman patting a light gel-cream into her jawline',
+    },
+  ],
+  aestura_a_cica_moisture_toner_onetime: [
+    {
+      src: '/products/editorial/aestura/a-cica-moisture-toner-hero.png',
+      alt: 'AESTURA A-Cica Moisture Toner on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/aestura/a-cica-moisture-toner-info.png',
+      alt: 'Key ingredients panel for AESTURA A-Cica Moisture Toner: centella asiatica, hyaluronic acid and a pH 4.5 weakly acidic formula',
+    },
+    {
+      src: '/products/editorial/aestura/a-cica-moisture-toner-apply.png',
+      alt: 'A woman in her forties sweeping toner across her cheek with a cotton round',
+    },
+  ],
+  aestura_derma_uv365_barrier_moisture_mineral_sun_cream_onetime: [
+    {
+      src: '/products/editorial/aestura/derma-uv365-hero.png',
+      alt: 'AESTURA Derma UV365 Barrier Moisture Mineral Sun Cream on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/aestura/derma-uv365-info.png',
+      alt: 'Key points panel for AESTURA Derma UV365: mineral UV filters at SPF50+ PA++++, ceramides and a low-sting eye-comfort finish',
+    },
+    {
+      src: '/products/editorial/aestura/derma-uv365-apply.png',
+      alt: 'A woman with deep brown skin blending mineral sunscreen along her cheekbone in daylight',
+    },
+  ],
+
   isntree_hyaluronic_acid_water_essence_50ml_onetime: [
     {
       src: '/products/editorial/isntree/hyaluronic-acid-water-essence-50ml-hero.png',
