@@ -616,6 +616,87 @@ function FinalStep({
 
 // ------------------------------------------------------------------ result
 
+type RoutineStep = {
+  product: (typeof CONSULT_PRODUCT_MAP)[string];
+  why: string;
+  slot: "am" | "pm" | "both";
+};
+
+function slotFor(step: string): "am" | "pm" | "both" {
+  const s = step.toLowerCase();
+  if (s.includes("protect")) return "am";
+  if (s.includes("weekly") || s.includes("targeted") || s.includes("sleeping")) return "pm";
+  return "both";
+}
+
+function RoutineColumn({
+  title,
+  caption,
+  icon,
+  steps,
+  buy,
+}: {
+  title: string;
+  caption: string;
+  icon: string;
+  steps: RoutineStep[];
+  buy: (o: { priceId: string; name: string; priceLabel: string }) => void;
+}) {
+  return (
+    <div className="rounded-2xl border border-border/70 bg-paper/80 p-5">
+      <div className="flex items-baseline gap-2">
+        <span className="text-base text-primary">{icon}</span>
+        <h3 className="font-display text-xl text-ink">{title}</h3>
+      </div>
+      <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{caption}</p>
+
+      {steps.length === 0 ? (
+        <p className="mt-6 text-sm text-muted-foreground">Nothing extra needed here.</p>
+      ) : (
+        <ol className="relative mt-6 space-y-6 border-l border-dashed border-border pl-5">
+          {steps.map((s, i) => (
+            <li key={`${title}-${s.product.priceId}-${i}`} className="quiz-step relative" style={{ animationDelay: `${i * 70}ms` }}>
+              <span className="absolute -left-[26px] top-1.5 grid h-4 w-4 place-items-center rounded-full border border-primary bg-paper text-[9px] text-primary">
+                {i + 1}
+              </span>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{s.product.step}</p>
+              <div className="quiz-glass mt-2 flex gap-3 rounded-xl p-3">
+                <img
+                  src={s.product.image}
+                  alt={s.product.name}
+                  loading="lazy"
+                  className="h-16 w-16 shrink-0 rounded-lg object-cover"
+                />
+                <div className="flex-1">
+                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{s.product.brand}</p>
+                  <p className="font-display text-[15px] leading-snug text-ink">{s.product.name}</p>
+                  <p className="mt-1.5 text-[12px] leading-relaxed text-muted-foreground">{s.why}</p>
+                  <div className="mt-2 flex items-center gap-3">
+                    <span className="text-[13px] text-ink">{s.product.price} AUD</span>
+                    <button
+                      onClick={() =>
+                        buy({
+                          priceId: s.product.priceId,
+                          name: s.product.name,
+                          priceLabel: `${s.product.price} AUD`,
+                        })
+                      }
+                      className="rounded-full border border-ink px-3 py-1 text-[10px] uppercase tracking-wider text-ink transition-colors hover:bg-ink hover:text-paper"
+                    >
+                      Add it
+                    </button>
+                  </div>
+                  <WhyThisIngredient productId={s.product.priceId} />
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      )}
+    </div>
+  );
+}
+
 function Results({
   result,
   answers,
