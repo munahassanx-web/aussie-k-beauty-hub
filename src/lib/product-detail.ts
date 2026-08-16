@@ -795,6 +795,76 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'A mature woman smoothing a rich white barrier cream along her cheek',
     },
   ],
+}  s_nature_aqua_oasis_toner_onetime: [
+    {
+      src: '/products/editorial/s-nature/aqua-oasis-toner-hero.png',
+      alt: 'S.NATURE Aqua Oasis Toner bottle on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/s-nature/aqua-oasis-toner-info.png',
+      alt: 'Key ingredients panel for S.NATURE Aqua Oasis Toner: 8-type hyaluronic acid, glycerin and betaine humectants, and panthenol',
+    },
+    {
+      src: '/products/editorial/s-nature/aqua-oasis-toner-apply.png',
+      alt: 'A woman pressing watery toner into her cheek with her palm',
+    },
+  ],
+  s_nature_aqua_squalane_serum_onetime: [
+    {
+      src: '/products/editorial/s-nature/aqua-squalane-serum-hero.png',
+      alt: 'S.NATURE Aqua Squalane Serum dropper bottle on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/s-nature/aqua-squalane-serum-info.png',
+      alt: 'Key ingredients panel for S.NATURE Aqua Squalane Serum: squalane, hyaluronic acid complex and panthenol',
+    },
+    {
+      src: '/products/editorial/s-nature/aqua-squalane-serum-apply.png',
+      alt: 'A woman smoothing clear serum along her cheekbone with her fingertips',
+    },
+  ],
+  s_nature_aqua_squalane_moisturizing_cream_onetime: [
+    {
+      src: '/products/editorial/s-nature/aqua-squalane-moisturizing-cream-hero.png',
+      alt: 'S.NATURE Aqua Squalane Moisturizing Cream on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/s-nature/aqua-squalane-moisturizing-cream-info.png',
+      alt: 'Key ingredients panel for S.NATURE Aqua Squalane Moisturizing Cream: squalane, hyaluronic acid complex and a softening emollient base',
+    },
+    {
+      src: '/products/editorial/s-nature/aqua-squalane-moisturizing-cream-apply.png',
+      alt: 'A woman massaging a rich white moisturising cream into her cheek',
+    },
+  ],
+  s_nature_aqua_oasis_moisturizing_gel_onetime: [
+    {
+      src: '/products/editorial/s-nature/aqua-oasis-moisturizing-gel-hero.png',
+      alt: 'S.NATURE Aqua Oasis Moisturizing Gel on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/s-nature/aqua-oasis-moisturizing-gel-info.png',
+      alt: 'Key ingredients panel for S.NATURE Aqua Oasis Moisturizing Gel: 8-type hyaluronic acid, water-gel base and panthenol',
+    },
+    {
+      src: '/products/editorial/s-nature/aqua-oasis-moisturizing-gel-apply.png',
+      alt: 'A woman patting a light water-gel moisturiser onto her jawline',
+    },
+  ],
+  s_nature_aqua_soy_yogurt_eye_cream_onetime: [
+    {
+      src: '/products/editorial/s-nature/aqua-soy-yogurt-eye-cream-hero.png',
+      alt: 'S.NATURE Aqua Soy Yogurt Eye Cream on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/s-nature/aqua-soy-yogurt-eye-cream-info.png',
+      alt: 'Key ingredients panel for S.NATURE Aqua Soy Yogurt Eye Cream: fermented soy yogurt extract, peptides and hyaluronic acid complex',
+    },
+    {
+      src: '/products/editorial/s-nature/aqua-soy-yogurt-eye-cream-apply.png',
+      alt: 'A woman gently tapping eye cream along her under-eye with her ring finger',
+    },
+  ],
 };
 
 
