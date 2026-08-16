@@ -156,6 +156,20 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'Toner being swept across the cheek with a cotton pad after cleansing',
     },
   ],
+  beauty_of_joseon_glow_serum_propolis_plus_niacinamide_30ml_onetime: [
+    {
+      src: '/products/editorial/beauty-of-joseon/glow-serum-propolis-niacinamide-30ml-hero.png',
+      alt: 'Beauty of Joseon Glow Serum: Propolis + Niacinamide 30ml glass dropper bottle with a golden serum droplet on a clean white studio backdrop',
+    },
+    {
+      src: '/products/editorial/beauty-of-joseon/glow-serum-propolis-niacinamide-30ml-info.png',
+      alt: 'Key ingredients panel for Beauty of Joseon Glow Serum: propolis extract, niacinamide, sodium hyaluronate, centella asiatica and betaine salicylate',
+    },
+    {
+      src: '/products/editorial/beauty-of-joseon/glow-serum-propolis-niacinamide-30ml-apply.png',
+      alt: 'Drops of pale gold propolis serum being patted into the cheek for a dewy glass-skin finish',
+    },
+  ],
 };
 
 
