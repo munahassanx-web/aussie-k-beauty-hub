@@ -142,6 +142,20 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
       alt: 'Cleansing oil being massaged over dry skin on the cheek and jawline before emulsifying with water',
     },
   ],
+  beauty_of_joseon_green_plum_refreshing_toner_150ml_onetime: [
+    {
+      src: '/products/editorial/beauty-of-joseon/green-plum-refreshing-toner-150ml-hero.png',
+      alt: 'Beauty of Joseon Green Plum Refreshing Toner 150ml frosted green bottle on a clean white studio backdrop with water droplets',
+    },
+    {
+      src: '/products/editorial/beauty-of-joseon/green-plum-refreshing-toner-150ml-info.png',
+      alt: 'Key ingredients panel for Beauty of Joseon Green Plum Refreshing Toner: green plum water, mung bean extract and a mild AHA + BHA complex',
+    },
+    {
+      src: '/products/editorial/beauty-of-joseon/green-plum-refreshing-toner-150ml-apply.png',
+      alt: 'Toner being swept across the cheek with a cotton pad after cleansing',
+    },
+  ],
 };
 
 
@@ -306,6 +320,46 @@ const COPY: Record<string, CopyOverride> = {
     ],
     fullInci:
       'Glycine Soja (Soybean) Oil, Cetyl Ethylhexanoate, Sorbeth-30 Tetraoleate, Isododecane, Olea Europaea (Olive) Fruit Oil, Camellia Japonica Seed Oil, Hydrogenated Coconut Oil, Octyldodecanol, Polybutene, Caprylic/Capric Triglyceride, Aqua, Tocopherol, Panax Ginseng Seed Oil, Salvia Officinalis (Sage) Oil, Artemisia Vulgaris Oil, Ocimum Basilicum (Basil) Oil, Camphor, Corylus Avellana (Hazelnut) Seed Oil, Nigella Sativa Seed Oil, Butylene Glycol, Panax Ginseng Berry Extract, Glycerin, 1,2-Hexanediol, Methylpropanediol, Panax Ginseng Root Extract, Ethyl Hexanediol, Panax Ginseng Extract, Panax Ginseng Leaf/Stem Extract, Ethylhexylglycerin',
+  },
+  beauty_of_joseon_green_plum_refreshing_toner_150ml_onetime: {
+    description:
+      "Beauty of Joseon Green Plum Refreshing Toner: AHA + BHA is a gentle daily exfoliating toner that sweeps away dead skin cells and clears congested pores without stripping the moisture barrier. Green plum (Prunus mume) fruit water sits at the top of the formula alongside a mild AHA (glycolic acid) and BHA (salicylic acid) complex, while mung bean (Vigna radiata) seed extract hydrates and soothes. Skin renews itself roughly every 28 days — this keeps that cycle moving so texture stays smooth and tone stays bright. Made in Korea. 150ml.",
+    texture:
+      'Clear, watery liquid that absorbs instantly with a faintly fresh, fruity scent — no sting, no tacky finish.',
+    benefits: [
+      'Green plum water gently exfoliates and resets a dull-looking complexion',
+      'Mild AHA + BHA complex smooths rough texture and clears clogged pores',
+      'Mung bean extract hydrates and helps soothe as it exfoliates',
+      'Gentle enough for daily morning and night use on most skin types',
+      'Authentic Korean stock, shipped from our Melbourne warehouse',
+    ],
+    howToUse: [
+      'After cleansing, pour a few drops into your hands and press gently into the skin — or sweep with a cotton pad from the centre of the face outward.',
+      'Follow with your serum and moisturiser while skin is still damp.',
+      'Use morning and night. Start every second night if your skin is new to acids.',
+      'Always wear sunscreen during the day — AHAs increase sun sensitivity for up to a week after use.',
+    ],
+    ingredients: [
+      {
+        name: 'Green Plum Water',
+        korean: '청매실',
+        what: 'Prunus mume fruit water, the second ingredient in the formula. The hanbang hero of the range — it refreshes and gently exfoliates so skin looks clearer and more even.',
+        goodFor: ['Dullness', 'Rough texture', 'Daily use'],
+      },
+      {
+        name: 'AHA + BHA Complex',
+        what: 'Glycolic acid (AHA) loosens dead cells on the surface, while oil-soluble salicylic acid (BHA) works inside the pore to clear buildup. Kept at a mild level so it can be used daily.',
+        goodFor: ['Clogged pores', 'Blackheads', 'Uneven texture'],
+      },
+      {
+        name: 'Mung Bean Extract',
+        korean: '녹두',
+        what: 'Vigna radiata seed extract hydrates and helps soothe, offsetting the exfoliating acids so the moisture barrier stays comfortable.',
+        goodFor: ['Hydration', 'Soothing', 'Barrier support'],
+      },
+    ],
+    fullInci:
+      'Water, Prunus Mume Fruit Water, Dipropylene Glycol, Glycerin, Glycolic Acid, Butylene Glycol, Tromethamine, 1,2-Hexanediol, Hydroxyacetophenone, Salicylic Acid, Ethylhexylglycerin, Vigna Radiata Seed Extract, Disodium EDTA, Melia Azadirachta Leaf Extract, Melia Azadirachta Flower Extract, Coccinia Indica Fruit Extract, Ocimum Sanctum Leaf Extract, Curcuma Longa (Turmeric) Root Extract, Aloe Barbadensis Flower Extract, Solanum Melongena (Eggplant) Fruit Extract, Corallina Officinalis Extract, C12-14 Pareth-12, Xanthan Gum, Octyldodeceth-16',
   },
 };
 
