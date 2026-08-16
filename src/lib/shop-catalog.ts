@@ -235,8 +235,20 @@ export type CatalogEntry = {
   unitCents: number;
 };
 
+/** True when a price id can actually be charged (exists in the catalog and is in stock). */
+export function isPurchasable(priceId: string): boolean {
+  const product = SHOP_PRODUCTS.find((p) => p.priceId === priceId);
+  if (product) return !product.comingSoon;
+  if (BUNDLE_DEFINITIONS.some((b) => b.priceId === priceId)) return true;
+  const restockSource = Object.entries(RESTOCK_PRICE_BY_PRODUCT).find(([, sub]) => sub === priceId);
+  if (!restockSource) return false;
+  const base = SHOP_PRODUCTS.find((p) => p.priceId === restockSource[0]);
+  return Boolean(base && !base.comingSoon);
+}
+
 /** Look up any purchasable price id — product, bundle, or Restock subscription. */
 export function catalogEntryFor(priceId: string): CatalogEntry | null {
+
   const product = SHOP_PRODUCTS.find((p) => p.priceId === priceId);
   if (product) {
     return {
