@@ -146,25 +146,18 @@ function AnnouncementBar() {
           {announcements.map((msg, i) => (
             <span
               key={msg}
-              className={`absolute inset-0 flex items-center justify-center text-[11px] font-medium uppercase tracking-[0.2em] text-primary-foreground/90 transition-all duration-700 ease-out ${
-                i === active ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"
+              className={`absolute inset-0 flex items-center justify-center text-[11px] font-medium uppercase tracking-[0.2em] text-primary-foreground/90 ease-out ${
+                i === active
+                  ? "opacity-100 translate-y-0 transition-all duration-700 delay-200"
+                  : "opacity-0 -translate-y-1 transition-all duration-200"
               }`}
               aria-hidden={i !== active}
             >
               {msg}
             </span>
           ))}
-          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1.5" aria-hidden="true">
-            {announcements.map((_, i) => (
-              <span
-                key={i}
-                className={`h-px rounded-full transition-all duration-300 ${
-                  i === active ? "w-4 bg-primary-foreground/60" : "w-2 bg-primary-foreground/25"
-                }`}
-              />
-            ))}
-          </div>
         </div>
+
       </div>
     </div>
   );
