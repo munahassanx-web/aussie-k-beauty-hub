@@ -341,30 +341,68 @@ export function SiteHeader() {
         {mobileOpen && (
           <div className="border-t border-border/60 bg-background lg:hidden">
             <div className="max-h-[calc(100vh-7rem)] overflow-y-auto px-6 py-5">
-              <div className="grid gap-3 border-b border-border/60 pb-5">
-                {Object.entries(topLevelLinks).map(([key, link]) => (
-                  <Link
-                    key={key}
-                    to={link.to}
-                    onClick={closeMenus}
-                    className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
-                  >
-                    {link.label}
-                    <span className="text-base text-primary">→</span>
-                  </Link>
-                ))}
-                <Link to={user ? "/club" : "/auth"} onClick={closeMenus} className="flex items-center justify-between py-2 font-display text-2xl text-foreground">
+              <div className="grid gap-1 border-b border-border/60 pb-5">
+                {Object.entries(topLevelLinks).map(([key, link]) => {
+                  const expanded = mobileSection === key;
+                  return (
+                    <div key={key} className="border-b border-border/40 last:border-b-0">
+                      <div className="flex items-center justify-between">
+                        <Link
+                          to={link.to}
+                          onClick={closeMenus}
+                          className="flex-1 py-3 font-display text-2xl text-foreground"
+                        >
+                          {link.label}
+                        </Link>
+                        <button
+                          type="button"
+                          aria-label={expanded ? `Collapse ${link.label} menu` : `Expand ${link.label} menu`}
+                          aria-expanded={expanded}
+                          onClick={() => setMobileSection((cur) => (cur === key ? null : key))}
+                          className="flex h-11 w-11 items-center justify-center text-foreground/60 hover:text-primary"
+                        >
+                          <span className={`text-sm leading-none transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}>⌄</span>
+                        </button>
+                      </div>
+                      {expanded && (
+                        <div className="pb-4 pl-1">
+                          {megaMenus[key]?.map((section) => (
+                            <div key={section.heading} className="mt-3">
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{section.heading}</p>
+                              <ul className="mt-2">
+                                {section.links.map((l) => (
+                                  <li key={l.label}>
+                                    <Link
+                                      to={l.to}
+                                      search={l.search as never}
+                                      hash={l.hash}
+                                      onClick={closeMenus}
+                                      className="block py-2 text-sm text-foreground/80 hover:text-primary"
+                                    >
+                                      {l.label}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+                <Link to={user ? "/club" : "/auth"} onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground">
                   {user ? "Restock Club" : "Sign in"}
                   <span className="text-base text-primary">→</span>
                 </Link>
-                <Link to="/wishlist" onClick={closeMenus} className="flex items-center justify-between py-2 font-display text-2xl text-foreground">
+                <Link to="/wishlist" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground">
                   Saved
                   <span className="text-base text-primary">→</span>
                 </Link>
                 <Link
                   to="/routines"
                   onClick={closeMenus}
-                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                  className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
                 >
                   Routine Kits
                   <span className="text-base text-primary">→</span>
@@ -372,7 +410,7 @@ export function SiteHeader() {
                 <Link
                   to="/learn/hub"
                   onClick={closeMenus}
-                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                  className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
                 >
                   Learn
                   <span className="text-base text-primary">→</span>
@@ -380,7 +418,7 @@ export function SiteHeader() {
                 <Link
                   to="/blog"
                   onClick={closeMenus}
-                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                  className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
                 >
                   Blog
                   <span className="text-base text-primary">→</span>
@@ -388,7 +426,7 @@ export function SiteHeader() {
                 <Link
                   to="/faq"
                   onClick={closeMenus}
-                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                  className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
                 >
                   FAQ
                   <span className="text-base text-primary">→</span>
@@ -396,43 +434,11 @@ export function SiteHeader() {
                 <button
                   type="button"
                   onClick={() => { closeMenus(); setSearchOpen(true); }}
-                  className="flex items-center justify-between py-2 text-left font-display text-2xl text-foreground"
+                  className="flex items-center justify-between py-3 text-left font-display text-2xl text-foreground"
                 >
                   Search
                   <span className="text-base text-primary">→</span>
                 </button>
-
-
-              </div>
-
-              <div className="mt-5 space-y-6">
-                {Object.entries(megaMenus).map(([menu, sections]) => (
-                  <div key={menu}>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-clay">{menu}</p>
-                    <div className="mt-3 grid gap-5 sm:grid-cols-2">
-                      {sections.map((section) => (
-                        <div key={section.heading}>
-                          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{section.heading}</p>
-                          <ul className="mt-2 space-y-2">
-                            {section.links.map((link) => (
-                              <li key={link.label}>
-                                <Link
-                                  to={link.to}
-                                  search={link.search as never}
-                                  hash={link.hash}
-                                  onClick={closeMenus}
-                                  className="block py-1 text-sm text-foreground/80 hover:text-primary"
-                                >
-                                  {link.label}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
