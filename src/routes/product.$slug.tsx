@@ -535,7 +535,7 @@ function ProductPage() {
       </div>
 
       {/* Details — vertically scannable, mobile-first */}
-      <div className="mt-16 grid gap-x-16 lg:grid-cols-[1fr_360px]">
+      <div className="mt-16 max-w-3xl">
         <ProductAccordion
           items={[
             {
@@ -683,7 +683,6 @@ function ProductPage() {
             },
           ]}
         />
-        <div />
       </div>
 
       <FaqSection
