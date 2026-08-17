@@ -99,7 +99,7 @@ function BlogIndex() {
           <p className="eyebrow eyebrow-rule justify-center text-clay">Skin Grocer Journal</p>
         </Reveal>
         <Reveal delay={80}>
-          <h1 className="display-hero mx-auto mt-6 max-w-4xl">The Blog</h1>
+          <h1 className="display-hero mx-auto mt-6 max-w-4xl">The Grocery List</h1>
         </Reveal>
         <Reveal delay={140}>
           <p className="mx-auto mt-6 max-w-2xl text-[15.5px] leading-relaxed text-foreground/70">
