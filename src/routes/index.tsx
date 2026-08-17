@@ -423,100 +423,84 @@ function Promise() {
   );
 }
 
-function CategoryTile({ c, i }: { c: (typeof categories)[number]; i: number }) {
-  const [revealed, setRevealed] = useState(false);
-  const on = revealed ? "opacity-100" : "opacity-0";
-  const off = revealed ? "opacity-0" : "opacity-100";
+const routineSteps: { num: string; step: string; line: string; cat: string }[] = [
+  { num: "01", step: "Cleanse", line: "Remove the day without stripping your skin.", cat: "Cleansers" },
+  { num: "02", step: "Tone", line: "The first layer of hydration.", cat: "Toners & Essences" },
+  { num: "03", step: "Treat", line: "Target what your skin is asking for.", cat: "Serums" },
+  { num: "04", step: "Moisturise", line: "Seal in hydration. Support the barrier.", cat: "Moisturisers" },
+  { num: "05", step: "Protect", line: "Your final morning step. Every day.", cat: "SPF" },
+  { num: "06", step: "Mask", line: "The extra step when your skin asks for more.", cat: "Masks" },
+];
 
+function CategoryTile({ c, s }: { c: (typeof categories)[number]; s: (typeof routineSteps)[number] }) {
   return (
-    <div
-      className={`group relative aspect-[4/3] overflow-hidden rounded-3xl lift ${
-        i % 3 === 0 ? "bg-sand" : i % 3 === 1 ? "bg-secondary" : "bg-sand-deep/50"
-      }`}
+    <Link
+      to="/shop"
+      search={c.search}
+      className="group flex flex-col border border-foreground/12 bg-paper p-6 transition-colors hover:border-foreground/30 md:p-8"
     >
-      <Link to="/shop" search={c.search} className="absolute inset-0 block">
+      <div className="flex items-baseline gap-3">
+        <span className="font-display text-sm italic leading-none text-ink/35">{s.num}</span>
+        <span className="h-px flex-1 bg-foreground/12" />
+      </div>
+      <div className="flex flex-1 items-center justify-center py-8">
         <img
           src={c.img}
-          alt={`${c.name} — ${c.label}`}
+          alt={`${s.step} — ${c.label}`}
           loading="lazy"
-          className={`h-full w-full object-contain p-8 transition-transform duration-700 group-hover:[transform:translateX(16%)_scale(1.05)] ${
-            revealed ? "[transform:translateX(16%)_scale(1.05)]" : ""
-          }`}
+          className="max-h-[220px] w-full object-contain transition-transform duration-700 motion-reduce:transition-none group-hover:scale-[1.03]"
         />
-
-        {/* Default state */}
-        <div className={`absolute inset-0 transition-opacity duration-500 group-hover:opacity-0 ${off}`}>
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 p-5">
-            <p className="font-display text-2xl text-paper">{c.name}</p>
-            <p className="text-[11px] uppercase tracking-[0.18em] text-paper/75">{c.count}</p>
-          </div>
-        </div>
-
-        {/* Hover / tap reveal — un-tinted photo, type sits directly on the image */}
-        <div
-          className={`absolute inset-0 flex flex-col justify-between p-6 transition-opacity duration-500 group-hover:opacity-100 ${on}`}
-        >
-          <div className="flex items-start justify-between gap-4">
-            <h3 className="max-w-[62%] font-sans text-3xl font-black uppercase leading-[0.85] tracking-tighter text-ink">
-              {c.name}
-            </h3>
-            <div className="text-right">
-              <p className="text-sm font-bold tracking-tight text-ink">{c.price}</p>
-              <p className="text-[9px] font-bold uppercase tracking-widest text-ink/50">{c.size}</p>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <p className="max-w-[56%] font-sans text-[11px] font-medium uppercase leading-relaxed tracking-wide text-ink">
-              {c.benefit}
-            </p>
-            <div className="flex items-center gap-3">
-              <span className="h-px w-6 bg-hanbok-deep" />
-              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-ink/60">{c.ingredient}</p>
-            </div>
-          </div>
-
-          <span className="pointer-events-none absolute bottom-6 right-6 font-display text-sm italic text-ink/30">
-            {c.brand}
-          </span>
-        </div>
-      </Link>
-
-      <button
-        type="button"
-        aria-label={revealed ? `Hide ${c.name} details` : `Show ${c.name} details`}
-        aria-pressed={revealed}
-        onClick={() => setRevealed((v) => !v)}
-        className="absolute right-3 top-3 z-10 rounded-full bg-paper/85 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-ink shadow-sm backdrop-blur md:hidden"
-      >
-        {revealed ? "Close" : "Info"}
-      </button>
-    </div>
+      </div>
+      <h3 className="font-display text-2xl leading-tight text-ink">{s.step}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-ink/65">{s.line}</p>
+      <span className="mt-5 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink">
+        Explore {s.step.toLowerCase()}
+        <span className="transition-transform duration-300 motion-reduce:transition-none group-hover:translate-x-1">
+          →
+        </span>
+      </span>
+    </Link>
   );
 }
-
 
 function Categories() {
   return (
     <section className="mx-auto max-w-7xl px-6 py-24">
-      <div className="flex items-end justify-between gap-6">
-        <div>
+      <div className="flex flex-wrap items-end justify-between gap-8">
+        <div className="max-w-2xl">
           <p className="eyebrow eyebrow-rule text-clay">The ritual, step by step</p>
-          <h2 className="display-section mt-4 text-ink">Every step of the ritual.</h2>
+          <h2 className="display-section mt-4 text-ink">
+            Six steps. Use only what your skin needs.
+          </h2>
+          <p className="mt-5 max-w-xl text-ink/70">
+            Korean skincare doesn’t have to mean ten products. Start with the essentials, then add
+            the steps that earn their place.
+          </p>
         </div>
-        <Link to="/shop" className="hidden text-sm font-medium text-primary underline-grow md:inline">Browse all →</Link>
+        <Link
+          to="/shop"
+          className="hidden text-[11px] font-semibold uppercase tracking-[0.22em] text-ink underline underline-offset-4 hover:text-clay md:inline"
+        >
+          Browse all →
+        </Link>
       </div>
-      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-12 grid gap-px bg-foreground/10 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((c, i) => (
-          <CategoryTile key={c.name} c={c} i={i} />
+          <CategoryTile key={c.name} c={c} s={routineSteps[i]!} />
         ))}
       </div>
-
-
+      <div className="mt-8 md:hidden">
+        <Link
+          to="/shop"
+          className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink underline underline-offset-4"
+        >
+          Browse all →
+        </Link>
+      </div>
     </section>
   );
 }
+
 
 function Concerns() {
   return (
