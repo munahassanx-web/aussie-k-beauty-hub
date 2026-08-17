@@ -391,11 +391,11 @@ export function HeroCarousel() {
               <Link
                 key={cta.label}
                 to={cta.to}
-                className={
+                className={`group inline-flex w-full items-center justify-center gap-3 rounded-none px-9 py-3.5 text-[10px] font-semibold uppercase tracking-[0.3em] transition duration-500 sm:w-auto ${
                   cta.variant === "primary"
-                    ? "group inline-flex items-center gap-3 rounded-none border border-paper bg-paper px-9 py-3.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-ink transition duration-500 hover:bg-transparent hover:text-paper"
-                    : "group inline-flex items-center gap-2.5 rounded-none border border-paper/40 px-8 py-3.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-paper transition duration-500 hover:border-paper hover:bg-paper/10"
-                }
+                    ? "border border-paper bg-paper text-ink hover:bg-transparent hover:text-paper"
+                    : "border border-paper/40 text-paper hover:border-paper hover:bg-paper/10"
+                }`}
               >
                 {cta.icon === "sparkle" && (
                   <SparkleIcon className="h-3.5 w-3.5 text-paper/70 transition-transform duration-700 group-hover:rotate-90" />
@@ -406,6 +406,7 @@ export function HeroCarousel() {
                 )}
               </Link>
             ))}
+
           </div>
         </div>
       </div>
