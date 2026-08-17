@@ -454,16 +454,20 @@ export function SiteFooter() {
           <p className="font-display text-3xl text-paper">Skin Grocer</p>
           <p className="mt-5 max-w-sm text-sm text-paper/65">
             Melbourne-based curators of authentic K-beauty and premium imports.
-            Locally stocked, expertly guided, dispatched the next day.*
+            Locally stocked in Australia, chosen with intention and explained
+            plainly.
           </p>
-          <div className="mt-6 inline-flex items-center gap-3 rounded-full border border-paper/20 px-4 py-2 text-xs uppercase tracking-[0.2em] text-paper/80">
-            <span className="h-2 w-2 animate-pulse-ring rounded-full bg-accent" />
-            Ships next day from Melbourne*
-          </div>
-          <p className="mt-4 max-w-sm text-xs text-paper/45">
-            *Next-day delivery applies to metro and most regional areas. Remote
-            postcodes may take 1–2 extra days.
+          <p className="mt-6 border-t border-paper/15 pt-4 text-xs uppercase tracking-[0.2em] text-paper/70">
+            Locally stocked in Australia
           </p>
+          <p className="mt-3 max-w-sm text-xs text-paper/45">
+            Dispatched from our Epping, Victoria warehouse. See our{" "}
+            <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-paper">
+              shipping policy
+            </Link>{" "}
+            for current dispatch and delivery timeframes.
+          </p>
+
         </div>
 
         <div className="md:col-span-2">
