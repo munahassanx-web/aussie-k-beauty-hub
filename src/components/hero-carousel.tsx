@@ -62,6 +62,9 @@ const slides: Slide[] = [
     headline: "Mecca doesn't stock it.",
     body: "The Seoul drops you won't find at Mecca.",
     durationMs: 5000,
+    ctas: [
+      { label: "Discover the Seoul edit", to: "/shop", variant: "primary", icon: "arrow" },
+    ],
     headlineClass: "hero-headline-lg max-w-xl",
     bodyClass: "max-w-sm",
     align: "left",
@@ -77,6 +80,9 @@ const slides: Slide[] = [
     headline: "Amazon might not be real.",
     body: "Batch-checked. Sealed. Authorised.",
     durationMs: 5000,
+    ctas: [
+      { label: "Our authenticity promise", to: "/about", variant: "primary", icon: "arrow" },
+    ],
     headlineClass: "hero-headline-sm max-w-lg leading-[1.02] tracking-[-0.03em]",
     bodyClass: "max-w-xs",
     align: "right",
@@ -92,6 +98,10 @@ const slides: Slide[] = [
     headline: "Ten steps, no instructions.",
     body: "Korean routines, translated into plain English.",
     durationMs: 5000,
+    ctas: [
+      { label: "Build your routine", to: "/consultation", variant: "primary", icon: "arrow" },
+      { label: "Take the skin quiz", to: "/consultation", variant: "secondary", icon: "sparkle" },
+    ],
     headlineClass: "hero-headline-lg max-w-xl leading-[1.0]",
     bodyClass: "max-w-sm",
     align: "right",
@@ -107,13 +117,15 @@ const slides: Slide[] = [
     headline: "No shipping from Seoul.",
     body: "Next-day VIC. Express Australia-wide.",
     durationMs: 5000,
+    ctas: [
+      { label: "Shop K-beauty", to: "/shop", variant: "primary", icon: "arrow" },
+    ],
     headlineClass: "hero-headline-sm max-w-lg leading-[1.02]",
     bodyClass: "max-w-sm",
     align: "left",
     vertical: "bottom",
     scrimClass: "bg-gradient-to-tr from-ink/78 via-ink/25 to-transparent",
   },
-];
 
 const alignMap: Record<Align, string> = {
   center: "md:items-center md:text-center md:self-center",
