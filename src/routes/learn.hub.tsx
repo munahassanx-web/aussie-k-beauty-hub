@@ -38,7 +38,7 @@ export const Route = createFileRoute("/learn/hub")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/learn/hub" }],
+    links: [{ rel: "canonical", href: "https://skingrocer.com.au/learn/hub" }],
     scripts: [faqJsonLd(TREND_FAQS)],
   }),
   component: LearnHubPage,

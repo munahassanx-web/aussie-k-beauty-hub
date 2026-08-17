@@ -29,7 +29,7 @@ export const Route = createFileRoute("/consultation")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/consultation" }],
+    links: [{ rel: "canonical", href: "https://skingrocer.com.au/consultation" }],
   }),
   component: ConsultationPage,
 });

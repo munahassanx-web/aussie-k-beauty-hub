@@ -19,7 +19,7 @@ export const Route = createFileRoute('/routines/')({
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
     ],
-    links: [{ rel: 'canonical', href: '/routines' }],
+    links: [{ rel: 'canonical', href: 'https://skingrocer.com.au/routines' }],
   }),
   component: RoutinesIndex,
 });

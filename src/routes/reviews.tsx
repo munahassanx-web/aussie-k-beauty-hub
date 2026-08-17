@@ -8,9 +8,9 @@ export const Route = createFileRoute("/reviews")({
       { name: "description", content: "Real Australian customers on Skin Grocer's authentic K-beauty, next-day delivery and personal skincare guidance." },
       { property: "og:title", content: "Reviews — Skin Grocer" },
       { property: "og:description", content: "What Australia is saying about Skin Grocer." },
-      { property: "og:url", content: "/reviews" },
+      { property: "og:url", content: "https://skingrocer.com.au/reviews" },
     ],
-    links: [{ rel: "canonical", href: "/reviews" }],
+    links: [{ rel: "canonical", href: "https://skingrocer.com.au/reviews" }],
   }),
   component: Reviews,
 });

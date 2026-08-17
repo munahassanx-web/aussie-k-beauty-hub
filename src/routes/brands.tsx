@@ -14,9 +14,9 @@ export const Route = createFileRoute("/brands")({
       { property: "og:description", content: "Thirteen hand-picked Korean labels, warehoused in Melbourne for next-day delivery across Australia." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "/brands" },
+      { property: "og:url", content: "https://skingrocer.com.au/brands" },
     ],
-    links: [{ rel: "canonical", href: "/brands" }],
+    links: [{ rel: "canonical", href: "https://skingrocer.com.au/brands" }],
   }),
   component: BrandsPage,
 });

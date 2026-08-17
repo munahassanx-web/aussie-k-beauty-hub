@@ -21,10 +21,11 @@ export const Route = createFileRoute("/blog/$slug")({
         { name: "description", content: issue.standfirst },
         { property: "og:title", content: title },
         { property: "og:description", content: issue.standfirst },
+        { property: "og:url", content: `https://skingrocer.com.au/blog/${issue.slug}` },
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
-      links: [{ rel: "canonical", href: `/blog/${issue.slug}` }],
+      links: [{ rel: "canonical", href: `https://skingrocer.com.au/blog/${issue.slug}` }],
     };
   },
   notFoundComponent: IssueNotFound,

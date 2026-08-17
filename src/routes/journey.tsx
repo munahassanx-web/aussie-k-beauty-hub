@@ -7,9 +7,9 @@ export const Route = createFileRoute("/journey")({
       { name: "description", content: "Expert guidance for every step of your skincare ritual — from your first cleanse to your final SPF. Detailed application notes for every product." },
       { property: "og:title", content: "Your Skincare Journey — Skin Grocer" },
       { property: "og:description", content: "From first cleanse to final SPF — guided every step." },
-      { property: "og:url", content: "/journey" },
+      { property: "og:url", content: "https://skingrocer.com.au/journey" },
     ],
-    links: [{ rel: "canonical", href: "/journey" }],
+    links: [{ rel: "canonical", href: "https://skingrocer.com.au/journey" }],
   }),
   component: Journey,
 });
