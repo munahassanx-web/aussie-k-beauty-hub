@@ -1,6 +1,6 @@
 import { NewsletterForm } from "@/components/newsletter-form";
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/lib/cart";
 import { ProductSearchOverlay } from "@/components/product-search";
