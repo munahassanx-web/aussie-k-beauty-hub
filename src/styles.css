@@ -163,8 +163,8 @@
 /* Layered natural-light scrim: keeps skin tones warm, protects type legibility */
 @utility hero-scrim {
   background:
-    linear-gradient(180deg, color-mix(in oklab, var(--color-ink) 62%, transparent) 0%, color-mix(in oklab, var(--color-ink) 42%, transparent) 40%, color-mix(in oklab, var(--color-ink) 80%, transparent) 100%),
-    radial-gradient(80% 60% at 50% 48%, color-mix(in oklab, var(--color-ink) 22%, transparent) 0%, color-mix(in oklab, var(--color-ink) 58%, transparent) 100%);
+    linear-gradient(180deg, color-mix(in oklab, var(--color-ink) 72%, transparent) 0%, color-mix(in oklab, var(--color-ink) 60%, transparent) 40%, color-mix(in oklab, var(--color-ink) 88%, transparent) 100%),
+    radial-gradient(80% 60% at 50% 48%, color-mix(in oklab, var(--color-ink) 30%, transparent) 0%, color-mix(in oklab, var(--color-ink) 66%, transparent) 100%);
 }
 
 @utility animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
