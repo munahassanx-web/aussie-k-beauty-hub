@@ -237,9 +237,9 @@ function Contact() {
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-2xl border border-border bg-secondary/30 p-6">
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Melbourne metro</p>
-            <p className="mt-2 font-display text-2xl text-foreground">Next business day</p>
+            <p className="mt-2 font-display text-2xl text-foreground">1–2 business days</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Order by 12pm AEST for next-day arrival on your doorstep.
+              Dispatched from our Melbourne warehouse, then 1–2 business days in transit.
             </p>
           </div>
           <div className="rounded-2xl border border-border bg-secondary/30 p-6">
