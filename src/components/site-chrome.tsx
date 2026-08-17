@@ -195,6 +195,7 @@ export function SiteHeader() {
                 onMouseEnter={() => { if (dismissed !== key) setOpenMenu(key); }}
                 onMouseLeave={() => { setDismissed(null); setPinned(null); }}
                 onFocus={() => { if (dismissed !== key) setOpenMenu(key); }}
+              >
                 <Link
                   to={topLevelLinks[key].to}
                   onClick={closeMenus}
