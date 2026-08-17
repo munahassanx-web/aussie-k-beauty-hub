@@ -153,7 +153,7 @@ export function SortSelect({ sort, onSort }: Pick<Props, 'sort' | 'onSort'>) {
 /** Desktop sidebar. */
 export function FilterSidebar(props: Props) {
   return (
-    <aside aria-label="Filter products" className="hidden lg:block">
+    <aside aria-label="Filter products" className="hidden lg:block lg:sticky lg:top-24 lg:self-start">
       <FilterGroups facets={props.facets} filters={props.filters} onChange={props.onChange} />
     </aside>
   );

@@ -128,9 +128,14 @@ export function buildFacets(base: ShopProduct[], f: Filters) {
       Object.keys(CONCERN_LABELS) as Concern[],
       (p, v) => p.concerns.includes(v),
     ).map((o) => ({ ...o, label: CONCERN_LABELS[o.value as Concern] })) as FacetOption[],
-    ingredient: count(ingredientPool, ingredientNames, (p, v) => ingredientsFor(p).includes(v)).map(
-      (o) => ({ ...o, label: o.value }),
-    ) as FacetOption[],
+    // Only ingredients shared by a few products are useful as a facet — a
+    // one-product ingredient is noise, not navigation.
+    ingredient: (count(ingredientPool, ingredientNames, (p, v) => ingredientsFor(p).includes(v))
+      .filter((o) => o.count >= 3 || o.value === f.ingredient)
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10)
+      .map((o) => ({ ...o, label: o.value })) as FacetOption[])
+      .sort((a, b) => a.label.localeCompare(b.label)),
     price: PRICE_BANDS.map((b) => ({
       value: b.value,
       label: b.label,
