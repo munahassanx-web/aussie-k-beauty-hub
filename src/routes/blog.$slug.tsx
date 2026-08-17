@@ -24,7 +24,7 @@ export const Route = createFileRoute("/blog/$slug")({
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
-      links: [{ rel: "canonical", href: `/grocery-list/${issue.slug}` }],
+      links: [{ rel: "canonical", href: `/blog/${issue.slug}` }],
     };
   },
   notFoundComponent: IssueNotFound,
