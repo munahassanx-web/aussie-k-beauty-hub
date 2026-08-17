@@ -35,50 +35,36 @@ export function faqJsonLd(items: Faq[]) {
 
 export const HOME_FAQS: Faq[] = [
   {
-    q: 'What is K-beauty and why does Korean skincare work so well?',
-    a: 'K-beauty is skincare developed in South Korea around prevention rather than correction: hydrate the skin barrier daily, protect it from UV, and treat problems before they become permanent. Korean brands iterate formulas far faster than Western ones because domestic shoppers review everything publicly, so ingredient concentrations, textures and price-to-performance improve every season.',
+    q: 'How do I know Skin Grocer products are authentic?',
+    a: 'Our products come straight from Seoul. Every batch is verified and QR coded, so the exact stock you receive can be authenticated rather than taken on trust.',
+  },
+  {
+    q: 'I am new to K-beauty — where should I start?',
+    a: 'Start small. Choose a gentle cleanser, a moisturiser that suits how your skin feels, and a daytime sun protection product, then add one more step only when you know why you want it. If you would rather be guided, our skin consultation asks a short series of questions and returns a routine built from products we stock.',
+  },
+  {
+    q: 'Do I need a 10-step Korean skincare routine?',
+    a: 'No. Long routines are a style of shopping, not a requirement. A simple core — cleanse, moisturise, and sun protection during the day — works for most people, with hydration or treatment steps added according to what your own skin is asking for.',
+  },
+  {
+    q: 'How will I know how to use the products I buy?',
+    a: 'Every order includes a QR code that links to How to Apply guidance for the products you bought — where each one sits in your routine, how much to use and what to pair it with. You can also read the same guidance on each product page before you buy.',
+  },
+  {
+    q: 'How do I choose products for what I notice about my skin?',
+    a: 'Shop by what you notice rather than by category. Dryness and dullness point to hydration and barrier-focused care; congestion and visible pores to lighter textures and gentle exfoliation; sensitivity and easily unsettled skin to calming, fragrance-free formulas; uneven-looking tone and fine lines to targeted serums used consistently.',
     points: [
-      'Layered, lightweight hydration instead of one heavy cream.',
-      'Daily sunscreen treated as a skincare step, not a beach product.',
-      'Barrier-first actives — centella, ceramides, panthenol, PDRN — before strong exfoliants.',
-      'Cosmetically elegant textures, so people actually stick to the routine.',
+      'Add one new product at a time so you can tell what suits you.',
+      'Keep strong exfoliants and retinal on separate nights.',
+      'If something stings or unsettles your skin, pause it and go back to the basics.',
     ],
   },
   {
-    q: 'What is the correct order for a Korean skincare routine?',
-    a: 'Apply products from thinnest to thickest. Morning: cleanser, toner, serum, moisturiser, sunscreen. Evening: oil cleanser, water-based cleanser, toner, treatment (serum, essence or mask), moisturiser. You do not need ten steps — four or five well-chosen products beat a long routine you skip.',
-    points: [
-      'AM: cleanse → tone → serum → moisturise → SPF 50+',
-      'PM: oil cleanse → foam cleanse → tone → treat → moisturise',
-      'Wait 30–60 seconds between layers rather than a set number of minutes.',
-      'Add one new product at a time so you can tell what is working.',
-    ],
-  },
-  {
-    q: 'Are Skin Grocer products authentic Korean products?',
-    a: 'Yes. Skin Grocer sources directly from Korean brands and their authorised distributors, and every batch is checked on arrival at our Melbourne warehouse. We do not buy grey-market stock, and each order ships with a provenance card showing the batch details.',
-  },
-  {
-    q: 'How fast is delivery, and do you ship across Australia?',
-    a: 'We dispatch from our Melbourne warehouse in Epping, Victoria. Orders placed before 12pm on a business day are dispatched the same day and typically arrive the next business day in metro Melbourne, Sydney, Canberra, Adelaide and Brisbane. Regional and WA/NT addresses usually take 2–5 business days.',
-  },
-  {
-    q: 'Is Korean sunscreen legal to buy and use in Australia?',
-    a: 'Yes, you can buy and use Korean sunscreen in Australia. Sunscreens sold with therapeutic SPF claims here are regulated by the TGA, so the SPF wording on an imported Korean product may differ from its Korean label. We list products with the information supplied by the brand and never invent Australian SPF ratings.',
-  },
-  {
-    q: 'Is Korean skincare suitable for Australian climate and skin?',
-    a: 'Most of it is, but not all of it translates directly. Formulas built for Seoul winters can feel heavy in a Brisbane summer, and Australian UV is far stronger year-round, so daily high-protection sunscreen and barrier support matter more here. Every product we stock is chosen and described with Australian humidity, hard water and UV in mind.',
-  },
-  {
-    q: 'How do I find the right Korean products for my skin type?',
-    a: 'Take the free two-minute Skin Grocer consultation. It asks about your skin type, concerns, climate and current routine, then returns a step-by-step routine using products we actually hold in stock, with the reason each one was chosen.',
-  },
-  {
-    q: 'What is your returns and refund policy?',
-    a: 'Unopened products can be returned within 30 days. If a routine we recommended does not work for your skin, our 30-day glow-or-refund guarantee covers it — contact hello@skingrocer.com.au with your order number and we will make it right.',
+    q: 'How does shipping and returns work?',
+    a: 'Orders are dispatched from our Melbourne warehouse in Epping, Victoria. Orders placed before 12pm on a business day are dispatched the same day, with free express shipping over A$80. Unopened products can be returned within 30 days of delivery, and nothing in our policy limits your rights under Australian Consumer Law.',
   },
 ];
+
 
 // --- Standalone /faq page: home FAQs plus membership questions ---------------
 
