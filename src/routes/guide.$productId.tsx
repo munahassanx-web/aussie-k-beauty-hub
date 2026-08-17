@@ -74,7 +74,7 @@ function GuidePage() {
 
   if (!product) {
     return (
-      <main className="mx-auto max-w-xl px-6 py-20">
+      <section className="mx-auto max-w-xl px-6 py-20">
         <Label>How to apply</Label>
         <h1 className="mt-4 font-display text-3xl leading-tight text-foreground">
           We couldn’t match this code to a product
@@ -98,7 +98,7 @@ function GuidePage() {
             Contact us
           </Link>
         </div>
-      </article>
+      </section>
     );
   }
 
