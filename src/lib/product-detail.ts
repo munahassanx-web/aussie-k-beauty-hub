@@ -1164,6 +1164,16 @@ export function howToUse(p: ShopProduct): string[] {
   return COPY[p.priceId]?.howToUse ?? CATEGORY_HOW_TO[p.category];
 }
 
+/**
+ * True only when this SKU has its own written directions in the project data.
+ * When false, `howToUse` returns generic guidance for the routine step and the
+ * UI must say so rather than presenting it as the brand's own directions.
+ */
+export function hasProductSpecificHowTo(p: ShopProduct): boolean {
+  return Array.isArray(COPY[p.priceId]?.howToUse);
+}
+
+
 export function productDescription(p: ShopProduct): string {
   const override = COPY[p.priceId]?.description;
   if (override) return override;

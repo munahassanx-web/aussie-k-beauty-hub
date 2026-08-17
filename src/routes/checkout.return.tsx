@@ -1,8 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { getGuestOrderBySession, getOrderBySession, type OrderReceipt } from '@/lib/commerce.functions';
 import { useAuth } from '@/hooks/use-auth';
 import { useCart, formatAud } from '@/lib/cart';
+import { ladderIndexFor, matchProductByReference } from '@/lib/guide-content';
+import { productSlug } from '@/lib/product-detail';
+
 
 export const Route = createFileRoute('/checkout/return')({
   validateSearch: (search: Record<string, unknown>): { session_id?: string } => ({
@@ -51,6 +54,29 @@ function CheckoutReturn() {
     }, tries === 0 ? 400 : 1500);
     return () => clearTimeout(timer);
   }, [sessionId, receipt, tries]);
+
+  // Match this order's line items back to catalog products so we can link the
+  // exact guides purchased. Unmatched lines are simply omitted.
+  const purchasedGuides = useMemo(() => {
+    const seen = new Set<string>();
+    const matched = (receipt?.lineItems ?? [])
+      .map((l) => matchProductByReference(l.name))
+      .filter((p): p is NonNullable<typeof p> => Boolean(p))
+      .filter((p) => {
+        const slug = productSlug(p);
+        if (seen.has(slug)) return false;
+        seen.add(slug);
+        return true;
+      })
+      .map((product) => ({ product, slug: productSlug(product) }));
+    return matched.sort(
+      (a, b) =>
+        (ladderIndexFor(a.product) + 1 || 99) - (ladderIndexFor(b.product) + 1 || 99) ||
+        a.product.name.localeCompare(b.product.name),
+    );
+  }, [receipt]);
+
+
 
   if (!sessionId) {
     return (
@@ -150,6 +176,35 @@ function CheckoutReturn() {
         </p>
       )}
 
+      {purchasedGuides.length > 0 && (
+        <section className="mt-10 border-t border-border pt-8">
+          <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            How to use what you bought
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            In the order you’d apply them. Each link opens that product’s application guide.
+          </p>
+          <ul className="mt-5 border-t border-border">
+            {purchasedGuides.map((p) => (
+              <li key={p.slug} className="border-b border-border py-4">
+                <Link
+                  to="/guide/$productId"
+                  params={{ productId: p.slug }}
+                  className="flex items-baseline justify-between gap-4"
+                >
+                  <span className="text-sm text-foreground">
+                    <span className="text-muted-foreground">{p.product.brand}</span> {p.product.name}
+                  </span>
+                  <span className="whitespace-nowrap text-[11px] uppercase tracking-[0.16em] text-primary">
+                    How to apply →
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <section className="mt-10 border-t border-border pt-8">
         <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">What happens next</h2>
         <ol className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
@@ -166,6 +221,7 @@ function CheckoutReturn() {
           </li>
         </ol>
       </section>
+
 
       {!user && (
         <section className="mt-8 border border-border p-6">

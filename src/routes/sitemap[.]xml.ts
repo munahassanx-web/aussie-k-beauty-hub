@@ -97,6 +97,12 @@ export const Route = createFileRoute("/sitemap.xml")({
           changefreq: "weekly",
         }));
 
+        const guideEntries: Entry[] = SHOP_PRODUCTS.map((p) => ({
+          path: `/guide/${productSlug(p)}`,
+          priority: "0.5",
+          changefreq: "monthly",
+        }));
+
         const staticIssueEntries: Entry[] = newsletterIssues.map((i) => ({
           path: `/blog/${i.slug}`,
           priority: "0.7",
@@ -117,6 +123,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         const entries = dedupe([
           ...STATIC_ENTRIES,
           ...productEntries,
+          ...guideEntries,
           ...dbIssues,
           ...staticIssueEntries,
           ...articleEntries,

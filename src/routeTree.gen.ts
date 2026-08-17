@@ -28,6 +28,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SkinConcernsRouteImport } from './routes/skin-concerns'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as WishlistRouteImport } from './routes/wishlist'
+import { Route as AdminGuideLinksRouteImport } from './routes/admin.guide-links'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminSignalsRouteImport } from './routes/admin.signals'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
@@ -141,6 +142,11 @@ const TrackRoute = TrackRouteImport.update({
 const WishlistRoute = WishlistRouteImport.update({
   id: '/wishlist',
   path: '/wishlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminGuideLinksRoute = AdminGuideLinksRouteImport.update({
+  id: '/admin/guide-links',
+  path: '/admin/guide-links',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminReviewsRoute = AdminReviewsRouteImport.update({
@@ -260,6 +266,7 @@ export interface FileRoutesByFullPath {
   '/skin-concerns': typeof SkinConcernsRoute
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
+  '/admin/guide-links': typeof AdminGuideLinksRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -300,6 +307,7 @@ export interface FileRoutesByTo {
   '/skin-concerns': typeof SkinConcernsRoute
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
+  '/admin/guide-links': typeof AdminGuideLinksRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -341,6 +349,7 @@ export interface FileRoutesById {
   '/skin-concerns': typeof SkinConcernsRoute
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
+  '/admin/guide-links': typeof AdminGuideLinksRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -383,6 +392,7 @@ export interface FileRouteTypes {
     | '/skin-concerns'
     | '/track'
     | '/wishlist'
+    | '/admin/guide-links'
     | '/admin/reviews'
     | '/admin/signals'
     | '/blog/$slug'
@@ -423,6 +433,7 @@ export interface FileRouteTypes {
     | '/skin-concerns'
     | '/track'
     | '/wishlist'
+    | '/admin/guide-links'
     | '/admin/reviews'
     | '/admin/signals'
     | '/blog/$slug'
@@ -463,6 +474,7 @@ export interface FileRouteTypes {
     | '/skin-concerns'
     | '/track'
     | '/wishlist'
+    | '/admin/guide-links'
     | '/admin/reviews'
     | '/admin/signals'
     | '/blog/$slug'
@@ -504,6 +516,7 @@ export interface RootRouteChildren {
   SkinConcernsRoute: typeof SkinConcernsRoute
   TrackRoute: typeof TrackRoute
   WishlistRoute: typeof WishlistRoute
+  AdminGuideLinksRoute: typeof AdminGuideLinksRoute
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSignalsRoute: typeof AdminSignalsRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -657,6 +670,13 @@ declare module '@tanstack/react-router' {
       path: '/wishlist'
       fullPath: '/wishlist'
       preLoaderRoute: typeof WishlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/guide-links': {
+      id: '/admin/guide-links'
+      path: '/admin/guide-links'
+      fullPath: '/admin/guide-links'
+      preLoaderRoute: typeof AdminGuideLinksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/reviews': {
@@ -827,6 +847,7 @@ const rootRouteChildren: RootRouteChildren = {
   SkinConcernsRoute: SkinConcernsRoute,
   TrackRoute: TrackRoute,
   WishlistRoute: WishlistRoute,
+  AdminGuideLinksRoute: AdminGuideLinksRoute,
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSignalsRoute: AdminSignalsRoute,
   BlogSlugRoute: BlogSlugRoute,
