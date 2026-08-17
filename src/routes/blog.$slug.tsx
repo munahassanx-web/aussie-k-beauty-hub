@@ -3,7 +3,7 @@ import { GroceryLabel, SectionHeading } from "@/components/grocery-label";
 import { getIssue, newsletterIssues } from "@/lib/newsletter-issues";
 import { getPublishedIssue } from "@/lib/published-issues.functions";
 
-export const Route = createFileRoute("/grocery-list/$slug")({
+export const Route = createFileRoute("/blog/$slug")({
   loader: async ({ params }) => {
     const issue = getIssue(params.slug) ?? (await getPublishedIssue({ data: { slug: params.slug } }));
     if (!issue) throw notFound();
@@ -36,7 +36,7 @@ function IssueNotFound() {
     <div className="mx-auto max-w-2xl px-6 py-32 text-center">
       <h1 className="font-display text-4xl text-grocer-brown">That issue isn't on the shelf</h1>
       <Link
-        to="/grocery-list"
+        to="/blog"
         className="mt-8 inline-block border-b-2 border-grocer-tomato pb-1 text-[12px] font-semibold uppercase tracking-[0.2em] text-grocer-tomato"
       >
         Back to all issues
@@ -443,7 +443,7 @@ function IssuePage() {
             {others.map((o) => (
               <Link
                 key={o.slug}
-                to="/grocery-list/$slug"
+                to="/blog/$slug"
                 params={{ slug: o.slug }}
                 className="rounded-sm border-2 border-grocer-brown/20 px-5 py-3 text-[13px] text-grocer-brown hover:border-grocer-tomato"
               >
@@ -451,7 +451,7 @@ function IssuePage() {
               </Link>
             ))}
             <Link
-              to="/grocery-list"
+              to="/blog"
               className="rounded-sm border-2 border-grocer-brown/20 px-5 py-3 text-[13px] text-grocer-brown hover:border-grocer-tomato"
             >
               All issues →
