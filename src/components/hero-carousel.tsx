@@ -15,6 +15,8 @@ type Slide = {
   headline: string;
   body: string;
   durationMs: number;
+  headlineClass?: string;
+  bodyClass?: string;
 };
 
 const slides: Slide[] = [
@@ -25,6 +27,8 @@ const slides: Slide[] = [
     headline: "skin grocer",
     body: "K-beauty for your skin — and your postcode.",
     durationMs: 2500,
+    headlineClass: "hero-headline-xl max-w-3xl",
+    bodyClass: "max-w-md",
   },
   {
     type: "image" as const,
@@ -33,6 +37,8 @@ const slides: Slide[] = [
     headline: "Mecca doesn't stock it.",
     body: "The Seoul drops you won't find at Mecca.",
     durationMs: 5000,
+    headlineClass: "hero-headline-lg max-w-3xl",
+    bodyClass: "max-w-sm",
   },
   {
     type: "image" as const,
@@ -41,6 +47,8 @@ const slides: Slide[] = [
     headline: "Amazon might not be real.",
     body: "Batch-checked. Sealed. Authorised.",
     durationMs: 5000,
+    headlineClass: "hero-headline-sm max-w-3xl leading-[1.02] tracking-[-0.03em]",
+    bodyClass: "max-w-xs",
   },
   {
     type: "image" as const,
@@ -49,6 +57,8 @@ const slides: Slide[] = [
     headline: "Ten steps, no instructions.",
     body: "Korean routines, translated into plain English.",
     durationMs: 5000,
+    headlineClass: "hero-headline-lg max-w-2xl leading-[1.0]",
+    bodyClass: "max-w-md",
   },
   {
     type: "image" as const,
@@ -57,6 +67,8 @@ const slides: Slide[] = [
     headline: "No shipping from Seoul.",
     body: "Next-day VIC. Express Australia-wide.",
     durationMs: 5000,
+    headlineClass: "hero-headline-sm max-w-3xl leading-[1.02]",
+    bodyClass: "max-w-sm",
   },
 ];
 
@@ -124,30 +136,30 @@ export function HeroCarousel() {
       <div className="relative mx-auto flex min-h-[86vh] max-w-7xl flex-col items-center justify-center px-6 py-20 text-center md:py-24">
         <div key={`${active}-${key}`} className="flex w-full max-w-4xl flex-col items-center">
           <span
-            className="hero-line inline-flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.34em] text-paper/70"
+            className="hero-line inline-flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.32em] text-paper/70"
             style={{ "--hero-delay": "60ms" } as React.CSSProperties}
           >
-            <span className="h-px w-8 bg-paper/40" />
+            <span className="h-px w-6 bg-paper/40" />
             {slides[active].eyebrow}
-            <span className="h-px w-8 bg-paper/40" />
+            <span className="h-px w-6 bg-paper/40" />
           </span>
 
           <h1
-            className="hero-line mt-7 font-display text-5xl font-normal leading-[0.98] tracking-[-0.035em] text-paper drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] md:text-[6.25rem] lg:text-[7.25rem]"
+            className={`hero-line hero-headline hero-text-shadow mt-5 ${slides[active].headlineClass || ""}`}
             style={{ "--hero-delay": "180ms" } as React.CSSProperties}
           >
             {slides[active].headline}
           </h1>
 
           <p
-            className="hero-line mt-6 max-w-lg text-balance text-sm font-light leading-relaxed tracking-[0.01em] text-paper/85 drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)] md:text-base"
+            className={`hero-line mt-5 text-balance text-sm font-light leading-[1.55] tracking-[0.01em] text-paper/85 hero-body-shadow md:text-[15px] ${slides[active].bodyClass || "max-w-md"}`}
             style={{ "--hero-delay": "320ms" } as React.CSSProperties}
           >
             {slides[active].body}
           </p>
 
           <div
-            className="hero-line mt-10 flex flex-col items-center gap-3 sm:flex-row sm:gap-4"
+            className="hero-line mt-8 flex flex-col items-center gap-3 sm:flex-row sm:gap-4"
             style={{ "--hero-delay": "460ms" } as React.CSSProperties}
           >
             <Link

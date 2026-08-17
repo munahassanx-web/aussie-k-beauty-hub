@@ -160,6 +160,28 @@
   animation: hero-media-in 9s cubic-bezier(0.16, 0.6, 0.24, 1) both;
   will-change: transform;
 }
+
+/* Hero headline scale — editorial, not oversized, so the photography breathes */
+@utility hero-headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 5.4vw, 5.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  color: var(--color-paper);
+}
+@utility hero-headline-xl { font-size: clamp(2.9rem, 6.5vw, 6.25rem); }
+@utility hero-headline-lg { font-size: clamp(2.7rem, 5.8vw, 5.5rem); }
+@utility hero-headline-sm { font-size: clamp(2.2rem, 4.6vw, 4.25rem); }
+
+@utility hero-text-shadow {
+  text-shadow: 0 2px 16px color-mix(in oklab, var(--color-ink) 42%, transparent);
+}
+@utility hero-body-shadow {
+  text-shadow: 0 1px 10px color-mix(in oklab, var(--color-ink) 55%, transparent);
+}
+
 /* Layered natural-light scrim: keeps skin tones warm, protects type legibility */
 @utility hero-scrim {
   background:
