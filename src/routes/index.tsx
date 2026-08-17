@@ -104,9 +104,10 @@ function HomePage() {
 
       <FaqSection
         id="k-beauty-faq"
-        eyebrow="Common questions"
+        eyebrow="Before you choose"
         title="Korean skincare, answered plainly."
-        intro="The questions Australians ask us most — about routines, ingredients, authenticity and delivery. Short answers first, detail underneath."
+        intro="A few useful answers on authenticity, routines, choosing products and what happens after your order arrives."
+
         items={HOME_FAQS}
         tone="sand"
       />
