@@ -180,18 +180,41 @@ export function HeroCarousel() {
 
         {/* Layered editorial scrim — protects type, keeps skin tones natural */}
         <div className="hero-scrim absolute inset-0" />
+
+        {/* Directional scrim, composed per slide so type sits in the image's quiet zone */}
+        {slides[active].scrimClass ? (
+          <div
+            key={`scrim-${active}`}
+            className={`absolute inset-0 hidden transition-opacity duration-1000 md:block ${slides[active].scrimClass}`}
+          />
+        ) : null}
       </div>
 
       {/* Content */}
-      <div className="relative mx-auto flex min-h-[86vh] max-w-7xl flex-col items-center justify-center px-6 py-20 text-center md:py-24">
-        <div key={`${active}-${key}`} className="flex w-full max-w-4xl flex-col items-center">
+      <div
+        className={`relative mx-auto flex min-h-[86vh] max-w-7xl flex-col items-center justify-center px-6 py-20 text-center md:px-10 md:py-24 ${
+          verticalMap[slides[active].vertical || "center"]
+        }`}
+      >
+        <div
+          key={`${active}-${key}`}
+          className={`flex w-full max-w-4xl flex-col items-center ${alignMap[slides[active].align || "center"]}`}
+        >
           <span
             className="hero-line inline-flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.32em] text-paper/70"
             style={{ "--hero-delay": "60ms" } as React.CSSProperties}
           >
-            <span className="h-px w-6 bg-paper/40" />
+            <span
+              className={`h-px w-6 bg-paper/40 ${
+                slides[active].align === "right" ? "md:hidden" : ""
+              }`}
+            />
             {slides[active].eyebrow}
-            <span className="h-px w-6 bg-paper/40" />
+            <span
+              className={`h-px w-6 bg-paper/40 ${
+                slides[active].align === "left" ? "md:hidden" : ""
+              }`}
+            />
           </span>
 
           <h1
@@ -209,9 +232,12 @@ export function HeroCarousel() {
           </p>
 
           <div
-            className="hero-line mt-8 flex flex-col items-center gap-3 sm:flex-row sm:gap-4"
+            className={`hero-line mt-8 flex flex-col items-center gap-3 sm:flex-row sm:gap-4 ${
+              ctaAlignMap[slides[active].align || "center"]
+            }`}
             style={{ "--hero-delay": "460ms" } as React.CSSProperties}
           >
+
             <Link
               to="/shop"
               className="group inline-flex items-center gap-3 rounded-none border border-paper bg-paper px-9 py-3.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-ink transition duration-500 hover:bg-transparent hover:text-paper"
