@@ -61,13 +61,13 @@ const categories: {
 
 
 
-const concerns: { name: string; desc: string; color: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier" }[] = [
-  { name: "Hydration & Glow", desc: "Plump, dewy, glass-skin finish", color: "from-hanbok/15", slug: "hydration" },
-  { name: "Acne & Breakouts", desc: "Calm congestion, balance oil", color: "from-clay/20", slug: "acne" },
-  { name: "Pigmentation", desc: "Brighten and even skin tone", color: "from-sand-deep/40", slug: "pigmentation" },
-  { name: "Sensitivity", desc: "Repair and soothe the barrier", color: "from-hanbok/10", slug: "sensitivity" },
-  { name: "Anti-Ageing", desc: "Firmness, elasticity & wrinkle care", color: "from-clay/15", slug: "anti-aging" },
-  { name: "Barrier Repair", desc: "Rebuild a compromised skin barrier", color: "from-sand-deep/30", slug: "barrier" },
+const concerns: { name: string; desc: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier" }[] = [
+  { name: "Hydration & Glow", desc: "For skin that feels dry, tight or simply wants more moisture.", slug: "hydration" },
+  { name: "Blemish-Prone", desc: "A simpler edit for skin that often looks congested or shiny.", slug: "acne" },
+  { name: "Uneven-Looking Tone", desc: "For a routine focused on a brighter, more even-looking finish.", slug: "pigmentation" },
+  { name: "Easily Unsettled", desc: "Gentle-feeling choices for skin that prefers a quieter routine.", slug: "sensitivity" },
+  { name: "Firmness & Fine Lines", desc: "For routines centred on hydration and a smoother-looking finish.", slug: "anti-aging" },
+  { name: "Barrier-Focused", desc: "Comforting, moisture-first choices for skin that feels dry or overworked.", slug: "barrier" },
 ];
 
 
