@@ -577,11 +577,12 @@ function ProductPage() {
                   </ol>
                   <Link
                     to="/guide/$productId"
-                    params={{ productId: product.priceId }}
+                    params={{ productId: productSlug(product) }}
                     className="mt-5 inline-block text-xs uppercase tracking-wider text-primary hover:underline"
                   >
-                    Full application guide →
+                    How to apply — open the full guide →
                   </Link>
+
                 </div>
               ),
             },
