@@ -55,6 +55,29 @@ function CheckoutReturn() {
     return () => clearTimeout(timer);
   }, [sessionId, receipt, tries]);
 
+  // Match this order's line items back to catalog products so we can link the
+  // exact guides purchased. Unmatched lines are simply omitted.
+  const purchasedGuides = useMemo(() => {
+    const seen = new Set<string>();
+    const matched = (receipt?.lineItems ?? [])
+      .map((l) => matchProductByReference(l.name))
+      .filter((p): p is NonNullable<typeof p> => Boolean(p))
+      .filter((p) => {
+        const slug = productSlug(p);
+        if (seen.has(slug)) return false;
+        seen.add(slug);
+        return true;
+      })
+      .map((product) => ({ product, slug: productSlug(product) }));
+    return matched.sort(
+      (a, b) =>
+        (ladderIndexFor(a.product) + 1 || 99) - (ladderIndexFor(b.product) + 1 || 99) ||
+        a.product.name.localeCompare(b.product.name),
+    );
+  }, [receipt]);
+
+
+
   if (!sessionId) {
     return (
       <div className="mx-auto max-w-2xl px-6 py-24 text-center">
