@@ -25,6 +25,39 @@ import {
   routineStepLabel,
 } from '@/lib/product-detail';
 
+function absoluteProductImage(src: string): string {
+  if (/^https?:\/\//i.test(src)) return src;
+  return `https://skingrocer.com.au${src}`;
+}
+
+function productJsonLd(p: ShopProduct) {
+  const numericPrice = productPrice(p);
+  const productUrl = `https://skingrocer.com.au/product/${productSlug(p)}`;
+  const imageUrl = absoluteProductImage(galleryFor(p)[0]?.src ?? p.image);
+
+  const schema: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: p.name,
+    image: imageUrl,
+    brand: { '@type': 'Brand', name: p.brand },
+    offers: {
+      '@type': 'Offer',
+      price: numericPrice.toFixed(2),
+      priceCurrency: 'AUD',
+      availability: p.comingSoon
+        ? 'https://schema.org/OutOfStock'
+        : 'https://schema.org/InStock',
+      url: productUrl,
+    },
+  };
+
+  return {
+    type: 'application/ld+json' as const,
+    children: JSON.stringify(schema),
+  };
+}
+
 export const Route = createFileRoute('/product/$slug')({
   head: ({ params }) => {
     const p = findProductBySlug(params.slug);
@@ -44,7 +77,10 @@ export const Route = createFileRoute('/product/$slug')({
       ],
       links: [{ rel: 'canonical', href: `https://skingrocer.com.au/product/${params.slug}` }],
       scripts: p
-        ? [faqJsonLd(productFaqs(p, { steps: howToUse(p), description: productDescription(p) }))]
+        ? [
+            faqJsonLd(productFaqs(p, { steps: howToUse(p), description: productDescription(p) })),
+            productJsonLd(p),
+          ]
         : [],
     };
   },
