@@ -262,21 +262,25 @@ export function HeroCarousel() {
             }`}
             style={{ "--hero-delay": "460ms" } as React.CSSProperties}
           >
-
-            <Link
-              to="/shop"
-              className="group inline-flex items-center gap-3 rounded-none border border-paper bg-paper px-9 py-3.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-ink transition duration-500 hover:bg-transparent hover:text-paper"
-            >
-              Shop now
-              <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
-            </Link>
-            <Link
-              to="/consultation"
-              className="group inline-flex items-center gap-2.5 rounded-none border border-paper/40 px-8 py-3.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-paper transition duration-500 hover:border-paper hover:bg-paper/10"
-            >
-              <SparkleIcon className="h-3.5 w-3.5 text-paper/70 transition-transform duration-700 group-hover:rotate-90" />
-              <span>Take the 2-minute skin quiz</span>
-            </Link>
+            {slides[active].ctas.map((cta) => (
+              <Link
+                key={cta.label}
+                to={cta.to}
+                className={
+                  cta.variant === "primary"
+                    ? "group inline-flex items-center gap-3 rounded-none border border-paper bg-paper px-9 py-3.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-ink transition duration-500 hover:bg-transparent hover:text-paper"
+                    : "group inline-flex items-center gap-2.5 rounded-none border border-paper/40 px-8 py-3.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-paper transition duration-500 hover:border-paper hover:bg-paper/10"
+                }
+              >
+                {cta.icon === "sparkle" && (
+                  <SparkleIcon className="h-3.5 w-3.5 text-paper/70 transition-transform duration-700 group-hover:rotate-90" />
+                )}
+                <span>{cta.label}</span>
+                {cta.icon === "arrow" && (
+                  <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
+                )}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
