@@ -79,11 +79,6 @@ const ingredients = [
 
 
 
-const reviews = [
-  { name: "Lara · Carlton VIC", quote: "Genuinely changed my skin in three weeks. The advisor reply email helped me build a routine I actually stick to." },
-  { name: "Priya · Brunswick VIC", quote: "Ordered at 11am, in my hands by 4pm next day. Authentic batch codes, sealed exactly as expected." },
-  { name: "Emma · Richmond VIC", quote: "Skin Grocer is the only AU retailer I trust for Beauty of Joseon. The provenance card is such a nice touch." },
-];
 
 function HomePage() {
   return (
@@ -105,7 +100,7 @@ function HomePage() {
       <RitualCTA />
       <Reveal><LearnStrip /></Reveal>
       <SeoulSignalStrip />
-      <Reveal><ReviewsCarousel /></Reveal>
+      <Reveal><CustomerNotes /></Reveal>
 
       <FaqSection
         id="k-beauty-faq"
@@ -1125,47 +1120,73 @@ function RitualCTA() {
 }
 
 
-function ReviewsCarousel() {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setI((x) => (x + 1) % reviews.length), 5500);
-    return () => clearInterval(t);
-  }, []);
+function CustomerNotes() {
+  const prompts = [
+    {
+      n: "01",
+      title: "WHAT THEY BOUGHT",
+      line: "The exact product or routine they used.",
+    },
+    {
+      n: "02",
+      title: "THEIR SKIN CONTEXT",
+      line: "Useful details such as skin type or the concern they were shopping for — when the reviewer chooses to share them.",
+    },
+    {
+      n: "03",
+      title: "THEIR EXPERIENCE",
+      line: "What worked for them, what didn’t, and how the product fitted into real life.",
+    },
+  ];
+
   return (
-    <section className="bg-sand">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:items-center">
+    <section className="bg-sand" aria-labelledby="customer-notes-heading">
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:items-start md:gap-16">
         <div className="md:col-span-5">
-          <p className="eyebrow eyebrow-rule text-clay">Customer Notes</p>
-          <h2 className="display-section mt-4 text-ink">
-            Real feedback from <span className="italic text-hanbok-deep">real customers.</span>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
+            CUSTOMER NOTES
+          </p>
+          <h2
+            id="customer-notes-heading"
+            className="mt-4 max-w-2xl font-display text-4xl leading-tight text-ink md:text-[2.75rem]"
+          >
+            The details that help someone else decide.
           </h2>
-          <p className="mt-5 text-ink/70">From real customers across Melbourne, Sydney and beyond.</p>
-          <Link to="/reviews" className="mt-8 inline-flex text-sm font-medium text-primary underline-grow">
-            Read all reviews →
-          </Link>
+          <p className="mt-5 max-w-xl text-ink/70">
+            The most useful skincare reviews are specific — what someone bought, how it fitted into their routine and what their skin was like before they tried it.
+          </p>
         </div>
-        <div className="relative md:col-span-7">
-          <div className="rounded-3xl border border-border bg-paper p-10 shadow-[0_30px_60px_-40px_rgba(46,63,110,0.3)]">
-            <p className="font-display text-2xl leading-snug text-ink md:text-3xl">
-              "{reviews[i].quote}"
-            </p>
-            <p className="mt-6 text-[11px] uppercase tracking-[0.22em] text-clay">{reviews[i].name}</p>
-          </div>
-          <div className="mt-6 flex gap-2">
-            {reviews.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setI(idx)}
-                className={`h-1 rounded-full transition-all ${idx === i ? "w-10 bg-hanbok" : "w-4 bg-ink/15"}`}
-                aria-label={`Review ${idx + 1}`}
-              />
+
+        <div className="md:col-span-7">
+          <ul className="border-t border-border">
+            {prompts.map((p) => (
+              <li
+                key={p.title}
+                className="border-b border-border py-6 md:py-7"
+              >
+                <div className="flex items-baseline gap-4 md:gap-5">
+                  <span className="font-display text-xs italic text-ink/30">
+                    {p.n}
+                  </span>
+                  <div>
+                    <p className="font-display text-sm uppercase tracking-[0.14em] text-ink">
+                      {p.title}
+                    </p>
+                    <p className="mt-1 text-sm text-ink/60">{p.line}</p>
+                  </div>
+                </div>
+              </li>
             ))}
-          </div>
+          </ul>
+          <p className="mt-6 text-[11px] uppercase tracking-[0.16em] text-ink/50">
+            Verified customer feedback will appear here as it is collected.
+          </p>
         </div>
       </div>
     </section>
   );
 }
+
 
 function NewsletterStrip() {
   return (
