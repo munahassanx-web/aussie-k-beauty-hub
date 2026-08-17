@@ -11,6 +11,13 @@ import localDispatch from "@/assets/hero-slides/local-dispatch.jpg";
 type Align = "center" | "left" | "right";
 type Vertical = "center" | "top" | "bottom";
 
+type CTA = {
+  label: string;
+  to: string;
+  variant: "primary" | "secondary";
+  icon?: "arrow" | "sparkle";
+};
+
 type Slide = {
   type: "video" | "image";
   src: string;
@@ -18,6 +25,7 @@ type Slide = {
   headline: string;
   body: string;
   durationMs: number;
+  ctas: CTA[];
   headlineClass?: string;
   bodyClass?: string;
   /** Art direction: where the type sits relative to the subject (md+ only) */
