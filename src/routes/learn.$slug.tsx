@@ -9,7 +9,7 @@ export const Route = createFileRoute("/learn/$slug")({
       queryKey: ["ingredient", params.slug],
       queryFn: () => fetchIngredientBySlug(params.slug),
     }),
-  head: ({ loaderData }) => {
+  head: ({ params, loaderData }) => {
     if (!loaderData) {
       return {
         meta: [
