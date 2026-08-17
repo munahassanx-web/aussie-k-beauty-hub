@@ -126,6 +126,7 @@ const slides: Slide[] = [
     vertical: "bottom",
     scrimClass: "bg-gradient-to-tr from-ink/78 via-ink/25 to-transparent",
   },
+];
 
 const alignMap: Record<Align, string> = {
   center: "md:items-center md:text-center md:self-center",
