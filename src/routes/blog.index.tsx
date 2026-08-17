@@ -13,13 +13,32 @@ import issue05 from "@/assets/issues/issue-05-pigmentation.jpg";
 import issue06 from "@/assets/issues/issue-06-undiscovered.jpg";
 
 const issueCovers: Record<string, { src: string; alt: string }> = {
-  "01": { src: issue01, alt: "Macro droplet of clear hydrating serum beading on cool glass" },
-  "02": { src: issue02, alt: "Translucent lipid layers illustrating an intact skin barrier" },
-  "03": { src: issue03, alt: "Woman pressing moisturiser into her cheek in morning light" },
-  "04": { src: issue04, alt: "Pink ampoule fluid drawing into fine strands on a lab slide" },
-  "05": { src: issue05, alt: "Close crop of sun pigmentation and freckles in hard sunlight" },
-  "06": { src: issue06, alt: "Neon-lit Seoul side street at dusk with hangul signage" },
+  "01": {
+    src: issue01,
+    alt: "TORRIDEN Dive In Serum and ROUND LAB 1025 Dokdo Toner on wet stone with hyaluronic gel and water droplets",
+  },
+  "02": {
+    src: issue02,
+    alt: "AESTURA Atobarrier365 Cream and WELLAGE Real Hyaluronic Soothing Cream beside a ceramide cream swatch",
+  },
+  "03": {
+    src: issue03,
+    alt: "Round Lab toner, Torriden Dive In Soothing Cream and Dr.G soothing foam lined up as a four-step routine",
+  },
+  "04": {
+    src: issue04,
+    alt: "WELLAGE Hyper PDRN Repair Ampoule and MEDICUBE PDRN Pink Peptide Eye Cream with pink ampoule fluid on a lab slide",
+  },
+  "05": {
+    src: issue05,
+    alt: "Beauty of Joseon Glow Serum and Isntree Green Tea Fresh Toner in hard sunlight with green tea leaves and propolis honeycomb",
+  },
+  "06": {
+    src: issue06,
+    alt: "S.NATURE, beplain and AESTURA creams on concrete with fresh centella leaves and squalane oil drops",
+  },
 };
+
 
 /** "The Hydration Issue" → "hydration" — a Nudie-style lowercase topic tag. */
 function categoryOf(theme: string) {
