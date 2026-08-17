@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { Link } from "@tanstack/react-router";
-import heroVideo from "@/assets/hero-video.mp4.asset.json";
+import brandMoment from "@/assets/hero-slides/brand-moment.jpg";
 import notStocked from "@/assets/hero-slides/not-stocked.jpg";
 import authenticityCheck from "@/assets/hero-slides/authenticity-check.jpg";
 import overwhelmed from "@/assets/hero-slides/overwhelmed.jpg";
