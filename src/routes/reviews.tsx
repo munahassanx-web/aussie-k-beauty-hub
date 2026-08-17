@@ -49,7 +49,7 @@ async function fetchApproved() {
 }
 
 function productLabel(id: string) {
-  const p = getProduct?.(id);
+  const p = SHOP_PRODUCTS.find((x) => x.priceId === id);
   if (!p) return id;
   return `${p.brand} ${p.name}`;
 }
