@@ -171,6 +171,21 @@ function AnnouncementBar() {
 }
 
 export function SiteHeader() {
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const { user } = useAuth();
+  const cart = useCart();
+
+  const closeMenus = () => {
+    setOpenMenu(null);
+    setMobileOpen(false);
+  };
+
+  return (
+    <header className="sticky top-0 z-50">
+      <AnnouncementBar />
+      {/* Main nav */}
       <div
         className="border-b border-border/60 bg-background/95 backdrop-blur"
         onMouseLeave={() => setOpenMenu(null)}
