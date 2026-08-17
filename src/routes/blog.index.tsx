@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Reveal } from "@/components/reveal";
 import { NewsletterForm } from "@/components/newsletter-form";
-import { newsletterIssues, upcomingIssues } from "@/lib/newsletter-issues";
+import { newsletterIssues } from "@/lib/newsletter-issues";
 import { listPublishedIssues } from "@/lib/published-issues.functions";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import issue01 from "@/assets/issues/issue-01-hydration.jpg";
@@ -77,8 +77,6 @@ export const Route = createFileRoute("/blog/")({
 function BlogIndex() {
   const { published } = Route.useLoaderData();
   const posts = useMemo(() => [...published, ...newsletterIssues], [published]);
-  const liveNumbers = new Set(posts.map((i) => i.number));
-  const upcoming = upcomingIssues.filter((i) => !liveNumbers.has(i.number));
 
   const categories = useMemo(
     () => Array.from(new Set(posts.map((p) => categoryOf(p.theme)))),
@@ -201,27 +199,6 @@ function BlogIndex() {
             </Reveal>
           ))}
 
-          {upcoming.map((u) => (
-            <div key={u.number} className="flex h-full flex-col opacity-80">
-              <div className="aspect-[4/3] overflow-hidden rounded-sm">
-                <img
-                  src={issueCovers[u.number]?.src}
-                  alt={issueCovers[u.number]?.alt ?? u.title}
-                  loading="lazy"
-                  className="h-full w-full object-cover grayscale-[45%]"
-                />
-              </div>
-              <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-                {categoryOf(u.theme)} · coming soon
-              </p>
-              <h3 className="mt-2 font-display text-[24px] leading-[1.15] text-foreground/70">
-                {u.title}
-              </h3>
-              <p className="mt-3 text-[13px] leading-relaxed text-foreground/55">
-                In the works. Hero products: {u.heroes}.
-              </p>
-            </div>
-          ))}
         </div>
       </section>
 
