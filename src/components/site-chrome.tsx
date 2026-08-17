@@ -170,6 +170,7 @@ export function SiteHeader() {
   const closeMenus = () => {
     setOpenMenu(null);
     setMobileOpen(false);
+    setMobileSection(null);
   };
 
   return (
