@@ -5,6 +5,8 @@ import { WishlistButton } from '@/components/wishlist-button';
 import { Maximize2 as ExpandIcon } from 'lucide-react';
 import { ImageLightbox } from '@/components/image-lightbox';
 import { IngredientPanel } from '@/components/ingredient-panel';
+import { ProductAccordion } from '@/components/product-accordion';
+import { ProductCard, productSize } from '@/components/product-card';
 
 import { ProductReviews } from '@/components/product-reviews';
 import { FaqSection } from '@/components/faq-section';
@@ -259,6 +261,7 @@ function ProductPage() {
   const ingredients = heroIngredients(product);
   const restockId = restockPriceIdFor(product.priceId);
   const related = relatedProducts(product);
+  const size = productSize(product);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
@@ -282,7 +285,7 @@ function ProductPage() {
           onMouseLeave={() => setHovered(false)}
           onFocus={() => setHovered(true)}
           onBlur={() => setHovered(false)}
-          className="rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+          className="lg:sticky lg:top-24 rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
         >
           <div
             ref={stageRef}
@@ -454,24 +457,23 @@ function ProductPage() {
 
 
         {/* Buy box */}
-        <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{product.brand}</p>
-          <h1 className="mt-2 font-display text-4xl text-foreground">{product.name}</h1>
-          <p className="mt-3 text-xs uppercase tracking-[0.18em] text-primary">
-            {routineStepLabel(product)}
+        <div className="lg:pt-4">
+          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">{product.brand}</p>
+          <h1 className="mt-3 font-display text-[2.1rem] leading-tight text-foreground md:text-[2.6rem]">
+            {product.name}
+          </h1>
+
+          <div className="mt-4 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-sm">
+            <span className="text-xl tabular-nums text-foreground">{product.price} AUD</span>
+            {size && <span className="text-muted-foreground">{size}</span>}
+            <span className="text-xs uppercase tracking-[0.18em] text-primary">
+              {routineStepLabel(product)}
+            </span>
+          </div>
+
+          <p className="mt-6 text-[0.95rem] leading-relaxed text-muted-foreground">
+            {productDescription(product)}
           </p>
-          <p className="mt-5 text-2xl text-foreground">{product.price} AUD</p>
-
-          {product.name.match(/\b\d+(?:\.\d+)?\s?(?:ml|g)\b/i)?.[0] && (
-            <p className="mt-2 text-sm text-foreground/85">
-              <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                Size ·{' '}
-              </span>
-              {product.name.match(/\b\d+(?:\.\d+)?\s?(?:ml|g)\b/i)?.[0]}
-            </p>
-          )}
-
-          <p className="mt-5 text-muted-foreground">{productDescription(product)}</p>
 
           {productTexture(product) && (
             <p className="mt-4 text-sm text-foreground/85">
@@ -482,42 +484,38 @@ function ProductPage() {
             </p>
           )}
 
-          <ul className="mt-6 space-y-2">
-            {productBenefits(product).map((b) => (
-              <li key={b} className="flex gap-2 text-sm text-foreground/85">
-                <span className="text-primary">—</span>
-                {b}
-              </li>
-            ))}
-          </ul>
-
-
           <div className="mt-8 space-y-3">
             {product.comingSoon ? (
-              <div className="rounded-2xl border border-border bg-secondary/60 px-6 py-5 text-center">
-                <p className="text-sm font-medium text-foreground">Arriving soon · {product.price}</p>
+              <div className="border border-border px-6 py-5 text-center">
+                <p className="text-sm font-medium text-foreground">
+                  Arriving soon · {product.price}
+                </p>
                 <p className="mt-1 text-xs text-muted-foreground">
                   On its way to our Melbourne warehouse. Not available to order yet.
                 </p>
               </div>
             ) : (
-            <button
-              onClick={() =>
-                buy({ priceId: product.priceId, name: product.name, priceLabel: `${product.price} AUD` })
-              }
-              className="w-full rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-            >
-              Add to basket · {product.price}
-            </button>
+              <button
+                onClick={() =>
+                  buy({
+                    priceId: product.priceId,
+                    name: product.name,
+                    priceLabel: `${product.price} AUD`,
+                  })
+                }
+                className="min-h-14 w-full rounded-full bg-primary px-7 text-sm font-medium tracking-wide text-primary-foreground transition-opacity hover:opacity-90"
+              >
+                Add to bag · {product.price}
+              </button>
             )}
             {!product.comingSoon && restockId && (
               <button
                 onClick={() =>
                   buy({ priceId: restockId, name: product.name, priceLabel: `${product.price} AUD` })
                 }
-                className="w-full rounded-full border border-border px-7 py-3 text-xs uppercase tracking-wider text-foreground hover:bg-secondary"
+                className="min-h-12 w-full rounded-full border border-border px-7 text-xs uppercase tracking-wider text-foreground hover:bg-secondary"
               >
-                Subscribe & save 15%
+                Restock monthly · save 15%
               </button>
             )}
             <WishlistButton
@@ -527,57 +525,165 @@ function ProductPage() {
             />
           </div>
 
-          <p className="mt-4 text-xs text-muted-foreground">
-            Free shipping over A$80 · Melbourne metro next business day (order by 12pm AEST);
-            regional and remote postcodes take 1–5 extra days.
+          <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
+            Dispatched from our Melbourne warehouse · Free shipping over A$80 ·{' '}
+            <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-foreground">
+              Shipping &amp; returns
+            </Link>
           </p>
         </div>
       </div>
 
-      {/* Ingredients */}
-      <section className="mt-16 border-t border-border pt-10">
-        <IngredientPanel ingredients={ingredients} />
-
-        {productInci(product) ? (
-          <details className="mt-6 rounded-2xl border border-border p-5">
-            <summary className="cursor-pointer text-xs uppercase tracking-[0.18em] text-muted-foreground">
-              Full ingredient list (INCI)
-            </summary>
-            <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-              {productInci(product)}
-            </p>
-            <p className="mt-3 text-[11px] text-muted-foreground">
-              Formulas can change without notice — always check the carton before use.
-            </p>
-          </details>
-        ) : (
-          <p className="mt-4 text-xs text-muted-foreground">
-            Hero ingredients only. The full INCI list is printed on the carton of every product we
-            ship — ask us at hello@skingrocer.com.au if you need it before you buy.
-          </p>
-        )}
-
-      </section>
-
-      {/* How to use */}
-      <section className="mt-14 border-t border-border pt-10">
-        <h2 className="font-display text-2xl text-foreground">How to use it</h2>
-        <ol className="mt-5 space-y-3">
-          {howToUse(product).map((step, i) => (
-            <li key={step} className="flex gap-4 text-sm text-foreground/85">
-              <span className="font-display text-primary">{i + 1}</span>
-              {step}
-            </li>
-          ))}
-        </ol>
-        <Link
-          to="/guide/$productId"
-          params={{ productId: product.priceId }}
-          className="mt-5 inline-block text-xs uppercase tracking-wider text-primary hover:underline"
-        >
-          Full application guide →
-        </Link>
-      </section>
+      {/* Details — vertically scannable, mobile-first */}
+      <div className="mt-16 max-w-3xl">
+        <ProductAccordion
+          items={[
+            {
+              id: 'suits',
+              title: 'Why it may suit you',
+              defaultOpen: true,
+              content: (
+                <div className="space-y-5">
+                  <ul className="space-y-2">
+                    {productBenefits(product).map((b) => (
+                      <li key={b} className="flex gap-3 text-sm text-foreground/85">
+                        <span aria-hidden="true" className="text-primary">
+                          —
+                        </span>
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-xs text-muted-foreground">
+                    Guidance only, based on the brand's stated formulation — not medical advice or a
+                    guaranteed outcome.
+                  </p>
+                </div>
+              ),
+            },
+            {
+              id: 'how',
+              title: 'How to use',
+              defaultOpen: true,
+              content: (
+                <div>
+                  <ol className="space-y-3">
+                    {howToUse(product).map((stepText, i) => (
+                      <li key={stepText} className="flex gap-4 text-sm text-foreground/85">
+                        <span className="font-display text-primary">{i + 1}</span>
+                        {stepText}
+                      </li>
+                    ))}
+                  </ol>
+                  <Link
+                    to="/guide/$productId"
+                    params={{ productId: product.priceId }}
+                    className="mt-5 inline-block text-xs uppercase tracking-wider text-primary hover:underline"
+                  >
+                    Full application guide →
+                  </Link>
+                </div>
+              ),
+            },
+            {
+              id: 'ingredients',
+              title: 'Key ingredients',
+              content: (
+                <div>
+                  <IngredientPanel ingredients={ingredients} />
+                  {productInci(product) ? (
+                    <div className="mt-6 border-t border-border pt-5">
+                      <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                        Full ingredient list (INCI)
+                      </p>
+                      <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                        {productInci(product)}
+                      </p>
+                      <p className="mt-3 text-[11px] text-muted-foreground">
+                        Formulas can change without notice — always check the carton before use.
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="mt-6 border-t border-border pt-5 text-xs text-muted-foreground">
+                      Hero ingredients only. The full INCI list is printed on the carton of every
+                      product we ship — ask us at hello@skingrocer.com.au if you need it before you
+                      buy.
+                    </p>
+                  )}
+                </div>
+              ),
+            },
+            {
+              id: 'routine',
+              title: 'Where it sits in a routine',
+              content: (
+                <div className="space-y-3 text-sm text-foreground/85">
+                  <p>
+                    {routineStepLabel(product)} — layer it in that order with the rest of your
+                    routine.
+                  </p>
+                  <p className="text-muted-foreground">
+                    Not sure how the steps stack up?{' '}
+                    <Link to="/journey" className="underline underline-offset-4 hover:text-foreground">
+                      See how a Korean routine layers
+                    </Link>{' '}
+                    or{' '}
+                    <Link
+                      to="/consultation"
+                      className="underline underline-offset-4 hover:text-foreground"
+                    >
+                      take the 2-minute skin quiz
+                    </Link>
+                    .
+                  </p>
+                </div>
+              ),
+            },
+            {
+              id: 'authenticity',
+              title: 'Authenticity & sourcing',
+              content: (
+                <div className="space-y-3 text-sm text-foreground/85">
+                  <p>
+                    Sourced through verified brand channels in Korea and held in our Melbourne
+                    warehouse — the same batch you'd buy in Seoul.
+                  </p>
+                  <p className="text-muted-foreground">
+                    Every order includes product-specific application guidance, and each product page
+                    links to its printable guide.
+                  </p>
+                </div>
+              ),
+            },
+            {
+              id: 'shipping',
+              title: 'Shipping & returns',
+              content: (
+                <div className="space-y-3 text-sm text-foreground/85">
+                  <p>Dispatched from Melbourne. Free standard shipping on orders over A$80.</p>
+                  <p className="text-muted-foreground">
+                    Full details in our{' '}
+                    <Link
+                      to="/shipping-policy"
+                      className="underline underline-offset-4 hover:text-foreground"
+                    >
+                      shipping policy
+                    </Link>{' '}
+                    and{' '}
+                    <Link
+                      to="/returns-policy"
+                      className="underline underline-offset-4 hover:text-foreground"
+                    >
+                      returns policy
+                    </Link>
+                    .
+                  </p>
+                </div>
+              ),
+            },
+          ]}
+        />
+      </div>
 
       <FaqSection
         id="product-faq"
@@ -595,30 +701,17 @@ function ProductPage() {
       {related.length > 0 && (
         <section className="mt-14 border-t border-border pt-10">
           <h2 className="font-display text-2xl text-foreground">Pairs well with</h2>
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <p className="mt-2 text-sm text-muted-foreground">
+            Same brand or built for the same concern.
+          </p>
+          <div className="mt-8 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
             {related.map((r) => (
-              <Link
-                key={r.priceId}
-                to="/product/$slug"
-                params={{ slug: productSlug(r) }}
-                className="group"
-              >
-                <div className="aspect-square overflow-hidden rounded-2xl bg-secondary">
-                  <img
-                    src={r.image}
-                    alt={r.name}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <p className="mt-3 text-xs uppercase tracking-wider text-muted-foreground">{r.brand}</p>
-                <p className="mt-1 font-display text-base text-foreground">{r.name}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{r.price}</p>
-              </Link>
+              <ProductCard key={r.priceId} product={r} compact />
             ))}
           </div>
         </section>
       )}
+
     </div>
   );
 }
