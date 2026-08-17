@@ -483,7 +483,7 @@ export function SiteFooter() {
             <li><Link to="/blog" className="hover:text-paper">Blog</Link></li>
             <li><Link to="/learn" className="hover:text-paper">Ingredients A–Z</Link></li>
             <li><Link to="/about" className="hover:text-paper">About Us</Link></li>
-            <li><Link to="/reviews" className="hover:text-paper">Reviews</Link></li>
+            
             <li><Link to="/contact" className="hover:text-paper">Contact</Link></li>
             <li><Link to="/faq" className="hover:text-paper">FAQ</Link></li>
             <li><Link to="/track" className="hover:text-paper">Track your order</Link></li>
