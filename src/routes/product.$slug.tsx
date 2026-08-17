@@ -5,6 +5,8 @@ import { WishlistButton } from '@/components/wishlist-button';
 import { Maximize2 as ExpandIcon } from 'lucide-react';
 import { ImageLightbox } from '@/components/image-lightbox';
 import { IngredientPanel } from '@/components/ingredient-panel';
+import { ProductAccordion } from '@/components/product-accordion';
+import { ProductCard, productSize } from '@/components/product-card';
 
 import { ProductReviews } from '@/components/product-reviews';
 import { FaqSection } from '@/components/faq-section';
@@ -259,6 +261,7 @@ function ProductPage() {
   const ingredients = heroIngredients(product);
   const restockId = restockPriceIdFor(product.priceId);
   const related = relatedProducts(product);
+  const size = productSize(product);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
