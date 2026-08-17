@@ -1,6 +1,6 @@
 import { NewsletterForm } from "@/components/newsletter-form";
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/lib/cart";
 import { ProductSearchOverlay } from "@/components/product-search";
@@ -96,11 +96,79 @@ const megaMenus: Record<string, MegaSection[]> = {
 };
 
 const announcements = [
-  "Next-day Melbourne dispatch on orders before 12pm* — see footer",
   "Free express AU shipping over $80",
-  "Authenticity guaranteed — sourced direct from Korea",
-  "30-day glow-or-refund guarantee on every order",
+  "Authenticity guaranteed",
+  "Dispatched from Australia",
 ];
+
+function AnnouncementBar() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion || announcements.length <= 1 || paused) return;
+    const id = setInterval(() => setActive((i) => (i + 1) % announcements.length), 7000);
+    return () => clearInterval(id);
+  }, [prefersReducedMotion, paused]);
+
+  return (
+    <div
+      className="border-b border-primary-foreground/10 bg-primary text-primary-foreground"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div className="mx-auto max-w-7xl px-6 py-2">
+        {/* Desktop: all three trust messages in a calm, spaced row */}
+        <div className="hidden items-center justify-center md:flex">
+          {announcements.map((msg, i) => (
+            <span key={msg} className="flex items-center">
+              <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-primary-foreground/90">
+                {msg}
+              </span>
+              {i < announcements.length - 1 && (
+                <span className="mx-8 text-[11px] text-primary-foreground/40" aria-hidden="true">·</span>
+              )}
+            </span>
+          ))}
+        </div>
+
+        {/* Mobile: rotate one message at a time with a gentle fade */}
+        <div className="relative h-4 md:hidden">
+          {announcements.map((msg, i) => (
+            <span
+              key={msg}
+              className={`absolute inset-0 flex items-center justify-center text-[11px] font-medium uppercase tracking-[0.2em] text-primary-foreground/90 transition-all duration-700 ease-out ${
+                i === active ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-1"
+              }`}
+              aria-hidden={i !== active}
+            >
+              {msg}
+            </span>
+          ))}
+          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center gap-1.5" aria-hidden="true">
+            {announcements.map((_, i) => (
+              <span
+                key={i}
+                className={`h-px rounded-full transition-all duration-300 ${
+                  i === active ? "w-4 bg-primary-foreground/60" : "w-2 bg-primary-foreground/25"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -116,18 +184,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50">
-      {/* Top announcement bar */}
-      <div className="overflow-hidden bg-primary py-2 text-xs text-primary-foreground">
-        <div className="flex animate-marquee whitespace-nowrap">
-          {[...announcements, ...announcements].map((a, i) => (
-            <span key={i} className="mx-8 inline-flex items-center gap-3 uppercase tracking-[0.22em]">
-              <span className="h-1 w-1 rounded-full bg-accent" />
-              {a}
-            </span>
-          ))}
-        </div>
-      </div>
-
+      <AnnouncementBar />
       {/* Main nav */}
       <div
         className="border-b border-border/60 bg-background/95 backdrop-blur"
