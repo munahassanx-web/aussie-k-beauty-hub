@@ -199,16 +199,13 @@ function Checkout() {
         </p>
       )}
       <div className="mt-4 border-t border-border pt-4">
-        <Link
-          to="/checkout"
-          onClick={(e) => {
-            e.preventDefault();
-            cart.setOpen(true);
-          }}
+        <button
+          type="button"
+          onClick={() => cart.setOpen(true)}
           className="text-xs uppercase tracking-[0.16em] text-muted-foreground underline-offset-4 transition hover:text-foreground hover:underline"
         >
           Edit basket
-        </Link>
+        </button>
       </div>
     </>
   );
