@@ -42,13 +42,13 @@ const slides: Slide[] = [
     // Brand slide — symmetrical, centred, the campaign's anchor
     type: "video" as const,
     src: heroVideo.url,
-    eyebrow: "Melbourne · Authentic Korean skincare",
-    headline: "skin grocer",
-    body: "K-beauty for your skin — and your postcode.",
+    eyebrow: "MELBOURNE · AUTHENTIC KOREAN SKINCARE",
+    headline: "SKINCARE, CURATED DIFFERENTLY.",
+    body: "The Korean skincare worth knowing — selected for your skin, not the hype.",
     durationMs: 7000,
     ctas: [
-      { label: "Discover skingrocer", to: "/about", variant: "primary", icon: "arrow" },
-      { label: "Shop the edit", to: "/shop", variant: "secondary", icon: "arrow" },
+      { label: "EXPLORE THE EDIT", to: "/shop", variant: "primary", icon: "arrow" },
+      { label: "FIND YOUR ROUTINE", to: "/consultation", variant: "secondary", icon: "arrow" },
     ],
     headlineClass: "hero-headline-xl max-w-3xl",
     bodyClass: "max-w-md",
@@ -57,81 +57,77 @@ const slides: Slide[] = [
     navLabel: "SKIN GROCER",
   },
   {
-    // Vanity still life: bottles sit right of centre — type occupies the empty
-    // sunlit wall on the left, above the folded towel.
+    // Local access: Seoul shelf edit, type sits in the left negative space
     type: "image" as const,
     src: notStocked,
-    eyebrow: "What you can't find locally",
-    headline: "Mecca doesn't stock it.",
-    body: "The Seoul shelf edit, brought to Australia.",
+    eyebrow: "SEOUL → MELBOURNE",
+    headline: "SEOUL BEAUTY. CLOSER THAN YOU THINK.",
+    body: "Korean skincare discoveries, dispatched locally across Australia.",
     durationMs: 7000,
     ctas: [
-      { label: "Discover the Seoul edit", to: "/shop", variant: "primary", icon: "arrow" },
+      { label: "DISCOVER K-BEAUTY", to: "/shop", variant: "primary", icon: "arrow" },
     ],
     headlineClass: "hero-headline-lg max-w-[13ch]",
     bodyClass: "max-w-sm",
     align: "left",
     vertical: "center",
     scrimClass: "bg-gradient-to-r from-ink/70 via-ink/25 to-transparent",
-    navLabel: "DISCOVERY",
+    navLabel: "LOCAL ACCESS",
   },
   {
-    // Hands holding the Medicube box fill the lower-left third — type drops to
-    // the calm upper-right negative space so nothing covers the packaging.
+    // Routine guidance: hands holding product in lower-left, type takes upper-right
     type: "image" as const,
     src: authenticityCheck,
-    eyebrow: "Why authenticity matters",
-    headline: "Amazon might not be real.",
-    body: "Batch-checked. Sealed. Authorised.",
+    eyebrow: "YOUR ROUTINE, SIMPLIFIED",
+    headline: "SKINCARE SHOULDN'T FEEL COMPLICATED.",
+    body: "We make Korean skincare easier to understand — step by step, skin by skin.",
     durationMs: 7000,
     ctas: [
-      { label: "Our authenticity promise", to: "/about", variant: "primary", icon: "arrow" },
+      { label: "BUILD YOUR ROUTINE", to: "/consultation", variant: "primary", icon: "arrow" },
+      { label: "TAKE THE SKIN QUIZ", to: "/consultation", variant: "secondary", icon: "sparkle" },
     ],
     headlineClass: "hero-headline-lg max-w-[13ch]",
     bodyClass: "max-w-xs",
     align: "right",
     vertical: "top",
     scrimClass: "bg-gradient-to-bl from-ink/70 via-ink/25 to-transparent",
-    navLabel: "AUTHENTICITY",
+    navLabel: "ROUTINE GUIDANCE",
   },
   {
-    // Portrait: her face and the serum live left of centre — type sits right,
-    // clear of the face, reading against the soft mirror reflection.
+    // Authenticity: portrait with product left-of-centre, type sits right
     type: "image" as const,
     src: overwhelmed,
-    eyebrow: "How to use it",
-    headline: "Ten steps, no instructions.",
-    body: "Korean routines, translated into plain English.",
+    eyebrow: "AUTHENTICITY, ALWAYS",
+    headline: "KNOW WHAT'S TOUCHING YOUR SKIN.",
+    body: "Authentic skincare. Carefully sourced. Batch-checked. No guesswork.",
     durationMs: 7000,
     ctas: [
-      { label: "Build your routine", to: "/consultation", variant: "primary", icon: "arrow" },
-      { label: "Take the skin quiz", to: "/consultation", variant: "secondary", icon: "sparkle" },
+      { label: "OUR AUTHENTICITY PROMISE", to: "/about", variant: "primary", icon: "arrow" },
     ],
     headlineClass: "hero-headline-lg max-w-[13ch]",
     bodyClass: "max-w-sm",
     align: "right",
     vertical: "center",
     scrimClass: "bg-gradient-to-l from-ink/72 via-ink/28 to-transparent",
-    navLabel: "ROUTINES",
+    navLabel: "AUTHENTICITY",
   },
   {
-    // Packing shot: the box and hands sit centre-high — type takes the lower-left
-    // linen, generous negative space above it.
+    // Discovery: packing shot, type takes lower-left
     type: "image" as const,
     src: localDispatch,
-    eyebrow: "From Melbourne, not Seoul",
-    headline: "No shipping from Seoul.",
-    body: "Next-day VIC. Express Australia-wide.",
+    eyebrow: "THE SEOUL EDIT",
+    headline: "BEYOND THE BEAUTY SHELF.",
+    body: "Discover the Korean skincare worth knowing before everyone else does.",
     durationMs: 7000,
     ctas: [
-      { label: "Shop K-beauty", to: "/shop", variant: "primary", icon: "arrow" },
+      { label: "DISCOVER THE SEOUL EDIT", to: "/shop", variant: "primary", icon: "arrow" },
     ],
     headlineClass: "hero-headline-lg max-w-[13ch]",
     bodyClass: "max-w-sm",
     align: "left",
     vertical: "bottom",
     scrimClass: "bg-gradient-to-tr from-ink/78 via-ink/25 to-transparent",
-    navLabel: "LOCAL DELIVERY",
+    navLabel: "DISCOVERY",
   },
 
 ];
