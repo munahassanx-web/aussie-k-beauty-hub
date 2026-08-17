@@ -61,13 +61,13 @@ const categories: {
 
 
 
-const concerns: { name: string; desc: string; color: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier" }[] = [
-  { name: "Hydration & Glow", desc: "Plump, dewy, glass-skin finish", color: "from-hanbok/15", slug: "hydration" },
-  { name: "Acne & Breakouts", desc: "Calm congestion, balance oil", color: "from-clay/20", slug: "acne" },
-  { name: "Pigmentation", desc: "Brighten and even skin tone", color: "from-sand-deep/40", slug: "pigmentation" },
-  { name: "Sensitivity", desc: "Repair and soothe the barrier", color: "from-hanbok/10", slug: "sensitivity" },
-  { name: "Anti-Ageing", desc: "Firmness, elasticity & wrinkle care", color: "from-clay/15", slug: "anti-aging" },
-  { name: "Barrier Repair", desc: "Rebuild a compromised skin barrier", color: "from-sand-deep/30", slug: "barrier" },
+const concerns: { name: string; desc: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier" }[] = [
+  { name: "Hydration & Glow", desc: "For skin that feels dry, tight or simply wants more moisture.", slug: "hydration" },
+  { name: "Blemish-Prone", desc: "A simpler edit for skin that often looks congested or shiny.", slug: "acne" },
+  { name: "Uneven-Looking Tone", desc: "For a routine focused on a brighter, more even-looking finish.", slug: "pigmentation" },
+  { name: "Easily Unsettled", desc: "Gentle-feeling choices for skin that prefers a quieter routine.", slug: "sensitivity" },
+  { name: "Firmness & Fine Lines", desc: "For routines centred on hydration and a smoother-looking finish.", slug: "anti-aging" },
+  { name: "Barrier-Focused", desc: "Comforting, moisture-first choices for skin that feels dry or overworked.", slug: "barrier" },
 ];
 
 
@@ -544,37 +544,40 @@ function Categories() {
 
 function Concerns() {
   return (
-    <section className="bg-sand">
-
-      <div className="mx-auto max-w-7xl px-6 py-24">
-        <div className="grid items-end gap-6 md:grid-cols-2">
-          <div>
-            <p className="eyebrow eyebrow-rule text-clay">Shop by Concern</p>
-            <h2 className="display-section mt-4 text-ink">
-              Tell us your skin.<br />
-              <span className="italic text-hanbok-deep">We'll match the ritual.</span>
-            </h2>
-          </div>
-          <p className="text-base text-ink/70">
-            Every face is different. We use what you tell us about your skin, your climate, and your routine to build a Korean ritual that actually fits you.
+    <section className="bg-paper">
+      <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
+        <div className="max-w-3xl">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
+            SHOP BY WHAT YOU NOTICE
+          </p>
+          <h2 className="display-section mt-4 text-ink">
+            Start with what your skin is asking for.
+          </h2>
+          <p className="mt-5 max-w-2xl text-ink/70">
+            You don't need to know every ingredient or trend. Begin with what you notice day to day, then explore a more considered edit.
           </p>
         </div>
 
-
-        <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {concerns.map((c) => (
+        <div className="mt-16 grid border-l border-t border-border md:grid-cols-2 lg:grid-cols-3">
+          {concerns.map((c, i) => (
             <Link
-              key={c.name}
+              key={c.slug}
               to="/shop"
               search={{ concern: c.slug }}
-              className={`group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br ${c.color} to-paper p-7 lift`}
+              className="group flex flex-col border-b border-r border-border p-6 md:p-8 transition-colors hover:bg-sand/50"
             >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-hanbok-deep">Concern</p>
-              <h3 className="mt-4 font-display text-2xl text-ink">{c.name}</h3>
-              <p className="mt-2 text-sm text-ink/70">{c.desc}</p>
-              <span className="mt-8 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                Shop the edit
-                <span className="transition-transform group-hover:translate-x-1">→</span>
+              <span className="font-display text-xs italic text-ink/30">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-4 font-display text-xl text-ink md:text-2xl">
+                {c.name}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink/60">
+                {c.desc}
+              </p>
+              <span className="mt-auto pt-6 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink transition-colors group-hover:text-hanbok-deep">
+                Explore the edit
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </span>
             </Link>
           ))}
