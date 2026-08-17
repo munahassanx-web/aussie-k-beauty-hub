@@ -14,7 +14,7 @@ export const Route = createFileRoute("/blog/$slug")({
       return { meta: [{ title: "Issue unavailable — Skin Grocer" }, { name: "robots", content: "noindex" }] };
     }
     const { issue } = loaderData;
-    const title = `${issue.title && ""}${issue.title} — Skin Grocer Blog`;
+    const title = `${issue.title} — Skin Grocer Blog`;
     return {
       meta: [
         { title },
