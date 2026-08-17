@@ -1179,20 +1179,3 @@ function CustomerNotes() {
 }
 
 
-function NewsletterStrip() {
-  return (
-    <section className="bg-secondary">
-      <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 px-6 py-20 text-center">
-        <p className="eyebrow eyebrow-rule text-clay">The Skin Grocer Drop</p>
-        <h2 className="display-section text-ink">
-          Restock alerts, routine guides, Seoul intel.
-        </h2>
-        <p className="max-w-xl text-ink/70">
-          New arrivals before they sell through, advisor-built routine notes and
-          the occasional Seoul travel diary. One email a week, no spam.
-        </p>
-        <NewsletterForm source="homepage" />
-      </div>
-    </section>
-  );
-}
