@@ -35,6 +35,7 @@ export const Route = createFileRoute("/learn/hub")({
         content:
           "Prevention over repair. Domestic Korean data over social trends. Ingredients, concerns and routines explained for Australian conditions.",
       },
+      { property: "og:url", content: "https://skingrocer.com.au/learn/hub" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

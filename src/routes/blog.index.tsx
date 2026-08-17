@@ -66,6 +66,7 @@ export const Route = createFileRoute("/blog/")({
         content:
           "Ingredients decoded, Korean trends translated, products tested on real Australian skin. New posts every fortnight.",
       },
+      { property: "og:url", content: "https://skingrocer.com.au/blog" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

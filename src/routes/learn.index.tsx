@@ -40,6 +40,7 @@ export const Route = createFileRoute("/learn/")({
         content:
           "Search and browse every ingredient in our catalog, written for real people — not chemists.",
       },
+      { property: "og:url", content: "https://skingrocer.com.au/learn" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
