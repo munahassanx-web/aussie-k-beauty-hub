@@ -193,9 +193,8 @@ export function SiteHeader() {
                 key={key}
                 className="relative flex items-center gap-1"
                 onMouseEnter={() => { if (dismissed !== key) setOpenMenu(key); }}
-                onMouseLeave={() => setDismissed(null)}
+                onMouseLeave={() => { setDismissed(null); setPinned(null); }}
                 onFocus={() => { if (dismissed !== key) setOpenMenu(key); }}
-              >
                 <Link
                   to={topLevelLinks[key].to}
                   onClick={closeMenus}
@@ -216,11 +215,13 @@ export function SiteHeader() {
                   aria-expanded={openMenu === key}
                   onFocus={() => { if (dismissed !== key) setOpenMenu(key); }}
                   onClick={() => {
-                    if (openMenu === key) {
+                    if (pinned === key) {
                       setOpenMenu(null);
+                      setPinned(null);
                       setDismissed(key);
                     } else {
                       setOpenMenu(key);
+                      setPinned(key);
                       setDismissed(null);
                     }
                   }}
