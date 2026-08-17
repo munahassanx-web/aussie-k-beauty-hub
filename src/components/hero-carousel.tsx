@@ -125,8 +125,8 @@ const slides: Slide[] = [
     headlineClass: "hero-headline-lg max-w-[13ch]",
     bodyClass: "max-w-sm",
     align: "left",
-    vertical: "bottom",
-    scrimClass: "bg-gradient-to-tr from-ink/78 via-ink/25 to-transparent",
+    vertical: "center",
+    scrimClass: "bg-gradient-to-r from-ink/72 via-ink/28 to-transparent",
     navLabel: "DISCOVERY",
   },
 
