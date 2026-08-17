@@ -5,6 +5,11 @@
 import portraitDeep from "@/assets/learn-portrait-deep.jpg";
 import routineFlatlay from "@/assets/learn-routine-flatlay.jpg";
 import signalIssue01Cover from "@/assets/signal-issue-01-cover.jpg";
+import issue02Cover from "@/assets/issues/issue-02-barrier.jpg";
+import issue03Cover from "@/assets/issues/issue-03-routine.jpg";
+import issue04Cover from "@/assets/issues/issue-04-pdrn.jpg";
+import issue05Cover from "@/assets/issues/issue-05-pigmentation.jpg";
+import issue06Cover from "@/assets/issues/issue-06-undiscovered.jpg";
 
 export type IssuePick = {
   name: string;
@@ -93,21 +98,13 @@ export type NewsletterIssue = {
   };
 };
 
-export const upcomingIssues: { number: string; theme: string; title: string; heroes: string }[] = [
-  { number: "02", theme: "The Barrier Issue", title: "Your Skin Barrier Is Not a Trend", heroes: "AESTURA + WELLAGE" },
-  { number: "03", theme: "The Routine Issue", title: "The Korean 10-Step Routine Is Dead", heroes: "Round Lab + Torriden + Dr.G" },
-  { number: "04", theme: "The PDRN Issue", title: "PDRN: Miracle Ingredient or Marketing?", heroes: "WELLAGE" },
-  { number: "05", theme: "The Pigmentation Issue", title: "Why Your Dark Spots Keep Coming Back", heroes: "Isntree + Beauty of Joseon" },
-  { number: "06", theme: "The Undiscovered Issue", title: "The Korean Products Australians Haven't Found Yet", heroes: "S.NATURE + beplain + AESTURA" },
-];
-
 export const newsletterIssues: NewsletterIssue[] = [
   {
     number: "01",
     slug: "why-is-my-skin-so-thirsty",
     title: "Why Is My Skin So Thirsty?",
     theme: "The Hydration Issue",
-    date: "Fortnight of 13 August 2026",
+    date: "Fortnight of 8 June 2026",
     published: true,
     cover: signalIssue01Cover,
     coverAlt:
