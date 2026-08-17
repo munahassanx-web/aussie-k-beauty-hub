@@ -97,15 +97,8 @@ function HomePage() {
       <KoreaRightNow />
       <Reveal><Categories /></Reveal>
       <BrandMarquee />
-      <EditorialBreak
-        eyebrow="Why we exist"
-        quote="Most skincare advice is built for someone else's climate — not yours."
-        attribution="Skin Grocer · Melbourne"
-        linkTo="/about"
-        linkLabel="Read our story"
-        tone="sand"
-      />
       <Reveal><IngredientStrip /></Reveal>
+
       <Reveal><ProvenanceCard /></Reveal>
       <SkinQuizSection />
       <Reveal><BundleOffer /></Reveal>
