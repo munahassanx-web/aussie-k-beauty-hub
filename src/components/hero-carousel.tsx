@@ -11,6 +11,13 @@ import localDispatch from "@/assets/hero-slides/local-dispatch.jpg";
 type Align = "center" | "left" | "right";
 type Vertical = "center" | "top" | "bottom";
 
+type CTA = {
+  label: string;
+  to: string;
+  variant: "primary" | "secondary";
+  icon?: "arrow" | "sparkle";
+};
+
 type Slide = {
   type: "video" | "image";
   src: string;
@@ -18,6 +25,7 @@ type Slide = {
   headline: string;
   body: string;
   durationMs: number;
+  ctas: CTA[];
   headlineClass?: string;
   bodyClass?: string;
   /** Art direction: where the type sits relative to the subject (md+ only) */
@@ -36,6 +44,10 @@ const slides: Slide[] = [
     headline: "skin grocer",
     body: "K-beauty for your skin — and your postcode.",
     durationMs: 2500,
+    ctas: [
+      { label: "Discover skingrocer", to: "/about", variant: "primary", icon: "arrow" },
+      { label: "Shop the edit", to: "/shop", variant: "secondary", icon: "arrow" },
+    ],
     headlineClass: "hero-headline-xl max-w-3xl",
     bodyClass: "max-w-md",
     align: "center",
@@ -50,6 +62,9 @@ const slides: Slide[] = [
     headline: "Mecca doesn't stock it.",
     body: "The Seoul drops you won't find at Mecca.",
     durationMs: 5000,
+    ctas: [
+      { label: "Discover the Seoul edit", to: "/shop", variant: "primary", icon: "arrow" },
+    ],
     headlineClass: "hero-headline-lg max-w-xl",
     bodyClass: "max-w-sm",
     align: "left",
@@ -65,6 +80,9 @@ const slides: Slide[] = [
     headline: "Amazon might not be real.",
     body: "Batch-checked. Sealed. Authorised.",
     durationMs: 5000,
+    ctas: [
+      { label: "Our authenticity promise", to: "/about", variant: "primary", icon: "arrow" },
+    ],
     headlineClass: "hero-headline-sm max-w-lg leading-[1.02] tracking-[-0.03em]",
     bodyClass: "max-w-xs",
     align: "right",
@@ -80,6 +98,10 @@ const slides: Slide[] = [
     headline: "Ten steps, no instructions.",
     body: "Korean routines, translated into plain English.",
     durationMs: 5000,
+    ctas: [
+      { label: "Build your routine", to: "/consultation", variant: "primary", icon: "arrow" },
+      { label: "Take the skin quiz", to: "/consultation", variant: "secondary", icon: "sparkle" },
+    ],
     headlineClass: "hero-headline-lg max-w-xl leading-[1.0]",
     bodyClass: "max-w-sm",
     align: "right",
@@ -95,6 +117,9 @@ const slides: Slide[] = [
     headline: "No shipping from Seoul.",
     body: "Next-day VIC. Express Australia-wide.",
     durationMs: 5000,
+    ctas: [
+      { label: "Shop K-beauty", to: "/shop", variant: "primary", icon: "arrow" },
+    ],
     headlineClass: "hero-headline-sm max-w-lg leading-[1.02]",
     bodyClass: "max-w-sm",
     align: "left",
@@ -237,21 +262,25 @@ export function HeroCarousel() {
             }`}
             style={{ "--hero-delay": "460ms" } as React.CSSProperties}
           >
-
-            <Link
-              to="/shop"
-              className="group inline-flex items-center gap-3 rounded-none border border-paper bg-paper px-9 py-3.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-ink transition duration-500 hover:bg-transparent hover:text-paper"
-            >
-              Shop now
-              <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
-            </Link>
-            <Link
-              to="/consultation"
-              className="group inline-flex items-center gap-2.5 rounded-none border border-paper/40 px-8 py-3.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-paper transition duration-500 hover:border-paper hover:bg-paper/10"
-            >
-              <SparkleIcon className="h-3.5 w-3.5 text-paper/70 transition-transform duration-700 group-hover:rotate-90" />
-              <span>Take the 2-minute skin quiz</span>
-            </Link>
+            {slides[active].ctas.map((cta) => (
+              <Link
+                key={cta.label}
+                to={cta.to}
+                className={
+                  cta.variant === "primary"
+                    ? "group inline-flex items-center gap-3 rounded-none border border-paper bg-paper px-9 py-3.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-ink transition duration-500 hover:bg-transparent hover:text-paper"
+                    : "group inline-flex items-center gap-2.5 rounded-none border border-paper/40 px-8 py-3.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-paper transition duration-500 hover:border-paper hover:bg-paper/10"
+                }
+              >
+                {cta.icon === "sparkle" && (
+                  <SparkleIcon className="h-3.5 w-3.5 text-paper/70 transition-transform duration-700 group-hover:rotate-90" />
+                )}
+                <span>{cta.label}</span>
+                {cta.icon === "arrow" && (
+                  <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
+                )}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
