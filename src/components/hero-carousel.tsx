@@ -275,7 +275,7 @@ export function HeroCarousel() {
           return (
             <div
               key={slide.type === "video" ? "video" : slide.src}
-              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              className={`absolute inset-0 transition-opacity duration-[1400ms] [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] ${
                 isActive ? "opacity-100" : "opacity-0"
               }`}
             >
@@ -292,9 +292,17 @@ export function HeroCarousel() {
                 />
               ) : (
                 <img
+                  key={isActive ? `drift-${active}-${contentKey}` : "idle"}
                   src={slide.src}
                   alt=""
-                  className={`h-full w-full object-cover ${isActive ? "animate-ken-burns" : ""}`}
+                  loading={i === 1 ? "eager" : "lazy"}
+                  decoding="async"
+                  className={`h-full w-full object-cover ${isActive ? "animate-hero-drift" : ""}`}
+                  style={
+                    {
+                      "--hero-drift-duration": `${slide.durationMs + 2200}ms`,
+                    } as React.CSSProperties
+                  }
                 />
               )}
             </div>
@@ -308,7 +316,7 @@ export function HeroCarousel() {
         {slides[active].scrimClass ? (
           <div
             key={`scrim-${active}`}
-            className={`absolute inset-0 hidden transition-opacity duration-1000 md:block ${slides[active].scrimClass}`}
+            className={`absolute inset-0 hidden transition-opacity duration-[1400ms] md:block ${slides[active].scrimClass}`}
           />
         ) : null}
       </div>
@@ -325,7 +333,7 @@ export function HeroCarousel() {
         >
           <span
             className="hero-line inline-flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.32em] text-paper/70"
-            style={{ "--hero-delay": "60ms" } as React.CSSProperties}
+            style={{ "--hero-delay": "80ms", "--hero-rise": "8px", "--hero-line-duration": "900ms" } as React.CSSProperties}
           >
             <span
               className={`h-px w-6 bg-paper/40 ${
@@ -342,14 +350,14 @@ export function HeroCarousel() {
 
           <h1
             className={`hero-line hero-headline hero-text-shadow mt-5 ${slides[active].headlineClass || ""}`}
-            style={{ "--hero-delay": "180ms" } as React.CSSProperties}
+            style={{ "--hero-delay": "260ms", "--hero-rise": "18px", "--hero-line-duration": "1150ms" } as React.CSSProperties}
           >
             {slides[active].headline}
           </h1>
 
           <p
             className={`hero-line mt-5 text-balance text-sm font-light leading-[1.55] tracking-[0.01em] text-paper/85 hero-body-shadow md:text-[15px] ${slides[active].bodyClass || "max-w-md"}`}
-            style={{ "--hero-delay": "320ms" } as React.CSSProperties}
+            style={{ "--hero-delay": "440ms", "--hero-rise": "12px", "--hero-line-duration": "1000ms" } as React.CSSProperties}
           >
             {slides[active].body}
           </p>
@@ -358,7 +366,7 @@ export function HeroCarousel() {
             className={`hero-line mt-8 flex flex-col items-center gap-3 sm:flex-row sm:gap-4 ${
               ctaAlignMap[slides[active].align || "center"]
             }`}
-            style={{ "--hero-delay": "460ms" } as React.CSSProperties}
+            style={{ "--hero-delay": "600ms", "--hero-rise": "10px", "--hero-line-duration": "950ms" } as React.CSSProperties}
           >
             {slides[active].ctas.map((cta) => (
               <Link
