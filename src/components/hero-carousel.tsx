@@ -63,12 +63,12 @@ const slides: Slide[] = [
     src: notStocked,
     eyebrow: "What you can't find locally",
     headline: "Mecca doesn't stock it.",
-    body: "The Seoul drops you won't find at Mecca.",
+    body: "The Seoul shelf edit, brought to Australia.",
     durationMs: 7000,
     ctas: [
       { label: "Discover the Seoul edit", to: "/shop", variant: "primary", icon: "arrow" },
     ],
-    headlineClass: "hero-headline-lg max-w-xl",
+    headlineClass: "hero-headline-lg max-w-[13ch]",
     bodyClass: "max-w-sm",
     align: "left",
     vertical: "center",
@@ -87,7 +87,7 @@ const slides: Slide[] = [
     ctas: [
       { label: "Our authenticity promise", to: "/about", variant: "primary", icon: "arrow" },
     ],
-    headlineClass: "hero-headline-sm max-w-lg leading-[1.02] tracking-[-0.03em]",
+    headlineClass: "hero-headline-lg max-w-[13ch]",
     bodyClass: "max-w-xs",
     align: "right",
     vertical: "top",
@@ -107,7 +107,7 @@ const slides: Slide[] = [
       { label: "Build your routine", to: "/consultation", variant: "primary", icon: "arrow" },
       { label: "Take the skin quiz", to: "/consultation", variant: "secondary", icon: "sparkle" },
     ],
-    headlineClass: "hero-headline-lg max-w-xl leading-[1.0]",
+    headlineClass: "hero-headline-lg max-w-[13ch]",
     bodyClass: "max-w-sm",
     align: "right",
     vertical: "center",
@@ -126,13 +126,14 @@ const slides: Slide[] = [
     ctas: [
       { label: "Shop K-beauty", to: "/shop", variant: "primary", icon: "arrow" },
     ],
-    headlineClass: "hero-headline-sm max-w-lg leading-[1.02]",
+    headlineClass: "hero-headline-lg max-w-[13ch]",
     bodyClass: "max-w-sm",
     align: "left",
     vertical: "bottom",
     scrimClass: "bg-gradient-to-tr from-ink/78 via-ink/25 to-transparent",
     navLabel: "LOCAL DELIVERY",
   },
+
 ];
 
 const alignMap: Record<Align, string> = {
