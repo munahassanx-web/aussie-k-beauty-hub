@@ -7,9 +7,9 @@ export const Route = createFileRoute("/shipping-policy")({
       { name: "description", content: "Australia-wide shipping from our Melbourne warehouse. Free express over A$80, same-day dispatch before 12pm, and tracking on every order." },
       { property: "og:title", content: "Shipping Policy — Skin Grocer" },
       { property: "og:description", content: "Australia-wide shipping from our Melbourne warehouse. Free express over A$80, same-day dispatch before 12pm." },
-      { property: "og:url", content: "/shipping-policy" },
+      { property: "og:url", content: "https://skingrocer.com.au/shipping-policy" },
     ],
-    links: [{ rel: "canonical", href: "/shipping-policy" }],
+    links: [{ rel: "canonical", href: "https://skingrocer.com.au/shipping-policy" }],
   }),
   component: ShippingPolicy,
 });

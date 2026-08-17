@@ -26,10 +26,11 @@ export const Route = createFileRoute("/consultation")({
         content:
           "No wrong answers. Tell us about your skin and we'll build your routine — the same way we would for a friend who asked us in person.",
       },
+      { property: "og:url", content: "https://skingrocer.com.au/consultation" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/consultation" }],
+    links: [{ rel: "canonical", href: "https://skingrocer.com.au/consultation" }],
   }),
   component: ConsultationPage,
 });

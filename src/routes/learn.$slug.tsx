@@ -9,7 +9,7 @@ export const Route = createFileRoute("/learn/$slug")({
       queryKey: ["ingredient", params.slug],
       queryFn: () => fetchIngredientBySlug(params.slug),
     }),
-  head: ({ loaderData }) => {
+  head: ({ params, loaderData }) => {
     if (!loaderData) {
       return {
         meta: [
@@ -21,15 +21,18 @@ export const Route = createFileRoute("/learn/$slug")({
     const i = loaderData.ingredient;
     const title = `${i.name_english} — What it does | Skin Grocer`;
     const desc = i.what_it_does;
+    const url = `https://skingrocer.com.au/learn/${params.slug}`;
     return {
       meta: [
         { title },
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
+        { property: "og:url", content: url },
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
+      links: [{ rel: "canonical", href: url }],
     };
   },
   errorComponent: ({ error }) => (

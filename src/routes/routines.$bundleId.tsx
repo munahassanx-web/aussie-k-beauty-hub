@@ -13,23 +13,28 @@ import {
 
 
 export const Route = createFileRoute('/routines/$bundleId')({
-  head: () => ({
-    meta: [
-      { title: 'Routine Kit — Skin Grocer' },
-      {
-        name: 'description',
-        content:
-          'A curated K-beauty routine kit from Skin Grocer, sorted into the correct application order with usage guidance for every step.',
-      },
-      { property: 'og:title', content: 'Routine Kit — Skin Grocer' },
-      {
-        property: 'og:description',
-        content: 'Every product in this routine, in the order you should use it.',
-      },
-      { property: 'og:type', content: 'article' },
-      { name: 'twitter:card', content: 'summary_large_image' },
-    ],
-  }),
+  head: ({ params }) => {
+    const url = `https://skingrocer.com.au/routines/${params.bundleId}`;
+    return {
+      meta: [
+        { title: 'Routine Kit — Skin Grocer' },
+        {
+          name: 'description',
+          content:
+            'A curated K-beauty routine kit from Skin Grocer, sorted into the correct application order with usage guidance for every step.',
+        },
+        { property: 'og:title', content: 'Routine Kit — Skin Grocer' },
+        {
+          property: 'og:description',
+          content: 'Every product in this routine, in the order you should use it.',
+        },
+        { property: 'og:url', content: url },
+        { property: 'og:type', content: 'article' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+      ],
+      links: [{ rel: 'canonical', href: url }],
+    };
+  },
   component: BundlePage,
 });
 

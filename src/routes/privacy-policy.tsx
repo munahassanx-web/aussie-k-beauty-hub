@@ -7,9 +7,9 @@ export const Route = createFileRoute("/privacy-policy")({
       { name: "description", content: "How Skin Grocer collects, uses and protects your personal information. Your privacy rights and how to contact us." },
       { property: "og:title", content: "Privacy Policy — Skin Grocer" },
       { property: "og:description", content: "How Skin Grocer collects, uses and protects your personal information." },
-      { property: "og:url", content: "/privacy-policy" },
+      { property: "og:url", content: "https://skingrocer.com.au/privacy-policy" },
     ],
-    links: [{ rel: "canonical", href: "/privacy-policy" }],
+    links: [{ rel: "canonical", href: "https://skingrocer.com.au/privacy-policy" }],
   }),
   component: PrivacyPolicy,
 });

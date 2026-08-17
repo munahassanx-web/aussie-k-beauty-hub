@@ -25,9 +25,9 @@ export const Route = createFileRoute("/contact")({
 
       { property: "og:title", content: "Contact — Skin Grocer" },
       { property: "og:description", content: "We're here to help you glow." },
-      { property: "og:url", content: "/contact" },
+      { property: "og:url", content: "https://skingrocer.com.au/contact" },
     ],
-    links: [{ rel: "canonical", href: "/contact" }],
+    links: [{ rel: "canonical", href: "https://skingrocer.com.au/contact" }],
   }),
   loader: async () => {
     const key = await getMapsApiKey();

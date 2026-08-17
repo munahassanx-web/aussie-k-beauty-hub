@@ -7,9 +7,9 @@ export const Route = createFileRoute("/returns-policy")({
       { name: "description", content: "30-day change-of-mind returns, Australian Consumer Law protections, and our glow-or-refund guarantee on personally recommended routines." },
       { property: "og:title", content: "Returns & Refund Policy — Skin Grocer" },
       { property: "og:description", content: "30-day change-of-mind returns, Australian Consumer Law protections, and our glow-or-refund guarantee." },
-      { property: "og:url", content: "/returns-policy" },
+      { property: "og:url", content: "https://skingrocer.com.au/returns-policy" },
     ],
-    links: [{ rel: "canonical", href: "/returns-policy" }],
+    links: [{ rel: "canonical", href: "https://skingrocer.com.au/returns-policy" }],
   }),
   component: ReturnsPolicy,
 });
