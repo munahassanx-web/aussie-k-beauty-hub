@@ -208,13 +208,13 @@ export function SiteHeader() {
                 </Link>
                 <button
                   type="button"
-                  aria-label={`Open ${key} menu`}
+                  aria-label={openMenu === key ? `Close ${key} menu` : `Open ${key} menu`}
                   aria-expanded={openMenu === key}
                   onFocus={() => setOpenMenu(key)}
-                  onClick={() => setOpenMenu(key)}
+                  onClick={() => setOpenMenu((cur) => (cur === key ? null : key))}
                   className="flex h-6 w-6 items-center justify-center rounded-full text-foreground/45 hover:bg-secondary hover:text-primary"
                 >
-                  <span className="text-[10px] leading-none">⌄</span>
+                  <span className={`text-[10px] leading-none transition-transform ${openMenu === key ? "rotate-180" : ""}`}>⌄</span>
                 </button>
               </div>
             ))}
