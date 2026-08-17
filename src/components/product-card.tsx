@@ -69,7 +69,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
         <WishlistButton
           productId={p.priceId}
           productName={`${p.brand} ${p.name}`}
-          className="absolute right-2 top-2"
+          className="absolute right-2 top-2 z-10"
         />
         {overlay}
       </div>
@@ -90,7 +90,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
           {size ? ` · ${size}` : ''}
         </p>
 
-        <div className="mt-auto flex items-baseline justify-between gap-3 border-t border-border/70 pt-3 [margin-top:1rem]">
+        <div className="mt-4 flex items-baseline justify-between gap-3 border-t border-border/70 pt-3">
           <span className="text-sm tabular-nums text-foreground">{p.price}</span>
           {!compact &&
             (p.comingSoon ? (
