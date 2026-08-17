@@ -111,7 +111,8 @@ export const newsletterIssues: NewsletterIssue[] = [
     published: true,
     cover: signalIssue01Cover,
     coverAlt:
-      "Overhead flat lay of Korean skincare bottles, a Korean newspaper page and a hydrogel sheet mask in morning light",
+      "TORRIDEN Dive In Serum, ROUND LAB 1025 Dokdo Toner and AESTURA Atobarrier365 Cream on wet limestone with hyaluronic gel and water droplets",
+
     standfirst:
       "Korea spent this fortnight arguing about water, not actives: hydrating toners, low-molecular hyaluronic acid and overnight hydrogel masks. Here is what that argument means for skin living through an Australian summer — and the four products that actually fix dehydration.",
 
