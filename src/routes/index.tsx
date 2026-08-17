@@ -596,21 +596,15 @@ function BundleCardMedia({
   bundle,
   explainer,
 }: {
-  bundle: { products: { img: string; alt: string }[]; tag: string; name: string };
+  bundle: { products: { img: string; alt: string }[]; name: string };
   explainer?: string;
 }) {
-  const [revealed, setRevealed] = useState(false);
+  const [showExplainer, setShowExplainer] = useState(false);
 
   return (
-    <div
-      className="relative aspect-[5/3] overflow-hidden bg-sand"
-      onMouseEnter={() => setRevealed(true)}
-      onMouseLeave={() => setRevealed(false)}
-      onFocus={() => setRevealed(true)}
-      onBlur={() => setRevealed(false)}
-    >
+    <div className="relative aspect-[5/3] overflow-hidden bg-sand">
       <div
-        className={`grid h-full w-full transition-opacity duration-300 ${revealed ? "opacity-0" : "opacity-100"}`}
+        className={`grid h-full w-full transition-opacity duration-300 ${showExplainer ? "opacity-0" : "opacity-100"}`}
         style={{ gridTemplateColumns: `repeat(${bundle.products.length}, minmax(0, 1fr))` }}
       >
         {bundle.products.map((p) => (
@@ -629,26 +623,22 @@ function BundleCardMedia({
       {explainer && (
         <img
           src={explainer}
-          alt={`What's inside the ${bundle.name} bundle`}
+          alt={`Routine overview for ${bundle.name}`}
           loading="lazy"
-          aria-hidden={!revealed}
+          aria-hidden={!showExplainer}
           className={`pointer-events-none absolute inset-0 h-full w-full bg-paper object-contain transition-opacity duration-300 ${
-            revealed ? "opacity-100" : "opacity-0"
+            showExplainer ? "opacity-100" : "opacity-0"
           }`}
         />
       )}
 
-      <span className="absolute left-4 top-4 z-10 rounded-full bg-paper/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-hanbok-deep backdrop-blur">
-        {bundle.tag}
-      </span>
-
       {explainer && (
         <button
           type="button"
-          onClick={() => setRevealed((v) => !v)}
-          className="absolute bottom-3 right-3 z-10 rounded-full bg-ink/85 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-paper md:hidden"
+          onClick={() => setShowExplainer((v) => !v)}
+          className="absolute bottom-3 right-3 z-10 border border-ink/20 bg-paper/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-ink transition hover:bg-paper"
         >
-          {revealed ? "Hide" : "What's inside"}
+          {showExplainer ? "Back to products" : "See the routine"}
         </button>
       )}
     </div>
@@ -660,95 +650,90 @@ function BundleOffer() {
 
   // Totals are computed live from the current catalog prices — never hardcoded.
   const bundles = BUNDLE_DEFINITIONS.map((b) => ({ ...b, ...bundleMath(b.includes, b.price) }));
-  const maxSave = Math.max(...bundles.map((b) => b.save));
 
   return (
     <section id="bundles" className="scroll-mt-20 bg-secondary">
       <div className="mx-auto max-w-7xl px-6 py-24">
-        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-          <div>
-            <p className="inline-flex items-center gap-2 rounded-full bg-hanbok-deep/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-hanbok-deep">
-              <span className="h-1.5 w-1.5 rounded-full bg-clay" /> Advisor-built bundles
-            </p>
-            <h2 className="mt-4 display-section text-ink">
-              Skip the guesswork.<br />
-              <span className="italic text-hanbok-deep">Save up to A${maxSave}.</span>
-            </h2>
-            <p className="mt-4 max-w-md text-sm text-ink/70">
-              Advisor-built bundles, sealed direct from Seoul. Cheaper than buying each step alone — and they arrive next day to metro and most regional areas (remote postcodes may take 1–2 extra days).
-            </p>
-          </div>
-          <ul className="grid gap-2 text-sm text-ink/80 md:text-right">
-            <li>✓ Save up to {Math.max(...bundles.map((b) => b.percent))}% vs. individual prices</li>
-            <li>✓ Free express shipping, every bundle</li>
-            <li>✓ 30-day glow-or-refund guarantee</li>
-            <li>✓ Free routine card + samples inside</li>
-          </ul>
+        <div className="max-w-2xl">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
+            THE ROUTINE EDITS
+          </p>
+          <h2 className="mt-4 display-section text-ink">
+            A considered routine,{" "}
+            <span className="italic text-hanbok-deep">already put together.</span>
+          </h2>
+          <p className="mt-5 max-w-xl text-ink/70">
+            A few complete starting points for when you want the products to work together
+            without spending hours comparing every step.
+          </p>
+          <p className="mt-3 max-w-xl text-sm text-ink/60">
+            Choose the edit closest to your skin goals, then adjust as your routine evolves.
+          </p>
         </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
+        <div className="mt-14 grid gap-6 md:grid-cols-3">
           {bundles.map((b) => {
             const explainer = BUNDLE_EXPLAINERS[b.priceId];
             return (
-            <article
-              key={b.name}
-              className={`relative flex flex-col overflow-hidden rounded-3xl border bg-paper transition-all duration-500 lift group ${
-                b.featured
-                  ? "border-hanbok shadow-[0_30px_60px_-30px_rgba(46,63,110,0.45)] md:-translate-y-3"
-                  : "border-border/70"
-              }`}
-            >
-              {b.featured && (
-                <div className="absolute right-4 top-4 z-10 rounded-full bg-hanbok px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-paper">
-                  Advisor pick
+              <article
+                key={b.name}
+                className={`flex flex-col overflow-hidden border bg-paper ${
+                  b.featured ? "border-ink/80" : "border-border/70"
+                }`}
+              >
+                {b.featured && (
+                  <div className="border-b border-ink/10 bg-paper px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-ink">
+                    THE COMPLETE EDIT
+                  </div>
+                )}
+                <BundleCardMedia bundle={b} explainer={explainer} />
+                <div className="flex flex-1 flex-col p-6">
+                  <h3 className="font-display text-2xl leading-tight text-ink">{b.name}</h3>
+                  <p className="mt-2 text-sm text-ink/70">{b.desc}</p>
+
+                  <div className="mt-6">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/40">
+                      IN THIS EDIT
+                    </p>
+                    <ul className="mt-3 space-y-2 border-t border-border pt-3 text-sm text-ink/80">
+                      {b.includes.map((item) => (
+                        <li key={item} className="flex items-start gap-2">
+                          <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-hanbok" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mt-8 flex items-end gap-3 border-t border-border/60 pt-5">
+                    <p className="font-display text-3xl text-ink">A${b.price}</p>
+                    {b.original > b.price && (
+                      <>
+                        <p className="pb-1 text-sm text-muted-foreground line-through">A${b.original}</p>
+                        <p className="ml-auto pb-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-clay">
+                          Save A${b.save}
+                        </p>
+                      </>
+                    )}
+                  </div>
+
+                  <button
+                    onClick={() => buy({ priceId: b.priceId, name: b.name, priceLabel: `A$${b.price}` })}
+                    className="mt-5 w-full border border-ink bg-ink py-3.5 text-xs font-semibold uppercase tracking-[0.22em] text-paper transition hover:bg-paper hover:text-ink"
+                  >
+                    Shop this edit
+                  </button>
                 </div>
-              )}
-              <BundleCardMedia bundle={b} explainer={explainer} />
-              <div className="flex flex-1 flex-col p-6">
-                <h3 className="font-display text-2xl leading-tight text-ink">{b.name}</h3>
-                <p className="mt-2 text-sm text-ink/70">{b.desc}</p>
-
-                <ul className="mt-5 space-y-2 text-sm text-ink/80">
-                  {b.includes.map((item) => (
-                    <li key={item} className="flex items-start gap-2">
-                      <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-hanbok" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-6 flex items-end gap-3 border-t border-border/60 pt-5">
-                  <p className="font-display text-3xl text-ink">A${b.price}</p>
-                  <p className="pb-1 text-sm text-muted-foreground line-through">A${b.original}</p>
-                  <p className="ml-auto pb-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-clay">
-                    Save A${b.save}
-                  </p>
-                </div>
-
-                <button
-                  onClick={() => buy({ priceId: b.priceId, name: b.name, priceLabel: `A$${b.price}` })}
-                  className={`mt-5 w-full rounded-full py-3.5 text-xs font-semibold uppercase tracking-[0.22em] transition ${
-                    b.featured
-                      ? "bg-hanbok text-paper hover:bg-hanbok-deep"
-                      : "bg-ink text-paper hover:bg-hanbok"
-                  }`}
-                >
-                  Buy this bundle
-                </button>
-              </div>
-            </article>
+              </article>
             );
           })}
         </div>
-
-        <p className="mt-8 text-center text-xs uppercase tracking-[0.22em] text-muted-foreground">
-          30-day satisfaction guarantee · Free express shipping · Authenticity card included
-        </p>
       </div>
       {modal}
     </section>
   );
 }
+
 
 
 function ProvenanceCard() {
