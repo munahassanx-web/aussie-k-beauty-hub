@@ -39,9 +39,9 @@ type Slide = {
 
 const slides: Slide[] = [
   {
-    // Brand slide — symmetrical, centred, the campaign's anchor
-    type: "video" as const,
-    src: heroVideo.url,
+    // Brand slide — editorial portrait with authentic packshots, type in the left quiet zone
+    type: "image" as const,
+    src: brandMoment,
     eyebrow: "MELBOURNE · AUTHENTIC KOREAN SKINCARE",
     headline: "SKINCARE, CURATED DIFFERENTLY.",
     body: "The Korean skincare worth knowing — selected for your skin, not the hype.",
