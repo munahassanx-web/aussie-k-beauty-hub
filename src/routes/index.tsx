@@ -104,7 +104,6 @@ function HomePage() {
       <ApplicationMoment />
       <RitualCTA />
       <Reveal><LearnStrip /></Reveal>
-      <Reveal><LearnStrip /></Reveal>
       <SeoulSignalStrip />
       <Reveal><ReviewsCarousel /></Reveal>
 
