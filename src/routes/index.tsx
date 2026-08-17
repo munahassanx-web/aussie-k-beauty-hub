@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useBuyNow } from "@/hooks/use-buy-now";
-import { NewsletterForm } from "@/components/newsletter-form";
 import { FaqSection } from "@/components/faq-section";
 import { HOME_FAQS, faqJsonLd } from "@/lib/faqs";
 import { Reveal } from "@/components/reveal";
@@ -111,7 +110,6 @@ function HomePage() {
         items={HOME_FAQS}
         tone="sand"
       />
-      <NewsletterStrip />
     </div>
   );
 }
