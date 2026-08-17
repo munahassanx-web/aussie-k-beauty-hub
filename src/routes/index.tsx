@@ -103,7 +103,7 @@ function HomePage() {
       <Reveal><WhyPillars /></Reveal>
       <ApplicationMoment />
       <RitualCTA />
-      <ParallaxScene />
+      <Reveal><LearnStrip /></Reveal>
       <Reveal><LearnStrip /></Reveal>
       <SeoulSignalStrip />
       <Reveal><ReviewsCarousel /></Reveal>
@@ -417,41 +417,6 @@ function PromoBar() {
 }
 
 
-function ParallaxScene() {
-  return (
-    <section
-      className="relative min-h-[88vh] overflow-hidden bg-ink"
-      aria-label="Glass skin in motion"
-    >
-      <div className="absolute inset-0 overflow-hidden">
-        <div
-          className="cinematic-layer absolute inset-0 bg-cover bg-center bg-no-repeat md:bg-fixed"
-          style={{ backgroundImage: `url(${brandLineup.url})` }}
-        />
-      </div>
-      <div className="cinematic-scrim absolute inset-0" />
-      <div className="relative mx-auto flex min-h-[88vh] max-w-7xl flex-col items-start justify-end px-6 py-28">
-        <Reveal>
-          <p className="eyebrow eyebrow-rule text-paper/70">Glass skin, decoded</p>
-        </Reveal>
-        <Reveal delay={110}>
-          <h2 className="display-section mt-5 max-w-3xl text-paper">
-            The Korean approach: <span className="italic">layer light, hold water, protect glow.</span>
-          </h2>
-        </Reveal>
-        <Reveal delay={200}>
-          <div className="mt-8 max-w-xl">
-            <div className="hairline-rule text-paper/70" />
-            <p className="lede mt-6 text-paper/80">
-              Hydration first, occlusion last, sunscreen always. A philosophy we've imported,
-              translated, and stocked locally for Australian skin.
-            </p>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
 
 
 
