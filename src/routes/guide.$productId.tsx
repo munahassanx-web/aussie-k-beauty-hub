@@ -98,7 +98,7 @@ function GuidePage() {
             Contact us
           </Link>
         </div>
-      </main>
+      </article>
     );
   }
 
@@ -113,7 +113,7 @@ function GuidePage() {
       : undefined;
 
   return (
-    <main className="mx-auto max-w-2xl px-6 pb-24 pt-10 sm:pt-14">
+    <article className="mx-auto max-w-2xl px-6 pb-24 pt-10 sm:pt-14">
       {/* Identification — the first thing a scanning customer needs. */}
       <header>
         <Label>How to apply</Label>
@@ -260,6 +260,6 @@ function GuidePage() {
           .
         </p>
       </section>
-    </main>
+    </article>
   );
 }
