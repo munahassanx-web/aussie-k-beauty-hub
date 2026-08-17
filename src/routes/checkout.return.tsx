@@ -150,6 +150,35 @@ function CheckoutReturn() {
         </p>
       )}
 
+      {purchasedGuides.length > 0 && (
+        <section className="mt-10 border-t border-border pt-8">
+          <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            How to use what you bought
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            In the order you’d apply them. Each link opens that product’s application guide.
+          </p>
+          <ul className="mt-5 border-t border-border">
+            {purchasedGuides.map((p) => (
+              <li key={p.slug} className="border-b border-border py-4">
+                <Link
+                  to="/guide/$productId"
+                  params={{ productId: p.slug }}
+                  className="flex items-baseline justify-between gap-4"
+                >
+                  <span className="text-sm text-foreground">
+                    <span className="text-muted-foreground">{p.product.brand}</span> {p.product.name}
+                  </span>
+                  <span className="whitespace-nowrap text-[11px] uppercase tracking-[0.16em] text-primary">
+                    How to apply →
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <section className="mt-10 border-t border-border pt-8">
         <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">What happens next</h2>
         <ol className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
@@ -166,6 +195,7 @@ function CheckoutReturn() {
           </li>
         </ol>
       </section>
+
 
       {!user && (
         <section className="mt-8 border border-border p-6">
