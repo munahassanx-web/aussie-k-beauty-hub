@@ -167,31 +167,33 @@ function WhyPillars() {
 }
 
 /**
- * Free 2-minute skin quiz — led by the customer's problem, not a product pitch.
+ * A personal guidance moment — an invitation to narrow K-beauty choices,
+ * not a diagnostic tool or sales funnel.
  */
 function SkinQuizSection() {
-  const problems = [
+  const prompts = [
     {
-      pain: "You own eight products and your skin is still unhappy.",
-      help: "The quiz shows you which of them are doing the same job twice — and what's actually missing.",
+      title: "WHAT IS YOUR SKIN ASKING FOR?",
+      line: "Start with the concern you notice most.",
     },
     {
-      pain: "Dry and flaky by 3pm, shiny by 6pm.",
-      help: "We read that as a barrier and climate issue, not an oil issue, and tell you what order to layer in.",
+      title: "WHAT ARE YOU USING ALREADY?",
+      line: "A good routine doesn’t need unnecessary duplicates.",
     },
     {
-      pain: "Everything you buy from TikTok stings, breaks you out, or does nothing.",
-      help: "Answer eight questions about your skin and we rule the wrong actives out before you spend anything.",
+      title: "HOW MUCH ROUTINE FITS YOUR LIFE?",
+      line: "Keep it simple, or build it out gradually.",
     },
   ];
+
   return (
     <section className="bg-paper" aria-labelledby="skin-quiz-heading">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:items-center">
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:items-center md:gap-16">
         <div className="md:col-span-5">
-          <div className="overflow-hidden rounded-3xl bg-sand">
+          <div className="relative mx-auto aspect-[4/5] max-w-sm overflow-hidden rounded-2xl bg-sand md:max-w-none">
             <img
               src={quizBareSkin}
-              alt="Close-up of bare skin with visible dryness on the cheek in natural daylight"
+              alt="Close-up of bare skin in soft natural light, showing natural texture and dryness on the cheek"
               loading="lazy"
               width={1280}
               height={1600}
@@ -201,43 +203,57 @@ function SkinQuizSection() {
         </div>
 
         <div className="md:col-span-7">
-          <p className="eyebrow eyebrow-rule text-clay">
-            Free service · 2 minutes · No account needed
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
+            A SIMPLER PLACE TO START
           </p>
-          <h2 id="skin-quiz-heading" className="mt-3 font-display text-4xl leading-[1.05] text-ink md:text-5xl">
-            Most people aren&rsquo;t using bad products.<br />
-            <span className="italic text-hanbok-deep">They&rsquo;re using the wrong ones for their skin.</span>
+          <h2
+            id="skin-quiz-heading"
+            className="mt-4 max-w-2xl font-display text-4xl leading-tight text-ink md:text-[2.75rem]"
+          >
+            Your skin doesn’t need more noise.{" "}
+            <span className="italic text-hanbok-deep">It needs a clearer routine.</span>
           </h2>
           <p className="mt-5 max-w-xl text-ink/70">
-            Eight plain questions about your skin, your climate and what you&rsquo;ve already tried.
-            You get a written read on what your skin is doing and the order to treat it in.
-            Nothing is added to a cart. You can use it and buy nothing.
+            Tell us a little about your skin, what you’re using now and what you want to improve.
+            We’ll help you narrow the choices and make the next step feel simpler.
           </p>
 
-          <ul className="mt-8 grid gap-5 border-t border-border pt-8">
-            {problems.map((p) => (
-              <li key={p.pain}>
-                <p className="font-display text-lg leading-snug text-ink">{p.pain}</p>
-                <p className="mt-1.5 text-sm text-ink/65">{p.help}</p>
+          <ul className="mt-10 border-t border-border">
+            {prompts.map((p, i) => (
+              <li
+                key={p.title}
+                className="border-b border-border py-6 md:py-7"
+              >
+                <div className="flex items-baseline gap-4 md:gap-5">
+                  <span className="font-display text-xs italic text-ink/30">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <p className="font-display text-sm uppercase tracking-[0.14em] text-ink">
+                      {p.title}
+                    </p>
+                    <p className="mt-1 text-sm text-ink/60">{p.line}</p>
+                  </div>
+                </div>
               </li>
             ))}
           </ul>
 
           <Link
             to="/consultation"
-            className="group mt-10 inline-flex items-center gap-3 rounded-full bg-ink px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-paper transition hover:bg-hanbok-deep"
+            className="group mt-10 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-ink transition hover:text-hanbok-deep"
           >
-            Start the free skin quiz
-            <span className="transition-transform group-hover:translate-x-1.5">→</span>
+            <span className="border-b border-ink/30 pb-0.5 transition-colors group-hover:border-hanbok-deep">
+              Find your routine
+            </span>
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
-          <p className="mt-4 text-xs text-muted-foreground">
-            Read by a real advisor if you ask for one. We don&rsquo;t sell your answers.
-          </p>
         </div>
       </div>
     </section>
   );
 }
+
 
 
 function BrandMarquee() {
