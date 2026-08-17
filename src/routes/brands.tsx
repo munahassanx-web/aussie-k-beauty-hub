@@ -11,7 +11,7 @@ export const Route = createFileRoute("/brands")({
       { title: "Brands — Skin Grocer" },
       { name: "description", content: "Shop our 13 hand-picked K-beauty brands — AESTURA, MEDICUBE, ROUND LAB, TORRIDEN, BIODANCE and more — locally stocked in Australia." },
       { property: "og:title", content: "K-Beauty Brands — Skin Grocer" },
-      { property: "og:description", content: "Thirteen hand-picked Korean labels, warehoused in Melbourne for next-day delivery across Australia." },
+      { property: "og:description", content: "Thirteen hand-picked Korean labels, warehoused in Melbourne and dispatched across Australia." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "https://skingrocer.com.au/brands" },
