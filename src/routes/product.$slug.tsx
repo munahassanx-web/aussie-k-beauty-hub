@@ -650,9 +650,10 @@ function ProductPage() {
                     warehouse — the same batch you'd buy in Seoul.
                   </p>
                   <p className="text-muted-foreground">
-                    Every order includes product-specific application guidance, and each product page
-                    links to its printable guide.
+                    Every product has its own “How to apply” page, open to anyone — no login, no
+                    purchase needed.
                   </p>
+
                 </div>
               ),
             },
