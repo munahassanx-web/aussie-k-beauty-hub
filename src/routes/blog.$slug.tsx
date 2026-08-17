@@ -34,12 +34,12 @@ export const Route = createFileRoute("/blog/$slug")({
 function IssueNotFound() {
   return (
     <div className="mx-auto max-w-2xl px-6 py-32 text-center">
-      <h1 className="font-display text-4xl text-grocer-brown">That issue isn't on the shelf</h1>
+      <h1 className="font-display text-4xl text-grocer-brown">That post isn’t on the shelf</h1>
       <Link
         to="/blog"
         className="mt-8 inline-block border-b-2 border-grocer-tomato pb-1 text-[12px] font-semibold uppercase tracking-[0.2em] text-grocer-tomato"
       >
-        Back to all issues
+        Back to the blog
       </Link>
     </div>
   );
@@ -92,7 +92,7 @@ function IssuePage() {
       {/* Masthead */}
       <header className="mx-auto max-w-5xl px-6 pt-16 pb-10 text-center md:pt-24">
         <p className="font-display text-[13px] uppercase tracking-[0.34em] text-grocer-green">
-          The Skin Grocery List · Issue {issue.number}
+          Skin Grocer Blog · No. {issue.number}
         </p>
         <p className="mt-6 font-display text-sm uppercase tracking-[0.26em] text-grocer-tomato">
           {issue.theme}
@@ -437,7 +437,7 @@ function IssuePage() {
       <section className="border-t-2 border-grocer-brown/15 bg-background px-6 py-16">
         <div className="mx-auto max-w-5xl">
           <h2 className="font-display text-[28px] uppercase tracking-[-0.02em] text-grocer-brown">
-            More from the list
+            More from the blog
           </h2>
           <div className="mt-6 flex flex-wrap gap-4">
             {others.map((o) => (
@@ -454,7 +454,7 @@ function IssuePage() {
               to="/blog"
               className="rounded-sm border-2 border-grocer-brown/20 px-5 py-3 text-[13px] text-grocer-brown hover:border-grocer-tomato"
             >
-              All issues →
+              All posts →
             </Link>
           </div>
         </div>
