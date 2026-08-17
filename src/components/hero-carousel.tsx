@@ -8,6 +8,9 @@ import localDispatch from "@/assets/hero-slides/local-dispatch.jpg";
 
 
 
+type Align = "center" | "left" | "right";
+type Vertical = "center" | "top" | "bottom";
+
 type Slide = {
   type: "video" | "image";
   src: string;
@@ -17,10 +20,16 @@ type Slide = {
   durationMs: number;
   headlineClass?: string;
   bodyClass?: string;
+  /** Art direction: where the type sits relative to the subject (md+ only) */
+  align?: Align;
+  vertical?: Vertical;
+  /** Directional scrim that protects type without flattening the photograph */
+  scrimClass?: string;
 };
 
 const slides: Slide[] = [
   {
+    // Brand slide — symmetrical, centred, the campaign's anchor
     type: "video" as const,
     src: heroVideo.url,
     eyebrow: "Melbourne · Authentic Korean skincare",
@@ -29,48 +38,89 @@ const slides: Slide[] = [
     durationMs: 2500,
     headlineClass: "hero-headline-xl max-w-3xl",
     bodyClass: "max-w-md",
+    align: "center",
+    vertical: "center",
   },
   {
+    // Vanity still life: bottles sit right of centre — type occupies the empty
+    // sunlit wall on the left, above the folded towel.
     type: "image" as const,
     src: notStocked,
     eyebrow: "What you can't find locally",
     headline: "Mecca doesn't stock it.",
     body: "The Seoul drops you won't find at Mecca.",
     durationMs: 5000,
-    headlineClass: "hero-headline-lg max-w-3xl",
+    headlineClass: "hero-headline-lg max-w-xl",
     bodyClass: "max-w-sm",
+    align: "left",
+    vertical: "center",
+    scrimClass: "bg-gradient-to-r from-ink/70 via-ink/25 to-transparent",
   },
   {
+    // Hands holding the Medicube box fill the lower-left third — type drops to
+    // the calm upper-right negative space so nothing covers the packaging.
     type: "image" as const,
     src: authenticityCheck,
     eyebrow: "Why authenticity matters",
     headline: "Amazon might not be real.",
     body: "Batch-checked. Sealed. Authorised.",
     durationMs: 5000,
-    headlineClass: "hero-headline-sm max-w-3xl leading-[1.02] tracking-[-0.03em]",
+    headlineClass: "hero-headline-sm max-w-lg leading-[1.02] tracking-[-0.03em]",
     bodyClass: "max-w-xs",
+    align: "right",
+    vertical: "top",
+    scrimClass: "bg-gradient-to-bl from-ink/70 via-ink/25 to-transparent",
   },
   {
+    // Portrait: her face and the serum live left of centre — type sits right,
+    // clear of the face, reading against the soft mirror reflection.
     type: "image" as const,
     src: overwhelmed,
     eyebrow: "How to use it",
     headline: "Ten steps, no instructions.",
     body: "Korean routines, translated into plain English.",
     durationMs: 5000,
-    headlineClass: "hero-headline-lg max-w-2xl leading-[1.0]",
-    bodyClass: "max-w-md",
+    headlineClass: "hero-headline-lg max-w-xl leading-[1.0]",
+    bodyClass: "max-w-sm",
+    align: "right",
+    vertical: "center",
+    scrimClass: "bg-gradient-to-l from-ink/72 via-ink/28 to-transparent",
   },
   {
+    // Packing shot: the box and hands sit centre-high — type takes the lower-left
+    // linen, generous negative space above it.
     type: "image" as const,
     src: localDispatch,
     eyebrow: "From Melbourne, not Seoul",
     headline: "No shipping from Seoul.",
     body: "Next-day VIC. Express Australia-wide.",
     durationMs: 5000,
-    headlineClass: "hero-headline-sm max-w-3xl leading-[1.02]",
+    headlineClass: "hero-headline-sm max-w-lg leading-[1.02]",
     bodyClass: "max-w-sm",
+    align: "left",
+    vertical: "bottom",
+    scrimClass: "bg-gradient-to-tr from-ink/78 via-ink/25 to-transparent",
   },
 ];
+
+const alignMap: Record<Align, string> = {
+  center: "md:items-center md:text-center md:self-center",
+  left: "md:items-start md:text-left md:self-start",
+  right: "md:items-end md:text-right md:self-end",
+};
+
+const verticalMap: Record<Vertical, string> = {
+  center: "md:justify-center",
+  top: "md:justify-start md:pt-[12vh]",
+  bottom: "md:justify-end md:pb-[14vh]",
+};
+
+const ctaAlignMap: Record<Align, string> = {
+  center: "md:justify-center",
+  left: "md:justify-start",
+  right: "md:justify-end",
+};
+
 
 export function HeroCarousel() {
   const [active, setActive] = useState(0);
@@ -130,18 +180,41 @@ export function HeroCarousel() {
 
         {/* Layered editorial scrim — protects type, keeps skin tones natural */}
         <div className="hero-scrim absolute inset-0" />
+
+        {/* Directional scrim, composed per slide so type sits in the image's quiet zone */}
+        {slides[active].scrimClass ? (
+          <div
+            key={`scrim-${active}`}
+            className={`absolute inset-0 hidden transition-opacity duration-1000 md:block ${slides[active].scrimClass}`}
+          />
+        ) : null}
       </div>
 
       {/* Content */}
-      <div className="relative mx-auto flex min-h-[86vh] max-w-7xl flex-col items-center justify-center px-6 py-20 text-center md:py-24">
-        <div key={`${active}-${key}`} className="flex w-full max-w-4xl flex-col items-center">
+      <div
+        className={`relative mx-auto flex min-h-[86vh] max-w-7xl flex-col items-center justify-center px-6 py-20 text-center md:px-10 md:py-24 ${
+          verticalMap[slides[active].vertical || "center"]
+        }`}
+      >
+        <div
+          key={`${active}-${key}`}
+          className={`flex w-full max-w-4xl flex-col items-center ${alignMap[slides[active].align || "center"]}`}
+        >
           <span
             className="hero-line inline-flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.32em] text-paper/70"
             style={{ "--hero-delay": "60ms" } as React.CSSProperties}
           >
-            <span className="h-px w-6 bg-paper/40" />
+            <span
+              className={`h-px w-6 bg-paper/40 ${
+                slides[active].align === "right" ? "md:hidden" : ""
+              }`}
+            />
             {slides[active].eyebrow}
-            <span className="h-px w-6 bg-paper/40" />
+            <span
+              className={`h-px w-6 bg-paper/40 ${
+                slides[active].align === "left" ? "md:hidden" : ""
+              }`}
+            />
           </span>
 
           <h1
@@ -159,9 +232,12 @@ export function HeroCarousel() {
           </p>
 
           <div
-            className="hero-line mt-8 flex flex-col items-center gap-3 sm:flex-row sm:gap-4"
+            className={`hero-line mt-8 flex flex-col items-center gap-3 sm:flex-row sm:gap-4 ${
+              ctaAlignMap[slides[active].align || "center"]
+            }`}
             style={{ "--hero-delay": "460ms" } as React.CSSProperties}
           >
+
             <Link
               to="/shop"
               className="group inline-flex items-center gap-3 rounded-none border border-paper bg-paper px-9 py-3.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-ink transition duration-500 hover:bg-transparent hover:text-paper"
