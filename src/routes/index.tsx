@@ -16,11 +16,7 @@ import completeGlowExplainer from "@/assets/bundle-explainers/complete-glow-edit
 import calmClearExplainer from "@/assets/bundle-explainers/calm-clear-bundle.png.asset.json";
 import applyingSerum from "@/assets/applying-serum.png.asset.json";
 import authenticityCard from "@/assets/authenticity-card.png.asset.json";
-import brandLineup from "@/assets/brand-lineup.png.asset.json";
-import textureMacro from "@/assets/texture-macro.jpg";
 import ritualScene from "@/assets/ritual-scene.jpg";
-import brandSpotlight from "@/assets/brand-spotlight.jpg";
-import customers from "@/assets/customers.jpg";
 import quizBareSkin from "@/assets/quiz-bare-skin.jpg";
 import categoryMasks from "@/assets/category-masks.jpg";
 
