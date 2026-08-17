@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import heroVideo from "@/assets/hero-video.mp4.asset.json";
 import notStocked from "@/assets/hero-slides/not-stocked.jpg";
@@ -33,6 +33,8 @@ type Slide = {
   vertical?: Vertical;
   /** Directional scrim that protects type without flattening the photograph */
   scrimClass?: string;
+  /** Tiny label for the editorial progress system */
+  navLabel: string;
 };
 
 const slides: Slide[] = [
@@ -52,6 +54,7 @@ const slides: Slide[] = [
     bodyClass: "max-w-md",
     align: "center",
     vertical: "center",
+    navLabel: "SKIN GROCER",
   },
   {
     // Vanity still life: bottles sit right of centre — type occupies the empty
@@ -70,6 +73,7 @@ const slides: Slide[] = [
     align: "left",
     vertical: "center",
     scrimClass: "bg-gradient-to-r from-ink/70 via-ink/25 to-transparent",
+    navLabel: "DISCOVERY",
   },
   {
     // Hands holding the Medicube box fill the lower-left third — type drops to
@@ -88,6 +92,7 @@ const slides: Slide[] = [
     align: "right",
     vertical: "top",
     scrimClass: "bg-gradient-to-bl from-ink/70 via-ink/25 to-transparent",
+    navLabel: "AUTHENTICITY",
   },
   {
     // Portrait: her face and the serum live left of centre — type sits right,
@@ -107,6 +112,7 @@ const slides: Slide[] = [
     align: "right",
     vertical: "center",
     scrimClass: "bg-gradient-to-l from-ink/72 via-ink/28 to-transparent",
+    navLabel: "ROUTINES",
   },
   {
     // Packing shot: the box and hands sit centre-high — type takes the lower-left
@@ -125,6 +131,7 @@ const slides: Slide[] = [
     align: "left",
     vertical: "bottom",
     scrimClass: "bg-gradient-to-tr from-ink/78 via-ink/25 to-transparent",
+    navLabel: "LOCAL DELIVERY",
   },
 ];
 
@@ -146,30 +153,121 @@ const ctaAlignMap: Record<Align, string> = {
   right: "md:justify-end",
 };
 
+const RESUME_DELAY_MS = 6000;
 
 export function HeroCarousel() {
   const [active, setActive] = useState(0);
-  const [key, setKey] = useState(0);
+  const [contentKey, setContentKey] = useState(0);
+  const [progressKey, setProgressKey] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  const autoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const touchStartX = useRef<number | null>(null);
+
+  const clearTimers = useCallback(() => {
+    if (autoTimerRef.current) {
+      clearTimeout(autoTimerRef.current);
+      autoTimerRef.current = null;
+    }
+    if (resumeTimerRef.current) {
+      clearTimeout(resumeTimerRef.current);
+      resumeTimerRef.current = null;
+    }
+  }, []);
 
   const next = useCallback(() => {
     setActive((i) => (i + 1) % slides.length);
-    setKey((k) => k + 1);
+    setContentKey((k) => k + 1);
+    setProgressKey((k) => k + 1);
   }, []);
 
+  const prev = useCallback(() => {
+    setActive((i) => (i - 1 + slides.length) % slides.length);
+    setContentKey((k) => k + 1);
+    setProgressKey((k) => k + 1);
+  }, []);
+
+  const manualNext = useCallback(() => {
+    setPaused(true);
+    next();
+  }, [next]);
+
+  const manualPrev = useCallback(() => {
+    setPaused(true);
+    prev();
+  }, [prev]);
+
+  const goTo = useCallback(
+    (i: number) => {
+      if (i === active) return;
+      setPaused(true);
+      setActive(i);
+      setContentKey((k) => k + 1);
+      setProgressKey((k) => k + 1);
+    },
+    [active]
+  );
+
   useEffect(() => {
-    const id = setTimeout(next, slides[active].durationMs);
-    return () => clearTimeout(id);
-  }, [next, key, active]);
+    clearTimers();
+    if (paused) {
+      resumeTimerRef.current = setTimeout(() => {
+        setProgressKey((k) => k + 1);
+        setPaused(false);
+      }, RESUME_DELAY_MS);
+    } else {
+      autoTimerRef.current = setTimeout(next, slides[active].durationMs);
+    }
+    return clearTimers;
+  }, [active, contentKey, progressKey, paused, next, clearTimers]);
 
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      const target = e.target;
+      if (
+        target instanceof HTMLElement &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.tagName === "SELECT" ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        manualPrev();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        manualNext();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [manualNext, manualPrev]);
 
-  const goTo = (i: number) => {
-    setActive(i);
-    setKey((k) => k + 1);
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.changedTouches[0].screenX;
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStartX.current;
+    if (start == null) return;
+    const end = e.changedTouches[0].screenX;
+    const diff = start - end;
+    if (diff > 50) manualNext();
+    else if (diff < -50) manualPrev();
+    touchStartX.current = null;
   };
 
   return (
-    <section className="relative overflow-hidden bg-ink">
-
+    <section
+      className="relative overflow-hidden bg-ink"
+      aria-roledescription="carousel"
+      aria-label="Skin Grocer hero campaign"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
       {/* Media layer */}
       <div className="absolute inset-0">
         {slides.map((slide, i) => {
@@ -222,7 +320,7 @@ export function HeroCarousel() {
         }`}
       >
         <div
-          key={`${active}-${key}`}
+          key={`content-${contentKey}`}
           className={`flex w-full max-w-4xl flex-col items-center ${alignMap[slides[active].align || "center"]}`}
         >
           <span
@@ -285,46 +383,69 @@ export function HeroCarousel() {
         </div>
       </div>
 
-      {/* Floating ticker */}
-      <div className="relative border-t border-paper/10 bg-ink/60 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-8 overflow-x-auto px-6 py-3.5 text-[10px] font-light uppercase tracking-[0.28em] text-paper/60 no-scrollbar">
-          {[
-            "Sourced direct from Seoul",
-            "Sealed & batch-checked",
-            "Next-day VIC delivery",
-            "Express AU shipping",
-            "Advisor-built routines",
-          ].map((t) => (
-            <span key={t} className="flex items-center gap-3 whitespace-nowrap">
-              <span className="h-[3px] w-[3px] rounded-full bg-paper/50" />
-              {t}
+      {/* Bottom bar: editorial progress system + ticker */}
+      <div className="relative z-20 border-t border-paper/10 bg-ink/60 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 px-6 py-3 md:flex-row md:items-center md:justify-between md:gap-6 md:px-10">
+          {/* Editorial progress nav */}
+          <div className="flex flex-col items-center gap-2 md:items-start">
+            <span className="hidden text-[10px] font-medium uppercase tracking-[0.26em] text-paper/70 md:block">
+              {slides[active].navLabel}
             </span>
-          ))}
-        </div>
-      </div>
+            <nav aria-label="Hero slides" className="flex items-center">
+              {slides.map((slide, i) => {
+                const isActive = i === active;
+                const isLast = i === slides.length - 1;
+                return (
+                  <div key={i} className="flex items-center">
+                    <button
+                      type="button"
+                      onClick={() => goTo(i)}
+                      aria-label={`Go to ${slide.navLabel}`}
+                      aria-current={isActive ? "true" : undefined}
+                      className={`px-1 py-0.5 text-[10px] font-light tracking-[0.18em] transition-colors duration-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-paper/50 ${
+                        isActive ? "text-paper" : "text-paper/30 hover:text-paper/65"
+                      }`}
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </button>
+                    {!isLast && (
+                      <span className="mx-1 text-[10px] text-paper/20" aria-hidden="true">
+                        —
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </nav>
+            {/* Very thin animated progress line */}
+            <div className="relative h-px w-28 overflow-hidden bg-paper/20 md:w-40">
+              <span
+                key={progressKey}
+                className="absolute inset-y-0 left-0 block h-full bg-paper animate-hero-fill"
+                style={{
+                  animationDuration: `${slides[active].durationMs}ms`,
+                  animationPlayState: paused ? "paused" : "running",
+                }}
+              />
+            </div>
+          </div>
 
-      {/* Progress bars */}
-      <div className="absolute bottom-0 left-0 right-0 z-20 flex gap-2 px-6 pb-4 md:px-10">
-        {slides.map((slide, i) => (
-          <button
-            key={slide.type === "video" ? "video" : slide.src}
-            onClick={() => goTo(i)}
-            aria-label={`Go to slide ${i + 1}`}
-            className="group relative h-6 flex-1 before:absolute before:inset-x-0 before:top-1/2 before:h-px before:-translate-y-1/2 before:bg-paper/25"
-          >
-            <span
-              key={i === active ? key : `${i}-off`}
-              className={`absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-paper ${
-                i === active ? "animate-hero-fill" : "w-0"
-              }`}
-              style={
-                i === active
-                  ? ({ animationDuration: `${slides[active].durationMs}ms` } as React.CSSProperties)
-                  : undefined
-              }
-            />
-          </button>
-        ))}
+          {/* Ticker */}
+          <div className="flex items-center gap-8 overflow-x-auto text-[10px] font-light uppercase tracking-[0.28em] text-paper/60 no-scrollbar">
+            {[
+              "Sourced direct from Seoul",
+              "Sealed & batch-checked",
+              "Next-day VIC delivery",
+              "Express AU shipping",
+              "Advisor-built routines",
+            ].map((t) => (
+              <span key={t} className="flex items-center gap-3 whitespace-nowrap">
+                <span className="h-[3px] w-[3px] rounded-full bg-paper/50" />
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
