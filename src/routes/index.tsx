@@ -392,23 +392,32 @@ function LearnStrip() {
 
 function Promise() {
   const items = [
-    { t: "100% Authentic", d: "Direct from Korea, batch-verified, sealed." },
-    { t: "Next-Day from MEL*", d: "Order by 12pm, on your doorstep tomorrow — metro and most regional areas; remote postcodes may take 1–2 extra days." },
-    { t: "Expert Guidance", d: "Real advisors reply within 1 business hour." },
-    { t: "Subscribe & Save 10%", d: "Routine refills, paused or skipped any time." },
+    { num: "01", title: "AUTHENTIC FROM KOREA", line: "Batch verified" },
+    { num: "02", title: "DISPATCHED FROM MELBOURNE", line: "Fast Australian delivery" },
+    { num: "03", title: "PERSONAL GUIDANCE", line: "Skincare made simpler" },
+    { num: "04", title: "CURATED WITH INTENTION", line: "Only what’s worth knowing" },
   ];
   return (
     <section className="border-b border-border/60 bg-paper">
-      <div className="mx-auto grid max-w-7xl gap-6 px-6 py-10 md:grid-cols-4">
-        {items.map((i) => (
-          <div key={i.t} className="flex items-start gap-3">
-            <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-hanbok" />
-            <div>
-              <p className="text-sm font-semibold text-ink">{i.t}</p>
-              <p className="mt-1 text-xs text-muted-foreground">{i.d}</p>
-            </div>
-          </div>
-        ))}
+      <div className="mx-auto max-w-7xl px-6">
+        <ul className="grid divide-y divide-border/60 md:grid-cols-4 md:divide-y-0 md:divide-x">
+          {items.map((item) => (
+            <li
+              key={item.num}
+              className="flex flex-col items-center gap-3 py-10 text-center md:items-start md:px-8 md:py-14 md:text-left first:md:pl-0 last:md:pr-0"
+            >
+              <span className="font-display text-xs italic leading-none text-ink/30">
+                {item.num}
+              </span>
+              <div className="space-y-1">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink">
+                  {item.title}
+                </p>
+                <p className="text-xs text-muted-foreground">{item.line}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
