@@ -70,7 +70,7 @@ export function SeoulSignalStrip() {
           <div className="flex flex-col gap-6">
             {latestIssue && (
               <Link
-                to="/grocery-list/$slug"
+                to="/blog/$slug"
                 params={{ slug: latestIssue.slug }}
                 className="group block overflow-hidden rounded-sm border border-paper/20 transition-colors hover:border-paper/60"
               >
@@ -112,7 +112,7 @@ export function SeoulSignalStrip() {
 
             <div className="flex flex-wrap gap-3">
               <Link
-                to="/grocery-list"
+                to="/blog"
                 className="rounded-full bg-paper px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] text-ink transition-opacity hover:opacity-85"
               >
                 Read all issues

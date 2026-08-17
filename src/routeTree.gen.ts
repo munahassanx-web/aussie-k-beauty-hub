@@ -30,6 +30,8 @@ import { Route as TrackRouteImport } from './routes/track'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminSignalsRouteImport } from './routes/admin.signals'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as GroceryListIndexRouteImport } from './routes/grocery-list.index'
 import { Route as GroceryListSlugRouteImport } from './routes/grocery-list.$slug'
@@ -151,6 +153,16 @@ const AdminSignalsRoute = AdminSignalsRouteImport.update({
   path: '/admin/signals',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
   id: '/return',
   path: '/return',
@@ -250,6 +262,7 @@ export interface FileRoutesByFullPath {
   '/wishlist': typeof WishlistRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
@@ -257,6 +270,7 @@ export interface FileRoutesByFullPath {
   '/learn/hub': typeof LearnHubRoute
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
+  '/blog/': typeof BlogIndexRoute
   '/grocery-list/': typeof GroceryListIndexRoute
   '/learn/': typeof LearnIndexRoute
   '/routines/': typeof RoutinesIndexRoute
@@ -288,6 +302,7 @@ export interface FileRoutesByTo {
   '/wishlist': typeof WishlistRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
@@ -295,6 +310,7 @@ export interface FileRoutesByTo {
   '/learn/hub': typeof LearnHubRoute
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
+  '/blog': typeof BlogIndexRoute
   '/grocery-list': typeof GroceryListIndexRoute
   '/learn': typeof LearnIndexRoute
   '/routines': typeof RoutinesIndexRoute
@@ -327,6 +343,7 @@ export interface FileRoutesById {
   '/wishlist': typeof WishlistRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
@@ -334,6 +351,7 @@ export interface FileRoutesById {
   '/learn/hub': typeof LearnHubRoute
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
+  '/blog/': typeof BlogIndexRoute
   '/grocery-list/': typeof GroceryListIndexRoute
   '/learn/': typeof LearnIndexRoute
   '/routines/': typeof RoutinesIndexRoute
@@ -367,6 +385,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin/reviews'
     | '/admin/signals'
+    | '/blog/$slug'
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
@@ -374,6 +393,7 @@ export interface FileRouteTypes {
     | '/learn/hub'
     | '/product/$slug'
     | '/routines/$bundleId'
+    | '/blog/'
     | '/grocery-list/'
     | '/learn/'
     | '/routines/'
@@ -405,6 +425,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin/reviews'
     | '/admin/signals'
+    | '/blog/$slug'
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
@@ -412,6 +433,7 @@ export interface FileRouteTypes {
     | '/learn/hub'
     | '/product/$slug'
     | '/routines/$bundleId'
+    | '/blog'
     | '/grocery-list'
     | '/learn'
     | '/routines'
@@ -443,6 +465,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin/reviews'
     | '/admin/signals'
+    | '/blog/$slug'
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
@@ -450,6 +473,7 @@ export interface FileRouteTypes {
     | '/learn/hub'
     | '/product/$slug'
     | '/routines/$bundleId'
+    | '/blog/'
     | '/grocery-list/'
     | '/learn/'
     | '/routines/'
@@ -482,12 +506,14 @@ export interface RootRouteChildren {
   WishlistRoute: typeof WishlistRoute
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSignalsRoute: typeof AdminSignalsRoute
+  BlogSlugRoute: typeof BlogSlugRoute
   GroceryListSlugRoute: typeof GroceryListSlugRoute
   GuideProductIdRoute: typeof GuideProductIdRoute
   LearnSlugRoute: typeof LearnSlugRoute
   LearnHubRoute: typeof LearnHubRoute
   ProductSlugRoute: typeof ProductSlugRoute
   RoutinesBundleIdRoute: typeof RoutinesBundleIdRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   GroceryListIndexRoute: typeof GroceryListIndexRoute
   LearnIndexRoute: typeof LearnIndexRoute
   RoutinesIndexRoute: typeof RoutinesIndexRoute
@@ -647,6 +673,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSignalsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/checkout/return': {
       id: '/checkout/return'
       path: '/return'
@@ -789,12 +829,14 @@ const rootRouteChildren: RootRouteChildren = {
   WishlistRoute: WishlistRoute,
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSignalsRoute: AdminSignalsRoute,
+  BlogSlugRoute: BlogSlugRoute,
   GroceryListSlugRoute: GroceryListSlugRoute,
   GuideProductIdRoute: GuideProductIdRoute,
   LearnSlugRoute: LearnSlugRoute,
   LearnHubRoute: LearnHubRoute,
   ProductSlugRoute: ProductSlugRoute,
   RoutinesBundleIdRoute: RoutinesBundleIdRoute,
+  BlogIndexRoute: BlogIndexRoute,
   GroceryListIndexRoute: GroceryListIndexRoute,
   LearnIndexRoute: LearnIndexRoute,
   RoutinesIndexRoute: RoutinesIndexRoute,

@@ -160,8 +160,8 @@ function DraftReview() {
       {draft.status === "published" && (
         <p className="text-sm">
           Live at{" "}
-          <a className="underline" href={`/grocery-list/${draft.slug}`}>
-            /grocery-list/{draft.slug}
+          <a className="underline" href={`/blog/${draft.slug}`}>
+            /blog/{draft.slug}
           </a>
         </p>
       )}
