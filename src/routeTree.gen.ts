@@ -30,9 +30,11 @@ import { Route as TrackRouteImport } from './routes/track'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminSignalsRouteImport } from './routes/admin.signals'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as GroceryListIndexRouteImport } from './routes/grocery-list.index'
+import { Route as GroceryListSlugRouteImport } from './routes/grocery-list.$slug'
 import { Route as GuideProductIdRouteImport } from './routes/guide.$productId'
 import { Route as LearnIndexRouteImport } from './routes/learn.index'
 import { Route as LearnSlugRouteImport } from './routes/learn.$slug'
@@ -151,6 +153,11 @@ const AdminSignalsRoute = AdminSignalsRouteImport.update({
   path: '/admin/signals',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
   path: '/blog/$slug',
@@ -164,6 +171,11 @@ const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
 const GroceryListIndexRoute = GroceryListIndexRouteImport.update({
   id: '/grocery-list/',
   path: '/grocery-list/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GroceryListSlugRoute = GroceryListSlugRouteImport.update({
+  id: '/grocery-list/$slug',
+  path: '/grocery-list/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GuideProductIdRoute = GuideProductIdRouteImport.update({
@@ -252,11 +264,13 @@ export interface FileRoutesByFullPath {
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/checkout/return': typeof CheckoutReturnRoute
+  '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/learn/hub': typeof LearnHubRoute
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
+  '/blog/': typeof BlogIndexRoute
   '/grocery-list/': typeof GroceryListIndexRoute
   '/learn/': typeof LearnIndexRoute
   '/routines/': typeof RoutinesIndexRoute
@@ -290,11 +304,13 @@ export interface FileRoutesByTo {
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/checkout/return': typeof CheckoutReturnRoute
+  '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/learn/hub': typeof LearnHubRoute
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
+  '/blog': typeof BlogIndexRoute
   '/grocery-list': typeof GroceryListIndexRoute
   '/learn': typeof LearnIndexRoute
   '/routines': typeof RoutinesIndexRoute
@@ -329,11 +345,13 @@ export interface FileRoutesById {
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/checkout/return': typeof CheckoutReturnRoute
+  '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
   '/learn/$slug': typeof LearnSlugRoute
   '/learn/hub': typeof LearnHubRoute
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
+  '/blog/': typeof BlogIndexRoute
   '/grocery-list/': typeof GroceryListIndexRoute
   '/learn/': typeof LearnIndexRoute
   '/routines/': typeof RoutinesIndexRoute
@@ -369,11 +387,13 @@ export interface FileRouteTypes {
     | '/admin/signals'
     | '/blog/$slug'
     | '/checkout/return'
+    | '/grocery-list/$slug'
     | '/guide/$productId'
     | '/learn/$slug'
     | '/learn/hub'
     | '/product/$slug'
     | '/routines/$bundleId'
+    | '/blog/'
     | '/grocery-list/'
     | '/learn/'
     | '/routines/'
@@ -407,11 +427,13 @@ export interface FileRouteTypes {
     | '/admin/signals'
     | '/blog/$slug'
     | '/checkout/return'
+    | '/grocery-list/$slug'
     | '/guide/$productId'
     | '/learn/$slug'
     | '/learn/hub'
     | '/product/$slug'
     | '/routines/$bundleId'
+    | '/blog'
     | '/grocery-list'
     | '/learn'
     | '/routines'
@@ -445,11 +467,13 @@ export interface FileRouteTypes {
     | '/admin/signals'
     | '/blog/$slug'
     | '/checkout/return'
+    | '/grocery-list/$slug'
     | '/guide/$productId'
     | '/learn/$slug'
     | '/learn/hub'
     | '/product/$slug'
     | '/routines/$bundleId'
+    | '/blog/'
     | '/grocery-list/'
     | '/learn/'
     | '/routines/'
@@ -483,11 +507,13 @@ export interface RootRouteChildren {
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSignalsRoute: typeof AdminSignalsRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  GroceryListSlugRoute: typeof GroceryListSlugRoute
   GuideProductIdRoute: typeof GuideProductIdRoute
   LearnSlugRoute: typeof LearnSlugRoute
   LearnHubRoute: typeof LearnHubRoute
   ProductSlugRoute: typeof ProductSlugRoute
   RoutinesBundleIdRoute: typeof RoutinesBundleIdRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   GroceryListIndexRoute: typeof GroceryListIndexRoute
   LearnIndexRoute: typeof LearnIndexRoute
   RoutinesIndexRoute: typeof RoutinesIndexRoute
@@ -647,6 +673,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSignalsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/$slug': {
       id: '/blog/$slug'
       path: '/blog/$slug'
@@ -666,6 +699,13 @@ declare module '@tanstack/react-router' {
       path: '/grocery-list'
       fullPath: '/grocery-list/'
       preLoaderRoute: typeof GroceryListIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/grocery-list/$slug': {
+      id: '/grocery-list/$slug'
+      path: '/grocery-list/$slug'
+      fullPath: '/grocery-list/$slug'
+      preLoaderRoute: typeof GroceryListSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/guide/$productId': {
@@ -790,11 +830,13 @@ const rootRouteChildren: RootRouteChildren = {
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSignalsRoute: AdminSignalsRoute,
   BlogSlugRoute: BlogSlugRoute,
+  GroceryListSlugRoute: GroceryListSlugRoute,
   GuideProductIdRoute: GuideProductIdRoute,
   LearnSlugRoute: LearnSlugRoute,
   LearnHubRoute: LearnHubRoute,
   ProductSlugRoute: ProductSlugRoute,
   RoutinesBundleIdRoute: RoutinesBundleIdRoute,
+  BlogIndexRoute: BlogIndexRoute,
   GroceryListIndexRoute: GroceryListIndexRoute,
   LearnIndexRoute: LearnIndexRoute,
   RoutinesIndexRoute: RoutinesIndexRoute,

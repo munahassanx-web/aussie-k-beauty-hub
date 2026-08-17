@@ -137,7 +137,7 @@ export function KoreaRightNow() {
             </p>
           </div>
           <Link
-            to="/grocery-list"
+            to="/blog"
             className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink underline underline-offset-4 hover:text-clay"
           >
             How we track this →

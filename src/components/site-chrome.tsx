@@ -187,7 +187,7 @@ export function SiteHeader() {
               Learn
             </Link>
             <Link
-              to="/grocery-list"
+              to="/blog"
               onMouseEnter={() => setOpenMenu(null)}
               className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
             >
@@ -330,7 +330,7 @@ export function SiteHeader() {
                   <span className="text-base text-primary">→</span>
                 </Link>
                 <Link
-                  to="/grocery-list"
+                  to="/blog"
                   onClick={closeMenus}
                   className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
                 >
@@ -430,7 +430,7 @@ export function SiteFooter() {
           <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">Learn</h4>
           <ul className="mt-5 space-y-3 text-sm text-paper/70">
             <li><Link to="/learn/hub" className="hover:text-paper">Learn Hub</Link></li>
-            <li><Link to="/grocery-list" className="hover:text-paper">The Skin Grocery List</Link></li>
+            <li><Link to="/blog" className="hover:text-paper">Blog</Link></li>
             <li><Link to="/learn" className="hover:text-paper">Ingredients A–Z</Link></li>
             <li><Link to="/about" className="hover:text-paper">About Us</Link></li>
             <li><Link to="/reviews" className="hover:text-paper">Reviews</Link></li>
