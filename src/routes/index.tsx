@@ -10,7 +10,7 @@ import { Reveal } from "@/components/reveal";
 import { HeroCarousel } from "@/components/hero-carousel";
 import { SeoulSignalStrip } from "@/components/seoul-signal";
 import { KoreaRightNow } from "@/components/korea-right-now";
-import { bundleMath, BUNDLE_DEFINITIONS, bundleSavingsSummary, RESTOCK_DISCOUNT_PERCENT } from "@/lib/shop-catalog";
+import { bundleMath, BUNDLE_DEFINITIONS, RESTOCK_DISCOUNT_PERCENT } from "@/lib/shop-catalog";
 import glassSkinStarterExplainer from "@/assets/bundle-explainers/glass-skin-starter.png.asset.json";
 import completeGlowExplainer from "@/assets/bundle-explainers/complete-glow-edit.png.asset.json";
 import calmClearExplainer from "@/assets/bundle-explainers/calm-clear-bundle.png.asset.json";
@@ -386,30 +386,22 @@ function BrandMarquee() {
 }
 
 function PromoBar() {
-  const { maxPercent } = bundleSavingsSummary();
-  const messages = [
-    `Save up to ${maxPercent}% on advisor-built bundles`,
-    "Bundle + subscribe for an extra 10% off, forever",
-    "Routine card + samples in every bundle",
-  ];
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setI((x) => (x + 1) % messages.length), 7000);
-    return () => clearInterval(t);
-  }, [messages.length]);
   return (
     <Link
-      to="/"
-      hash="bundles"
-      className="block bg-hanbok-deep text-paper transition hover:bg-hanbok"
+      to="/shipping-policy"
+      aria-label="Free express shipping on Australian orders over A$80 — read our shipping policy"
+      className="block bg-hanbok-deep text-paper transition-colors hover:bg-hanbok"
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-6 py-2.5 text-center text-[11px] font-semibold uppercase tracking-[0.2em]">
-        <span className="truncate transition-opacity duration-700">{messages[i]}</span>
-        <span className="hidden whitespace-nowrap text-accent sm:inline">Shop bundles →</span>
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-6 py-2.5 text-center text-[11px] font-semibold uppercase tracking-[0.2em]">
+        <span>Free express shipping on Australian orders over A$80</span>
+        <span className="hidden text-paper/60 sm:inline">
+          Dispatched same business day on orders placed before 12pm
+        </span>
       </div>
     </Link>
   );
 }
+
 
 
 
