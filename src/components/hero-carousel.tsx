@@ -43,8 +43,8 @@ const slides: Slide[] = [
     type: "image" as const,
     src: brandMoment,
     eyebrow: "MELBOURNE · AUTHENTIC KOREAN SKINCARE",
-    headline: "SKINCARE, CURATED DIFFERENTLY.",
-    body: "The Korean skincare worth knowing — selected for your skin, not the hype.",
+    headline: "SKIN GROCER",
+    body: "Skincare, curated differently — for your climate, your skin, your routine.",
     durationMs: 7000,
     ctas: [
       { label: "EXPLORE THE EDIT", to: "/shop", variant: "primary", icon: "arrow" },
