@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import { getGuestOrderBySession, getOrderBySession, type OrderReceipt } from '@/lib/commerce.functions';
+import { useAuth } from '@/hooks/use-auth';
 import { useCart, formatAud } from '@/lib/cart';
 
 export const Route = createFileRoute('/checkout/return')({
@@ -22,6 +23,7 @@ export const Route = createFileRoute('/checkout/return')({
 function CheckoutReturn() {
   const { session_id: sessionId } = Route.useSearch();
   const cart = useCart();
+  const { user } = useAuth();
   const [receipt, setReceipt] = useState<OrderReceipt | null>(null);
   const [tries, setTries] = useState(0);
 
@@ -54,54 +56,84 @@ function CheckoutReturn() {
     return (
       <div className="mx-auto max-w-2xl px-6 py-24 text-center">
         <h1 className="font-display text-4xl text-foreground">No order found</h1>
-        <Link to="/shop" className="mt-6 inline-flex rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground">Back to shop</Link>
+        <p className="mt-3 text-sm text-muted-foreground">
+          If you’ve just paid, check your inbox for the receipt — or look up your order with your email and order ID.
+        </p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <Link to="/track" className="border border-border px-7 py-3 text-sm uppercase tracking-[0.16em] text-foreground hover:bg-secondary">
+            Track an order
+          </Link>
+          <Link to="/shop" className="bg-primary px-7 py-3 text-sm uppercase tracking-[0.16em] text-primary-foreground">
+            Back to shop
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-20">
-      <p className="text-xs uppercase tracking-[0.2em] text-primary">Thank you</p>
-      <h1 className="mt-3 font-display text-4xl text-foreground">Your order is confirmed</h1>
-      <p className="mt-3 text-muted-foreground">
-        We've emailed your receipt. Orders placed before 12pm are dispatched the same business day.*
+      <p className="text-[11px] uppercase tracking-[0.24em] text-primary">Thank you</p>
+      <h1 className="mt-4 font-display text-4xl leading-tight text-foreground">Your order is confirmed</h1>
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+        Payment received and your receipt is on its way by email. Orders are picked and packed in Melbourne, and we’ll
+        email you again the moment your parcel is dispatched.
       </p>
 
-      <div className="mt-8 rounded-2xl border border-border p-6">
+      <div className="mt-10 border border-border p-6">
+        <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Order summary</h2>
         {!receipt ? (
-          <p className="text-sm text-muted-foreground">
-            {tries > 10 ? 'Payment received — your order details will appear in your account shortly.' : 'Finalising your order…'}
+          <p className="mt-4 text-sm text-muted-foreground" aria-live="polite">
+            {tries > 10
+              ? 'Payment received — your full order details will appear in your account and receipt email shortly.'
+              : 'Finalising your order…'}
           </p>
         ) : (
-          <div className="space-y-4">
-            <ul className="space-y-2">
+          <div className="mt-4 space-y-5">
+            <ul className="divide-y divide-border">
               {receipt.lineItems.map((l, i) => (
-                <li key={i} className="flex justify-between text-sm text-foreground">
-                  <span>{l.name} × {l.quantity}</span>
+                <li key={i} className="flex justify-between gap-4 py-3 text-sm text-foreground">
+                  <span>
+                    {l.name} <span className="text-muted-foreground">× {l.quantity}</span>
+                  </span>
                   <span>{formatAud(l.amountCents)}</span>
                 </li>
               ))}
             </ul>
-            <div className="space-y-1 border-t border-border pt-4 text-sm">
+            <div className="space-y-2 border-t border-border pt-4 text-sm">
               {receipt.shippingCents > 0 && (
-                <div className="flex justify-between text-muted-foreground"><span>Shipping</span><span>{formatAud(receipt.shippingCents)}</span></div>
+                <div className="flex justify-between text-muted-foreground">
+                  <span>Shipping</span>
+                  <span>{formatAud(receipt.shippingCents)}</span>
+                </div>
               )}
               {receipt.discountCents > 0 && (
-                <div className="flex justify-between text-muted-foreground"><span>Points reward</span><span>−{formatAud(receipt.discountCents)}</span></div>
+                <div className="flex justify-between text-muted-foreground">
+                  <span>Points reward</span>
+                  <span>−{formatAud(receipt.discountCents)}</span>
+                </div>
               )}
-              <div className="flex justify-between text-base text-foreground"><span>Total paid</span><span>{formatAud(receipt.amountCents)}</span></div>
+              <div className="flex items-baseline justify-between border-t border-border pt-3">
+                <span className="text-sm uppercase tracking-[0.16em] text-muted-foreground">Total paid</span>
+                <span className="font-display text-2xl text-foreground">{formatAud(receipt.amountCents)}</span>
+              </div>
             </div>
             {receipt.pointsEarned > 0 && (
-              <p className="rounded-xl bg-secondary p-3 text-sm text-foreground">
+              <p className="border border-border bg-secondary/60 p-4 text-sm text-foreground">
                 You earned {receipt.pointsEarned} points on this order.
               </p>
             )}
             {receipt.shipping && (
-              <div className="text-sm text-muted-foreground">
-                <p className="text-foreground">Delivering to</p>
-                <p>{receipt.shipping.name}</p>
-                <p>{receipt.shipping.line1}{receipt.shipping.line2 ? `, ${receipt.shipping.line2}` : ''}</p>
-                <p>{receipt.shipping.city} {receipt.shipping.state} {receipt.shipping.postcode}</p>
+              <div className="border-t border-border pt-4 text-sm text-muted-foreground">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Delivering to</p>
+                <p className="mt-2 text-foreground">{receipt.shipping.name}</p>
+                <p>
+                  {receipt.shipping.line1}
+                  {receipt.shipping.line2 ? `, ${receipt.shipping.line2}` : ''}
+                </p>
+                <p>
+                  {receipt.shipping.city} {receipt.shipping.state} {receipt.shipping.postcode}
+                </p>
               </div>
             )}
           </div>
@@ -111,16 +143,67 @@ function CheckoutReturn() {
       {receipt?.orderId && (
         <p className="mt-4 text-sm text-muted-foreground">
           Order ID <span className="font-mono text-foreground">{receipt.orderId}</span> — keep this to{' '}
-          <Link to="/track" className="underline">track your order</Link>.
+          <Link to="/track" className="underline underline-offset-4">
+            track your order
+          </Link>
+          .
         </p>
       )}
 
-      <p className="mt-4 text-xs text-muted-foreground">*Metro and most regional areas. Remote postcodes may take 1–2 extra days.</p>
+      <section className="mt-10 border-t border-border pt-8">
+        <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">What happens next</h2>
+        <ol className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
+          <li>
+            <span className="text-foreground">1.</span> We pick, batch-check and pack your order in Melbourne.
+          </li>
+          <li>
+            <span className="text-foreground">2.</span> You’ll get a dispatch email with carrier tracking. Allow 1–3
+            business days in transit for most Australian addresses; remote postcodes can take longer.
+          </li>
+          <li>
+            <span className="text-foreground">3.</span> Each product has a step-by-step application guide on its
+            product page whenever you need it.
+          </li>
+        </ol>
+      </section>
 
-      <div className="mt-8 flex flex-wrap gap-3">
-        <Link to="/club" className="rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">View your account</Link>
-        <Link to="/track" className="rounded-full border border-border px-7 py-3 text-sm font-medium text-foreground hover:bg-secondary">Track order</Link>
-        <Link to="/shop" className="rounded-full border border-border px-7 py-3 text-sm font-medium text-foreground hover:bg-secondary">Keep shopping</Link>
+      {!user && (
+        <section className="mt-8 border border-border p-6">
+          <h2 className="font-display text-xl text-foreground">Create an account?</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            Optional — sign up with the same email you used at checkout and this order is linked to your account
+            automatically, so you can see its status and start earning points.
+          </p>
+          <Link
+            to="/auth"
+            className="mt-5 inline-flex border border-border px-6 py-3 text-xs uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
+          >
+            Create an account
+          </Link>
+        </section>
+      )}
+
+      <div className="mt-10 flex flex-wrap gap-3">
+        <Link
+          to="/shop"
+          className="bg-primary px-7 py-3.5 text-sm font-medium uppercase tracking-[0.16em] text-primary-foreground transition hover:opacity-90"
+        >
+          Keep shopping
+        </Link>
+        <Link
+          to="/track"
+          className="border border-border px-7 py-3.5 text-sm uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
+        >
+          Track order
+        </Link>
+        {user && (
+          <Link
+            to="/club"
+            className="border border-border px-7 py-3.5 text-sm uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
+          >
+            View your account
+          </Link>
+        )}
       </div>
     </div>
   );
