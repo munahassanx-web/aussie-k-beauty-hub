@@ -44,6 +44,10 @@ const slides: Slide[] = [
     headline: "skin grocer",
     body: "K-beauty for your skin — and your postcode.",
     durationMs: 2500,
+    ctas: [
+      { label: "Discover skingrocer", to: "/about", variant: "primary", icon: "arrow" },
+      { label: "Shop the edit", to: "/shop", variant: "secondary", icon: "arrow" },
+    ],
     headlineClass: "hero-headline-xl max-w-3xl",
     bodyClass: "max-w-md",
     align: "center",
