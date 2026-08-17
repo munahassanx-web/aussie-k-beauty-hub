@@ -152,6 +152,8 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
         // Physical goods: always collect an Australian delivery address.
         shipping_address_collection: { allowed_countries: ['AU'] },
         phone_number_collection: { enabled: true },
+        // Promotion codes and a points reward can't be combined on one session.
+        ...(discounts.length === 0 && { allow_promotion_codes: true }),
         ...(isSubscription
           ? {
               subscription_data: {
