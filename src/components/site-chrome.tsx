@@ -518,10 +518,11 @@ export function SiteFooter() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-5 text-xs text-paper/50 md:flex-row">
           <p>© {new Date().getFullYear()} Skin Grocer Pty Ltd — Melbourne, Australia · ABN {import.meta.env.VITE_COMPANY_ABN || "xx xxx xxx xxx"}</p>
           <div className="flex gap-5">
-            <span>Shipping & Returns</span>
-            <span>Privacy</span>
-            <span>Terms</span>
+            <Link to="/shipping-policy" className="hover:text-paper">Shipping</Link>
+            <Link to="/returns-policy" className="hover:text-paper">Returns</Link>
+            <Link to="/privacy-policy" className="hover:text-paper">Privacy</Link>
           </div>
+
         </div>
       </div>
       <ProductSearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
