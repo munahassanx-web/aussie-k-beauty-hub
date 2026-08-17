@@ -12,75 +12,61 @@ const signals = [
 const latestIssue = newsletterIssues.find((i) => i.published) ?? newsletterIssues[0];
 
 /**
- * Homepage placement of The Seoul Signal — the fortnightly Korea market read.
- * Positioned high on the page so it doesn't stay buried in the Learn Hub.
+ * The Seoul Signal — editorial dispatch from SkinGrocer's Korean point of view.
  */
 export function SeoulSignalStrip() {
   return (
     <section className="bg-ink px-6 py-20 text-paper md:py-24" aria-labelledby="seoul-signal-home">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
-          <div>
-            <p className="inline-flex items-center gap-2 rounded-full border border-paper/25 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-paper/70">
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-grocer-tomato" />
-              The Seoul Signal · Free · Fortnightly
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+          {/* Left: masthead / manifesto + newsletter signup */}
+          <div className="flex flex-col">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-paper/70">
+              THE SEOUL SIGNAL
             </p>
             <h2
               id="seoul-signal-home"
               className="mt-6 max-w-xl font-display text-[34px] leading-[1.02] md:text-[56px]"
             >
-              You&rsquo;re buying what Korea
-              <span className="text-grocer-tomato"> finished with a year ago.</span>
+              Closer to Seoul. Clearer about what matters.
             </h2>
             <p className="mt-6 max-w-lg text-[15px] leading-relaxed text-paper/75">
-              By the time a Korean product is marketed to you here, Seoul has already reviewed it,
-              ranked it, and in a lot of cases moved on. That lag is why your routine keeps feeling
-              one step behind and why you keep paying full price for last season&rsquo;s hero.
+              A SkinGrocer editorial dispatch on the ingredients, formulas and conversations
+              shaping Korean skincare — translated into what is actually useful to know.
             </p>
             <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-paper/75">
-              Every fortnight we read Korean-language reviews, Olive Young ranking movement and
-              Seoul shelf data, and publish what&rsquo;s actually working — plus the trends not worth
-              your money. Free to read, no product pitch.
+              Less hype. More context. Read what is changing, what is worth understanding and what
+              may deserve a place in your routine.
             </p>
-
-
-            <dl className="mt-10 grid max-w-lg grid-cols-3 gap-6 border-t border-paper/20 pt-8">
-              {[
-                { n: "Every 2 weeks", l: "New issue published" },
-                { n: "12–18 mo", l: "The lag we close" },
-                { n: "10M+", l: "Korean reviews tracked" },
-              ].map((s) => (
-                <div key={s.l}>
-                  <dt className="font-display text-xl leading-none md:text-2xl">{s.n}</dt>
-                  <dd className="mt-2 text-[11px] uppercase leading-snug tracking-[0.14em] text-paper/55">
-                    {s.l}
-                  </dd>
-                </div>
-              ))}
-            </dl>
 
             <div className="mt-10 max-w-md">
               <p className="text-[12px] uppercase tracking-[0.2em] text-paper/60">
-                Get each issue by email
+                THE DISPATCH, BY EMAIL
               </p>
-              <NewsletterForm source="homepage" variant="dark" />
+              <p className="mt-1 text-[13px] leading-relaxed text-paper/55">
+                New SkinGrocer editorial notes when there is something worth sending.
+              </p>
+              <div className="mt-4">
+                <NewsletterForm source="homepage" variant="dark" />
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-6">
+          {/* Right: latest issue + article index + understated links */}
+          <div className="flex flex-col gap-8">
             {latestIssue && (
               <Link
                 to="/blog/$slug"
                 params={{ slug: latestIssue.slug }}
-                className="group block overflow-hidden rounded-sm border border-paper/20 transition-colors hover:border-paper/60"
+                className="group block border border-paper/20 transition-colors hover:border-paper/50"
               >
                 <img
                   src={latestIssue.cover}
                   alt={latestIssue.coverAlt}
                   loading="lazy"
-                  className="h-44 w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  className="aspect-[16/10] w-full object-cover"
                 />
-                <div className="p-6">
+                <div className="border-t border-paper/20 p-6">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-paper/60">
                     Latest issue {latestIssue.number} · {latestIssue.theme}
                   </p>
@@ -92,36 +78,50 @@ export function SeoulSignalStrip() {
               </Link>
             )}
 
-            <div className="grid gap-4">
-              {signals.map((a) => (
+            <div className="flex flex-col">
+              {signals.map((a, i) => (
                 <Link
                   key={a.slug}
                   to="/learn/article/$slug"
                   params={{ slug: a.slug }}
-                  className="group border-t border-paper/20 pt-4 transition-colors hover:border-paper"
+                  className="group border-t border-paper/20 py-5 transition-colors hover:border-paper/50"
                 >
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-paper/55">
-                    {a.meta} · {a.read}
-                  </p>
-                  <h3 className="mt-2 font-display text-lg leading-snug group-hover:text-accent">
-                    {a.title}
-                  </h3>
+                  <div className="flex items-start gap-4">
+                    <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-paper/50">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-paper/55">
+                        {a.meta} · {a.read}
+                      </p>
+                      <h3 className="mt-1 font-display text-lg leading-snug transition-colors group-hover:text-paper">
+                        {a.title}
+                      </h3>
+                    </div>
+                  </div>
                 </Link>
               ))}
+              <div className="border-t border-paper/20" />
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
               <Link
                 to="/blog"
-                className="rounded-full bg-paper px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] text-ink transition-opacity hover:opacity-85"
+                className="group text-[13px] tracking-wide text-paper/80 transition-colors hover:text-paper"
               >
-                Read all issues
+                Read all issues{" "}
+                <span className="inline-block transition-transform group-hover:translate-x-0.5">
+                  →
+                </span>
               </Link>
               <Link
                 to="/learn/hub"
-                className="rounded-full border border-paper/40 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] text-paper transition-colors hover:border-paper"
+                className="group text-[13px] tracking-wide text-paper/80 transition-colors hover:text-paper"
               >
-                The full Seoul Signal
+                Explore the Learn Hub{" "}
+                <span className="inline-block transition-transform group-hover:translate-x-0.5">
+                  →
+                </span>
               </Link>
             </div>
           </div>
