@@ -46,7 +46,7 @@ const megaMenus: Record<string, MegaSection[]> = {
       links: [
         { label: "Bestsellers", to: "/shop" },
         { label: "New Arrivals", to: "/shop" },
-        { label: "Subscribe & Save", to: "/club" },
+        { label: "Restock essentials", to: "/club" },
         { label: "Bundles", to: "/", hash: "bundles" },
       ],
     },
@@ -68,7 +68,7 @@ const megaMenus: Record<string, MegaSection[]> = {
       links: [
         { label: "Take the Routine Consultation", to: "/consultation" },
         { label: "Ingredient Finder", to: "/learn/snail-mucin" },
-        { label: "Talk to an Advisor", to: "/contact" },
+        { label: "Ask us a question", to: "/contact" },
       ],
     },
   ],
@@ -330,7 +330,7 @@ export function SiteHeader() {
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Featured</p>
                 <p className="mt-3 font-display text-xl leading-tight text-foreground">Glass Skin in 4 Steps</p>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Our advisor-built routine for dewy, even-toned skin.
+                  A considered routine for dewy, even-toned skin.
                 </p>
                 <Link to="/journey" onClick={closeMenus} className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
                   Explore the routine →
@@ -454,16 +454,20 @@ export function SiteFooter() {
           <p className="font-display text-3xl text-paper">Skin Grocer</p>
           <p className="mt-5 max-w-sm text-sm text-paper/65">
             Melbourne-based curators of authentic K-beauty and premium imports.
-            Locally stocked, expertly guided, dispatched the next day.*
+            Locally stocked in Australia, chosen with intention and explained
+            plainly.
           </p>
-          <div className="mt-6 inline-flex items-center gap-3 rounded-full border border-paper/20 px-4 py-2 text-xs uppercase tracking-[0.2em] text-paper/80">
-            <span className="h-2 w-2 animate-pulse-ring rounded-full bg-accent" />
-            Ships next day from Melbourne*
-          </div>
-          <p className="mt-4 max-w-sm text-xs text-paper/45">
-            *Next-day delivery applies to metro and most regional areas. Remote
-            postcodes may take 1–2 extra days.
+          <p className="mt-6 border-t border-paper/15 pt-4 text-xs uppercase tracking-[0.2em] text-paper/70">
+            Locally stocked in Australia
           </p>
+          <p className="mt-3 max-w-sm text-xs text-paper/45">
+            Dispatched from our Epping, Victoria warehouse. See our{" "}
+            <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-paper">
+              shipping policy
+            </Link>{" "}
+            for current dispatch and delivery timeframes.
+          </p>
+
         </div>
 
         <div className="md:col-span-2">
@@ -483,7 +487,7 @@ export function SiteFooter() {
             <li><Link to="/blog" className="hover:text-paper">Blog</Link></li>
             <li><Link to="/learn" className="hover:text-paper">Ingredients A–Z</Link></li>
             <li><Link to="/about" className="hover:text-paper">About Us</Link></li>
-            <li><Link to="/reviews" className="hover:text-paper">Reviews</Link></li>
+            
             <li><Link to="/contact" className="hover:text-paper">Contact</Link></li>
             <li><Link to="/faq" className="hover:text-paper">FAQ</Link></li>
             <li><Link to="/track" className="hover:text-paper">Track your order</Link></li>
@@ -507,10 +511,9 @@ export function SiteFooter() {
         <div className="md:col-span-4">
           <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">The Drop</h4>
           <p className="mt-5 text-sm text-paper/70">
-            Restocks, new arrivals, ritual notes. No spam, ever.
+            Restocks, new arrivals and ritual notes.
           </p>
           <NewsletterForm source="footer" variant="dark" />
-          <p className="mt-3 text-xs text-paper/45">By subscribing you agree to our Privacy Policy.</p>
         </div>
       </div>
 
@@ -518,10 +521,11 @@ export function SiteFooter() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-5 text-xs text-paper/50 md:flex-row">
           <p>© {new Date().getFullYear()} Skin Grocer Pty Ltd — Melbourne, Australia · ABN {import.meta.env.VITE_COMPANY_ABN || "xx xxx xxx xxx"}</p>
           <div className="flex gap-5">
-            <span>Shipping & Returns</span>
-            <span>Privacy</span>
-            <span>Terms</span>
+            <Link to="/shipping-policy" className="hover:text-paper">Shipping</Link>
+            <Link to="/returns-policy" className="hover:text-paper">Returns</Link>
+            <Link to="/privacy-policy" className="hover:text-paper">Privacy</Link>
           </div>
+
         </div>
       </div>
       <ProductSearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />

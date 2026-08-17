@@ -465,7 +465,7 @@ export function HeroCarousel() {
             {[
               "Sourced direct from Seoul",
               "Sealed & batch-checked",
-              "Next-day VIC delivery",
+              "Dispatched from Melbourne",
               "Express AU shipping",
               "Advisor-built routines",
             ].map((t) => (
