@@ -6,64 +6,45 @@ import { SHOP_PRODUCTS, priceToCents, type ShopProduct } from "@/lib/shop-catalo
 
 type Pick = {
   priceId: string;
-  /** Why this is moving in Korea right now — factual, no invented claims. */
-  signal: string;
-  /** Where the signal came from, shown to the reader. */
-  source: string;
+  /** Short editorial reason this sits on our radar — no ranking or trend claims. */
+  note: string;
 };
 
 /**
- * "Korea right now" — the weekly read on what's actually selling and being
- * discussed in Seoul, matched to what we hold in the Melbourne warehouse.
- * Compiled from Olive Young ranking movement, Korean review platforms,
- * r/AsianBeauty and r/KoreanBeauty discussion, and weekly YouTube round-ups.
+ * "The Seoul Edit" — a quiet editorial feature: one considered pick, then a
+ * short shortlist from the cabinet. Editorial first, commerce second.
  */
-const PRODUCT_OF_THE_WEEK: Pick = {
+const FEATURED: Pick = {
   priceId: "medicube_pdrn_pink_peptide_serum_30ml_onetime",
-  signal:
-    "PDRN — the salmon-derived polynucleotide Korean clinics have used for years — is the single biggest ingredient story in Korea right now. Reviews on PDRN products in Korea are up roughly 103% year on year, and MEDICUBE's pink PDRN line is the range that took it from a clinic procedure to a shelf product. This is the serum at the centre of it.",
-  source: "Naver ingredient search growth · Olive Young bestsellers · Aug 2026",
+  note: "PDRN has moved from the treatment room into everyday Korean skincare. This peptide serum is our entry point into the category: a focused formula for anyone curious about the ingredient without turning their routine upside down.",
 };
 
-const WEEKLY_PICKS: Pick[] = [
+const SHORTLIST: Pick[] = [
   {
     priceId: "beplain_mung_bean_ph_balanced_cleansing_foam_80ml_onetime",
-    signal:
-      "Sitting at #1 on Hwahae's trending ranking. Low-pH mung bean foam — Korea's answer to cleansers that leave skin tight.",
-    source: "Hwahae trending · 11 Aug 2026",
+    note: "A low-pH mung bean foam for anyone who finds cleansing leaves their skin tight.",
   },
   {
     priceId: "aestura_atobarrier365_cream_onetime",
-    signal:
-      "#2 on the same Hwahae ranking. The derm-counter ceramide cream Koreans reach for when the barrier is genuinely damaged.",
-    source: "Hwahae trending · 11 Aug 2026",
+    note: "A plain, ceramide-led cream — the one we reach for when the barrier needs quiet.",
   },
   {
     priceId: "torriden_dive_in_serum_onetime",
-    signal:
-      "Torriden is currently ranked Korea's #1 brand on Hwahae, and low-molecular hyaluronic acid is the reason why.",
-    source: "Hwahae brand ranking · Jul 2026",
+    note: "Low-molecular hyaluronic acid, kept simple. Hydration without any weight.",
   },
   {
     priceId: "round_lab_1025_dokdo_toner_100ml_onetime",
-    signal:
-      "Round Lab has held the top spot in Korea's weekly K-beauty brand ranking for weeks. Dokdo is the line doing it.",
-    source: "Kagit weekly ranking · week 31, 2026",
+    note: "Uncomplicated, fragrance-light hydration — an easy first step in a routine.",
   },
   {
     priceId: "s_nature_aqua_oasis_toner_onetime",
-    signal:
-      "S.NATURE's hydration line keeps surfacing at the top of Hwahae's bestseller lists — water-first, no fragrance load.",
-    source: "Hwahae bestsellers · Aug 2026",
+    note: "Water-first and unfussy, for skin that reacts to a heavier formula.",
   },
   {
     priceId: "biodance_bio_collagen_real_deep_mask_onetime",
-    signal:
-      "The overnight hydrogel mask that turns clear as it works, and still the mask every new collagen mask gets benchmarked against.",
-    source: "Olive Young mask ranking · reviewer round-ups",
+    note: "The overnight hydrogel mask that turns clear as it works. A ritual more than a step.",
   },
 ];
-
 
 function byPriceId(id: string): ShopProduct | undefined {
   return SHOP_PRODUCTS.find((p) => p.priceId === id);
@@ -74,8 +55,8 @@ function AddButton({ p, dark = false }: { p: ShopProduct; dark?: boolean }) {
   if (p.comingSoon) {
     return (
       <span
-        className={`inline-flex rounded-full border px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] ${
-          dark ? "border-paper/30 text-paper/70" : "border-foreground/20 text-muted-foreground"
+        className={`text-[11px] font-semibold uppercase tracking-[0.2em] ${
+          dark ? "text-paper/60" : "text-muted-foreground"
         }`}
       >
         Arriving soon
@@ -96,10 +77,10 @@ function AddButton({ p, dark = false }: { p: ShopProduct; dark?: boolean }) {
         });
         setOpen(true);
       }}
-      className={`inline-flex rounded-full px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors ${
+      className={`border-b pb-1 text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors ${
         dark
-          ? "bg-paper text-ink hover:bg-accent"
-          : "border border-foreground/25 text-foreground hover:bg-foreground hover:text-background"
+          ? "border-paper/40 text-paper hover:border-paper"
+          : "border-foreground/30 text-foreground hover:border-foreground"
       }`}
     >
       Add to order
@@ -109,8 +90,8 @@ function AddButton({ p, dark = false }: { p: ShopProduct; dark?: boolean }) {
 
 export function KoreaRightNow() {
   const scroller = useRef<HTMLDivElement>(null);
-  const hero = byPriceId(PRODUCT_OF_THE_WEEK.priceId);
-  const picks = WEEKLY_PICKS.map((s) => ({ ...s, product: byPriceId(s.priceId) })).filter(
+  const hero = byPriceId(FEATURED.priceId);
+  const picks = SHORTLIST.map((s) => ({ ...s, product: byPriceId(s.priceId) })).filter(
     (s): s is Pick & { product: ShopProduct } => Boolean(s.product),
   );
 
@@ -119,101 +100,93 @@ export function KoreaRightNow() {
   };
 
   return (
-    <section className="bg-sand" aria-labelledby="korea-right-now">
-      <div className="mx-auto max-w-7xl px-6 py-20 md:py-24">
-        <div className="flex flex-wrap items-end justify-between gap-6">
+    <section className="bg-sand" aria-labelledby="the-seoul-edit">
+      <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
+        <div className="flex flex-wrap items-end justify-between gap-8">
           <div className="max-w-2xl">
             <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-clay">
-              Korea right now · Updated weekly
+              The Seoul Edit
             </p>
-            <h2 id="korea-right-now" className="mt-3 font-display text-4xl leading-[1.05] text-ink md:text-5xl">
-              What Seoul is buying this week —<br />
-              <span className="italic text-hanbok-deep">in stock in Melbourne today.</span>
+            <h2
+              id="the-seoul-edit"
+              className="mt-4 font-display text-4xl leading-[1.05] text-ink md:text-5xl"
+            >
+              What&rsquo;s worth knowing now.
             </h2>
-            <p className="mt-5 text-ink/70">
-              We read Olive Young ranking movement, Korean review platforms, the Korean beauty
-              subreddits and the weekly YouTube top-fives, then check it against what&rsquo;s on our
-              shelves. This is that list — no sponsored slots, no clearance dressed up as a trend.
+            <p className="mt-5 max-w-xl text-ink/70">
+              New formulas, ingredients and Korean skincare discoveries on our radar — edited down
+              to what&rsquo;s actually worth your attention.
             </p>
           </div>
           <Link
             to="/blog"
             className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink underline underline-offset-4 hover:text-clay"
           >
-            How we track this →
+            Explore the journal →
           </Link>
         </div>
 
-        <ul className="mt-8 flex flex-wrap gap-2">
-          {[
-            "PDRN · #1 rising ingredient in Korea",
-            "Exosomes · clinic actives going retail",
-            "Azulene · the new calming hero",
-            "Low-molecular HA · barrier hydration",
-          ].map((t) => (
-            <li
-              key={t}
-              className="rounded-full border border-foreground/15 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/70"
-            >
-              {t}
-            </li>
-          ))}
-        </ul>
-
-        {/* Product of the week */}
+        {/* Editor's note */}
         {hero && (
-          <div className="mt-12 overflow-hidden rounded-3xl bg-ink text-paper">
-            <div className="grid md:grid-cols-2">
+          <div className="mt-16 border-t border-foreground/15 pt-12">
+            <div className="grid items-center gap-12 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
               <Link
                 to="/product/$slug"
                 params={{ slug: productSlug(hero) }}
-                className="group flex items-center justify-center bg-paper/5 p-8"
+                className="group flex items-center justify-center bg-paper p-10 md:p-14"
               >
                 <img
                   src={hero.image}
                   alt={`${hero.brand} ${hero.name}`}
                   loading="lazy"
-                  className="max-h-[400px] w-full object-contain transition-transform duration-700 group-hover:scale-[1.03]"
+                  className="max-h-[380px] w-full object-contain"
                 />
               </Link>
-              <div className="flex flex-col justify-center p-8 md:p-12">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-accent">
-                  Product of the week
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-clay">
+                  The Editor&rsquo;s Note
                 </p>
-                <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.2em] text-paper/60">
+                <p className="mt-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink/60">
                   {hero.brand}
                 </p>
-                <h3 className="mt-2 font-display text-3xl leading-tight md:text-4xl">{hero.name}</h3>
-                <p className="mt-4 max-w-md text-[14.5px] leading-relaxed text-paper/75">
-                  {PRODUCT_OF_THE_WEEK.signal}
+                <h3 className="mt-2 font-display text-3xl leading-tight text-ink md:text-4xl">
+                  {hero.name}
+                </h3>
+                <p className="mt-6 max-w-lg text-[15px] leading-relaxed text-ink/75">
+                  {FEATURED.note}
                 </p>
-                <p className="mt-4 text-[10px] uppercase tracking-[0.18em] text-paper/45">
-                  Signal source: {PRODUCT_OF_THE_WEEK.source}
-                </p>
-                <div className="mt-8 flex flex-wrap items-center gap-4">
-                  <AddButton p={hero} dark />
+                <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-foreground/15 pt-6">
                   <Link
                     to="/product/$slug"
                     params={{ slug: productSlug(hero) }}
-                    className="text-sm text-paper/80 underline-offset-4 hover:text-paper hover:underline"
+                    className="text-sm text-ink underline-offset-4 hover:underline"
                   >
-                    {hero.price} AUD · Read the full breakdown
+                    Read the full breakdown
                   </Link>
+                  <span className="text-sm text-ink/70">{hero.price} AUD</span>
+                  <AddButton p={hero} />
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* Weekly carousel */}
-        <div className="mt-14 flex items-end justify-between gap-6">
-          <h3 className="font-display text-2xl text-ink md:text-3xl">Moving in Seoul this week</h3>
+        {/* On our radar */}
+        <div className="mt-20 flex items-end justify-between gap-6 border-t border-foreground/15 pt-10">
+          <div>
+            <h3 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-ink">
+              On our radar
+            </h3>
+            <p className="mt-2 text-sm text-ink/65">
+              A considered shortlist from the SkinGrocer cabinet.
+            </p>
+          </div>
           <div className="hidden gap-2 md:flex">
             <button
               type="button"
               aria-label="Previous products"
               onClick={() => nudge(-1)}
-              className="h-10 w-10 rounded-full border border-foreground/20 text-foreground transition-colors hover:bg-foreground hover:text-background"
+              className="h-9 w-9 border border-foreground/20 text-sm text-foreground transition-colors hover:border-foreground"
             >
               ←
             </button>
@@ -221,7 +194,7 @@ export function KoreaRightNow() {
               type="button"
               aria-label="Next products"
               onClick={() => nudge(1)}
-              className="h-10 w-10 rounded-full border border-foreground/20 text-foreground transition-colors hover:bg-foreground hover:text-background"
+              className="h-9 w-9 border border-foreground/20 text-sm text-foreground transition-colors hover:border-foreground"
             >
               →
             </button>
@@ -230,29 +203,23 @@ export function KoreaRightNow() {
 
         <div
           ref={scroller}
-          className="no-scrollbar mt-6 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2"
+          className="no-scrollbar mt-10 flex snap-x snap-mandatory gap-8 overflow-x-auto pb-2"
         >
-          {picks.map(({ product: p, signal, source }, i) => (
-            <article
-              key={p.priceId}
-              className="flex w-[268px] shrink-0 snap-start flex-col sm:w-[300px]"
-            >
+          {picks.map(({ product: p, note }) => (
+            <article key={p.priceId} className="flex w-[260px] shrink-0 snap-start flex-col sm:w-[290px]">
               <Link
                 to="/product/$slug"
                 params={{ slug: productSlug(p) }}
-                className="group relative block overflow-hidden rounded-2xl bg-background"
+                className="block bg-paper"
               >
-                <span className="absolute left-4 top-4 z-10 rounded-full bg-ink px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-paper">
-                  #{i + 1}
-                </span>
                 <img
                   src={p.image}
                   alt={`${p.brand} ${p.name}`}
                   loading="lazy"
-                  className="aspect-square w-full object-contain p-5 transition-transform duration-700 group-hover:scale-[1.04]"
+                  className="aspect-square w-full object-contain p-6"
                 />
               </Link>
-              <Link to="/product/$slug" params={{ slug: productSlug(p) }} className="mt-4 block">
+              <Link to="/product/$slug" params={{ slug: productSlug(p) }} className="mt-5 block">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-clay">
                   {p.brand}
                 </p>
@@ -260,12 +227,9 @@ export function KoreaRightNow() {
                   {p.name}
                 </h4>
               </Link>
-              <p className="mt-2 flex-1 text-[13px] leading-relaxed text-ink/65">{signal}</p>
-              <p className="mt-3 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                {source}
-              </p>
-              <div className="mt-4 flex items-center justify-between gap-3">
-                <span className="text-sm text-ink">{p.price} AUD</span>
+              <p className="mt-2.5 flex-1 text-[13px] leading-relaxed text-ink/65">{note}</p>
+              <div className="mt-5 flex items-center justify-between gap-3 border-t border-foreground/15 pt-4">
+                <span className="text-sm text-ink/70">{p.price} AUD</span>
                 <AddButton p={p} />
               </div>
             </article>
