@@ -511,10 +511,9 @@ export function SiteFooter() {
         <div className="md:col-span-4">
           <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">The Drop</h4>
           <p className="mt-5 text-sm text-paper/70">
-            Restocks, new arrivals, ritual notes. No spam, ever.
+            Restocks, new arrivals and ritual notes.
           </p>
           <NewsletterForm source="footer" variant="dark" />
-          <p className="mt-3 text-xs text-paper/45">By subscribing you agree to our Privacy Policy.</p>
         </div>
       </div>
 
