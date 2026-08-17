@@ -10,7 +10,7 @@ import { Reveal } from "@/components/reveal";
 import { HeroCarousel } from "@/components/hero-carousel";
 import { SeoulSignalStrip } from "@/components/seoul-signal";
 import { KoreaRightNow } from "@/components/korea-right-now";
-import { bundleMath, BUNDLE_DEFINITIONS, bundleSavingsSummary } from "@/lib/shop-catalog";
+import { bundleMath, BUNDLE_DEFINITIONS, bundleSavingsSummary, RESTOCK_DISCOUNT_PERCENT } from "@/lib/shop-catalog";
 import glassSkinStarterExplainer from "@/assets/bundle-explainers/glass-skin-starter.png.asset.json";
 import completeGlowExplainer from "@/assets/bundle-explainers/complete-glow-edit.png.asset.json";
 import calmClearExplainer from "@/assets/bundle-explainers/calm-clear-bundle.png.asset.json";
@@ -1018,33 +1018,72 @@ function IngredientStrip() {
 }
 
 function RitualCTA() {
+  const steps = [
+    {
+      n: "01",
+      title: "Choose an eligible essential",
+      copy: "A small set of routine staples can be ordered as a monthly Restock — look for the Restock option on the product.",
+    },
+    {
+      n: "02",
+      title: "Set it up with an account",
+      copy: `Restock orders repeat monthly at ${RESTOCK_DISCOUNT_PERCENT}% off the one-time price, and are kept with your account.`,
+    },
+    {
+      n: "03",
+      title: "Change your mind any time",
+      copy: "Cancel a Restock from your account and it simply stops at the end of the current period.",
+    },
+  ];
+
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative overflow-hidden" aria-labelledby="restock-heading">
       <div className="absolute inset-0">
         <img src={ritualScene} alt="" loading="lazy" className="h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-hanbok-deep/85 via-hanbok-deep/70 to-hanbok-deep/30" />
+        <div className="absolute inset-0 bg-hanbok-deep/55 md:bg-gradient-to-r md:from-hanbok-deep/80 md:via-hanbok-deep/55 md:to-hanbok-deep/15" />
       </div>
-      <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-28 md:grid-cols-2 md:items-center">
-        <div className="text-paper">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">Subscribe & Save</p>
-          <h2 className="mt-4 font-display text-4xl md:text-6xl">
-            Your routine,<br />
-            <span className="italic">never out of stock.</span>
-          </h2>
-          <p className="mt-5 max-w-lg text-paper/80">
-            Set a refill rhythm for your essentials — 30, 45, 60 or 90 days.
-            Save 10% on every shipment, pause or skip any time, and we'll
-            even swap in samples of new arrivals you'll love.
+
+      <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
+        <div className="max-w-xl text-paper">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-paper/70">
+            Replenishment, made simple
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/shop" className="rounded-full bg-paper px-7 py-3.5 text-sm font-medium text-ink hover:bg-accent">
-              Browse subscribable products
-            </Link>
-            <Link to="/journey" className="rounded-full border border-paper/40 px-7 py-3.5 text-sm font-medium text-paper hover:bg-paper/10">
-              See how it works
-            </Link>
-          </div>
+          <h2 id="restock-heading" className="display-section mt-4">
+            The products you finish.{" "}
+            <span className="italic">Before you run out.</span>
+          </h2>
+          <p className="lede mt-5 text-paper/80">
+            For the essentials that earn a permanent place in your routine, make
+            restocking one less thing to remember.
+          </p>
         </div>
+
+        <div className="mt-14 max-w-3xl border-t border-paper/25">
+          {steps.map((s) => (
+            <div
+              key={s.n}
+              className="grid gap-2 border-b border-paper/20 py-6 md:grid-cols-[4rem_1fr] md:gap-8"
+            >
+              <span className="font-display text-sm italic text-paper/60">{s.n}</span>
+              <div>
+                <h3 className="text-[12px] font-semibold uppercase tracking-[0.18em] text-paper">
+                  {s.title}
+                </h3>
+                <p className="mt-2 max-w-xl text-sm leading-relaxed text-paper/75">{s.copy}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <Link
+          to="/shop"
+          className="group mt-10 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.18em] text-paper"
+        >
+          <span className="border-b border-paper/40 pb-1 transition-colors group-hover:border-paper">
+            Browse restockable essentials
+          </span>
+          <span className="transition-transform group-hover:translate-x-1">→</span>
+        </Link>
       </div>
     </section>
   );
