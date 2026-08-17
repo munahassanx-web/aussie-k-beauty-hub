@@ -193,7 +193,7 @@ export function HeroCarousel() {
             key={slide.type === "video" ? "video" : slide.src}
             onClick={() => goTo(i)}
             aria-label={`Go to slide ${i + 1}`}
-            className="group relative h-px flex-1 overflow-hidden bg-paper/20 py-2 before:absolute before:inset-x-0 before:top-1/2 before:h-px before:-translate-y-1/2 before:bg-paper/20"
+            className="group relative h-6 flex-1 before:absolute before:inset-x-0 before:top-1/2 before:h-px before:-translate-y-1/2 before:bg-paper/25"
           >
             <span
               key={i === active ? key : `${i}-off`}
