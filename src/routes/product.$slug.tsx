@@ -10,7 +10,7 @@ import { ProductReviews } from '@/components/product-reviews';
 import { FaqSection } from '@/components/faq-section';
 import { productFaqs, faqJsonLd } from '@/lib/faqs';
 
-import { restockPriceIdFor } from '@/lib/shop-catalog';
+import { restockPriceIdFor, productPrice, type ShopProduct } from '@/lib/shop-catalog';
 import {
   findProductBySlug,
   galleryFor,
