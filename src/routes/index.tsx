@@ -126,45 +126,128 @@ function HomePage() {
 }
 
 function WhyPillars() {
-  const pillars = [
-    { t: "Sourced & shipped from Seoul", d: "Direct relationships with Korean brands and distributors, flown into our Melbourne warehouse." },
-    { t: "Thousands of SKUs in one place", d: "The K-beauty edit — skincare, makeup, hair and body — stocked locally, ready to ship." },
-    { t: "Best, local & exclusive brands", d: "Cult favourites plus small-batch Korean labels you can't find anywhere else in AU." },
-    { t: "100% authentic, always", d: "Every batch verified on arrival. Sealed, coded, provenance-carded. No greymarket, ever." },
-    { t: "Fair local AUD pricing", d: "No inflated import markups. Premium K-beauty, priced honestly for Australian shoppers." },
-    { t: "On-trend, curated weekly", d: "New arrivals every Friday — the drops Korean TikTok is talking about, on Aussie shelves first." },
+  const points = [
+    {
+      n: "01",
+      title: "SOURCED FROM SEOUL",
+      copy: "We source our Korean skincare directly from Seoul, bringing our considered edit closer to Australian customers.",
+    },
+    {
+      n: "02",
+      title: "EVERY BATCH VERIFIED",
+      copy: "Every batch is verified for authenticity and QR coded, adding another layer of confidence to what reaches your shelf.",
+    },
+    {
+      n: "03",
+      title: "YOUR ROUTINE, IN THE BOX",
+      copy: "Every order arrives with a QR code linking you directly to How to Apply guidance for the products you purchased.",
+      hero: true,
+    },
+    {
+      n: "04",
+      title: "GUIDANCE AFTER CHECKOUT",
+      copy: "The relationship doesn’t end when your parcel arrives. Your product guides help you understand how to use what you bought and where it belongs in your routine.",
+    },
   ];
+
   return (
-    <section className="bg-paper">
-      <div className="mx-auto max-w-7xl px-6 py-24">
+    <section className="bg-paper" aria-labelledby="why-heading">
+      <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
         <div className="max-w-2xl">
-          <p className="eyebrow eyebrow-rule text-clay">Why Skin Grocer</p>
-          <h2 className="display-section mt-4 text-ink">
-            Australia's K-beauty grocer,<br />
-            <span className="italic text-hanbok-deep">for every skincare ritual.</span>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
+            Why SkinGrocer
+          </p>
+          <h2 id="why-heading" className="display-section mt-4 text-ink">
+            From Seoul to your shelf —{" "}
+            <span className="italic text-hanbok-deep">with nothing left to guess.</span>
           </h2>
-          <p className="mt-5 max-w-xl text-ink/70">
-            We're a Melbourne-based retailer of authentic Korean skincare — locally stocked,
-            honestly priced, and here to guide you from your first cleanse to your final SPF.
+          <p className="lede mt-5 text-ink/70">
+            We built SkinGrocer around two things customers should never have to
+            second-guess: where their skincare came from, and what to do with it once it arrives.
           </p>
         </div>
 
-
-
-
-        <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-3">
-          {pillars.map((p, i) => (
-            <div key={p.t} className="flex flex-col gap-3 bg-paper p-8">
-              <span className="font-display text-3xl text-hanbok-deep/30">0{i + 1}</span>
-              <h3 className="font-display text-xl leading-tight text-ink">{p.t}</h3>
-              <p className="text-sm text-ink/70">{p.d}</p>
+        <div className="mt-16 grid gap-12 md:grid-cols-12 md:gap-10">
+          {/* Proof points + journey */}
+          <div className="md:col-span-7">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-border pb-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink/50">
+              <span>SEOUL</span>
+              <span className="text-grocer-butter">→</span>
+              <span>VERIFIED</span>
+              <span className="text-grocer-butter">→</span>
+              <span>SKINGROCER</span>
+              <span className="text-grocer-butter">→</span>
+              <span>SCAN</span>
+              <span className="text-grocer-butter">→</span>
+              <span>YOUR ROUTINE</span>
             </div>
-          ))}
+
+            <ul className="mt-2">
+              {points.map((p) => (
+                <li
+                  key={p.title}
+                  className={`border-b border-border py-7 ${p.hero ? "md:py-9" : ""}`}
+                >
+                  <div className="flex gap-5 md:gap-6">
+                    <span
+                      className={`font-display italic text-hanbok-deep/30 ${p.hero ? "text-3xl" : "text-2xl"}`}
+                    >
+                      {p.n}
+                    </span>
+                    <div className="flex-1">
+                      <h3
+                        className={`font-display uppercase tracking-[0.12em] text-ink ${p.hero ? "text-base" : "text-sm"}`}
+                      >
+                        {p.title}
+                      </h3>
+                      <p
+                        className={`mt-2 leading-relaxed text-ink/70 ${p.hero ? "text-[15px]" : "text-sm"}`}
+                      >
+                        {p.copy}
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Navy packaging visual panel — placeholder for the approved real photograph */}
+          <div className="md:col-span-5">
+            <div className="relative flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-sm bg-hanbok-deep px-8 py-10 md:aspect-auto md:h-full">
+              {/* Quiet vertical lines as a premium texture layer */}
+              <div className="absolute inset-0 opacity-[0.08]">
+                <div className="absolute left-1/4 top-0 h-full w-px bg-paper" />
+                <div className="absolute left-2/4 top-0 h-full w-px bg-paper" />
+                <div className="absolute left-3/4 top-0 h-full w-px bg-paper" />
+              </div>
+
+              <div className="relative">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-grocer-butter/80">
+                  Premium packaging
+                </p>
+                <h3 className="mt-5 max-w-[13ch] font-display text-3xl leading-[1.05] text-paper md:text-[2.6rem]">
+                  Your routine starts here.
+                </h3>
+              </div>
+
+              <div className="relative space-y-6">
+                <div className="h-px w-12 bg-grocer-butter/40" />
+                <p className="max-w-[28ch] text-sm leading-relaxed text-sand/85">
+                  Scan the card in your order for product-by-product guidance.
+                </p>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-sand/50">
+                  Navy box · Warm gold seal · Ivory tissue
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
 
 /**
  * A personal guidance moment — an invitation to narrow K-beauty choices,
