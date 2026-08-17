@@ -104,7 +104,6 @@ function HomePage() {
       <ApplicationMoment />
       <RitualCTA />
       <Reveal><LearnStrip /></Reveal>
-      <Reveal><LearnStrip /></Reveal>
       <SeoulSignalStrip />
       <Reveal><ReviewsCarousel /></Reveal>
 
@@ -450,25 +449,100 @@ function Stat({ n, l }: { n: string; l: string }) {
 }
 
 function LearnStrip() {
+  const topics = [
+    {
+      num: "01",
+      title: "BUILD A ROUTINE",
+      line: "Understand the order, then keep only the steps that earn their place.",
+      to: "/routines/",
+    },
+    {
+      num: "02",
+      title: "KNOW THE INGREDIENT",
+      line: "A plain-English starting point for the names you keep seeing on the label.",
+      to: "/learn/",
+    },
+    {
+      num: "03",
+      title: "USE IT WELL",
+      line: "Learn where products fit and how to make your routine easier to follow.",
+    },
+  ];
+
   return (
-    <section className="border-y border-border/60 bg-paper">
-      <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 py-16 text-center">
-        <p className="eyebrow eyebrow-rule text-clay">The Learn Hub</p>
-        <h2 className="max-w-2xl display-section text-ink">
-          Korean skincare, <span className="italic text-hanbok-deep">actually explained.</span>
-        </h2>
-        <p className="max-w-xl text-ink/70">
-          Ingredients decoded, concerns addressed, routines simplified — written for Australian skin
-          and climate, not copied from a label.
-        </p>
-        <Link
-          to="/learn/hub"
-          className="group inline-flex items-center gap-3 rounded-full border border-hanbok/40 bg-hanbok/5 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-ink transition duration-300 hover:-translate-y-1 hover:border-hanbok hover:bg-hanbok/15 hover:shadow-[0_20px_45px_-22px_var(--color-hanbok)]"
-        >
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
-          <span className="underline-grow">Explore the Learn Hub</span>
-          <span className="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
-        </Link>
+    <section className="border-t border-border/60 bg-paper" aria-labelledby="learn-strip-heading">
+      <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
+        <div className="grid gap-16 md:grid-cols-12 md:gap-10">
+          {/* Heading block */}
+          <div className="md:col-span-5">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
+              THE SKINGROCER EDIT
+            </p>
+            <h2
+              id="learn-strip-heading"
+              className="mt-4 max-w-[14ch] font-display text-4xl leading-[1.05] text-ink md:text-[2.85rem]"
+            >
+              Know more. <span className="italic text-hanbok-deep">Buy better.</span>
+            </h2>
+            <p className="mt-5 max-w-md text-[15px] leading-relaxed text-ink/70">
+              Clear guides to Korean skincare — from what an ingredient does to where a product belongs in your routine.
+            </p>
+            <Link
+              to="/learn/hub"
+              className="group mt-10 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-ink transition hover:text-hanbok-deep"
+            >
+              <span className="border-b border-ink/30 pb-0.5 transition-colors group-hover:border-hanbok-deep">
+                Explore the Learn Hub
+              </span>
+              <span className="transition-transform duration-300 motion-safe:group-hover:translate-x-1">→</span>
+            </Link>
+          </div>
+
+          {/* Editorial index */}
+          <div className="md:col-span-7">
+            <ul className="border-t border-border">
+              {topics.map((t) => (
+                <li
+                  key={t.title}
+                  className="border-b border-border py-7 md:py-8"
+                >
+                  {t.to ? (
+                    <Link
+                      to={t.to}
+                      className="group flex items-baseline gap-5 md:gap-6"
+                    >
+                      <span className="font-display text-sm italic text-ink/30">
+                        {t.num}
+                      </span>
+                      <div className="flex-1">
+                        <h3 className="font-display text-sm uppercase tracking-[0.12em] text-ink transition-colors group-hover:text-hanbok-deep">
+                          {t.title}
+                        </h3>
+                        <p className="mt-1 text-sm leading-relaxed text-ink/60">
+                          {t.line}
+                        </p>
+                      </div>
+                    </Link>
+                  ) : (
+                    <div className="flex items-baseline gap-5 md:gap-6">
+                      <span className="font-display text-sm italic text-ink/30">
+                        {t.num}
+                      </span>
+                      <div className="flex-1">
+                        <h3 className="font-display text-sm uppercase tracking-[0.12em] text-ink">
+                          {t.title}
+                        </h3>
+                        <p className="mt-1 text-sm leading-relaxed text-ink/60">
+                          {t.line}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   );
