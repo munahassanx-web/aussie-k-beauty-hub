@@ -378,7 +378,7 @@ export function HeroCarousel() {
           </p>
 
           <div
-            className={`hero-line mt-8 flex flex-col items-center gap-3 sm:flex-row sm:gap-4 ${
+            className={`hero-line mt-8 flex w-full max-w-sm flex-col items-center gap-3 sm:max-w-none sm:flex-row sm:gap-4 ${
               ctaAlignMap[slides[active].align || "center"]
             }`}
             style={{ "--hero-delay": "600ms", "--hero-rise": "10px", "--hero-line-duration": "950ms" } as React.CSSProperties}
