@@ -385,6 +385,7 @@ export const createGuestCartCheckout = createServerFn({ method: 'POST' })
         customer_email: data.email,
         shipping_address_collection: { allowed_countries: ['AU'] },
         phone_number_collection: { enabled: true },
+        allow_promotion_codes: true,
         shipping_options: [shippingOption],
         payment_intent_data: { description: lineDescriptor(lines) },
         metadata: {
