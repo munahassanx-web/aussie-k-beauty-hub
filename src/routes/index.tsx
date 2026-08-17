@@ -275,13 +275,12 @@ function PromoBar() {
   const { maxPercent } = bundleSavingsSummary();
   const messages = [
     `Save up to ${maxPercent}% on advisor-built bundles`,
-    "Free express AU shipping on every bundle",
-    "Bundle + Subscribe = an extra 10% off, forever",
-    "Free routine card + samples in every bundle",
+    "Bundle + subscribe for an extra 10% off, forever",
+    "Routine card + samples in every bundle",
   ];
   const [i, setI] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setI((x) => (x + 1) % messages.length), 3500);
+    const t = setInterval(() => setI((x) => (x + 1) % messages.length), 7000);
     return () => clearInterval(t);
   }, [messages.length]);
   return (
@@ -290,14 +289,14 @@ function PromoBar() {
       hash="bundles"
       className="block bg-hanbok-deep text-paper transition hover:bg-hanbok"
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-6 py-2.5 text-center text-[11px] font-semibold uppercase tracking-[0.22em]">
-        <span className="hidden h-1.5 w-1.5 rounded-full bg-accent sm:inline-block" />
-        <span className="transition-opacity duration-500">{messages[i]}</span>
-        <span className="text-accent">Shop bundles →</span>
+      <div className="mx-auto flex max-w-7xl items-center justify-center gap-3 px-6 py-2.5 text-center text-[11px] font-semibold uppercase tracking-[0.2em]">
+        <span className="truncate transition-opacity duration-700">{messages[i]}</span>
+        <span className="hidden whitespace-nowrap text-accent sm:inline">Shop bundles →</span>
       </div>
     </Link>
   );
 }
+
 
 function ParallaxScene() {
   return (
