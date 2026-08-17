@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -49,20 +50,25 @@ export function NewsletterForm({
     setMessage(
       error?.code === "23505"
         ? "You're already on the list — nice to see you again."
-        : "You're on the list. First email lands soon.",
+        : "You're on the list.",
     );
     setEmail("");
   }
 
   if (status === "success") {
     return (
-      <div
-        className={`mt-3 w-full max-w-md rounded-full px-6 py-3.5 text-center text-sm ${
-          dark ? "border border-accent/40 bg-paper/5 text-paper" : "border border-ink/15 bg-paper text-ink"
-        }`}
-        role="status"
-      >
-        ✓ {message}
+      <div className="mt-4 w-full max-w-md">
+        <div
+          className={`border px-5 py-4 text-sm ${
+            dark
+              ? "border-paper/30 bg-paper/5 text-paper"
+              : "border-ink/15 bg-paper text-ink"
+          }`}
+          role="status"
+        >
+          <span className="mr-2 inline-block text-xs" aria-hidden="true">✓</span>
+          {message}
+        </div>
       </div>
     );
   }
@@ -72,9 +78,7 @@ export function NewsletterForm({
       <form
         onSubmit={onSubmit}
         noValidate
-        className={`flex overflow-hidden rounded-full ${
-          dark ? "border border-paper/25" : "border border-ink/15 bg-paper"
-        }`}
+        className="flex flex-col sm:flex-row"
       >
         <label className="sr-only" htmlFor={`newsletter-email-${source}`}>
           Email address
@@ -89,22 +93,22 @@ export function NewsletterForm({
           }}
           maxLength={255}
           placeholder="your@email.com"
-          className={`w-full bg-transparent px-5 text-sm focus:outline-none ${
+          className={`flex-1 border px-4 py-3 text-sm transition focus:outline-none focus:ring-1 focus:ring-offset-0 sm:rounded-none ${
             dark
-              ? "py-3 text-paper placeholder:text-paper/40"
-              : "py-3.5 text-ink placeholder:text-ink/40"
+              ? "border-paper/25 bg-transparent text-paper placeholder:text-paper/40 focus:ring-paper/40"
+              : "border-ink/15 bg-paper text-ink placeholder:text-ink/40 focus:ring-ink/30"
           }`}
         />
         <button
           type="submit"
           disabled={status === "loading"}
-          className={`px-6 text-xs font-semibold uppercase tracking-[0.2em] disabled:opacity-60 ${
+          className={`border px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition disabled:opacity-60 sm:rounded-none sm:border-l-0 ${
             dark
-              ? "bg-accent text-ink hover:bg-accent/85"
-              : "bg-primary text-primary-foreground hover:bg-hanbok"
+              ? "border-paper/25 bg-paper text-ink hover:bg-paper/90"
+              : "border-ink/15 bg-ink text-paper hover:bg-ink/85"
           }`}
         >
-          {status === "loading" ? "…" : "Join"}
+          {status === "loading" ? "…" : "Join the list"}
         </button>
       </form>
       {status === "error" && (
@@ -115,6 +119,22 @@ export function NewsletterForm({
           {message}
         </p>
       )}
+      <p
+        className={`mt-2.5 text-[11px] leading-relaxed ${
+          dark ? "text-paper/55" : "text-ink/55"
+        }`}
+      >
+        By joining, you agree to receive SkinGrocer emails. Unsubscribe anytime.{" "}
+        <Link
+          to="/privacy-policy"
+          className={`ml-1 inline-flex items-center gap-0.5 underline-offset-4 transition hover:underline ${
+            dark ? "text-paper/80" : "text-ink/80"
+          }`}
+        >
+          Privacy policy
+          <span aria-hidden="true">→</span>
+        </Link>
+      </p>
     </div>
   );
 }
