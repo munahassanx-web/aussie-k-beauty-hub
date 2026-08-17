@@ -10,7 +10,7 @@ export const Route = createFileRoute('/track')({
       {
         name: 'description',
         content:
-          'Check the status of a Skin Grocer order with your email and order ID — no account needed. Dispatched next day from Melbourne.',
+          'Check the status of a Skin Grocer order with your email and order ID — no account needed. Dispatched from Melbourne.',
       },
       { property: 'og:title', content: 'Track your order — Skin Grocer' },
       {
