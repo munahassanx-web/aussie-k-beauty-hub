@@ -133,14 +133,14 @@ export function HeroCarousel() {
           </span>
 
           <h1
-            className="hero-line mt-7 font-display text-5xl font-normal leading-[0.98] tracking-[-0.035em] text-paper md:text-[6.25rem] lg:text-[7.25rem]"
+            className="hero-line mt-7 font-display text-5xl font-normal leading-[0.98] tracking-[-0.035em] text-paper drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] md:text-[6.25rem] lg:text-[7.25rem]"
             style={{ "--hero-delay": "180ms" } as React.CSSProperties}
           >
             {slides[active].headline}
           </h1>
 
           <p
-            className="hero-line mt-6 max-w-lg text-balance text-sm font-light leading-relaxed tracking-[0.01em] text-paper/80 md:text-base"
+            className="hero-line mt-6 max-w-lg text-balance text-sm font-light leading-relaxed tracking-[0.01em] text-paper/85 drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)] md:text-base"
             style={{ "--hero-delay": "320ms" } as React.CSSProperties}
           >
             {slides[active].body}
