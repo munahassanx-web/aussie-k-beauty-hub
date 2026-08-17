@@ -260,11 +260,11 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   beauty_of_joseon_ginseng_cleansing_oil_210ml_onetime: [
     {
       src: '/products/editorial/beauty-of-joseon/ginseng-cleansing-oil-210ml-hero.png',
-      alt: 'Beauty of Joseon Ginseng Cleansing Oil 210ml pump bottle with a droplet of amber oil on a clean white studio backdrop',
+      alt: 'Beauty of Joseon Ginseng Cleansing Oil 210ml amber pump bottle on a soft warm-white studio backdrop',
     },
     {
       src: '/products/editorial/beauty-of-joseon/ginseng-cleansing-oil-210ml-info.png',
-      alt: 'Key ingredients panel for Beauty of Joseon Ginseng Cleansing Oil: soybean oil, ginseng seed oil, camellia seed oil, olive fruit oil and ginseng root and berry extract',
+      alt: 'Key ingredients panel for Beauty of Joseon Ginseng Cleansing Oil: ginseng root extract, ginseng seed oil and a plant oil base that melts SPF and makeup, 210ml',
     },
     {
       src: '/products/editorial/beauty-of-joseon/ginseng-cleansing-oil-210ml-apply.png',
@@ -274,11 +274,11 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   beauty_of_joseon_green_plum_refreshing_toner_150ml_onetime: [
     {
       src: '/products/editorial/beauty-of-joseon/green-plum-refreshing-toner-150ml-hero.png',
-      alt: 'Beauty of Joseon Green Plum Refreshing Toner 150ml frosted green bottle on a clean white studio backdrop with water droplets',
+      alt: 'Beauty of Joseon Green Plum Refreshing Toner 150ml green bottle on a soft warm-white studio backdrop',
     },
     {
       src: '/products/editorial/beauty-of-joseon/green-plum-refreshing-toner-150ml-info.png',
-      alt: 'Key ingredients panel for Beauty of Joseon Green Plum Refreshing Toner: green plum water, mung bean extract and a mild AHA + BHA complex',
+      alt: 'Key ingredients panel for Beauty of Joseon Green Plum Refreshing Toner: green plum extract, a mild AHA + BHA complex and betaine, fragrance-free, 150ml',
     },
     {
       src: '/products/editorial/beauty-of-joseon/green-plum-refreshing-toner-150ml-apply.png',
@@ -302,7 +302,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   beauty_of_joseon_dynasty_cream_50ml_onetime: [
     {
       src: '/products/editorial/beauty-of-joseon/dynasty-cream-50ml-hero.png',
-      alt: 'Beauty of Joseon Dynasty Cream 50ml jar with a swirl of rich white cream beside it on a clean white studio backdrop',
+      alt: 'Beauty of Joseon Dynasty Cream 50ml frosted glass jar on a soft warm-white studio backdrop',
     },
     {
       src: '/products/editorial/beauty-of-joseon/dynasty-cream-50ml-info.png',
