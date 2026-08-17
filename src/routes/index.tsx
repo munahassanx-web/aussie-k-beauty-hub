@@ -245,27 +245,50 @@ function BrandMarquee() {
     "ISNTREE", "MEDICUBE", "ROUND LAB", "S.NATURE", "TIRTIR",
     "TORRIDEN", "WELLAGE", "beplain",
   ];
-  const row = [...brands, ...brands];
   return (
-    <section className="overflow-hidden border-y border-border bg-ink py-16 text-paper">
-      <div className="mx-auto mb-8 max-w-7xl px-6">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">The Brand Cabinet</p>
-        <h2 className="mt-3 max-w-2xl font-display text-3xl leading-tight md:text-4xl">
-          13 hand-picked Korean labels, <span className="italic text-accent">all under one Australian roof.</span>
-        </h2>
-      </div>
-      <div className="flex animate-marquee gap-10 whitespace-nowrap">
-        {row.map((b, i) => (
-          <span key={i} className="inline-flex items-center gap-10 font-display text-3xl tracking-tight text-paper/80 md:text-4xl">
-            {b}
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-          </span>
-        ))}
-      </div>
-      <div className="mx-auto mt-10 max-w-7xl px-6">
-        <Link to="/brands" className="inline-flex items-center gap-2 rounded-full border border-paper/30 px-6 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-paper transition hover:bg-paper hover:text-ink">
-          Browse all brands →
-        </Link>
+    <section className="border-y border-border/60 bg-paper">
+      <div className="mx-auto max-w-7xl px-6 py-20 md:py-28">
+        <div className="mb-14 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
+              THE BRAND CABINET
+            </p>
+            <h2 className="mt-3 font-display text-3xl leading-tight text-ink md:text-4xl">
+              Korean skincare houses, <span className="italic text-hanbok-deep">chosen with intention.</span>
+            </h2>
+            <p className="mt-4 max-w-xl text-sm text-ink/70">
+              From barrier specialists to modern cult favourites, explore the names shaping the SkinGrocer edit.
+            </p>
+          </div>
+          <Link
+            to="/brands"
+            className="group inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink transition hover:text-hanbok-deep"
+          >
+            Browse all brands
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </Link>
+        </div>
+
+        <ul className="grid divide-y divide-border/60 border-t border-border/60 md:grid-cols-3 md:divide-x md:divide-y-0">
+          {brands.map((brand, i) => (
+            <li
+              key={brand}
+              className="group flex items-center justify-between border-b border-border/60 px-1 py-5 md:px-4 md:py-6"
+            >
+              <div className="flex items-baseline gap-4">
+                <span className="font-display text-xs italic text-ink/30">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="text-[13px] font-semibold uppercase tracking-[0.12em] text-ink transition-colors group-hover:text-hanbok-deep">
+                  {brand}
+                </span>
+              </div>
+              <span className="text-ink/20 transition-all duration-300 group-hover:translate-x-1 group-hover:text-hanbok-deep">
+                →
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
