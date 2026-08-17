@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Stars } from "@/components/product-reviews";
-import { getProduct } from "@/lib/shop-catalog";
+import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 
 export const Route = createFileRoute("/reviews")({
   head: () => ({
