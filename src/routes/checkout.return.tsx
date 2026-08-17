@@ -1,8 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { getGuestOrderBySession, getOrderBySession, type OrderReceipt } from '@/lib/commerce.functions';
 import { useAuth } from '@/hooks/use-auth';
 import { useCart, formatAud } from '@/lib/cart';
+import { ladderIndexFor, matchProductByReference } from '@/lib/guide-content';
+import { productSlug } from '@/lib/product-detail';
+
 
 export const Route = createFileRoute('/checkout/return')({
   validateSearch: (search: Record<string, unknown>): { session_id?: string } => ({
