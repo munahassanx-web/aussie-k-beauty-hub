@@ -9,23 +9,28 @@ import { ProductIngredients } from '@/components/product-ingredients';
 
 
 export const Route = createFileRoute('/guide/$productId')({
-  head: () => ({
-    meta: [
-      { title: 'How to use — Skin Grocer' },
-      {
-        name: 'description',
-        content:
-          'Scan-to-read application guide: how much to use, how to apply, how often, and a pro tip from the Skin Grocer team.',
-      },
-      { property: 'og:title', content: 'How to use — Skin Grocer' },
-      {
-        property: 'og:description',
-        content: 'Your step-by-step application guide for this product.',
-      },
-      { property: 'og:type', content: 'article' },
-      { name: 'twitter:card', content: 'summary_large_image' },
-    ],
-  }),
+  head: ({ params }) => {
+    const url = `https://skingrocer.com.au/guide/${params.productId}`;
+    return {
+      meta: [
+        { title: 'How to use — Skin Grocer' },
+        {
+          name: 'description',
+          content:
+            'Scan-to-read application guide: how much to use, how to apply, how often, and a pro tip from the Skin Grocer team.',
+        },
+        { property: 'og:title', content: 'How to use — Skin Grocer' },
+        {
+          property: 'og:description',
+          content: 'Your step-by-step application guide for this product.',
+        },
+        { property: 'og:url', content: url },
+        { property: 'og:type', content: 'article' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+      ],
+      links: [{ rel: 'canonical', href: url }],
+    };
+  },
   component: GuidePage,
 });
 
