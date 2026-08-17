@@ -22,6 +22,7 @@ import ritualScene from "@/assets/ritual-scene.jpg";
 import brandSpotlight from "@/assets/brand-spotlight.jpg";
 import customers from "@/assets/customers.jpg";
 import quizBareSkin from "@/assets/quiz-bare-skin.jpg";
+import categoryMasks from "@/assets/category-masks.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -735,44 +736,66 @@ function BundleOffer() {
 
 
 function ProvenanceCard() {
+  const principles = [
+    { t: "ORIGINAL PACKAGING", d: "Products stay in their original branded packaging." },
+    { t: "CLEAR PRODUCT DETAILS", d: "Know the brand, size and product you’re choosing." },
+    { t: "AUSTRALIAN-BASED SHOPPING", d: "A local storefront for discovering Korean skincare." },
+    { t: "QUESTIONS WELCOME", d: "If something doesn’t look right, ask us before you use it." },
+  ];
+
   return (
     <section className="bg-ink text-paper">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-2 md:items-center">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-ink">
-          <img
-            src={authenticityCard.url}
-            alt="Skin Grocer authenticity card surrounded by AESTURA, Beauty of Joseon and MEDICUBE products"
-            loading="lazy"
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute left-4 top-4 rounded-full border border-paper/20 bg-ink/60 px-4 py-2 backdrop-blur">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-accent">Provenance card</p>
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:items-center md:gap-16">
+        <div className="md:col-span-5">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-ink">
+            <img
+              src={categoryMasks}
+              alt="A curated flatlay of Korean sheet masks in their original branded packaging, including Abib, Medicube, Mixsoon and Torriden"
+              loading="lazy"
+              className="h-full w-full object-cover opacity-60"
+            />
+            <div className="absolute inset-0 bg-ink/50" />
           </div>
         </div>
 
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">The Authenticity Promise</p>
-          <h2 className="mt-4 font-display text-4xl text-paper md:text-5xl">
-            Every order arrives with a <em className="text-accent">provenance card.</em>
-          </h2>
-          <p className="mt-5 max-w-lg text-paper/70">
-            We source direct from Korean distributors and verify every batch on arrival
-            in Melbourne. The card in your parcel traces your product from factory floor
-            to your bathroom shelf — manufacture date, import lot, expiry, the works.
+        <div className="md:col-span-7">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">
+            AUTHENTICITY, WITHOUT THE GUESSWORK
           </p>
-          <ul className="mt-8 grid gap-4 text-sm md:grid-cols-2">
-            {["Sealed, batch-coded, never decanted", "Cold-chain stored in Melbourne", "Cruelty-free shipping materials", "Lifetime authenticity guarantee"].map((b) => (
-              <li key={b} className="flex items-start gap-3 text-paper/85">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                {b}
+          <h2 className="mt-4 font-display text-4xl leading-tight text-paper md:text-[2.75rem]">
+            Know what’s touching your skin.
+          </h2>
+          <p className="mt-5 max-w-xl text-paper/70">
+            K-beauty should feel exciting, not uncertain. SkinGrocer is built around a simple
+            standard: genuine products, clear product information and a more considered way to shop
+            Korean skincare in Australia.
+          </p>
+
+          <ul className="mt-10 grid border-l border-t border-paper/10 md:grid-cols-2">
+            {principles.map((p, i) => (
+              <li
+                key={p.t}
+                className="border-b border-r border-paper/10 px-5 py-6 md:px-6 md:py-7"
+              >
+                <span className="font-display text-xs italic text-paper/30">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <p className="mt-2 font-display text-sm uppercase tracking-[0.14em] text-paper">
+                  {p.t}
+                </p>
+                <p className="mt-1.5 text-sm leading-relaxed text-paper/60">{p.d}</p>
               </li>
             ))}
           </ul>
+
           <Link
             to="/about"
-            className="mt-10 inline-flex items-center gap-2 rounded-full border border-paper/30 px-7 py-3.5 text-sm font-medium text-paper transition hover:bg-paper hover:text-ink"
+            className="group mt-10 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-paper transition hover:text-accent"
           >
-            Read our sourcing story →
+            <span className="border-b border-paper/30 pb-0.5 transition-colors group-hover:border-accent">
+              Read our sourcing approach
+            </span>
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
         </div>
       </div>
