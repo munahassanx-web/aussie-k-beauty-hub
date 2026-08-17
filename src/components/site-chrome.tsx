@@ -191,8 +191,9 @@ export function SiteHeader() {
               <div
                 key={key}
                 className="relative flex items-center gap-1"
-                onMouseEnter={() => setOpenMenu(key)}
-                onFocus={() => setOpenMenu(key)}
+                onMouseEnter={() => { if (dismissed !== key) setOpenMenu(key); }}
+                onMouseLeave={() => setDismissed(null)}
+                onFocus={() => { if (dismissed !== key) setOpenMenu(key); }}
               >
                 <Link
                   to={topLevelLinks[key].to}
@@ -212,8 +213,16 @@ export function SiteHeader() {
                   type="button"
                   aria-label={openMenu === key ? `Close ${key} menu` : `Open ${key} menu`}
                   aria-expanded={openMenu === key}
-                  onFocus={() => setOpenMenu(key)}
-                  onClick={() => setOpenMenu((cur) => (cur === key ? null : key))}
+                  onFocus={() => { if (dismissed !== key) setOpenMenu(key); }}
+                  onClick={() => {
+                    if (openMenu === key) {
+                      setOpenMenu(null);
+                      setDismissed(key);
+                    } else {
+                      setOpenMenu(key);
+                      setDismissed(null);
+                    }
+                  }}
                   className="flex h-6 w-6 items-center justify-center rounded-full text-foreground/45 hover:bg-secondary hover:text-primary"
                 >
                   <span className={`text-[10px] leading-none transition-transform ${openMenu === key ? "rotate-180" : ""}`}>⌄</span>
