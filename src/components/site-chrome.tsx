@@ -191,7 +191,7 @@ export function SiteHeader() {
               onMouseEnter={() => setOpenMenu(null)}
               className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
             >
-              Grocery List
+              Blog
             </Link>
             <Link
               to="/faq"
@@ -334,7 +334,7 @@ export function SiteHeader() {
                   onClick={closeMenus}
                   className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
                 >
-                  Grocery List
+                  Blog
                   <span className="text-base text-primary">→</span>
                 </Link>
                 <Link
