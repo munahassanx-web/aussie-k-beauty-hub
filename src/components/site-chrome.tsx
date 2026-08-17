@@ -35,17 +35,15 @@ const megaMenus: Record<string, MegaSection[]> = {
     {
       heading: "By Routine",
       links: [
-        { label: "AM Routine", to: "/journey" },
-        { label: "PM Routine", to: "/journey" },
-        { label: "Weekly Treatments", to: "/journey" },
-        { label: "Build Mine (Quiz)", to: "/consultation" },
+        { label: "Routine kits", to: "/routines" },
+        { label: "How a routine layers", to: "/journey" },
+        { label: "Find your routine (quiz)", to: "/consultation" },
       ],
     },
     {
       heading: "Curated",
       links: [
-        { label: "Bestsellers", to: "/shop" },
-        { label: "New Arrivals", to: "/shop" },
+        { label: "Shop all", to: "/shop" },
         { label: "Restock essentials", to: "/club" },
         { label: "Bundles", to: "/", hash: "bundles" },
       ],
@@ -56,40 +54,38 @@ const megaMenus: Record<string, MegaSection[]> = {
       heading: "Skin Goals",
       links: [
         { label: "Hydration & Glow", to: "/shop", search: { concern: "hydration" } },
-        { label: "Acne & Breakouts", to: "/shop", search: { concern: "acne" } },
-        { label: "Pigmentation", to: "/shop", search: { concern: "pigmentation" } },
-        { label: "Sensitivity & Redness", to: "/shop", search: { concern: "sensitivity" } },
-        { label: "Anti-Ageing", to: "/shop", search: { concern: "anti-aging" } },
-        { label: "Barrier Repair", to: "/shop", search: { concern: "barrier" } },
+        { label: "Blemish-Prone", to: "/shop", search: { concern: "acne" } },
+        { label: "Uneven-Looking Tone", to: "/shop", search: { concern: "pigmentation" } },
+        { label: "Easily Unsettled", to: "/shop", search: { concern: "sensitivity" } },
+        { label: "Firmness & Fine Lines", to: "/shop", search: { concern: "anti-aging" } },
+        { label: "Barrier-Focused", to: "/shop", search: { concern: "barrier" } },
       ],
     },
     {
       heading: "Find Your Routine",
       links: [
-        { label: "Take the Routine Consultation", to: "/consultation" },
-        { label: "Ingredient Finder", to: "/learn/snail-mucin" },
+        { label: "Take the routine quiz", to: "/consultation" },
+        { label: "Ingredient index", to: "/learn" },
         { label: "Ask us a question", to: "/contact" },
       ],
     },
   ],
   Brands: [
     {
-      heading: "K-Beauty Icons",
+      heading: "Stocked Brands",
       links: [
-        { label: "COSRX", to: "/shop", search: { brand: "COSRX" } },
+        { label: "AESTURA", to: "/shop", search: { brand: "AESTURA" } },
         { label: "Beauty of Joseon", to: "/shop", search: { brand: "Beauty of Joseon" } },
-        { label: "Anua", to: "/shop", search: { brand: "Anua" } },
-        { label: "SKIN1004", to: "/shop", search: { brand: "SKIN1004" } },
-        { label: "Numbuzin", to: "/shop", search: { brand: "Numbuzin" } },
+        { label: "BIODANCE", to: "/shop", search: { brand: "BIODANCE" } },
+        { label: "MEDICUBE", to: "/shop", search: { brand: "MEDICUBE" } },
+        { label: "ROUND LAB", to: "/shop", search: { brand: "ROUND LAB" } },
+        { label: "TORRIDEN", to: "/shop", search: { brand: "TORRIDEN" } },
       ],
     },
     {
-      heading: "Premium Imports",
+      heading: "More",
       links: [
-        { label: "Abib", to: "/shop", search: { brand: "Abib" } },
-        { label: "Mediheal", to: "/shop", search: { brand: "Mediheal" } },
-        { label: "Some By Mi", to: "/shop", search: { brand: "Some By Mi" } },
-        { label: "View All Brands", to: "/brands" },
+        { label: "View all brands", to: "/brands" },
       ],
     },
   ],
@@ -165,7 +161,10 @@ function AnnouncementBar() {
 
 export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [dismissed, setDismissed] = useState<string | null>(null);
+  const [pinned, setPinned] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSection, setMobileSection] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const { user } = useAuth();
   const cart = useCart();
@@ -173,6 +172,7 @@ export function SiteHeader() {
   const closeMenus = () => {
     setOpenMenu(null);
     setMobileOpen(false);
+    setMobileSection(null);
   };
 
   return (
@@ -193,8 +193,9 @@ export function SiteHeader() {
               <div
                 key={key}
                 className="relative flex items-center gap-1"
-                onMouseEnter={() => setOpenMenu(key)}
-                onFocus={() => setOpenMenu(key)}
+                onMouseEnter={() => { if (dismissed !== key) setOpenMenu(key); }}
+                onMouseLeave={() => { setDismissed(null); setPinned(null); }}
+                onFocus={() => { if (dismissed !== key) setOpenMenu(key); }}
               >
                 <Link
                   to={topLevelLinks[key].to}
@@ -212,13 +213,23 @@ export function SiteHeader() {
                 </Link>
                 <button
                   type="button"
-                  aria-label={`Open ${key} menu`}
+                  aria-label={openMenu === key ? `Close ${key} menu` : `Open ${key} menu`}
                   aria-expanded={openMenu === key}
-                  onFocus={() => setOpenMenu(key)}
-                  onClick={() => setOpenMenu(key)}
+                  onFocus={() => { if (dismissed !== key) setOpenMenu(key); }}
+                  onClick={() => {
+                    if (pinned === key) {
+                      setOpenMenu(null);
+                      setPinned(null);
+                      setDismissed(key);
+                    } else {
+                      setOpenMenu(key);
+                      setPinned(key);
+                      setDismissed(null);
+                    }
+                  }}
                   className="flex h-6 w-6 items-center justify-center rounded-full text-foreground/45 hover:bg-secondary hover:text-primary"
                 >
-                  <span className="text-[10px] leading-none">⌄</span>
+                  <span className={`text-[10px] leading-none transition-transform ${openMenu === key ? "rotate-180" : ""}`}>⌄</span>
                 </button>
               </div>
             ))}
@@ -287,7 +298,9 @@ export function SiteHeader() {
               className="relative flex h-9 w-9 items-center justify-center rounded-full text-foreground/80 hover:bg-secondary hover:text-primary"
             >
               <BagIcon />
-              <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground">{cart.count}</span>
+              {cart.count > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground">{cart.count}</span>
+              )}
             </button>
             <button
               type="button"
@@ -343,30 +356,68 @@ export function SiteHeader() {
         {mobileOpen && (
           <div className="border-t border-border/60 bg-background lg:hidden">
             <div className="max-h-[calc(100vh-7rem)] overflow-y-auto px-6 py-5">
-              <div className="grid gap-3 border-b border-border/60 pb-5">
-                {Object.entries(topLevelLinks).map(([key, link]) => (
-                  <Link
-                    key={key}
-                    to={link.to}
-                    onClick={closeMenus}
-                    className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
-                  >
-                    {link.label}
-                    <span className="text-base text-primary">→</span>
-                  </Link>
-                ))}
-                <Link to={user ? "/club" : "/auth"} onClick={closeMenus} className="flex items-center justify-between py-2 font-display text-2xl text-foreground">
+              <div className="grid gap-1 border-b border-border/60 pb-5">
+                {Object.entries(topLevelLinks).map(([key, link]) => {
+                  const expanded = mobileSection === key;
+                  return (
+                    <div key={key} className="border-b border-border/40 last:border-b-0">
+                      <div className="flex items-center justify-between">
+                        <Link
+                          to={link.to}
+                          onClick={closeMenus}
+                          className="flex-1 py-3 font-display text-2xl text-foreground"
+                        >
+                          {link.label}
+                        </Link>
+                        <button
+                          type="button"
+                          aria-label={expanded ? `Collapse ${link.label} menu` : `Expand ${link.label} menu`}
+                          aria-expanded={expanded}
+                          onClick={() => setMobileSection((cur) => (cur === key ? null : key))}
+                          className="flex h-11 w-11 items-center justify-center text-foreground/60 hover:text-primary"
+                        >
+                          <span className={`text-sm leading-none transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}>⌄</span>
+                        </button>
+                      </div>
+                      {expanded && (
+                        <div className="pb-4 pl-1">
+                          {megaMenus[key]?.map((section) => (
+                            <div key={section.heading} className="mt-3">
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{section.heading}</p>
+                              <ul className="mt-2">
+                                {section.links.map((l) => (
+                                  <li key={l.label}>
+                                    <Link
+                                      to={l.to}
+                                      search={l.search as never}
+                                      hash={l.hash}
+                                      onClick={closeMenus}
+                                      className="block py-2 text-sm text-foreground/80 hover:text-primary"
+                                    >
+                                      {l.label}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+                <Link to={user ? "/club" : "/auth"} onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground">
                   {user ? "Restock Club" : "Sign in"}
                   <span className="text-base text-primary">→</span>
                 </Link>
-                <Link to="/wishlist" onClick={closeMenus} className="flex items-center justify-between py-2 font-display text-2xl text-foreground">
+                <Link to="/wishlist" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground">
                   Saved
                   <span className="text-base text-primary">→</span>
                 </Link>
                 <Link
                   to="/routines"
                   onClick={closeMenus}
-                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                  className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
                 >
                   Routine Kits
                   <span className="text-base text-primary">→</span>
@@ -374,7 +425,7 @@ export function SiteHeader() {
                 <Link
                   to="/learn/hub"
                   onClick={closeMenus}
-                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                  className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
                 >
                   Learn
                   <span className="text-base text-primary">→</span>
@@ -382,7 +433,7 @@ export function SiteHeader() {
                 <Link
                   to="/blog"
                   onClick={closeMenus}
-                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                  className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
                 >
                   Blog
                   <span className="text-base text-primary">→</span>
@@ -390,7 +441,7 @@ export function SiteHeader() {
                 <Link
                   to="/faq"
                   onClick={closeMenus}
-                  className="flex items-center justify-between py-2 font-display text-2xl text-foreground"
+                  className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
                 >
                   FAQ
                   <span className="text-base text-primary">→</span>
@@ -398,43 +449,11 @@ export function SiteHeader() {
                 <button
                   type="button"
                   onClick={() => { closeMenus(); setSearchOpen(true); }}
-                  className="flex items-center justify-between py-2 text-left font-display text-2xl text-foreground"
+                  className="flex items-center justify-between py-3 text-left font-display text-2xl text-foreground"
                 >
                   Search
                   <span className="text-base text-primary">→</span>
                 </button>
-
-
-              </div>
-
-              <div className="mt-5 space-y-6">
-                {Object.entries(megaMenus).map(([menu, sections]) => (
-                  <div key={menu}>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-clay">{menu}</p>
-                    <div className="mt-3 grid gap-5 sm:grid-cols-2">
-                      {sections.map((section) => (
-                        <div key={section.heading}>
-                          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">{section.heading}</p>
-                          <ul className="mt-2 space-y-2">
-                            {section.links.map((link) => (
-                              <li key={link.label}>
-                                <Link
-                                  to={link.to}
-                                  search={link.search as never}
-                                  hash={link.hash}
-                                  onClick={closeMenus}
-                                  className="block py-1 text-sm text-foreground/80 hover:text-primary"
-                                >
-                                  {link.label}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
