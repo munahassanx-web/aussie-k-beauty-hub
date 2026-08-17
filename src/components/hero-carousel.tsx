@@ -45,7 +45,7 @@ const slides: Slide[] = [
     eyebrow: "Melbourne · Authentic Korean skincare",
     headline: "skin grocer",
     body: "K-beauty for your skin — and your postcode.",
-    durationMs: 2500,
+    durationMs: 7000,
     ctas: [
       { label: "Discover skingrocer", to: "/about", variant: "primary", icon: "arrow" },
       { label: "Shop the edit", to: "/shop", variant: "secondary", icon: "arrow" },
@@ -64,7 +64,7 @@ const slides: Slide[] = [
     eyebrow: "What you can't find locally",
     headline: "Mecca doesn't stock it.",
     body: "The Seoul drops you won't find at Mecca.",
-    durationMs: 5000,
+    durationMs: 7000,
     ctas: [
       { label: "Discover the Seoul edit", to: "/shop", variant: "primary", icon: "arrow" },
     ],
@@ -83,7 +83,7 @@ const slides: Slide[] = [
     eyebrow: "Why authenticity matters",
     headline: "Amazon might not be real.",
     body: "Batch-checked. Sealed. Authorised.",
-    durationMs: 5000,
+    durationMs: 7000,
     ctas: [
       { label: "Our authenticity promise", to: "/about", variant: "primary", icon: "arrow" },
     ],
@@ -102,7 +102,7 @@ const slides: Slide[] = [
     eyebrow: "How to use it",
     headline: "Ten steps, no instructions.",
     body: "Korean routines, translated into plain English.",
-    durationMs: 5000,
+    durationMs: 7000,
     ctas: [
       { label: "Build your routine", to: "/consultation", variant: "primary", icon: "arrow" },
       { label: "Take the skin quiz", to: "/consultation", variant: "secondary", icon: "sparkle" },
@@ -122,7 +122,7 @@ const slides: Slide[] = [
     eyebrow: "From Melbourne, not Seoul",
     headline: "No shipping from Seoul.",
     body: "Next-day VIC. Express Australia-wide.",
-    durationMs: 5000,
+    durationMs: 7000,
     ctas: [
       { label: "Shop K-beauty", to: "/shop", variant: "primary", icon: "arrow" },
     ],
@@ -153,13 +153,15 @@ const ctaAlignMap: Record<Align, string> = {
   right: "md:justify-end",
 };
 
-const RESUME_DELAY_MS = 6000;
+const RESUME_DELAY_MS = 9000;
 
 export function HeroCarousel() {
   const [active, setActive] = useState(0);
   const [contentKey, setContentKey] = useState(0);
   const [progressKey, setProgressKey] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   const autoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -210,7 +212,19 @@ export function HeroCarousel() {
   );
 
   useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const apply = () => setReducedMotion(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  // Autoplay halts entirely while the visitor is engaged with the controls or CTAs.
+  const holding = hovered || reducedMotion;
+
+  useEffect(() => {
     clearTimers();
+    if (holding) return;
     if (paused) {
       resumeTimerRef.current = setTimeout(() => {
         setProgressKey((k) => k + 1);
@@ -220,7 +234,7 @@ export function HeroCarousel() {
       autoTimerRef.current = setTimeout(next, slides[active].durationMs);
     }
     return clearTimers;
-  }, [active, contentKey, progressKey, paused, next, clearTimers]);
+  }, [active, contentKey, progressKey, paused, holding, next, clearTimers]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -367,6 +381,10 @@ export function HeroCarousel() {
               ctaAlignMap[slides[active].align || "center"]
             }`}
             style={{ "--hero-delay": "600ms", "--hero-rise": "10px", "--hero-line-duration": "950ms" } as React.CSSProperties}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            onFocusCapture={() => setHovered(true)}
+            onBlurCapture={() => setHovered(false)}
           >
             {slides[active].ctas.map((cta) => (
               <Link
@@ -392,7 +410,13 @@ export function HeroCarousel() {
       </div>
 
       {/* Bottom bar: editorial progress system + ticker */}
-      <div className="relative z-20 border-t border-paper/10 bg-ink/60 backdrop-blur">
+      <div
+        className="relative z-20 border-t border-paper/10 bg-ink/60 backdrop-blur"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onFocusCapture={() => setHovered(true)}
+        onBlurCapture={() => setHovered(false)}
+      >
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 px-6 py-3 md:flex-row md:items-center md:justify-between md:gap-6 md:px-10">
           {/* Editorial progress nav */}
           <div className="flex flex-col items-center gap-2 md:items-start">
@@ -432,7 +456,7 @@ export function HeroCarousel() {
                 className="absolute inset-y-0 left-0 block h-full bg-paper animate-hero-fill"
                 style={{
                   animationDuration: `${slides[active].durationMs}ms`,
-                  animationPlayState: paused ? "paused" : "running",
+                  animationPlayState: paused || holding ? "paused" : "running",
                 }}
               />
             </div>
