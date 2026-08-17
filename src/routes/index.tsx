@@ -22,10 +22,10 @@ import categoryMasks from "@/assets/category-masks.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Skin Grocer — Authentic Korean Skincare, Next-Day from Melbourne" },
-      { name: "description", content: "Melbourne's destination for authentic K-beauty and premium imports. Locally stocked, expertly guided, dispatched next-day across Australia." },
-      { property: "og:title", content: "Skin Grocer — Authentic Korean Skincare, Next-Day from Melbourne" },
-      { property: "og:description", content: "Melbourne's destination for authentic K-beauty and premium imports. Locally stocked, expertly guided, dispatched next-day across Australia." },
+      { title: "Skin Grocer — Authentic Korean Skincare, Stocked in Melbourne" },
+      { name: "description", content: "Authentic Korean skincare and premium imports, locally stocked in Melbourne and dispatched across Australia. Guided routines, plainly explained." },
+      { property: "og:title", content: "Skin Grocer — Authentic Korean Skincare, Stocked in Melbourne" },
+      { property: "og:description", content: "Authentic Korean skincare and premium imports, locally stocked in Melbourne and dispatched across Australia. Guided routines, plainly explained." },
       { property: "og:url", content: "https://skingrocer.com.au/" },
     ],
     links: [{ rel: "canonical", href: "https://skingrocer.com.au/" }],
@@ -82,7 +82,6 @@ const ingredients = [
 function HomePage() {
   return (
     <div>
-      <PromoBar />
       <HeroCarousel />
       <Promise />
       <KoreaRightNow />
@@ -383,22 +382,6 @@ function BrandMarquee() {
   );
 }
 
-function PromoBar() {
-  return (
-    <Link
-      to="/shipping-policy"
-      aria-label="Free express shipping on Australian orders over A$80 — read our shipping policy"
-      className="block bg-hanbok-deep text-paper transition-colors hover:bg-hanbok"
-    >
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-6 py-2.5 text-center text-[11px] font-semibold uppercase tracking-[0.2em]">
-        <span>Free express shipping on Australian orders over A$80</span>
-        <span className="hidden text-paper/60 sm:inline">
-          Dispatched same business day on orders placed before 12pm
-        </span>
-      </div>
-    </Link>
-  );
-}
 
 
 

@@ -46,7 +46,7 @@ const megaMenus: Record<string, MegaSection[]> = {
       links: [
         { label: "Bestsellers", to: "/shop" },
         { label: "New Arrivals", to: "/shop" },
-        { label: "Subscribe & Save", to: "/club" },
+        { label: "Restock essentials", to: "/club" },
         { label: "Bundles", to: "/", hash: "bundles" },
       ],
     },
@@ -68,7 +68,7 @@ const megaMenus: Record<string, MegaSection[]> = {
       links: [
         { label: "Take the Routine Consultation", to: "/consultation" },
         { label: "Ingredient Finder", to: "/learn/snail-mucin" },
-        { label: "Talk to an Advisor", to: "/contact" },
+        { label: "Ask us a question", to: "/contact" },
       ],
     },
   ],
@@ -330,7 +330,7 @@ export function SiteHeader() {
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Featured</p>
                 <p className="mt-3 font-display text-xl leading-tight text-foreground">Glass Skin in 4 Steps</p>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Our advisor-built routine for dewy, even-toned skin.
+                  A considered routine for dewy, even-toned skin.
                 </p>
                 <Link to="/journey" onClick={closeMenus} className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
                   Explore the routine →
