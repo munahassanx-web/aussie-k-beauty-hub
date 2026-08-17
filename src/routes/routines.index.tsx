@@ -16,6 +16,7 @@ export const Route = createFileRoute('/routines/')({
         property: 'og:description',
         content: 'Curated K-beauty routines, built step by step.',
       },
+      { property: 'og:url', content: 'https://skingrocer.com.au/routines' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
     ],
