@@ -142,14 +142,19 @@ function grocerStripe(kind: 'signature' | 'repeat'): string {
   const src = signature ? STRIPE_BAND : STRIPE_FOOT;
   const h = signature ? 64 : 44;
   const alt = ''; // decorative: the stripe is brand furniture, not content
-  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-    <tr><td bgcolor="${NAVY}" height="${h}" style="background-color:${NAVY};height:${h}px;line-height:0;font-size:0;">
+  const goldRule = `<tr><td bgcolor="${GOLD}" style="height:4px;line-height:4px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>`;
+  const band = `<tr><td bgcolor="${NAVY}" height="${h}" style="background-color:${NAVY};height:${h}px;line-height:0;font-size:0;">
       <img src="${src}" width="620" height="${h}" alt="${alt}" class="sg-band sg-hide-mobile" style="display:block;width:100%;max-width:620px;height:${h}px;border:0;" />
       <img src="${STRIPE_MOBILE}" width="390" height="56" alt="${alt}" class="sg-show-mobile" style="display:none;width:100%;height:auto;border:0;mso-hide:all;" />
-    </td></tr>
-    <tr><td bgcolor="${GOLD}" style="height:3px;line-height:3px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>
+    </td></tr>`;
+  // Signature: the gold rule caps the TOP edge so the stripe field runs straight
+  // into the navy masthead as one composed opening, not a detached trim.
+  // Repeat: the gold rule closes the band, echoing the same device at the foot.
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+    ${signature ? goldRule + band : band + goldRule}
   </table>`;
 }
+
 
 /**
  * The stripe's second appearance: a vertical editorial crop that enters from
@@ -230,14 +235,16 @@ function shell(title: string, preheader: string, hero: string, body: string): st
     <tr><td align="center" style="padding:32px 12px 44px;">
       <table role="presentation" width="620" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:620px;">
 
-        <!-- signature ribbon: the stripe leads the brand, at full strength -->
+        <!-- one composed opening: gold cap → stripe field → navy masthead → gold rule -->
         <tr><td>${grocerStripe('signature')}</td></tr>
 
-        <!-- masthead: same navy field, composed as one opening with the ribbon -->
-        <tr><td bgcolor="${NAVY}" align="center" class="sg-pad" style="background-color:${NAVY};padding:42px 40px 38px;">
+        <!-- masthead: same navy field, continuous with the stripe above it -->
+        <tr><td bgcolor="${NAVY}" align="center" class="sg-pad" style="background-color:${NAVY};padding:36px 40px 34px;">
           <p class="sg-wordmark" style="margin:0;font-family:${SERIF};font-size:38px;line-height:1.05;letter-spacing:.20em;text-transform:uppercase;color:${CREAM};font-weight:normal;">Skin&nbsp;Grocer</p>
           <p style="margin:16px 0 0;font-family:${SANS};font-size:10px;line-height:1.4;letter-spacing:.30em;text-transform:uppercase;color:${GOLD};">Seoul Sourced. Skin Assured.</p>
         </td></tr>
+        <tr><td bgcolor="${GOLD}" style="height:4px;line-height:4px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>
+
 
         <!-- the stripe's second moment: vertical crop beside the order statement -->
         <tr><td>${hero}</td></tr>

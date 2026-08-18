@@ -26,8 +26,8 @@ SS = 4  # supersample factor
 # navy field -> cream band -> gold companion band.
 NAVY_RUN = 78
 CREAM_RUN = 34
-GOLD_RUN = 16
-PERIOD = NAVY_RUN + CREAM_RUN + GOLD_RUN  # 128px -> gold is 12.5% of the field
+GOLD_RUN = 22
+PERIOD = NAVY_RUN + CREAM_RUN + GOLD_RUN  # 134px -> gold is ~16.4% of the field
 
 
 def stripe(width: int, height: int, path: str, scale: float = 1.0, phase: float = 0.0) -> None:
