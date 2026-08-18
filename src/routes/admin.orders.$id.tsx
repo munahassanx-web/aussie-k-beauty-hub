@@ -8,7 +8,7 @@ import {
   updateOrderFulfilment,
   FULFILMENT_STAGES,
 } from '@/lib/admin-orders.functions';
-import { CARRIERS, findCarrier, trackingLink } from '@/lib/shipping/carriers';
+import { CARRIERS, DEFAULT_CARRIER_LABEL, findCarrier, isPlausibleTracking, trackingLink, trackingLinkLabel } from '@/lib/shipping/carriers';
 import { PackingSlip } from '@/components/admin/packing-slip';
 import { useAuth } from '@/hooks/use-auth';
 
@@ -72,7 +72,8 @@ function OrderDetail() {
   useEffect(() => {
     if (!order) return;
     setTracking(order.trackingNumber ?? '');
-    setCarrier(order.shippingCarrier ?? '');
+    // Australia Post is the default carrier; staff can change it freely.
+    setCarrier(order.shippingCarrier ?? DEFAULT_CARRIER_LABEL);
     setService(order.shippingService ?? '');
     setShipmentId(order.shipmentId ?? '');
     setLabelUrl(order.labelUrl ?? '');
@@ -83,6 +84,9 @@ function OrderDetail() {
 
   const selectedCarrier = findCarrier(carrier);
   const trackUrl = trackingLink(carrier, tracking);
+  const [overrideDispatch, setOverrideDispatch] = useState(false);
+  const dispatchReady = Boolean(carrier.trim()) && isPlausibleTracking(carrier, tracking);
+  const dispatchBlocked = !dispatchReady && !overrideDispatch;
 
   const mutate = useMutation({
     mutationFn: (vars: Parameters<typeof updateOrderFulfilment>[0]['data']) => save({ data: vars }),
@@ -190,8 +194,28 @@ function OrderDetail() {
               <button
                 key={s}
                 type="button"
-                disabled={mutate.isPending || order.fulfillmentStatus === s}
-                onClick={() => mutate.mutate({ id: order.id, fulfillmentStatus: s })}
+                disabled={
+                  mutate.isPending ||
+                  order.fulfillmentStatus === s ||
+                  ((s === 'shipped' || s === 'delivered') && dispatchBlocked)
+                }
+                title={
+                  (s === 'shipped' || s === 'delivered') && dispatchBlocked
+                    ? 'Add a carrier and a valid tracking number first, or tick the override below.'
+                    : undefined
+                }
+                onClick={() => {
+                  if ((s === 'shipped' || s === 'delivered') && dispatchBlocked) return;
+                  mutate.mutate({
+                    id: order.id,
+                    fulfillmentStatus: s,
+                    // Persist what the form is showing so dispatch can never be
+                    // recorded with tracking that was typed but never saved.
+                    ...(s === 'shipped' || s === 'delivered'
+                      ? { shippingCarrier: carrier, trackingNumber: tracking }
+                      : {}),
+                  });
+                }}
                 className={`rounded-full border px-4 py-2 text-sm disabled:opacity-60 ${
                   order.fulfillmentStatus === s
                     ? 'border-foreground bg-foreground text-background'
@@ -209,6 +233,33 @@ function OrderDetail() {
               ? `Last updated ${new Date(order.fulfillmentUpdatedAt).toLocaleString('en-AU')}.`
               : 'No fulfilment activity yet.'}
           </p>
+
+          <div className="mt-3 rounded-xl border border-border bg-secondary/60 p-3 text-xs">
+            {dispatchReady ? (
+              <p className="text-foreground">
+                Ready to dispatch — {carrier} tracking <span className="font-mono">{tracking}</span> is recorded.
+              </p>
+            ) : (
+              <>
+                <p className="text-destructive">
+                  Dispatch is locked: enter a carrier and the tracking / consignment number from the carrier portal
+                  below, then save. Never invent a number.
+                </p>
+                <label className="mt-2 flex items-start gap-2 text-muted-foreground">
+                  <input
+                    type="checkbox"
+                    checked={overrideDispatch}
+                    onChange={(e) => setOverrideDispatch(e.target.checked)}
+                    className="mt-0.5 h-4 w-4"
+                  />
+                  <span>
+                    Override — mark dispatched without tracking (e.g. hand delivery or pickup). The customer will see
+                    no tracking for this order.
+                  </span>
+                </label>
+              </>
+            )}
+          </div>
 
           <form
             className="mt-5 grid gap-4 sm:grid-cols-2"
@@ -264,7 +315,7 @@ function OrderDetail() {
               />
               {trackUrl && (
                 <a href={trackUrl} target="_blank" rel="noreferrer" className="mt-2 inline-block text-xs underline text-muted-foreground">
-                  Open carrier tracking page
+                  {trackingLinkLabel(carrier)}
                 </a>
               )}
             </div>
@@ -341,19 +392,33 @@ function OrderDetail() {
           </p>
         </section>
 
-        <section className="mt-4 rounded-2xl border border-border p-5 text-sm">
-          <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Shipping integration</p>
+        <section className="mt-4 rounded-2xl border border-dashed border-border p-5 text-sm">
+          <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Shipping integration — staff only</p>
           {capability.data?.automated ? (
             <p className="mt-2 text-foreground">
               Automated labels available via{' '}
               {capability.data.providers.filter((p) => p.id !== 'manual' && p.configured).map((p) => p.label).join(', ')}.
             </p>
           ) : (
-            <p className="mt-2 text-muted-foreground">
-              Manual mode. No carrier account is connected to this site, so labels are created in your carrier portal
-              (e.g. MyPost Business) and the consignment number is pasted here. Provider: {order.shippingProvider} ·
-              label status: {order.labelStatus}.
-            </p>
+            <>
+              <p className="mt-2 font-medium text-foreground">
+                Australia Post MyPost Business — manual tracking workflow active
+              </p>
+              <p className="mt-2 text-muted-foreground">
+                Label automation is <strong>not connected</strong>. Buy the label in MyPost Business, then paste the
+                consignment / article number into the tracking field above. Nothing here creates labels or reads live
+                carrier status.
+              </p>
+              <p className="mt-2 text-xs text-muted-foreground">
+                Order record — provider: {order.shippingProvider} · label status: {order.labelStatus}
+                {order.dispatchedAt ? ` · dispatched ${new Date(order.dispatchedAt).toLocaleString('en-AU')}` : ''}
+              </p>
+              <p className="mt-2 text-xs text-muted-foreground">
+                To automate later: MyPost Business accounts integrate through an authorised Australia Post eCommerce
+                shipping partner; direct Shipping &amp; Tracking API access is for eParcel contract accounts. Either
+                path plugs into the same order fields — the admin screens do not change.
+              </p>
+            </>
           )}
         </section>
       </main>
