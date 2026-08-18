@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/lib/cart";
 import { ProductSearchOverlay } from "@/components/product-search";
-import logoAsset from "@/assets/skin-grocer-seal.png.asset.json";
-const logo = logoAsset.url;
+import { BrandWordmark, BrandLine } from "@/components/brand-wordmark";
+
 
 type MegaLink = { label: string; to: string; search?: Record<string, string>; hash?: string };
 type MegaSection = {
