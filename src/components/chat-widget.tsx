@@ -201,17 +201,18 @@ export function ChatWidget() {
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              aria-label="Your skincare question"
               placeholder="Ask about your skin…"
               maxLength={500}
-              className="flex-1 rounded-full border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+              className="min-h-11 flex-1 rounded-full border border-border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:border-primary"
             />
             <button
               type="submit"
               disabled={!input.trim() || mutation.isPending}
-              aria-label="Send"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground transition hover:opacity-90 disabled:opacity-40"
+              aria-label="Send question"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-primary-foreground transition hover:opacity-90 disabled:opacity-40"
             >
-              <Send className="h-4 w-4" />
+              <Send className="h-4 w-4" aria-hidden="true" />
             </button>
           </form>
         </div>
