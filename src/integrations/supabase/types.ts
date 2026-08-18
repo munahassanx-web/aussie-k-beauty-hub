@@ -260,6 +260,7 @@ export type Database = {
           created_at: string
           currency: string
           discount_cents: number
+          dispatched_at: string | null
           environment: string
           fulfillment_status: string
           fulfillment_updated_at: string | null
@@ -267,15 +268,20 @@ export type Database = {
           guest_email: string | null
           id: string
           is_subscription_order: boolean
+          label_reference: string | null
+          label_status: string
+          label_url: string | null
           line_items: Json | null
           ops_notes: string | null
           packed_at: string | null
           points_earned: number
           points_redeemed: number
+          shipment_id: string | null
           shipped_at: string | null
           shipping_carrier: string | null
           shipping_cents: number
           shipping_city: string | null
+          shipping_cost_actual_cents: number | null
           shipping_country: string | null
           shipping_line1: string | null
           shipping_line2: string | null
@@ -283,6 +289,8 @@ export type Database = {
           shipping_name: string | null
           shipping_phone: string | null
           shipping_postcode: string | null
+          shipping_provider: string
+          shipping_service: string | null
           shipping_state: string | null
           status: string
           stripe_invoice_id: string | null
@@ -297,6 +305,7 @@ export type Database = {
           created_at?: string
           currency?: string
           discount_cents?: number
+          dispatched_at?: string | null
           environment?: string
           fulfillment_status?: string
           fulfillment_updated_at?: string | null
@@ -304,15 +313,20 @@ export type Database = {
           guest_email?: string | null
           id?: string
           is_subscription_order?: boolean
+          label_reference?: string | null
+          label_status?: string
+          label_url?: string | null
           line_items?: Json | null
           ops_notes?: string | null
           packed_at?: string | null
           points_earned?: number
           points_redeemed?: number
+          shipment_id?: string | null
           shipped_at?: string | null
           shipping_carrier?: string | null
           shipping_cents?: number
           shipping_city?: string | null
+          shipping_cost_actual_cents?: number | null
           shipping_country?: string | null
           shipping_line1?: string | null
           shipping_line2?: string | null
@@ -320,6 +334,8 @@ export type Database = {
           shipping_name?: string | null
           shipping_phone?: string | null
           shipping_postcode?: string | null
+          shipping_provider?: string
+          shipping_service?: string | null
           shipping_state?: string | null
           status?: string
           stripe_invoice_id?: string | null
@@ -334,6 +350,7 @@ export type Database = {
           created_at?: string
           currency?: string
           discount_cents?: number
+          dispatched_at?: string | null
           environment?: string
           fulfillment_status?: string
           fulfillment_updated_at?: string | null
@@ -341,15 +358,20 @@ export type Database = {
           guest_email?: string | null
           id?: string
           is_subscription_order?: boolean
+          label_reference?: string | null
+          label_status?: string
+          label_url?: string | null
           line_items?: Json | null
           ops_notes?: string | null
           packed_at?: string | null
           points_earned?: number
           points_redeemed?: number
+          shipment_id?: string | null
           shipped_at?: string | null
           shipping_carrier?: string | null
           shipping_cents?: number
           shipping_city?: string | null
+          shipping_cost_actual_cents?: number | null
           shipping_country?: string | null
           shipping_line1?: string | null
           shipping_line2?: string | null
@@ -357,6 +379,8 @@ export type Database = {
           shipping_name?: string | null
           shipping_phone?: string | null
           shipping_postcode?: string | null
+          shipping_provider?: string
+          shipping_service?: string | null
           shipping_state?: string | null
           status?: string
           stripe_invoice_id?: string | null
