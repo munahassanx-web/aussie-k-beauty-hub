@@ -128,6 +128,96 @@ export type Database = {
         }
         Relationships: []
       }
+      inventory: {
+        Row: {
+          brand: string | null
+          created_at: string
+          low_stock_threshold: number
+          on_hand: number
+          opening_stock_set_at: string | null
+          product_name: string | null
+          sku: string
+          track_inventory: boolean
+          updated_at: string
+        }
+        Insert: {
+          brand?: string | null
+          created_at?: string
+          low_stock_threshold?: number
+          on_hand?: number
+          opening_stock_set_at?: string | null
+          product_name?: string | null
+          sku: string
+          track_inventory?: boolean
+          updated_at?: string
+        }
+        Update: {
+          brand?: string | null
+          created_at?: string
+          low_stock_threshold?: number
+          on_hand?: number
+          opening_stock_set_at?: string | null
+          product_name?: string | null
+          sku?: string
+          track_inventory?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      inventory_movements: {
+        Row: {
+          actor: string | null
+          created_at: string
+          delta: number
+          id: string
+          note: string | null
+          order_id: string | null
+          reason: string
+          reference: string | null
+          resulting_on_hand: number
+          sku: string
+        }
+        Insert: {
+          actor?: string | null
+          created_at?: string
+          delta: number
+          id?: string
+          note?: string | null
+          order_id?: string | null
+          reason: string
+          reference?: string | null
+          resulting_on_hand: number
+          sku: string
+        }
+        Update: {
+          actor?: string | null
+          created_at?: string
+          delta?: number
+          id?: string
+          note?: string | null
+          order_id?: string | null
+          reason?: string
+          reference?: string | null
+          resulting_on_hand?: number
+          sku?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_movements_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_movements_sku_fkey"
+            columns: ["sku"]
+            isOneToOne: false
+            referencedRelation: "inventory"
+            referencedColumns: ["sku"]
+          },
+        ]
+      }
       memberships: {
         Row: {
           circle_since: string | null
@@ -874,6 +964,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      apply_inventory_movement: {
+        Args: {
+          _delta: number
+          _note?: string
+          _order_id?: string
+          _reason: string
+          _reference?: string
+          _sku: string
+        }
+        Returns: number
+      }
       claim_guest_orders: { Args: never; Returns: number }
       has_role: {
         Args: {
@@ -884,6 +985,35 @@ export type Database = {
       }
       is_fulfillment_staff: { Args: { _user_id: string }; Returns: boolean }
       my_points_balance: { Args: never; Returns: number }
+      record_order_stock_sale: {
+        Args: { _lines: Json; _order_id: string }
+        Returns: Json
+      }
+      set_inventory_settings: {
+        Args: {
+          _low_stock_threshold: number
+          _sku: string
+          _track_inventory: boolean
+        }
+        Returns: undefined
+      }
+      set_opening_stock: {
+        Args: {
+          _brand?: string
+          _low_stock_threshold?: number
+          _note?: string
+          _product_name?: string
+          _qty: number
+          _sku: string
+        }
+        Returns: number
+      }
+      sold_out_skus: {
+        Args: never
+        Returns: {
+          sku: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
