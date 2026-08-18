@@ -32,6 +32,7 @@ import { Route as SkinConcernsRouteImport } from './routes/skin-concerns'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AdminGuideLinksRouteImport } from './routes/admin.guide-links'
+import { Route as AdminInventoryRouteImport } from './routes/admin.inventory'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminSignalsRouteImport } from './routes/admin.signals'
@@ -170,6 +171,11 @@ const WishlistRoute = WishlistRouteImport.update({
 const AdminGuideLinksRoute = AdminGuideLinksRouteImport.update({
   id: '/admin/guide-links',
   path: '/admin/guide-links',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminInventoryRoute = AdminInventoryRouteImport.update({
+  id: '/admin/inventory',
+  path: '/admin/inventory',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminOrdersRoute = AdminOrdersRouteImport.update({
@@ -319,6 +325,7 @@ export interface FileRoutesByFullPath {
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
   '/admin/guide-links': typeof AdminGuideLinksRoute
+  '/admin/inventory': typeof AdminInventoryRoute
   '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
@@ -368,6 +375,7 @@ export interface FileRoutesByTo {
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
   '/admin/guide-links': typeof AdminGuideLinksRoute
+  '/admin/inventory': typeof AdminInventoryRoute
   '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
@@ -418,6 +426,7 @@ export interface FileRoutesById {
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
   '/admin/guide-links': typeof AdminGuideLinksRoute
+  '/admin/inventory': typeof AdminInventoryRoute
   '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
@@ -469,6 +478,7 @@ export interface FileRouteTypes {
     | '/track'
     | '/wishlist'
     | '/admin/guide-links'
+    | '/admin/inventory'
     | '/admin/orders'
     | '/admin/reviews'
     | '/admin/signals'
@@ -518,6 +528,7 @@ export interface FileRouteTypes {
     | '/track'
     | '/wishlist'
     | '/admin/guide-links'
+    | '/admin/inventory'
     | '/admin/orders'
     | '/admin/reviews'
     | '/admin/signals'
@@ -567,6 +578,7 @@ export interface FileRouteTypes {
     | '/track'
     | '/wishlist'
     | '/admin/guide-links'
+    | '/admin/inventory'
     | '/admin/orders'
     | '/admin/reviews'
     | '/admin/signals'
@@ -617,6 +629,7 @@ export interface RootRouteChildren {
   TrackRoute: typeof TrackRoute
   WishlistRoute: typeof WishlistRoute
   AdminGuideLinksRoute: typeof AdminGuideLinksRoute
+  AdminInventoryRoute: typeof AdminInventoryRoute
   AdminOrdersRoute: typeof AdminOrdersRouteWithChildren
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSignalsRoute: typeof AdminSignalsRoute
@@ -802,6 +815,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/guide-links'
       fullPath: '/admin/guide-links'
       preLoaderRoute: typeof AdminGuideLinksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/inventory': {
+      id: '/admin/inventory'
+      path: '/admin/inventory'
+      fullPath: '/admin/inventory'
+      preLoaderRoute: typeof AdminInventoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/orders': {
@@ -1023,6 +1043,7 @@ const rootRouteChildren: RootRouteChildren = {
   TrackRoute: TrackRoute,
   WishlistRoute: WishlistRoute,
   AdminGuideLinksRoute: AdminGuideLinksRoute,
+  AdminInventoryRoute: AdminInventoryRoute,
   AdminOrdersRoute: AdminOrdersRouteWithChildren,
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSignalsRoute: AdminSignalsRoute,

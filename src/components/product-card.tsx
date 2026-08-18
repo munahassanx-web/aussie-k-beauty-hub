@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { useBuyNow } from '@/hooks/use-buy-now';
+import { useSoldOutSkus } from '@/hooks/use-stock';
 import { WishlistButton } from '@/components/wishlist-button';
 import { productSlug, routineStepLabel } from '@/lib/product-detail';
 import type { ShopProduct } from '@/lib/shop-catalog';
@@ -32,6 +33,8 @@ type Props = {
  */
 export function ProductCard({ product: p, overlay, compact = false, eager = false }: Props) {
   const { buy } = useBuyNow();
+  const { isSoldOut } = useSoldOutSkus();
+  const soldOut = isSoldOut(p.priceId);
   const size = productSize(p);
   const slug = productSlug(p);
 
@@ -58,6 +61,11 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
         {p.tag && (
           <span className="absolute left-0 top-0 bg-background/92 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground backdrop-blur">
             {p.tag}
+          </span>
+        )}
+        {soldOut && !p.comingSoon && (
+          <span className="absolute left-0 bottom-0 bg-background/92 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground backdrop-blur">
+            Out of stock
           </span>
         )}
         {p.comingSoon && (
@@ -93,9 +101,9 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
         <div className="mt-4 flex items-baseline justify-between gap-3 border-t border-border/70 pt-3">
           <span className="text-sm tabular-nums text-foreground">{p.price}</span>
           {!compact &&
-            (p.comingSoon ? (
+            (p.comingSoon || soldOut ? (
               <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                Not yet orderable
+                {p.comingSoon ? 'Not yet orderable' : 'Out of stock'}
               </span>
             ) : (
               <button

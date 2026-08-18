@@ -285,6 +285,12 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
     elapsedMs: since(startedAt),
   });
 
+  if (paid) {
+    // Idempotent per order line — Stripe retries never double-decrement.
+    const { recordOrderStockSale } = await import('@/lib/inventory.server');
+    await recordOrderStockSale(order.id, lineItems);
+  }
+
   if (paid && userId) {
     await awardPoints(userId, order.id, pointsEarned, pointsRedeemed, {
       tier,
