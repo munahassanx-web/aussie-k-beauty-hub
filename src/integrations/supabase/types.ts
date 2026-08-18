@@ -262,12 +262,18 @@ export type Database = {
           discount_cents: number
           environment: string
           fulfillment_status: string
+          fulfillment_updated_at: string | null
+          fulfillment_updated_by: string | null
           guest_email: string | null
           id: string
           is_subscription_order: boolean
           line_items: Json | null
+          ops_notes: string | null
+          packed_at: string | null
           points_earned: number
           points_redeemed: number
+          shipped_at: string | null
+          shipping_carrier: string | null
           shipping_cents: number
           shipping_city: string | null
           shipping_country: string | null
@@ -283,6 +289,7 @@ export type Database = {
           stripe_payment_intent_id: string | null
           stripe_session_id: string | null
           tracking_number: string | null
+          updated_at: string
           user_id: string | null
         }
         Insert: {
@@ -292,12 +299,18 @@ export type Database = {
           discount_cents?: number
           environment?: string
           fulfillment_status?: string
+          fulfillment_updated_at?: string | null
+          fulfillment_updated_by?: string | null
           guest_email?: string | null
           id?: string
           is_subscription_order?: boolean
           line_items?: Json | null
+          ops_notes?: string | null
+          packed_at?: string | null
           points_earned?: number
           points_redeemed?: number
+          shipped_at?: string | null
+          shipping_carrier?: string | null
           shipping_cents?: number
           shipping_city?: string | null
           shipping_country?: string | null
@@ -313,6 +326,7 @@ export type Database = {
           stripe_payment_intent_id?: string | null
           stripe_session_id?: string | null
           tracking_number?: string | null
+          updated_at?: string
           user_id?: string | null
         }
         Update: {
@@ -322,12 +336,18 @@ export type Database = {
           discount_cents?: number
           environment?: string
           fulfillment_status?: string
+          fulfillment_updated_at?: string | null
+          fulfillment_updated_by?: string | null
           guest_email?: string | null
           id?: string
           is_subscription_order?: boolean
           line_items?: Json | null
+          ops_notes?: string | null
+          packed_at?: string | null
           points_earned?: number
           points_redeemed?: number
+          shipped_at?: string | null
+          shipping_carrier?: string | null
           shipping_cents?: number
           shipping_city?: string | null
           shipping_country?: string | null
@@ -343,6 +363,7 @@ export type Database = {
           stripe_payment_intent_id?: string | null
           stripe_session_id?: string | null
           tracking_number?: string | null
+          updated_at?: string
           user_id?: string | null
         }
         Relationships: []
@@ -781,6 +802,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_fulfillment_staff: { Args: { _user_id: string }; Returns: boolean }
       my_points_balance: { Args: never; Returns: number }
     }
     Enums: {
