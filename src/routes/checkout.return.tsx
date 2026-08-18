@@ -254,7 +254,7 @@ function CheckoutReturn() {
         </Link>
         {user && (
           <Link
-            to="/club"
+            to="/account"
             className="border border-border px-7 py-3.5 text-sm uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
           >
             View your account

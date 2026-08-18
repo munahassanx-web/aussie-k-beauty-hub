@@ -44,7 +44,7 @@ const megaMenus: Record<string, MegaSection[]> = {
       heading: "Curated",
       links: [
         { label: "Shop all", to: "/shop" },
-        { label: "Restock essentials", to: "/club" },
+        { label: "Restock essentials", to: "/restock" },
         { label: "Bundles", to: "/", hash: "bundles" },
       ],
     },
@@ -283,13 +283,13 @@ export function SiteHeader() {
               <HeartIcon />
             </Link>
             <Link
-              to={user ? "/club" : "/auth"}
+              to={user ? "/account" : "/auth"}
               onClick={closeMenus}
               aria-label={user ? "Your account" : "Sign in"}
               className="hidden items-center gap-2 rounded-full border border-border px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/80 hover:border-primary hover:text-primary md:inline-flex"
             >
               <UserIcon />
-              {user ? "Club" : "Sign in"}
+              {user ? "Account" : "Sign in"}
             </Link>
             <button
               type="button"
@@ -406,8 +406,8 @@ export function SiteHeader() {
                     </div>
                   );
                 })}
-                <Link to={user ? "/club" : "/auth"} onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground">
-                  {user ? "Restock Club" : "Sign in"}
+                <Link to={user ? "/account" : "/auth"} onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground">
+                  {user ? "Your account" : "Sign in"}
                   <span className="text-base text-primary">→</span>
                 </Link>
                 <Link to="/wishlist" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground">
