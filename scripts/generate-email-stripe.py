@@ -23,7 +23,7 @@ def stripe(width: int, height: int, band: int, path: str) -> None:
     d = ImageDraw.Draw(img)
 
     b = band * SS               # cream band width (perpendicular-ish)
-    period = b * 5              # generous navy field between cream bands
+    period = b * 4              # generous navy field between cream bands
     keyline = max(1, int(0.9 * SS))
 
     # 45-degree diagonals drawn as thick lines well beyond the canvas.
@@ -41,5 +41,5 @@ def stripe(width: int, height: int, band: int, path: str) -> None:
 
 
 if __name__ == "__main__":
-    stripe(1240, 26, 7, "public/email/sg-grocer-stripe.png")
-    stripe(1240, 10, 4, "public/email/sg-grocer-stripe-thin.png")
+    stripe(1240, 26, 13, "public/email/sg-grocer-stripe.png")
+    stripe(1240, 10, 6, "public/email/sg-grocer-stripe-thin.png")
