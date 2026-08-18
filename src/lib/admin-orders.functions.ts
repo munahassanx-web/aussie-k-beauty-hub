@@ -52,8 +52,17 @@ export type AdminOrderDetail = AdminOrderSummary & {
   environment: string;
   packedAt: string | null;
   shippedAt: string | null;
+  dispatchedAt: string | null;
   fulfillmentUpdatedAt: string | null;
   opsNotes: string | null;
+  // Carrier-integration seam — populated manually today, by an adapter later.
+  shippingProvider: string;
+  shippingService: string | null;
+  shipmentId: string | null;
+  labelStatus: string;
+  labelUrl: string | null;
+  labelReference: string | null;
+  shippingCostActualCents: number | null;
 };
 
 type Row = Record<string, any>;
