@@ -16,6 +16,8 @@ import {
   routineStepLabel,
 } from '@/lib/product-detail';
 import type { ProductGuide } from '@/lib/application-guides';
+import { applicationForSlug, coverageForSlug, type CoverageStatus } from '@/lib/product-application-data';
+
 
 /** Public, stable guide URL for a product (human-readable slug). */
 export function guideUrlFor(p: ShopProduct): string {
@@ -145,14 +147,29 @@ export function allGuideTargets(): Array<{
   url: string;
   absoluteUrl: string;
   productSpecific: boolean;
+  coverage: CoverageStatus;
+  hasAmount: boolean;
+  hasFrequency: boolean;
+  hasNote: boolean;
+  source?: string;
 }> {
-  return SHOP_PRODUCTS.map((product) => ({
-    product,
-    slug: productSlug(product),
-    url: guideUrlFor(product),
-    absoluteUrl: absoluteGuideUrl(product),
-    productSpecific: hasProductSpecificHowTo(product),
-  })).sort((a, b) =>
+  return SHOP_PRODUCTS.map((product) => {
+    const slug = productSlug(product);
+    const entry = applicationForSlug(slug);
+    return {
+      product,
+      slug,
+      url: guideUrlFor(product),
+      absoluteUrl: absoluteGuideUrl(product),
+      productSpecific: hasProductSpecificHowTo(product),
+      coverage: coverageForSlug(slug),
+      hasAmount: Boolean(entry?.amount),
+      hasFrequency: Boolean(entry?.frequency),
+      hasNote: Boolean(entry?.note),
+      source: entry?.source,
+    };
+  }).sort((a, b) =>
     `${a.product.brand} ${a.product.name}`.localeCompare(`${b.product.brand} ${b.product.name}`),
   );
 }
+
