@@ -46,7 +46,9 @@ export function PackingSlip({ order }: { order: AdminOrderDetail }) {
           <p className="text-xs uppercase tracking-widest">Handling</p>
           <p>Method: {order.shippingMethod ?? 'Standard'}</p>
           <p>Carrier: {order.shippingCarrier ?? 'To be assigned'}</p>
+          <p>Service: {order.shippingService ?? '—'}</p>
           <p>Tracking: {order.trackingNumber ?? '—'}</p>
+          {order.shipmentId && <p>Shipment: {order.shipmentId}</p>}
         </div>
       </section>
 
