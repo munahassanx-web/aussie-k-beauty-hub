@@ -85,7 +85,7 @@ def seal(size, variant="seal", ring_text=None, center="SG", sub="SEOUL", amps=No
     # circular wording
     if ring_text:
         f = font(SANS, int(px * 0.052), wght=500)
-        rt = R * 0.825
+        rt = R * 0.775
         draw_ring_text(img, cx, cy, rt, ring_text[0], f, ROSE_DEEP + (255,), start_deg=-90, spacing=1.34)
         if len(ring_text) > 1:
             draw_ring_text(img, cx, cy, rt - int(px * 0.062) * 0.95, ring_text[1][::-1], f, ROSE_DEEP + (255,), start_deg=90, spacing=1.34, flip=True)
