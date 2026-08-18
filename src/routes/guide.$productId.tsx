@@ -1,14 +1,16 @@
 import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { fetchAllGuides, matchGuide } from '@/lib/application-guides';
+import { fetchAllGuides } from '@/lib/application-guides';
 import { trackGuideView, resolveSource } from '@/lib/guide-analytics';
 import {
   buildGuide,
   ROUTINE_LADDER,
   ladderIndexFor,
   resolveGuideParam,
+  strictStoredMatch,
 } from '@/lib/guide-content';
+
 import { productSlug } from '@/lib/product-detail';
 import { productSize } from '@/components/product-card';
 
@@ -102,8 +104,11 @@ function GuidePage() {
     );
   }
 
-  const match = stored ? matchGuide(`${product.brand} ${product.name}`, stored) : null;
+  // Legacy DB rows may describe products we no longer stock — only an exact
+  // brand+name match may enrich a current SKU.
+  const match = stored ? strictStoredMatch(product, stored) : null;
   const guide = buildGuide(product, match);
+
   const size = productSize(product);
   const ladderIndex = ladderIndexFor(product);
   const before = ladderIndex > 0 ? ROUTINE_LADDER[ladderIndex - 1] : undefined;
