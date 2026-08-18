@@ -28,6 +28,10 @@ function About() {
         <h1 className="mt-4 text-center text-5xl text-foreground md:text-7xl">
           Built on <em className="not-italic text-accent">proof</em>, not promises.
         </h1>
+        <p className="mt-6 text-center text-[10px] font-medium uppercase tracking-[0.28em] text-muted-foreground">
+          Seoul Sourced. Skin Assured.
+        </p>
+
 
         <div className="mt-16 grid items-center gap-12 md:grid-cols-2">
           <figure className="m-0">
