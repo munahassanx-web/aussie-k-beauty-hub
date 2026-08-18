@@ -29,10 +29,10 @@ def stripe(width: int, height: int, band: int, path: str) -> None:
     # 45-degree diagonals drawn as thick lines well beyond the canvas.
     x = -h - period
     while x < w + h + period:
-        d.line([(x, h), (x + h, 0)], fill=CREAM, width=b)
+        d.line([(x, h), (x + 2 * h, 0)], fill=CREAM, width=b)
         # very thin champagne keyline riding the leading edge of each cream band
         off = b // 2 + keyline
-        d.line([(x + off, h), (x + off + h, 0)], fill=GOLD, width=keyline)
+        d.line([(x + off, h), (x + off + 2 * h, 0)], fill=GOLD, width=keyline)
         x += period
 
     img = img.resize((width, height), Image.LANCZOS)
@@ -41,5 +41,5 @@ def stripe(width: int, height: int, band: int, path: str) -> None:
 
 
 if __name__ == "__main__":
-    stripe(1240, 28, 9, "public/email/sg-grocer-stripe.png")
-    stripe(1240, 12, 5, "public/email/sg-grocer-stripe-thin.png")
+    stripe(1240, 26, 7, "public/email/sg-grocer-stripe.png")
+    stripe(1240, 10, 4, "public/email/sg-grocer-stripe-thin.png")
