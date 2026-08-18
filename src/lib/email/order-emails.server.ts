@@ -182,10 +182,13 @@ function ctaButton(href: string, text: string): string {
 }
 
 /**
- * Full document shell.
- *   grocer stripe → navy masthead → cream/white editorial body → stripe echo → navy close
+ * Full document shell. The stripe, masthead and order statement read as one
+ * composed branded opening; the stripe then returns once before the footer.
+ *   stripe ribbon → navy masthead → navy stripe statement
+ *   → white editorial body → stripe repeat → navy close
  */
-function shell(title: string, preheader: string, body: string): string {
+function shell(title: string, preheader: string, hero: string, body: string): string {
+
   return `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8" />
