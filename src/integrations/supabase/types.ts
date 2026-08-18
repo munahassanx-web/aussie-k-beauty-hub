@@ -254,6 +254,62 @@ export type Database = {
         }
         Relationships: []
       }
+      order_notifications: {
+        Row: {
+          attempts: number
+          created_at: string
+          error: string | null
+          id: string
+          kind: string
+          metadata: Json
+          order_id: string
+          provider: string
+          recipient_masked: string | null
+          sent_at: string | null
+          status: string
+          subject: string | null
+          updated_at: string
+        }
+        Insert: {
+          attempts?: number
+          created_at?: string
+          error?: string | null
+          id?: string
+          kind: string
+          metadata?: Json
+          order_id: string
+          provider?: string
+          recipient_masked?: string | null
+          sent_at?: string | null
+          status?: string
+          subject?: string | null
+          updated_at?: string
+        }
+        Update: {
+          attempts?: number
+          created_at?: string
+          error?: string | null
+          id?: string
+          kind?: string
+          metadata?: Json
+          order_id?: string
+          provider?: string
+          recipient_masked?: string | null
+          sent_at?: string | null
+          status?: string
+          subject?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_notifications_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           amount_cents: number
