@@ -472,15 +472,15 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
   const html = shell(
     `Order ${ref} confirmed`,
     `Order ${ref} — payment received. Your selection is confirmed and being prepared in Melbourne.`,
+    heroStatement(first ? `Thank you, ${first}.` : 'Thank you.', 'Your selection is confirmed.'),
     `
-    ${heroSection(
-      first ? `Thank you, ${first}.` : 'Thank you.',
-      'Your selection is confirmed.',
+    ${heroIntro(
       `We've carefully selected the best for your skin. Payment for <span style="color:${INK};">${ref}</span> was received on ${esc(
         placed,
       )}, and a second email will follow with carrier and tracking details.`,
       ref,
     )}
+
     ${metaStrip(o, 'Confirmed')}
     ${label('Your order')}
     ${itemsTable(o, true)}
