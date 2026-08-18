@@ -118,9 +118,15 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <CartProvider>
         <WishlistProvider>
-        <div className="flex min-h-screen flex-col">
+        <div className="flex min-h-dvh flex-col">
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-full focus:bg-primary focus:px-5 focus:py-3 focus:text-sm focus:text-primary-foreground"
+          >
+            Skip to main content
+          </a>
           <SiteHeader />
-          <main className="flex-1">
+          <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
             <Outlet />
           </main>
           <SiteFooter />
