@@ -375,7 +375,11 @@ async function handleInvoicePaid(invoice: any, env: StripeEnv) {
           name: l.description ?? 'Restock delivery',
           quantity: l.quantity ?? 1,
           amountCents: l.amount ?? 0,
+          // Only a real catalog lookup key is stored — never Stripe's price id,
+          // so renewal stock decrements can never map to the wrong SKU.
+          lookupKey: renewalLookupKey(l, sub.price_id),
         })),
+
       },
       { onConflict: 'stripe_invoice_id' },
     )
