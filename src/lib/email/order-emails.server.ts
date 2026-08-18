@@ -142,14 +142,19 @@ function grocerStripe(kind: 'signature' | 'repeat'): string {
   const src = signature ? STRIPE_BAND : STRIPE_FOOT;
   const h = signature ? 64 : 44;
   const alt = ''; // decorative: the stripe is brand furniture, not content
-  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-    <tr><td bgcolor="${NAVY}" height="${h}" style="background-color:${NAVY};height:${h}px;line-height:0;font-size:0;">
+  const goldRule = `<tr><td bgcolor="${GOLD}" style="height:4px;line-height:4px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>`;
+  const band = `<tr><td bgcolor="${NAVY}" height="${h}" style="background-color:${NAVY};height:${h}px;line-height:0;font-size:0;">
       <img src="${src}" width="620" height="${h}" alt="${alt}" class="sg-band sg-hide-mobile" style="display:block;width:100%;max-width:620px;height:${h}px;border:0;" />
       <img src="${STRIPE_MOBILE}" width="390" height="56" alt="${alt}" class="sg-show-mobile" style="display:none;width:100%;height:auto;border:0;mso-hide:all;" />
-    </td></tr>
-    <tr><td bgcolor="${GOLD}" style="height:3px;line-height:3px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>
+    </td></tr>`;
+  // Signature: the gold rule caps the TOP edge so the stripe field runs straight
+  // into the navy masthead as one composed opening, not a detached trim.
+  // Repeat: the gold rule closes the band, echoing the same device at the foot.
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+    ${signature ? goldRule + band : band + goldRule}
   </table>`;
 }
+
 
 /**
  * The stripe's second appearance: a vertical editorial crop that enters from
