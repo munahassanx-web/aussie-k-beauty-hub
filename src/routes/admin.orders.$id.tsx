@@ -37,13 +37,12 @@ const STAGE_LABEL: Record<string, string> = {
   cancelled: 'Cancelled',
 };
 
-const CARRIERS = ['Australia Post', 'Sendle', 'Aramex', 'CouriersPlease', 'DHL'];
-
 function OrderDetail() {
   const { id } = Route.useParams();
   const { user, loading } = useAuth();
   const qc = useQueryClient();
   const fetchOrder = useServerFn(getAdminOrder);
+  const fetchCapability = useServerFn(getShippingCapability);
   const save = useServerFn(updateOrderFulfilment);
 
   const q = useQuery({
@@ -53,17 +52,37 @@ function OrderDetail() {
     retry: false,
   });
 
+  const capability = useQuery({
+    queryKey: ['shipping-capability'],
+    queryFn: () => fetchCapability(),
+    enabled: Boolean(user),
+    retry: false,
+  });
+
   const order = q.data ?? null;
   const [tracking, setTracking] = useState('');
   const [carrier, setCarrier] = useState('');
+  const [service, setService] = useState('');
+  const [shipmentId, setShipmentId] = useState('');
+  const [labelUrl, setLabelUrl] = useState('');
+  const [labelRef, setLabelRef] = useState('');
+  const [labelCost, setLabelCost] = useState('');
   const [notes, setNotes] = useState('');
 
   useEffect(() => {
     if (!order) return;
     setTracking(order.trackingNumber ?? '');
     setCarrier(order.shippingCarrier ?? '');
+    setService(order.shippingService ?? '');
+    setShipmentId(order.shipmentId ?? '');
+    setLabelUrl(order.labelUrl ?? '');
+    setLabelRef(order.labelReference ?? '');
+    setLabelCost(order.shippingCostActualCents == null ? '' : (order.shippingCostActualCents / 100).toFixed(2));
     setNotes(order.opsNotes ?? '');
-  }, [order?.id, order?.trackingNumber, order?.shippingCarrier, order?.opsNotes]);
+  }, [order?.id, order?.fulfillmentUpdatedAt]);
+
+  const selectedCarrier = findCarrier(carrier);
+  const trackUrl = trackingLink(carrier, tracking);
 
   const mutate = useMutation({
     mutationFn: (vars: Parameters<typeof updateOrderFulfilment>[0]['data']) => save({ data: vars }),
