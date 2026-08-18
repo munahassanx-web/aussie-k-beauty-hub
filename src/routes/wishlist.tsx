@@ -17,6 +17,7 @@ export const Route = createFileRoute('/wishlist')({
       { property: 'og:description', content: 'The Korean skincare you saved for later at Skin Grocer.' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary' },
+      { name: 'robots', content: 'noindex, follow' },
     ],
   }),
   component: WishlistPage,
