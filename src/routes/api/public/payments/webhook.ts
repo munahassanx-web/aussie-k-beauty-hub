@@ -22,6 +22,20 @@ function isRestockPrice(priceId: string | null): boolean {
   return Boolean(priceId && priceId.startsWith('restock_'));
 }
 
+/**
+ * Catalog lookup key for a renewal invoice line. Falls back to the stored
+ * subscription price id only when that is itself a catalog key; Stripe price
+ * ids are never used as SKUs.
+ */
+function renewalLookupKey(line: any, subPriceId: string | null): string | null {
+  const fromLine = line?.price?.lookup_key || line?.pricing?.price_details?.price || null;
+  const candidate = typeof fromLine === 'string' && /^[a-z0-9_]+$/.test(fromLine) ? fromLine : null;
+  const key = candidate ?? subPriceId ?? null;
+  return key && /^[a-z0-9_]+$/.test(key) ? key : null;
+}
+
+
+
 // ---------------------------------------------------------------- subscriptions
 
 async function upsertSubscription(sub: any, env: StripeEnv) {
