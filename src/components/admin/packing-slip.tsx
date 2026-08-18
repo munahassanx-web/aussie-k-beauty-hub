@@ -79,9 +79,31 @@ export function PackingSlip({ order }: { order: AdminOrderDetail }) {
         <p className="font-semibold">Total paid: {money(order.amountCents, order.currency)}</p>
       </div>
 
-      <footer className="mt-8 border-t border-black pt-4 text-xs">
-        <p>Pack checklist: batch codes visible · seals intact · guide card enclosed · void fill added.</p>
-        <p className="mt-1">Questions about this parcel: hello@skingrocer.com.au</p>
+      <section className="mt-8 border-t border-black pt-4 text-xs">
+        <p className="uppercase tracking-widest">Pack checklist</p>
+        <ul className="mt-2 space-y-1">
+          {[
+            'All products picked and checked against the list above',
+            'Seals intact, batch codes legible, no damage',
+            'How-to-Apply QR / order insert card included',
+            'Packaging checked — void fill added, box sealed',
+            order.trackingNumber
+              ? `Shipping label attached (${order.shippingCarrier ?? 'carrier'} ${order.trackingNumber})`
+              : 'Shipping label attached — write the tracking number on this slip',
+          ].map((item) => (
+            <li key={item} className="flex items-start gap-2">
+              <span className="mt-0.5 inline-block h-3 w-3 shrink-0 border border-black" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-3">
+          Packed by ____________________ · Date ____ / ____ / ______
+        </p>
+      </section>
+
+      <footer className="mt-6 border-t border-black pt-4 text-xs">
+        <p>Questions about this parcel: hello@skingrocer.com.au</p>
       </footer>
     </div>
   );
