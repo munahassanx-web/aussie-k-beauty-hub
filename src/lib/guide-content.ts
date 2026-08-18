@@ -16,6 +16,8 @@ import {
   routineStepLabel,
 } from '@/lib/product-detail';
 import type { ProductGuide } from '@/lib/application-guides';
+import { applicationForSlug, coverageForSlug, type CoverageStatus } from '@/lib/product-application-data';
+
 
 /** Public, stable guide URL for a product (human-readable slug). */
 export function guideUrlFor(p: ShopProduct): string {
@@ -102,7 +104,28 @@ export type GuideContent = {
   proTip?: string;
 };
 
+/**
+ * Strict stored-row match. Legacy Supabase `products` rows may describe SKUs we
+ * no longer stock, so fuzzy matching must never enrich a current product.
+ * Both directions must agree on every meaningful token.
+ */
+export function strictStoredMatch(
+  product: ShopProduct,
+  guides: ProductGuide[],
+): ProductGuide | null {
+  const mine = new Set(normalise(`${product.brand} ${product.name}`));
+  for (const guide of guides) {
+    const theirs = new Set(normalise(`${guide.brand} ${guide.name}`));
+    if (mine.size !== theirs.size) continue;
+    let same = true;
+    for (const token of mine) if (!theirs.has(token)) same = false;
+    if (same) return guide;
+  }
+  return null;
+}
+
 export function buildGuide(product: ShopProduct, stored?: ProductGuide | null): GuideContent {
+  const verified = applicationForSlug(productSlug(product));
   return {
     product,
     slug: productSlug(product),
@@ -110,11 +133,12 @@ export function buildGuide(product: ShopProduct, stored?: ProductGuide | null): 
     routineStep: routineStepLabel(product),
     steps: howToUse(product),
     stepsAreProductSpecific: hasProductSpecificHowTo(product),
-    amountToUse: stored?.amount_to_use ?? undefined,
-    frequency: stored?.frequency ?? undefined,
-    proTip: stored?.pro_tip ?? undefined,
+    amountToUse: verified?.amount ?? stored?.amount_to_use ?? undefined,
+    frequency: verified?.frequency ?? stored?.frequency ?? undefined,
+    proTip: verified?.note ?? stored?.pro_tip ?? undefined,
   };
 }
+
 
 /** Every product that can be linked from a QR code. */
 export function allGuideTargets(): Array<{
@@ -123,14 +147,34 @@ export function allGuideTargets(): Array<{
   url: string;
   absoluteUrl: string;
   productSpecific: boolean;
+  coverage: CoverageStatus;
+  hasAmount: boolean;
+  hasFrequency: boolean;
+  hasNote: boolean;
+  source?: string;
 }> {
-  return SHOP_PRODUCTS.map((product) => ({
-    product,
-    slug: productSlug(product),
-    url: guideUrlFor(product),
-    absoluteUrl: absoluteGuideUrl(product),
-    productSpecific: hasProductSpecificHowTo(product),
-  })).sort((a, b) =>
+  return SHOP_PRODUCTS.map((product) => {
+    const slug = productSlug(product);
+    const entry = applicationForSlug(slug);
+    return {
+      product,
+      slug,
+      url: guideUrlFor(product),
+      absoluteUrl: absoluteGuideUrl(product),
+      productSpecific: hasProductSpecificHowTo(product),
+      coverage: entry
+        ? coverageForSlug(slug)
+        : hasProductSpecificHowTo(product)
+          ? ('partial' as CoverageStatus)
+          : ('fallback' as CoverageStatus),
+
+      hasAmount: Boolean(entry?.amount),
+      hasFrequency: Boolean(entry?.frequency),
+      hasNote: Boolean(entry?.note),
+      source: entry?.source,
+    };
+  }).sort((a, b) =>
     `${a.product.brand} ${a.product.name}`.localeCompare(`${b.product.brand} ${b.product.name}`),
   );
 }
+

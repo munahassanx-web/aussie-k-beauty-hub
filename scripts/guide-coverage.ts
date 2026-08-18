@@ -1,0 +1,11 @@
+import { SHOP_PRODUCTS } from '../src/lib/shop-catalog';
+import { allGuideTargets } from '../src/lib/guide-content';
+import { PRODUCT_APPLICATION } from '../src/lib/product-application-data';
+const t = allGuideTargets();
+const c = { complete:0, partial:0, fallback:0 } as Record<string,number>;
+for (const x of t) c[x.coverage]++;
+console.log('total', SHOP_PRODUCTS.length, c);
+console.log('\nFALLBACK:');
+for (const x of t.filter(x=>x.coverage==='fallback')) console.log(' -', x.slug);
+const slugs = new Set(t.map(x=>x.slug));
+console.log('\norphan keys:', Object.keys(PRODUCT_APPLICATION).filter(k=>!slugs.has(k)));

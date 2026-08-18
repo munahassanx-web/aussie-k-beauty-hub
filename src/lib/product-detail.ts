@@ -3,6 +3,8 @@
 
 import { SHOP_PRODUCTS, type ShopProduct, type Category, type Concern } from '@/lib/shop-catalog';
 import { bespokeHeroIngredients } from '@/lib/hero-ingredients';
+import { applicationForSlug } from '@/lib/product-application-data';
+
 
 
 import ritualScene from '@/assets/ritual-scene.jpg';
@@ -1161,6 +1163,8 @@ export function productInci(p: ShopProduct): string | undefined {
 }
 
 export function howToUse(p: ShopProduct): string[] {
+  const verified = applicationForSlug(productSlug(p));
+  if (verified && verified.steps.length > 0) return verified.steps;
   return COPY[p.priceId]?.howToUse ?? CATEGORY_HOW_TO[p.category];
 }
 
@@ -1170,8 +1174,11 @@ export function howToUse(p: ShopProduct): string[] {
  * UI must say so rather than presenting it as the brand's own directions.
  */
 export function hasProductSpecificHowTo(p: ShopProduct): boolean {
+  const verified = applicationForSlug(productSlug(p));
+  if (verified && verified.steps.length > 0) return true;
   return Array.isArray(COPY[p.priceId]?.howToUse);
 }
+
 
 
 export function productDescription(p: ShopProduct): string {
