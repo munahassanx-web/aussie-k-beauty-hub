@@ -64,6 +64,9 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
         items: data.items.map((i) => ({ priceId: i.priceId, quantity: i.quantity })),
       });
 
+      const { assertLinesInStock } = await import('@/lib/inventory.server');
+      await assertLinesInStock(data.items);
+
       const stripe = createStripeClient(data.environment);
       const lines = await resolvePrices(stripe, data.items);
 
@@ -344,6 +347,9 @@ export const createGuestCartCheckout = createServerFn({ method: 'POST' })
         environment: data.environment,
         items: data.items.map((i) => ({ priceId: i.priceId, quantity: i.quantity })),
       });
+
+      const { assertLinesInStock } = await import('@/lib/inventory.server');
+      await assertLinesInStock(data.items);
 
       const stripe = createStripeClient(data.environment);
       const lines = await resolvePrices(stripe, data.items);
