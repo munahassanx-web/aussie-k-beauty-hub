@@ -238,6 +238,11 @@ export const setInventorySettings = createServerFn({ method: 'POST' })
 /**
  * Public availability. Returns only the SKUs that are genuinely sold out —
  * never quantities. Uninitialised SKUs are absent, so they stay purchasable.
+ *
+ * Composite sellables (bundles, Restock subscriptions) are appended when a
+ * reliably mapped component with a real opening count cannot cover one unit.
+ * Unmappable composites are never marked sold out here — they are flagged for
+ * the warehouse instead.
  */
 export const listSoldOutSkus = createServerFn({ method: 'GET' }).handler(async (): Promise<string[]> => {
   const { createClient } = await import('@supabase/supabase-js');
@@ -255,5 +260,15 @@ export const listSoldOutSkus = createServerFn({ method: 'GET' }).handler(async (
   });
   const { data, error } = await client.rpc('sold_out_skus');
   if (error) return [];
-  return ((data ?? []) as Array<{ sku: string }>).map((r) => r.sku);
+  const skus = ((data ?? []) as Array<{ sku: string }>).map((r) => r.sku);
+  return [...new Set([...skus, ...compositesBlockedBy(skus)])];
 });
+
+/** Composite mapping audit for the warehouse board. Staff only. */
+export const listCompositeAudit = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<CompositeAudit[]> => {
+    await assertStaff(context);
+    return auditComposites();
+  });
+
