@@ -20,6 +20,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as RestockRouteImport } from './routes/restock'
 import { Route as ReturnsPolicyRouteImport } from './routes/returns-policy'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as SearchRouteImport } from './routes/search'
@@ -103,6 +104,11 @@ const JourneyRoute = JourneyRouteImport.update({
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   id: '/privacy-policy',
   path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RestockRoute = RestockRouteImport.update({
+  id: '/restock',
+  path: '/restock',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReturnsPolicyRoute = ReturnsPolicyRouteImport.update({
@@ -264,6 +270,7 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/restock': typeof RestockRoute
   '/returns-policy': typeof ReturnsPolicyRoute
   '/reviews': typeof ReviewsRoute
   '/search': typeof SearchRoute
@@ -306,6 +313,7 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/restock': typeof RestockRoute
   '/returns-policy': typeof ReturnsPolicyRoute
   '/reviews': typeof ReviewsRoute
   '/search': typeof SearchRoute
@@ -349,6 +357,7 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/restock': typeof RestockRoute
   '/returns-policy': typeof ReturnsPolicyRoute
   '/reviews': typeof ReviewsRoute
   '/search': typeof SearchRoute
@@ -393,6 +402,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/journey'
     | '/privacy-policy'
+    | '/restock'
     | '/returns-policy'
     | '/reviews'
     | '/search'
@@ -435,6 +445,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/journey'
     | '/privacy-policy'
+    | '/restock'
     | '/returns-policy'
     | '/reviews'
     | '/search'
@@ -477,6 +488,7 @@ export interface FileRouteTypes {
     | '/faq'
     | '/journey'
     | '/privacy-policy'
+    | '/restock'
     | '/returns-policy'
     | '/reviews'
     | '/search'
@@ -520,6 +532,7 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   JourneyRoute: typeof JourneyRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  RestockRoute: typeof RestockRoute
   ReturnsPolicyRoute: typeof ReturnsPolicyRoute
   ReviewsRoute: typeof ReviewsRoute
   SearchRoute: typeof SearchRoute
@@ -627,6 +640,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy-policy'
       fullPath: '/privacy-policy'
       preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/restock': {
+      id: '/restock'
+      path: '/restock'
+      fullPath: '/restock'
+      preLoaderRoute: typeof RestockRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/returns-policy': {
@@ -859,6 +879,7 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   JourneyRoute: JourneyRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
+  RestockRoute: RestockRoute,
   ReturnsPolicyRoute: ReturnsPolicyRoute,
   ReviewsRoute: ReviewsRoute,
   SearchRoute: SearchRoute,
