@@ -443,6 +443,7 @@ export type TrackedOrder = OrderReceipt & {
   placedAt: string;
   fulfillmentStatus: string;
   trackingNumber: string | null;
+  shippingCarrier: string | null;
 };
 
 /**
@@ -488,5 +489,6 @@ export const trackOrder = createServerFn({ method: 'POST' })
       placedAt: row['created_at'] as string,
       fulfillmentStatus: (row['fulfillment_status'] as string) ?? 'processing',
       trackingNumber: (row['tracking_number'] as string | null) ?? null,
+      shippingCarrier: (row['shipping_carrier'] as string | null) ?? null,
     };
   });

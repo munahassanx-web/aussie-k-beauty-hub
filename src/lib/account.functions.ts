@@ -26,6 +26,7 @@ export type AccountOrder = {
   status: string;
   fulfillmentStatus: string | null;
   trackingNumber: string | null;
+  shippingCarrier: string | null;
   amountCents: number;
   currency: string;
   isSubscriptionOrder: boolean;
@@ -66,7 +67,7 @@ export const getAccountOverview = createServerFn({ method: 'GET' })
       supabase
         .from('orders')
         .select(
-          'id, created_at, status, fulfillment_status, tracking_number, amount_cents, currency, is_subscription_order, line_items',
+          'id, created_at, status, fulfillment_status, tracking_number, shipping_carrier, amount_cents, currency, is_subscription_order, line_items',
         )
         .eq('user_id', userId)
         .order('created_at', { ascending: false })
@@ -83,6 +84,7 @@ export const getAccountOverview = createServerFn({ method: 'GET' })
         status: (o.status as string) ?? 'pending',
         fulfillmentStatus: (o.fulfillment_status as string | null) ?? null,
         trackingNumber: (o.tracking_number as string | null) ?? null,
+        shippingCarrier: (o.shipping_carrier as string | null) ?? null,
         amountCents: (o.amount_cents as number) ?? 0,
         currency: ((o.currency as string) ?? 'aud').toUpperCase(),
         isSubscriptionOrder: Boolean(o.is_subscription_order),
