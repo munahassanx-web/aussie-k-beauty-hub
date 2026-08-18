@@ -38,7 +38,7 @@ const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 const SEAL_NAVY = `${SITE_URL}/email/sg-seal-navy.png`;
 const SEAL_PAPER = `${SITE_URL}/email/sg-seal-paper.png`;
 const STAMP_DISPATCHED = `${SITE_URL}/email/sg-stamp-dispatched.png`;
-const SEAL_ALT = 'Skin Grocer seal — Seoul Sourced. Skin Assured.';
+const SEAL_ALT = 'Skin Grocer seal';
 
 export type OrderEmailLine = {
   name: string;
