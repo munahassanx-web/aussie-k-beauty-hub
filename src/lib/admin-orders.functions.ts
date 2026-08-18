@@ -305,5 +305,99 @@ export const updateOrderFulfilment = createServerFn({ method: 'POST' })
 
     const { error } = await supabase.from('orders').update(patch).eq('id', data.id);
     if (error) throw new Error(error.message);
-    return { ok: true };
+
+    // Dispatch notification fires only once the order is genuinely marked
+    // shipped. It is recorded in the ledger either way; with no provider
+    // connected it records `not_configured`, never a false "sent".
+    let notification: { status: string; reason?: string } | null = null;
+    if (data.fulfillmentStatus === 'shipped') {
+      try {
+        const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+        const { dispatchOrderNotification } = await import('@/lib/email/notifications.server');
+        notification = await dispatchOrderNotification(supabaseAdmin, data.id, 'dispatch');
+      } catch (e) {
+        console.error('[ops] dispatch notification failed', (e as Error)?.message);
+        notification = { status: 'failed' };
+      }
+    }
+
+    return { ok: true, notification };
+  });
+
+// ------------------------------------------------------------------ comms
+
+export type OrderNotification = {
+  kind: 'order_confirmation' | 'dispatch' | 'delivery';
+  status: 'pending' | 'not_configured' | 'queued' | 'sent' | 'failed' | 'skipped';
+  provider: string;
+  recipientMasked: string | null;
+  subject: string | null;
+  error: string | null;
+  attempts: number;
+  createdAt: string;
+  sentAt: string | null;
+};
+
+/** Truthful comms state for one order, straight from the persisted ledger. */
+export const getOrderComms = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { id: string }) => {
+    if (!input?.id) throw new Error('Missing order id');
+    return input;
+  })
+  .handler(async ({ data, context }) => {
+    await assertStaff(context as any);
+    const supabase = context.supabase as any;
+    const { data: rows, error } = await supabase
+      .from('order_notifications')
+      .select('kind, status, provider, recipient_masked, subject, error, attempts, created_at, sent_at')
+      .eq('order_id', data.id);
+    if (error) throw new Error(error.message);
+
+    const { emailCapability } = await import('@/lib/email/provider.server');
+    const { dispatchMessagePlainText } = await import('@/lib/email/order-emails.server');
+    const { toOrderEmailData } = await import('@/lib/email/notifications.server');
+
+    const { data: order } = await supabase
+      .from('orders')
+      .select(
+        'id, created_at, currency, amount_cents, shipping_cents, discount_cents, line_items, shipping_name, shipping_line1, shipping_line2, shipping_city, shipping_state, shipping_postcode, shipping_country, shipping_method, tracking_number, shipping_carrier',
+      )
+      .eq('id', data.id)
+      .maybeSingle();
+
+    return {
+      capability: emailCapability(),
+      notifications: ((rows ?? []) as Row[]).map((r) => ({
+        kind: r['kind'],
+        status: r['status'],
+        provider: r['provider'],
+        recipientMasked: r['recipient_masked'] ?? null,
+        subject: r['subject'] ?? null,
+        error: r['error'] ?? null,
+        attempts: r['attempts'] ?? 0,
+        createdAt: r['created_at'],
+        sentAt: r['sent_at'] ?? null,
+      })) as OrderNotification[],
+      // Manual fallback text — real order reference, carrier, tracking and link only.
+      dispatchMessage: order ? dispatchMessagePlainText(toOrderEmailData(order as Row)) : null,
+    };
+  });
+
+/**
+ * Staff-triggered (re)send. The recipient is resolved server-side from the
+ * stored order, never from client input, and the ledger keeps it idempotent.
+ */
+export const sendOrderNotification = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { id: string; kind: 'order_confirmation' | 'dispatch' }) => {
+    if (!input?.id) throw new Error('Missing order id');
+    if (input.kind !== 'order_confirmation' && input.kind !== 'dispatch') throw new Error('Unknown notification kind');
+    return input;
+  })
+  .handler(async ({ data, context }) => {
+    await assertStaff(context as any);
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+    const { dispatchOrderNotification } = await import('@/lib/email/notifications.server');
+    return dispatchOrderNotification(supabaseAdmin, data.id, data.kind);
   });

@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { createClient } from '@supabase/supabase-js';
 import { type StripeEnv, createStripeClient, verifyWebhook } from '@/lib/stripe.server';
 import { errorCommerce, logCommerce, maskEmail, newTraceId, shortId, since, warnCommerce } from '@/lib/commerce-log';
+import { dispatchOrderNotification } from '@/lib/email/notifications.server';
 
 let _supabase: any = null;
 function getSupabase(): any {
@@ -298,6 +299,19 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
       tier,
       multiplier,
     });
+  }
+
+  // Order confirmation. The (order_id, kind) unique row is the idempotency
+  // guard, so Stripe webhook retries can never produce a second confirmation.
+  // With no provider connected this only records `not_configured` — it never
+  // claims an email was sent.
+  if (paid) {
+    try {
+      const outcome = await dispatchOrderNotification(supabase, order.id, 'order_confirmation');
+      logCommerce('webhook', 'notification.order_confirmation', { orderId: order.id, status: outcome.status });
+    } catch (e) {
+      errorCommerce('webhook', 'notification.order_confirmation_failed', e, { orderId: order.id });
+    }
   }
 }
 

@@ -4,7 +4,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useServerFn } from '@tanstack/react-start';
 import {
   getAdminOrder,
+  getOrderComms,
   getShippingCapability,
+  sendOrderNotification,
   updateOrderFulfilment,
   FULFILMENT_STAGES,
 } from '@/lib/admin-orders.functions';
@@ -24,6 +26,17 @@ export const Route = createFileRoute('/admin/orders/$id')({
   }),
   component: OrderDetail,
 });
+
+/** Honest wording for each persisted notification state. Never says "sent" unless it is. */
+const STATUS_COPY: Record<string, string> = {
+  'no record yet': 'No record yet',
+  pending: 'Pending',
+  not_configured: 'Not configured — no email sent',
+  queued: 'Queued',
+  sent: 'Sent',
+  failed: 'Failed',
+  skipped: 'Skipped — no stored email address',
+};
 
 function money(cents: number, currency = 'AUD') {
   return new Intl.NumberFormat('en-AU', { style: 'currency', currency }).format((cents ?? 0) / 100);
@@ -93,8 +106,23 @@ function OrderDetail() {
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ['admin-order', id] });
       void qc.invalidateQueries({ queryKey: ['admin-orders'] });
+      void qc.invalidateQueries({ queryKey: ['admin-order-comms', id] });
     },
   });
+
+  const fetchComms = useServerFn(getOrderComms);
+  const sendNotification = useServerFn(sendOrderNotification);
+  const comms = useQuery({
+    queryKey: ['admin-order-comms', id],
+    queryFn: () => fetchComms({ data: { id } }),
+    enabled: Boolean(user),
+    retry: false,
+  });
+  const resend = useMutation({
+    mutationFn: (kind: 'order_confirmation' | 'dispatch') => sendNotification({ data: { id, kind } }),
+    onSuccess: () => void qc.invalidateQueries({ queryKey: ['admin-order-comms', id] }),
+  });
+  const [copied, setCopied] = useState(false);
 
   if (loading || q.isLoading) {
     return <main className="mx-auto max-w-4xl px-6 py-16 text-sm text-muted-foreground">Loading…</main>;
@@ -388,8 +416,87 @@ function OrderDetail() {
           </form>
           <p className="mt-4 text-xs text-muted-foreground">
             Customers see the stage and tracking number on <Link to="/track" className="underline">/track</Link> and in
-            their account. Skin Grocer does not send automated dispatch emails yet — notify the customer manually.
+            their account.
           </p>
+        </section>
+
+        <section className="mt-4 rounded-2xl border border-border p-5 text-sm">
+          <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Customer communication — staff only</p>
+
+          {comms.isLoading && <p className="mt-2 text-muted-foreground">Loading communication status…</p>}
+
+          {comms.data && (
+            <>
+              <p className="mt-2 text-muted-foreground">
+                Email provider: <strong className="text-foreground">{comms.data.capability.providerLabel}</strong>
+                {!comms.data.capability.configured && ' — nothing is sent automatically yet.'}
+              </p>
+
+              <dl className="mt-4 space-y-2">
+                {(['order_confirmation', 'dispatch'] as const).map((kind) => {
+                  const record = comms.data!.notifications.find((n) => n.kind === kind) ?? null;
+                  const label = kind === 'dispatch' ? 'Dispatch email' : 'Order confirmation';
+                  const state = record?.status ?? 'no record yet';
+                  return (
+                    <div key={kind} className="flex flex-wrap items-baseline justify-between gap-2 border-b border-border/60 pb-2">
+                      <dt className="text-foreground">{label}</dt>
+                      <dd className="text-muted-foreground">
+                        {STATUS_COPY[state] ?? state}
+                        {record?.recipientMasked ? ` · ${record.recipientMasked}` : ''}
+                        {record?.sentAt ? ` · ${new Date(record.sentAt).toLocaleString('en-AU')}` : ''}
+                        {record?.error ? ` · ${record.error}` : ''}
+                      </dd>
+                    </div>
+                  );
+                })}
+              </dl>
+
+              {!comms.data.capability.configured && (
+                <p className="mt-4 rounded-xl bg-muted/50 p-3 text-xs text-muted-foreground">
+                  Setup note: no transactional email sender is connected, so Skin Grocer has sent no order or dispatch
+                  email. Stripe still emails its own payment receipt if receipts are enabled in Stripe, and account /
+                  password emails come from the auth system. Connect a verified sender domain to switch these rows from
+                  “not configured” to real sends — templates, ledger and triggers are already in place.
+                </p>
+              )}
+
+              {comms.data.dispatchMessage && (
+                <div className="mt-4">
+                  <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                    Manual dispatch message (copy &amp; paste)
+                  </p>
+                  <pre className="mt-2 max-h-56 overflow-auto whitespace-pre-wrap rounded-xl border border-border bg-background p-3 text-xs text-foreground">
+{comms.data.dispatchMessage}
+                  </pre>
+                  <div className="mt-2 flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        void navigator.clipboard.writeText(comms.data!.dispatchMessage!).then(() => {
+                          setCopied(true);
+                          window.setTimeout(() => setCopied(false), 2000);
+                        });
+                      }}
+                      className="rounded-full border border-border px-4 py-2 text-xs hover:border-foreground"
+                    >
+                      {copied ? 'Copied' : 'Copy message'}
+                    </button>
+                    {comms.data.capability.configured && (
+                      <button
+                        type="button"
+                        onClick={() => resend.mutate('dispatch')}
+                        disabled={resend.isPending}
+                        className="rounded-full border border-border px-4 py-2 text-xs hover:border-foreground disabled:opacity-60"
+                      >
+                        {resend.isPending ? 'Sending…' : 'Send dispatch email'}
+                      </button>
+                    )}
+                    {resend.isError && <span className="text-xs text-destructive">{(resend.error as Error).message}</span>}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </section>
 
         <section className="mt-4 rounded-2xl border border-dashed border-border p-5 text-sm">
