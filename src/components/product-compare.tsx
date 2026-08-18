@@ -79,20 +79,44 @@ export function CompareModal({
     enabled: open && ids.length > 0,
   });
   const { buy, modal } = useBuyNow();
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Escape to close, background scroll lock, focus moved into the dialog.
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    panelRef.current?.focus();
+    return () => {
+      document.body.style.overflow = previous;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open, onClose]);
 
   if (!open) return null;
 
   const byProduct = (pid: string) => (data ?? []).filter((r) => r.product_id === pid);
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-background/95 backdrop-blur">
+    <div
+      ref={panelRef}
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="compare-modal-title"
+      className="fixed inset-0 z-50 overflow-y-auto bg-background/95 outline-none backdrop-blur"
+    >
       <div className="mx-auto max-w-7xl px-6 py-10">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-primary">Side by side</p>
-            <h2 className="mt-2 font-display text-3xl text-foreground md:text-4xl">Compare products</h2>
+            <h2 id="compare-modal-title" className="mt-2 font-display text-3xl text-foreground md:text-4xl">Compare products</h2>
           </div>
-          <button onClick={onClose} className="rounded-full border border-border px-4 py-2 text-xs uppercase tracking-wider text-foreground hover:bg-secondary">Close</button>
+          <button onClick={onClose} className="min-h-11 rounded-full border border-border px-4 py-2 text-xs uppercase tracking-wider text-foreground hover:bg-secondary">Close</button>
         </div>
 
         <div className={`mt-10 grid gap-6 ${items.length === 2 ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
