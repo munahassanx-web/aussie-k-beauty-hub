@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/lib/cart";
 import { ProductSearchOverlay } from "@/components/product-search";
-import logoAsset from "@/assets/skin-grocer-seal.png.asset.json";
-const logo = logoAsset.url;
+import { BrandWordmark, BrandLine } from "@/components/brand-wordmark";
+
 
 type MegaLink = { label: string; to: string; search?: Record<string, string>; hash?: string };
 type MegaSection = {
@@ -199,9 +199,16 @@ export function SiteHeader() {
         onMouseLeave={() => setOpenMenu(null)}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-3">
-          <Link to="/" className="flex items-center" onClick={closeMenus} onMouseEnter={() => setOpenMenu(null)}>
-            <img src={logo} alt="Skin Grocer" className="h-12 w-12 md:h-14 md:w-14 object-contain drop-shadow-sm" width={56} height={56} />
+          <Link
+            to="/"
+            aria-label="Skin Grocer — home"
+            className="flex shrink-0 items-center py-2"
+            onClick={closeMenus}
+            onMouseEnter={() => setOpenMenu(null)}
+          >
+            <BrandWordmark size="md" className="text-foreground" />
           </Link>
+
 
           <nav className="hidden items-center gap-8 lg:flex">
             {Object.keys(megaMenus).map((key) => (
@@ -280,7 +287,7 @@ export function SiteHeader() {
 
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex shrink-0 items-center gap-1 sm:gap-4">
             <button
               type="button"
               aria-label="Search products"
@@ -485,8 +492,10 @@ export function SiteFooter() {
     <footer className="bg-ink text-paper">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-12">
         <div className="md:col-span-4">
-          <p className="font-display text-3xl text-paper">Skin Grocer</p>
+          <BrandWordmark as="p" size="xl" className="text-paper" />
+          <BrandLine className="mt-4 text-rose-gold" />
           <p className="mt-5 max-w-sm text-sm text-paper/65">
+
             Melbourne-based curators of authentic K-beauty and premium imports.
             Locally stocked in Australia, chosen with intention and explained
             plainly.
