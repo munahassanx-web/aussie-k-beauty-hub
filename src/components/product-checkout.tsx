@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
 import { getStripe, getStripeEnvironment } from '@/lib/stripe';
 import { createProductCheckout } from '@/lib/loyalty.functions';
@@ -23,6 +23,22 @@ export function ProductCheckout({
 }) {
   const [redeem, setRedeem] = useState(0);
   const [started, setStarted] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Escape closes the dialog; background scroll stays locked while open.
+  useEffect(() => {
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    panelRef.current?.focus();
+    return () => {
+      document.body.style.overflow = previous;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [onClose]);
 
   const maxRedeem = Math.floor((options.pointsBalance ?? 0) / 100) * 100;
   const canRedeem = maxRedeem >= 100;
@@ -43,13 +59,20 @@ export function ProductCheckout({
 
   return (
     <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-ink/80 p-4 backdrop-blur">
-      <div className="my-8 w-full max-w-2xl rounded-2xl bg-background p-6 shadow-2xl">
+      <div
+        ref={panelRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="product-checkout-title"
+        className="my-8 w-full max-w-2xl rounded-2xl bg-background p-6 shadow-2xl outline-none"
+      >
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <h3 className="font-display text-xl text-foreground">{options.name}</h3>
+            <h3 id="product-checkout-title" className="font-display text-xl text-foreground">{options.name}</h3>
             <p className="text-sm text-muted-foreground">{options.priceLabel}</p>
           </div>
-          <button onClick={onClose} className="text-sm text-muted-foreground hover:text-foreground">
+          <button onClick={onClose} aria-label="Close checkout" className="min-h-11 px-2 text-sm text-muted-foreground hover:text-foreground">
             Close ✕
           </button>
         </div>

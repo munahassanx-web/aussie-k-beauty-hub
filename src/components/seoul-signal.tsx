@@ -43,7 +43,7 @@ export function SeoulSignalStrip() {
               <p className="text-[12px] uppercase tracking-[0.2em] text-paper/60">
                 THE DISPATCH, BY EMAIL
               </p>
-              <p className="mt-1 text-[13px] leading-relaxed text-paper/55">
+              <p className="mt-1 text-[13px] leading-relaxed text-paper/75">
                 New SkinGrocer editorial notes when there is something worth sending.
               </p>
               <div className="mt-4">
@@ -87,11 +87,11 @@ export function SeoulSignalStrip() {
                   className="group border-t border-paper/20 py-5 transition-colors hover:border-paper/50"
                 >
                   <div className="flex items-start gap-4">
-                    <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-paper/50">
+                    <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-paper/75">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-paper/55">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-paper/75">
                         {a.meta} · {a.read}
                       </p>
                       <h3 className="mt-1 font-display text-lg leading-snug transition-colors group-hover:text-paper">

@@ -432,8 +432,8 @@ export function HeroCarousel() {
                       onClick={() => goTo(i)}
                       aria-label={`Go to ${slide.navLabel}`}
                       aria-current={isActive ? "true" : undefined}
-                      className={`px-1 py-0.5 text-[10px] font-light tracking-[0.18em] transition-colors duration-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-paper/50 ${
-                        isActive ? "text-paper" : "text-paper/30 hover:text-paper/65"
+                      className={`min-h-11 px-2 py-3 text-[10px] font-light tracking-[0.18em] transition-colors duration-300 focus:outline-none focus-visible:ring-1 focus-visible:ring-paper/50 ${
+                        isActive ? "text-paper" : "text-paper/70 hover:text-paper"
                       }`}
                     >
                       {String(i + 1).padStart(2, "0")}

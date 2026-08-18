@@ -29,7 +29,7 @@ async function fetchReviews(productId: string) {
 
 export function Stars({ n, className = '' }: { n: number; className?: string }) {
   return (
-    <span className={`inline-flex gap-0.5 text-accent ${className}`} aria-label={`${n} out of 5 stars`}>
+    <span role="img" className={`inline-flex gap-0.5 text-accent ${className}`} aria-label={`${n} out of 5 stars`}>
       {Array.from({ length: 5 }).map((_, i) => (
         <svg key={i} viewBox="0 0 20 20" fill={i < Math.round(n) ? 'currentColor' : 'none'} stroke="currentColor" className="h-4 w-4">
           <path strokeWidth="1.5" d="M10 2l2.4 5 5.6.8-4 4 1 5.6L10 14.8 5 17.4 6 11.8 2 7.8 7.6 7z" />

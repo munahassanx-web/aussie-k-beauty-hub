@@ -40,7 +40,7 @@ export function EditorialBreak({
         </Reveal>
         {attribution ? (
           <Reveal delay={160}>
-            <p className={`mt-7 text-[11px] uppercase tracking-[0.26em] ${tone === "ink" ? "text-paper/55" : "text-muted-foreground"}`}>
+            <p className={`mt-7 text-[11px] uppercase tracking-[0.26em] ${tone === "ink" ? "text-paper/75" : "text-muted-foreground"}`}>
               {attribution}
             </p>
           </Reveal>

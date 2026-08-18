@@ -158,7 +158,7 @@ function WhyPillars() {
         <div className="mt-16 grid gap-12 md:grid-cols-12 md:gap-10">
           {/* Proof points + journey */}
           <div className="md:col-span-7">
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-border pb-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink/50">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-border pb-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink/65">
               <span>SEOUL</span>
               <span className="text-grocer-butter">→</span>
               <span>VERIFIED</span>
@@ -296,7 +296,7 @@ function SkinQuizSection() {
                 className="border-b border-border py-6 md:py-7"
               >
                 <div className="flex items-baseline gap-4 md:gap-5">
-                  <span className="font-display text-xs italic text-ink/30">
+                  <span className="font-display text-xs italic text-ink/60">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
@@ -364,7 +364,7 @@ function BrandMarquee() {
               className="group flex items-center justify-between border-b border-border/60 px-1 py-5 md:px-4 md:py-6"
             >
               <div className="flex items-baseline gap-4">
-                <span className="font-display text-xs italic text-ink/30">
+                <span className="font-display text-xs italic text-ink/60">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="text-[13px] font-semibold uppercase tracking-[0.12em] text-ink transition-colors group-hover:text-hanbok-deep">
@@ -480,7 +480,7 @@ function LearnStrip() {
                       to={t.to}
                       className="group flex items-baseline gap-5 md:gap-6"
                     >
-                      <span className="font-display text-sm italic text-ink/30">
+                      <span className="font-display text-sm italic text-ink/60">
                         {t.num}
                       </span>
                       <div className="flex-1">
@@ -494,7 +494,7 @@ function LearnStrip() {
                     </Link>
                   ) : (
                     <div className="flex items-baseline gap-5 md:gap-6">
-                      <span className="font-display text-sm italic text-ink/30">
+                      <span className="font-display text-sm italic text-ink/60">
                         {t.num}
                       </span>
                       <div className="flex-1">
@@ -533,7 +533,7 @@ function Promise() {
               key={item.num}
               className="flex flex-col items-center gap-3 py-10 text-center md:items-start md:px-8 md:py-14 md:text-left first:md:pl-0 last:md:pr-0"
             >
-              <span className="font-display text-xs italic leading-none text-ink/30">
+              <span className="font-display text-xs italic leading-none text-ink/60">
                 {item.num}
               </span>
               <div className="space-y-1">
@@ -567,7 +567,7 @@ function CategoryTile({ c, s }: { c: (typeof categories)[number]; s: (typeof rou
       className="group flex flex-col border border-foreground/12 bg-paper p-6 transition-colors hover:border-foreground/30 md:p-8"
     >
       <div className="flex items-baseline gap-3">
-        <span className="font-display text-sm italic leading-none text-ink/35">{s.num}</span>
+        <span className="font-display text-sm italic leading-none text-ink/60">{s.num}</span>
         <span className="h-px flex-1 bg-foreground/12" />
       </div>
       <div className="flex flex-1 items-center justify-center py-8">
@@ -653,7 +653,7 @@ function Concerns() {
               search={{ concern: c.slug }}
               className="group flex flex-col border-b border-r border-border p-6 md:p-8 transition-colors hover:bg-sand/50"
             >
-              <span className="font-display text-xs italic text-ink/30">
+              <span className="font-display text-xs italic text-ink/60">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h3 className="mt-4 font-display text-xl text-ink md:text-2xl">
@@ -782,7 +782,7 @@ function BundleOffer() {
                   <p className="mt-2 text-sm text-ink/70">{b.desc}</p>
 
                   <div className="mt-6">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/40">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/65">
                       IN THIS EDIT
                     </p>
                     <ul className="mt-3 space-y-2 border-t border-border pt-3 text-sm text-ink/80">
@@ -868,7 +868,7 @@ function ProvenanceCard() {
                 key={p.t}
                 className="border-b border-r border-paper/10 px-5 py-6 md:px-6 md:py-7"
               >
-                <span className="font-display text-xs italic text-paper/30">
+                <span className="font-display text-xs italic text-paper/65">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <p className="mt-2 font-display text-sm uppercase tracking-[0.14em] text-paper">
@@ -938,7 +938,7 @@ function ApplicationMoment() {
                   <span className="text-sm text-paper/90">Cleanse · Treat · Moisturise</span>
                 </div>
               </div>
-              <p className="mt-4 text-xs italic text-paper/50">
+              <p className="mt-4 text-xs italic text-paper/70">
                 A simple starting point — adjust for your skin.
               </p>
             </div>
@@ -1001,7 +1001,7 @@ function IngredientStrip() {
               className="group border-b border-r border-border px-5 py-6 md:px-6 md:py-7"
             >
               <div className="flex items-baseline gap-4">
-                <span className="font-display text-xs italic text-ink/30">
+                <span className="font-display text-xs italic text-ink/60">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div className="flex flex-col">
@@ -1139,7 +1139,7 @@ function CustomerNotes() {
                 className="border-b border-border py-6 md:py-7"
               >
                 <div className="flex items-baseline gap-4 md:gap-5">
-                  <span className="font-display text-xs italic text-ink/30">
+                  <span className="font-display text-xs italic text-ink/60">
                     {p.n}
                   </span>
                   <div>
@@ -1152,7 +1152,7 @@ function CustomerNotes() {
               </li>
             ))}
           </ul>
-          <p className="mt-6 text-[11px] uppercase tracking-[0.16em] text-ink/50">
+          <p className="mt-6 text-[11px] uppercase tracking-[0.16em] text-ink/65">
             Verified customer feedback will appear here as it is collected.
           </p>
         </div>

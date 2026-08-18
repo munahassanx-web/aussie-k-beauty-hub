@@ -107,6 +107,22 @@
     font-weight: 400;
     letter-spacing: -0.02em;
   }
+
+  /* WCAG 2.2 AA — every interactive element keeps a visible keyboard focus ring,
+     even where components clear the default outline. */
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @keyframes ken-burns {

@@ -36,7 +36,13 @@ export function ChatWidget() {
   }, [turns, mutation.isPending]);
 
   useEffect(() => {
-    if (open) inputRef.current?.focus();
+    if (!open) return;
+    inputRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
   const send = (q: string) => {
@@ -53,14 +59,19 @@ export function ChatWidget() {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open skincare chat"
+          aria-expanded={false}
           className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xl transition hover:scale-105"
         >
-          <MessageCircle className="h-6 w-6" />
+          <MessageCircle className="h-6 w-6" aria-hidden="true" />
         </button>
       )}
 
       {open && (
-        <div className="fixed bottom-5 right-5 z-50 flex h-[min(600px,85vh)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl">
+        <div
+          role="dialog"
+          aria-label="Ask Skin Grocer chat"
+          className="fixed bottom-5 right-5 z-50 flex h-[min(600px,85vh)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl"
+        >
           <header className="flex items-center justify-between border-b border-border bg-secondary/40 px-4 py-3">
             <div>
               <p className="font-display text-base text-foreground">Ask Skin Grocer</p>
@@ -69,13 +80,18 @@ export function ChatWidget() {
             <button
               onClick={() => setOpen(false)}
               aria-label="Close chat"
-              className="rounded-full p-1.5 text-muted-foreground hover:bg-accent/20"
+              className="flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground hover:bg-accent/20"
             >
-              <X className="h-4 w-4" />
+              <X className="h-4 w-4" aria-hidden="true" />
             </button>
           </header>
 
-          <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto px-4 py-4">
+          <div
+            ref={scrollRef}
+            aria-live="polite"
+            aria-busy={mutation.isPending}
+            className="flex-1 space-y-4 overflow-y-auto px-4 py-4"
+          >
             {turns.length === 0 && (
               <div className="space-y-3">
                 <p className="text-sm text-muted-foreground">
@@ -181,17 +197,18 @@ export function ChatWidget() {
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              aria-label="Your skincare question"
               placeholder="Ask about your skin…"
               maxLength={500}
-              className="flex-1 rounded-full border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+              className="min-h-11 flex-1 rounded-full border border-border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:border-primary"
             />
             <button
               type="submit"
               disabled={!input.trim() || mutation.isPending}
-              aria-label="Send"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground transition hover:opacity-90 disabled:opacity-40"
+              aria-label="Send question"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-primary-foreground transition hover:opacity-90 disabled:opacity-40"
             >
-              <Send className="h-4 w-4" />
+              <Send className="h-4 w-4" aria-hidden="true" />
             </button>
           </form>
         </div>
