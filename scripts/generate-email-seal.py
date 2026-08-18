@@ -74,7 +74,7 @@ def seal(size, variant="seal", ring_text=None, center="SG", sub="SEOUL", amps=No
     d.line(pts + [pts[0]], fill=ROSE + (255,), width=int(px * 0.0135), joint="curve")
 
     # inner hairline ring
-    ri = R * 0.665
+    ri = R * 0.585
     pts2 = []
     for i in range(721):
         t = i / 720 * 2 * math.pi
@@ -84,25 +84,25 @@ def seal(size, variant="seal", ring_text=None, center="SG", sub="SEOUL", amps=No
 
     # circular wording
     if ring_text:
-        f = font(SANS, int(px * 0.052), wght=500)
-        rt = R * 0.775
+        f = font(SANS, int(px * 0.058), wght=700)
+        rt = R * 0.80
         draw_ring_text(img, cx, cy, rt, ring_text[0], f, ROSE_DEEP + (255,), start_deg=-90, spacing=1.34)
         if len(ring_text) > 1:
-            draw_ring_text(img, cx, cy, rt - int(px * 0.062) * 0.95, ring_text[1][::-1], f, ROSE_DEEP + (255,), start_deg=90, spacing=1.34, flip=True)
+            draw_ring_text(img, cx, cy, rt - px * 0.058, ring_text[1][::-1], f, ROSE_DEEP + (255,), start_deg=90, spacing=1.34, flip=True)
 
     # centre monogram
-    fm = font(SERIF, int(px * 0.30), wght=500)
+    fm = font(SERIF, int(px * 0.26), wght=500)
     bb = d.textbbox((0, 0), center, font=fm)
-    d.text((cx - (bb[2] + bb[0]) / 2, cy - (bb[3] + bb[1]) / 2 - px * 0.045), center, font=fm, fill=ROSE_DEEP + (255,))
+    d.text((cx - (bb[2] + bb[0]) / 2, cy - (bb[3] + bb[1]) / 2 - px * 0.035), center, font=fm, fill=ROSE_DEEP + (255,))
 
     # hairline + subline
-    d.line([(cx - px * 0.075, cy + px * 0.115), (cx + px * 0.075, cy + px * 0.115)], fill=ROSE_DEEP + (200,), width=int(px * 0.006))
-    fs = font(SANS, int(px * 0.052), wght=700)
+    d.line([(cx - px * 0.075, cy + px * 0.100), (cx + px * 0.075, cy + px * 0.100)], fill=ROSE_DEEP + (200,), width=int(px * 0.006))
+    fs = font(SANS, int(px * 0.046), wght=700)
     tw = d.textlength(sub, font=fs)
     ls = px * 0.016
     x = cx - (tw + ls * (len(sub) - 1)) / 2
     for ch in sub:
-        d.text((x, cy + px * 0.155), ch, font=fs, fill=ROSE_DEEP + (245,))
+        d.text((x, cy + px * 0.132), ch, font=fs, fill=ROSE_DEEP + (245,))
         x += d.textlength(ch, font=fs) + ls
 
     return img.resize((size, size), Image.LANCZOS)
