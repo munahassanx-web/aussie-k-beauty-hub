@@ -77,7 +77,7 @@ function AddButton({ p, dark = false }: { p: ShopProduct; dark?: boolean }) {
         });
         setOpen(true);
       }}
-      className={`border-b pb-1 text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors ${
+      className={`inline-flex min-h-11 items-end border-b pb-2 text-[11px] font-semibold uppercase tracking-[0.2em] transition-colors ${
         dark
           ? "border-paper/40 text-paper hover:border-paper"
           : "border-foreground/30 text-foreground hover:border-foreground"
