@@ -37,9 +37,8 @@ export type EmailProvider = {
 };
 
 /**
- * The only registered provider. It never sends and never pretends to: it
- * exists so checkout, the webhook and the admin UI have one code path that
- * already works the day a real provider is added.
+ * Fallback provider. It never sends and never pretends to — it stays the
+ * active provider only while managed email is unconfigured.
  */
 export const notConfiguredProvider: EmailProvider = {
   id: 'none',
@@ -53,7 +52,53 @@ export const notConfiguredProvider: EmailProvider = {
   }),
 };
 
-export const EMAIL_PROVIDERS: EmailProvider[] = [notConfiguredProvider];
+/** Verified sender subdomain delegated to Lovable's nameservers. */
+const SENDER_DOMAIN = 'notify.skingrocer.com.au';
+/** Cosmetic From: domain. */
+const FROM_DOMAIN = 'skingrocer.com.au';
+const FROM_NAME = 'Skin Grocer';
+
+/**
+ * Lovable managed email. Credentials are read from the server environment at
+ * call time and never reach the browser.
+ */
+export const lovableEmailProvider: EmailProvider = {
+  id: 'lovable',
+  label: 'Lovable Email',
+  isConfigured: () => Boolean(process.env['LOVABLE_API_KEY']),
+  send: async (message) => {
+    try {
+      const { sendLovableEmail, EmailAPIError } = await import('@lovable.dev/email-js');
+      try {
+        await sendLovableEmail(
+          {
+            to: message.to,
+            from: `${FROM_NAME} <noreply@${FROM_DOMAIN}>`,
+            sender_domain: SENDER_DOMAIN,
+            subject: message.subject,
+            html: message.html,
+            text: message.text,
+            purpose: 'transactional',
+            label: message.idempotencyKey.split(':')[0] ?? 'order',
+            idempotency_key: message.idempotencyKey,
+            reply_to: 'hello@skingrocer.com.au',
+          },
+          { apiKey: process.env['LOVABLE_API_KEY']!, sendUrl: process.env['LOVABLE_SEND_URL'] },
+        );
+      } catch (error) {
+        if (error instanceof EmailAPIError && error.code === 'recipient_suppressed') {
+          return { ok: false, provider: 'lovable', error: 'Recipient is suppressed (bounced, complained or unsubscribed)' };
+        }
+        throw error;
+      }
+      return { ok: true, provider: 'lovable', messageId: null };
+    } catch (error) {
+      return { ok: false, provider: 'lovable', error: (error as Error)?.message ?? 'Unknown send failure' };
+    }
+  },
+};
+
+export const EMAIL_PROVIDERS: EmailProvider[] = [lovableEmailProvider, notConfiguredProvider];
 
 /** The provider that would actually send right now, or null when none is configured. */
 export function activeEmailProvider(): EmailProvider | null {
@@ -68,3 +113,4 @@ export function emailCapability() {
     providerLabel: active?.label ?? 'Not configured',
   };
 }
+
