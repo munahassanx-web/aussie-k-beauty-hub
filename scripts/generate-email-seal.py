@@ -6,6 +6,7 @@ SERIF = os.path.join(NOTO, "NotoSerif[wdth,wght].ttf")
 SANS = os.path.join(NOTO, "NotoSans[wdth,wght].ttf")
 
 ROSE = (207, 162, 139)
+ROSE_DEEP = (183, 130, 103)
 NAVY = (13, 27, 42)
 CREAM = (247, 244, 238)
 
@@ -70,7 +71,7 @@ def seal(size, variant="seal", ring_text=None, center="SG", sub="SEOUL", amps=No
         t = i / 720 * 2 * math.pi
         r = wobble_r(R, t, amps)
         pts.append((cx + r * math.cos(t), cy + r * math.sin(t)))
-    d.line(pts + [pts[0]], fill=ROSE + (255,), width=int(px * 0.0095), joint="curve")
+    d.line(pts + [pts[0]], fill=ROSE + (255,), width=int(px * 0.0135), joint="curve")
 
     # inner hairline ring
     ri = R * 0.665
@@ -79,29 +80,29 @@ def seal(size, variant="seal", ring_text=None, center="SG", sub="SEOUL", amps=No
         t = i / 720 * 2 * math.pi
         r = wobble_r(ri, t, [(3, 0.012, 0.7), (5, 0.008, 2.1)])
         pts2.append((cx + r * math.cos(t), cy + r * math.sin(t)))
-    d.line(pts2 + [pts2[0]], fill=ROSE + (190,), width=int(px * 0.0035), joint="curve")
+    d.line(pts2 + [pts2[0]], fill=ROSE + (215,), width=int(px * 0.0055), joint="curve")
 
     # circular wording
     if ring_text:
         f = font(SANS, int(px * 0.052), wght=500)
         rt = R * 0.825
-        draw_ring_text(img, cx, cy, rt, ring_text[0], f, ROSE + (255,), start_deg=-90, spacing=1.34)
+        draw_ring_text(img, cx, cy, rt, ring_text[0], f, ROSE_DEEP + (255,), start_deg=-90, spacing=1.34)
         if len(ring_text) > 1:
-            draw_ring_text(img, cx, cy, rt - int(px * 0.052) * 0.95, ring_text[1][::-1], f, ROSE + (255,), start_deg=90, spacing=1.34, flip=True)
+            draw_ring_text(img, cx, cy, rt - int(px * 0.062) * 0.95, ring_text[1][::-1], f, ROSE_DEEP + (255,), start_deg=90, spacing=1.34, flip=True)
 
     # centre monogram
-    fm = font(SERIF, int(px * 0.30), wght=400)
+    fm = font(SERIF, int(px * 0.30), wght=500)
     bb = d.textbbox((0, 0), center, font=fm)
-    d.text((cx - (bb[2] + bb[0]) / 2, cy - (bb[3] + bb[1]) / 2 - px * 0.045), center, font=fm, fill=ROSE + (255,))
+    d.text((cx - (bb[2] + bb[0]) / 2, cy - (bb[3] + bb[1]) / 2 - px * 0.045), center, font=fm, fill=ROSE_DEEP + (255,))
 
     # hairline + subline
-    d.line([(cx - px * 0.075, cy + px * 0.115), (cx + px * 0.075, cy + px * 0.115)], fill=ROSE + (170,), width=int(px * 0.004))
-    fs = font(SANS, int(px * 0.05), wght=500)
+    d.line([(cx - px * 0.075, cy + px * 0.115), (cx + px * 0.075, cy + px * 0.115)], fill=ROSE_DEEP + (200,), width=int(px * 0.006))
+    fs = font(SANS, int(px * 0.052), wght=700)
     tw = d.textlength(sub, font=fs)
     ls = px * 0.016
     x = cx - (tw + ls * (len(sub) - 1)) / 2
     for ch in sub:
-        d.text((x, cy + px * 0.155), ch, font=fs, fill=ROSE + (230,))
+        d.text((x, cy + px * 0.155), ch, font=fs, fill=ROSE_DEEP + (245,))
         x += d.textlength(ch, font=fs) + ls
 
     return img.resize((size, size), Image.LANCZOS)
@@ -113,24 +114,13 @@ def on_bg(im, bg):
     return out
 
 
-OUT = "/tmp/seal/out"
+OUT = "/dev-server/public/email"
 os.makedirs(OUT, exist_ok=True)
-
-# Exploration A — full circular wording
-a = seal(264, ring_text=("SEOUL SOURCED", "SKIN ASSURED"), center="SG", sub="SEOUL")
-# Exploration B — quieter, single arc top only
-b = seal(264, ring_text=("· SELECTED · SOURCED · CHECKED ·",), center="SG", sub="SEOUL")
-# Exploration C — dispatch stamp
-c = seal(264, ring_text=("DISPATCHED", "MELBOURNE"), center="SG", sub="AUS")
-
-for name, im in [("A", a), ("B", b), ("C", c)]:
-    on_bg(im, CREAM).save(f"{OUT}/{name}-cream.png")
-    on_bg(im, NAVY).save(f"{OUT}/{name}-navy.png")
-
-# contact sheet
-sheet = Image.new("RGB", (264 * 3, 264 * 2), (255, 255, 255))
-for i, n in enumerate("ABC"):
-    sheet.paste(Image.open(f"{OUT}/{n}-cream.png"), (264 * i, 0))
-    sheet.paste(Image.open(f"{OUT}/{n}-navy.png"), (264 * i, 264))
-sheet.save(f"{OUT}/sheet.png")
-print("ok")
+AMPS = [(3, 0.016, 0.7), (5, 0.010, 2.1), (7, 0.006, 4.0)]
+main = seal(288, ring_text=("SEOUL SOURCED", "SKIN ASSURED"), center="SG", sub="SEOUL", amps=AMPS)
+disp = seal(288, ring_text=("DISPATCHED", "MELBOURNE"), center="SG", sub="AUS", amps=AMPS)
+on_bg(main, NAVY).save(f"{OUT}/sg-seal-navy.png")
+on_bg(main, (255, 255, 255)).save(f"{OUT}/sg-seal-paper.png")
+on_bg(main, CREAM).save(f"{OUT}/sg-seal-cream.png")
+on_bg(disp, (255, 255, 255)).save(f"{OUT}/sg-stamp-dispatched.png")
+print("seal assets written to", OUT)
