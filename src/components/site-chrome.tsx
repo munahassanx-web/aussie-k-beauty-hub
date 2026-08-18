@@ -479,7 +479,7 @@ export function SiteFooter() {
           <p className="mt-6 border-t border-paper/15 pt-4 text-xs uppercase tracking-[0.2em] text-paper/70">
             Locally stocked in Australia
           </p>
-          <p className="mt-3 max-w-sm text-xs text-paper/45">
+          <p className="mt-3 max-w-sm text-xs text-paper/70">
             Dispatched from our Epping, Victoria warehouse. See our{" "}
             <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-paper">
               shipping policy
@@ -537,7 +537,7 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-paper/10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-5 text-xs text-paper/50 md:flex-row">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-5 text-xs text-paper/70 md:flex-row">
           <p>© {new Date().getFullYear()} Skin Grocer Pty Ltd — Melbourne, Australia · ABN {import.meta.env.VITE_COMPANY_ABN || "xx xxx xxx xxx"}</p>
           <div className="flex gap-5">
             <Link to="/shipping-policy" className="hover:text-paper">Shipping</Link>

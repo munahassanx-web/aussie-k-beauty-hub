@@ -334,7 +334,7 @@ function ConsultationPage() {
           </div>
         </div>
 
-        <p className="mt-8 text-center text-[10px] uppercase leading-relaxed tracking-[0.22em] text-paper/45">
+        <p className="mt-8 text-center text-[10px] uppercase leading-relaxed tracking-[0.22em] text-paper/75">
           Guidance only — not medical advice or a diagnosis
         </p>
       </div>

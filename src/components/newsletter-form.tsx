@@ -121,7 +121,7 @@ export function NewsletterForm({
       )}
       <p
         className={`mt-2.5 text-[11px] leading-relaxed ${
-          dark ? "text-paper/55" : "text-ink/55"
+          dark ? "text-paper/75" : "text-ink/75"
         }`}
       >
         By joining, you agree to receive SkinGrocer emails. Unsubscribe anytime.{" "}
