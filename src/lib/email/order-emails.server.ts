@@ -120,7 +120,7 @@ function shell(title: string, preheader: string, body: string): string {
   @media only screen and (max-width:620px) {
     .sg-pad { padding-left:24px !important; padding-right:24px !important; }
     .sg-gap { height:32px !important; }
-    .sg-stack { display:block !important; width:100% !important; max-width:100% !important; padding-left:0 !important; padding-right:0 !important; }
+    .sg-stack { display:block !important; width:100% !important; max-width:100% !important; padding-left:0 !important; padding-right:0 !important; padding-bottom:24px !important; }
     .sg-meta { padding:20px 24px !important; }
     .sg-stack-gap { height:24px !important; }
     .sg-thumb { width:64px !important; }
