@@ -209,7 +209,14 @@ function shell(title: string, preheader: string, body: string): string {
     .sg-display { font-size:27px !important; }
     .sg-stage { display:block !important; width:100% !important; border-left:0 !important; border-top:1px solid ${RULE} !important; padding:14px 0 !important; }
     .sg-stage-first { border-top:0 !important; }
+    /* keep the Grocer Stripe broad on small screens — never a hairline */
+    .sg-hide-mobile { display:none !important; width:0 !important; height:0 !important; max-height:0 !important; overflow:hidden !important; }
+    .sg-show-mobile { display:block !important; width:100% !important; height:auto !important; }
+    .sg-show-mobile-cell { display:table-cell !important; }
+    .sg-stack-hide { display:none !important; width:0 !important; max-width:0 !important; overflow:hidden !important; }
+    .sg-statement { padding:34px 24px 30px !important; }
   }
+
 </style>
 </head>
 <body style="margin:0;padding:0;background-color:${CREAM};">
