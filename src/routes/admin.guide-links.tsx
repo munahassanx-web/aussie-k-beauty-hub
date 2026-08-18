@@ -56,10 +56,32 @@ function QrCell({ url, filename }: { url: string; filename: string }) {
   );
 }
 
+type Filter = 'all' | 'complete' | 'partial' | 'fallback';
+
+const FILTERS: Array<{ id: Filter; label: string }> = [
+  { id: 'all', label: 'All' },
+  { id: 'complete', label: 'Complete' },
+  { id: 'partial', label: 'Partial' },
+  { id: 'fallback', label: 'Fallback' },
+];
+
+function Field({ on, label }: { on: boolean; label: string }) {
+  return (
+    <span
+      className={`border px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] ${
+        on ? 'border-foreground text-foreground' : 'border-border text-muted-foreground/60'
+      }`}
+    >
+      {label}
+    </span>
+  );
+}
+
 function GuideLinksDesk() {
   const { user, loading } = useAuth();
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [query, setQuery] = useState('');
+  const [filter, setFilter] = useState<Filter>('all');
   const targets = useMemo(() => allGuideTargets(), []);
 
   useEffect(() => {
@@ -72,10 +94,16 @@ function GuideLinksDesk() {
       .then(({ data, error }) => setIsAdmin(!error && data === true));
   }, [user]);
 
-  const filtered = targets.filter((t) =>
-    `${t.product.brand} ${t.product.name} ${t.slug}`.toLowerCase().includes(query.toLowerCase()),
+  const filtered = targets.filter(
+    (t) =>
+      (filter === 'all' || t.coverage === filter) &&
+      `${t.product.brand} ${t.product.name} ${t.slug}`.toLowerCase().includes(query.toLowerCase()),
   );
-  const specific = targets.filter((t) => t.productSpecific).length;
+  const counts = {
+    complete: targets.filter((t) => t.coverage === 'complete').length,
+    partial: targets.filter((t) => t.coverage === 'partial').length,
+    fallback: targets.filter((t) => t.coverage === 'fallback').length,
+  };
 
   if (loading) return <Shell><p className="text-sm text-muted-foreground">Loading…</p></Shell>;
   if (!user)
@@ -99,14 +127,19 @@ function GuideLinksDesk() {
     return <Shell><p className="text-sm text-muted-foreground">Checking access…</p></Shell>;
 
   const csv = [
-    'brand,product,slug,guide_url,directions',
+    'brand,product,slug,guide_url,coverage,directions,amount,frequency,note,source',
     ...targets.map((t) =>
       [
         `"${t.product.brand}"`,
         `"${t.product.name.replace(/"/g, '""')}"`,
         t.slug,
         t.absoluteUrl,
+        t.coverage,
         t.productSpecific ? 'product-specific' : 'generic-fallback',
+        t.hasAmount ? 'yes' : 'no',
+        t.hasFrequency ? 'yes' : 'no',
+        t.hasNote ? 'yes' : 'no',
+        `"${t.source ?? ''}"`,
       ].join(','),
     ),
   ].join('\n');
@@ -115,13 +148,14 @@ function GuideLinksDesk() {
   return (
     <Shell>
       <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-        Every SKU’s permanent “How to apply” URL, plus a QR image encoding that exact URL. Codes are
-        generated here on demand — nothing is printed or attached to orders automatically. Packing
+        Every SKU’s permanent “How to apply” URL, plus a QR image encoding that exact URL, and the
+        content-completeness state of its guide. Codes are generated here on demand — packing
         inserts and label printing are still a manual warehouse step.
       </p>
       <p className="mt-3 text-sm text-muted-foreground">
-        {specific} of {targets.length} SKUs have their own written directions. The rest show general
-        routine-step guidance and are marked below.
+        {counts.complete} complete · {counts.partial} partial · {counts.fallback} fallback, of{' '}
+        {targets.length} SKUs. Fallback SKUs show clearly-labelled general routine guidance until
+        official brand directions are verified.
       </p>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -135,6 +169,23 @@ function GuideLinksDesk() {
           placeholder="Search brand or product"
           className="w-full max-w-xs border border-border bg-background px-4 py-2.5 text-sm text-foreground"
         />
+        <div className="flex flex-wrap gap-2">
+          {FILTERS.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => setFilter(f.id)}
+              aria-pressed={filter === f.id}
+              className={`border px-4 py-2 text-[11px] uppercase tracking-[0.14em] ${
+                filter === f.id
+                  ? 'border-foreground bg-foreground text-background'
+                  : 'border-border text-foreground hover:bg-secondary'
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
         <a
           href={csvHref}
           download="skin-grocer-guide-links.csv"
@@ -146,7 +197,7 @@ function GuideLinksDesk() {
 
       <ul className="mt-8 border-t border-border">
         {filtered.map((t) => (
-          <li key={t.slug} className="flex items-center gap-5 border-b border-border py-5">
+          <li key={t.slug} className="flex items-start gap-5 border-b border-border py-5">
             <QrCell url={t.absoluteUrl} filename={t.slug} />
             <div className="min-w-0 flex-1">
               <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
@@ -159,9 +210,30 @@ function GuideLinksDesk() {
               >
                 {t.absoluteUrl}
               </a>
-              {!t.productSpecific && (
-                <p className="mt-1 text-[11px] uppercase tracking-[0.14em] text-primary">
-                  Generic directions — needs brand copy
+              <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                <span
+                  className={`px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] ${
+                    t.coverage === 'complete'
+                      ? 'bg-foreground text-background'
+                      : t.coverage === 'partial'
+                        ? 'border border-foreground text-foreground'
+                        : 'border border-primary text-primary'
+                  }`}
+                >
+                  {t.coverage}
+                </span>
+                <Field on={t.productSpecific} label="Directions" />
+                <Field on={t.hasAmount} label="Amount" />
+                <Field on={t.hasFrequency} label="When" />
+                <Field on={t.hasNote} label="Note" />
+              </div>
+              {t.source ? (
+                <p className="mt-2 truncate font-mono text-[11px] text-muted-foreground">
+                  Source: {t.source}
+                </p>
+              ) : (
+                <p className="mt-2 text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                  No official source on file
                 </p>
               )}
             </div>
@@ -174,3 +246,4 @@ function GuideLinksDesk() {
     </Shell>
   );
 }
+
