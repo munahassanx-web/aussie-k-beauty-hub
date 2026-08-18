@@ -305,7 +305,23 @@ export const updateOrderFulfilment = createServerFn({ method: 'POST' })
 
     const { error } = await supabase.from('orders').update(patch).eq('id', data.id);
     if (error) throw new Error(error.message);
-    return { ok: true };
+
+    // Dispatch notification fires only once the order is genuinely marked
+    // shipped. It is recorded in the ledger either way; with no provider
+    // connected it records `not_configured`, never a false "sent".
+    let notification: { status: string; reason?: string } | null = null;
+    if (data.fulfillmentStatus === 'shipped') {
+      try {
+        const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+        const { dispatchOrderNotification } = await import('@/lib/email/notifications.server');
+        notification = await dispatchOrderNotification(supabaseAdmin, data.id, 'dispatch');
+      } catch (e) {
+        console.error('[ops] dispatch notification failed', (e as Error)?.message);
+        notification = { status: 'failed' };
+      }
+    }
+
+    return { ok: true, notification };
   });
 
 // ------------------------------------------------------------------ comms
