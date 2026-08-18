@@ -175,6 +175,21 @@ export function SiteHeader() {
     setMobileSection(null);
   };
 
+  // Escape closes any open navigation surface, per WCAG 2.2 keyboard expectations.
+  useEffect(() => {
+    if (!mobileOpen && !openMenu) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpenMenu(null);
+        setPinned(null);
+        setMobileOpen(false);
+        setMobileSection(null);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [mobileOpen, openMenu]);
+
   return (
     <header className="sticky top-0 z-50">
       <AnnouncementBar />
@@ -270,7 +285,7 @@ export function SiteHeader() {
               type="button"
               aria-label="Search products"
               onClick={() => { closeMenus(); setSearchOpen(true); }}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
+              className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
             >
               <SearchIcon />
             </button>
@@ -278,7 +293,7 @@ export function SiteHeader() {
               to="/wishlist"
               onClick={closeMenus}
               aria-label="Your saved products"
-              className="flex h-9 w-9 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
+              className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
             >
               <HeartIcon />
             </Link>
@@ -295,7 +310,7 @@ export function SiteHeader() {
               type="button"
               onClick={() => { closeMenus(); cart.setOpen(true); }}
               aria-label={`Open basket (${cart.count} items)`}
-              className="relative flex h-9 w-9 items-center justify-center rounded-full text-foreground/80 hover:bg-secondary hover:text-primary"
+              className="relative flex h-11 w-11 items-center justify-center rounded-full text-foreground/80 hover:bg-secondary hover:text-primary"
             >
               <BagIcon />
               {cart.count > 0 && (
@@ -307,7 +322,7 @@ export function SiteHeader() {
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
               onClick={() => { setOpenMenu(null); setMobileOpen((open) => !open); }}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground/80 hover:border-primary hover:text-primary lg:hidden"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground/80 hover:border-primary hover:text-primary lg:hidden"
             >
               {mobileOpen ? <CloseIcon /> : <MenuIcon />}
             </button>
@@ -355,7 +370,7 @@ export function SiteHeader() {
 
         {mobileOpen && (
           <div className="border-t border-border/60 bg-background lg:hidden">
-            <div className="max-h-[calc(100vh-7rem)] overflow-y-auto px-6 py-5">
+            <div className="max-h-[calc(100dvh-7rem)] overflow-y-auto px-6 py-5">
               <div className="grid gap-1 border-b border-border/60 pb-5">
                 {Object.entries(topLevelLinks).map(([key, link]) => {
                   const expanded = mobileSection === key;
