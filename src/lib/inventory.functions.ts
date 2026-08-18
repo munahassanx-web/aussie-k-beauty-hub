@@ -159,8 +159,8 @@ export const setOpeningStock = createServerFn({ method: 'POST' })
       _qty: data.quantity,
       _product_name: product.name,
       _brand: product.brand,
-      _low_stock_threshold: data.lowStockThreshold ?? null,
-      _note: data.note?.slice(0, 500) ?? null,
+      _low_stock_threshold: data.lowStockThreshold ?? undefined,
+      _note: data.note?.slice(0, 500) ?? undefined,
     });
     if (error) throw new Error(error.message);
     return { onHand: Number(onHand) };
@@ -206,9 +206,10 @@ export const adjustStock = createServerFn({ method: 'POST' })
       _sku: data.sku,
       _delta: delta,
       _reason: data.reason,
-      _note: data.note?.slice(0, 500) ?? null,
-      _order_id: data.orderId ?? null,
-      _reference: data.reason === 'return_to_stock' && data.orderId ? `return:${data.orderId}:${data.sku}` : null,
+      _note: data.note?.slice(0, 500) ?? undefined,
+      _order_id: data.orderId ?? undefined,
+      _reference:
+        data.reason === 'return_to_stock' && data.orderId ? `return:${data.orderId}:${data.sku}` : undefined,
     });
     if (error) throw new Error(error.message);
     return { onHand: Number(onHand) };
