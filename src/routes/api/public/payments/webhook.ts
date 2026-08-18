@@ -391,7 +391,22 @@ async function handleInvoicePaid(invoice: any, env: StripeEnv) {
     return;
   }
 
+  // Recurring physical shipment: decrement the component SKU exactly once per
+  // paid invoice. Idempotent — the order is upserted on stripe_invoice_id and
+  // the movement is keyed on sale:<orderId>:<sku>.
+  {
+    const { recordOrderStockSale } = await import('@/lib/inventory.server');
+    await recordOrderStockSale(
+      order.id,
+      (invoice.lines?.data ?? []).map((l: any) => ({
+        lookupKey: renewalLookupKey(l, sub.price_id),
+        quantity: l.quantity ?? 1,
+      })),
+    );
+  }
+
   await awardPoints(userId, order.id, pointsEarned, 0, { tier, multiplier, renewal: true });
+
   logCommerce('webhook', 'renewal.order_recorded', {
     invoiceId: invoice.id,
     orderId: order.id,
