@@ -1,0 +1,248 @@
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useServerFn } from '@tanstack/react-start';
+import { getAdminOrder, updateOrderFulfilment, FULFILMENT_STAGES } from '@/lib/admin-orders.functions';
+import { PackingSlip } from '@/components/admin/packing-slip';
+import { useAuth } from '@/hooks/use-auth';
+
+export const Route = createFileRoute('/admin/orders/$id')({
+  head: () => ({
+    meta: [
+      { title: 'Order detail — Skin Grocer admin' },
+      { name: 'description', content: 'Internal order detail, packing slip and fulfilment controls for a Skin Grocer order.' },
+      { name: 'robots', content: 'noindex, nofollow' },
+      { property: 'og:title', content: 'Order detail — Skin Grocer admin' },
+      { property: 'og:description', content: 'Pack, dispatch and add tracking to a Skin Grocer order.' },
+    ],
+  }),
+  component: OrderDetail,
+});
+
+function money(cents: number, currency = 'AUD') {
+  return new Intl.NumberFormat('en-AU', { style: 'currency', currency }).format((cents ?? 0) / 100);
+}
+
+const STAGE_LABEL: Record<string, string> = {
+  processing: 'To pack',
+  packed: 'Packed',
+  shipped: 'Dispatched',
+  delivered: 'Delivered',
+  cancelled: 'Cancelled',
+};
+
+const CARRIERS = ['Australia Post', 'Sendle', 'Aramex', 'CouriersPlease', 'DHL'];
+
+function OrderDetail() {
+  const { id } = Route.useParams();
+  const { user, loading } = useAuth();
+  const qc = useQueryClient();
+  const fetchOrder = useServerFn(getAdminOrder);
+  const save = useServerFn(updateOrderFulfilment);
+
+  const q = useQuery({
+    queryKey: ['admin-order', id],
+    queryFn: () => fetchOrder({ data: { id } }),
+    enabled: Boolean(user),
+    retry: false,
+  });
+
+  const order = q.data ?? null;
+  const [tracking, setTracking] = useState('');
+  const [carrier, setCarrier] = useState('');
+  const [notes, setNotes] = useState('');
+
+  useEffect(() => {
+    if (!order) return;
+    setTracking(order.trackingNumber ?? '');
+    setCarrier(order.shippingCarrier ?? '');
+    setNotes(order.opsNotes ?? '');
+  }, [order?.id, order?.trackingNumber, order?.shippingCarrier, order?.opsNotes]);
+
+  const mutate = useMutation({
+    mutationFn: (vars: Parameters<typeof updateOrderFulfilment>[0]['data']) => save({ data: vars }),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: ['admin-order', id] });
+      void qc.invalidateQueries({ queryKey: ['admin-orders'] });
+    },
+  });
+
+  if (loading || q.isLoading) {
+    return <main className="mx-auto max-w-4xl px-6 py-16 text-sm text-muted-foreground">Loading…</main>;
+  }
+  if (!user) {
+    return (
+      <main className="mx-auto max-w-4xl px-6 py-16 text-sm text-muted-foreground">
+        <Link to="/auth" className="underline">Sign in</Link> with a staff account to view this order.
+      </main>
+    );
+  }
+  if (q.isError) {
+    return <main className="mx-auto max-w-4xl px-6 py-16 text-sm text-destructive">{(q.error as Error).message}</main>;
+  }
+  if (!order) {
+    return <main className="mx-auto max-w-4xl px-6 py-16 text-sm text-muted-foreground">Order not found.</main>;
+  }
+
+  const address = [
+    order.shippingLine1,
+    order.shippingLine2,
+    [order.shippingCity, order.shippingState, order.shippingPostcode].filter(Boolean).join(' '),
+    order.shippingCountry,
+  ].filter(Boolean);
+
+  return (
+    <>
+      <PackingSlip order={order} />
+
+      <main className="mx-auto max-w-4xl px-6 py-16 print:hidden">
+        <Link to="/admin/orders" className="text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">
+          ← Order queue
+        </Link>
+        <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1 className="font-display text-4xl text-foreground">Order {order.id.slice(0, 8).toUpperCase()}</h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {new Date(order.createdAt).toLocaleString('en-AU')} · {order.status} ·{' '}
+              {STAGE_LABEL[order.fulfillmentStatus] ?? order.fulfillmentStatus}
+              {order.environment !== 'live' ? ` · ${order.environment}` : ''}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="rounded-full border border-border px-5 py-2.5 text-sm hover:border-foreground"
+          >
+            Print packing slip
+          </button>
+        </div>
+
+        <section className="mt-8 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-2xl border border-border p-5 text-sm">
+            <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Ship to</p>
+            <p className="mt-2 text-foreground">{order.shippingName ?? order.customerName ?? 'Not provided'}</p>
+            {address.length > 0 ? (
+              address.map((line) => <p key={line} className="text-muted-foreground">{line}</p>)
+            ) : (
+              <p className="text-destructive">No shipping address captured — contact the customer before packing.</p>
+            )}
+            {order.shippingPhone && <p className="text-muted-foreground">{order.shippingPhone}</p>}
+            <p className="mt-2 text-muted-foreground">
+              {order.customerEmail ?? '—'} {order.isGuest ? '(guest checkout)' : ''}
+            </p>
+          </div>
+          <div className="rounded-2xl border border-border p-5 text-sm">
+            <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Payment</p>
+            <p className="mt-2 text-foreground">{money(order.amountCents, order.currency)} paid</p>
+            <p className="text-muted-foreground">Shipping {money(order.shippingCents, order.currency)}</p>
+            {order.discountCents > 0 && (
+              <p className="text-muted-foreground">Discount −{money(order.discountCents, order.currency)}</p>
+            )}
+            <p className="text-muted-foreground">
+              Points earned {order.pointsEarned} · redeemed {order.pointsRedeemed}
+            </p>
+            <p className="mt-2 font-mono text-xs text-muted-foreground">{order.stripeSessionId ?? order.stripePaymentIntentId ?? '—'}</p>
+          </div>
+        </section>
+
+        <section className="mt-4 rounded-2xl border border-border p-5">
+          <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Pick list</p>
+          <ul className="mt-3 divide-y divide-border text-sm">
+            {order.lines.map((l, i) => (
+              <li key={`${l.name}-${i}`} className="flex items-baseline justify-between gap-4 py-3">
+                <span className="text-foreground">{l.name}</span>
+                <span className="text-muted-foreground">× {l.quantity} · {money(l.amountCents, order.currency)}</span>
+              </li>
+            ))}
+            {order.lines.length === 0 && <li className="py-3 text-muted-foreground">No line items recorded.</li>}
+          </ul>
+        </section>
+
+        <section className="mt-4 rounded-2xl border border-border p-5">
+          <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Fulfilment</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {[...FULFILMENT_STAGES, 'cancelled'].map((s) => (
+              <button
+                key={s}
+                type="button"
+                disabled={mutate.isPending || order.fulfillmentStatus === s}
+                onClick={() => mutate.mutate({ id: order.id, fulfillmentStatus: s })}
+                className={`rounded-full border px-4 py-2 text-sm disabled:opacity-60 ${
+                  order.fulfillmentStatus === s
+                    ? 'border-foreground bg-foreground text-background'
+                    : 'border-border text-muted-foreground hover:border-foreground'
+                }`}
+              >
+                {STAGE_LABEL[s] ?? s}
+              </button>
+            ))}
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">
+            {order.packedAt ? `Packed ${new Date(order.packedAt).toLocaleString('en-AU')}. ` : ''}
+            {order.shippedAt ? `Dispatched ${new Date(order.shippedAt).toLocaleString('en-AU')}. ` : ''}
+            {order.fulfillmentUpdatedAt
+              ? `Last updated ${new Date(order.fulfillmentUpdatedAt).toLocaleString('en-AU')}.`
+              : 'No fulfilment activity yet.'}
+          </p>
+
+          <form
+            className="mt-5 grid gap-4 sm:grid-cols-2"
+            onSubmit={(e) => {
+              e.preventDefault();
+              mutate.mutate({ id: order.id, trackingNumber: tracking, shippingCarrier: carrier, opsNotes: notes });
+            }}
+          >
+            <div>
+              <label htmlFor="carrier" className="text-sm text-foreground">Carrier</label>
+              <input
+                id="carrier"
+                list="carrier-options"
+                value={carrier}
+                onChange={(e) => setCarrier(e.target.value)}
+                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+              />
+              <datalist id="carrier-options">
+                {CARRIERS.map((c) => <option key={c} value={c} />)}
+              </datalist>
+            </div>
+            <div>
+              <label htmlFor="tracking" className="text-sm text-foreground">Tracking number</label>
+              <input
+                id="tracking"
+                value={tracking}
+                onChange={(e) => setTracking(e.target.value)}
+                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 font-mono text-sm outline-none focus:border-primary"
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label htmlFor="notes" className="text-sm text-foreground">Internal note</label>
+              <textarea
+                id="notes"
+                rows={3}
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Only visible to staff — e.g. awaiting restock, customer requested delay."
+                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+              />
+            </div>
+            <div className="sm:col-span-2 flex items-center gap-3">
+              <button
+                type="submit"
+                disabled={mutate.isPending}
+                className="rounded-full bg-primary px-6 py-3 text-sm text-primary-foreground hover:opacity-90 disabled:opacity-60"
+              >
+                {mutate.isPending ? 'Saving…' : 'Save shipping details'}
+              </button>
+              {mutate.isError && <span className="text-sm text-destructive">{(mutate.error as Error).message}</span>}
+              {mutate.isSuccess && !mutate.isPending && <span className="text-sm text-muted-foreground">Saved.</span>}
+            </div>
+          </form>
+          <p className="mt-4 text-xs text-muted-foreground">
+            Customers see the stage and tracking number on <Link to="/track" className="underline">/track</Link> and in
+            their account. Skin Grocer does not send automated dispatch emails yet — notify the customer manually.
+          </p>
+        </section>
+      </main>
+    </>
+  );
+}
