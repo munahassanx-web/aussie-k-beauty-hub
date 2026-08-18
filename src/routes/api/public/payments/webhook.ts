@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { createClient } from '@supabase/supabase-js';
 import { type StripeEnv, createStripeClient, verifyWebhook } from '@/lib/stripe.server';
 import { errorCommerce, logCommerce, maskEmail, newTraceId, shortId, since, warnCommerce } from '@/lib/commerce-log';
+import { dispatchOrderNotification } from '@/lib/email/notifications.server';
 
 let _supabase: any = null;
 function getSupabase(): any {
