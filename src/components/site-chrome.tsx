@@ -492,8 +492,10 @@ export function SiteFooter() {
     <footer className="bg-ink text-paper">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-12">
         <div className="md:col-span-4">
-          <p className="font-display text-3xl text-paper">Skin Grocer</p>
+          <BrandWordmark as="p" size="xl" className="text-paper" />
+          <BrandLine className="mt-4 text-paper/70" />
           <p className="mt-5 max-w-sm text-sm text-paper/65">
+
             Melbourne-based curators of authentic K-beauty and premium imports.
             Locally stocked in Australia, chosen with intention and explained
             plainly.
