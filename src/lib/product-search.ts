@@ -253,6 +253,8 @@ export type QueryIntent = {
   matchedTerms: string[];
 };
 
+const SYNONYM_KEYS = new Set(Object.keys(SEARCH_SYNONYMS).filter((k) => !k.includes(' ')));
+
 export function interpretQuery(query: string): QueryIntent {
   const normalised = normalise(query);
   const tokens = tokenise(query);
@@ -270,7 +272,13 @@ export function interpretQuery(query: string): QueryIntent {
   for (const [term, target] of Object.entries(SEARCH_SYNONYMS)) {
     const hit = term.includes(' ')
       ? normalised.includes(term)
-      : tokens.some((t) => t === term || fuzzyHit(t, [term]));
+      : tokens.some(
+          (t) =>
+            t === term ||
+            // Only reach for a typo match when the word isn't already a term in
+            // its own right — "marks" means pigmentation, not a typo of "mask".
+            (!SYNONYM_KEYS.has(t) && fuzzyHit(t, [term])),
+        );
     if (!hit) continue;
     matchedTerms.push(term);
     term.split(' ').forEach((w) => vocabularyWords.add(w));
