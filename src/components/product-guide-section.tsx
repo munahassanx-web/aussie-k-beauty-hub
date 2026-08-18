@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
-import { fetchAllGuides, matchGuide } from '@/lib/application-guides';
+import { fetchAllGuides } from '@/lib/application-guides';
 import { ApplicationGuideDetails } from '@/components/application-guide';
-import { matchProductByReference } from '@/lib/guide-content';
+import { matchProductByReference, strictStoredMatch } from '@/lib/guide-content';
+
 import { productSlug } from '@/lib/product-detail';
 
 // Shows the application guide for a product referenced loosely by
@@ -14,10 +15,13 @@ export function ProductGuideSection({ reference }: { reference: string }) {
     staleTime: 5 * 60_000,
   });
 
-  const guide = data ? matchGuide(reference, data) : null;
-  if (!guide) return null;
+  // Only an exact brand+name match on a current catalog product may render
+  // stored directions — stale rows must never enrich the wrong SKU.
   const catalogMatch = matchProductByReference(reference);
-  const guideParam = catalogMatch ? productSlug(catalogMatch) : guide.id;
+  const guide = data && catalogMatch ? strictStoredMatch(catalogMatch, data) : null;
+  if (!guide) return null;
+  const guideParam = productSlug(catalogMatch!);
+
 
   return (
     <section className="mt-8 border-t border-border pt-6">
