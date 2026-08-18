@@ -141,7 +141,7 @@ function grocerStripe(kind: 'signature' | 'repeat'): string {
   const signature = kind === 'signature';
   const src = signature ? STRIPE_BAND : STRIPE_FOOT;
   const h = signature ? 64 : 44;
-  const alt = 'Skin Grocer';
+  const alt = ''; // decorative: the stripe is brand furniture, not content
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr><td bgcolor="${NAVY}" height="${h}" style="background-color:${NAVY};height:${h}px;line-height:0;font-size:0;">
       <img src="${src}" width="620" height="${h}" alt="${alt}" class="sg-band sg-hide-mobile" style="display:block;width:100%;max-width:620px;height:${h}px;border:0;" />
