@@ -238,7 +238,43 @@ export const PRODUCT_APPLICATION: Record<string, ApplicationData> = {
     frequency: 'Morning and night',
     source: 'https://beautyofjoseon.com/products/revive-eye-serum-ginseng-retinal',
   },
+
+  // --- beplain (beplainglobal.com official store) -----------------------------
+  'beplain-mung-bean-cleansing-oil-200ml': {
+    steps: [
+      'Apply an appropriate amount to the face and massage gently.',
+      'Emulsify with a few drops of water and keep massaging for about 30 seconds, until the oil turns milky.',
+      'Rinse thoroughly with lukewarm water.',
+    ],
+    source: 'https://beplainglobal.com/products/beplain-mung-bean-cleansing-oil-200ml',
+  },
+  'beplain-mung-bean-ph-balanced-cleansing-foam-80ml': {
+    steps: [
+      'Take a penny-sized amount into your palm and lather with water.',
+      'Massage gently onto the face.',
+      'Rinse thoroughly with lukewarm water.',
+    ],
+    amount: 'A penny-sized amount',
+    source: 'https://beplainglobal.com/products/beplain-mung-bean-ph-balanced-cleansing-foam-160ml',
+  },
+
+  // --- HARUHARU WONDER (haruharuusa.com official store) -----------------------
+  'haruharu-wonder-black-rice-hyaluronic-toner-150ml': {
+    steps: ['After washing the face, apply evenly to the skin.', 'Pat lightly until fully absorbed.'],
+    note: 'Haruharu Wonder suggests layering 2–3 times for deeper, longer-lasting hydration.',
+    source: 'https://haruharuusa.com/products/black-rice-hyaluronic-toner',
+  },
+  'haruharu-wonder-black-rice-5-ceramide-barrier-moisturizing-cream': {
+    steps: [
+      'After toner and essence or serum, apply an appropriate amount to face and neck.',
+      'Massage gently so the capsules burst and the cream absorbs fully.',
+    ],
+    frequency: 'Morning and evening',
+    note: 'Haruharu Wonder suggests paying special attention to dry areas.',
+    source: 'https://haruharuusa.com/products/black-rice-5-ceramide-barrier-moisturizing-cream',
+  },
 };
+
 
 export function applicationForSlug(slug: string): ApplicationData | undefined {
   return PRODUCT_APPLICATION[slug];
