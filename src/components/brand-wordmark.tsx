@@ -18,7 +18,7 @@ export function BrandWordmark({
         ? "text-[1.35rem] md:text-[1.6rem] tracking-[0.20em]"
         : size === "sm"
           ? "text-[0.95rem] tracking-[0.22em]"
-          : "text-[1.05rem] md:text-[1.25rem] tracking-[0.22em]";
+          : "text-[0.9rem] tracking-[0.18em] md:text-[1.2rem] md:tracking-[0.22em]";
 
   return (
     <Tag
