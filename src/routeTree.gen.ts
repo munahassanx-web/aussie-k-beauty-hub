@@ -18,6 +18,7 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ClubRouteImport } from './routes/club'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as EmailPreviewRouteImport } from './routes/email-preview'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
@@ -50,6 +51,7 @@ import { Route as RoutinesIndexRouteImport } from './routes/routines.index'
 import { Route as RoutinesBundleIdRouteImport } from './routes/routines.$bundleId'
 import { Route as AdminIssuesIdRouteImport } from './routes/admin.issues.$id'
 import { Route as AdminOrdersIdRouteImport } from './routes/admin.orders.$id'
+import { Route as ApiPublicEmailPreviewRouteImport } from './routes/api/public/email-preview'
 import { Route as LearnArticleSlugRouteImport } from './routes/learn.article.$slug'
 import { Route as ApiPublicIssueCoverIdRouteImport } from './routes/api/public/issue-cover.$id'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
@@ -101,6 +103,11 @@ const ConsultationRoute = ConsultationRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmailPreviewRoute = EmailPreviewRouteImport.update({
+  id: '/email-preview',
+  path: '/email-preview',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -263,6 +270,11 @@ const AdminOrdersIdRoute = AdminOrdersIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => AdminOrdersRoute,
 } as any)
+const ApiPublicEmailPreviewRoute = ApiPublicEmailPreviewRouteImport.update({
+  id: '/api/public/email-preview',
+  path: '/api/public/email-preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LearnArticleSlugRoute = LearnArticleSlugRouteImport.update({
   id: '/learn/article/$slug',
   path: '/learn/article/$slug',
@@ -311,6 +323,7 @@ export interface FileRoutesByFullPath {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
+  '/email-preview': typeof EmailPreviewRoute
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -343,6 +356,7 @@ export interface FileRoutesByFullPath {
   '/routines/': typeof RoutinesIndexRoute
   '/admin/issues/$id': typeof AdminIssuesIdRoute
   '/admin/orders/$id': typeof AdminOrdersIdRoute
+  '/api/public/email-preview': typeof ApiPublicEmailPreviewRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -361,6 +375,7 @@ export interface FileRoutesByTo {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
+  '/email-preview': typeof EmailPreviewRoute
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -393,6 +408,7 @@ export interface FileRoutesByTo {
   '/routines': typeof RoutinesIndexRoute
   '/admin/issues/$id': typeof AdminIssuesIdRoute
   '/admin/orders/$id': typeof AdminOrdersIdRoute
+  '/api/public/email-preview': typeof ApiPublicEmailPreviewRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -412,6 +428,7 @@ export interface FileRoutesById {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
+  '/email-preview': typeof EmailPreviewRoute
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -444,6 +461,7 @@ export interface FileRoutesById {
   '/routines/': typeof RoutinesIndexRoute
   '/admin/issues/$id': typeof AdminIssuesIdRoute
   '/admin/orders/$id': typeof AdminOrdersIdRoute
+  '/api/public/email-preview': typeof ApiPublicEmailPreviewRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -464,6 +482,7 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
+    | '/email-preview'
     | '/faq'
     | '/journey'
     | '/privacy-policy'
@@ -496,6 +515,7 @@ export interface FileRouteTypes {
     | '/routines/'
     | '/admin/issues/$id'
     | '/admin/orders/$id'
+    | '/api/public/email-preview'
     | '/learn/article/$slug'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
@@ -514,6 +534,7 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
+    | '/email-preview'
     | '/faq'
     | '/journey'
     | '/privacy-policy'
@@ -546,6 +567,7 @@ export interface FileRouteTypes {
     | '/routines'
     | '/admin/issues/$id'
     | '/admin/orders/$id'
+    | '/api/public/email-preview'
     | '/learn/article/$slug'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
@@ -564,6 +586,7 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
+    | '/email-preview'
     | '/faq'
     | '/journey'
     | '/privacy-policy'
@@ -596,6 +619,7 @@ export interface FileRouteTypes {
     | '/routines/'
     | '/admin/issues/$id'
     | '/admin/orders/$id'
+    | '/api/public/email-preview'
     | '/learn/article/$slug'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
@@ -615,6 +639,7 @@ export interface RootRouteChildren {
   ClubRoute: typeof ClubRoute
   ConsultationRoute: typeof ConsultationRoute
   ContactRoute: typeof ContactRoute
+  EmailPreviewRoute: typeof EmailPreviewRoute
   FaqRoute: typeof FaqRoute
   JourneyRoute: typeof JourneyRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
@@ -645,6 +670,7 @@ export interface RootRouteChildren {
   LearnIndexRoute: typeof LearnIndexRoute
   RoutinesIndexRoute: typeof RoutinesIndexRoute
   AdminIssuesIdRoute: typeof AdminIssuesIdRoute
+  ApiPublicEmailPreviewRoute: typeof ApiPublicEmailPreviewRoute
   LearnArticleSlugRoute: typeof LearnArticleSlugRoute
   ApiPublicIssueCoverIdRoute: typeof ApiPublicIssueCoverIdRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
@@ -717,6 +743,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/email-preview': {
+      id: '/email-preview'
+      path: '/email-preview'
+      fullPath: '/email-preview'
+      preLoaderRoute: typeof EmailPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -943,6 +976,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminOrdersIdRouteImport
       parentRoute: typeof AdminOrdersRoute
     }
+    '/api/public/email-preview': {
+      id: '/api/public/email-preview'
+      path: '/api/public/email-preview'
+      fullPath: '/api/public/email-preview'
+      preLoaderRoute: typeof ApiPublicEmailPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/learn/article/$slug': {
       id: '/learn/article/$slug'
       path: '/learn/article/$slug'
@@ -1029,6 +1069,7 @@ const rootRouteChildren: RootRouteChildren = {
   ClubRoute: ClubRoute,
   ConsultationRoute: ConsultationRoute,
   ContactRoute: ContactRoute,
+  EmailPreviewRoute: EmailPreviewRoute,
   FaqRoute: FaqRoute,
   JourneyRoute: JourneyRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
@@ -1059,6 +1100,7 @@ const rootRouteChildren: RootRouteChildren = {
   LearnIndexRoute: LearnIndexRoute,
   RoutinesIndexRoute: RoutinesIndexRoute,
   AdminIssuesIdRoute: AdminIssuesIdRoute,
+  ApiPublicEmailPreviewRoute: ApiPublicEmailPreviewRoute,
   LearnArticleSlugRoute: LearnArticleSlugRoute,
   ApiPublicIssueCoverIdRoute: ApiPublicIssueCoverIdRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
