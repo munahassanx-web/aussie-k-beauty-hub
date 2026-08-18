@@ -1,45 +1,72 @@
 #!/usr/bin/env python3
-"""Generate THE GROCER STRIPE assets for Skin Grocer transactional emails.
+"""THE GROCER STRIPE — V5 signature assets for Skin Grocer order emails.
 
-A refined diagonal navy + warm cream stripe with a very thin muted champagne
-keyline. Rendered at 2x for retina and written to public/email/.
+V5 treats the stripe as a PRIMARY brand asset, not trim. Bands are broad and
+few, navy dominates, warm cream carves strong negative space, and a genuinely
+visible champagne-gold companion band rides every cream band (~10-12% of the
+treatment) so the gold reads at true inbox size without zooming.
 
-  sg-grocer-stripe.png       signature edge (top of the email)
-  sg-grocer-stripe-thin.png  quiet echo (above the footer)
+Rendered at 2x (retina) and written to public/email/.
+
+  sg-stripe-band.png     620x64  signature ribbon above the masthead
+  sg-stripe-column.png   168x360 vertical editorial crop beside the hero
+  sg-stripe-mobile.png   390x56  mobile crop of the hero stripe moment
+  sg-stripe-foot.png     620x44  bold repeat before the footer
 """
 
 from PIL import Image, ImageDraw
 
 NAVY = (13, 27, 42, 255)      # #0D1B2A
 CREAM = (247, 244, 238, 255)  # #F7F4EE
-GOLD = (200, 178, 138, 255)   # muted pale champagne
+GOLD = (198, 161, 91, 255)    # #C6A15B — richer muted champagne, clearly visible
 
 SS = 4  # supersample factor
 
+# One rhythm unit, in CSS px measured along the horizontal axis.
+# navy field -> cream band -> gold companion band.
+NAVY_RUN = 78
+CREAM_RUN = 34
+GOLD_RUN = 16
+PERIOD = NAVY_RUN + CREAM_RUN + GOLD_RUN  # 128px -> gold is 12.5% of the field
 
-def stripe(width: int, height: int, band: int, path: str) -> None:
-    w, h = width * SS, height * SS
-    img = Image.new("RGBA", (w, h), NAVY)
+
+def stripe(width: int, height: int, path: str, scale: float = 1.0, phase: float = 0.0) -> None:
+    """Draw the broad 60-degree navy/cream/gold band system."""
+    w, h = int(width * SS), int(height * SS)
+    img = Image.new("RGB", (w, h), NAVY[:3])
     d = ImageDraw.Draw(img)
 
-    b = band * SS               # cream band width (perpendicular-ish)
-    period = b * 5              # generous navy field between cream bands
-    keyline = max(1, int(0.9 * SS))
+    period = PERIOD * SS * scale
+    cream_w = CREAM_RUN * SS * scale
+    gold_w = GOLD_RUN * SS * scale
+    slant = h * 0.58  # ~60deg lean; bands read as editorial, never barber-pole
 
-    # 45-degree diagonals drawn as thick lines well beyond the canvas.
-    x = -h - period
-    while x < w + h + period:
-        d.line([(x, h), (x + 2 * h, 0)], fill=CREAM, width=b)
-        # very thin champagne keyline riding the leading edge of each cream band
-        off = b // 2 + keyline
-        d.line([(x + off, h), (x + off + 2 * h, 0)], fill=GOLD, width=keyline)
+    x = -slant - period + (phase * period)
+    while x < w + slant + period:
+        # cream band as a filled parallelogram
+        d.polygon(
+            [(x, h), (x + cream_w, h), (x + cream_w + slant, 0), (x + slant, 0)],
+            fill=CREAM[:3],
+        )
+        g = x + cream_w
+        d.polygon(
+            [(g, h), (g + gold_w, h), (g + gold_w + slant, 0), (g + slant, 0)],
+            fill=GOLD[:3],
+        )
         x += period
 
     img = img.resize((width, height), Image.LANCZOS)
-    img.save(path)
+    img.save(path, optimize=True)
     print("wrote", path, img.size)
 
 
 if __name__ == "__main__":
-    stripe(1240, 26, 18, "public/email/sg-grocer-stripe.png")
-    stripe(1240, 10, 8, "public/email/sg-grocer-stripe-thin.png")
+    stripe(620, 64, "public/email/sg-stripe-band.png")
+    stripe(620, 44, "public/email/sg-stripe-foot.png", phase=0.42)
+    stripe(390, 56, "public/email/sg-stripe-mobile.png", scale=0.78)
+    # vertical crop: generate rotated so bands run across the narrow column
+    stripe(360, 168, "/tmp/sg-col-raw.png", scale=1.0, phase=0.2)
+    Image.open("/tmp/sg-col-raw.png").rotate(90, expand=True).save(
+        "public/email/sg-stripe-column.png", optimize=True
+    )
+    print("wrote public/email/sg-stripe-column.png (168x360)")
