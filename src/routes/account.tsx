@@ -1,3 +1,4 @@
+import { trackingLink, trackingLinkLabel } from '@/lib/shipping/carriers';
 import { createFileRoute, Link, useRouter } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
@@ -237,7 +238,22 @@ function OrderCard({ order }: { order: AccountOrder }) {
       )}
 
       {order.trackingNumber && (
-        <p className="mt-2 text-xs text-muted-foreground">Tracking reference: {order.trackingNumber}</p>
+        <p className="mt-2 text-xs text-muted-foreground">
+          Tracking reference: <span className="font-mono">{order.trackingNumber}</span>
+          {trackingLink(order.shippingCarrier, order.trackingNumber) && (
+            <>
+              {' · '}
+              <a
+                href={trackingLink(order.shippingCarrier, order.trackingNumber)!}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="text-primary underline-offset-4 hover:underline"
+              >
+                {trackingLinkLabel(order.shippingCarrier)}
+              </a>
+            </>
+          )}
+        </p>
       )}
 
       <ul className="mt-4 space-y-3 border-t border-border pt-4">
