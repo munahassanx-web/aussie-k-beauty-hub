@@ -300,6 +300,19 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
       multiplier,
     });
   }
+
+  // Order confirmation. The (order_id, kind) unique row is the idempotency
+  // guard, so Stripe webhook retries can never produce a second confirmation.
+  // With no provider connected this only records `not_configured` — it never
+  // claims an email was sent.
+  if (paid) {
+    try {
+      const outcome = await dispatchOrderNotification(supabase, order.id, 'order_confirmation');
+      logCommerce('webhook', 'notification.order_confirmation', { orderId: order.id, status: outcome.status });
+    } catch (e) {
+      errorCommerce('webhook', 'notification.order_confirmation_failed', e, { orderId: order.id });
+    }
+  }
 }
 
 async function markSessionFailed(session: any, env: StripeEnv) {
