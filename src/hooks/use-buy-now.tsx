@@ -1,6 +1,7 @@
 import { toast } from 'sonner';
 import { useCart } from '@/lib/cart';
 import { catalogEntryFor, isPurchasable, priceToCents } from '@/lib/shop-catalog';
+import { useSoldOutSkus } from '@/hooks/use-stock';
 
 export type BuyOptions = {
   priceId: string;
@@ -17,11 +18,16 @@ export type BuyOptions = {
  */
 export function useBuyNow() {
   const cart = useCart();
+  const { isSoldOut } = useSoldOutSkus();
 
   function buy(opts: BuyOptions) {
     const entry = catalogEntryFor(opts.priceId);
     if (!entry || !isPurchasable(opts.priceId)) {
       toast.info(`${opts.name} isn't available to order yet — it lands in the Melbourne warehouse soon.`);
+      return;
+    }
+    if (isSoldOut(opts.priceId)) {
+      toast.info(`${opts.name} is out of stock right now — we'll restock from Seoul shortly.`);
       return;
     }
     cart.add({
