@@ -554,13 +554,13 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
   const html = shell(
     `Order ${ref} dispatched`,
     `Order ${ref} has left our Melbourne warehouse${tracking ? ` — ${carrier ?? 'carrier'} tracking enclosed.` : '.'}`,
+    heroStatement(first ? `On its way, ${first}.` : 'On its way.', 'Your selection has left us.'),
     `
-    ${heroSection(
-      first ? `On its way, ${first}.` : 'On its way.',
-      'Your selection has left us.',
+    ${heroIntro(
       `Order <span style="color:${INK};">${ref}</span> has been hand-packed, sealed and collected from our Melbourne warehouse.`,
       ref,
     )}
+
     ${metaStrip(o, 'Dispatched')}
     ${label('Tracking')}
     ${trackingBlock}
