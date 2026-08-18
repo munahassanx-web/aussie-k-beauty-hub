@@ -241,7 +241,7 @@ function toItem(s: Scored, step: string, use: RoutineUse, fallbackWhen: string, 
     slug,
     step,
     use: finalUse,
-    when: whenFor(slug, fallback),
+    when: active ? fallback : whenFor(slug, fallback),
     why: why(step, a, s.reasons),
     hasBrandDirections: Boolean(applicationForSlug(slug)),
   };
