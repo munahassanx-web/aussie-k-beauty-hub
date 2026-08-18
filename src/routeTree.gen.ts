@@ -53,6 +53,7 @@ import { Route as LearnArticleSlugRouteImport } from './routes/learn.article.$sl
 import { Route as ApiPublicIssueCoverIdRouteImport } from './routes/api/public/issue-cover.$id'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as ApiPublicSignalsHarvestRouteImport } from './routes/api/public/signals/harvest'
+import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -275,6 +276,12 @@ const ApiPublicSignalsHarvestRoute = ApiPublicSignalsHarvestRouteImport.update({
   path: '/api/public/signals/harvest',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LovableEmailTransactionalPreviewRoute =
+  LovableEmailTransactionalPreviewRouteImport.update({
+    id: '/lovable/email/transactional/preview',
+    path: '/lovable/email/transactional/preview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -321,6 +328,7 @@ export interface FileRoutesByFullPath {
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -367,6 +375,7 @@ export interface FileRoutesByTo {
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -414,6 +423,7 @@ export interface FileRoutesById {
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -462,6 +472,7 @@ export interface FileRouteTypes {
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
     | '/api/public/signals/harvest'
+    | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -508,6 +519,7 @@ export interface FileRouteTypes {
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
     | '/api/public/signals/harvest'
+    | '/lovable/email/transactional/preview'
   id:
     | '__root__'
     | '/'
@@ -554,6 +566,7 @@ export interface FileRouteTypes {
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
     | '/api/public/signals/harvest'
+    | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -599,6 +612,7 @@ export interface RootRouteChildren {
   ApiPublicIssueCoverIdRoute: typeof ApiPublicIssueCoverIdRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
   ApiPublicSignalsHarvestRoute: typeof ApiPublicSignalsHarvestRoute
+  LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -911,6 +925,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicSignalsHarvestRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lovable/email/transactional/preview': {
+      id: '/lovable/email/transactional/preview'
+      path: '/lovable/email/transactional/preview'
+      fullPath: '/lovable/email/transactional/preview'
+      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -981,6 +1002,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicIssueCoverIdRoute: ApiPublicIssueCoverIdRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
   ApiPublicSignalsHarvestRoute: ApiPublicSignalsHarvestRoute,
+  LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
