@@ -158,17 +158,17 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
     `Payment received ${placed}.`,
     '',
     ...o.lines.map((l) => `- ${l.name} x${l.quantity} — ${money(l.amountCents, o.currency)}`),
-    o.discountCents > 0 ? `Discount: -${money(o.discountCents, o.currency)}` : '',
+    o.discountCents > 0 ? `Discount: -${money(o.discountCents, o.currency)}` : null,
     `Shipping: ${o.shippingCents > 0 ? money(o.shippingCents, o.currency) : 'Free'}`,
     `Total paid: ${money(o.amountCents, o.currency)}`,
     '',
-    address.length ? `Shipping to:\n${address.join('\n')}` : '',
+    address.length ? `Shipping to:\n${address.join('\n')}` : null,
     '',
     'We pack and dispatch from Melbourne. You will receive carrier and tracking details when your parcel leaves us.',
     `Order status: ${SITE_URL}/track`,
     `Questions: ${SUPPORT_EMAIL}`,
   ]
-    .filter((l) => l !== '')
+    .filter((l): l is string => l !== null)
     .join('\n');
 
   return { subject: `Your Skin Grocer order ${ref} is confirmed`, html, text };
@@ -219,14 +219,14 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
     `SKIN GROCER — order ${ref} dispatched`,
     'Your parcel has left our Melbourne warehouse.',
     tracking ? `${carrier ?? 'Carrier'} tracking: ${tracking}` : 'Hand-dispatched — no carrier tracking number.',
-    link ? `Track it: ${link}` : '',
+    link ? `Track it: ${link}` : null,
     '',
     ...o.lines.map((l) => `- ${l.name} x${l.quantity}`),
     '',
     `Order status: ${SITE_URL}/track`,
     `Questions: ${SUPPORT_EMAIL}`,
   ]
-    .filter((l) => l !== '')
+    .filter((l): l is string => l !== null)
     .join('\n');
 
   return { subject: `Your Skin Grocer order ${ref} has been dispatched`, html, text };
@@ -243,13 +243,13 @@ export function dispatchMessagePlainText(o: OrderEmailData): string {
     '',
     `Your Skin Grocer order ${ref} has been dispatched from Melbourne.`,
     tracking ? `${carrier ?? 'Carrier'} tracking number: ${tracking}` : 'It was hand-dispatched, so there is no carrier tracking number.',
-    link ? `Track it here: ${link}` : '',
+    link ? `Track it here: ${link}` : null,
     '',
     'Delivery timing is set by the carrier. Reply to this email if anything looks wrong.',
     '',
     'Skin Grocer — Seoul Sourced. Skin Assured.',
     SUPPORT_EMAIL,
   ]
-    .filter((l) => l !== '')
+    .filter((l): l is string => l !== null)
     .join('\n');
 }
