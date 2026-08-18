@@ -162,7 +162,12 @@ export function allGuideTargets(): Array<{
       url: guideUrlFor(product),
       absoluteUrl: absoluteGuideUrl(product),
       productSpecific: hasProductSpecificHowTo(product),
-      coverage: coverageForSlug(slug),
+      coverage: entry
+        ? coverageForSlug(slug)
+        : hasProductSpecificHowTo(product)
+          ? ('partial' as CoverageStatus)
+          : ('fallback' as CoverageStatus),
+
       hasAmount: Boolean(entry?.amount),
       hasFrequency: Boolean(entry?.frequency),
       hasNote: Boolean(entry?.note),
