@@ -9,7 +9,7 @@ import { EmailChangeEmail } from '@/lib/email-templates/email-change'
 import { ReauthenticationEmail } from '@/lib/email-templates/reauthentication'
 
 // Configuration
-const SITE_NAME = "aussie-k-beauty-hub"
+const SITE_NAME = "Skin Grocer"
 const SENDER_DOMAIN = "notify.skingrocer.com.au"
 const ROOT_DOMAIN = "skingrocer.com.au"
 const FROM_DOMAIN = "skingrocer.com.au"
