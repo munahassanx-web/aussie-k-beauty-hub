@@ -129,21 +129,48 @@ const hairline = (color = RULE) =>
   `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="height:1px;line-height:1px;font-size:0;background-color:${color};">&nbsp;</td></tr></table>`;
 
 /**
- * THE GROCER STRIPE.
+ * THE GROCER STRIPE — horizontal signature field.
  *
- * A navy cell painted with the diagonal artwork, closed by a 1px champagne
- * keyline. When the image is blocked or unavailable the cell renders as a
- * solid navy band with its gold keyline — deliberate, not broken.
+ * A real image at true rendered scale sits on a solid navy cell closed by a
+ * 3px champagne rule. With images blocked the row is still a bold navy band
+ * with a clearly visible gold edge: deliberate branding, never a broken box.
+ * A dedicated mobile crop keeps the bands broad at 390px instead of letting
+ * them scale down into hatching.
  */
-function grocerStripe(kind: 'signature' | 'echo'): string {
+function grocerStripe(kind: 'signature' | 'repeat'): string {
   const signature = kind === 'signature';
-  const src = signature ? STRIPE : STRIPE_THIN;
-  const h = signature ? 13 : 5;
+  const src = signature ? STRIPE_BAND : STRIPE_FOOT;
+  const h = signature ? 64 : 44;
+  const alt = 'Skin Grocer';
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-    <tr><td background="${src}" bgcolor="${NAVY}" height="${h}" style="height:${h}px;line-height:${h}px;font-size:0;background-color:${NAVY};background-image:url('${src}');background-repeat:repeat-x;background-position:left center;background-size:auto ${h}px;">&nbsp;</td></tr>
-    <tr><td style="height:1px;line-height:1px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>
+    <tr><td bgcolor="${NAVY}" height="${h}" style="background-color:${NAVY};height:${h}px;line-height:0;font-size:0;">
+      <img src="${src}" width="620" height="${h}" alt="${alt}" class="sg-band sg-hide-mobile" style="display:block;width:100%;max-width:620px;height:${h}px;border:0;" />
+      <img src="${STRIPE_MOBILE}" width="390" height="56" alt="${alt}" class="sg-show-mobile" style="display:none;width:100%;height:auto;border:0;mso-hide:all;" />
+    </td></tr>
+    <tr><td bgcolor="${GOLD}" style="height:3px;line-height:3px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>
   </table>`;
 }
+
+/**
+ * The stripe's second appearance: a vertical editorial crop that enters from
+ * the left edge of the order statement, roughly a quarter of the row, so the
+ * signature frames the message like branded packaging. On mobile the column
+ * is swapped for a broad horizontal crop so the bands never become a hairline.
+ */
+function stripeStatement(inner: string): string {
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${NAVY}" style="background-color:${NAVY};">
+    <tr>
+      <td class="sg-col sg-stack-hide" width="150" valign="top" bgcolor="${NAVY}" style="width:150px;background-color:${NAVY};font-size:0;line-height:0;">
+        <img src="${STRIPE_COLUMN}" width="150" height="360" alt="" style="display:block;width:150px;height:360px;border:0;" />
+      </td>
+      <td class="sg-stack" valign="middle" bgcolor="${NAVY}" style="background-color:${NAVY};padding:44px 40px;">${inner}</td>
+    </tr>
+    <tr><td colspan="2" class="sg-show-mobile-cell" style="display:none;font-size:0;line-height:0;mso-hide:all;">
+      <img src="${STRIPE_MOBILE}" width="390" height="56" alt="" style="display:block;width:100%;height:auto;border:0;" />
+    </td></tr>
+  </table>`;
+}
+
 
 function ctaButton(href: string, text: string): string {
   return `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
