@@ -3,7 +3,6 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { z } from "zod";
 import { submitContactForm } from "@/lib/contact.functions";
-import { getMapsApiKey } from "@/lib/maps.functions";
 
 
 const contactSchema = z.object({
@@ -29,16 +28,10 @@ export const Route = createFileRoute("/contact")({
     ],
     links: [{ rel: "canonical", href: "https://skingrocer.com.au/contact" }],
   }),
-  loader: async () => {
-    const key = await getMapsApiKey();
-    return { mapsKey: key };
-  },
   component: Contact,
 });
 
 function Contact() {
-  const { mapsKey } = Route.useLoaderData();
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
