@@ -1,6 +1,8 @@
 import { createServerFn } from '@tanstack/react-start';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
+import { auditComposites, compositesBlockedBy, resolveSellable, type CompositeAudit } from '@/lib/inventory-mapping';
+
 
 /**
  * Single-warehouse inventory.
@@ -238,6 +240,11 @@ export const setInventorySettings = createServerFn({ method: 'POST' })
 /**
  * Public availability. Returns only the SKUs that are genuinely sold out —
  * never quantities. Uninitialised SKUs are absent, so they stay purchasable.
+ *
+ * Composite sellables (bundles, Restock subscriptions) are appended when a
+ * reliably mapped component with a real opening count cannot cover one unit.
+ * Unmappable composites are never marked sold out here — they are flagged for
+ * the warehouse instead.
  */
 export const listSoldOutSkus = createServerFn({ method: 'GET' }).handler(async (): Promise<string[]> => {
   const { createClient } = await import('@supabase/supabase-js');
@@ -255,5 +262,49 @@ export const listSoldOutSkus = createServerFn({ method: 'GET' }).handler(async (
   });
   const { data, error } = await client.rpc('sold_out_skus');
   if (error) return [];
-  return ((data ?? []) as Array<{ sku: string }>).map((r) => r.sku);
+  const skus = ((data ?? []) as Array<{ sku: string }>).map((r) => r.sku);
+  return [...new Set([...skus, ...compositesBlockedBy(skus)])];
 });
+
+export type CompositeAuditResult = {
+  composites: CompositeAudit[];
+  /** Paid orders holding a line we could not map to a physical SKU. Fulfilment is never blocked. */
+  orderAttention: Array<{ orderId: string; createdAt: string; priceId: string; name: string; quantity: number }>;
+};
+
+/** Composite mapping audit for the warehouse board. Staff only. */
+export const listCompositeAudit = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<CompositeAuditResult> => {
+    await assertStaff(context);
+    const composites = auditComposites();
+
+    const { data } = await context.supabase
+      .from('orders')
+      .select('id, created_at, line_items, fulfillment_status')
+      .eq('status', 'paid')
+      .order('created_at', { ascending: false })
+      .limit(200);
+
+    const orderAttention: CompositeAuditResult['orderAttention'] = [];
+    for (const order of (data ?? []) as any[]) {
+      const lines: any[] = Array.isArray(order.line_items) ? order.line_items : [];
+      for (const line of lines) {
+        const priceId = line?.lookupKey ?? '';
+        if (!priceId) continue;
+        const res = resolveSellable(priceId);
+        if (res.kind === 'unmapped') {
+          orderAttention.push({
+            orderId: order.id,
+            createdAt: order.created_at,
+            priceId,
+            name: line?.name ?? priceId,
+            quantity: Number(line?.quantity ?? 1),
+          });
+        }
+      }
+    }
+    return { composites, orderAttention };
+  });
+
+

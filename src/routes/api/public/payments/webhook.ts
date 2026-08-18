@@ -22,6 +22,20 @@ function isRestockPrice(priceId: string | null): boolean {
   return Boolean(priceId && priceId.startsWith('restock_'));
 }
 
+/**
+ * Catalog lookup key for a renewal invoice line. Falls back to the stored
+ * subscription price id only when that is itself a catalog key; Stripe price
+ * ids are never used as SKUs.
+ */
+function renewalLookupKey(line: any, subPriceId: string | null): string | null {
+  const fromLine = line?.price?.lookup_key || line?.pricing?.price_details?.price || null;
+  const candidate = typeof fromLine === 'string' && /^[a-z0-9_]+$/.test(fromLine) ? fromLine : null;
+  const key = candidate ?? subPriceId ?? null;
+  return key && /^[a-z0-9_]+$/.test(key) ? key : null;
+}
+
+
+
 // ---------------------------------------------------------------- subscriptions
 
 async function upsertSubscription(sub: any, env: StripeEnv) {
@@ -375,7 +389,11 @@ async function handleInvoicePaid(invoice: any, env: StripeEnv) {
           name: l.description ?? 'Restock delivery',
           quantity: l.quantity ?? 1,
           amountCents: l.amount ?? 0,
+          // Only a real catalog lookup key is stored — never Stripe's price id,
+          // so renewal stock decrements can never map to the wrong SKU.
+          lookupKey: renewalLookupKey(l, sub.price_id),
         })),
+
       },
       { onConflict: 'stripe_invoice_id' },
     )
@@ -387,7 +405,22 @@ async function handleInvoicePaid(invoice: any, env: StripeEnv) {
     return;
   }
 
+  // Recurring physical shipment: decrement the component SKU exactly once per
+  // paid invoice. Idempotent — the order is upserted on stripe_invoice_id and
+  // the movement is keyed on sale:<orderId>:<sku>.
+  {
+    const { recordOrderStockSale } = await import('@/lib/inventory.server');
+    await recordOrderStockSale(
+      order.id,
+      (invoice.lines?.data ?? []).map((l: any) => ({
+        lookupKey: renewalLookupKey(l, sub.price_id),
+        quantity: l.quantity ?? 1,
+      })),
+    );
+  }
+
   await awardPoints(userId, order.id, pointsEarned, 0, { tier, multiplier, renewal: true });
+
   logCommerce('webhook', 'renewal.order_recorded', {
     invoiceId: invoice.id,
     orderId: order.id,

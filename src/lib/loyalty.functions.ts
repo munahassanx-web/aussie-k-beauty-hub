@@ -273,6 +273,11 @@ export const createProductCheckout = createServerFn({ method: 'POST' })
       const isRecurring = price.type === 'recurring';
       const quantity = data.quantity ?? 1;
 
+      // Component-level stock guard (bundles expand to their physical SKUs).
+      const { assertLinesInStock } = await import('@/lib/inventory.server');
+      await assertLinesInStock([{ priceId: data.priceId, quantity }]);
+
+
       const customerId = await resolveOrCreateCustomer(stripe, userId, email);
 
       // Points redemption applied via a one-off Stripe coupon
