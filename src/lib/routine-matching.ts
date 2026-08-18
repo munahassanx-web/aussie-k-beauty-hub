@@ -228,16 +228,25 @@ function whenFor(slug: string, fallback: string): string {
 
 function toItem(s: Scored, step: string, use: RoutineUse, fallbackWhen: string, a: QuizAnswers): RoutineItem {
   const slug = productSlug(s.product);
+  // Anything with a named acid or retinal is placed in the evening only, and
+  // introduced gradually — the conservative default when the brand's own page
+  // doesn't state a frequency.
+  const active = activeOf(s.product);
+  const finalUse: RoutineUse = active ? 'pm' : use;
+  const fallback = active
+    ? 'Evenings only — start two or three nights a week and build up'
+    : fallbackWhen;
   return {
     product: s.product,
     slug,
     step,
-    use,
-    when: whenFor(slug, fallbackWhen),
+    use: finalUse,
+    when: whenFor(slug, fallback),
     why: why(step, a, s.reasons),
     hasBrandDirections: Boolean(applicationForSlug(slug)),
   };
 }
+
 
 /**
  * Build the recommended routine. Steps are emitted in usage order and only
