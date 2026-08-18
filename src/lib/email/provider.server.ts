@@ -1,13 +1,12 @@
 /**
  * Transactional email provider seam — server only.
  *
- * Skin Grocer has NO transactional email provider connected today. Stripe sends
- * its own payment receipt (if receipts are enabled in the Stripe dashboard);
- * Supabase Auth sends password/auth emails. Everything else — order
- * confirmation and dispatch notification — is prepared here but is NOT sent
- * until an approved provider is configured.
+ * Active provider: Lovable managed email, sending from the delegated sender
+ * subdomain notify.skingrocer.com.au. Stripe still sends its own payment
+ * receipt (if enabled in Stripe) and Supabase Auth still handles auth emails —
+ * those paths are untouched.
  *
- * Rules for any future adapter:
+ * Rules for any adapter:
  *  - server-only (`.server.ts`), credentials read from process.env inside the
  *    call, never shipped to the browser
  *  - `isConfigured()` must be false unless real credentials exist; the app then
@@ -15,6 +14,7 @@
  *  - failures return `{ ok: false, error }` — never throw into fulfilment
  *  - the recipient is always resolved from the stored order, never from client input
  */
+
 
 export type EmailMessage = {
   to: string;
