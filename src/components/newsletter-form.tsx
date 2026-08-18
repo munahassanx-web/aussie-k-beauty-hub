@@ -127,7 +127,7 @@ export function NewsletterForm({
         By joining, you agree to receive SkinGrocer emails. Unsubscribe anytime.{" "}
         <Link
           to="/privacy-policy"
-          className={`ml-1 inline-flex items-center gap-0.5 underline-offset-4 transition hover:underline ${
+          className={`ml-1 inline-flex items-center gap-0.5 underline underline-offset-4 transition ${
             dark ? "text-paper/80" : "text-ink/80"
           }`}
         >
