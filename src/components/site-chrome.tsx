@@ -493,7 +493,7 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-12">
         <div className="md:col-span-4">
           <BrandWordmark as="p" size="xl" className="text-paper" />
-          <BrandLine className="mt-4 text-paper/70" />
+          <BrandLine className="mt-4 text-rose-gold" />
           <p className="mt-5 max-w-sm text-sm text-paper/65">
 
             Melbourne-based curators of authentic K-beauty and premium imports.
