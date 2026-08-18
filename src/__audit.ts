@@ -1,2 +1,4 @@
 import { auditComposites } from '@/lib/inventory-mapping';
-console.log(JSON.stringify(auditComposites().filter(r=>r.type!=='membership'), null, 1));
+const rows = auditComposites();
+console.log(rows.filter(r=>r.status==='unmapped'));
+console.log('total', rows.length, 'mapped', rows.filter(r=>r.status==='mapped').length);
