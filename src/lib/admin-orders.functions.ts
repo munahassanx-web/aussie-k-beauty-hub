@@ -223,7 +223,20 @@ export const getAdminOrder = createServerFn({ method: 'POST' })
     };
   });
 
-/** Fulfilment-only write: stage, carrier, tracking and internal notes. */
+/**
+ * Reports whether an automated label provider is actually connected.
+ * Today this is always false — the UI uses it to show the honest manual
+ * workflow instead of a dead "buy label" button.
+ */
+export const getShippingCapability = createServerFn({ method: 'GET' }).handler(async () => {
+  const { PROVIDERS, hasAutomatedProvider } = await import('@/lib/shipping/provider.server');
+  return {
+    automated: hasAutomatedProvider(),
+    providers: PROVIDERS.map((p) => ({ id: p.id, label: p.label, configured: p.isConfigured() })),
+  };
+});
+
+/** Fulfilment-only write: stage, carrier/service, shipment + label fields, notes. */
 export const updateOrderFulfilment = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: {
@@ -231,6 +244,11 @@ export const updateOrderFulfilment = createServerFn({ method: 'POST' })
     fulfillmentStatus?: string;
     trackingNumber?: string | null;
     shippingCarrier?: string | null;
+    shippingService?: string | null;
+    shipmentId?: string | null;
+    labelReference?: string | null;
+    labelUrl?: string | null;
+    shippingCostActualCents?: number | null;
     opsNotes?: string | null;
   }) => {
     if (!input?.id) throw new Error('Missing order id');
@@ -238,6 +256,16 @@ export const updateOrderFulfilment = createServerFn({ method: 'POST' })
       throw new Error('Unknown fulfilment status');
     }
     if (input.trackingNumber && input.trackingNumber.trim().length > 80) throw new Error('Tracking number too long');
+    if (input.shipmentId && input.shipmentId.trim().length > 120) throw new Error('Shipment ID too long');
+    if (input.labelUrl && !/^https:\/\//i.test(input.labelUrl.trim()) && input.labelUrl.trim() !== '') {
+      throw new Error('Label URL must be an https link');
+    }
+    if (
+      input.shippingCostActualCents != null &&
+      (!Number.isFinite(input.shippingCostActualCents) || input.shippingCostActualCents < 0)
+    ) {
+      throw new Error('Label cost must be a positive amount');
+    }
     if (input.opsNotes && input.opsNotes.length > 2000) throw new Error('Note too long');
     return input;
   })
@@ -250,10 +278,26 @@ export const updateOrderFulfilment = createServerFn({ method: 'POST' })
       fulfillment_updated_at: now,
       fulfillment_updated_by: context.userId,
     };
+    if (data.shippingService !== undefined) patch['shipping_service'] = data.shippingService?.trim() || null;
+    if (data.shipmentId !== undefined) patch['shipment_id'] = data.shipmentId?.trim() || null;
+    if (data.labelReference !== undefined) patch['label_reference'] = data.labelReference?.trim() || null;
+    if (data.labelUrl !== undefined) {
+      const url = data.labelUrl?.trim() || null;
+      patch['label_url'] = url;
+      // Manual workflow: a pasted label link is proof the label exists.
+      patch['label_status'] = url ? 'ready' : 'none';
+    }
+    if (data.shippingCostActualCents !== undefined) {
+      patch['shipping_cost_actual_cents'] =
+        data.shippingCostActualCents == null ? null : Math.round(data.shippingCostActualCents);
+    }
     if (data.fulfillmentStatus) {
       patch['fulfillment_status'] = data.fulfillmentStatus;
       if (data.fulfillmentStatus === 'packed') patch['packed_at'] = now;
-      if (data.fulfillmentStatus === 'shipped') patch['shipped_at'] = now;
+      if (data.fulfillmentStatus === 'shipped') {
+        patch['shipped_at'] = now;
+        patch['dispatched_at'] = now;
+      }
     }
     if (data.trackingNumber !== undefined) patch['tracking_number'] = data.trackingNumber?.trim() || null;
     if (data.shippingCarrier !== undefined) patch['shipping_carrier'] = data.shippingCarrier?.trim() || null;
