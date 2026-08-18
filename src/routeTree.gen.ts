@@ -18,6 +18,7 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ClubRouteImport } from './routes/club'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as EmailPreviewRouteImport } from './routes/email-preview'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
@@ -102,6 +103,11 @@ const ConsultationRoute = ConsultationRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmailPreviewRoute = EmailPreviewRouteImport.update({
+  id: '/email-preview',
+  path: '/email-preview',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -317,6 +323,7 @@ export interface FileRoutesByFullPath {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
+  '/email-preview': typeof EmailPreviewRoute
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -368,6 +375,7 @@ export interface FileRoutesByTo {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
+  '/email-preview': typeof EmailPreviewRoute
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -420,6 +428,7 @@ export interface FileRoutesById {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
+  '/email-preview': typeof EmailPreviewRoute
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -473,6 +482,7 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
+    | '/email-preview'
     | '/faq'
     | '/journey'
     | '/privacy-policy'
@@ -524,6 +534,7 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
+    | '/email-preview'
     | '/faq'
     | '/journey'
     | '/privacy-policy'
@@ -575,6 +586,7 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
+    | '/email-preview'
     | '/faq'
     | '/journey'
     | '/privacy-policy'
@@ -627,6 +639,7 @@ export interface RootRouteChildren {
   ClubRoute: typeof ClubRoute
   ConsultationRoute: typeof ConsultationRoute
   ContactRoute: typeof ContactRoute
+  EmailPreviewRoute: typeof EmailPreviewRoute
   FaqRoute: typeof FaqRoute
   JourneyRoute: typeof JourneyRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
@@ -730,6 +743,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/email-preview': {
+      id: '/email-preview'
+      path: '/email-preview'
+      fullPath: '/email-preview'
+      preLoaderRoute: typeof EmailPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -1049,6 +1069,7 @@ const rootRouteChildren: RootRouteChildren = {
   ClubRoute: ClubRoute,
   ConsultationRoute: ConsultationRoute,
   ContactRoute: ContactRoute,
+  EmailPreviewRoute: EmailPreviewRoute,
   FaqRoute: FaqRoute,
   JourneyRoute: JourneyRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
