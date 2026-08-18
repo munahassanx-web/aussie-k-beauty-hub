@@ -102,7 +102,28 @@ export type GuideContent = {
   proTip?: string;
 };
 
+/**
+ * Strict stored-row match. Legacy Supabase `products` rows may describe SKUs we
+ * no longer stock, so fuzzy matching must never enrich a current product.
+ * Both directions must agree on every meaningful token.
+ */
+export function strictStoredMatch(
+  product: ShopProduct,
+  guides: ProductGuide[],
+): ProductGuide | null {
+  const mine = new Set(normalise(`${product.brand} ${product.name}`));
+  for (const guide of guides) {
+    const theirs = new Set(normalise(`${guide.brand} ${guide.name}`));
+    if (mine.size !== theirs.size) continue;
+    let same = true;
+    for (const token of mine) if (!theirs.has(token)) same = false;
+    if (same) return guide;
+  }
+  return null;
+}
+
 export function buildGuide(product: ShopProduct, stored?: ProductGuide | null): GuideContent {
+  const verified = applicationForSlug(productSlug(product));
   return {
     product,
     slug: productSlug(product),
@@ -110,11 +131,12 @@ export function buildGuide(product: ShopProduct, stored?: ProductGuide | null): 
     routineStep: routineStepLabel(product),
     steps: howToUse(product),
     stepsAreProductSpecific: hasProductSpecificHowTo(product),
-    amountToUse: stored?.amount_to_use ?? undefined,
-    frequency: stored?.frequency ?? undefined,
-    proTip: stored?.pro_tip ?? undefined,
+    amountToUse: verified?.amount ?? stored?.amount_to_use ?? undefined,
+    frequency: verified?.frequency ?? stored?.frequency ?? undefined,
+    proTip: verified?.note ?? stored?.pro_tip ?? undefined,
   };
 }
+
 
 /** Every product that can be linked from a QR code. */
 export function allGuideTargets(): Array<{
