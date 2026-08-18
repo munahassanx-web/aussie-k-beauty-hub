@@ -23,7 +23,7 @@ def stripe(width: int, height: int, band: int, path: str) -> None:
     d = ImageDraw.Draw(img)
 
     b = band * SS               # cream band width (perpendicular-ish)
-    period = b * 3              # navy gap is twice the cream band
+    period = b * 5              # generous navy field between cream bands
     keyline = max(1, int(0.9 * SS))
 
     # 45-degree diagonals drawn as thick lines well beyond the canvas.
