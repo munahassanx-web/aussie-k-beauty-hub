@@ -257,6 +257,13 @@ export function interpretQuery(query: string): QueryIntent {
   const concerns = new Set<Concern>();
   const categories = new Set<Category>();
   const matchedTerms: string[] = [];
+  /**
+   * Words the customer used as *описание* of their skin rather than as part of
+   * a product title. They still drive concern/category ranking, but they must
+   * not be fuzzy-matched against product names — otherwise "dark marks"
+   * fuzzy-hits "mask" and surfaces sheet masks above pigmentation products.
+   */
+  const vocabularyWords = new Set<string>();
 
   for (const [term, target] of Object.entries(SEARCH_SYNONYMS)) {
     const hit = term.includes(' ')
@@ -264,6 +271,7 @@ export function interpretQuery(query: string): QueryIntent {
       : tokens.some((t) => t === term || fuzzyHit(t, [term]));
     if (!hit) continue;
     matchedTerms.push(term);
+    term.split(' ').forEach((w) => vocabularyWords.add(w));
     target.concerns?.forEach((c) => concerns.add(c));
     target.categories?.forEach((c) => categories.add(c));
   }
@@ -272,11 +280,13 @@ export function interpretQuery(query: string): QueryIntent {
     raw: query,
     normalised,
     tokens,
+    vocabularyWords,
     concerns: [...concerns],
     categories: [...categories],
     matchedTerms,
   };
 }
+
 
 // ---------------------------------------------------------------------------
 // Scoring
