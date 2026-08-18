@@ -1,3 +1,4 @@
+import { isPlausibleTracking } from '@/lib/shipping/carriers';
 import { createServerFn } from '@tanstack/react-start';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
 
@@ -311,6 +312,18 @@ export const updateOrderFulfilment = createServerFn({ method: 'POST' })
     // connected it records `not_configured`, never a false "sent".
     let notification: { status: string; reason?: string } | null = null;
     if (data.fulfillmentStatus === 'shipped') {
+      // Server-side guard: a dispatch email is only worth sending when the
+      // stored carrier + tracking are genuinely present and plausible.
+      const { data: shipRow } = await supabase
+        .from('orders')
+        .select('tracking_number, shipping_carrier')
+        .eq('id', data.id)
+        .maybeSingle();
+      const carrier = (shipRow?.shipping_carrier as string | null) ?? null;
+      const tracking = (shipRow?.tracking_number as string | null) ?? null;
+      if (!isPlausibleTracking(carrier, tracking)) {
+        return { ok: true, notification: { status: 'skipped', reason: 'missing_tracking' } };
+      }
       try {
         const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
         const { dispatchOrderNotification } = await import('@/lib/email/notifications.server');
