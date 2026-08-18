@@ -281,37 +281,53 @@ function shell(title: string, preheader: string, hero: string, body: string): st
 /* -------------------------------------------------------------- pieces -- */
 
 /**
- * Small rectangular selection label — a provenance ticket, not a second logo.
- * Carries only factual data: the brand, the route, and this order's reference.
+ * Importer's ticket: a horizontal grocer/consignment label. Deliberately small
+ * and typographic so it supports the stripe rather than competing with it.
+ * Carries only factual data: the route, the selection, the order reference.
  */
 function selectionLabel(ref: string): string {
-  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border:1px solid ${RULE};border-top:2px solid ${GOLD};">
-    <tr><td style="padding:14px 18px 15px;">
-      <p style="margin:0 0 7px;font-family:${SANS};font-size:9px;line-height:1.3;letter-spacing:.26em;text-transform:uppercase;color:${INK};">Skin Grocer</p>
-      <p style="margin:0 0 7px;font-family:${SANS};font-size:9px;line-height:1.3;letter-spacing:.26em;text-transform:uppercase;color:${GOLD_DEEP};">Seoul → Australia</p>
-      <p style="margin:0 0 7px;font-family:${SANS};font-size:9px;line-height:1.3;letter-spacing:.26em;text-transform:uppercase;color:${MUTED};">Selected for you</p>
-      <p style="margin:0;font-family:${SANS};font-size:10px;line-height:1.3;letter-spacing:.14em;text-transform:uppercase;color:${INK};">Order ${esc(
-        ref,
+  const cell = (t: string, v: string, color: string, last = false) =>
+    `<td valign="middle" style="padding:11px 16px;${last ? '' : `border-right:1px solid ${RULE};`}">
+      <p style="margin:0 0 5px;font-family:${SANS};font-size:8px;line-height:1.3;letter-spacing:.26em;text-transform:uppercase;color:${MUTED};">${esc(
+        t,
       )}</p>
-    </td></tr>
+      <p style="margin:0;font-family:${SANS};font-size:10px;line-height:1.3;letter-spacing:.20em;text-transform:uppercase;color:${color};">${esc(
+        v,
+      )}</p>
+    </td>`;
+  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border:1px solid ${RULE};border-left:4px solid ${GOLD};">
+    <tr>
+      ${cell('Selected for you', 'Skin Grocer', INK)}
+      ${cell('Route', 'Seoul → Australia', GOLD_DEEP)}
+      ${cell('Consignment', ref, INK, true)}
+    </tr>
   </table>`;
 }
 
-/** Editorial hero: greeting, the brand order line, factual standfirst. */
-function heroSection(headline: string, subhead: string, standfirst: string, ref: string): string {
+/**
+ * The order statement, set on the navy field with the vertical Grocer Stripe
+ * entering from the left edge — the signature participates in the message.
+ */
+function heroStatement(headline: string, subhead: string): string {
+  return stripeStatement(
+    `<h1 class="sg-display" style="margin:0;font-family:${SERIF};font-size:34px;line-height:1.18;letter-spacing:-0.01em;font-weight:normal;color:${CREAM};">${esc(
+      headline,
+    )}</h1>
+     <p class="sg-display" style="margin:8px 0 0;font-family:${SERIF};font-size:34px;line-height:1.18;letter-spacing:-0.01em;color:${GOLD};">${esc(
+       subhead,
+     )}</p>`,
+  );
+}
+
+/** White-field opener beneath the statement: provenance label, then the facts. */
+function heroIntro(standfirst: string, ref: string): string {
   return `${gap(40)}
   ${selectionLabel(ref)}
   ${gap(26)}
-  <h1 class="sg-display" style="margin:0;font-family:${SERIF};font-size:36px;line-height:1.16;letter-spacing:-0.015em;font-weight:normal;color:${INK};">${esc(
-    headline,
-  )}</h1>
-  <p class="sg-display" style="margin:6px 0 0;font-family:${SERIF};font-size:36px;line-height:1.16;letter-spacing:-0.015em;color:${GOLD_DEEP};">${esc(
-    subhead,
-  )}</p>
-  <div style="height:20px;line-height:20px;font-size:0;">&nbsp;</div>
   <p style="margin:0;font-family:${SANS};font-size:16px;line-height:1.8;color:${MUTED};">${standfirst}</p>
   ${gap(38)}`;
 }
+
 
 /** Order reference / date / status strip on a cream field. */
 function metaStrip(o: OrderEmailData, status: string): string {
