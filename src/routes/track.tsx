@@ -1,3 +1,4 @@
+import { trackingLink, trackingLinkLabel } from '@/lib/shipping/carriers';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useState, type FormEvent } from 'react';
 import { trackOrder, type TrackedOrder } from '@/lib/commerce.functions';
@@ -136,9 +137,22 @@ function TrackOrderPage() {
           </ol>
 
           {order.trackingNumber && (
-            <p className="rounded-xl bg-secondary p-3 text-sm text-foreground">
-              Tracking number: <span className="font-mono">{order.trackingNumber}</span>
-            </p>
+            <div className="rounded-xl bg-secondary p-3 text-sm text-foreground">
+              <p>
+                Tracking number: <span className="font-mono">{order.trackingNumber}</span>
+                {order.shippingCarrier ? ` · ${order.shippingCarrier}` : ''}
+              </p>
+              {trackingLink(order.shippingCarrier, order.trackingNumber) && (
+                <a
+                  href={trackingLink(order.shippingCarrier, order.trackingNumber)!}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="mt-2 inline-flex min-h-11 items-center text-[11px] font-semibold uppercase tracking-[0.18em] text-primary underline-offset-4 hover:underline"
+                >
+                  {trackingLinkLabel(order.shippingCarrier)}
+                </a>
+              )}
+            </div>
           )}
 
           <div className="border-t border-border pt-4">
