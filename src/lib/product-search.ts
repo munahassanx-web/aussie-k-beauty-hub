@@ -245,6 +245,8 @@ export type QueryIntent = {
   raw: string;
   normalised: string;
   tokens: string[];
+  /** Tokens that matched the synonym vocabulary (skin language, not titles). */
+  vocabularyWords: Set<string>;
   concerns: Concern[];
   categories: Category[];
   /** Synonym phrases that actually matched, for "why this matched" context. */
@@ -258,7 +260,7 @@ export function interpretQuery(query: string): QueryIntent {
   const categories = new Set<Category>();
   const matchedTerms: string[] = [];
   /**
-   * Words the customer used as *описание* of their skin rather than as part of
+   * Words the customer used as a description of their skin rather than as part of
    * a product title. They still drive concern/category ranking, but they must
    * not be fuzzy-matched against product names — otherwise "dark marks"
    * fuzzy-hits "mask" and surfaces sheet masks above pigmentation products.
@@ -364,7 +366,7 @@ export function searchCatalog(query: string, limit?: number): SearchResult[] {
       } else if (entry.brand.includes(token)) {
         score += 22;
         tokenHits += 1;
-      } else if (fuzzyHit(token, entry.words)) {
+      } else if (!intent.vocabularyWords.has(token) && fuzzyHit(token, entry.words)) {
         score += 14;
         tokenHits += 1;
       }
