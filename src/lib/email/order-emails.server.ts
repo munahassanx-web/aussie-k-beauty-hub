@@ -235,14 +235,16 @@ function shell(title: string, preheader: string, hero: string, body: string): st
     <tr><td align="center" style="padding:32px 12px 44px;">
       <table role="presentation" width="620" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:620px;">
 
-        <!-- signature ribbon: the stripe leads the brand, at full strength -->
+        <!-- one composed opening: gold cap → stripe field → navy masthead → gold rule -->
         <tr><td>${grocerStripe('signature')}</td></tr>
 
-        <!-- masthead: same navy field, composed as one opening with the ribbon -->
-        <tr><td bgcolor="${NAVY}" align="center" class="sg-pad" style="background-color:${NAVY};padding:42px 40px 38px;">
+        <!-- masthead: same navy field, continuous with the stripe above it -->
+        <tr><td bgcolor="${NAVY}" align="center" class="sg-pad" style="background-color:${NAVY};padding:36px 40px 34px;">
           <p class="sg-wordmark" style="margin:0;font-family:${SERIF};font-size:38px;line-height:1.05;letter-spacing:.20em;text-transform:uppercase;color:${CREAM};font-weight:normal;">Skin&nbsp;Grocer</p>
           <p style="margin:16px 0 0;font-family:${SANS};font-size:10px;line-height:1.4;letter-spacing:.30em;text-transform:uppercase;color:${GOLD};">Seoul Sourced. Skin Assured.</p>
         </td></tr>
+        <tr><td bgcolor="${GOLD}" style="height:4px;line-height:4px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>
+
 
         <!-- the stripe's second moment: vertical crop beside the order statement -->
         <tr><td>${hero}</td></tr>
