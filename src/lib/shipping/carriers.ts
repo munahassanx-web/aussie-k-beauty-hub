@@ -41,3 +41,24 @@ export function trackingLink(carrierLabel: string | null | undefined, tracking: 
   if (!carrier?.trackingUrl || !tracking) return null;
   return carrier.trackingUrl(tracking.trim());
 }
+
+/** Australia Post is Skin Grocer's default carrier — staff can still change it. */
+export const DEFAULT_CARRIER_LABEL = 'Australia Post';
+
+/**
+ * Shape check only. A tracking number is either something the carrier issued or
+ * it is nothing — we never generate one, and we never claim a status from it.
+ * AusPost consignment/article IDs are alphanumeric, typically 10–30 characters.
+ */
+export function isPlausibleTracking(carrierLabel: string | null | undefined, tracking: string | null | undefined) {
+  const t = (tracking ?? '').trim();
+  if (t.length === 0) return false;
+  if (findCarrier(carrierLabel)?.id === 'auspost') return /^[A-Za-z0-9]{8,40}$/.test(t);
+  return t.length >= 4;
+}
+
+/** Customer-facing label for the outbound tracking link, e.g. "Track with Australia Post". */
+export function trackingLinkLabel(carrierLabel: string | null | undefined) {
+  const carrier = findCarrier(carrierLabel);
+  return carrier ? `Track with ${carrier.label}` : 'Track this parcel';
+}
