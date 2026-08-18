@@ -281,27 +281,35 @@ function Contact() {
         </div>
       </section>
 
-      {mapsKey && (
-        <section className="mt-16">
-          <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Find us</h2>
-          <div className="mt-4 overflow-hidden rounded-3xl border border-border bg-secondary/30">
-            <iframe
-              title="Skin Grocer warehouse location"
-              src={`https://www.google.com/maps/embed/v1/place?key=${mapsKey}&q=${encodeURIComponent(warehouseQuery)}`}
-              width="100%"
-              height="420"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="w-full"
-            />
-          </div>
-          <p className="mt-3 text-sm text-muted-foreground">
-            Unit 13/30 Willandra Drive, Epping VIC 3076 — locally stocked and dispatched from Melbourne.
-          </p>
-        </section>
-      )}
+      <section className="mt-16">
+        <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Find us</h2>
+        <div className="mt-4 overflow-hidden rounded-3xl border border-border bg-secondary/30">
+          {/* Keyless Google Maps embed — no API key or billing dependency. */}
+          <iframe
+            title="Skin Grocer warehouse location"
+            src={`https://www.google.com/maps?q=${encodeURIComponent(warehouseQuery)}&output=embed`}
+            width="100%"
+            height="420"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="w-full"
+          />
+        </div>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Unit 13/30 Willandra Drive, Epping VIC 3076 — locally stocked and dispatched from Melbourne.{' '}
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(warehouseQuery)}`}
+            target="_blank"
+            rel="noreferrer"
+            className="underline underline-offset-4 hover:text-foreground"
+          >
+            Open in Google Maps
+          </a>
+          .
+        </p>
+      </section>
     </div>
   );
 }
