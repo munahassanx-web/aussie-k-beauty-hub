@@ -266,11 +266,45 @@ export const listSoldOutSkus = createServerFn({ method: 'GET' }).handler(async (
   return [...new Set([...skus, ...compositesBlockedBy(skus)])];
 });
 
+export type CompositeAuditResult = {
+  composites: CompositeAudit[];
+  /** Paid orders holding a line we could not map to a physical SKU. Fulfilment is never blocked. */
+  orderAttention: Array<{ orderId: string; createdAt: string; priceId: string; name: string; quantity: number }>;
+};
+
 /** Composite mapping audit for the warehouse board. Staff only. */
 export const listCompositeAudit = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }): Promise<CompositeAudit[]> => {
+  .handler(async ({ context }): Promise<CompositeAuditResult> => {
     await assertStaff(context);
-    return auditComposites();
+    const composites = auditComposites();
+
+    const { data } = await context.supabase
+      .from('orders')
+      .select('id, created_at, line_items, fulfillment_status')
+      .eq('status', 'paid')
+      .order('created_at', { ascending: false })
+      .limit(200);
+
+    const orderAttention: CompositeAuditResult['orderAttention'] = [];
+    for (const order of (data ?? []) as any[]) {
+      const lines: any[] = Array.isArray(order.line_items) ? order.line_items : [];
+      for (const line of lines) {
+        const priceId = line?.lookupKey ?? '';
+        if (!priceId) continue;
+        const res = resolveSellable(priceId);
+        if (res.kind === 'unmapped') {
+          orderAttention.push({
+            orderId: order.id,
+            createdAt: order.created_at,
+            priceId,
+            name: line?.name ?? priceId,
+            quantity: Number(line?.quantity ?? 1),
+          });
+        }
+      }
+    }
+    return { composites, orderAttention };
   });
+
 
