@@ -163,7 +163,7 @@ function stripeStatement(inner: string): string {
       <td class="sg-col sg-stack-hide" width="150" valign="top" bgcolor="${NAVY}" style="width:150px;background-color:${NAVY};font-size:0;line-height:0;">
         <img src="${STRIPE_COLUMN}" width="150" height="360" alt="" style="display:block;width:150px;height:360px;border:0;" />
       </td>
-      <td class="sg-stack" valign="middle" bgcolor="${NAVY}" style="background-color:${NAVY};padding:44px 40px;">${inner}</td>
+      <td class="sg-statement" valign="middle" bgcolor="${NAVY}" style="background-color:${NAVY};padding:44px 40px;">${inner}</td>
     </tr>
     <tr><td colspan="2" class="sg-show-mobile-cell" style="display:none;font-size:0;line-height:0;mso-hide:all;">
       <img src="${STRIPE_MOBILE}" width="390" height="56" alt="" style="display:block;width:100%;height:auto;border:0;" />
