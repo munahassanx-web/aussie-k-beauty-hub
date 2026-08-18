@@ -1,19 +1,20 @@
 /**
- * Skin Grocer transactional email design system — V4, server only.
+ * Skin Grocer transactional email design system — V5, server only.
  *
- * Signature device: THE GROCER STRIPE — a refined diagonal navy + warm cream
- * stripe carrying a very thin muted champagne keyline, used once as the top
- * signature edge and once as a quiet echo above the footer. It evokes premium
- * grocer/importer packaging without ever becoming decorative noise.
+ * Signature device: THE GROCER STRIPE, treated as a PRIMARY brand asset.
+ * Broad 60° navy bands, wide warm-cream negative space, and a genuinely
+ * visible champagne-gold companion band riding every cream band (~12% of the
+ * field). It appears three times, deliberately: a 64px signature ribbon above
+ * the masthead, a vertical editorial crop beside the order statement, and a
+ * bold 44px repeat before the footer. Nowhere else — recognition, not clutter.
  *
- * The stripe is a hosted PNG (public/email/sg-grocer-stripe.png) painted as a
- * table-cell background over a solid navy cell with a champagne keyline rule.
- * If the image cannot be fetched, the band still reads as an intentional navy
- * bar with a gold keyline — the email never looks broken.
+ * Artwork is purpose-built PNG at true rendered scale (public/email/sg-stripe-*).
+ * Every stripe sits on a solid navy cell closed by a 3px champagne rule, so
+ * with images blocked the band still reads as an intentional navy + gold
+ * brand bar rather than a broken image.
  *
- * The V3 wax/produce seal is retired. There is no monogram: the original
- * interlocked SG artwork is not present in this repository, so a typographic
- * SELECTED FOR YOU label is used instead of inventing a substitute mark.
+ * There is no monogram and no seal: the original interlocked SG artwork is not
+ * present in this repository, so nothing is invented in its place.
  *
  * Every value rendered here comes from a stored order row, or from the static
  * catalog looked up by the line's Stripe `lookupKey`. Nothing is estimated,
@@ -30,8 +31,8 @@ export const SUPPORT_EMAIL = 'hello@skingrocer.com.au';
 /* Brand palette — approved values only. */
 const NAVY = '#0D1B2A';
 const CREAM = '#F7F4EE';
-const GOLD = '#C8B28A'; // muted pale champagne — restrained accent only
-const GOLD_DEEP = '#8A7346'; // accessible champagne for text on cream
+const GOLD = '#C6A15B'; // champagne — now a structural stripe colour, not a hairline
+const GOLD_DEEP = '#8A6D2E'; // accessible champagne for text on cream/white
 const INK = '#16202B';
 const MUTED = '#6E6A63';
 const RULE = '#E3DDD2';
@@ -42,8 +43,11 @@ const SERIF = "Georgia, 'Times New Roman', Times, serif";
 const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
 /* The Grocer Stripe, served from stable public paths. */
-const STRIPE = `${SITE_URL}/email/sg-grocer-stripe.png`;
-const STRIPE_THIN = `${SITE_URL}/email/sg-grocer-stripe-thin.png`;
+const STRIPE_BAND = `${SITE_URL}/email/sg-stripe-band.png`;
+const STRIPE_FOOT = `${SITE_URL}/email/sg-stripe-foot.png`;
+const STRIPE_COLUMN = `${SITE_URL}/email/sg-stripe-column.png`;
+const STRIPE_MOBILE = `${SITE_URL}/email/sg-stripe-mobile.png`;
+
 
 export type OrderEmailLine = {
   name: string;
