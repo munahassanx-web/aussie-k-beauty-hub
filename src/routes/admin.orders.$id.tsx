@@ -95,8 +95,23 @@ function OrderDetail() {
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ['admin-order', id] });
       void qc.invalidateQueries({ queryKey: ['admin-orders'] });
+      void qc.invalidateQueries({ queryKey: ['admin-order-comms', id] });
     },
   });
+
+  const fetchComms = useServerFn(getOrderComms);
+  const sendNotification = useServerFn(sendOrderNotification);
+  const comms = useQuery({
+    queryKey: ['admin-order-comms', id],
+    queryFn: () => fetchComms({ data: { id } }),
+    enabled: Boolean(user),
+    retry: false,
+  });
+  const resend = useMutation({
+    mutationFn: (kind: 'order_confirmation' | 'dispatch') => sendNotification({ data: { id, kind } }),
+    onSuccess: () => void qc.invalidateQueries({ queryKey: ['admin-order-comms', id] }),
+  });
+  const [copied, setCopied] = useState(false);
 
   if (loading || q.isLoading) {
     return <main className="mx-auto max-w-4xl px-6 py-16 text-sm text-muted-foreground">Loading…</main>;
