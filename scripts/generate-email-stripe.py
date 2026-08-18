@@ -41,5 +41,5 @@ def stripe(width: int, height: int, band: int, path: str) -> None:
 
 
 if __name__ == "__main__":
-    stripe(1240, 26, 13, "public/email/sg-grocer-stripe.png")
-    stripe(1240, 10, 6, "public/email/sg-grocer-stripe-thin.png")
+    stripe(1240, 26, 26, "public/email/sg-grocer-stripe.png")
+    stripe(1240, 10, 12, "public/email/sg-grocer-stripe-thin.png")
