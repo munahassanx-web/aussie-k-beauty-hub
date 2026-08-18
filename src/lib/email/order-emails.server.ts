@@ -1,14 +1,19 @@
 /**
- * Skin Grocer transactional email design system — V3, server only.
+ * Skin Grocer transactional email design system — V4, server only.
  *
- * Signature device: THE SKIN GROCER SEAL — an irregular, hand-cut rose-gold
- * roundel (produce sticker / crate stamp / inspection mark) carrying circular
- * wording SEOUL SOURCED · SKIN ASSURED around an SG monogram. It appears once
- * as a hero stamp, once quietly in the footer, and is adapted into a
- * DISPATCHED provenance stamp on the dispatch notice.
+ * Signature device: THE GROCER STRIPE — a refined diagonal navy + warm cream
+ * stripe carrying a very thin muted champagne keyline, used once as the top
+ * signature edge and once as a quiet echo above the footer. It evokes premium
+ * grocer/importer packaging without ever becoming decorative noise.
  *
- * Framing: deep navy masthead and navy closing band, cream editorial paper,
- * white only where product rows need clarity, rose gold reserved for the mark.
+ * The stripe is a hosted PNG (public/email/sg-grocer-stripe.png) painted as a
+ * table-cell background over a solid navy cell with a champagne keyline rule.
+ * If the image cannot be fetched, the band still reads as an intentional navy
+ * bar with a gold keyline — the email never looks broken.
+ *
+ * The V3 wax/produce seal is retired. There is no monogram: the original
+ * interlocked SG artwork is not present in this repository, so a typographic
+ * SELECTED FOR YOU label is used instead of inventing a substitute mark.
  *
  * Every value rendered here comes from a stored order row, or from the static
  * catalog looked up by the line's Stripe `lookupKey`. Nothing is estimated,
@@ -25,20 +30,20 @@ export const SUPPORT_EMAIL = 'hello@skingrocer.com.au';
 /* Brand palette — approved values only. */
 const NAVY = '#0D1B2A';
 const CREAM = '#F7F4EE';
-const ROSE = '#CFA28B';
+const GOLD = '#C8B28A'; // muted pale champagne — restrained accent only
+const GOLD_DEEP = '#8A7346'; // accessible champagne for text on cream
 const INK = '#16202B';
 const MUTED = '#6E6A63';
 const RULE = '#E3DDD2';
 const PAPER = '#FFFFFF';
+const NAVY_MUTED = '#8A94A2';
 
 const SERIF = "Georgia, 'Times New Roman', Times, serif";
 const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-/* The seal, served from stable public paths so email clients can always fetch it. */
-const SEAL_NAVY = `${SITE_URL}/email/sg-seal-navy.png`;
-const SEAL_PAPER = `${SITE_URL}/email/sg-seal-paper.png`;
-const STAMP_DISPATCHED = `${SITE_URL}/email/sg-stamp-dispatched.png`;
-const SEAL_ALT = 'Skin Grocer seal';
+/* The Grocer Stripe, served from stable public paths. */
+const STRIPE = `${SITE_URL}/email/sg-grocer-stripe.png`;
+const STRIPE_THIN = `${SITE_URL}/email/sg-grocer-stripe-thin.png`;
 
 export type OrderEmailLine = {
   name: string;
@@ -109,8 +114,8 @@ function catalogFor(line: OrderEmailLine) {
 
 /* ---------------------------------------------------------------- shell -- */
 
-const label = (t: string) =>
-  `<p style="margin:0 0 10px;font-family:${SANS};font-size:10px;line-height:1.4;letter-spacing:.24em;text-transform:uppercase;color:${MUTED};">${esc(
+const label = (t: string, color = MUTED) =>
+  `<p style="margin:0 0 10px;font-family:${SANS};font-size:10px;line-height:1.4;letter-spacing:.24em;text-transform:uppercase;color:${color};">${esc(
     t,
   )}</p>`;
 
@@ -119,29 +124,39 @@ const gap = (h: number) => `<div style="height:${h}px;line-height:${h}px;font-si
 const hairline = (color = RULE) =>
   `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="height:1px;line-height:1px;font-size:0;background-color:${color};">&nbsp;</td></tr></table>`;
 
+/**
+ * THE GROCER STRIPE.
+ *
+ * A navy cell painted with the diagonal artwork, closed by a 1px champagne
+ * keyline. When the image is blocked or unavailable the cell renders as a
+ * solid navy band with its gold keyline — deliberate, not broken.
+ */
+function grocerStripe(kind: 'signature' | 'echo'): string {
+  const signature = kind === 'signature';
+  const src = signature ? STRIPE : STRIPE_THIN;
+  const h = signature ? 13 : 5;
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr><td background="${src}" bgcolor="${NAVY}" height="${h}" style="height:${h}px;line-height:${h}px;font-size:0;background-color:${NAVY};background-image:url('${src}');background-repeat:repeat-x;background-position:left center;background-size:auto ${h}px;">&nbsp;</td></tr>
+    <tr><td style="height:1px;line-height:1px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>
+  </table>`;
+}
+
 function ctaButton(href: string, text: string): string {
   return `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-    <td bgcolor="${NAVY}" style="background-color:${NAVY};border-radius:2px;">
+    <td bgcolor="${NAVY}" style="background-color:${NAVY};">
       <a href="${href}" style="display:inline-block;padding:18px 36px;font-family:${SANS};font-size:12px;line-height:1;letter-spacing:.22em;text-transform:uppercase;color:${CREAM};text-decoration:none;font-weight:bold;">${esc(
         text,
       )}</a>
     </td></tr></table>`;
 }
 
-/** The seal, sized for its placement. */
-function sealImage(src: string, px: number, alt = SEAL_ALT): string {
-  return `<img src="${src}" width="${px}" height="${px}" alt="${esc(
-    alt,
-  )}" style="display:block;width:${px}px;height:${px}px;border:0;outline:none;" />`;
-}
-
 /**
  * Full document shell.
- *   navy masthead  →  seal band  →  cream/white editorial body  →  navy close
+ *   grocer stripe → navy masthead → cream/white editorial body → stripe echo → navy close
  */
-function shell(title: string, preheader: string, body: string, sealSrc = SEAL_PAPER): string {
+function shell(title: string, preheader: string, body: string): string {
   return `<!doctype html>
-<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml"><head>
+<html lang="en"><head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="x-apple-disable-message-reformatting" />
@@ -159,9 +174,10 @@ function shell(title: string, preheader: string, body: string, sealSrc = SEAL_PA
     .sg-stack { display:block !important; width:100% !important; max-width:100% !important; padding-left:0 !important; padding-right:0 !important; padding-bottom:22px !important; }
     .sg-meta { padding:18px 24px !important; }
     .sg-thumb { width:64px !important; }
-    .sg-wordmark { font-size:30px !important; letter-spacing:.14em !important; }
-    .sg-display { font-size:28px !important; }
-    .sg-seal img { width:76px !important; height:76px !important; }
+    .sg-wordmark { font-size:28px !important; letter-spacing:.14em !important; }
+    .sg-display { font-size:27px !important; }
+    .sg-stage { display:block !important; width:100% !important; border-left:0 !important; border-top:1px solid ${RULE} !important; padding:14px 0 !important; }
+    .sg-stage-first { border-top:0 !important; }
   }
 </style>
 </head>
@@ -173,15 +189,13 @@ function shell(title: string, preheader: string, body: string, sealSrc = SEAL_PA
     <tr><td align="center" style="padding:32px 12px 44px;">
       <table role="presentation" width="620" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:620px;">
 
-        <!-- masthead: the frame. Recognisable with the wordmark covered. -->
-        <tr><td bgcolor="${NAVY}" align="center" class="sg-pad" style="background-color:${NAVY};padding:52px 40px 46px;">
-          <p class="sg-wordmark" style="margin:0;font-family:${SERIF};font-size:40px;line-height:1.05;letter-spacing:.16em;text-transform:uppercase;color:${CREAM};font-weight:normal;">Skin&nbsp;Grocer</p>
-          <p style="margin:18px 0 0;font-family:${SANS};font-size:9px;line-height:1.4;letter-spacing:.30em;text-transform:uppercase;color:#8A94A2;">Seoul Sourced. Skin Assured.</p>
-        </td></tr>
+        <!-- the signature edge -->
+        <tr><td>${grocerStripe('signature')}</td></tr>
 
-        <!-- seal band: the stamp sits on the paper, like a sticker applied by hand -->
-        <tr><td bgcolor="${PAPER}" class="sg-pad sg-seal" style="background-color:${PAPER};padding:30px 48px 0;">
-          ${sealImage(sealSrc, 92)}
+        <!-- masthead -->
+        <tr><td bgcolor="${NAVY}" align="center" class="sg-pad" style="background-color:${NAVY};padding:48px 40px 44px;">
+          <p class="sg-wordmark" style="margin:0;font-family:${SERIF};font-size:38px;line-height:1.05;letter-spacing:.20em;text-transform:uppercase;color:${CREAM};font-weight:normal;">Skin&nbsp;Grocer</p>
+          <p style="margin:18px 0 0;font-family:${SANS};font-size:9px;line-height:1.4;letter-spacing:.30em;text-transform:uppercase;color:${GOLD};">Seoul Sourced. Skin Assured.</p>
         </td></tr>
 
         <!-- content -->
@@ -202,12 +216,13 @@ function shell(title: string, preheader: string, body: string, sealSrc = SEAL_PA
           </p>
         </td></tr>
 
-        <!-- navy close: the bottom half of the frame, with a quiet echo of the seal -->
-        <tr><td bgcolor="${NAVY}" align="center" class="sg-pad" style="background-color:${NAVY};padding:36px 40px 34px;">
-          <table role="presentation" align="center" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 18px;"><tr><td>
-            <img src="${SEAL_NAVY}" width="44" height="44" alt="" style="display:block;width:44px;height:44px;border:0;outline:none;" />
-          </td></tr></table>
-          <p style="margin:0;font-family:${SANS};font-size:11px;line-height:1.75;color:#8A94A2;">Skin Grocer · Dispatched from Melbourne, Australia</p>
+        <!-- quiet stripe echo -->
+        <tr><td>${grocerStripe('echo')}</td></tr>
+
+        <!-- navy close -->
+        <tr><td bgcolor="${NAVY}" align="center" class="sg-pad" style="background-color:${NAVY};padding:34px 40px 32px;">
+          <p style="margin:0 0 14px;font-family:${SANS};font-size:9px;line-height:1.9;letter-spacing:.24em;text-transform:uppercase;color:${GOLD};">Curated K-Beauty · Seoul → Australia · Selected For You</p>
+          <p style="margin:0;font-family:${SANS};font-size:11px;line-height:1.75;color:${NAVY_MUTED};">Skin Grocer · Dispatched from Melbourne, Australia</p>
           <p style="margin:6px 0 0;font-family:${SANS};font-size:11px;line-height:1.75;color:#6C7686;">You are receiving this message because you placed an order with Skin Grocer.</p>
         </td></tr>
 
@@ -219,27 +234,34 @@ function shell(title: string, preheader: string, body: string, sealSrc = SEAL_PA
 
 /* -------------------------------------------------------------- pieces -- */
 
-/** Small stamp-like brand thought above the headline. */
-function stampLine(text: string): string {
-  return `<p style="margin:0 0 14px;font-family:${SERIF};font-size:13px;line-height:1.4;letter-spacing:.06em;color:${ROSE};font-style:italic;">${esc(
-    text,
-  )}</p>`;
+/**
+ * Small rectangular selection label — a provenance ticket, not a second logo.
+ * Carries only factual data: the brand, the route, and this order's reference.
+ */
+function selectionLabel(ref: string): string {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border:1px solid ${RULE};border-top:2px solid ${GOLD};">
+    <tr><td style="padding:14px 18px 15px;">
+      <p style="margin:0 0 7px;font-family:${SANS};font-size:9px;line-height:1.3;letter-spacing:.26em;text-transform:uppercase;color:${INK};">Skin Grocer</p>
+      <p style="margin:0 0 7px;font-family:${SANS};font-size:9px;line-height:1.3;letter-spacing:.26em;text-transform:uppercase;color:${GOLD_DEEP};">Seoul → Australia</p>
+      <p style="margin:0 0 7px;font-family:${SANS};font-size:9px;line-height:1.3;letter-spacing:.26em;text-transform:uppercase;color:${MUTED};">Selected for you</p>
+      <p style="margin:0;font-family:${SANS};font-size:10px;line-height:1.3;letter-spacing:.14em;text-transform:uppercase;color:${INK};">Order ${esc(
+        ref,
+      )}</p>
+    </td></tr>
+  </table>`;
 }
 
-/** Editorial hero: quiet stamp thought, commanding headline, factual standfirst. */
-function heroSection(stamp: string, headline: string, subhead: string | null, standfirst: string): string {
-  return `${gap(26)}
-  ${stampLine(stamp)}
+/** Editorial hero: greeting, the brand order line, factual standfirst. */
+function heroSection(headline: string, subhead: string, standfirst: string, ref: string): string {
+  return `${gap(40)}
+  ${selectionLabel(ref)}
+  ${gap(26)}
   <h1 class="sg-display" style="margin:0;font-family:${SERIF};font-size:36px;line-height:1.16;letter-spacing:-0.015em;font-weight:normal;color:${INK};">${esc(
     headline,
   )}</h1>
-  ${
-    subhead
-      ? `<p class="sg-display" style="margin:4px 0 0;font-family:${SERIF};font-size:36px;line-height:1.16;letter-spacing:-0.015em;color:${MUTED};">${esc(
-          subhead,
-        )}</p>`
-      : ''
-  }
+  <p class="sg-display" style="margin:6px 0 0;font-family:${SERIF};font-size:36px;line-height:1.16;letter-spacing:-0.015em;color:${GOLD_DEEP};">${esc(
+    subhead,
+  )}</p>
   <div style="height:20px;line-height:20px;font-size:0;">&nbsp;</div>
   <p style="margin:0;font-family:${SANS};font-size:16px;line-height:1.8;color:${MUTED};">${standfirst}</p>
   ${gap(38)}`;
@@ -268,7 +290,7 @@ function productRow(line: OrderEmailLine, currency: string, showPrice: boolean):
         `${product.brand} ${product.name}`,
       )}" style="display:block;width:72px;height:72px;object-fit:cover;background-color:${CREAM};" />`
     : `<table role="presentation" width="72" height="72" cellpadding="0" cellspacing="0" border="0" bgcolor="${CREAM}" style="background-color:${CREAM};width:72px;height:72px;"><tr>
-         <td align="center" valign="middle" style="font-family:${SERIF};font-size:12px;letter-spacing:.20em;color:${ROSE};">SG</td></tr></table>`;
+         <td align="center" valign="middle" style="font-family:${SANS};font-size:9px;letter-spacing:.20em;text-transform:uppercase;color:${GOLD_DEEP};">Item</td></tr></table>`;
 
   return `<tr>
     <td class="sg-thumb" width="72" valign="top" style="padding:20px 0;width:72px;">${thumb}</td>
@@ -342,32 +364,38 @@ function twoColumn(leftLabel: string, leftBody: string, rightLabel: string | nul
   </tr></table>`;
 }
 
-/** Three-stage progress. Only "confirmed" is ever stated as complete here. */
-function whatHappensNext(current: 'confirmed' | 'dispatched'): string {
-  const stages: Array<[string, string]> = [
-    ['Confirmed', 'Payment received and your order is logged with our Melbourne team.'],
-    ['Selected and packed', 'Each item is hand-checked against your order before it is wrapped.'],
-    ['Dispatched', 'We email carrier and tracking details the moment your parcel leaves us.'],
+/**
+ * Restrained horizontal journey. Only the factual current stage is marked;
+ * future stages stay quiet and are never shown as complete.
+ */
+function orderJourney(current: 'received' | 'preparing' | 'on_its_way' | 'delivered'): string {
+  const stages: Array<['received' | 'preparing' | 'on_its_way' | 'delivered', string]> = [
+    ['received', 'Order received'],
+    ['preparing', 'Being prepared'],
+    ['on_its_way', 'On its way'],
+    ['delivered', 'Delivered'],
   ];
-  const doneCount = current === 'dispatched' ? 3 : 1;
-  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-    ${stages
-      .map(([t, d], i) => {
-        const done = i < doneCount;
-        return `<tr>
-        <td width="34" valign="top" style="padding:0 0 22px;">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td width="9" height="9" style="width:9px;height:9px;line-height:9px;font-size:0;background-color:${
-            done ? NAVY : ROSE
-          };border-radius:9px;">&nbsp;</td></tr></table>
-        </td>
-        <td valign="top" style="padding:0 0 22px;">
-          <p style="margin:0 0 4px;font-family:${SANS};font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:${
-            done ? INK : MUTED
-          };">${esc(t)}</p>
-          <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.7;color:${MUTED};">${esc(d)}</p>
-        </td></tr>`;
-      })
-      .join('')}
+  const currentIndex = stages.findIndex(([k]) => k === current);
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid ${RULE};border-bottom:1px solid ${RULE};">
+    <tr>
+      ${stages
+        .map(([, title], i) => {
+          const isCurrent = i === currentIndex;
+          const isPast = i < currentIndex;
+          const color = isCurrent ? INK : isPast ? MUTED : '#A9A49B';
+          return `<td class="sg-stage${i === 0 ? ' sg-stage-first' : ''}" width="25%" valign="top" style="padding:16px 12px 16px ${
+            i === 0 ? '0' : '12px'
+          };${i === 0 ? '' : `border-left:1px solid ${RULE};`}">
+          <p style="margin:0 0 8px;font-family:${SANS};font-size:9px;line-height:1.3;letter-spacing:.22em;text-transform:uppercase;color:${color};font-weight:${
+            isCurrent ? 'bold' : 'normal'
+          };">${esc(title)}</p>
+          <table role="presentation" width="${isCurrent ? '28' : '14'}" cellpadding="0" cellspacing="0" border="0"><tr>
+            <td style="height:2px;line-height:2px;font-size:0;background-color:${isCurrent ? GOLD_DEEP : RULE};">&nbsp;</td>
+          </tr></table>
+        </td>`;
+        })
+        .join('')}
+    </tr>
   </table>`;
 }
 
@@ -381,15 +409,15 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
 
   const html = shell(
     `Order ${ref} confirmed`,
-    `Order ${ref} — payment received. We are selecting and packing your parcel in Melbourne.`,
+    `Order ${ref} — payment received. Your selection is confirmed and being prepared in Melbourne.`,
     `
     ${heroSection(
-      'Selected for you.',
       first ? `Thank you, ${first}.` : 'Thank you.',
-      'Your order is confirmed.',
-      `Payment for <span style="color:${INK};">${ref}</span> was received on ${esc(
+      'Your selection is confirmed.',
+      `We've carefully selected the best for your skin. Payment for <span style="color:${INK};">${ref}</span> was received on ${esc(
         placed,
-      )}. Every item is now being hand-checked by our Melbourne team, and a second email will follow with carrier and tracking details.`,
+      )}, and a second email will follow with carrier and tracking details.`,
+      ref,
     )}
     ${metaStrip(o, 'Confirmed')}
     ${label('Your order')}
@@ -406,9 +434,9 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
       }<br /><span style="color:${MUTED};">Card details are held by our payment processor and never stored by us.</span>`,
     )}
     ${gap(44)}
-    ${label('What happens next')}
-    ${whatHappensNext('confirmed')}
-    ${gap(12)}
+    ${label('Order progress')}
+    ${orderJourney('received')}
+    ${gap(32)}
     ${ctaButton(`${SITE_URL}/track`, 'View order status')}
     ${gap(46)}
   `,
@@ -417,10 +445,11 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
   const text = [
     'SKIN GROCER — Seoul Sourced. Skin Assured.',
     '',
-    'Selected for you.',
-    first ? `Thank you, ${first}. Your order is confirmed.` : 'Thank you. Your order is confirmed.',
+    `SELECTED FOR YOU · SEOUL → AUSTRALIA · ORDER ${ref}`,
     '',
-    `Order ${ref}. Payment received ${placed}.`,
+    first ? `Thank you, ${first}. Your selection is confirmed.` : 'Thank you. Your selection is confirmed.',
+    '',
+    `Payment for order ${ref} was received on ${placed}.`,
     '',
     ...o.lines.map((l) => `- ${l.name} x${l.quantity} — ${money(l.amountCents, o.currency)}`),
     o.discountCents > 0 ? `Discount: -${money(o.discountCents, o.currency)}` : null,
@@ -429,7 +458,7 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
     '',
     address.length ? `Shipping to:\n${address.join('\n')}` : null,
     '',
-    'Next: confirmed → selected and packed in Melbourne → dispatched with tracking.',
+    'Order progress: ORDER RECEIVED → being prepared → on its way → delivered.',
     `Order status: ${SITE_URL}/track`,
     `Questions: ${SUPPORT_EMAIL}`,
   ]
@@ -465,14 +494,17 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
     `Order ${ref} has left our Melbourne warehouse${tracking ? ` — ${carrier ?? 'carrier'} tracking enclosed.` : '.'}`,
     `
     ${heroSection(
-      'Checked and wrapped.',
       first ? `On its way, ${first}.` : 'On its way.',
-      'Your order has left us.',
+      'Your selection has left us.',
       `Order <span style="color:${INK};">${ref}</span> has been hand-packed, sealed and collected from our Melbourne warehouse.`,
+      ref,
     )}
     ${metaStrip(o, 'Dispatched')}
     ${label('Tracking')}
     ${trackingBlock}
+    ${gap(44)}
+    ${label('Order progress')}
+    ${orderJourney('on_its_way')}
     ${gap(44)}
     ${label('In this parcel')}
     ${itemsTable(o, false)}
@@ -482,14 +514,12 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
     <p style="margin:0;font-family:${SANS};font-size:15px;line-height:1.8;color:${MUTED};">Store your formulas away from direct sun, and introduce new actives one at a time. Every product we stock has a step-by-step guide at <a href="${SITE_URL}/shop" style="color:${NAVY};text-decoration:underline;">skingrocer.com.au</a>.</p>
     ${gap(46)}
   `,
-    STAMP_DISPATCHED,
   );
 
   const text = [
     'SKIN GROCER — Seoul Sourced. Skin Assured.',
     '',
-    'Checked and wrapped.',
-    first ? `On its way, ${first}. Your order has left us.` : 'On its way. Your order has left us.',
+    first ? `On its way, ${first}. Your selection has left us.` : 'On its way. Your selection has left us.',
     '',
     `Order ${ref} has been dispatched from our Melbourne warehouse.`,
     tracking ? `${carrier ?? 'Carrier'} tracking: ${tracking}` : 'Hand-dispatched — no carrier tracking number.',
