@@ -48,6 +48,7 @@ import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as RoutinesIndexRouteImport } from './routes/routines.index'
 import { Route as RoutinesBundleIdRouteImport } from './routes/routines.$bundleId'
 import { Route as AdminIssuesIdRouteImport } from './routes/admin.issues.$id'
+import { Route as AdminOrdersIdRouteImport } from './routes/admin.orders.$id'
 import { Route as LearnArticleSlugRouteImport } from './routes/learn.article.$slug'
 import { Route as ApiPublicIssueCoverIdRouteImport } from './routes/api/public/issue-cover.$id'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
@@ -248,6 +249,11 @@ const AdminIssuesIdRoute = AdminIssuesIdRouteImport.update({
   path: '/admin/issues/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminOrdersIdRoute = AdminOrdersIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminOrdersRoute,
+} as any)
 const LearnArticleSlugRoute = LearnArticleSlugRouteImport.update({
   id: '/learn/article/$slug',
   path: '/learn/article/$slug',
@@ -294,7 +300,7 @@ export interface FileRoutesByFullPath {
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
   '/admin/guide-links': typeof AdminGuideLinksRoute
-  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -310,6 +316,7 @@ export interface FileRoutesByFullPath {
   '/learn/': typeof LearnIndexRoute
   '/routines/': typeof RoutinesIndexRoute
   '/admin/issues/$id': typeof AdminIssuesIdRoute
+  '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -339,7 +346,7 @@ export interface FileRoutesByTo {
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
   '/admin/guide-links': typeof AdminGuideLinksRoute
-  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -355,6 +362,7 @@ export interface FileRoutesByTo {
   '/learn': typeof LearnIndexRoute
   '/routines': typeof RoutinesIndexRoute
   '/admin/issues/$id': typeof AdminIssuesIdRoute
+  '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -385,7 +393,7 @@ export interface FileRoutesById {
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
   '/admin/guide-links': typeof AdminGuideLinksRoute
-  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -401,6 +409,7 @@ export interface FileRoutesById {
   '/learn/': typeof LearnIndexRoute
   '/routines/': typeof RoutinesIndexRoute
   '/admin/issues/$id': typeof AdminIssuesIdRoute
+  '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -448,6 +457,7 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/routines/'
     | '/admin/issues/$id'
+    | '/admin/orders/$id'
     | '/learn/article/$slug'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
@@ -493,6 +503,7 @@ export interface FileRouteTypes {
     | '/learn'
     | '/routines'
     | '/admin/issues/$id'
+    | '/admin/orders/$id'
     | '/learn/article/$slug'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
@@ -538,6 +549,7 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/routines/'
     | '/admin/issues/$id'
+    | '/admin/orders/$id'
     | '/learn/article/$slug'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
@@ -568,7 +580,7 @@ export interface RootRouteChildren {
   TrackRoute: typeof TrackRoute
   WishlistRoute: typeof WishlistRoute
   AdminGuideLinksRoute: typeof AdminGuideLinksRoute
-  AdminOrdersRoute: typeof AdminOrdersRoute
+  AdminOrdersRoute: typeof AdminOrdersRouteWithChildren
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSignalsRoute: typeof AdminSignalsRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -864,6 +876,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIssuesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/orders/$id': {
+      id: '/admin/orders/$id'
+      path: '/$id'
+      fullPath: '/admin/orders/$id'
+      preLoaderRoute: typeof AdminOrdersIdRouteImport
+      parentRoute: typeof AdminOrdersRoute
+    }
     '/learn/article/$slug': {
       id: '/learn/article/$slug'
       path: '/learn/article/$slug'
@@ -907,6 +926,18 @@ const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
   CheckoutRouteChildren,
 )
 
+interface AdminOrdersRouteChildren {
+  AdminOrdersIdRoute: typeof AdminOrdersIdRoute
+}
+
+const AdminOrdersRouteChildren: AdminOrdersRouteChildren = {
+  AdminOrdersIdRoute: AdminOrdersIdRoute,
+}
+
+const AdminOrdersRouteWithChildren = AdminOrdersRoute._addFileChildren(
+  AdminOrdersRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -931,7 +962,7 @@ const rootRouteChildren: RootRouteChildren = {
   TrackRoute: TrackRoute,
   WishlistRoute: WishlistRoute,
   AdminGuideLinksRoute: AdminGuideLinksRoute,
-  AdminOrdersRoute: AdminOrdersRoute,
+  AdminOrdersRoute: AdminOrdersRouteWithChildren,
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSignalsRoute: AdminSignalsRoute,
   BlogSlugRoute: BlogSlugRoute,
