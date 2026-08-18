@@ -101,9 +101,9 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
         <div className="mt-4 flex items-baseline justify-between gap-3 border-t border-border/70 pt-3">
           <span className="text-sm tabular-nums text-foreground">{p.price}</span>
           {!compact &&
-            (p.comingSoon ? (
+            (p.comingSoon || soldOut ? (
               <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                Not yet orderable
+                {p.comingSoon ? 'Not yet orderable' : 'Out of stock'}
               </span>
             ) : (
               <button
