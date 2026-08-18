@@ -1,72 +1,47 @@
 #!/usr/bin/env python3
-"""THE GROCER STRIPE — V5 signature assets for Skin Grocer order emails.
+"""THE GROCER STRIPE — Option 1 frame assets for Skin Grocer order emails.
 
-V5 treats the stripe as a PRIMARY brand asset, not trim. Bands are broad and
-few, navy dominates, warm cream carves strong negative space, and a genuinely
-visible champagne-gold companion band rides every cream band (~10-12% of the
-treatment) so the gold reads at true inbox size without zooming.
+Option 1 wraps the ENTIRE email in a continuous navy-and-white diagonal
+signature frame: a horizontal band across the top and bottom, and a vertical
+tile repeated down the left and right rails. Pure white — no cream in email.
 
-Rendered at 2x (retina) and written to public/email/.
+  sg-frame-h.png   620x22  horizontal band (top and bottom)
+  sg-frame-v.png    22x220 vertical tile, seamlessly repeatable down the rails
+  sg-frame-h-m.png  390x16 mobile crop of the horizontal band
 
-  sg-stripe-band.png     620x64  signature ribbon above the masthead
-  sg-stripe-column.png   168x360 vertical editorial crop beside the hero
-  sg-stripe-mobile.png   390x56  mobile crop of the hero stripe moment
-  sg-stripe-foot.png     620x44  bold repeat before the footer
+Geometry is 45 degrees with a 44px period, so the vertical tile height (220px)
+is an exact multiple of the period and repeat-y is seamless.
 """
 
 from PIL import Image, ImageDraw
 
-NAVY = (13, 27, 42, 255)      # #0D1B2A
-CREAM = (247, 244, 238, 255)  # #F7F4EE
-GOLD = (198, 161, 91, 255)    # #C6A15B — richer muted champagne, clearly visible
+NAVY = (13, 27, 42)     # #0D1B2A
+WHITE = (255, 255, 255)
 
-SS = 4  # supersample factor
-
-# One rhythm unit, in CSS px measured along the horizontal axis.
-# navy field -> cream band -> gold companion band.
-NAVY_RUN = 78
-CREAM_RUN = 34
-GOLD_RUN = 22
-PERIOD = NAVY_RUN + CREAM_RUN + GOLD_RUN  # 134px -> gold is ~16.4% of the field
+SS = 4          # supersample factor
+PERIOD = 44     # px along x for one navy+white pair
+NAVY_RUN = 22   # px of navy within each period
 
 
-def stripe(width: int, height: int, path: str, scale: float = 1.0, phase: float = 0.0) -> None:
-    """Draw the broad 60-degree navy/cream/gold band system."""
-    w, h = int(width * SS), int(height * SS)
-    img = Image.new("RGB", (w, h), NAVY[:3])
+def draw(width: int, height: int, path: str, period: int = PERIOD, navy_run: int = NAVY_RUN) -> None:
+    w, h = width * SS, height * SS
+    img = Image.new("RGB", (w, h), WHITE)
     d = ImageDraw.Draw(img)
 
-    period = PERIOD * SS * scale
-    cream_w = CREAM_RUN * SS * scale
-    gold_w = GOLD_RUN * SS * scale
-    slant = h * 0.58  # ~60deg lean; bands read as editorial, never barber-pole
+    p = period * SS
+    run = navy_run * SS
+    # 45 degrees: a band edge is the line x + y = c, so the top edge of a band
+    # sits `h` px further left than its bottom edge.
+    x = -h - p
+    while x < w + h + p:
+        d.polygon([(x, h), (x + run, h), (x + run + h, 0), (x + h, 0)], fill=NAVY)
+        x += p
 
-    x = -slant - period + (phase * period)
-    while x < w + slant + period:
-        # cream band as a filled parallelogram
-        d.polygon(
-            [(x, h), (x + cream_w, h), (x + cream_w + slant, 0), (x + slant, 0)],
-            fill=CREAM[:3],
-        )
-        g = x + cream_w
-        d.polygon(
-            [(g, h), (g + gold_w, h), (g + gold_w + slant, 0), (g + slant, 0)],
-            fill=GOLD[:3],
-        )
-        x += period
-
-    img = img.resize((width, height), Image.LANCZOS)
-    img.save(path, optimize=True)
-    print("wrote", path, img.size)
+    img.resize((width, height), Image.LANCZOS).save(path, optimize=True)
+    print("wrote", path, width, "x", height)
 
 
 if __name__ == "__main__":
-    stripe(620, 64, "public/email/sg-stripe-band.png")
-    stripe(620, 44, "public/email/sg-stripe-foot.png", phase=0.42)
-    stripe(390, 56, "public/email/sg-stripe-mobile.png", scale=0.78)
-    # vertical crop: generate rotated so bands run across the narrow column
-    stripe(360, 168, "/tmp/sg-col-raw.png", scale=1.0, phase=0.2)
-    Image.open("/tmp/sg-col-raw.png").rotate(90, expand=True).save(
-        "public/email/sg-stripe-column.png", optimize=True
-    )
-    print("wrote public/email/sg-stripe-column.png (168x360)")
+    draw(620, 22, "public/email/sg-frame-h.png")
+    draw(390, 16, "public/email/sg-frame-h-m.png", period=32, navy_run=16)
+    draw(22, 220, "public/email/sg-frame-v.png")

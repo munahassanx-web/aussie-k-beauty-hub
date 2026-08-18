@@ -1,25 +1,24 @@
 /**
- * Skin Grocer transactional email design system — V5, server only.
+ * Skin Grocer transactional email design system — Option 1, server only.
  *
- * Signature device: THE GROCER STRIPE, treated as a PRIMARY brand asset.
- * Broad 60° navy bands, wide warm-cream negative space, and a genuinely
- * visible champagne-gold companion band riding every cream band (~12% of the
- * field). It appears three times, deliberately: a 64px signature ribbon above
- * the masthead, a vertical editorial crop beside the order statement, and a
- * bold 44px repeat before the footer. Nowhere else — recognition, not clutter.
+ * Signature device: THE GROCER STRIPE as a CONTINUOUS FRAME. A bold navy /
+ * white 45° diagonal band runs across the top, down both rails and along the
+ * bottom, enclosing the entire email from masthead through footer. Immediately
+ * inside the frame sits a single very thin champagne-gold keyline — restrained,
+ * never a thick gold border.
  *
- * Artwork is purpose-built PNG at true rendered scale (public/email/sg-stripe-*).
- * Every stripe sits on a solid navy cell closed by a 3px champagne rule, so
- * with images blocked the band still reads as an intentional navy + gold
- * brand bar rather than a broken image.
+ * The email field is pure WHITE. Cream is packaging only and is not used here.
+ * No seal, no monogram, no botanical or lifestyle imagery: the only pictures
+ * are the customer's actual ordered products, looked up in the catalog by
+ * Stripe `lookupKey`.
  *
- * There is no monogram and no seal: the original interlocked SG artwork is not
- * present in this repository, so nothing is invented in its place.
+ * Frame artwork is purpose-built PNG (public/email/sg-frame-*). Every stripe
+ * cell also carries a solid navy background colour, so with images blocked the
+ * frame still reads as a deliberate navy border rather than broken boxes.
  *
- * Every value rendered here comes from a stored order row, or from the static
- * catalog looked up by the line's Stripe `lookupKey`. Nothing is estimated,
- * promised or invented: no delivery dates, no stock claims, no payment details
- * we do not hold.
+ * Every value rendered here comes from a stored order row. Nothing is
+ * estimated, promised or invented: no delivery dates, no stock claims, no
+ * payment details we do not hold.
  */
 
 import { trackingLink, trackingLinkLabel } from '@/lib/shipping/carriers';
@@ -30,24 +29,21 @@ export const SUPPORT_EMAIL = 'hello@skingrocer.com.au';
 
 /* Brand palette — approved values only. */
 const NAVY = '#0D1B2A';
-const CREAM = '#F7F4EE';
-const GOLD = '#C6A15B'; // champagne — now a structural stripe colour, not a hairline
-const GOLD_DEEP = '#8A6D2E'; // accessible champagne for text on cream/white
+const GOLD = '#C6A15B'; // champagne — used only as a thin keyline and fine details
+const GOLD_DEEP = '#8A6D2E'; // accessible champagne for small text on white
 const INK = '#16202B';
 const MUTED = '#6E6A63';
-const RULE = '#E3DDD2';
+const RULE = '#E7E3DB';
 const PAPER = '#FFFFFF';
-const NAVY_MUTED = '#8A94A2';
+const NAVY_MUTED = '#94A0B0';
 
 const SERIF = "Georgia, 'Times New Roman', Times, serif";
 const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-/* The Grocer Stripe, served from stable public paths. */
-const STRIPE_BAND = `${SITE_URL}/email/sg-stripe-band.png`;
-const STRIPE_FOOT = `${SITE_URL}/email/sg-stripe-foot.png`;
-const STRIPE_COLUMN = `${SITE_URL}/email/sg-stripe-column.png`;
-const STRIPE_MOBILE = `${SITE_URL}/email/sg-stripe-mobile.png`;
-
+/* The Grocer Stripe frame, served from stable public paths. */
+const FRAME_H = `${SITE_URL}/email/sg-frame-h.png`;
+const FRAME_H_MOBILE = `${SITE_URL}/email/sg-frame-h-m.png`;
+const FRAME_V = `${SITE_URL}/email/sg-frame-v.png`;
 
 export type OrderEmailLine = {
   name: string;
@@ -116,10 +112,10 @@ function catalogFor(line: OrderEmailLine) {
   return SHOP_PRODUCTS.find((p) => p.priceId === line.lookupKey) ?? null;
 }
 
-/* ---------------------------------------------------------------- shell -- */
+/* ---------------------------------------------------------------- atoms -- */
 
 const label = (t: string, color = MUTED) =>
-  `<p style="margin:0 0 10px;font-family:${SANS};font-size:10px;line-height:1.4;letter-spacing:.24em;text-transform:uppercase;color:${color};">${esc(
+  `<p style="margin:0 0 12px;font-family:${SANS};font-size:10px;line-height:1.4;letter-spacing:.24em;text-transform:uppercase;color:${color};">${esc(
     t,
   )}</p>`;
 
@@ -128,72 +124,129 @@ const gap = (h: number) => `<div style="height:${h}px;line-height:${h}px;font-si
 const hairline = (color = RULE) =>
   `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="height:1px;line-height:1px;font-size:0;background-color:${color};">&nbsp;</td></tr></table>`;
 
-/**
- * THE GROCER STRIPE — horizontal signature field.
- *
- * A real image at true rendered scale sits on a solid navy cell closed by a
- * 3px champagne rule. With images blocked the row is still a bold navy band
- * with a clearly visible gold edge: deliberate branding, never a broken box.
- * A dedicated mobile crop keeps the bands broad at 390px instead of letting
- * them scale down into hatching.
- */
-function grocerStripe(kind: 'signature' | 'repeat'): string {
-  const signature = kind === 'signature';
-  const src = signature ? STRIPE_BAND : STRIPE_FOOT;
-  const h = signature ? 64 : 44;
-  const alt = ''; // decorative: the stripe is brand furniture, not content
-  const goldRule = `<tr><td bgcolor="${GOLD}" style="height:4px;line-height:4px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>`;
-  const band = `<tr><td bgcolor="${NAVY}" height="${h}" style="background-color:${NAVY};height:${h}px;line-height:0;font-size:0;">
-      <img src="${src}" width="620" height="${h}" alt="${alt}" class="sg-band sg-hide-mobile" style="display:block;width:100%;max-width:620px;height:${h}px;border:0;" />
-      <img src="${STRIPE_MOBILE}" width="390" height="56" alt="${alt}" class="sg-show-mobile" style="display:none;width:100%;height:auto;border:0;mso-hide:all;" />
-    </td></tr>`;
-  // Signature: the gold rule caps the TOP edge so the stripe field runs straight
-  // into the navy masthead as one composed opening, not a detached trim.
-  // Repeat: the gold rule closes the band, echoing the same device at the foot.
+/** Short fine gold divider used under the tagline. */
+const goldDivider = (width = 54) =>
+  `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;"><tr>
+     <td width="${width}" style="width:${width}px;height:1px;line-height:1px;font-size:0;background-color:${GOLD};">&nbsp;</td>
+   </tr></table>`;
+
+/** Horizontal run of the signature frame (top and bottom edges). */
+function frameBar(): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-    ${signature ? goldRule + band : band + goldRule}
-  </table>`;
-}
-
-
-/**
- * The stripe's second appearance: a vertical editorial crop that enters from
- * the left edge of the order statement, roughly a quarter of the row, so the
- * signature frames the message like branded packaging. On mobile the column
- * is swapped for a broad horizontal crop so the bands never become a hairline.
- */
-function stripeStatement(inner: string): string {
-  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${NAVY}" style="background-color:${NAVY};">
-    <tr>
-      <td class="sg-col sg-stack-hide" width="150" valign="top" bgcolor="${NAVY}" style="width:150px;background-color:${NAVY};font-size:0;line-height:0;">
-        <img src="${STRIPE_COLUMN}" width="150" height="360" alt="" style="display:block;width:150px;height:360px;border:0;" />
-      </td>
-      <td class="sg-statement" valign="middle" bgcolor="${NAVY}" style="background-color:${NAVY};padding:44px 40px;">${inner}</td>
-    </tr>
-    <tr><td colspan="2" class="sg-show-mobile-cell" style="display:none;font-size:0;line-height:0;mso-hide:all;">
-      <img src="${STRIPE_MOBILE}" width="390" height="56" alt="" style="display:block;width:100%;height:auto;border:0;" />
+    <tr><td bgcolor="${NAVY}" height="22" style="background-color:${NAVY};height:22px;line-height:0;font-size:0;">
+      <img src="${FRAME_H}" width="620" height="22" alt="" class="sg-hide-mobile" style="display:block;width:100%;max-width:620px;height:22px;border:0;" />
+      <img src="${FRAME_H_MOBILE}" width="390" height="16" alt="" class="sg-show-mobile" style="display:none;width:100%;height:auto;border:0;mso-hide:all;" />
     </td></tr>
   </table>`;
 }
 
+/** Vertical rail of the signature frame; solid navy is the images-off fallback. */
+function frameRail(): string {
+  return `<td class="sg-rail" width="22" valign="top" bgcolor="${NAVY}"
+    background="${FRAME_V}"
+    style="width:22px;background-color:${NAVY};background-image:url('${FRAME_V}');background-repeat:repeat-y;background-position:top left;font-size:0;line-height:0;">&nbsp;</td>`;
+}
 
 function ctaButton(href: string, text: string): string {
   return `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
     <td bgcolor="${NAVY}" style="background-color:${NAVY};">
-      <a href="${href}" style="display:inline-block;padding:18px 36px;font-family:${SANS};font-size:12px;line-height:1;letter-spacing:.22em;text-transform:uppercase;color:${CREAM};text-decoration:none;font-weight:bold;">${esc(
+      <a href="${href}" style="display:inline-block;padding:17px 34px;font-family:${SANS};font-size:12px;line-height:1;letter-spacing:.22em;text-transform:uppercase;color:${PAPER};text-decoration:none;font-weight:bold;">${esc(
         text,
-      )}</a>
+      )}<span style="color:${GOLD};letter-spacing:0;">&nbsp;&nbsp;&#8594;</span></a>
     </td></tr></table>`;
 }
 
-/**
- * Full document shell. The stripe, masthead and order statement read as one
- * composed branded opening; the stripe then returns once before the footer.
- *   stripe ribbon → navy masthead → navy stripe statement
- *   → white editorial body → stripe repeat → navy close
- */
-function shell(title: string, preheader: string, hero: string, body: string): string {
+/** The four restrained assurances. Typographic marks only — no imagery. */
+function benefitsRow(): string {
+  const items: Array<[string, string]> = [
+    ['&#9670;', 'Seoul Sourced'],
+    ['&#9671;', 'Curated K-Beauty'],
+    ['&#9678;', 'Skin Assured'],
+    ['&#9654;', 'Fast Shipping Australia Wide'],
+  ];
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid ${RULE};border-bottom:1px solid ${RULE};">
+    <tr>${items
+      .map(
+        ([mark, text], i) => `<td class="sg-benefit${i === 0 ? ' sg-benefit-first' : ''}" width="25%" align="center" valign="top" style="padding:22px 10px;${
+          i === 0 ? '' : `border-left:1px solid ${RULE};`
+        }">
+        <p style="margin:0 0 9px;font-family:${SANS};font-size:13px;line-height:1;color:${GOLD};">${mark}</p>
+        <p style="margin:0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.20em;text-transform:uppercase;color:${MUTED};">${esc(
+          text,
+        )}</p>
+      </td>`,
+      )
+      .join('')}</tr>
+  </table>`;
+}
 
+/** Deep navy footer, enclosed by the same frame. */
+function footerBlock(): string {
+  const navLink = (href: string, text: string) =>
+    `<a href="${href}" style="font-family:${SANS};font-size:10px;letter-spacing:.20em;text-transform:uppercase;color:${NAVY_MUTED};text-decoration:none;">${esc(
+      text,
+    )}</a>`;
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${NAVY}" style="background-color:${NAVY};">
+    <tr><td align="center" class="sg-pad" style="padding:38px 40px 34px;">
+      <p style="margin:0;font-family:${SERIF};font-size:24px;line-height:1.1;letter-spacing:.22em;text-transform:uppercase;color:${PAPER};font-weight:normal;">Skin&nbsp;Grocer</p>
+      <p style="margin:14px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.30em;text-transform:uppercase;color:${GOLD};">Seoul Sourced. Skin Assured.</p>
+      <div style="height:22px;line-height:22px;font-size:0;">&nbsp;</div>
+      ${goldDivider(40)}
+      <div style="height:22px;line-height:22px;font-size:0;">&nbsp;</div>
+      <p style="margin:0;font-family:${SANS};font-size:10px;line-height:2.2;letter-spacing:.20em;">
+        ${navLink(`${SITE_URL}/shop`, 'Shop')}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(
+          `${SITE_URL}/routines`,
+          'Routines',
+        )}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(`${SITE_URL}/learn`, 'Learn')}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(
+          `${SITE_URL}/track`,
+          'Track Order',
+        )}
+      </p>
+      <p style="margin:6px 0 0;font-family:${SANS};font-size:10px;line-height:2.2;letter-spacing:.20em;">
+        ${navLink('https://www.instagram.com/skingrocer', 'Instagram')}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(
+          'https://www.tiktok.com/@skingrocer',
+          'TikTok',
+        )}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(`mailto:${SUPPORT_EMAIL}`, 'Contact')}
+      </p>
+      <div style="height:24px;line-height:24px;font-size:0;">&nbsp;</div>
+      <p style="margin:0;font-family:${SANS};font-size:11px;line-height:1.75;color:${NAVY_MUTED};">Skin Grocer · Dispatched from Melbourne, Australia</p>
+      <p style="margin:6px 0 0;font-family:${SANS};font-size:11px;line-height:1.75;color:#6C7686;">You are receiving this message because you placed an order with Skin Grocer.</p>
+    </td></tr>
+  </table>`;
+}
+
+/**
+ * Spacious white masthead: wordmark, gold tagline, fine gold divider, then the
+ * left-aligned order statement.
+ */
+function masthead(headline: string, statement: string, standfirst: string): string {
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${PAPER}" style="background-color:${PAPER};">
+    <tr><td align="center" class="sg-pad" style="padding:52px 48px 0;">
+      <p class="sg-wordmark" style="margin:0;font-family:${SERIF};font-size:36px;line-height:1.05;letter-spacing:.24em;text-transform:uppercase;color:${NAVY};font-weight:normal;">Skin&nbsp;Grocer</p>
+      <p style="margin:16px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.32em;text-transform:uppercase;color:${GOLD_DEEP};">Seoul Sourced. Skin Assured.</p>
+      <div style="height:26px;line-height:26px;font-size:0;">&nbsp;</div>
+      ${goldDivider(54)}
+    </td></tr>
+    <tr><td align="left" class="sg-pad" style="padding:44px 48px 0;">
+      <p style="margin:0 0 6px;font-family:${SERIF};font-size:26px;line-height:1.3;color:${MUTED};font-weight:normal;" class="sg-display">${esc(
+        headline,
+      )}</p>
+      <p style="margin:0 0 18px;font-family:${SERIF};font-size:28px;line-height:1.25;color:${INK};font-weight:bold;" class="sg-display">${esc(
+        statement,
+      )}</p>
+      <p style="margin:0;font-family:${SANS};font-size:15px;line-height:1.8;color:${MUTED};">${standfirst}</p>
+    </td></tr>
+  </table>`;
+}
+
+/* ---------------------------------------------------------------- shell -- */
+
+/**
+ * Full document shell. The navy/white Grocer Stripe frames all four sides,
+ * a single thin gold keyline sits immediately inside it, and everything —
+ * masthead, order, assurances, footer — lives on white inside that frame.
+ */
+function shell(title: string, preheader: string, inner: string): string {
   return `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8" />
@@ -208,76 +261,53 @@ function shell(title: string, preheader: string, hero: string, body: string): st
   img { border:0; outline:none; text-decoration:none; -ms-interpolation-mode:bicubic; }
   a { color:${NAVY}; }
   @media only screen and (max-width:620px) {
-    .sg-pad { padding-left:24px !important; padding-right:24px !important; }
-    .sg-gap { height:30px !important; }
+    .sg-pad { padding-left:22px !important; padding-right:22px !important; }
+    .sg-gap { height:28px !important; }
+    .sg-rail { width:12px !important; }
     .sg-stack { display:block !important; width:100% !important; max-width:100% !important; padding-left:0 !important; padding-right:0 !important; padding-bottom:22px !important; }
-    .sg-meta { padding:18px 24px !important; }
+    .sg-meta { padding:16px 22px !important; border-left:0 !important; border-top:1px solid ${RULE} !important; }
+    .sg-meta-first { border-top:0 !important; }
     .sg-thumb { width:64px !important; }
-    .sg-wordmark { font-size:28px !important; letter-spacing:.14em !important; }
-    .sg-display { font-size:27px !important; }
+    .sg-wordmark { font-size:27px !important; letter-spacing:.18em !important; }
+    .sg-display { font-size:22px !important; }
     .sg-stage { display:block !important; width:100% !important; border-left:0 !important; border-top:1px solid ${RULE} !important; padding:14px 0 !important; }
     .sg-stage-first { border-top:0 !important; }
-    /* keep the Grocer Stripe broad on small screens — never a hairline */
+    .sg-benefit { display:block !important; width:100% !important; border-left:0 !important; border-top:1px solid ${RULE} !important; padding:16px 10px !important; }
+    .sg-benefit-first { border-top:0 !important; }
     .sg-hide-mobile { display:none !important; width:0 !important; height:0 !important; max-height:0 !important; overflow:hidden !important; }
     .sg-show-mobile { display:block !important; width:100% !important; height:auto !important; }
-    .sg-show-mobile-cell { display:table-cell !important; }
-    .sg-stack-hide { display:none !important; width:0 !important; max-width:0 !important; overflow:hidden !important; }
-    .sg-statement { padding:34px 24px 30px !important; }
   }
-
 </style>
 </head>
-<body style="margin:0;padding:0;background-color:${CREAM};">
+<body style="margin:0;padding:0;background-color:${PAPER};">
   <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;font-size:1px;line-height:1px;">${esc(
     preheader,
   )}&#8203;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;</div>
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${CREAM}" style="background-color:${CREAM};">
-    <tr><td align="center" style="padding:32px 12px 44px;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${PAPER}" style="background-color:${PAPER};">
+    <tr><td align="center" style="padding:26px 10px 34px;">
       <table role="presentation" width="620" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:620px;">
 
-        <!-- one composed opening: gold cap → stripe field → navy masthead → gold rule -->
-        <tr><td>${grocerStripe('signature')}</td></tr>
+        <!-- signature frame: top edge -->
+        <tr><td colspan="3">${frameBar()}</td></tr>
 
-        <!-- masthead: same navy field, continuous with the stripe above it -->
-        <tr><td bgcolor="${NAVY}" align="center" class="sg-pad" style="background-color:${NAVY};padding:36px 40px 34px;">
-          <p class="sg-wordmark" style="margin:0;font-family:${SERIF};font-size:38px;line-height:1.05;letter-spacing:.20em;text-transform:uppercase;color:${CREAM};font-weight:normal;">Skin&nbsp;Grocer</p>
-          <p style="margin:16px 0 0;font-family:${SANS};font-size:10px;line-height:1.4;letter-spacing:.30em;text-transform:uppercase;color:${GOLD};">Seoul Sourced. Skin Assured.</p>
-        </td></tr>
-        <tr><td bgcolor="${GOLD}" style="height:4px;line-height:4px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>
+        <tr>
+          ${frameRail()}
+          <td valign="top" bgcolor="${PAPER}" style="background-color:${PAPER};border-left:1px solid ${GOLD};border-right:1px solid ${GOLD};">
+            <!-- thin gold keyline, top edge -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td style="height:1px;line-height:1px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>
+            </table>
+            ${inner}
+            <!-- thin gold keyline, bottom edge -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td style="height:1px;line-height:1px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>
+            </table>
+          </td>
+          ${frameRail()}
+        </tr>
 
-
-        <!-- the stripe's second moment: vertical crop beside the order statement -->
-        <tr><td>${hero}</td></tr>
-
-        <!-- content -->
-        <tr><td bgcolor="${PAPER}" class="sg-pad" style="background-color:${PAPER};padding:0 48px;">
-          ${body}
-        </td></tr>
-
-
-        <!-- customer care -->
-        <tr><td bgcolor="${PAPER}" class="sg-pad" style="background-color:${PAPER};padding:0 48px 46px;">
-          ${hairline()}
-          ${gap(26)}
-          ${label('Customer care')}
-          <p style="margin:0 0 6px;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
-            Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
-          </p>
-          <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
-            <a href="${SITE_URL}" style="color:${NAVY};text-decoration:underline;">skingrocer.com.au</a>
-          </p>
-        </td></tr>
-
-        <!-- the stripe returns, bold, to close the email -->
-        <tr><td>${grocerStripe('repeat')}</td></tr>
-
-
-        <!-- navy close -->
-        <tr><td bgcolor="${NAVY}" align="center" class="sg-pad" style="background-color:${NAVY};padding:34px 40px 32px;">
-          <p style="margin:0 0 14px;font-family:${SANS};font-size:9px;line-height:1.9;letter-spacing:.24em;text-transform:uppercase;color:${GOLD};">Curated K-Beauty · Seoul → Australia · Selected For You</p>
-          <p style="margin:0;font-family:${SANS};font-size:11px;line-height:1.75;color:${NAVY_MUTED};">Skin Grocer · Dispatched from Melbourne, Australia</p>
-          <p style="margin:6px 0 0;font-family:${SANS};font-size:11px;line-height:1.75;color:#6C7686;">You are receiving this message because you placed an order with Skin Grocer.</p>
-        </td></tr>
+        <!-- signature frame: bottom edge -->
+        <tr><td colspan="3">${frameBar()}</td></tr>
 
       </table>
     </td></tr>
@@ -287,79 +317,34 @@ function shell(title: string, preheader: string, hero: string, body: string): st
 
 /* -------------------------------------------------------------- pieces -- */
 
-/**
- * Importer's ticket: a horizontal grocer/consignment label. Deliberately small
- * and typographic so it supports the stripe rather than competing with it.
- * Carries only factual data: the route, the selection, the order reference.
- */
-function selectionLabel(ref: string): string {
-  const cell = (t: string, v: string, color: string, last = false) =>
-    `<td valign="middle" style="padding:11px 16px;${last ? '' : `border-right:1px solid ${RULE};`}">
-      <p style="margin:0 0 5px;font-family:${SANS};font-size:8px;line-height:1.3;letter-spacing:.26em;text-transform:uppercase;color:${MUTED};">${esc(
-        t,
-      )}</p>
-      <p style="margin:0;font-family:${SANS};font-size:10px;line-height:1.3;letter-spacing:.20em;text-transform:uppercase;color:${color};">${esc(
-        v,
-      )}</p>
-    </td>`;
-  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border:1px solid ${RULE};border-left:4px solid ${GOLD};">
-    <tr>
-      ${cell('Selected for you', 'Skin Grocer', INK)}
-      ${cell('Route', 'Seoul → Australia', GOLD_DEEP)}
-      ${cell('Consignment', ref, INK, true)}
-    </tr>
-  </table>`;
-}
-
-/**
- * The order statement, set on the navy field with the vertical Grocer Stripe
- * entering from the left edge — the signature participates in the message.
- */
-function heroStatement(headline: string, subhead: string): string {
-  return stripeStatement(
-    `<h1 class="sg-display" style="margin:0;font-family:${SERIF};font-size:34px;line-height:1.18;letter-spacing:-0.01em;font-weight:normal;color:${CREAM};">${esc(
-      headline,
-    )}</h1>
-     <p class="sg-display" style="margin:8px 0 0;font-family:${SERIF};font-size:34px;line-height:1.18;letter-spacing:-0.01em;color:${GOLD};">${esc(
-       subhead,
-     )}</p>`,
-  );
-}
-
-/** White-field opener beneath the statement: provenance label, then the facts. */
-function heroIntro(standfirst: string, ref: string): string {
-  return `${gap(40)}
-  ${selectionLabel(ref)}
-  ${gap(26)}
-  <p style="margin:0;font-family:${SANS};font-size:16px;line-height:1.8;color:${MUTED};">${standfirst}</p>
-  ${gap(38)}`;
-}
-
-
-/** Order reference / date / status strip on a cream field. */
+/** Order reference / date / status strip, quiet on white. */
 function metaStrip(o: OrderEmailData, status: string): string {
   const placed = new Date(o.createdAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
-  const cell = (t: string, v: string, last = false) =>
-    `<td class="sg-stack sg-meta" width="33.33%" valign="top" style="padding:22px ${last ? '24px' : '12px'} 22px 24px;">
+  const cell = (t: string, v: string, i: number) =>
+    `<td class="sg-stack sg-meta${i === 0 ? ' sg-meta-first' : ''}" width="33.33%" valign="top" style="padding:20px 16px;${
+      i === 0 ? '' : `border-left:1px solid ${RULE};`
+    }">
       <p style="margin:0 0 6px;font-family:${SANS};font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:${MUTED};">${esc(t)}</p>
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.5;color:${INK};">${esc(v)}</p>
     </td>`;
-  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${CREAM}" style="background-color:${CREAM};">
-    <tr>${cell('Order', orderReference(o.id))}${cell('Placed', placed)}${cell('Status', status, true)}</tr>
-  </table>
-  ${gap(42)}`;
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid ${RULE};border-bottom:1px solid ${RULE};">
+    <tr>${cell('Order', orderReference(o.id), 0)}${cell('Placed', placed, 1)}${cell('Status', status, 2)}</tr>
+  </table>`;
 }
 
-/** Product row: catalog photography when known, designed neutral tile otherwise. */
+/** Product row: real ordered product photography when known, neutral tile otherwise. */
 function productRow(line: OrderEmailLine, currency: string, showPrice: boolean): string {
   const product = catalogFor(line);
   const brand = product?.brand ?? null;
+  const size = (product as any)?.size ?? (product as any)?.volume ?? null;
   const thumb = product
     ? `<img src="${SITE_URL}${product.image}" width="72" height="72" alt="${esc(
         `${product.brand} ${product.name}`,
-      )}" style="display:block;width:72px;height:72px;object-fit:cover;background-color:${CREAM};" />`
-    : `<table role="presentation" width="72" height="72" cellpadding="0" cellspacing="0" border="0" bgcolor="${CREAM}" style="background-color:${CREAM};width:72px;height:72px;"><tr>
+      )}" style="display:block;width:72px;height:72px;object-fit:cover;background-color:#F4F4F2;" />`
+    : `<table role="presentation" width="72" height="72" cellpadding="0" cellspacing="0" border="0" bgcolor="#F4F4F2" style="background-color:#F4F4F2;width:72px;height:72px;"><tr>
          <td align="center" valign="middle" style="font-family:${SANS};font-size:9px;letter-spacing:.20em;text-transform:uppercase;color:${GOLD_DEEP};">Item</td></tr></table>`;
+
+  const meta = [size ? esc(String(size)) : null, `Quantity ${line.quantity}`].filter(Boolean).join(' &nbsp;·&nbsp; ');
 
   return `<tr>
     <td class="sg-thumb" width="72" valign="top" style="padding:20px 0;width:72px;">${thumb}</td>
@@ -372,7 +357,7 @@ function productRow(line: OrderEmailLine, currency: string, showPrice: boolean):
           : ''
       }
       <p style="margin:0 0 6px;font-family:${SERIF};font-size:16px;line-height:1.45;color:${INK};">${esc(line.name)}</p>
-      <p style="margin:0;font-family:${SANS};font-size:13px;line-height:1.5;color:${MUTED};">Quantity ${line.quantity}</p>
+      <p style="margin:0;font-family:${SANS};font-size:13px;line-height:1.5;color:${MUTED};">${meta}</p>
     </td>
     ${
       showPrice
@@ -468,6 +453,13 @@ function orderJourney(current: 'received' | 'preparing' | 'on_its_way' | 'delive
   </table>`;
 }
 
+/** White editorial body block with consistent side padding. */
+function bodyBlock(inner: string): string {
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${PAPER}" style="background-color:${PAPER};">
+    <tr><td class="sg-pad" style="padding:0 48px;">${inner}</td></tr>
+  </table>`;
+}
+
 /* ------------------------------------------------------------ templates -- */
 
 export function renderOrderConfirmation(o: OrderEmailData): { subject: string; html: string; text: string } {
@@ -479,44 +471,56 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
   const html = shell(
     `Order ${ref} confirmed`,
     `Order ${ref} — payment received. Your selection is confirmed and being prepared in Melbourne.`,
-    heroStatement(first ? `Thank you, ${first}.` : 'Thank you.', 'Your selection is confirmed.'),
     `
-    ${heroIntro(
-      `We've carefully selected the best for your skin. Payment for <span style="color:${INK};">${ref}</span> was received on ${esc(
+    ${masthead(
+      first ? `Thank you, ${first}.` : 'Thank you.',
+      'Your selection is confirmed.',
+      `We&rsquo;ve carefully selected the best for your skin. Payment for <span style="color:${INK};">${ref}</span> was received on ${esc(
         placed,
       )}, and a second email will follow with carrier and tracking details.`,
-      ref,
     )}
-
-    ${metaStrip(o, 'Confirmed')}
-    ${label('Your order')}
-    ${itemsTable(o, true)}
-    ${gap(28)}
-    ${totalsTable(o)}
-    ${gap(44)}
-    ${twoColumn(
-      'Shipping to',
-      address.length ? address.map(esc).join('<br />') : '<span style="color:' + MUTED + ';">Address on file</span>',
-      'Payment',
-      `Paid in full · ${esc(money(o.amountCents, o.currency))}${
-        o.shippingMethod ? `<br />Method: ${esc(o.shippingMethod)}` : ''
-      }<br /><span style="color:${MUTED};">Card details are held by our payment processor and never stored by us.</span>`,
-    )}
-    ${gap(44)}
-    ${label('Order progress')}
-    ${orderJourney('received')}
-    ${gap(32)}
-    ${ctaButton(`${SITE_URL}/track`, 'View order status')}
-    ${gap(46)}
+    ${bodyBlock(`
+      ${gap(36)}
+      ${metaStrip(o, 'Confirmed')}
+      ${gap(38)}
+      ${label('Your order')}
+      ${itemsTable(o, true)}
+      ${gap(28)}
+      ${totalsTable(o)}
+      ${gap(38)}
+      ${ctaButton(`${SITE_URL}/track`, 'View your order')}
+      ${gap(44)}
+      ${twoColumn(
+        'Shipping to',
+        address.length ? address.map(esc).join('<br />') : `<span style="color:${MUTED};">Address on file</span>`,
+        'Payment',
+        `Paid in full · ${esc(money(o.amountCents, o.currency))}${
+          o.shippingMethod ? `<br />Method: ${esc(o.shippingMethod)}` : ''
+        }<br /><span style="color:${MUTED};">Card details are held by our payment processor and never stored by us.</span>`,
+      )}
+      ${gap(44)}
+      ${label('Order progress')}
+      ${orderJourney('received')}
+      ${gap(44)}
+      ${benefitsRow()}
+      ${gap(38)}
+      ${hairline()}
+      ${gap(26)}
+      ${label('Customer care')}
+      <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
+        Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
+      </p>
+      ${gap(46)}
+    `)}
+    ${footerBlock()}
   `,
   );
 
   const text = [
     'SKIN GROCER — Seoul Sourced. Skin Assured.',
     '',
-    `SELECTED FOR YOU · SEOUL → AUSTRALIA · ORDER ${ref}`,
-    '',
     first ? `Thank you, ${first}. Your selection is confirmed.` : 'Thank you. Your selection is confirmed.',
+    "We've carefully selected the best for your skin.",
     '',
     `Payment for order ${ref} was received on ${placed}.`,
     '',
@@ -528,7 +532,7 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
     address.length ? `Shipping to:\n${address.join('\n')}` : null,
     '',
     'Order progress: ORDER RECEIVED → being prepared → on its way → delivered.',
-    `Order status: ${SITE_URL}/track`,
+    `View your order: ${SITE_URL}/track`,
     `Questions: ${SUPPORT_EMAIL}`,
   ]
     .filter((l): l is string => l !== null)
@@ -561,27 +565,37 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
   const html = shell(
     `Order ${ref} dispatched`,
     `Order ${ref} has left our Melbourne warehouse${tracking ? ` — ${carrier ?? 'carrier'} tracking enclosed.` : '.'}`,
-    heroStatement(first ? `On its way, ${first}.` : 'On its way.', 'Your selection has left us.'),
     `
-    ${heroIntro(
+    ${masthead(
+      first ? `On its way, ${first}.` : 'On its way.',
+      'Your selection has left us.',
       `Order <span style="color:${INK};">${ref}</span> has been hand-packed, sealed and collected from our Melbourne warehouse.`,
-      ref,
     )}
-
-    ${metaStrip(o, 'Dispatched')}
-    ${label('Tracking')}
-    ${trackingBlock}
-    ${gap(44)}
-    ${label('Order progress')}
-    ${orderJourney('on_its_way')}
-    ${gap(44)}
-    ${label('In this parcel')}
-    ${itemsTable(o, false)}
-    ${gap(40)}
-    ${address.length ? twoColumn('Delivering to', address.map(esc).join('<br />'), null, null) + gap(40) : ''}
-    ${label('A small note on care')}
-    <p style="margin:0;font-family:${SANS};font-size:15px;line-height:1.8;color:${MUTED};">Store your formulas away from direct sun, and introduce new actives one at a time. Every product we stock has a step-by-step guide at <a href="${SITE_URL}/shop" style="color:${NAVY};text-decoration:underline;">skingrocer.com.au</a>.</p>
-    ${gap(46)}
+    ${bodyBlock(`
+      ${gap(36)}
+      ${metaStrip(o, 'Dispatched')}
+      ${gap(38)}
+      ${label('Tracking')}
+      ${trackingBlock}
+      ${gap(44)}
+      ${label('Order progress')}
+      ${orderJourney('on_its_way')}
+      ${gap(44)}
+      ${label('In this parcel')}
+      ${itemsTable(o, false)}
+      ${gap(40)}
+      ${address.length ? twoColumn('Delivering to', address.map(esc).join('<br />'), null, null) + gap(40) : ''}
+      ${benefitsRow()}
+      ${gap(38)}
+      ${hairline()}
+      ${gap(26)}
+      ${label('Customer care')}
+      <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
+        Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
+      </p>
+      ${gap(46)}
+    `)}
+    ${footerBlock()}
   `,
   );
 
