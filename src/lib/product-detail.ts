@@ -3,6 +3,8 @@
 
 import { SHOP_PRODUCTS, type ShopProduct, type Category, type Concern } from '@/lib/shop-catalog';
 import { bespokeHeroIngredients } from '@/lib/hero-ingredients';
+import { applicationForSlug } from '@/lib/product-application-data';
+
 
 
 import ritualScene from '@/assets/ritual-scene.jpg';
