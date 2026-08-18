@@ -106,6 +106,9 @@ function InventoryBoard() {
         ))}
       </div>
 
+      <BundleMappingPanel enabled={Boolean(user)} />
+
+
       <div className="mt-8 flex flex-wrap items-center gap-2">
         {Object.keys(STATUS_LABEL).map((k) => (
           <button
