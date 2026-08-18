@@ -7,11 +7,89 @@ import { useAuth } from '@/hooks/use-auth';
 import {
   adjustStock,
   getInventoryHistory,
+  listCompositeAudit,
   listInventory,
   setInventorySettings,
   setOpeningStock,
   type InventoryRow,
 } from '@/lib/inventory.functions';
+
+/**
+ * Bundles, kits and Restock subscriptions resolved to the physical SKUs they
+ * pull off the shelf. Anything unmappable is surfaced here for owner
+ * clarification instead of being silently skipped at checkout.
+ */
+function BundleMappingPanel({ enabled }: { enabled: boolean }) {
+  const fetchAudit = useServerFn(listCompositeAudit);
+  const [showAll, setShowAll] = useState(false);
+  const q = useQuery({
+    queryKey: ['admin-composite-audit'],
+    queryFn: () => fetchAudit({ data: undefined as never }),
+    enabled,
+    retry: false,
+  });
+
+  if (!q.data) return null;
+  const composites = q.data.composites.filter((c) => c.status !== 'non_physical');
+  const unmapped = composites.filter((c) => c.status === 'unmapped');
+  const orderAttention = q.data.orderAttention;
+  const visible = showAll ? composites : unmapped;
+
+  return (
+    <section className="mt-6 rounded-2xl border border-border p-5">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Bundle &amp; subscription mapping</p>
+          <p className="mt-1 text-sm text-foreground">
+            {unmapped.length === 0
+              ? `All ${composites.length} bundles and subscriptions map to physical SKUs.`
+              : `${unmapped.length} need owner clarification — stock is not deducted for these.`}
+          </p>
+        </div>
+        <button
+          onClick={() => setShowAll((v) => !v)}
+          className="min-h-11 rounded-full border border-border px-4 text-xs uppercase tracking-[0.16em] text-foreground hover:bg-secondary"
+        >
+          {showAll ? 'Hide mappings' : 'Show all mappings'}
+        </button>
+      </div>
+
+      {orderAttention.length > 0 && (
+        <div className="mt-4 rounded-xl border border-destructive/40 bg-destructive/5 p-4">
+          <p className="text-sm font-medium text-foreground">Paid orders needing manual stock attention</p>
+          <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
+            {orderAttention.slice(0, 20).map((o, i) => (
+              <li key={`${o.orderId}-${i}`} className="break-words">
+                Order {o.orderId.slice(0, 8)} — {o.name} ×{o.quantity} ({o.priceId}). Fulfil as normal, then adjust stock manually.
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {visible.length > 0 && (
+        <ul className="mt-4 space-y-3">
+          {visible.map((c) => (
+            <li key={c.priceId} className="rounded-xl border border-border p-3">
+              <p className="text-sm text-foreground">{c.name}</p>
+              {c.status === 'unmapped' ? (
+                <p className="mt-1 text-xs text-destructive">
+                  {c.reason} — {(c.unresolvedLabels ?? []).join(', ')}
+                </p>
+              ) : (
+                <p className="mt-1 break-words text-xs text-muted-foreground">
+                  {c.components.map((comp) => `${comp.sku} ×${comp.quantity}`).join(' · ')}
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
+}
+
+
 
 export const Route = createFileRoute('/admin/inventory')({
   head: () => ({
