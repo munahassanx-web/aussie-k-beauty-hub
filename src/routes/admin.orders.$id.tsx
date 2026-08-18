@@ -2,7 +2,13 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useServerFn } from '@tanstack/react-start';
-import { getAdminOrder, updateOrderFulfilment, FULFILMENT_STAGES } from '@/lib/admin-orders.functions';
+import {
+  getAdminOrder,
+  getShippingCapability,
+  updateOrderFulfilment,
+  FULFILMENT_STAGES,
+} from '@/lib/admin-orders.functions';
+import { CARRIERS, findCarrier, trackingLink } from '@/lib/shipping/carriers';
 import { PackingSlip } from '@/components/admin/packing-slip';
 import { useAuth } from '@/hooks/use-auth';
 
@@ -31,13 +37,12 @@ const STAGE_LABEL: Record<string, string> = {
   cancelled: 'Cancelled',
 };
 
-const CARRIERS = ['Australia Post', 'Sendle', 'Aramex', 'CouriersPlease', 'DHL'];
-
 function OrderDetail() {
   const { id } = Route.useParams();
   const { user, loading } = useAuth();
   const qc = useQueryClient();
   const fetchOrder = useServerFn(getAdminOrder);
+  const fetchCapability = useServerFn(getShippingCapability);
   const save = useServerFn(updateOrderFulfilment);
 
   const q = useQuery({
@@ -47,17 +52,37 @@ function OrderDetail() {
     retry: false,
   });
 
+  const capability = useQuery({
+    queryKey: ['shipping-capability'],
+    queryFn: () => fetchCapability(),
+    enabled: Boolean(user),
+    retry: false,
+  });
+
   const order = q.data ?? null;
   const [tracking, setTracking] = useState('');
   const [carrier, setCarrier] = useState('');
+  const [service, setService] = useState('');
+  const [shipmentId, setShipmentId] = useState('');
+  const [labelUrl, setLabelUrl] = useState('');
+  const [labelRef, setLabelRef] = useState('');
+  const [labelCost, setLabelCost] = useState('');
   const [notes, setNotes] = useState('');
 
   useEffect(() => {
     if (!order) return;
     setTracking(order.trackingNumber ?? '');
     setCarrier(order.shippingCarrier ?? '');
+    setService(order.shippingService ?? '');
+    setShipmentId(order.shipmentId ?? '');
+    setLabelUrl(order.labelUrl ?? '');
+    setLabelRef(order.labelReference ?? '');
+    setLabelCost(order.shippingCostActualCents == null ? '' : (order.shippingCostActualCents / 100).toFixed(2));
     setNotes(order.opsNotes ?? '');
-  }, [order?.id, order?.trackingNumber, order?.shippingCarrier, order?.opsNotes]);
+  }, [order?.id, order?.fulfillmentUpdatedAt]);
+
+  const selectedCarrier = findCarrier(carrier);
+  const trackUrl = trackingLink(carrier, tracking);
 
   const mutate = useMutation({
     mutationFn: (vars: Parameters<typeof updateOrderFulfilment>[0]['data']) => save({ data: vars }),
@@ -189,7 +214,17 @@ function OrderDetail() {
             className="mt-5 grid gap-4 sm:grid-cols-2"
             onSubmit={(e) => {
               e.preventDefault();
-              mutate.mutate({ id: order.id, trackingNumber: tracking, shippingCarrier: carrier, opsNotes: notes });
+              mutate.mutate({
+                id: order.id,
+                trackingNumber: tracking,
+                shippingCarrier: carrier,
+                shippingService: service,
+                shipmentId: shipmentId,
+                labelUrl: labelUrl,
+                labelReference: labelRef,
+                shippingCostActualCents: labelCost.trim() === '' ? null : Math.round(Number(labelCost) * 100),
+                opsNotes: notes,
+              });
             }}
           >
             <div>
@@ -202,17 +237,80 @@ function OrderDetail() {
                 className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
               />
               <datalist id="carrier-options">
-                {CARRIERS.map((c) => <option key={c} value={c} />)}
+                {CARRIERS.map((c) => <option key={c.id} value={c.label} />)}
               </datalist>
             </div>
             <div>
-              <label htmlFor="tracking" className="text-sm text-foreground">Tracking number</label>
+              <label htmlFor="service" className="text-sm text-foreground">Service</label>
+              <input
+                id="service"
+                list="service-options"
+                value={service}
+                onChange={(e) => setService(e.target.value)}
+                placeholder="e.g. Parcel Post"
+                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+              />
+              <datalist id="service-options">
+                {selectedCarrier?.services.map((s) => <option key={s} value={s} />)}
+              </datalist>
+            </div>
+            <div>
+              <label htmlFor="tracking" className="text-sm text-foreground">Tracking / consignment number</label>
               <input
                 id="tracking"
                 value={tracking}
                 onChange={(e) => setTracking(e.target.value)}
                 className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 font-mono text-sm outline-none focus:border-primary"
               />
+              {trackUrl && (
+                <a href={trackUrl} target="_blank" rel="noreferrer" className="mt-2 inline-block text-xs underline text-muted-foreground">
+                  Open carrier tracking page
+                </a>
+              )}
+            </div>
+            <div>
+              <label htmlFor="shipment" className="text-sm text-foreground">Shipment / order ID in carrier portal</label>
+              <input
+                id="shipment"
+                value={shipmentId}
+                onChange={(e) => setShipmentId(e.target.value)}
+                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 font-mono text-sm outline-none focus:border-primary"
+              />
+            </div>
+            <div>
+              <label htmlFor="label-url" className="text-sm text-foreground">Label link (https)</label>
+              <input
+                id="label-url"
+                type="url"
+                value={labelUrl}
+                onChange={(e) => setLabelUrl(e.target.value)}
+                placeholder="Paste the label PDF link if your carrier gives one"
+                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+              />
+            </div>
+            <div>
+              <label htmlFor="label-ref" className="text-sm text-foreground">Label reference</label>
+              <input
+                id="label-ref"
+                value={labelRef}
+                onChange={(e) => setLabelRef(e.target.value)}
+                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+              />
+            </div>
+            <div>
+              <label htmlFor="label-cost" className="text-sm text-foreground">Actual postage cost (AUD)</label>
+              <input
+                id="label-cost"
+                type="number"
+                min="0"
+                step="0.01"
+                value={labelCost}
+                onChange={(e) => setLabelCost(e.target.value)}
+                className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:border-primary"
+              />
+              <p className="mt-1 text-xs text-muted-foreground">
+                Customer paid {money(order.shippingCents, order.currency)} shipping.
+              </p>
             </div>
             <div className="sm:col-span-2">
               <label htmlFor="notes" className="text-sm text-foreground">Internal note</label>
@@ -241,6 +339,22 @@ function OrderDetail() {
             Customers see the stage and tracking number on <Link to="/track" className="underline">/track</Link> and in
             their account. Skin Grocer does not send automated dispatch emails yet — notify the customer manually.
           </p>
+        </section>
+
+        <section className="mt-4 rounded-2xl border border-border p-5 text-sm">
+          <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Shipping integration</p>
+          {capability.data?.automated ? (
+            <p className="mt-2 text-foreground">
+              Automated labels available via{' '}
+              {capability.data.providers.filter((p) => p.id !== 'manual' && p.configured).map((p) => p.label).join(', ')}.
+            </p>
+          ) : (
+            <p className="mt-2 text-muted-foreground">
+              Manual mode. No carrier account is connected to this site, so labels are created in your carrier portal
+              (e.g. MyPost Business) and the consignment number is pasted here. Provider: {order.shippingProvider} ·
+              label status: {order.labelStatus}.
+            </p>
+          )}
         </section>
       </main>
     </>
