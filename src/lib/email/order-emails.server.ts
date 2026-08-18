@@ -261,8 +261,9 @@ function shell(title: string, preheader: string, hero: string, body: string): st
           </p>
         </td></tr>
 
-        <!-- quiet stripe echo -->
-        <tr><td>${grocerStripe('echo')}</td></tr>
+        <!-- the stripe returns, bold, to close the email -->
+        <tr><td>${grocerStripe('repeat')}</td></tr>
+
 
         <!-- navy close -->
         <tr><td bgcolor="${NAVY}" align="center" class="sg-pad" style="background-color:${NAVY};padding:34px 40px 32px;">
