@@ -167,7 +167,7 @@ function benefitsRow(): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid ${RULE};border-bottom:1px solid ${RULE};">
     <tr>${items
       .map(
-        ([mark, text], i) => `<td class="sg-benefit" width="25%" align="center" valign="top" style="padding:22px 10px;${
+        ([mark, text], i) => `<td class="sg-benefit${i === 0 ? ' sg-benefit-first' : ''}" width="25%" align="center" valign="top" style="padding:22px 10px;${
           i === 0 ? '' : `border-left:1px solid ${RULE};`
         }">
         <p style="margin:0 0 9px;font-family:${SANS};font-size:13px;line-height:1;color:${GOLD};">${mark}</p>
@@ -265,7 +265,8 @@ function shell(title: string, preheader: string, inner: string): string {
     .sg-gap { height:28px !important; }
     .sg-rail { width:12px !important; }
     .sg-stack { display:block !important; width:100% !important; max-width:100% !important; padding-left:0 !important; padding-right:0 !important; padding-bottom:22px !important; }
-    .sg-meta { padding:16px 22px !important; }
+    .sg-meta { padding:16px 22px !important; border-left:0 !important; border-top:1px solid ${RULE} !important; }
+    .sg-meta-first { border-top:0 !important; }
     .sg-thumb { width:64px !important; }
     .sg-wordmark { font-size:27px !important; letter-spacing:.18em !important; }
     .sg-display { font-size:22px !important; }
@@ -320,7 +321,7 @@ function shell(title: string, preheader: string, inner: string): string {
 function metaStrip(o: OrderEmailData, status: string): string {
   const placed = new Date(o.createdAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
   const cell = (t: string, v: string, i: number) =>
-    `<td class="sg-stack sg-meta" width="33.33%" valign="top" style="padding:20px 16px;${
+    `<td class="sg-stack sg-meta${i === 0 ? ' sg-meta-first' : ''}" width="33.33%" valign="top" style="padding:20px 16px;${
       i === 0 ? '' : `border-left:1px solid ${RULE};`
     }">
       <p style="margin:0 0 6px;font-family:${SANS};font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:${MUTED};">${esc(t)}</p>
