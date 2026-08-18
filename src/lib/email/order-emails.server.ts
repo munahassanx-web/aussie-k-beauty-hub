@@ -230,19 +230,23 @@ function shell(title: string, preheader: string, hero: string, body: string): st
     <tr><td align="center" style="padding:32px 12px 44px;">
       <table role="presentation" width="620" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:620px;">
 
-        <!-- the signature edge -->
+        <!-- signature ribbon: the stripe leads the brand, at full strength -->
         <tr><td>${grocerStripe('signature')}</td></tr>
 
-        <!-- masthead -->
-        <tr><td bgcolor="${NAVY}" align="center" class="sg-pad" style="background-color:${NAVY};padding:48px 40px 44px;">
+        <!-- masthead: same navy field, composed as one opening with the ribbon -->
+        <tr><td bgcolor="${NAVY}" align="center" class="sg-pad" style="background-color:${NAVY};padding:42px 40px 38px;">
           <p class="sg-wordmark" style="margin:0;font-family:${SERIF};font-size:38px;line-height:1.05;letter-spacing:.20em;text-transform:uppercase;color:${CREAM};font-weight:normal;">Skin&nbsp;Grocer</p>
-          <p style="margin:18px 0 0;font-family:${SANS};font-size:9px;line-height:1.4;letter-spacing:.30em;text-transform:uppercase;color:${GOLD};">Seoul Sourced. Skin Assured.</p>
+          <p style="margin:16px 0 0;font-family:${SANS};font-size:10px;line-height:1.4;letter-spacing:.30em;text-transform:uppercase;color:${GOLD};">Seoul Sourced. Skin Assured.</p>
         </td></tr>
+
+        <!-- the stripe's second moment: vertical crop beside the order statement -->
+        <tr><td>${hero}</td></tr>
 
         <!-- content -->
         <tr><td bgcolor="${PAPER}" class="sg-pad" style="background-color:${PAPER};padding:0 48px;">
           ${body}
         </td></tr>
+
 
         <!-- customer care -->
         <tr><td bgcolor="${PAPER}" class="sg-pad" style="background-color:${PAPER};padding:0 48px 46px;">
