@@ -1,7 +1,7 @@
 import { createServerFn } from '@tanstack/react-start';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
-import { auditComposites, compositesBlockedBy, type CompositeAudit } from '@/lib/inventory-mapping';
+import { auditComposites, compositesBlockedBy, resolveSellable, type CompositeAudit } from '@/lib/inventory-mapping';
 
 
 /**
