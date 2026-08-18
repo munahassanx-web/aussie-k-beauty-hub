@@ -37,6 +37,7 @@ export function toOrderEmailData(row: Record<string, any>): OrderEmailData {
       name: String(l?.name ?? 'Item'),
       quantity: Number(l?.quantity ?? 1),
       amountCents: Number(l?.amountCents ?? 0),
+      lookupKey: l?.lookupKey ? String(l.lookupKey) : null,
     })),
     shippingName: row['shipping_name'] ?? null,
     shippingLine1: row['shipping_line1'] ?? null,
