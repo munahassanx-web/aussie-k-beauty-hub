@@ -120,7 +120,8 @@ function shell(title: string, preheader: string, body: string): string {
   @media only screen and (max-width:620px) {
     .sg-pad { padding-left:24px !important; padding-right:24px !important; }
     .sg-gap { height:32px !important; }
-    .sg-stack { display:block !important; width:100% !important; max-width:100% !important; }
+    .sg-stack { display:block !important; width:100% !important; max-width:100% !important; padding-left:0 !important; padding-right:0 !important; }
+    .sg-meta { padding:20px 24px !important; }
     .sg-stack-gap { height:24px !important; }
     .sg-thumb { width:64px !important; }
     .sg-display { font-size:26px !important; }
@@ -133,7 +134,7 @@ function shell(title: string, preheader: string, body: string): string {
   )}&#8203;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;</div>
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${CREAM}" style="background-color:${CREAM};">
     <tr><td align="center" style="padding:32px 12px 48px;">
-      <table role="presentation" width="620" cellpadding="0" cellspacing="0" border="0" style="width:620px;max-width:620px;">
+      <table role="presentation" width="620" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:620px;">
 
         <!-- masthead -->
         <tr><td bgcolor="${NAVY}" align="center" class="sg-pad" style="background-color:${NAVY};padding:44px 40px 38px;">
@@ -190,7 +191,7 @@ function heroSection(kicker: string, headline: string, standfirst: string): stri
 function metaStrip(o: OrderEmailData, status: string): string {
   const placed = new Date(o.createdAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
   const cell = (t: string, v: string, last = false) =>
-    `<td class="sg-stack" width="33.33%" valign="top" style="padding:22px ${last ? '24px' : '12px'} 22px 24px;">
+    `<td class="sg-stack sg-meta" width="33.33%" valign="top" style="padding:22px ${last ? '24px' : '12px'} 22px 24px;">
       <p style="margin:0 0 6px;font-family:${SANS};font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:${MUTED};">${esc(t)}</p>
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.5;color:${INK};">${esc(v)}</p>
     </td>`;
