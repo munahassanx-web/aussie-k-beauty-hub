@@ -3,7 +3,6 @@ import { useMemo, useState } from "react";
 import { z } from "zod";
 import { ProductCard } from "@/components/product-card";
 import { ConsultationNudge } from "@/components/product-search";
-import { Reveal } from "@/components/reveal";
 import { CATALOG_SIZE, isBroadIntent, searchCatalog } from "@/lib/product-search";
 import { sortProducts, SORT_OPTIONS, type SortValue } from "@/lib/collection-filters";
 
@@ -52,17 +51,11 @@ function SearchPage() {
     return sort === "relevance" ? list : sortProducts(list, sort as SortValue);
   }, [results, sort]);
 
-  const contextBySlug = useMemo(
-    () => new Map(results.map((r) => [r.product.priceId, r.context])),
-    [results],
-  );
-
   const broad = isBroadIntent(query);
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-12 md:py-16">
-      <Reveal>
-        <header>
+      <header>
           <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Search</p>
           <h1 className="mt-3 font-display text-[clamp(2rem,5vw,3rem)] leading-tight text-foreground">
             {query ? <>Results for “{query}”</> : <>Search the range</>}
@@ -95,8 +88,7 @@ function SearchPage() {
               Search
             </button>
           </form>
-        </header>
-      </Reveal>
+      </header>
 
       <div
         role="status"
@@ -143,9 +135,6 @@ function SearchPage() {
           {products.map((p, i) => (
             <li key={p.priceId}>
               <ProductCard product={p} eager={i < 4} />
-              <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-                {contextBySlug.get(p.priceId)}
-              </p>
             </li>
           ))}
         </ul>
