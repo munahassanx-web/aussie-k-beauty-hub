@@ -210,8 +210,16 @@ export const getAdminOrder = createServerFn({ method: 'POST' })
       environment: r['environment'] ?? 'sandbox',
       packedAt: r['packed_at'] ?? null,
       shippedAt: r['shipped_at'] ?? null,
+      dispatchedAt: r['dispatched_at'] ?? null,
       fulfillmentUpdatedAt: r['fulfillment_updated_at'] ?? null,
       opsNotes: r['ops_notes'] ?? null,
+      shippingProvider: r['shipping_provider'] ?? 'manual',
+      shippingService: r['shipping_service'] ?? null,
+      shipmentId: r['shipment_id'] ?? null,
+      labelStatus: r['label_status'] ?? 'none',
+      labelUrl: r['label_url'] ?? null,
+      labelReference: r['label_reference'] ?? null,
+      shippingCostActualCents: r['shipping_cost_actual_cents'] ?? null,
     };
   });
 
