@@ -175,13 +175,16 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
   const supabase = getSupabase();
   const stripe = createStripeClient(env);
 
-  let lineItems: Array<{ name: string; quantity: number; amountCents: number }> = [];
+  // `lookupKey` is the catalog priceId — storing it lets the account area map
+  // an order line back to a current SKU exactly, instead of by display name.
+  let lineItems: Array<{ name: string; quantity: number; amountCents: number; lookupKey: string | null }> = [];
   try {
     const items = await stripe.checkout.sessions.listLineItems(session.id, { limit: 50, expand: ['data.price.product'] });
     lineItems = items.data.map((item: any) => ({
       name: item.description ?? item.price?.product?.name ?? 'Item',
       quantity: item.quantity ?? 1,
       amountCents: item.amount_total ?? 0,
+      lookupKey: item.price?.lookup_key ?? null,
     }));
   } catch (e) {
     errorCommerce('webhook', 'session.line_items_failed', e, { sessionId: session.id, env });
