@@ -27,6 +27,17 @@ export const Route = createFileRoute('/admin/orders/$id')({
   component: OrderDetail,
 });
 
+/** Honest wording for each persisted notification state. Never says "sent" unless it is. */
+const STATUS_COPY: Record<string, string> = {
+  'no record yet': 'No record yet',
+  pending: 'Pending',
+  not_configured: 'Not configured — no email sent',
+  queued: 'Queued',
+  sent: 'Sent',
+  failed: 'Failed',
+  skipped: 'Skipped — no stored email address',
+};
+
 function money(cents: number, currency = 'AUD') {
   return new Intl.NumberFormat('en-AU', { style: 'currency', currency }).format((cents ?? 0) / 100);
 }
