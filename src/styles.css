@@ -65,6 +65,8 @@
   --grocer-brown: oklch(0.32 0.012 265);
   /* Restrained rose-gold accent — flat on screen, never faux-metallic gradient */
   --rose-gold: oklch(0.74 0.062 38);
+  /* Champagne gold (#C6A15B) — shared with the transactional email identity */
+  --stripe-gold: #c6a15b;
 
 
 
@@ -457,6 +459,58 @@
   .cinematic-layer { animation: none; }
   .hero-line { animation: none !important; opacity: 1; transform: none; }
   .animate-hero-drift, .animate-ken-burns { animation: none !important; transform: none; }
+}
+
+/* ============================================================
+   The Grocer Stripe — signature header band
+   Deep navy + white diagonal ribbon with a thin champagne-gold
+   keyline. Matches the approved transactional-email identity.
+   ============================================================ */
+@utility grocer-stripe {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-ink);
+  background-image: repeating-linear-gradient(
+    115deg,
+    var(--color-ink) 0px,
+    var(--color-ink) 13px,
+    var(--stripe-gold) 13px,
+    var(--stripe-gold) 14px,
+    var(--color-paper) 14px,
+    var(--color-paper) 25px,
+    var(--stripe-gold) 25px,
+    var(--stripe-gold) 26px,
+    var(--color-ink) 26px,
+    var(--color-ink) 44px
+  );
+  background-size: 44px 100%;
+}
+/* Restrained light sweep — desktop only, opt-in via .grocer-stripe-sweep */
+@keyframes grocer-sweep {
+  0%   { transform: translateX(-40%); opacity: 0; }
+  12%  { opacity: 0.55; }
+  40%  { opacity: 0; }
+  100% { transform: translateX(140%); opacity: 0; }
+}
+@utility grocer-stripe-sweep {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 28%;
+    pointer-events: none;
+    background: linear-gradient(
+      100deg,
+      transparent 0%,
+      color-mix(in oklab, var(--stripe-gold) 65%, transparent) 45%,
+      transparent 100%
+    );
+    animation: grocer-sweep 9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    will-change: transform, opacity;
+  }
+}
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .grocer-stripe-sweep::after { animation: none; display: none; }
 }
 
 

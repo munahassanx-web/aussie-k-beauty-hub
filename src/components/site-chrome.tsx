@@ -192,6 +192,11 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50">
+      {/* The Grocer Stripe — signature brand band, fixed height (no CLS) */}
+      <div
+        aria-hidden="true"
+        className="grocer-stripe grocer-stripe-sweep h-[9px] w-full md:h-[12px]"
+      />
       <AnnouncementBar />
       {/* Main nav */}
       <div
@@ -206,7 +211,7 @@ export function SiteHeader() {
             onClick={closeMenus}
             onMouseEnter={() => setOpenMenu(null)}
           >
-            <BrandWordmark size="md" className="text-foreground" />
+            <BrandWordmark size="md" sub className="text-foreground" />
           </Link>
 
 
@@ -492,7 +497,7 @@ export function SiteFooter() {
     <footer className="bg-ink text-paper">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-12">
         <div className="md:col-span-4">
-          <BrandWordmark as="p" size="xl" className="text-paper" />
+          <BrandWordmark as="p" size="xl" sub className="text-paper" />
           <BrandLine className="mt-4 text-rose-gold" />
           <p className="mt-5 max-w-sm text-sm text-paper/65">
 
