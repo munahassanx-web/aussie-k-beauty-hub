@@ -124,7 +124,7 @@ export function NewsletterForm({
           dark ? "text-paper/75" : "text-ink/75"
         }`}
       >
-        By joining, you agree to receive SkinGrocer emails. Unsubscribe anytime.{" "}
+        By joining, you agree to receive Skin Grocer emails. Unsubscribe anytime.{" "}
         <Link
           to="/privacy-policy"
           className={`ml-1 inline-flex items-center gap-0.5 underline underline-offset-4 transition ${

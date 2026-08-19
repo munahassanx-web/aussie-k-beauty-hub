@@ -178,7 +178,7 @@ export function KoreaRightNow() {
               On our radar
             </h3>
             <p className="mt-2 text-sm text-ink/65">
-              A considered shortlist from the SkinGrocer cabinet.
+              A considered shortlist from the Skin Grocer cabinet.
             </p>
           </div>
           <div className="hidden gap-2 md:flex">
