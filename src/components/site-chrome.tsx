@@ -228,7 +228,7 @@ export function SiteHeader() {
               type="button"
               aria-label="Search products"
               onClick={() => { closeMenus(); setSearchOpen(true); }}
-              className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
+              className="hidden h-11 w-11 md:flex items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
             >
               <SearchIcon />
             </button>
@@ -236,7 +236,7 @@ export function SiteHeader() {
               to="/wishlist"
               onClick={closeMenus}
               aria-label="Your saved products"
-              className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
+              className="hidden h-11 w-11 md:flex items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
             >
               <HeartIcon />
             </Link>
