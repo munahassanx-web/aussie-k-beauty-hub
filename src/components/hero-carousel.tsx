@@ -462,7 +462,15 @@ export function HeroCarousel() {
           </div>
 
           {/* Ticker */}
-          <div className="flex items-center gap-8 overflow-x-auto text-[10px] font-light uppercase tracking-[0.28em] text-paper/60 no-scrollbar">
+          <div
+            className="flex max-w-full items-center gap-8 overflow-x-auto pr-6 text-[10px] font-light uppercase tracking-[0.28em] text-paper/60 no-scrollbar"
+            style={{
+              maskImage: "linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 40px), transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 40px), transparent 100%)",
+            }}
+          >
+
             {[
               "Sourced direct from Seoul",
               "Sealed & batch-checked",
