@@ -14,6 +14,165 @@ export type Database = {
   }
   public: {
     Tables: {
+      authenticity_card_items: {
+        Row: {
+          batch_code: string | null
+          brand: string | null
+          card_id: string
+          created_at: string
+          id: string
+          origin_country: string | null
+          position: number
+          product_name: string
+          quantity: number
+          sku: string | null
+          supplier_reference: string | null
+        }
+        Insert: {
+          batch_code?: string | null
+          brand?: string | null
+          card_id: string
+          created_at?: string
+          id?: string
+          origin_country?: string | null
+          position?: number
+          product_name: string
+          quantity?: number
+          sku?: string | null
+          supplier_reference?: string | null
+        }
+        Update: {
+          batch_code?: string | null
+          brand?: string | null
+          card_id?: string
+          created_at?: string
+          id?: string
+          origin_country?: string | null
+          position?: number
+          product_name?: string
+          quantity?: number
+          sku?: string | null
+          supplier_reference?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "authenticity_card_items_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "authenticity_cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      authenticity_cards: {
+        Row: {
+          card_ref: string
+          checklist: Json
+          created_at: string
+          first_scanned_at: string | null
+          id: string
+          issued_at: string
+          issued_by: string | null
+          last_scanned_at: string | null
+          order_id: string
+          revoked_at: string | null
+          revoked_reason: string | null
+          scan_count: number
+          snapshot: Json
+          status: string
+          token_hash: string
+          token_prefix: string
+          updated_at: string
+          verified_at: string | null
+          version: number
+        }
+        Insert: {
+          card_ref: string
+          checklist?: Json
+          created_at?: string
+          first_scanned_at?: string | null
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          last_scanned_at?: string | null
+          order_id: string
+          revoked_at?: string | null
+          revoked_reason?: string | null
+          scan_count?: number
+          snapshot?: Json
+          status?: string
+          token_hash: string
+          token_prefix: string
+          updated_at?: string
+          verified_at?: string | null
+          version?: number
+        }
+        Update: {
+          card_ref?: string
+          checklist?: Json
+          created_at?: string
+          first_scanned_at?: string | null
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          last_scanned_at?: string | null
+          order_id?: string
+          revoked_at?: string | null
+          revoked_reason?: string | null
+          scan_count?: number
+          snapshot?: Json
+          status?: string
+          token_hash?: string
+          token_prefix?: string
+          updated_at?: string
+          verified_at?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "authenticity_cards_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      authenticity_events: {
+        Row: {
+          actor: string | null
+          card_id: string
+          created_at: string
+          event: string
+          id: string
+          metadata: Json
+        }
+        Insert: {
+          actor?: string | null
+          card_id: string
+          created_at?: string
+          event: string
+          id?: string
+          metadata?: Json
+        }
+        Update: {
+          actor?: string | null
+          card_id?: string
+          created_at?: string
+          event?: string
+          id?: string
+          metadata?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "authenticity_events_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "authenticity_cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_submissions: {
         Row: {
           created_at: string
@@ -996,10 +1155,30 @@ export type Database = {
         Returns: boolean
       }
       is_fulfillment_staff: { Args: { _user_id: string }; Returns: boolean }
+      issue_authenticity_card: {
+        Args: {
+          _card_ref: string
+          _checklist: Json
+          _items: Json
+          _order_id: string
+          _reissue_reason?: string
+          _token_hash: string
+          _token_prefix: string
+        }
+        Returns: string
+      }
       my_points_balance: { Args: never; Returns: number }
+      record_authenticity_scan: {
+        Args: { _card_id: string }
+        Returns: undefined
+      }
       record_order_stock_sale: {
         Args: { _lines: Json; _order_id: string }
         Returns: Json
+      }
+      revoke_authenticity_card: {
+        Args: { _card_id: string; _reason: string }
+        Returns: undefined
       }
       set_inventory_settings: {
         Args: {
