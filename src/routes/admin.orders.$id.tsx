@@ -210,6 +210,18 @@ function OrderDetail() {
             <p className="text-muted-foreground">
               Points earned {order.pointsEarned} · redeemed {order.pointsRedeemed}
             </p>
+            {order.refundedCents != null && order.refundedCents > 0 && (
+              <p className="mt-2 text-destructive">
+                Refunded {money(order.refundedCents, order.currency)}
+                {order.refundedAt ? ` on ${new Date(order.refundedAt).toLocaleString('en-AU')}` : ''} — recorded from
+                Stripe.
+              </p>
+            )}
+            {order.deliveredAt && (
+              <p className="mt-2 text-muted-foreground">
+                Delivered {new Date(order.deliveredAt).toLocaleString('en-AU')} (confirmed by staff)
+              </p>
+            )}
             <p className="mt-2 font-mono text-xs text-muted-foreground">{order.stripeSessionId ?? order.stripePaymentIntentId ?? '—'}</p>
           </div>
         </section>

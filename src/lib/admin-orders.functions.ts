@@ -54,6 +54,10 @@ export type AdminOrderDetail = AdminOrderSummary & {
   packedAt: string | null;
   shippedAt: string | null;
   dispatchedAt: string | null;
+  deliveredAt: string | null;
+  cancelledAt: string | null;
+  refundedAt: string | null;
+  refundedCents: number | null;
   fulfillmentUpdatedAt: string | null;
   opsNotes: string | null;
   // Carrier-integration seam — populated manually today, by an adapter later.
@@ -212,6 +216,10 @@ export const getAdminOrder = createServerFn({ method: 'POST' })
       packedAt: r['packed_at'] ?? null,
       shippedAt: r['shipped_at'] ?? null,
       dispatchedAt: r['dispatched_at'] ?? null,
+      deliveredAt: r['delivered_at'] ?? null,
+      cancelledAt: r['cancelled_at'] ?? null,
+      refundedAt: r['refunded_at'] ?? null,
+      refundedCents: typeof r['refunded_cents'] === 'number' ? r['refunded_cents'] : null,
       fulfillmentUpdatedAt: r['fulfillment_updated_at'] ?? null,
       opsNotes: r['ops_notes'] ?? null,
       shippingProvider: r['shipping_provider'] ?? 'manual',
