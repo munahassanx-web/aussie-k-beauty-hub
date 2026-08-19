@@ -83,7 +83,7 @@ function AddButton({ p, dark = false }: { p: ShopProduct; dark?: boolean }) {
           : "border-foreground/30 text-foreground hover:border-foreground"
       }`}
     >
-      Add to order
+      Add to bag
     </button>
   );
 }
@@ -178,7 +178,7 @@ export function KoreaRightNow() {
               On our radar
             </h3>
             <p className="mt-2 text-sm text-ink/65">
-              A considered shortlist from the SkinGrocer cabinet.
+              A considered shortlist from the Skin Grocer cabinet.
             </p>
           </div>
           <div className="hidden gap-2 md:flex">

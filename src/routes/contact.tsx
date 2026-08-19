@@ -95,33 +95,34 @@ function Contact() {
             personally, usually within a few hours.
           </p>
 
-          <dl className="mt-10 space-y-6">
+          <dl className="mt-10 space-y-6 break-words [overflow-wrap:anywhere]">
             <div>
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">Customer care</dt>
-              <dd className="mt-1 font-display text-2xl text-foreground">customercare@skingrocer.com.au</dd>
+              <dd className="mt-1 font-display text-xl text-foreground sm:text-2xl">customercare@skingrocer.com.au</dd>
               <p className="mt-1 text-sm text-muted-foreground">Orders, shipping, delivery, returns, refunds and routine help.</p>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">General &amp; business enquiries</dt>
-              <dd className="mt-1 font-display text-2xl text-foreground">info@skingrocer.com.au</dd>
+              <dd className="mt-1 font-display text-xl text-foreground sm:text-2xl">info@skingrocer.com.au</dd>
               <p className="mt-1 text-sm text-muted-foreground">Suppliers, partnerships, wholesale, vending machines and press.</p>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">Warehouse</dt>
-              <dd className="mt-1 font-display text-2xl text-foreground">Unit 13/30 Willandra Drive, Epping VIC 3076</dd>
+              <dd className="mt-1 font-display text-xl text-foreground sm:text-2xl">Unit 13/30 Willandra Drive, Epping VIC 3076</dd>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">Hours</dt>
-              <dd className="mt-1 font-display text-2xl text-foreground">Mon–Sat, 9am–6pm AEST</dd>
+              <dd className="mt-1 font-display text-xl text-foreground sm:text-2xl">Mon–Sat, 9am–6pm AEST</dd>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">Next-day cutoff</dt>
-              <dd className="mt-1 font-display text-2xl text-foreground">
+              <dd className="mt-1 font-display text-xl text-foreground sm:text-2xl">
                 Order by 12pm*
                 <span className="mt-2 block font-body text-xs text-muted-foreground">*Next-day delivery covers metro and most regional areas. Remote postcodes may take 1–2 extra days.</span>
               </dd>
             </div>
           </dl>
+
         </div>
 
         <form

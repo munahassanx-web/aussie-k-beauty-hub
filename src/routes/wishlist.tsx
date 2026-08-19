@@ -87,7 +87,7 @@ function WishlistPage() {
                       onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
                       className="text-xs font-medium uppercase tracking-wider text-primary hover:underline"
                     >
-                      Add to basket →
+                      Add to bag →
                     </button>
                   )}
                 </div>

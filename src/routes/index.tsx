@@ -143,14 +143,14 @@ function WhyPillars() {
       <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
         <div className="max-w-2xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
-            Why SkinGrocer
+            Why Skin Grocer
           </p>
           <h2 id="why-heading" className="display-section mt-4 text-ink">
             From Seoul to your shelf —{" "}
             <span className="italic text-hanbok-deep">with nothing left to guess.</span>
           </h2>
           <p className="lede mt-5 text-ink/70">
-            We built SkinGrocer around two things customers should never have to
+            We built Skin Grocer around two things customers should never have to
             second-guess: where their skincare came from, and what to do with it once it arrives.
           </p>
         </div>
@@ -345,7 +345,7 @@ function BrandMarquee() {
               Korean skincare houses, <span className="italic text-hanbok-deep">chosen with intention.</span>
             </h2>
             <p className="mt-4 max-w-xl text-sm text-ink/70">
-              From barrier specialists to modern cult favourites, explore the names shaping the SkinGrocer edit.
+              From barrier specialists to modern cult favourites, explore the names shaping the Skin Grocer edit.
             </p>
           </div>
           <Link
@@ -857,7 +857,7 @@ function ProvenanceCard() {
             Know what’s touching your skin.
           </h2>
           <p className="mt-5 max-w-xl text-paper/70">
-            K-beauty should feel exciting, not uncertain. SkinGrocer is built around a simple
+            K-beauty should feel exciting, not uncertain. Skin Grocer is built around a simple
             standard: genuine products, clear product information and a more considered way to shop
             Korean skincare in Australia.
           </p>

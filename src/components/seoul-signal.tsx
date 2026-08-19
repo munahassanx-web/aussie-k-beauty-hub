@@ -12,7 +12,7 @@ const signals = [
 const latestIssue = newsletterIssues.find((i) => i.published) ?? newsletterIssues[0];
 
 /**
- * The Seoul Signal — editorial dispatch from SkinGrocer's Korean point of view.
+ * The Seoul Signal — editorial dispatch from Skin Grocer's Korean point of view.
  */
 export function SeoulSignalStrip() {
   return (
@@ -31,7 +31,7 @@ export function SeoulSignalStrip() {
               Closer to Seoul. Clearer about what matters.
             </h2>
             <p className="mt-6 max-w-lg text-[15px] leading-relaxed text-paper/75">
-              A SkinGrocer editorial dispatch on the ingredients, formulas and conversations
+              A Skin Grocer editorial dispatch on the ingredients, formulas and conversations
               shaping Korean skincare — translated into what is actually useful to know.
             </p>
             <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-paper/75">
@@ -44,7 +44,7 @@ export function SeoulSignalStrip() {
                 THE DISPATCH, BY EMAIL
               </p>
               <p className="mt-1 text-[13px] leading-relaxed text-paper/75">
-                New SkinGrocer editorial notes when there is something worth sending.
+                New Skin Grocer editorial notes when there is something worth sending.
               </p>
               <div className="mt-4">
                 <NewsletterForm source="homepage" variant="dark" />

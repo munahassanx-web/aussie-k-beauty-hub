@@ -109,10 +109,10 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
               <button
                 type="button"
                 onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
-                aria-label={`Add ${p.brand} ${p.name} to basket`}
+                aria-label={`Add ${p.brand} ${p.name} to bag`}
                 className="relative z-10 -my-1 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-primary underline-offset-4 transition-opacity hover:underline focus-visible:underline"
               >
-                Add to basket
+                Add to bag
               </button>
             ))}
         </div>

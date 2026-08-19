@@ -118,7 +118,7 @@ export function ProductCheckout({
             )}
             <button
               onClick={() => setStarted(true)}
-              className="w-full rounded-full bg-primary py-3 text-sm font-medium uppercase tracking-wider text-primary-foreground hover:opacity-90"
+              className="w-full bg-primary py-3 text-sm font-medium uppercase tracking-wider text-primary-foreground hover:opacity-90"
             >
               Continue to payment
             </button>

@@ -102,7 +102,7 @@ export function NewsletterForm({
         <button
           type="submit"
           disabled={status === "loading"}
-          className={`border px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition disabled:opacity-60 sm:rounded-none sm:border-l-0 ${
+          className={`whitespace-nowrap border px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition disabled:opacity-60 sm:rounded-none sm:border-l-0 ${
             dark
               ? "border-paper/25 bg-paper text-ink hover:bg-paper/90"
               : "border-ink/15 bg-ink text-paper hover:bg-ink/85"
@@ -124,7 +124,7 @@ export function NewsletterForm({
           dark ? "text-paper/75" : "text-ink/75"
         }`}
       >
-        By joining, you agree to receive SkinGrocer emails. Unsubscribe anytime.{" "}
+        By joining, you agree to receive Skin Grocer emails. Unsubscribe anytime.{" "}
         <Link
           to="/privacy-policy"
           className={`ml-1 inline-flex items-center gap-0.5 underline underline-offset-4 transition ${

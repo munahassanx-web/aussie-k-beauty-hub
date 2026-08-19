@@ -130,19 +130,13 @@ function BrandsPage() {
       <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {brands.map((b) => {
           const count = countFor(b.name);
-          const light = b.ink === "light";
           return (
             <Link
               to="/shop"
               search={{ brand: b.name }}
               key={b.name}
-              className="group relative flex aspect-[4/5] flex-col overflow-hidden rounded-3xl p-6 transition-transform duration-500 hover:-translate-y-1"
-              style={{ background: `linear-gradient(155deg, ${b.from} 0%, ${b.to} 100%)` }}
+              className="group relative flex aspect-[4/5] flex-col overflow-hidden border border-border/70 bg-secondary p-6 transition-transform duration-500 hover:-translate-y-1"
             >
-              <div
-                className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full opacity-50 blur-3xl"
-                style={{ background: b.from }}
-              />
               {/* hover reveal: splash backdrop + hero product close-up */}
               <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                 <img
@@ -152,9 +146,9 @@ function BrandsPage() {
                   loading="lazy"
                   width={1024}
                   height={1280}
-                  className="absolute inset-0 h-full w-full scale-110 object-cover transition-transform duration-[1200ms] group-hover:scale-100"
+                  className="absolute inset-0 h-full w-full scale-110 object-cover grayscale transition-transform duration-[1200ms] group-hover:scale-100"
                 />
-                <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, ${b.to}22 0%, ${b.to}88 100%)` }} />
+                <div className="absolute inset-0 bg-background/70" />
                 <img
                   src={b.hero}
                   alt=""
@@ -162,14 +156,14 @@ function BrandsPage() {
                   loading="lazy"
                   width={640}
                   height={640}
-                  className="absolute left-1/2 top-1/2 h-[86%] w-auto -translate-x-1/2 -translate-y-1/2 scale-90 object-contain drop-shadow-[0_36px_60px_rgba(0,0,0,0.35)] transition-transform duration-700 group-hover:scale-100"
+                  className="absolute left-1/2 top-1/2 h-[86%] w-auto -translate-x-1/2 -translate-y-1/2 scale-90 object-contain transition-transform duration-700 group-hover:scale-100"
                 />
               </div>
               <div className="relative flex items-center justify-between">
-                <span className={`rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.15em] backdrop-blur ${light ? "bg-white/20 text-white" : "bg-white/60 text-foreground"}`}>
+                <span className="bg-background/80 px-3 py-1 text-[11px] uppercase tracking-[0.15em] text-foreground backdrop-blur">
                   {count} {count === 1 ? "product" : "products"}
                 </span>
-                <span className={`text-lg transition-transform group-hover:translate-x-1 ${light ? "text-white" : "text-foreground"}`}>→</span>
+                <span className="text-lg text-foreground transition-transform group-hover:translate-x-1">→</span>
               </div>
 
               <div className="relative flex flex-1 items-center justify-center">
@@ -179,18 +173,19 @@ function BrandsPage() {
                   loading="lazy"
                   width={640}
                   height={640}
-                  className="h-[68%] w-auto object-contain drop-shadow-[0_28px_40px_rgba(0,0,0,0.22)] transition-all duration-700 group-hover:scale-105 group-hover:opacity-0"
+                  className="h-[68%] w-auto object-contain transition-all duration-700 group-hover:scale-105 group-hover:opacity-0"
                 />
               </div>
 
               <div className="relative">
-                <h2 className={`font-display text-3xl leading-tight ${light ? "text-white" : "text-foreground"}`}>{b.name}</h2>
-                <p className={`mt-1.5 text-xs leading-relaxed ${light ? "text-white/75" : "text-foreground/65"}`}>{b.tag}</p>
+                <h2 className="font-display text-3xl leading-tight text-foreground">{b.name}</h2>
+                <p className="mt-1.5 text-xs leading-relaxed text-foreground/65">{b.tag}</p>
               </div>
             </Link>
           );
         })}
       </div>
+
     </div>
   );
 }

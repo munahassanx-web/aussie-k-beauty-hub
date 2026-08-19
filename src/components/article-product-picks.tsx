@@ -68,7 +68,7 @@ export function ArticleProductPicks({ article }: { article: LearnArticle }) {
                 }}
                 className="mt-4 inline-flex min-h-11 items-center rounded-full border border-foreground/25 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground transition-colors hover:bg-foreground hover:text-background"
               >
-                Add to order
+                Add to bag
               </button>
             </div>
           ))}
