@@ -173,9 +173,9 @@ function Shop() {
                       eager={i < 3}
                       overlay={
                         <label
-                          className={`absolute left-2 top-2 z-10 inline-flex min-h-9 items-center gap-1.5 bg-background/92 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-foreground backdrop-blur transition-opacity duration-300 md:bottom-2 md:left-auto md:right-2 md:top-auto md:opacity-0 md:group-hover:opacity-100 md:focus-within:opacity-100 ${
-                            disabled ? "opacity-40" : "cursor-pointer"
-                          }`}
+                          className={`inline-flex min-h-9 items-center gap-2 text-[10px] uppercase tracking-[0.18em] ${
+                            disabled ? 'opacity-40' : 'cursor-pointer'
+                          } ${isSelected ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}`}
                         >
                           <input
                             type="checkbox"
@@ -192,6 +192,7 @@ function Shop() {
                 );
               })}
             </div>
+
           )}
         </div>
       </div>

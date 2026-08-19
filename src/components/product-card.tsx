@@ -19,7 +19,7 @@ function displayName(p: ShopProduct): string {
 
 type Props = {
   product: ShopProduct;
-  /** Optional slot rendered under the image (e.g. a compare control). */
+  /** Optional secondary control rendered under the card (e.g. compare). */
   overlay?: React.ReactNode;
   /** Hide the quick-add row — used in tight cross-sell grids. */
   compact?: boolean;
@@ -37,6 +37,9 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
   const soldOut = isSoldOut(p.priceId);
   const size = productSize(p);
   const slug = productSlug(p);
+  const unavailable = p.comingSoon || soldOut;
+  // One badge only — availability outranks the brand-supplied tag.
+  const badge = p.comingSoon ? 'Arriving soon' : soldOut ? 'Out of stock' : p.tag || null;
 
   return (
     <article className="group relative flex h-full flex-col">
@@ -46,7 +49,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
           params={{ slug }}
           tabIndex={-1}
           aria-hidden="true"
-          className="block aspect-square p-6 sm:p-8"
+          className="block aspect-square p-8 sm:p-10"
         >
           <img
             src={p.image}
@@ -54,24 +57,17 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
             loading={eager ? 'eager' : 'lazy'}
             width={1024}
             height={1024}
-            className="h-full w-full object-contain transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+            className="h-full w-full object-contain transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]"
           />
         </Link>
 
-
-        {p.tag && (
-          <span className="absolute left-0 top-0 bg-background/92 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground backdrop-blur">
-            {p.tag}
-          </span>
-        )}
-        {soldOut && !p.comingSoon && (
-          <span className="absolute left-0 bottom-0 bg-background/92 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground backdrop-blur">
-            Out of stock
-          </span>
-        )}
-        {p.comingSoon && (
-          <span className="absolute left-0 bottom-0 bg-background/92 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground backdrop-blur">
-            Arriving soon
+        {badge && (
+          <span
+            className={`absolute left-3 top-3 bg-background px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.2em] ${
+              unavailable ? 'text-muted-foreground' : 'text-foreground'
+            }`}
+          >
+            {badge}
           </span>
         )}
 
@@ -80,7 +76,6 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
           productName={`${p.brand} ${p.name}`}
           className="absolute right-2 top-2 z-10"
         />
-        {overlay}
       </div>
 
       <div className="flex flex-1 flex-col pt-4">
@@ -99,25 +94,29 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
           {size ? ` · ${size}` : ''}
         </p>
 
-        <div className="mt-4 flex items-baseline justify-between gap-3 border-t border-border/70 pt-3">
-          <span className="text-sm tabular-nums text-foreground">{p.price}</span>
-          {!compact &&
-            (p.comingSoon || soldOut ? (
-              <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                {p.comingSoon ? 'Not yet orderable' : 'Out of stock'}
-              </span>
-            ) : (
-              <button
-                type="button"
-                onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
-                aria-label={`Add ${p.brand} ${p.name} to bag`}
-                className="relative z-10 -my-1 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-primary underline-offset-4 transition-opacity hover:underline focus-visible:underline"
-              >
-                Add to bag
-              </button>
-            ))}
+        <div className="mt-auto pt-4">
+          <div className="flex items-center justify-between gap-3 border-t border-border/70 pt-3">
+            <span className="text-sm tabular-nums text-foreground">{p.price}</span>
+            {!compact &&
+              (unavailable ? (
+                <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                  {p.comingSoon ? 'Not yet orderable' : 'Out of stock'}
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
+                  aria-label={`Add ${p.brand} ${p.name} to bag`}
+                  className="relative z-10 inline-flex min-h-9 items-center rounded-[2px] border border-foreground px-3.5 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground transition-colors duration-200 hover:bg-foreground hover:text-background focus-visible:bg-foreground focus-visible:text-background"
+                >
+                  Add to bag
+                </button>
+              ))}
+          </div>
+          {overlay && <div className="relative z-10 pt-2.5">{overlay}</div>}
         </div>
       </div>
     </article>
   );
 }
+
