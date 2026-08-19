@@ -13,13 +13,16 @@
 
 import { activeEmailProvider } from './provider.server';
 import {
+  renderCancellationNotice,
+  renderDeliveryConfirmation,
   renderDispatchNotice,
   renderOrderConfirmation,
   type OrderEmailData,
 } from './order-emails.server';
 import { maskEmail } from '@/lib/commerce-log';
 
-export type NotificationKind = 'order_confirmation' | 'dispatch' | 'delivery';
+export type NotificationKind = 'order_confirmation' | 'dispatch' | 'delivery' | 'cancellation';
+
 
 const ORDER_EMAIL_COLUMNS =
   'id, created_at, currency, amount_cents, shipping_cents, discount_cents, line_items, shipping_name, shipping_line1, shipping_line2, shipping_city, shipping_state, shipping_postcode, shipping_country, shipping_method, tracking_number, shipping_carrier, user_id, guest_email, status, fulfillment_status';
@@ -49,6 +52,10 @@ export function toOrderEmailData(row: Record<string, any>): OrderEmailData {
     shippingMethod: row['shipping_method'] ?? null,
     trackingNumber: row['tracking_number'] ?? null,
     shippingCarrier: row['shipping_carrier'] ?? null,
+    status: row['status'] ?? null,
+    dispatchedAt: row['dispatched_at'] ?? row['shipped_at'] ?? null,
+    deliveredAt: row['delivered_at'] ?? null,
+    refundedCents: typeof row['refunded_cents'] === 'number' ? row['refunded_cents'] : null,
   };
 }
 
@@ -92,7 +99,14 @@ export async function dispatchOrderNotification(
 
   const recipient = await resolveRecipient(supabase, row);
   const order = toOrderEmailData(row);
-  const rendered = kind === 'dispatch' ? renderDispatchNotice(order) : renderOrderConfirmation(order);
+  const rendered =
+    kind === 'dispatch'
+      ? renderDispatchNotice(order)
+      : kind === 'delivery'
+        ? renderDeliveryConfirmation(order)
+        : kind === 'cancellation'
+          ? renderCancellationNotice(order)
+          : renderOrderConfirmation(order);
 
   const base = {
     order_id: orderId,
