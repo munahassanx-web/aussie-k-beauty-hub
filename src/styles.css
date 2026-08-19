@@ -221,9 +221,15 @@
 /* Layered natural-light scrim: keeps skin tones warm, protects type legibility */
 @utility hero-scrim {
   background:
-    linear-gradient(180deg, color-mix(in oklab, var(--color-ink) 58%, transparent) 0%, color-mix(in oklab, var(--color-ink) 40%, transparent) 42%, color-mix(in oklab, var(--color-ink) 78%, transparent) 100%),
-    radial-gradient(82% 62% at 50% 48%, color-mix(in oklab, var(--color-ink) 14%, transparent) 0%, color-mix(in oklab, var(--color-ink) 50%, transparent) 100%);
+    linear-gradient(180deg, color-mix(in oklab, var(--color-ink) 34%, transparent) 0%, color-mix(in oklab, var(--color-ink) 16%, transparent) 44%, color-mix(in oklab, var(--color-ink) 52%, transparent) 100%),
+    radial-gradient(84% 64% at 50% 46%, color-mix(in oklab, var(--color-ink) 2%, transparent) 0%, color-mix(in oklab, var(--color-ink) 26%, transparent) 100%);
 }
+
+/* Restrained editorial grade: luminous skin, clean whites, natural colour */
+@utility hero-grade {
+  filter: brightness(1.12) contrast(1.03) saturate(1.06);
+}
+
 
 @utility animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
 @utility animate-marquee { animation: marquee 38s linear infinite; }

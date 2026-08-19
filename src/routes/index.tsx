@@ -18,6 +18,7 @@ import authenticityCard from "@/assets/authenticity-card.png.asset.json";
 import ritualScene from "@/assets/ritual-scene.jpg";
 import quizBareSkin from "@/assets/quiz-bare-skin.jpg";
 import categoryMasks from "@/assets/category-masks.jpg";
+import cabinetShelf from "@/assets/learn/seoul-shelf.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -349,26 +350,40 @@ function BrandMarquee() {
   return (
     <section className="border-y border-border/60 bg-background">
       <div className="mx-auto max-w-7xl px-6 py-20 md:py-28">
-        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-6 md:flex md:justify-between">
-          <div className="min-w-0 max-w-2xl">
+        <header className="grid gap-10 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.85fr)] md:items-end md:gap-16">
+          <div className="min-w-0">
             <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-ink/50">
               THE BRAND CABINET
             </p>
-            <h2 className="mt-4 font-display text-3xl leading-[1.05] text-ink md:text-5xl">
-              Korean skincare houses, <span className="italic">chosen with intention.</span>
+            <h2 className="mt-4 max-w-[18ch] font-display text-3xl leading-[1.05] text-ink md:text-5xl">
+              The names shaping Korean skincare, <span className="italic">curated for your shelf.</span>
             </h2>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink/60">
-              From barrier specialists to modern cult favourites, explore the names shaping the Skin Grocer edit.
+            <p className="mt-5 max-w-xl text-sm leading-relaxed text-ink/60">
+              From Seoul&rsquo;s barrier specialists to cult formulas worth knowing, discover the brands defining the Skin Grocer edit.
             </p>
+            <Link
+              to="/brands"
+              className="group mt-7 inline-block text-[11px] font-semibold uppercase tracking-[0.2em] text-ink"
+            >
+              <span className="border-b border-ink/25 pb-1 transition-colors group-hover:border-[var(--stripe-gold)]">
+                Browse all brands
+              </span>
+            </Link>
           </div>
-          <Link
-            to="/brands"
-            className="group shrink-0 self-end text-[11px] font-semibold uppercase tracking-[0.2em] text-ink"
-          >
-            <span className="border-b border-ink/25 pb-1 transition-colors group-hover:border-[var(--stripe-gold)]">
-              Browse all brands
-            </span>
-          </Link>
+          <figure className="m-0 md:pl-8">
+            <div className="relative border border-border/60">
+              <img
+                src={cabinetShelf}
+                alt="Shopper selecting Korean skincare from a minimal Seoul beauty shelf"
+                loading="lazy"
+                decoding="async"
+                className="aspect-[4/3] w-full object-cover md:aspect-[5/4]"
+              />
+            </div>
+            <figcaption className="mt-3 text-[10px] uppercase tracking-[0.24em] text-ink/40">
+              Seoul shelf &middot; the edit begins in store
+            </figcaption>
+          </figure>
         </header>
 
         {/* A–Z index */}
