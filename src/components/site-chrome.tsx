@@ -1,6 +1,6 @@
 import { NewsletterForm } from "@/components/newsletter-form";
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/lib/cart";
 import { ProductSearchOverlay } from "@/components/product-search";
@@ -173,6 +173,9 @@ export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSection, setMobileSection] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
   const cart = useCart();
 
@@ -181,6 +184,31 @@ export function SiteHeader() {
     setMobileOpen(false);
     setMobileSection(null);
   };
+
+  // Pin the brand + navigation row once the user scrolls past the announcement bar
+  // so the page links stay accessible while the trust messages scroll away.
+  useEffect(() => {
+    const nav = navRef.current;
+    const wrapper = wrapperRef.current;
+    if (!nav || !wrapper) return;
+
+    const update = () => {
+      const rect = nav.getBoundingClientRect();
+      const nextSticky = rect.top <= 0 && window.scrollY > 0;
+      setIsSticky(nextSticky);
+      // Preserve the nav's original layout space so the page does not jump
+      // when the nav becomes fixed-positioned.
+      wrapper.style.height = nextSticky ? `${rect.height}px` : "auto";
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
 
   // Escape closes any open navigation surface, per WCAG 2.2 keyboard expectations.
   useEffect(() => {
@@ -198,21 +226,26 @@ export function SiteHeader() {
   }, [mobileOpen, openMenu]);
 
   return (
-    <header className="sticky top-0 z-50">
+    <header>
       {/* The Grocer Stripe — signature brand band, fixed height (no CLS) */}
       <div
         aria-hidden="true"
         className="grocer-stripe h-[10px] w-full md:h-[18px]"
       />
-      <AnnouncementBar />
-      {/* Main nav */}
-      <div
-        className="border-b border-border/60 bg-background/95 backdrop-blur"
-        onMouseLeave={() => setOpenMenu(null)}
-      >
-        <div className="mx-auto max-w-7xl px-6">
-          {/* Brand row — large centered wordmark, Concept 1 */}
-          <div className="relative flex items-center justify-center px-4 pt-10 pb-4 md:px-0 md:pt-0 md:pb-0 md:min-h-[84px]">
+      {/* Main nav wrapper preserves layout when the pinned header is fixed */}
+      <div ref={wrapperRef} className="relative">
+        {/* Pinned header — brand, navigation, and trust messages stay visible while scrolling */}
+        <div
+          ref={navRef}
+          className={`z-50 bg-background/95 backdrop-blur shadow-[0_1px_0_rgba(0,0,0,0.04)] ${
+            isSticky ? "fixed left-0 right-0 top-0" : "relative"
+          }`}
+          onMouseLeave={() => setOpenMenu(null)}
+        >
+          <AnnouncementBar />
+          <div className="mx-auto max-w-7xl px-6 border-b border-border/60">
+            {/* Brand row — large centered wordmark, Concept 1 */}
+            <div className="relative flex items-center justify-center px-4 pt-10 pb-4 md:px-0 md:pt-0 md:pb-0 md:min-h-[84px]">
             <Link
               to="/"
               aria-label="Skin Grocer — home"
@@ -496,6 +529,7 @@ export function SiteHeader() {
             </div>
           </div>
         )}
+      </div>
       </div>
       <ProductSearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
