@@ -545,7 +545,7 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
     .filter((l): l is string => l !== null)
     .join('\n');
 
-  return { subject: `Your Skin Grocer order is confirmed — ${ref}`, html, text };
+  return { subject: `[TEST] Your Skin Grocer order is confirmed — ${ref}`, html, text };
 }
 
 export function renderDispatchNotice(o: OrderEmailData): { subject: string; html: string; text: string } {
@@ -625,7 +625,7 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
     .filter((l): l is string => l !== null)
     .join('\n');
 
-  return { subject: `Your Skin Grocer order is on its way — ${ref}`, html, text };
+  return { subject: `[TEST] Your Skin Grocer order is on its way — ${ref}`, html, text };
 }
 
 /** Short, copy-pasteable dispatch message for the manual fallback in the admin UI. */
@@ -748,7 +748,7 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
     .filter((l): l is string => l !== null)
     .join('\n');
 
-  return { subject: `Your Skin Grocer order has been delivered — ${ref}`, html, text };
+  return { subject: `[TEST] Your Skin Grocer order has been delivered — ${ref}`, html, text };
 }
 
 /**
@@ -839,7 +839,7 @@ export function renderCancellationNotice(
     .join('\n');
 
   return {
-    subject: isRefund ? `Your Skin Grocer refund — ${ref}` : `Your Skin Grocer order has been cancelled — ${ref}`,
+    subject: isRefund ? `[TEST] Your Skin Grocer refund — ${ref}` : `[TEST] Your Skin Grocer order has been cancelled — ${ref}`,
     html,
     text,
   };
