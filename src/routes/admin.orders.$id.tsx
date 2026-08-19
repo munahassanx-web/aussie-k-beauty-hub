@@ -6,6 +6,7 @@ import {
   getAdminOrder,
   getOrderComms,
   getShippingCapability,
+  markOrderDelivered,
   sendOrderNotification,
   updateOrderFulfilment,
   FULFILMENT_STAGES,
@@ -218,30 +219,31 @@ function OrderDetail() {
         <section className="mt-4 rounded-2xl border border-border p-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Fulfilment</p>
           <div className="mt-3 flex flex-wrap gap-2">
-            {[...FULFILMENT_STAGES, 'cancelled'].map((s) => (
+            {[...FULFILMENT_STAGES.filter((f) => f !== 'delivered'), 'cancelled'].map((s) => (
               <button
                 key={s}
                 type="button"
-                disabled={
-                  mutate.isPending ||
-                  order.fulfillmentStatus === s ||
-                  ((s === 'shipped' || s === 'delivered') && dispatchBlocked)
-                }
+                disabled={mutate.isPending || order.fulfillmentStatus === s || (s === 'shipped' && dispatchBlocked)}
                 title={
-                  (s === 'shipped' || s === 'delivered') && dispatchBlocked
+                  s === 'shipped' && dispatchBlocked
                     ? 'Add a carrier and a valid tracking number first, or tick the override below.'
                     : undefined
                 }
                 onClick={() => {
-                  if ((s === 'shipped' || s === 'delivered') && dispatchBlocked) return;
+                  if (s === 'shipped' && dispatchBlocked) return;
+                  // Dispatch and cancel are customer-visible and one-way — confirm first.
+                  if (s === 'shipped' &&
+                    !window.confirm(
+                      `Mark this order dispatched?\n\nThis sends the customer the dispatch email once, with ${carrier || 'no carrier'} tracking ${tracking || '(none)'}.`,
+                    )
+                  ) return;
+                  if (s === 'cancelled' && !window.confirm('Mark this order cancelled? This does not refund the customer — refunds are processed in Stripe.')) return;
                   mutate.mutate({
                     id: order.id,
                     fulfillmentStatus: s,
                     // Persist what the form is showing so dispatch can never be
                     // recorded with tracking that was typed but never saved.
-                    ...(s === 'shipped' || s === 'delivered'
-                      ? { shippingCarrier: carrier, trackingNumber: tracking }
-                      : {}),
+                    ...(s === 'shipped' ? { shippingCarrier: carrier, trackingNumber: tracking } : {}),
                   });
                 }}
                 className={`rounded-full border px-4 py-2 text-sm disabled:opacity-60 ${
