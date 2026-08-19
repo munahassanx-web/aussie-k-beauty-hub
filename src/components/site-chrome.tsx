@@ -212,7 +212,7 @@ export function SiteHeader() {
       >
         <div className="mx-auto max-w-7xl px-6">
           {/* Brand row — large centered wordmark, Concept 1 */}
-          <div className="relative flex items-center justify-center py-4 md:py-7">
+          <div className="relative flex items-center justify-center px-14 py-4 md:px-0 md:py-7">
             <Link
               to="/"
               aria-label="Skin Grocer — home"
