@@ -211,7 +211,7 @@ export function SiteHeader() {
             onClick={closeMenus}
             onMouseEnter={() => setOpenMenu(null)}
           >
-            <BrandWordmark size="md" className="text-foreground" />
+            <BrandWordmark size="md" sub className="text-foreground" />
           </Link>
 
 
