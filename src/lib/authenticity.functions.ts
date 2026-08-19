@@ -208,7 +208,8 @@ export const revokeAuthenticityCard = createServerFn({ method: 'POST' })
 export const getVerificationRecord = createServerFn({ method: 'POST' })
   .inputValidator((input: { token: string }) => ({ token: String(input?.token ?? '') }))
   .handler(async ({ data }): Promise<PublicVerification> => {
-    const { isWellFormedToken, hashToken, CHECK_LABELS } = await import('@/lib/authenticity.server');
+    const { isWellFormedToken, hashToken } = await import('@/lib/authenticity.server');
+    const { CHECK_LABELS, REQUIRED_CHECKS, OPTIONAL_CHECKS } = await import('@/lib/authenticity-checks');
     if (!isWellFormedToken(data.token)) return { state: 'unknown' };
 
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
