@@ -126,28 +126,18 @@ function ProductPage() {
   const product = findProductBySlug(slug);
   const { buy } = useBuyNow();
   const [active, setActive] = useState(0);
-  const [hovered, setHovered] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
-  // User-controlled play/pause; defaults to playing, but reduced-motion users start paused.
-  const [userPaused, setUserPaused] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-
 
   const gallery = product ? galleryFor(product) : [];
   const count = gallery.length;
-  const playing = !hovered && !userPaused && !prefersReducedMotion && count > 1;
 
   useEffect(() => {
     setActive(0);
   }, [slug]);
 
-  useEffect(() => {
-    if (!playing) return;
-    const id = setInterval(() => setActive((i) => (i + 1) % count), 4500);
-    return () => clearInterval(id);
-  }, [playing, count, slug]);
-
   const step = (delta: number) => setActive((i) => (i + delta + count) % count);
+
 
   // Touch swipe: drag the stage horizontally to move between images.
   const stageRef = useRef<HTMLDivElement | null>(null);
@@ -181,7 +171,6 @@ function ProductPage() {
       s.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
       if (s.axis === 'x') {
         setDragging(true);
-        setUserPaused(true);
       }
     }
     if (s.axis !== 'x') return;
@@ -211,19 +200,15 @@ function ProductPage() {
     if (count < 2) return;
     if (e.key === 'ArrowRight') {
       e.preventDefault();
-      setUserPaused(true);
       step(1);
     } else if (e.key === 'ArrowLeft') {
       e.preventDefault();
-      setUserPaused(true);
       step(-1);
     } else if (e.key === 'Home') {
       e.preventDefault();
-      setUserPaused(true);
       setActive(0);
     } else if (e.key === 'End') {
       e.preventDefault();
-      setUserPaused(true);
       setActive(count - 1);
     }
   };
@@ -231,7 +216,6 @@ function ProductPage() {
   const stripRef = useRef<HTMLDivElement | null>(null);
 
   const focusThumb = (i: number) => {
-    setUserPaused(true);
     setActive(i);
     const btn = stripRef.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[i];
     btn?.focus();
@@ -273,18 +257,16 @@ function ProductPage() {
       </nav>
 
       <div className="mt-8 grid gap-12 lg:grid-cols-2">
-        {/* Gallery — auto-rotates while you read; pauses on hover, on focus,
-            when the visitor hits pause, or when they prefer reduced motion. */}
+        {/* Gallery — visitor-controlled only: arrows, thumbnails, swipe and
+            arrow keys. No auto-advance. */}
+
         <div
           role="group"
-          aria-roledescription="carousel"
+          aria-roledescription="image gallery"
           aria-label={`${product.name} images`}
           tabIndex={0}
           onKeyDown={onKeyDown}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          onFocus={() => setHovered(true)}
-          onBlur={() => setHovered(false)}
+
           className="lg:sticky lg:top-24 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
         >
           <div
@@ -371,7 +353,6 @@ function ProductPage() {
               <button
                 type="button"
                 onClick={() => {
-                  setUserPaused(true);
                   step(-1);
                 }}
                 aria-label="Previous image"
@@ -382,7 +363,6 @@ function ProductPage() {
               <button
                 type="button"
                 onClick={() => {
-                  setUserPaused(true);
                   step(1);
                 }}
                 aria-label="Next image"
@@ -390,16 +370,10 @@ function ProductPage() {
               >
                 ›
               </button>
-              <button
-                type="button"
-                onClick={() => setUserPaused((p) => !p)}
-                aria-pressed={userPaused || prefersReducedMotion}
-                aria-label={userPaused || prefersReducedMotion ? 'Play slideshow' : 'Pause slideshow'}
-                title={userPaused || prefersReducedMotion ? 'Play slideshow' : 'Pause slideshow'}
-                className="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-[2px] border border-border/70 text-[10px] text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
-              >
-                <span aria-hidden="true">{userPaused || prefersReducedMotion ? '▶' : '❙❙'}</span>
-              </button>
+              <span className="ml-auto text-[10px] uppercase tracking-[0.2em] tabular-nums text-muted-foreground">
+                {active + 1} / {count}
+              </span>
+
               <span className="sr-only">Use the left and right arrow keys to move between images.</span>
 
             </div>
@@ -426,7 +400,6 @@ function ProductPage() {
                   aria-label={`Show image ${i + 1} of ${count}: ${g.alt}`}
                   tabIndex={i === active ? 0 : -1}
                   onClick={() => {
-                    setUserPaused(true);
                     setActive(i);
                   }}
                   className={`relative h-[68px] w-[68px] shrink-0 snap-start overflow-hidden rounded-[2px] border bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
