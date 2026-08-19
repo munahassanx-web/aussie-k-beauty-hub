@@ -192,6 +192,11 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50">
+      {/* The Grocer Stripe — signature brand band, fixed height (no CLS) */}
+      <div
+        aria-hidden="true"
+        className="grocer-stripe grocer-stripe-sweep h-[9px] w-full md:h-[12px]"
+      />
       <AnnouncementBar />
       {/* Main nav */}
       <div
