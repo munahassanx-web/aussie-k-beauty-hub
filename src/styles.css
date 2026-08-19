@@ -225,9 +225,14 @@
     radial-gradient(84% 64% at 50% 46%, color-mix(in oklab, var(--color-ink) 2%, transparent) 0%, color-mix(in oklab, var(--color-ink) 26%, transparent) 100%);
 }
 
+/* Mobile: localized radial falloff that sits behind the copy and fades out */
+@utility hero-scrim-mobile {
+  background: radial-gradient(120% 62% at 50% 52%, color-mix(in oklab, var(--color-ink) 40%, transparent) 0%, color-mix(in oklab, var(--color-ink) 22%, transparent) 48%, transparent 78%);
+}
+
 /* Restrained editorial grade: luminous skin, clean whites, natural colour */
 @utility hero-grade {
-  filter: brightness(1.05) contrast(1.03) saturate(1.02);
+  filter: brightness(1.02) contrast(1.03) saturate(1.01);
 }
 
 
