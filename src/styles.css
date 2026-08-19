@@ -227,7 +227,7 @@
 
 /* Restrained editorial grade: luminous skin, clean whites, natural colour */
 @utility hero-grade {
-  filter: brightness(1.12) contrast(1.03) saturate(1.06);
+  filter: brightness(1.05) contrast(1.03) saturate(1.02);
 }
 
 

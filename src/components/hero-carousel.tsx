@@ -58,7 +58,7 @@ const slides: Slide[] = [
     align: "left",
     vertical: "center",
     navLabel: "SKIN GROCER",
-    filter: "brightness(1.14) contrast(1.02) saturate(1.06)",
+    filter: "brightness(1.06) contrast(1.02) saturate(1.03)",
   },
   {
     // Local access: Seoul shelf edit, type sits in the left negative space
@@ -77,7 +77,7 @@ const slides: Slide[] = [
     vertical: "center",
     scrimClass: "bg-gradient-to-r from-ink/46 via-ink/12 to-transparent",
     navLabel: "LOCAL ACCESS",
-    filter: "brightness(1.10) contrast(1.04) saturate(1.05)",
+    filter: "brightness(1.04) contrast(1.03) saturate(1.02)",
   },
   {
     // Routine guidance: hands holding product in lower-left, type takes upper-right
@@ -97,7 +97,7 @@ const slides: Slide[] = [
     vertical: "top",
     scrimClass: "bg-gradient-to-bl from-ink/58 via-ink/18 to-transparent",
     navLabel: "ROUTINE GUIDANCE",
-    filter: "brightness(1.16) contrast(1.02) saturate(1.04)",
+    filter: "brightness(1.08) contrast(1.03) saturate(1.02)",
   },
   {
     // Authenticity: portrait with product left-of-centre, type sits right
@@ -116,7 +116,7 @@ const slides: Slide[] = [
     vertical: "center",
     scrimClass: "bg-gradient-to-l from-ink/62 via-ink/22 to-transparent",
     navLabel: "AUTHENTICITY",
-    filter: "brightness(1.13) contrast(1.03) saturate(1.07)",
+    filter: "brightness(1.05) contrast(1.03) saturate(1.03)",
   },
   {
     // Discovery: packing shot, type takes lower-left
@@ -135,7 +135,7 @@ const slides: Slide[] = [
     vertical: "center",
     scrimClass: "bg-gradient-to-r from-ink/48 via-ink/14 to-transparent",
     navLabel: "DISCOVERY",
-    filter: "brightness(1.15) contrast(1.02) saturate(1.05)",
+    filter: "brightness(1.07) contrast(1.02) saturate(1.02)",
   },
 
 ];
@@ -320,7 +320,7 @@ export function HeroCarousel() {
                   style={
                     {
                       "--hero-drift-duration": `${slide.durationMs + 2200}ms`,
-                      filter: slide.filter ?? "brightness(1.12) contrast(1.03) saturate(1.06)",
+                      filter: slide.filter ?? "brightness(1.05) contrast(1.03) saturate(1.02)",
                     } as React.CSSProperties
                   }
                 />
