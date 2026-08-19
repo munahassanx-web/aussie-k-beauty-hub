@@ -469,34 +469,30 @@
 @utility grocer-stripe {
   position: relative;
   overflow: hidden;
-  background-color: #0b0b0c;
+  background-color: #070707;
+  /* 45deg diagonal; perpendicular period 79px => ~112px horizontal repeat.
+     Panels project to ~54px black, ~26px gold, ~32px white across the band. */
   background-image: repeating-linear-gradient(
-    115deg,
-    #0b0b0c 0px,
-    #0b0b0c 46px,
-    var(--stripe-gold) 46px,
-    var(--stripe-gold) 70px,
-    #ffffff 70px,
-    #ffffff 88px,
-    #0b0b0c 88px,
-    #0b0b0c 104px
+    45deg,
+    #070707 0px,
+    #070707 38px,
+    #c6a15b 38px,
+    #c6a15b 56px,
+    #ffffff 56px,
+    #ffffff 79px
   );
-  background-size: 104px 100%;
 }
 @media (max-width: 767px) {
   .grocer-stripe {
     background-image: repeating-linear-gradient(
-      115deg,
-      #0b0b0c 0px,
-      #0b0b0c 26px,
-      var(--stripe-gold) 26px,
-      var(--stripe-gold) 40px,
-      #ffffff 40px,
-      #ffffff 50px,
-      #0b0b0c 50px,
-      #0b0b0c 60px
+      45deg,
+      #070707 0px,
+      #070707 19px,
+      #c6a15b 19px,
+      #c6a15b 28px,
+      #ffffff 28px,
+      #ffffff 40px
     );
-    background-size: 60px 100%;
   }
 }
 
