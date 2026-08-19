@@ -266,9 +266,9 @@ const AdminOrdersIndexRoute = AdminOrdersIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminOrdersIdRoute = AdminOrdersIdRouteImport.update({
-  id: '/admin/orders/$id',
-  path: '/admin/orders/$id',
-  getParentRoute: () => rootRouteImport,
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminOrdersRoute,
 } as any)
 const ApiPublicEmailPreviewRoute = ApiPublicEmailPreviewRouteImport.update({
   id: '/api/public/email-preview',
@@ -669,7 +669,6 @@ export interface RootRouteChildren {
   LearnIndexRoute: typeof LearnIndexRoute
   RoutinesIndexRoute: typeof RoutinesIndexRoute
   AdminIssuesIdRoute: typeof AdminIssuesIdRoute
-  AdminOrdersIdRoute: typeof AdminOrdersIdRoute
   ApiPublicEmailPreviewRoute: typeof ApiPublicEmailPreviewRoute
   LearnArticleSlugRoute: typeof LearnArticleSlugRoute
   AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
@@ -972,10 +971,10 @@ declare module '@tanstack/react-router' {
     }
     '/admin/orders/$id': {
       id: '/admin/orders/$id'
-      path: '/admin/orders/$id'
+      path: '/$id'
       fullPath: '/admin/orders/$id'
       preLoaderRoute: typeof AdminOrdersIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdminOrdersRoute
     }
     '/api/public/email-preview': {
       id: '/api/public/email-preview'
@@ -1088,7 +1087,6 @@ const rootRouteChildren: RootRouteChildren = {
   LearnIndexRoute: LearnIndexRoute,
   RoutinesIndexRoute: RoutinesIndexRoute,
   AdminIssuesIdRoute: AdminIssuesIdRoute,
-  AdminOrdersIdRoute: AdminOrdersIdRoute,
   ApiPublicEmailPreviewRoute: ApiPublicEmailPreviewRoute,
   LearnArticleSlugRoute: LearnArticleSlugRoute,
   AdminOrdersIndexRoute: AdminOrdersIndexRoute,
