@@ -261,14 +261,11 @@ function ProductPage() {
             when the visitor hits pause, or when they prefer reduced motion. */}
         <div
           role="group"
-          aria-roledescription="carousel"
+          aria-roledescription="image gallery"
           aria-label={`${product.name} images`}
           tabIndex={0}
           onKeyDown={onKeyDown}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          onFocus={() => setHovered(true)}
-          onBlur={() => setHovered(false)}
+
           className="lg:sticky lg:top-24 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
         >
           <div
