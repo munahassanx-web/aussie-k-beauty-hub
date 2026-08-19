@@ -730,6 +730,35 @@ function ProductPage() {
         </section>
       )}
 
+      {/* Mobile purchase bar — reuses the exact buy handler, price and availability above. */}
+      {!product.comingSoon && (
+        <>
+          <div aria-hidden="true" className="h-20 lg:hidden" />
+          <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur lg:hidden">
+            <div className="flex items-center gap-4 px-4 py-3 pr-24">
+              <div className="min-w-0">
+                <p className="truncate text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                  {product.brand}
+                </p>
+                <p className="text-sm tabular-nums text-foreground">{product.price}</p>
+              </div>
+              <button
+                onClick={() =>
+                  buy({
+                    priceId: product.priceId,
+                    name: product.name,
+                    priceLabel: `${product.price} AUD`,
+                  })
+                }
+                className="ml-auto min-h-12 flex-1 rounded-[2px] bg-foreground px-5 text-[11px] font-medium uppercase tracking-[0.22em] text-background"
+              >
+                Add to bag
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
+
   );
 }
