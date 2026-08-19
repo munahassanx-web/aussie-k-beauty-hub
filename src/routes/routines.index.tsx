@@ -52,7 +52,7 @@ function RoutinesIndex() {
               key={b.id}
               to="/routines/$bundleId"
               params={{ bundleId: b.id }}
-              className="rounded-3xl border border-border p-7 transition-colors hover:bg-secondary/60"
+              className="border border-border p-7 transition-colors hover:bg-secondary/60"
             >
               <h2 className="font-display text-2xl text-foreground">{b.name}</h2>
               <p className="mt-2 text-sm text-muted-foreground">
