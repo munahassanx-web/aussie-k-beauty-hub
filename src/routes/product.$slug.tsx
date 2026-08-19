@@ -126,28 +126,18 @@ function ProductPage() {
   const product = findProductBySlug(slug);
   const { buy } = useBuyNow();
   const [active, setActive] = useState(0);
-  const [hovered, setHovered] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
-  // User-controlled play/pause; defaults to playing, but reduced-motion users start paused.
-  const [userPaused, setUserPaused] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-
 
   const gallery = product ? galleryFor(product) : [];
   const count = gallery.length;
-  const playing = !hovered && !userPaused && !prefersReducedMotion && count > 1;
 
   useEffect(() => {
     setActive(0);
   }, [slug]);
 
-  useEffect(() => {
-    if (!playing) return;
-    const id = setInterval(() => setActive((i) => (i + 1) % count), 4500);
-    return () => clearInterval(id);
-  }, [playing, count, slug]);
-
   const step = (delta: number) => setActive((i) => (i + delta + count) % count);
+
 
   // Touch swipe: drag the stage horizontally to move between images.
   const stageRef = useRef<HTMLDivElement | null>(null);
