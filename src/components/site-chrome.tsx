@@ -122,7 +122,7 @@ function AnnouncementBar() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="relative mx-auto flex min-h-[42px] max-w-7xl items-center px-6 py-2 md:min-h-[55px]">
+      <div className="relative mx-auto flex min-h-[32px] max-w-7xl items-center px-6 py-1 md:min-h-[36px]">
         <span className="absolute left-6 top-1/2 hidden -translate-y-1/2 text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70 md:block">
           AUD $ · Australia
         </span>
@@ -202,7 +202,7 @@ export function SiteHeader() {
       {/* The Grocer Stripe — signature brand band, fixed height (no CLS) */}
       <div
         aria-hidden="true"
-        className="grocer-stripe h-[13px] w-full md:h-[24px]"
+        className="grocer-stripe h-[10px] w-full md:h-[18px]"
       />
       <AnnouncementBar />
       {/* Main nav */}
@@ -212,7 +212,7 @@ export function SiteHeader() {
       >
         <div className="mx-auto max-w-7xl px-6">
           {/* Brand row — large centered wordmark, Concept 1 */}
-          <div className="relative flex items-center justify-center px-4 pt-14 pb-6 md:px-0 md:pt-0 md:pb-0 md:min-h-[136px]">
+          <div className="relative flex items-center justify-center px-4 pt-10 pb-4 md:px-0 md:pt-0 md:pb-0 md:min-h-[84px]">
             <Link
               to="/"
               aria-label="Skin Grocer — home"
@@ -272,7 +272,7 @@ export function SiteHeader() {
             </div>
           </div>
 
-          <nav className="hidden items-center justify-center gap-8 pb-3 lg:flex">
+          <nav className="hidden items-center justify-center gap-8 pb-2 lg:flex">
 
             {Object.keys(megaMenus).map((key) => (
               <div
