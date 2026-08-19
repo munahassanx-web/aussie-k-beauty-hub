@@ -459,3 +459,18 @@
   .animate-hero-drift, .animate-ken-burns { animation: none !important; transform: none; }
 }
 
+
+/* Warehouse printing: only the packing slip goes on the page, on A4. */
+@media print {
+  @page { size: A4; margin: 12mm; }
+  html, body { background: #fff !important; }
+  body * { visibility: hidden !important; }
+  #packing-slip, #packing-slip * { visibility: visible !important; }
+  #packing-slip {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    color: #000 !important;
+    background: #fff !important;
+  }
+}
