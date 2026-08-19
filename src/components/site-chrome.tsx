@@ -497,7 +497,7 @@ export function SiteFooter() {
     <footer className="bg-ink text-paper">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-12">
         <div className="md:col-span-4">
-          <BrandWordmark as="p" size="xl" className="text-paper" />
+          <BrandWordmark as="p" size="xl" sub className="text-paper" />
           <BrandLine className="mt-4 text-rose-gold" />
           <p className="mt-5 max-w-sm text-sm text-paper/65">
 
