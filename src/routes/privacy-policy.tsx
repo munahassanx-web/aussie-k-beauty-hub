@@ -69,8 +69,8 @@ function PrivacyPolicy() {
           <h2 className="font-display text-2xl text-foreground">Your rights</h2>
           <p className="mt-3 text-muted-foreground">
             You can ask to access, correct, or delete the personal information we hold about you anytime by emailing{" "}
-            <a href="mailto:hello@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
-              hello@skingrocer.com.au
+            <a href="mailto:customercare@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
+              customercare@skingrocer.com.au
             </a>.
           </p>
         </section>
@@ -79,8 +79,8 @@ function PrivacyPolicy() {
           <h2 className="font-display text-2xl text-foreground">Complaints</h2>
           <p className="mt-3 text-muted-foreground">
             Contact us first at{" "}
-            <a href="mailto:hello@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
-              hello@skingrocer.com.au
+            <a href="mailto:customercare@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
+              customercare@skingrocer.com.au
             </a>. If unsatisfied, you can lodge a complaint with the Office of the Australian Information Commissioner (OAIC) at{" "}
             <a href="https://oaic.gov.au" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-4 hover:no-underline">
               oaic.gov.au
@@ -99,8 +99,8 @@ function PrivacyPolicy() {
           <h2 className="font-display text-2xl text-foreground">Contact us</h2>
           <p className="mt-3 text-muted-foreground">
             Skin Grocer Pty Ltd —{" "}
-            <a href="mailto:hello@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
-              hello@skingrocer.com.au
+            <a href="mailto:customercare@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
+              customercare@skingrocer.com.au
             </a>
           </p>
         </section>

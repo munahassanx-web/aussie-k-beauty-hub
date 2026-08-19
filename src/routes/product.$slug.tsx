@@ -607,7 +607,7 @@ function ProductPage() {
                   ) : (
                     <p className="mt-6 border-t border-border pt-5 text-xs text-muted-foreground">
                       Hero ingredients only. The full INCI list is printed on the carton of every
-                      product we ship — ask us at hello@skingrocer.com.au if you need it before you
+                      product we ship — ask us at customercare@skingrocer.com.au if you need it before you
                       buy.
                     </p>
                   )}

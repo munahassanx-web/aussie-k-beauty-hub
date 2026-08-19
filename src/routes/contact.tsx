@@ -98,7 +98,7 @@ function Contact() {
           <dl className="mt-10 space-y-6">
             <div>
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">Email</dt>
-              <dd className="mt-1 font-display text-2xl text-foreground">hello@skingrocer.com.au</dd>
+              <dd className="mt-1 font-display text-2xl text-foreground">customercare@skingrocer.com.au</dd>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">Warehouse</dt>

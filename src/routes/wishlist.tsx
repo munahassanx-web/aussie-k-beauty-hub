@@ -41,8 +41,8 @@ function WishlistPage() {
       </p>
       <p className="mt-3 max-w-xl text-base text-muted-foreground">
         To remove a saved item, contact us at{' '}
-        <a href="mailto:hello@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:text-foreground">
-          hello@skingrocer.com.au
+        <a href="mailto:customercare@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:text-foreground">
+          customercare@skingrocer.com.au
         </a>.
       </p>
 

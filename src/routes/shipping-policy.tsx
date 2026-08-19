@@ -69,8 +69,8 @@ function ShippingPolicy() {
           <h2 className="font-display text-2xl text-foreground">Questions</h2>
           <p className="mt-3 text-muted-foreground">
             Email{" "}
-            <a href="mailto:hello@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
-              hello@skingrocer.com.au
+            <a href="mailto:customercare@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
+              customercare@skingrocer.com.au
             </a>{" "}
             with your order number and we'll help.
           </p>

@@ -25,7 +25,7 @@ import { trackingLink, trackingLinkLabel } from '@/lib/shipping/carriers';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
 
 export const SITE_URL = 'https://skingrocer.com.au';
-export const SUPPORT_EMAIL = 'hello@skingrocer.com.au';
+export const SUPPORT_EMAIL = 'customercare@skingrocer.com.au';
 
 /* Brand palette — approved values only. */
 const NAVY = '#0D1B2A';

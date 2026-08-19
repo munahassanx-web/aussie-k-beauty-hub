@@ -81,7 +81,7 @@ export const lovableEmailProvider: EmailProvider = {
             purpose: 'transactional',
             label: message.idempotencyKey.split(':')[0] ?? 'order',
             idempotency_key: message.idempotencyKey,
-            reply_to: 'hello@skingrocer.com.au',
+            reply_to: 'customercare@skingrocer.com.au',
           },
           { apiKey: process.env['LOVABLE_API_KEY']!, sendUrl: process.env['LOVABLE_SEND_URL'] },
         );

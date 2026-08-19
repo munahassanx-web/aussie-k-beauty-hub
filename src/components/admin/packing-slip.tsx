@@ -103,7 +103,7 @@ export function PackingSlip({ order }: { order: AdminOrderDetail }) {
       </section>
 
       <footer className="mt-6 border-t border-black pt-4 text-xs">
-        <p>Questions about this parcel: hello@skingrocer.com.au</p>
+        <p>Questions about this parcel: customercare@skingrocer.com.au</p>
       </footer>
     </div>
   );
