@@ -652,3 +652,195 @@ export function dispatchMessagePlainText(o: OrderEmailData): string {
     .filter((l): l is string => l !== null)
     .join('\n');
 }
+
+/**
+ * Delivery confirmation. Same locked Option 1 system as the order confirmation:
+ * white field, navy/white Grocer Stripe frame, thin gold keyline, same masthead
+ * and footer. Only the transactional copy, status and CTA change. Never claims
+ * a delivery time or signature we do not hold.
+ */
+export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string; html: string; text: string } {
+  const ref = orderReference(o.id);
+  const carrier = o.shippingCarrier?.trim() || null;
+  const tracking = o.trackingNumber?.trim() || null;
+  const link = trackingLink(carrier, tracking);
+  const address = addressLines(o);
+  const first = firstNameOf(o);
+  const deliveredOn = o.deliveredAt
+    ? new Date(o.deliveredAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })
+    : null;
+
+  const html = shell(
+    `Order ${ref} delivered`,
+    `Order ${ref} has been marked delivered${deliveredOn ? ` on ${deliveredOn}` : ''}.`,
+    `
+    ${masthead(
+      first ? `It has arrived, ${first}.` : 'It has arrived.',
+      'Your selection has been delivered.',
+      `Order <span style="color:${INK};">${ref}</span> has been marked delivered${
+        deliveredOn ? ` on ${esc(deliveredOn)}` : ''
+      }${carrier ? ` by ${esc(carrier)}` : ''}. If anything is missing or damaged, reply to this email and we will make it right.`,
+    )}
+    ${bodyBlock(`
+      ${gap(36)}
+      ${metaStrip(o, 'Delivered')}
+      ${gap(38)}
+      ${label('In this parcel')}
+      ${itemsTable(o, false)}
+      ${gap(38)}
+      ${ctaButton(`${SITE_URL}/track`, 'View your order')}
+      ${gap(44)}
+      ${label('Order progress')}
+      ${orderJourney('delivered')}
+      ${gap(44)}
+      ${twoColumn(
+        'Delivered to',
+        address.length ? address.map(esc).join('<br />') : `<span style="color:${MUTED};">Address on file</span>`,
+        tracking ? 'Delivery record' : null,
+        tracking
+          ? `${esc(carrier ?? 'Carrier')}<br /><span style="letter-spacing:.06em;">${esc(tracking)}</span>${
+              link
+                ? `<br /><a href="${link}" style="color:${NAVY};text-decoration:underline;">${esc(
+                    trackingLinkLabel(carrier),
+                  )}</a>`
+                : ''
+            }`
+          : null,
+      )}
+      ${gap(44)}
+      ${label('Using your routine')}
+      <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.8;color:${MUTED};">
+        Introduce one new step at a time, and give each formula a fortnight before judging it. Guidance for every product
+        we carry lives in the <a href="${SITE_URL}/learn" style="color:${NAVY};text-decoration:underline;">Skin Grocer library</a>.
+      </p>
+      ${gap(44)}
+      ${benefitsRow()}
+      ${gap(38)}
+      ${hairline()}
+      ${gap(26)}
+      ${label('Customer care')}
+      <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
+        Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
+      </p>
+      ${gap(46)}
+    `)}
+    ${footerBlock()}
+  `,
+  );
+
+  const text = [
+    'SKIN GROCER — Seoul Sourced. Skin Assured.',
+    '',
+    first ? `It has arrived, ${first}. Your selection has been delivered.` : 'It has arrived. Your selection has been delivered.',
+    '',
+    `Order ${ref} has been marked delivered${deliveredOn ? ` on ${deliveredOn}` : ''}${carrier ? ` by ${carrier}` : ''}.`,
+    tracking ? `${carrier ?? 'Carrier'} tracking: ${tracking}` : null,
+    link ? `Delivery record: ${link}` : null,
+    '',
+    ...o.lines.map((l) => `- ${l.name} x${l.quantity}`),
+    '',
+    address.length ? `Delivered to:\n${address.join('\n')}` : null,
+    '',
+    'Order progress: order received → being prepared → on its way → DELIVERED.',
+    `View your order: ${SITE_URL}/track`,
+    `Anything missing or damaged? ${SUPPORT_EMAIL}`,
+  ]
+    .filter((l): l is string => l !== null)
+    .join('\n');
+
+  return { subject: `Your Skin Grocer order has been delivered — ${ref}`, html, text };
+}
+
+/**
+ * Cancellation / refund notice. Same locked visual system. Refund figures are
+ * printed only when a real stored amount exists; otherwise the email says
+ * plainly that the amount will be confirmed — nothing is invented.
+ */
+export function renderCancellationNotice(
+  o: OrderEmailData,
+  options: { reasonNote?: string | null } = {},
+): { subject: string; html: string; text: string } {
+  const ref = orderReference(o.id);
+  const first = firstNameOf(o);
+  const refunded = typeof o.refundedCents === 'number' && o.refundedCents > 0 ? o.refundedCents : null;
+  const isRefund = refunded !== null || (o.status ?? '').toLowerCase().includes('refund');
+  const heading = isRefund ? 'Your refund is on its way.' : 'Your order has been cancelled.';
+  const statusLabel = isRefund ? 'Refunded' : 'Cancelled';
+  const note = options.reasonNote?.trim() || null;
+
+  const refundBody = refunded
+    ? `${esc(money(refunded, o.currency))} has been returned to the original payment method. Banks generally take five to ten business days to show it.`
+    : `We have cancelled this order with our payment processor. Any amount captured is returned to the original payment method — your bank statement is the source of truth for the exact figure and timing.`;
+
+  const html = shell(
+    `Order ${ref} ${statusLabel.toLowerCase()}`,
+    `Order ${ref} has been ${statusLabel.toLowerCase()}.`,
+    `
+    ${masthead(
+      first ? `Noted, ${first}.` : 'Noted.',
+      heading,
+      `Order <span style="color:${INK};">${ref}</span> has been ${esc(
+        statusLabel.toLowerCase(),
+      )}. Nothing further will be shipped against it, and no further payment will be taken.`,
+    )}
+    ${bodyBlock(`
+      ${gap(36)}
+      ${metaStrip(o, statusLabel)}
+      ${gap(38)}
+      ${label(isRefund ? 'Refund' : 'Cancellation')}
+      <p style="margin:0;font-family:${SANS};font-size:15px;line-height:1.8;color:${MUTED};">${refundBody}</p>
+      ${note ? `<p style="margin:16px 0 0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">${esc(note)}</p>` : ''}
+      ${gap(38)}
+      ${twoColumn(
+        'Order total',
+        `${esc(money(o.amountCents, o.currency))}`,
+        refunded ? 'Amount refunded' : null,
+        refunded ? `${esc(money(refunded, o.currency))}` : null,
+      )}
+      ${gap(40)}
+      ${label(isRefund ? 'Items refunded' : 'Items cancelled')}
+      ${itemsTable(o, true)}
+      ${gap(38)}
+      ${ctaButton(`${SITE_URL}/shop`, 'Shop Skin Grocer')}
+      ${gap(44)}
+      ${benefitsRow()}
+      ${gap(38)}
+      ${hairline()}
+      ${gap(26)}
+      ${label('Customer care')}
+      <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
+        If this was not expected, reply to this email or write to
+        <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a> and we will look into it straight away.
+      </p>
+      ${gap(46)}
+    `)}
+    ${footerBlock()}
+  `,
+  );
+
+  const text = [
+    'SKIN GROCER — Seoul Sourced. Skin Assured.',
+    '',
+    first ? `Noted, ${first}. ${heading}` : heading,
+    '',
+    `Order ${ref} has been ${statusLabel.toLowerCase()}.`,
+    refunded
+      ? `Amount refunded: ${money(refunded, o.currency)} to the original payment method.`
+      : 'Any amount captured is returned to the original payment method; your bank statement confirms the exact figure and timing.',
+    note,
+    '',
+    ...o.lines.map((l) => `- ${l.name} x${l.quantity} — ${money(l.amountCents, o.currency)}`),
+    `Order total: ${money(o.amountCents, o.currency)}`,
+    '',
+    `Shop Skin Grocer: ${SITE_URL}/shop`,
+    `Questions: ${SUPPORT_EMAIL}`,
+  ]
+    .filter((l): l is string => l !== null)
+    .join('\n');
+
+  return {
+    subject: isRefund ? `Your Skin Grocer refund — ${ref}` : `Your Skin Grocer order has been cancelled — ${ref}`,
+    html,
+    text,
+  };
+}
