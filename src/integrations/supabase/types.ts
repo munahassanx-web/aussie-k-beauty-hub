@@ -403,8 +403,10 @@ export type Database = {
       orders: {
         Row: {
           amount_cents: number
+          cancelled_at: string | null
           created_at: string
           currency: string
+          delivered_at: string | null
           discount_cents: number
           dispatched_at: string | null
           environment: string
@@ -422,6 +424,8 @@ export type Database = {
           packed_at: string | null
           points_earned: number
           points_redeemed: number
+          refunded_at: string | null
+          refunded_cents: number | null
           shipment_id: string | null
           shipped_at: string | null
           shipping_carrier: string | null
@@ -448,8 +452,10 @@ export type Database = {
         }
         Insert: {
           amount_cents: number
+          cancelled_at?: string | null
           created_at?: string
           currency?: string
+          delivered_at?: string | null
           discount_cents?: number
           dispatched_at?: string | null
           environment?: string
@@ -467,6 +473,8 @@ export type Database = {
           packed_at?: string | null
           points_earned?: number
           points_redeemed?: number
+          refunded_at?: string | null
+          refunded_cents?: number | null
           shipment_id?: string | null
           shipped_at?: string | null
           shipping_carrier?: string | null
@@ -493,8 +501,10 @@ export type Database = {
         }
         Update: {
           amount_cents?: number
+          cancelled_at?: string | null
           created_at?: string
           currency?: string
+          delivered_at?: string | null
           discount_cents?: number
           dispatched_at?: string | null
           environment?: string
@@ -512,6 +522,8 @@ export type Database = {
           packed_at?: string | null
           points_earned?: number
           points_redeemed?: number
+          refunded_at?: string | null
+          refunded_cents?: number | null
           shipment_id?: string | null
           shipped_at?: string | null
           shipping_carrier?: string | null

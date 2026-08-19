@@ -6,6 +6,7 @@ import {
   getAdminOrder,
   getOrderComms,
   getShippingCapability,
+  markOrderDelivered,
   sendOrderNotification,
   updateOrderFulfilment,
   FULFILMENT_STAGES,
@@ -119,8 +120,19 @@ function OrderDetail() {
     retry: false,
   });
   const resend = useMutation({
-    mutationFn: (kind: 'order_confirmation' | 'dispatch') => sendNotification({ data: { id, kind } }),
+    mutationFn: (kind: 'order_confirmation' | 'dispatch' | 'delivery' | 'cancellation') =>
+      sendNotification({ data: { id, kind } }),
     onSuccess: () => void qc.invalidateQueries({ queryKey: ['admin-order-comms', id] }),
+  });
+
+  const markDelivered = useServerFn(markOrderDelivered);
+  const deliver = useMutation({
+    mutationFn: () => markDelivered({ data: { id, confirm: true } }),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: ['admin-order', id] });
+      void qc.invalidateQueries({ queryKey: ['admin-orders'] });
+      void qc.invalidateQueries({ queryKey: ['admin-order-comms', id] });
+    },
   });
   const [copied, setCopied] = useState(false);
 
@@ -152,7 +164,7 @@ function OrderDetail() {
     <>
       <PackingSlip order={order} />
 
-      <main className="mx-auto max-w-4xl px-6 py-16 print:hidden">
+      <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-16 print:hidden">
         <Link to="/admin/orders" className="text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">
           ← Order queue
         </Link>
@@ -175,7 +187,7 @@ function OrderDetail() {
         </div>
 
         <section className="mt-8 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-2xl border border-border p-5 text-sm">
+          <div className="rounded-2xl border border-border p-4 text-sm sm:p-5">
             <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Ship to</p>
             <p className="mt-2 text-foreground">{order.shippingName ?? order.customerName ?? 'Not provided'}</p>
             {address.length > 0 ? (
@@ -188,7 +200,7 @@ function OrderDetail() {
               {order.customerEmail ?? '—'} {order.isGuest ? '(guest checkout)' : ''}
             </p>
           </div>
-          <div className="rounded-2xl border border-border p-5 text-sm">
+          <div className="rounded-2xl border border-border p-4 text-sm sm:p-5">
             <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Payment</p>
             <p className="mt-2 text-foreground">{money(order.amountCents, order.currency)} paid</p>
             <p className="text-muted-foreground">Shipping {money(order.shippingCents, order.currency)}</p>
@@ -198,11 +210,23 @@ function OrderDetail() {
             <p className="text-muted-foreground">
               Points earned {order.pointsEarned} · redeemed {order.pointsRedeemed}
             </p>
+            {order.refundedCents != null && order.refundedCents > 0 && (
+              <p className="mt-2 text-destructive">
+                Refunded {money(order.refundedCents, order.currency)}
+                {order.refundedAt ? ` on ${new Date(order.refundedAt).toLocaleString('en-AU')}` : ''} — recorded from
+                Stripe.
+              </p>
+            )}
+            {order.deliveredAt && (
+              <p className="mt-2 text-muted-foreground">
+                Delivered {new Date(order.deliveredAt).toLocaleString('en-AU')} (confirmed by staff)
+              </p>
+            )}
             <p className="mt-2 font-mono text-xs text-muted-foreground">{order.stripeSessionId ?? order.stripePaymentIntentId ?? '—'}</p>
           </div>
         </section>
 
-        <section className="mt-4 rounded-2xl border border-border p-5">
+        <section className="mt-4 rounded-2xl border border-border p-4 sm:p-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Pick list</p>
           <ul className="mt-3 divide-y divide-border text-sm">
             {order.lines.map((l, i) => (
@@ -215,33 +239,34 @@ function OrderDetail() {
           </ul>
         </section>
 
-        <section className="mt-4 rounded-2xl border border-border p-5">
+        <section className="mt-4 rounded-2xl border border-border p-4 sm:p-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Fulfilment</p>
           <div className="mt-3 flex flex-wrap gap-2">
-            {[...FULFILMENT_STAGES, 'cancelled'].map((s) => (
+            {[...FULFILMENT_STAGES.filter((f) => f !== 'delivered'), 'cancelled'].map((s) => (
               <button
                 key={s}
                 type="button"
-                disabled={
-                  mutate.isPending ||
-                  order.fulfillmentStatus === s ||
-                  ((s === 'shipped' || s === 'delivered') && dispatchBlocked)
-                }
+                disabled={mutate.isPending || order.fulfillmentStatus === s || (s === 'shipped' && dispatchBlocked)}
                 title={
-                  (s === 'shipped' || s === 'delivered') && dispatchBlocked
+                  s === 'shipped' && dispatchBlocked
                     ? 'Add a carrier and a valid tracking number first, or tick the override below.'
                     : undefined
                 }
                 onClick={() => {
-                  if ((s === 'shipped' || s === 'delivered') && dispatchBlocked) return;
+                  if (s === 'shipped' && dispatchBlocked) return;
+                  // Dispatch and cancel are customer-visible and one-way — confirm first.
+                  if (s === 'shipped' &&
+                    !window.confirm(
+                      `Mark this order dispatched?\n\nThis sends the customer the dispatch email once, with ${carrier || 'no carrier'} tracking ${tracking || '(none)'}.`,
+                    )
+                  ) return;
+                  if (s === 'cancelled' && !window.confirm('Mark this order cancelled? This does not refund the customer — refunds are processed in Stripe.')) return;
                   mutate.mutate({
                     id: order.id,
                     fulfillmentStatus: s,
                     // Persist what the form is showing so dispatch can never be
                     // recorded with tracking that was typed but never saved.
-                    ...(s === 'shipped' || s === 'delivered'
-                      ? { shippingCarrier: carrier, trackingNumber: tracking }
-                      : {}),
+                    ...(s === 'shipped' ? { shippingCarrier: carrier, trackingNumber: tracking } : {}),
                   });
                 }}
                 className={`rounded-full border px-4 py-2 text-sm disabled:opacity-60 ${
@@ -261,6 +286,37 @@ function OrderDetail() {
               ? `Last updated ${new Date(order.fulfillmentUpdatedAt).toLocaleString('en-AU')}.`
               : 'No fulfilment activity yet.'}
           </p>
+
+          <div className="mt-3 rounded-xl border border-border p-3 text-xs">
+            <p className="text-foreground">Delivered</p>
+            <p className="mt-1 text-muted-foreground">
+              Australia Post MyPost Business gives this account no delivery API, so delivery is confirmed by a human.
+              Marking delivered sends the customer the Delivered email once.
+            </p>
+            <button
+              type="button"
+              disabled={
+                deliver.isPending ||
+                order.fulfillmentStatus === 'delivered' ||
+                order.fulfillmentStatus !== 'shipped'
+              }
+              onClick={() => {
+                if (!window.confirm('Confirm this parcel was delivered?\n\nThis marks the order Delivered and sends the customer the Delivered email once. It cannot be undone from here.')) return;
+                deliver.mutate();
+              }}
+              className="mt-3 rounded-full border border-border px-4 py-2 text-xs hover:border-foreground disabled:opacity-60"
+            >
+              {order.fulfillmentStatus === 'delivered'
+                ? 'Delivered'
+                : deliver.isPending
+                  ? 'Marking…'
+                  : 'Mark delivered'}
+            </button>
+            {order.fulfillmentStatus !== 'shipped' && order.fulfillmentStatus !== 'delivered' && (
+              <span className="ml-3 text-muted-foreground">Dispatch the order first.</span>
+            )}
+            {deliver.isError && <span className="ml-3 text-destructive">{(deliver.error as Error).message}</span>}
+          </div>
 
           <div className="mt-3 rounded-xl border border-border bg-secondary/60 p-3 text-xs">
             {dispatchReady ? (
@@ -420,7 +476,7 @@ function OrderDetail() {
           </p>
         </section>
 
-        <section className="mt-4 rounded-2xl border border-border p-5 text-sm">
+        <section className="mt-4 rounded-2xl border border-border p-4 text-sm sm:p-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Customer communication — staff only</p>
 
           {comms.isLoading && <p className="mt-2 text-muted-foreground">Loading communication status…</p>}
@@ -433,9 +489,16 @@ function OrderDetail() {
               </p>
 
               <dl className="mt-4 space-y-2">
-                {(['order_confirmation', 'dispatch'] as const).map((kind) => {
+                {(['order_confirmation', 'dispatch', 'delivery', 'cancellation'] as const).map((kind) => {
                   const record = comms.data!.notifications.find((n) => n.kind === kind) ?? null;
-                  const label = kind === 'dispatch' ? 'Dispatch email' : 'Order confirmation';
+                  const label =
+                    kind === 'dispatch'
+                      ? 'Dispatch email'
+                      : kind === 'delivery'
+                        ? 'Delivered email'
+                        : kind === 'cancellation'
+                          ? 'Cancellation / refund email'
+                          : 'Order confirmation';
                   const state = record?.status ?? 'no record yet';
                   return (
                     <div key={kind} className="flex flex-wrap items-baseline justify-between gap-2 border-b border-border/60 pb-2">

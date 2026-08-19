@@ -25,7 +25,7 @@ export type NotificationKind = 'order_confirmation' | 'dispatch' | 'delivery' | 
 
 
 const ORDER_EMAIL_COLUMNS =
-  'id, created_at, currency, amount_cents, shipping_cents, discount_cents, line_items, shipping_name, shipping_line1, shipping_line2, shipping_city, shipping_state, shipping_postcode, shipping_country, shipping_method, tracking_number, shipping_carrier, user_id, guest_email, status, fulfillment_status';
+  'id, created_at, currency, amount_cents, shipping_cents, discount_cents, line_items, shipping_name, shipping_line1, shipping_line2, shipping_city, shipping_state, shipping_postcode, shipping_country, shipping_method, tracking_number, shipping_carrier, user_id, guest_email, status, fulfillment_status, shipped_at, dispatched_at, delivered_at, refunded_cents';
 
 export function toOrderEmailData(row: Record<string, any>): OrderEmailData {
   const lines = Array.isArray(row['line_items']) ? row['line_items'] : [];
