@@ -5,7 +5,7 @@ import { useServerFn } from '@tanstack/react-start';
 import { listAdminOrders, FULFILMENT_STAGES } from '@/lib/admin-orders.functions';
 import { useAuth } from '@/hooks/use-auth';
 
-export const Route = createFileRoute('/admin/orders')({
+export const Route = createFileRoute('/admin/orders/')({
   head: () => ({
     meta: [
       { title: 'Order queue — Skin Grocer admin' },
