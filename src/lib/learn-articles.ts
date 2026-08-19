@@ -1,8 +1,15 @@
 import { originArticles } from "@/lib/learn-origin-articles";
-import featureSerum from "@/assets/learn-feature-serum.jpg";
-import petri from "@/assets/learn-petri.jpg";
-import portraitDeep from "@/assets/learn-portrait-deep.jpg";
-import routineFlatlay from "@/assets/learn-routine-flatlay.jpg";
+import deeperSkinTones from "@/assets/learn/deeper-skin-tones.jpg";
+import barrierClimate from "@/assets/learn/barrier-climate.jpg";
+import unevenTone from "@/assets/learn/uneven-tone.jpg";
+import pdrnAmpoule from "@/assets/learn/pdrn-ampoule.jpg";
+import centellaLeaves from "@/assets/learn/centella-leaves.jpg";
+import sunscreenStandards from "@/assets/learn/sunscreen-standards.jpg";
+import layeringHumid from "@/assets/learn/layering-humid.jpg";
+import acidsFrequency from "@/assets/learn/acids-frequency.jpg";
+import climateZoneRoutines from "@/assets/learn/climate-zone-routines.jpg";
+import preventionFirst from "@/assets/learn/prevention-first-sunscreen.jpg";
+import seoulShelf from "@/assets/learn/seoul-shelf.jpg";
 
 export type ArticleSection = { heading?: string; body: string };
 
@@ -64,8 +71,8 @@ const baseArticles: LearnArticle[] = [
     title: "K-Beauty On Deeper Skin: What Actually Translates",
     blurb: "Cast, brightening claims and pigmentation, honestly assessed for Australian skin.",
     read: "8 min read",
-    cover: portraitDeep,
-    coverAlt: "Portrait of a woman with deep skin tone and healthy, even complexion",
+    cover: deeperSkinTones,
+    coverAlt: "Portrait of a woman with deep skin tone and healthy, even, naturally luminous complexion in soft daylight",
     standfirst:
       "Most K-beauty marketing was written for a domestic market where the average shopper sits in a narrow band of skin tones. Australia is not that market. Here is what carries across, what needs adjusting, and what to ignore entirely.",
     sections: [
@@ -110,8 +117,8 @@ const baseArticles: LearnArticle[] = [
     title: "Why Australian Skin Barriers Struggle More Than Korean Skin",
     blurb: "Aircon, harder water and extreme UV — the climate case, with numbers.",
     read: "6 min read",
-    cover: featureSerum,
-    coverAlt: "Glass test tubes and a gold dropper filled with serum",
+    cover: barrierClimate,
+    coverAlt: "Woman shielding her face from harsh Australian sun, skin flushed and dry in bright daylight",
     standfirst:
       "A routine that keeps skin comfortable in Seoul can leave the same person tight, flaky and reactive in Melbourne. It isn't the products failing. It's four environmental variables nobody accounts for when they copy a Korean routine wholesale.",
     sections: [
@@ -156,8 +163,8 @@ const baseArticles: LearnArticle[] = [
     title: "Uneven Tone, Not \u201CWhitening\u201D: Getting The Language Right",
     blurb: "What the Korean label actually claims, and what to look for when you want brightness.",
     read: "5 min read",
-    cover: petri,
-    coverAlt: "Laboratory petri dishes with botanical ingredient textures",
+    cover: unevenTone,
+    coverAlt: "Close crop of a cheek showing natural freckling and uneven pigmentation in soft even light",
     standfirst:
       "Korea regulates 'whitening' as a functional cosmetic claim with a defined mechanism. Translated straight into English, it says something the product doesn't do — and it puts people off ingredients that would genuinely help them.",
     sections: [
@@ -200,8 +207,8 @@ const baseArticles: LearnArticle[] = [
     title: "PDRN: What Salmon DNA Actually Does For Your Skin",
     blurb: "The clinic ingredient that moved onto retail shelves — and where to start with it.",
     read: "6 min read",
-    cover: featureSerum,
-    coverAlt: "Macro shot of a serum dropper and glass vials",
+    cover: pdrnAmpoule,
+    coverAlt: "Glass dropper releasing pale pink PDRN ampoule fluid onto a brushed steel laboratory surface",
     standfirst:
       "PDRN reviews on Olive Young grew 103% in six months. It arrived from dermatology clinics, not from social media — which is exactly why it's worth understanding properly.",
     sections: [
@@ -242,8 +249,8 @@ const baseArticles: LearnArticle[] = [
     title: "Centella Asiatica: Why It's In Almost Everything We Stock",
     blurb: "Cica isn't a trend in Korea — it's the default baseline for daily skin insurance.",
     read: "5 min read",
-    cover: petri,
-    coverAlt: "Petri dishes containing green botanical extracts",
+    cover: centellaLeaves,
+    coverAlt: "Fresh centella asiatica leaves beside a clear soothing gel on pale stone",
     standfirst:
       "Soothing ingredients now lead Olive Young's top-performing categories — and centella is the reason. Korean shoppers don't buy it to treat a problem. They buy it as insurance.",
     sections: [
@@ -280,8 +287,8 @@ const baseArticles: LearnArticle[] = [
     title: "TGA vs Korean Sunscreen Standards, Decoded",
     blurb: "Filters, testing and water resistance, compared side by side — and why labels differ.",
     read: "7 min read",
-    cover: routineFlatlay,
-    coverAlt: "Flat-lay of skincare bottles and sunscreen on a neutral surface",
+    cover: sunscreenStandards,
+    coverAlt: "Unbranded white sunscreen tubes standing in hard sunlight casting sharp shadows",
     standfirst:
       "Australia regulates sunscreen as a therapeutic good. Korea regulates it as a functional cosmetic. Same bottle, two different legal universes — and it explains almost every confusing thing on a Korean SPF label.",
     sections: [
@@ -324,8 +331,8 @@ const baseArticles: LearnArticle[] = [
     title: "The Correct Layering Order For Humid Australian Summers",
     blurb: "When Korean seven-step logic breaks down at 35°C, and what to do instead.",
     read: "5 min read",
-    cover: routineFlatlay,
-    coverAlt: "Skincare bottles arranged on a warm neutral flat-lay",
+    cover: layeringHumid,
+    coverAlt: "Woman pouring a watery essence into her palm in humid, dewy light",
     standfirst:
       "Layering order is not a ritual. It's a physics problem: thinnest to thickest, water before oil, with the environment deciding how much of the last step you actually need.",
     sections: [
@@ -366,8 +373,8 @@ const baseArticles: LearnArticle[] = [
     title: "How Often Melanin-Rich Skin Should Actually Use Acids",
     blurb: "Frequency guidance by skin type and concern — and the pigment risk nobody mentions.",
     read: "6 min read",
-    cover: portraitDeep,
-    coverAlt: "Close portrait showing even, healthy skin texture",
+    cover: acidsFrequency,
+    coverAlt: "Woman with warm brown skin gently pressing a cotton pad of exfoliating toner to her cheek",
     standfirst:
       "The exfoliation advice circulating online was largely written for skin that doesn't pigment in response to irritation. For melanin-rich skin, the calculus is different.",
     sections: [
@@ -408,8 +415,8 @@ const baseArticles: LearnArticle[] = [
     title: "Rebuilding Your Routine For Melbourne Winter vs Brisbane Summer",
     blurb: "How a routine should shift across Australian climate zones — without rebuying everything.",
     read: "7 min read",
-    cover: featureSerum,
-    coverAlt: "Serum bottles and droppers on a soft neutral backdrop",
+    cover: climateZoneRoutines,
+    coverAlt: "A rich winter cream and a light humid-weather gel side by side on pale stone",
     standfirst:
       "Most Australians need two routines a year, not two shelves of product. Here's the smallest set of changes that covers the full climate range.",
     sections: [
@@ -456,8 +463,8 @@ const baseArticles: LearnArticle[] = [
     title: "미리 관리: Korea's Prevention-First Skincare Philosophy",
     blurb: "The idea that reframes everything — fix it before it becomes a problem.",
     read: "7 min read",
-    cover: portraitDeep,
-    coverAlt: "Portrait showing calm, healthy, well-maintained skin",
+    cover: preventionFirst,
+    coverAlt: "Korean woman smoothing sunscreen along her cheekbone in soft morning light — daily preventative care",
     standfirst:
       "Ask a Korean shopper what they want from skincare and the answer is rarely 'glass skin'. It's 관리 — management. Skin kept healthy, calm and unbothered, so that nothing ever needs correcting.",
     sections: [
@@ -498,8 +505,8 @@ const baseArticles: LearnArticle[] = [
     title: "What's Actually Selling In Seoul (And What's Only Big On TikTok)",
     blurb: "The gap between domestic Korean demand and the global K-beauty feed, in numbers.",
     read: "6 min read",
-    cover: petri,
-    coverAlt: "Laboratory dishes with ingredient samples on a clean surface",
+    cover: seoulShelf,
+    coverAlt: "Shopper reaching for skincare on a Seoul beauty retail shelf",
     standfirst:
       "There is a measurable gap between what Korean women buy and what the internet says Korean women buy. Reading the domestic data instead of the feed is the single most useful thing an Australian shopper can do.",
     sections: [

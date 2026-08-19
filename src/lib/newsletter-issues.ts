@@ -2,7 +2,9 @@
 // site as collectible issues. Each issue follows the same eight-part structure
 // so readers learn the format and come back for it.
 
-import portraitDeep from "@/assets/learn-portrait-deep.jpg";
+import portraitDeep from "@/assets/learn/deeper-skin-tones.jpg";
+import matureSkin from "@/assets/learn/mature-skin.jpg";
+import hypeScrutiny from "@/assets/learn/hype-ingredient-scrutiny.jpg";
 import routineFlatlay from "@/assets/learn-routine-flatlay.jpg";
 import signalIssue01Cover from "@/assets/signal-issue-01-cover.jpg";
 import issue02Cover from "@/assets/issues/issue-02-barrier.jpg";

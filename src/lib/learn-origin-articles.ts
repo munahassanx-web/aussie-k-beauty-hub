@@ -2,10 +2,13 @@
 // watchlist, and "what not to use" guides. Written to be extractable by AI
 // answer engines — self-contained sections, plain claims, cited sources.
 
-import featureSerum from "@/assets/learn-feature-serum.jpg";
-import petri from "@/assets/learn-petri.jpg";
-import portraitDeep from "@/assets/learn-portrait-deep.jpg";
-import routineFlatlay from "@/assets/learn-routine-flatlay.jpg";
+import ginsengRoot from "@/assets/learn/ginseng-root.jpg";
+import mugwort from "@/assets/learn/mugwort.jpg";
+import heartleaf from "@/assets/learn/heartleaf.jpg";
+import riceFerment from "@/assets/learn/rice-ferment.jpg";
+import snailMucin from "@/assets/learn/snail-mucin-texture.jpg";
+import whatNotToMix from "@/assets/learn/what-not-to-mix.jpg";
+import newLaunchWatchlist from "@/assets/learn/new-launch-watchlist.jpg";
 import type { LearnArticle } from "@/lib/learn-articles";
 
 const SRC_HWAHAE = {
@@ -42,8 +45,8 @@ export const originArticles: LearnArticle[] = [
     title: "Ginseng: A Thousand Years Of Korean Cultivation, Now In A Serum",
     blurb: "Where Korean red ginseng came from, what it does topically, and who it suits.",
     read: "7 min read",
-    cover: featureSerum,
-    coverAlt: "Amber-toned serum bottle on a warm neutral surface",
+    cover: ginsengRoot,
+    coverAlt: "Whole Korean ginseng roots beside an amber vial of golden ginseng serum",
     standfirst:
       "Ginseng (인삼) is the oldest ingredient in Korean skincare and the one most loaded with cultural weight. Here is the honest version: where it comes from, what the topical extract actually does, and when it is worth paying for.",
     sections: [
@@ -85,8 +88,8 @@ export const originArticles: LearnArticle[] = [
     title: "Mugwort (쑥): From Korean Founding Myth To Calming Ampoule",
     blurb: "Why ssuk is in every Korean soothing line, and what it can and can't do.",
     read: "6 min read",
-    cover: petri,
-    coverAlt: "Laboratory dishes holding plant extract samples",
+    cover: mugwort,
+    coverAlt: "Fresh Korean mugwort sprigs on a dark ceramic dish beside deep green ampoule liquid",
     standfirst:
       "Mugwort — ssuk (쑥) — appears in Korea's founding myth, in bathhouse steam rooms, in rice cakes and now in about half the country's soothing skincare. The tradition is real. So is the limit of what it does.",
     sections: [
@@ -127,8 +130,8 @@ export const originArticles: LearnArticle[] = [
     title: "Heartleaf (Houttuynia Cordata): The Weed That Became A Calming Category",
     blurb: "Eosuchou's folk-medicine roots, its role in oily-sensitive routines, and honest limits.",
     read: "6 min read",
-    cover: routineFlatlay,
-    coverAlt: "Flat lay of a minimal Korean skincare routine on linen",
+    cover: heartleaf,
+    coverAlt: "Heart-shaped houttuynia cordata leaves beside a clear watery toner on pale concrete",
     standfirst:
       "Heartleaf — eosuchou (어성초), literally 'fishy-smelling herb' — grows wild across Korea and Japan and was used as a poultice long before it anchored a modern soothing category. It is the ingredient behind most of the current oily-sensitive skincare boom.",
     sections: [
@@ -169,8 +172,8 @@ export const originArticles: LearnArticle[] = [
     title: "Rice Water And Ferment Filtrates: The Oldest Korean Beauty Habit",
     blurb: "From ssal-tteumul to galactomyces — what fermentation adds, and what it doesn't.",
     read: "7 min read",
-    cover: petri,
-    coverAlt: "Petri dishes containing fermented skincare samples",
+    cover: riceFerment,
+    coverAlt: "Bowl of cloudy rice water and raw rice grains beside a bottle of milky ferment essence",
     standfirst:
       "Rinsing your face with the cloudy water left from washing rice — ssal-tteumul (쌀뜨물) — predates the Korean cosmetics industry by centuries. Fermentation turned that habit into a category. Here is what the modern version actually adds.",
     sections: [
@@ -211,8 +214,8 @@ export const originArticles: LearnArticle[] = [
     title: "Snail Mucin: How A Farming Observation Became A K-Beauty Staple",
     blurb: "Snail secretion filtrate explained — what it is, how it's collected, what it treats.",
     read: "6 min read",
-    cover: featureSerum,
-    coverAlt: "Clear viscous serum on a neutral background",
+    cover: snailMucin,
+    coverAlt: "Thick clear mucin gel stretching between two fingertips",
     standfirst:
       "Snail secretion filtrate is the ingredient people find hardest to take seriously and the one most likely to stay in their routine. Its history is agricultural, its function is unglamorous, and it does one job very well.",
     sections: [
@@ -254,8 +257,8 @@ export const originArticles: LearnArticle[] = [
     title: "What Not To Mix: The Korean Skincare Combinations To Avoid",
     blurb: "A plain list of ingredient pairings to separate, and the ones that are perfectly safe.",
     read: "8 min read",
-    cover: routineFlatlay,
-    coverAlt: "Skincare products arranged in routine order on a pale surface",
+    cover: whatNotToMix,
+    coverAlt: "Two unbranded serum bottles kept deliberately apart by a shadow line",
     standfirst:
       "Most 'do not mix' advice online is copied from a decade-old chart and half of it is wrong. Here is the short, accurate version: what genuinely should not share a routine, what only needs spacing, and what you can freely layer.",
     sections: [
@@ -303,8 +306,8 @@ export const originArticles: LearnArticle[] = [
     title: "The New-Launch Watchlist: What's Landing In Seoul Before It Reaches Australia",
     blurb: "The categories moving fastest in Korea right now, and which ones are worth waiting for.",
     read: "7 min read",
-    cover: portraitDeep,
-    coverAlt: "Close portrait of clear, well-hydrated skin in daylight",
+    cover: newLaunchWatchlist,
+    coverAlt: "A row of newly unboxed unbranded Korean skincare bottles and jars in bright studio light",
     standfirst:
       "Australian retail usually receives Korean launches twelve to eighteen months late, filtered by whoever holds the distribution. This is what the domestic signals are showing now, and our read on what deserves your money.",
     sections: [
