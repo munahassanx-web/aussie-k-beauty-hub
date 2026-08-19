@@ -1,13 +1,13 @@
 /**
  * Server-only helpers for the per-order authenticity card.
  *
- * Token model: 32 bytes of CSPRNG randomness rendered as Crockford-style
- * base32. The raw token is returned exactly once, at issue time, so it can be
- * printed onto the physical card. Only the SHA-256 hash and a short,
+ * Token model: 32 characters drawn from CSPRNG bytes over a misread-safe
+ * base32 alphabet. The raw token is returned exactly once, at issue time, so
+ * it can be printed onto the physical card. Only the SHA-256 hash and a short,
  * non-secret prefix are ever persisted.
  */
 
-const ALPHABET = 'ABCDEFGHJKMNPQRSTVWXYZ0123456789'; // no I, L, O, U — misread-safe
+const ALPHABET = 'ABCDEFGHJKMNPQRSTVWXYZ0123456789'; // no I, L, O, U
 
 function encode(bytes: Uint8Array, length: number) {
   let out = '';
@@ -36,38 +36,7 @@ export async function hashToken(token: string): Promise<string> {
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
-/** Tokens are uppercase base32; anything else can be rejected before a DB hit. */
+/** Tokens are uppercase base32; anything else is rejected before a DB hit. */
 export function isWellFormedToken(token: unknown): token is string {
   return typeof token === 'string' && /^[A-Z0-9]{32}$/.test(token);
 }
-
-export const REQUIRED_CHECKS = [
-  'products_match',
-  'branded_packaging',
-  'catalogue_match',
-  'packaging_inspected',
-] as const;
-
-export const OPTIONAL_CHECKS = ['approved_sourcing_channel'] as const;
-
-export type CheckKey = (typeof REQUIRED_CHECKS)[number] | (typeof OPTIONAL_CHECKS)[number];
-
-/**
- * Public-facing wording. Every line describes an action staff genuinely
- * perform and tick in Operations — nothing here is a default marketing claim.
- */
-export const CHECK_LABELS: Record<CheckKey, string> = {
-  products_match: 'Every product in the parcel was checked against this order',
-  branded_packaging: 'Products arrived and were dispatched in original branded packaging',
-  catalogue_match: 'Product identity matched to the Skin Grocer catalogue',
-  packaging_inspected: 'Packaging visually inspected before dispatch',
-  approved_sourcing_channel: 'Sourced through a Skin Grocer approved supply channel',
-};
-
-export const CHECK_LABELS_OPS: Record<CheckKey, string> = {
-  products_match: 'Products in the parcel match the order',
-  branded_packaging: 'Original branded packaging checked',
-  catalogue_match: 'Product identity matched to the Skin Grocer catalogue',
-  packaging_inspected: 'Packaging visually inspected (seals, damage)',
-  approved_sourcing_channel: 'Approved sourcing channel confirmed (optional)',
-};
