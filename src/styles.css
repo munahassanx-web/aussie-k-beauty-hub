@@ -536,4 +536,19 @@
     color: #000 !important;
     background: #fff !important;
   }
+
+  /* Authenticity card prints on its own sheet — the packing slip is
+     suppressed while the card print mode is active. */
+  html.printing-card #packing-slip,
+  html.printing-card #packing-slip * { visibility: hidden !important; }
+  html.printing-card #authenticity-card { display: block !important; }
+  html.printing-card #authenticity-card,
+  html.printing-card #authenticity-card * { visibility: visible !important; }
+  html.printing-card #authenticity-card {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    color: #000 !important;
+    background: #fff !important;
+  }
 }
