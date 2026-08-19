@@ -122,7 +122,7 @@ function AnnouncementBar() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="relative mx-auto max-w-7xl px-6 py-2">
+      <div className="relative mx-auto flex min-h-[42px] max-w-7xl items-center px-6 py-2 md:min-h-[55px]">
         <span className="absolute left-6 top-1/2 hidden -translate-y-1/2 text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70 md:block">
           AUD $ · Australia
         </span>
@@ -131,7 +131,7 @@ function AnnouncementBar() {
           <Link to="/contact" className="hover:text-foreground">Help</Link>
         </span>
         {/* Desktop: all three trust messages in a calm, spaced row */}
-        <div className="hidden items-center justify-center md:flex">
+        <div className="hidden w-full items-center justify-center md:flex">
           {announcements.map((msg, i) => (
             <span key={msg} className="flex items-center">
               <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70">
@@ -202,7 +202,7 @@ export function SiteHeader() {
       {/* The Grocer Stripe — signature brand band, fixed height (no CLS) */}
       <div
         aria-hidden="true"
-        className="grocer-stripe h-[16px] w-full md:h-[32px]"
+        className="grocer-stripe h-[13px] w-full md:h-[24px]"
       />
       <AnnouncementBar />
       {/* Main nav */}
@@ -212,7 +212,7 @@ export function SiteHeader() {
       >
         <div className="mx-auto max-w-7xl px-6">
           {/* Brand row — large centered wordmark, Concept 1 */}
-          <div className="relative flex items-center justify-center px-14 py-4 md:px-0 md:py-7">
+          <div className="relative flex items-center justify-center px-14 py-6 md:px-0 md:min-h-[136px] md:py-0">
             <Link
               to="/"
               aria-label="Skin Grocer — home"
