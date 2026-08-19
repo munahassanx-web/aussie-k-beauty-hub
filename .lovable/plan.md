@@ -1,78 +1,121 @@
-# Homepage + Site Chrome Audit
+# Skin Grocer — Full Premium Visual Audit
 
-No files were edited. Everything below was cross-checked against the live catalog (`src/lib/shop-catalog.ts`, 64 SKUs / 13 brands), the routes in `src/routes/`, and the published policies.
+Audit only. No code, content, data, checkout, email or operations changes were made. Inspected rendered pages at 1440px and 390px: home (full scroll), /shop, a representative PDP (/product/... WELLAGE Real Hyaluronic Toner), /brands, /skin-concerns, /routines, /learn, /blog, /about, /contact, /search, /checkout (empty state only — no payment initiated), header, mega-nav and footer. No console errors on any route at either width.
 
-## CRITICAL
+Benchmark: the approved Concept 1 header — black/white stretched Grocer Stripe with satin champagne-gold panels, pure white canvas, tall high-contrast Didone wordmark, restrained gold, generous editorial spacing.
 
-1. **Mega-menu brands that do not exist in the catalog** — `src/components/site-chrome.tsx` lines 75–95.
-   Listed: `COSRX`, `Beauty of Joseon`, `Anua`, `SKIN1004`, `Numbuzin`, `Abib`, `Mediheal`, `Some By Mi`.
-   Only **Beauty of Joseon** is stocked. The catalog brands are: AESTURA, BIODANCE, Beauty of Joseon, Dr.G, HARUHARU WONDER, ISNTREE, MEDICUBE, ROUND LAB, S.NATURE, TIRTIR, TORRIDEN, WELLAGE, beplain. Seven menu entries send shoppers to `/shop?brand=…` with zero results — dead ends on the primary nav.
+---
 
-2. **`/reviews` contains six invented testimonials** — `src/routes/reviews.tsx` lines 19–25 ("Mia T.", "Aisha K.", "Jordan P.", "Sara L.", "Chen W.", "Priya R."), all 5 stars, plus claims like "Ordered at noon, at my door by 6pm" and a reference to buying **COSRX** (not stocked). The footer links to this page (`site-chrome.tsx` line 486). The homepage `CustomerNotes` section was deliberately cleaned of fake reviews, so the site now contradicts itself and the footer link leads to fabricated social proof.
+## A) KEEP — already premium, do not change
 
-3. **Hero ticker delivery claim not supported by policy** — `src/components/hero-carousel.tsx` line 468: `"Next-day VIC delivery"`. The shipping policy (`src/routes/shipping-policy.tsx` line 32) only commits to *same-business-day dispatch before 12pm*, not next-day delivery. Same issue in the footer: `site-chrome.tsx` lines 457 and 461 ("dispatched the next day.\*", "Ships next day from Melbourne\*") and in the homepage metadata (`src/routes/index.tsx` lines 25–28: "Next-Day from Melbourne", "dispatched next-day across Australia"). The `/reviews` meta also says "next-day delivery".
+- **Header (Concept 1)** — stripe geometry, gold satin shading, wordmark weight/tracking, INNER BEAUTY hairlines, utility/nav row separation. Renders correctly at 1440 and 390. Protect as-is.
+- **Editorial serif headline system** — "Carefully sourced. Always authentic.", "What's worth knowing now.", "Every ingredient, in plain English." Scale, measure and left-alignment read genuinely editorial.
+- **Footer** — black canvas, wordmark lockup, gold "SEOUL SOURCED. SKIN ASSURED." line, four-column link structure. Consistent with the new identity.
+- **Gold discipline overall** — gold appears only in the stripe, hairlines and the footer tagline. It is not overused and does not read cheap.
+- **PDP copy architecture** — "Why it may suit you" / "How to use" / Key ingredients / Where it sits in a routine / Authenticity & sourcing accordions are a real differentiator and well typeset.
+- **Journal (/blog)** — hero article layout, image quality and typography are the strongest non-header pages on the site.
+- **Home "Seoul Edit" editor's-note module** and the numbered brand/ingredient index rows — restrained, grid-disciplined, distinctive.
+- **About page** — cinematic imagery, signature block, proof-step sequence. On-brand.
 
-4. **"Advisor-built routines" / "Talk to an Advisor" implies staff advisors** — `hero-carousel.tsx` line 470, `site-chrome.tsx` line 71 and line 333 ("Our advisor-built routine"), `shop-catalog.ts` bundle desc line 151 ("advisor-built"). There is no advisor service in the code; guidance is a quiz (`/consultation`) plus static routines.
+---
 
-## HIGH
+## B) HIGH PRIORITY — visibly damages the premium impression
 
-5. **Duplicate/contradicting announcement messaging.** `AnnouncementBar` (`site-chrome.tsx` lines 98–102) and `PromoBar` (`index.tsx` lines 386–400) both appear above the hero and both say free express shipping over $80. Two stacked navy bars before the hero. The announcement bar also states "Authenticity guaranteed" (absolute guarantee wording) and rotates on mobile — the promo bar was deliberately de-rotated for the same reason.
+1. **/brands — pastel candy gradient tiles break the brand system.**
+   Thirteen cards render as saturated baby-blue, lilac, peach, mint and bubblegum-pink gradients. Against a black/white/gold identity this is the single biggest visual contradiction on the site and reads consumer-mass, not luxury.
+   *Fix:* replace the per-brand colour gradients with a neutral system — off-white/pale-grey (#F4F4F5) tiles or full-bleed product photography with a subtle black scrim — and keep brand differentiation in the serif brand name and product count only.
 
-6. **Two newsletter captures still reachable on the homepage.** `SeoulSignalStrip` (`seoul-signal.tsx` line 50, `source="homepage"`) and the footer form (`site-chrome.tsx` line 512, `source="footer"`). The in-page duplicate was removed, but the footer sits directly under it, so a visitor sees two email boxes within one screen. Footer copy "Restocks, new arrivals, ritual notes. No spam, ever." also conflicts with the Seoul Signal positioning.
+2. **/brands — unreadable labels on light tiles.**
+   "HARUHARU WONDER" in white over a light beige gradient, and the "2 PRODUCTS" pill on the same tile, fail contrast. Also affects the Beauty of Joseon tile.
+   *Fix:* fixed near-black label colour on neutral tiles (follows automatically from item 1), or a consistent bottom scrim.
 
-7. **Bundle tag claims a fixed saving.** `shop-catalog.ts` line 149: `tag: "Best Value · Save 25%"` while the card price/saving is computed live by `bundleMath`. The static "25%" can drift from the real number shown beside it. `desc` "Our most-loved ritual… A full month of glass-skin results" is both an unsupported popularity claim and a results claim.
+3. **/contact at 390px — horizontal overflow (scrollWidth 404 vs 390).**
+   `customercare@skingrocer.com.au` is set at display serif size and pushes past the viewport; the intro paragraph and the `*Next-day delivery…` footnote are also clipped at the right edge. This is the only page on the site that scrolls horizontally.
+   *Fix:* reduce the email to a smaller display step on mobile, add `break-words`/`overflow-wrap: anywhere` to the email and footnote, and confirm the form container respects the page gutter.
 
-8. **Hardcoded prices on the homepage category tiles** — `index.tsx` lines 49–54. `price`/`size` fields duplicate catalog data (currently correct, e.g. beplain oil $35, WELLAGE toner $28, AESTURA cream $55) but are not derived from `SHOP_PRODUCTS`, so they will silently drift. Note these fields are also never rendered by `CategoryTile` — dead data.
+4. **PDP — slideshow controls are exposed as raw UI.**
+   "‹ › PAUSE SLIDESHOW" and "Use ← → keys" sit as visible chrome directly under the hero image. Functional and accessible in intent, but it reads like an admin control strip on a luxury PDP.
+   *Fix:* keep the keyboard behaviour and a screen-reader-only pause control; visually reduce to small unobtrusive arrows plus dot indicators, and move the "use arrow keys" hint into an `sr-only` instruction.
 
-9. **`Concerns` mega-menu labels vs homepage labels diverge.** Header uses "Acne & Breakouts", "Pigmentation", "Anti-Ageing", "Barrier Repair" (`site-chrome.tsx` lines 58–63) — the clinical wording the homepage deliberately replaced with "Blemish-Prone", "Uneven-Looking Tone", "Firmness & Fine Lines", "Barrier-Focused" (`index.tsx` lines 60–65). Same destinations, two vocabularies.
+5. **Homepage hero repeats the wordmark immediately below the header wordmark.**
+   "SKIN GROCER" appears twice within ~900px of viewport. It dilutes the masthead rather than reinforcing it, and it costs the hero its actual message.
+   *Fix:* replace the hero H1 with the positioning line ("Skincare, curated differently — for your climate, your skin, your routine.") set in the display serif, with the eyebrow retained. Keep the two CTAs.
 
-10. **Menu links that do not do what they say.**
-    - "AM Routine", "PM Routine", "Weekly Treatments" all point to the same `/journey` page (`site-chrome.tsx` lines 38–40).
-    - "Bestsellers" and "New Arrivals" both point to plain `/shop` with no filter (lines 47–48).
-    - "Ingredient Finder" → `/learn/snail-mucin` (line 70). Ingredient slugs are generated from `ingredients.name_english` at runtime; this hardcoded slug is unverified and 404s if the row name differs. It should point at `/learn` (the A–Z index).
-    - "Subscribe & Save" → `/club` (line 49) while the homepage now calls it "Restock" — naming mismatch.
+6. **Add-to-cart CTA label and button shape are inconsistent across the site.**
+   PLP says "ADD TO BASKET", home editor's note says "ADD TO ORDER", PDP says "Add to bag · $28"; PDP/About primary buttons are fully-rounded pills while hero and checkout buttons are square. Mixed radius is the clearest "template" tell on the site.
+   *Fix:* one verb everywhere ("Add to bag"), and one button geometry — square/2px radius — for all primary actions. Do not touch cart or checkout logic, label and class only.
 
-11. **Homepage `ProvenanceCard` image doesn't match its own copy** — `index.tsx` lines 859–861. Alt text names "Abib, Medicube, Mixsoon and Torriden" — Abib and Mixsoon are not stocked, in a section whose whole point is authenticity and accurate product information.
+7. **Product photography backgrounds are inconsistent within the same grid.**
+   On /shop, most tiles sit on light grey, while e.g. the Hyper PDRN Ampoule and the medicube Exosome Shot are cut-outs on white with a texture splash. Row rhythm breaks and the grid looks assembled rather than shot.
+   *Fix:* standardise the tile background to one neutral and normalise product scale/padding within the frame; regenerate or re-crop the outliers only.
 
-## MEDIUM
+8. **"SkinGrocer" (one word) appears in body copy while the mark is "SKIN GROCER".**
+   Seen in the home Ingredient/Radar copy, the /shop-adjacent modules and the footer newsletter consent line, alongside correct "Skin Grocer" usage on /about and /brands.
+   *Fix:* normalise all prose to "Skin Grocer".
 
-12. **Homepage length and hierarchy.** 15 full-bleed sections between hero and FAQ (`index.tsx` lines 85–112). Three of them are essentially the same "learn / editorial" promise: `IngredientStrip`, `LearnStrip`, `SeoulSignalStrip`; and three are routine-finder CTAs pointing at `/consultation`: `SkinQuizSection`, `ApplicationMoment`, plus two hero slides. Consider consolidating.
+---
 
-13. **Repeated "→" arrow + hairline + `01–06` numbering pattern** appears in nine consecutive sections (Promise, Categories, BrandMarquee, IngredientStrip, ProvenanceCard, SkinQuizSection, Concerns, WhyPillars, LearnStrip, CustomerNotes). Individually premium; in sequence it reads as a template.
+## C) MEDIUM PRIORITY — worthwhile refinement, not launch-blocking
 
-14. **Dark-panel placeholder still in `WhyPillars`** — `index.tsx` lines 204–232, comment says "placeholder for the approved real photograph", and the copy "Navy box · Warm gold seal · Ivory tissue" describes packaging that is not shown anywhere.
+9. **/routines — six rounded, bordered white cards with a large dead zone before the footer.** The card set is generic-ecommerce and the page ends abruptly with ~250px of empty canvas.
+   *Fix:* square the cards, replace the border with a single hairline rule grid (matching the brands/ingredient index rows already used on home), and either add the routine product thumbnails or reduce the bottom padding.
 
-15. **Mobile navigation friction** — `site-chrome.tsx` lines 343–441. The mobile drawer renders 9 large links **plus** every mega-menu section expanded inline (~30 more links) in one scroll with no accordions. The desktop dropdown chevron is a `<button>` that only opens on click and never closes on click (line 213–222), and menus close only on `mouseleave` — awkward on touch/keyboard.
+10. **/learn — rounded bordered cards + fully-rounded pill filters.** The content is excellent; the container styling is Bootstrap-adjacent.
+    *Fix:* hairline-divided grid, square filter chips with an underline active state (matching the nav language).
 
-16. **Cart badge always renders**, showing `0` when empty — `site-chrome.tsx` line 290.
+11. **Section background drift.** Home alternates white with a light grey (#F4F4F5-ish) band, /shop tiles use the same grey, /skin-concerns cards are warm cream-toned. Nothing is cream-as-page-background (good), but three neutrals compete.
+    *Fix:* lock two surfaces only — pure white page and one soft grey for tiles/bands — and remove the third tone.
 
-17. **Footer bottom bar has three non-links** — `site-chrome.tsx` lines 520–524: plain `<span>` "Shipping & Returns", "Privacy", "Terms" duplicating the real links directly above, and there is no Terms page.
+12. **/checkout empty state leaves ~600px of white void above the footer.** Correct message, wrong proportion.
+    *Fix:* centre the empty state in a fixed min-height block and add a small "Continue where you left off" product row.
 
-18. **ABN placeholder shipping to production** — `site-chrome.tsx` line 519 falls back to `"xx xxx xxx xxx"` when `VITE_COMPANY_ABN` is unset.
+13. **PDP right column has a large unused block under the CTAs** while the accordions sit far below the fold.
+    *Fix:* pull the first accordion group up into the right column or reduce the gap so the fold ends on content, not emptiness.
 
-19. **`/journey` metadata over-promises** — "Detailed application notes for every product" (`src/routes/journey.tsx` line 7), linked from the header mega-menu as three separate routines.
+14. **Footer newsletter button wraps to two lines** ("JOIN THE / LIST") at desktop width.
+    *Fix:* widen the button or set `whitespace-nowrap`.
 
-20. **Dead code in `src/routes/index.tsx`** — unused `SparkleIcon` (lines 409–425), unused `Stat` (lines 428–435), unused imports `authenticityCard` (line 17) and `useEffect` (line 2).
+15. **PLP sort control is a native `<select>`** next to otherwise bespoke typography.
+    *Fix:* restyle to a bordered square control with the site's letterspaced caps.
 
-21. **Homepage `Reveal` usage is inconsistent** — some sections wrapped, others not (`index.tsx` lines 85–102), producing uneven scroll behaviour: `KoreaRightNow`, `BrandMarquee`, `SkinQuizSection`, `ApplicationMoment`, `RitualCTA`, `SeoulSignalStrip` animate differently from their neighbours.
+16. **Mobile PLP — the "COMPARE" checkbox overlays the product image** bottom-right and competes with the wishlist heart.
+    *Fix:* move compare below the price row on mobile, or hide it under a filter-bar toggle.
 
-22. **Homepage SEO copy** — title is 66 characters (over the 60 guideline) and the description leads with the unverified next-day claim. No `og:type`, `og:image` or `twitter:card` on the homepage head.
+17. **Home hero image reads dim and muddy** and the product packshot at the lower right is cropped mid-bottle by the viewport edge.
+    *Fix:* lift exposure slightly, reduce the overlay opacity, and reposition the focal crop so the bottle is either fully in frame or fully out.
 
-## LEAVE AS IS
+18. **Home trust ticker at the bottom of the hero runs off the right edge** ("EXPRESS AU SHIPPIN…") at 1440px.
+    *Fix:* ensure the marquee/flex row masks cleanly with a fade rather than a hard cut.
 
-- `PromoBar` message and its link to `/shipping-policy` — verified against policy (free express over A$80; 12pm same-day dispatch).
-- `CustomerNotes` — correctly avoids fabricated reviews and makes no rating claims.
-- `RitualCTA` — the Restock steps and `RESTOCK_DISCOUNT_PERCENT` are read from real subscription logic.
-- `KoreaRightNow` / The Seoul Edit — all six shortlist SKUs plus the featured MEDICUBE PDRN serum resolve to real catalog entries; prices come from the catalog, no ranking claims.
-- `SeoulSignalStrip` structure and article links (`new-launch-watchlist`, `seoul-vs-tiktok`, `prevention-over-repair` all resolve).
-- `Promise` strip, `Concerns` copy, `BundleCardMedia` explainer toggle, hero carousel interaction model (pause on hover, reduced-motion, keyboard, swipe) — all sound.
-- Hero slide 1 leading with **SKIN GROCER** — as requested.
-- Homepage `#bundles` anchor from the mega menu — the target section exists.
+19. **/skin-concerns tiles are heavily rounded with gradient scrims** and the imagery is abstract macro texture — cohesive with each other but softer than the header's discipline.
+    *Fix:* square the corners and reduce the scrim; keep the imagery.
 
-## Suggested order of work
+20. **Chat widget bubble** floats over PDP/PLP content at both widths in a dark circle with a generic icon.
+    *Fix:* smaller, square-ish or hairline-outlined trigger, and offset it clear of the add-to-bag row on mobile.
 
-1. CRITICAL 1–4 (false brand navigation, fake reviews page, delivery claims, advisor claims).
-2. HIGH 5–11 (duplicate bars, double newsletter, bundle claim, hardcoded prices, label divergence, dead menu links, mismatched authenticity image).
-3. MEDIUM as a single tidy-up pass.
+---
 
-Tell me which group to start with and I will scope each as a separate change.
+## D) OPTIONAL / LATER
+
+- Bespoke Skin Grocer icon set (search / heart / bag) drawn to the wordmark's stroke contrast.
+- Subtle stripe motif reprise as a section divider (static, one or two places only).
+- Hover micro-interaction language: single slow image scale + caption reveal on cards.
+- Editorial lookbook/campaign imagery to replace the remaining generic macro shots.
+- Brand-story pages per house, using the About page template.
+- Reduced-motion audit of the home carousel autoplay.
+
+---
+
+## Top 5 highest-impact, lowest-risk changes
+
+1. Neutralise the /brands pastel gradient tiles to the black/white/grey system (fixes the biggest identity break and the contrast failures in one pass).
+2. Fix the /contact mobile horizontal overflow (only true layout bug found).
+3. Unify add-to-bag labelling and primary-button radius sitewide (pure presentation, no cart logic).
+4. Replace the duplicated hero wordmark with the positioning statement.
+5. Standardise product-tile backgrounds and scale on /shop.
+
+---
+
+## Launch readiness
+
+The visual system is **close, but I recommend one controlled refinement pass before launch**. The header, footer, typography and editorial modules are genuinely premium; the failures are concentrated and cheap to fix — /brands pastel tiles, the /contact mobile overflow, CTA/button inconsistency and the duplicated hero wordmark. Items 1–8 are a contained pass touching presentation only, with no impact on checkout, Stripe, orders, emails, database or warehouse workflows. Everything in C and D can follow after launch.
