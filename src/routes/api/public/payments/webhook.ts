@@ -335,6 +335,63 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
   }
 }
 
+/**
+ * Authoritative refund event from Stripe. This handler NEVER initiates a
+ * refund — it only records one that Stripe already processed, and mails the
+ * approved cancellation/refund notice exactly once (ledger-guarded).
+ */
+async function handleChargeRefunded(charge: any, env: StripeEnv) {
+  const supabase = getSupabase();
+  const paymentIntent = typeof charge?.payment_intent === 'string' ? charge.payment_intent : charge?.payment_intent?.id;
+  if (!paymentIntent) {
+    warnCommerce('webhook', 'refund.no_payment_intent', { chargeId: charge?.id ?? null, env });
+    return;
+  }
+
+  const { data: order } = await supabase
+    .from('orders')
+    .select('id, amount_cents, fulfillment_status')
+    .eq('stripe_payment_intent_id', paymentIntent)
+    .eq('environment', env)
+    .maybeSingle();
+
+  if (!order) {
+    warnCommerce('webhook', 'refund.order_not_found', { paymentIntent: shortId(paymentIntent), env });
+    return;
+  }
+
+  const refundedCents = Number(charge?.amount_refunded ?? 0) || 0;
+  const full = refundedCents >= (order.amount_cents ?? 0) && refundedCents > 0;
+  const now = new Date().toISOString();
+
+  const patch: Record<string, unknown> = {
+    status: full ? 'refunded' : 'partially_refunded',
+    refunded_cents: refundedCents,
+    refunded_at: now,
+    updated_at: now,
+  };
+  // A full refund on an order that never shipped is a cancellation.
+  if (full && order.fulfillment_status !== 'shipped' && order.fulfillment_status !== 'delivered') {
+    patch['fulfillment_status'] = 'cancelled';
+    patch['cancelled_at'] = now;
+  }
+
+  const { error } = await supabase.from('orders').update(patch).eq('id', order.id);
+  if (error) {
+    errorCommerce('webhook', 'refund.update_failed', error, { orderId: order.id, env });
+    return;
+  }
+
+  logCommerce('webhook', 'refund.recorded', { orderId: order.id, refundedCents, full, env });
+
+  try {
+    const outcome = await dispatchOrderNotification(supabase, order.id, 'cancellation');
+    logCommerce('webhook', 'notification.cancellation', { orderId: order.id, status: outcome.status });
+  } catch (e) {
+    errorCommerce('webhook', 'notification.cancellation_failed', e, { orderId: order.id });
+  }
+}
+
 async function markSessionFailed(session: any, env: StripeEnv) {
   await getSupabase()
     .from('orders')
