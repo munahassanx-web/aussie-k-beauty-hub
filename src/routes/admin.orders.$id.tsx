@@ -164,7 +164,7 @@ function OrderDetail() {
     <>
       <PackingSlip order={order} />
 
-      <main className="mx-auto max-w-4xl px-6 py-16 print:hidden">
+      <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-16 print:hidden">
         <Link to="/admin/orders" className="text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">
           ← Order queue
         </Link>
@@ -187,7 +187,7 @@ function OrderDetail() {
         </div>
 
         <section className="mt-8 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-2xl border border-border p-5 text-sm">
+          <div className="rounded-2xl border border-border p-4 text-sm sm:p-5">
             <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Ship to</p>
             <p className="mt-2 text-foreground">{order.shippingName ?? order.customerName ?? 'Not provided'}</p>
             {address.length > 0 ? (
@@ -200,7 +200,7 @@ function OrderDetail() {
               {order.customerEmail ?? '—'} {order.isGuest ? '(guest checkout)' : ''}
             </p>
           </div>
-          <div className="rounded-2xl border border-border p-5 text-sm">
+          <div className="rounded-2xl border border-border p-4 text-sm sm:p-5">
             <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Payment</p>
             <p className="mt-2 text-foreground">{money(order.amountCents, order.currency)} paid</p>
             <p className="text-muted-foreground">Shipping {money(order.shippingCents, order.currency)}</p>
@@ -226,7 +226,7 @@ function OrderDetail() {
           </div>
         </section>
 
-        <section className="mt-4 rounded-2xl border border-border p-5">
+        <section className="mt-4 rounded-2xl border border-border p-4 sm:p-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Pick list</p>
           <ul className="mt-3 divide-y divide-border text-sm">
             {order.lines.map((l, i) => (
@@ -239,7 +239,7 @@ function OrderDetail() {
           </ul>
         </section>
 
-        <section className="mt-4 rounded-2xl border border-border p-5">
+        <section className="mt-4 rounded-2xl border border-border p-4 sm:p-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Fulfilment</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {[...FULFILMENT_STAGES.filter((f) => f !== 'delivered'), 'cancelled'].map((s) => (
@@ -476,7 +476,7 @@ function OrderDetail() {
           </p>
         </section>
 
-        <section className="mt-4 rounded-2xl border border-border p-5 text-sm">
+        <section className="mt-4 rounded-2xl border border-border p-4 text-sm sm:p-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Customer communication — staff only</p>
 
           {comms.isLoading && <p className="mt-2 text-muted-foreground">Loading communication status…</p>}

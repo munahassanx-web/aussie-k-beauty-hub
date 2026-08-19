@@ -28,7 +28,7 @@ function when(iso: string) {
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <main className="mx-auto max-w-6xl px-6 py-16">
+    <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
       <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Admin</p>
       <h1 className="mt-3 font-display text-4xl text-foreground">Order queue</h1>
       <div className="mt-8">{children}</div>
@@ -80,14 +80,14 @@ function OrderQueue() {
   return (
     <Shell>
       {data && (
-        <div className="grid gap-3 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
             { label: 'To pack', value: String(data.counts['processing'] ?? 0) },
             { label: 'Dispatched', value: String(data.counts['shipped'] ?? 0) },
             { label: 'Paid orders (7 days)', value: String(data.totals.last7Count) },
             { label: 'Revenue (7 days)', value: money(data.totals.last7Cents) },
           ].map((s) => (
-            <div key={s.label} className="rounded-2xl border border-border p-5">
+            <div key={s.label} className="rounded-2xl border border-border p-4 sm:p-5">
               <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">{s.label}</p>
               <p className="mt-2 font-display text-2xl text-foreground">{s.value}</p>
             </div>
@@ -119,7 +119,7 @@ function OrderQueue() {
         />
       </div>
 
-      <div className="mt-6 overflow-x-auto rounded-2xl border border-border">
+      <div className="mt-6 hidden overflow-x-auto rounded-2xl border border-border md:block">
         <table className="w-full min-w-[720px] text-left text-sm">
           <thead className="border-b border-border text-xs uppercase tracking-[0.14em] text-muted-foreground">
             <tr>
@@ -166,6 +166,38 @@ function OrderQueue() {
           </tbody>
         </table>
       </div>
+
+      {/* Phone view — same queue as cards, one tap per order. */}
+      <ul className="mt-6 space-y-3 md:hidden">
+        {q.isLoading && <li className="text-sm text-muted-foreground">Loading orders…</li>}
+        {data?.orders.length === 0 && !q.isLoading && (
+          <li className="text-sm text-muted-foreground">Nothing in this stage right now.</li>
+        )}
+        {data?.orders.map((o) => (
+          <li key={o.id}>
+            <Link
+              to="/admin/orders/$id"
+              params={{ id: o.id }}
+              className="block rounded-2xl border border-border p-4 active:border-foreground"
+            >
+              <div className="flex items-baseline justify-between gap-3">
+                <span className="font-display text-lg text-foreground">{o.customerName ?? 'Not provided'}</span>
+                <span className="text-sm text-foreground">{money(o.amountCents, o.currency)}</span>
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {o.customerEmail ?? '—'}{o.isGuest ? ' · guest' : ''}
+              </p>
+              <p className="mt-2 text-xs text-muted-foreground">
+                {when(o.createdAt)} · {o.itemCount} item{o.itemCount === 1 ? '' : 's'} ·{' '}
+                {STAGE_LABEL[o.fulfillmentStatus] ?? o.fulfillmentStatus}
+              </p>
+              <p className="mt-1 font-mono text-xs text-muted-foreground">
+                {o.trackingNumber ? `${o.shippingCarrier ?? 'Carrier'} ${o.trackingNumber}` : 'No tracking yet'}
+              </p>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </Shell>
   );
 }
