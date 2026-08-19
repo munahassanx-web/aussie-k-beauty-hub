@@ -375,7 +375,7 @@ function ProductPage() {
                   step(-1);
                 }}
                 aria-label="Previous image"
-                className="inline-flex h-10 w-10 items-center justify-center border border-border text-foreground transition-colors hover:bg-secondary"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-[2px] border border-border/70 text-sm text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
               >
                 ‹
               </button>
@@ -386,7 +386,7 @@ function ProductPage() {
                   step(1);
                 }}
                 aria-label="Next image"
-                className="inline-flex h-10 w-10 items-center justify-center border border-border text-foreground transition-colors hover:bg-secondary"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-[2px] border border-border/70 text-sm text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
               >
                 ›
               </button>
@@ -396,7 +396,7 @@ function ProductPage() {
                 aria-pressed={userPaused || prefersReducedMotion}
                 aria-label={userPaused || prefersReducedMotion ? 'Play slideshow' : 'Pause slideshow'}
                 title={userPaused || prefersReducedMotion ? 'Play slideshow' : 'Pause slideshow'}
-                className="ml-auto inline-flex h-10 w-10 items-center justify-center border border-border/70 text-[11px] text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                className="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-[2px] border border-border/70 text-[10px] text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
               >
                 <span aria-hidden="true">{userPaused || prefersReducedMotion ? '▶' : '❙❙'}</span>
               </button>
@@ -429,8 +429,8 @@ function ProductPage() {
                     setUserPaused(true);
                     setActive(i);
                   }}
-                  className={`relative h-20 w-20 shrink-0 snap-start overflow-hidden rounded-xl border-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
-                    i === active ? 'border-primary' : 'border-transparent hover:border-border'
+                  className={`relative h-[68px] w-[68px] shrink-0 snap-start overflow-hidden rounded-[2px] border bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                    i === active ? 'border-foreground' : 'border-border/60 hover:border-foreground/40'
                   }`}
                 >
                   <img
@@ -438,12 +438,13 @@ function ProductPage() {
                     alt=""
                     loading="lazy"
                     draggable={false}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-contain p-1.5"
                   />
                 </button>
               ))}
             </div>
           )}
+
 
 
           <ImageLightbox
