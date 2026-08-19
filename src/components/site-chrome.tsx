@@ -212,7 +212,7 @@ export function SiteHeader() {
       >
         <div className="mx-auto max-w-7xl px-6">
           {/* Brand row — large centered wordmark, Concept 1 */}
-          <div className="relative flex items-center justify-center px-16 py-6 md:px-0 md:min-h-[136px] md:py-0">
+          <div className="relative flex items-center justify-center px-4 pt-14 pb-6 md:px-0 md:pt-0 md:pb-0 md:min-h-[136px]">
             <Link
               to="/"
               aria-label="Skin Grocer — home"
@@ -223,7 +223,7 @@ export function SiteHeader() {
               <BrandWordmark size="display" sub className="text-foreground" />
             </Link>
 
-            <div className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-1 sm:gap-3">
+            <div className="absolute right-0 top-1 flex items-center gap-1 sm:gap-3 md:top-1/2 md:-translate-y-1/2">
             <button
               type="button"
               aria-label="Search products"
