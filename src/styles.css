@@ -471,16 +471,23 @@
   position: relative;
   overflow: hidden;
   background-color: #070707;
-  /* 45deg diagonal; perpendicular period 79px => ~112px horizontal repeat.
-     Panels project to ~54px black, ~26px gold, ~32px white across the band. */
+  /* 45deg diagonal; perpendicular period 92px => long, spacious segments.
+     Gold panel carries a satin/foil gradient: shadowed at both edges,
+     softly luminous through its centre. Static — no shimmer. */
   background-image: repeating-linear-gradient(
     45deg,
     #070707 0px,
-    #070707 38px,
-    #c6a15b 38px,
-    #c6a15b 56px,
-    #ffffff 56px,
-    #ffffff 79px
+    #070707 42px,
+    #8a6528 42px,
+    #b48a45 46px,
+    #dcbd80 52px,
+    #f2e0b4 57px,
+    #cfa55d 62px,
+    #9a7231 66px,
+    #7a5722 68px,
+    #ffffff 68px,
+    #ffffff 90px
+
   );
 }
 @media (max-width: 767px) {
@@ -488,14 +495,20 @@
     background-image: repeating-linear-gradient(
       45deg,
       #070707 0px,
-      #070707 19px,
-      #c6a15b 19px,
-      #c6a15b 28px,
-      #ffffff 28px,
-      #ffffff 40px
+      #070707 21px,
+      #8a6528 21px,
+      #b48a45 23px,
+      #dcbd80 26px,
+      #f2e0b4 28.5px,
+      #cfa55d 31px,
+      #9a7231 33px,
+      #7a5722 34px,
+      #ffffff 34px,
+      #ffffff 45px
     );
   }
 }
+
 
 
 
