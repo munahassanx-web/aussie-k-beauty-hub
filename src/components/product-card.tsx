@@ -46,7 +46,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
           params={{ slug }}
           tabIndex={-1}
           aria-hidden="true"
-          className="block aspect-square"
+          className="block aspect-square p-6 sm:p-8"
         >
           <img
             src={p.image}
@@ -54,9 +54,10 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
             loading={eager ? 'eager' : 'lazy'}
             width={1024}
             height={1024}
-            className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]"
+            className="h-full w-full object-contain transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
           />
         </Link>
+
 
         {p.tag && (
           <span className="absolute left-0 top-0 bg-background/92 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground backdrop-blur">

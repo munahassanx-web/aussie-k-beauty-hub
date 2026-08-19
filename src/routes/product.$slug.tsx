@@ -392,11 +392,14 @@ function ProductPage() {
                 type="button"
                 onClick={() => setUserPaused((p) => !p)}
                 aria-pressed={userPaused || prefersReducedMotion}
-                className="sr-only focus:not-sr-only focus:ml-1 focus:border focus:border-border focus:px-4 focus:py-2 focus:text-[11px] focus:uppercase focus:tracking-[0.16em] focus:text-muted-foreground"
+                aria-label={userPaused || prefersReducedMotion ? 'Play slideshow' : 'Pause slideshow'}
+                title={userPaused || prefersReducedMotion ? 'Play slideshow' : 'Pause slideshow'}
+                className="ml-auto inline-flex h-10 w-10 items-center justify-center border border-border/70 text-[11px] text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
               >
-                {userPaused || prefersReducedMotion ? 'Play slideshow' : 'Pause slideshow'}
+                <span aria-hidden="true">{userPaused || prefersReducedMotion ? '▶' : '❙❙'}</span>
               </button>
               <span className="sr-only">Use the left and right arrow keys to move between images.</span>
+
             </div>
           )}
 

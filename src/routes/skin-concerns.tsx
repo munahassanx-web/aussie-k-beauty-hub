@@ -42,7 +42,7 @@ function ConcernsPage() {
       <section className="mx-auto max-w-7xl px-6 pb-20">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {concerns.map((c) => (
-            <Link to="/shop" search={{ concern: c.slug }} key={c.name} className="group relative aspect-[4/5] overflow-hidden">
+            <Link to="/shop" search={{ concern: c.slug }} key={c.name} className="group relative aspect-[4/5] overflow-hidden rounded-3xl">
               <img src={c.img} alt={`${c.name} — Korean skincare texture`} loading="lazy" width={1024} height={1280} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/30 to-transparent" />
               <div className="absolute bottom-0 p-7 text-background">
@@ -61,7 +61,7 @@ function ConcernsPage() {
           <p className="text-xs uppercase tracking-[0.25em] text-accent">Need help?</p>
           <h2 className="mt-3 font-display text-4xl md:text-5xl">Talk to a real human.</h2>
           <p className="mt-3 text-background/70">Our team will build you a routine — no upsell, no pressure.</p>
-          <Link to="/contact" className="mt-8 inline-flex bg-accent px-7 py-3 text-sm font-medium text-foreground hover:opacity-90">Get a routine →</Link>
+          <Link to="/contact" className="mt-8 inline-flex rounded-full bg-accent px-7 py-3 text-sm font-medium text-foreground hover:opacity-90">Get a routine →</Link>
         </div>
       </section>
     </>

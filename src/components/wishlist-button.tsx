@@ -69,7 +69,7 @@ export function WishlistButton({
         onClick={onClick}
         aria-pressed={saved}
         aria-label={saved ? `${productName} saved to wishlist` : `Save ${productName} to wishlist`}
-        className={`inline-flex w-full items-center justify-center gap-2 rounded-full border border-border px-7 py-3 text-xs uppercase tracking-wider transition-colors hover:bg-secondary ${saved ? 'text-primary' : 'text-foreground'} ${className}`}
+        className={`inline-flex w-full items-center justify-center gap-2 border border-border px-7 py-3 text-xs uppercase tracking-wider transition-colors hover:bg-secondary ${saved ? 'text-primary' : 'text-foreground'} ${className}`}
       >
         <HeartIcon filled={saved} size={16} />
         {saved ? 'Saved to wishlist' : 'Save to wishlist'}

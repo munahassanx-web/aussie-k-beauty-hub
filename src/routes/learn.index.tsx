@@ -101,7 +101,7 @@ function LearnPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search ingredients — try 'niacinamide' or 'hydration'"
-            className="w-full border border-border bg-background px-6 py-3.5 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none"
+            className="w-full rounded-full border border-border bg-background px-6 py-3.5 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none"
           />
         </div>
 
@@ -112,7 +112,7 @@ function LearnPage() {
               <button
                 key={c}
                 onClick={() => setActiveCategory(c)}
-                className={`border px-4 py-1.5 text-xs uppercase tracking-[0.14em] transition-colors ${
+                className={`rounded-full border px-4 py-1.5 text-xs uppercase tracking-[0.14em] transition-colors ${
                   active
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-border text-foreground/70 hover:border-primary hover:text-primary"
@@ -143,7 +143,7 @@ function LearnPage() {
                 <Link
                   to="/learn/$slug"
                   params={{ slug: ingredientSlug(i.name_english) }}
-                  className="group block h-full border border-border bg-background p-6 transition-colors hover:border-primary"
+                  className="group block h-full rounded-2xl border border-border bg-background p-6 transition-colors hover:border-primary"
                 >
                   <p
                     className="text-[10px] font-semibold uppercase tracking-[0.2em]"
