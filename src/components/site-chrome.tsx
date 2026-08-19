@@ -285,7 +285,7 @@ export function SiteHeader() {
             <button
               type="button"
               onClick={() => { closeMenus(); cart.setOpen(true); }}
-              aria-label={`Open basket (${cart.count} items)`}
+              aria-label={`Open bag (${cart.count} items)`}
               className="relative flex h-11 w-11 items-center justify-center rounded-full text-foreground/80 hover:bg-secondary hover:text-primary"
             >
               <BagIcon />
