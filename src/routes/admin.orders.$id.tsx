@@ -222,7 +222,9 @@ function OrderDetail() {
                 Delivered {new Date(order.deliveredAt).toLocaleString('en-AU')} (confirmed by staff)
               </p>
             )}
-            <p className="mt-2 font-mono text-xs text-muted-foreground">{order.stripeSessionId ?? order.stripePaymentIntentId ?? '—'}</p>
+            <p className="mt-2 break-all font-mono text-xs text-muted-foreground">
+              {order.stripeSessionId ?? order.stripePaymentIntentId ?? '—'}
+            </p>
           </div>
         </section>
 
