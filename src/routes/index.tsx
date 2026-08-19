@@ -18,7 +18,7 @@ import authenticityCard from "@/assets/authenticity-card.png.asset.json";
 import ritualScene from "@/assets/ritual-scene.jpg";
 import quizBareSkin from "@/assets/quiz-bare-skin.jpg";
 import categoryMasks from "@/assets/category-masks.jpg";
-import cabinetShelf from "@/assets/learn/seoul-shelf.jpg";
+import cabinetLineup from "@/assets/brand-lineup.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
