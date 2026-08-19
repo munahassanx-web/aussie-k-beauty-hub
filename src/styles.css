@@ -65,6 +65,8 @@
   --grocer-brown: oklch(0.32 0.012 265);
   /* Restrained rose-gold accent — flat on screen, never faux-metallic gradient */
   --rose-gold: oklch(0.74 0.062 38);
+  /* Champagne gold (#C6A15B) — shared with the transactional email identity */
+  --stripe-gold: #c6a15b;
 
 
 
