@@ -118,20 +118,27 @@ function AnnouncementBar() {
 
   return (
     <div
-      className="border-b border-primary-foreground/10 bg-primary text-primary-foreground"
+      className="border-b border-border/70 bg-background text-foreground"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="mx-auto max-w-7xl px-6 py-2">
+      <div className="relative mx-auto max-w-7xl px-6 py-2">
+        <span className="absolute left-6 top-1/2 hidden -translate-y-1/2 text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70 md:block">
+          AUD $ · Australia
+        </span>
+        <span className="absolute right-6 top-1/2 hidden -translate-y-1/2 items-center gap-6 text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70 md:flex">
+          <Link to="/track" className="hover:text-foreground">Track order</Link>
+          <Link to="/contact" className="hover:text-foreground">Help</Link>
+        </span>
         {/* Desktop: all three trust messages in a calm, spaced row */}
         <div className="hidden items-center justify-center md:flex">
           {announcements.map((msg, i) => (
             <span key={msg} className="flex items-center">
-              <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-primary-foreground/90">
+              <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70">
                 {msg}
               </span>
               {i < announcements.length - 1 && (
-                <span className="mx-8 text-[11px] text-primary-foreground/40" aria-hidden="true">·</span>
+                <span className="mx-8 text-[10px] text-foreground/30" aria-hidden="true">·</span>
               )}
             </span>
           ))}
@@ -142,7 +149,7 @@ function AnnouncementBar() {
           {announcements.map((msg, i) => (
             <span
               key={msg}
-              className={`absolute inset-0 flex items-center justify-center text-[11px] font-medium uppercase tracking-[0.2em] text-primary-foreground/90 ease-out ${
+              className={`absolute inset-0 flex items-center justify-center text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70 ease-out ${
                 i === active
                   ? "opacity-100 translate-y-0 transition-all duration-700 delay-200"
                   : "opacity-0 -translate-y-1 transition-all duration-200"
@@ -195,7 +202,7 @@ export function SiteHeader() {
       {/* The Grocer Stripe — signature brand band, fixed height (no CLS) */}
       <div
         aria-hidden="true"
-        className="grocer-stripe grocer-stripe-sweep h-[9px] w-full md:h-[12px]"
+        className="grocer-stripe h-[16px] w-full md:h-[32px]"
       />
       <AnnouncementBar />
       {/* Main nav */}
@@ -203,19 +210,70 @@ export function SiteHeader() {
         className="border-b border-border/60 bg-background/95 backdrop-blur"
         onMouseLeave={() => setOpenMenu(null)}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-3">
-          <Link
-            to="/"
-            aria-label="Skin Grocer — home"
-            className="flex shrink-0 items-center py-2"
-            onClick={closeMenus}
-            onMouseEnter={() => setOpenMenu(null)}
-          >
-            <BrandWordmark size="md" sub className="text-foreground" />
-          </Link>
+        <div className="mx-auto max-w-7xl px-6">
+          {/* Brand row — large centered wordmark, Concept 1 */}
+          <div className="relative flex items-center justify-center px-14 py-4 md:px-0 md:py-7">
+            <Link
+              to="/"
+              aria-label="Skin Grocer — home"
+              className="block text-center"
+              onClick={closeMenus}
+              onMouseEnter={() => setOpenMenu(null)}
+            >
+              <BrandWordmark size="display" sub className="text-foreground" />
+            </Link>
 
+            <div className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-1 sm:gap-3">
+            <button
+              type="button"
+              aria-label="Search products"
+              onClick={() => { closeMenus(); setSearchOpen(true); }}
+              className="hidden h-11 w-11 md:flex items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
+            >
+              <SearchIcon />
+            </button>
+            <Link
+              to="/wishlist"
+              onClick={closeMenus}
+              aria-label="Your saved products"
+              className="hidden h-11 w-11 md:flex items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
+            >
+              <HeartIcon />
+            </Link>
+            <Link
+              to={user ? "/account" : "/auth"}
+              onClick={closeMenus}
+              aria-label={user ? "Your account" : "Sign in"}
+              className="hidden items-center gap-2 rounded-full border border-border px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/80 hover:border-primary hover:text-primary md:inline-flex"
+            >
+              <UserIcon />
+              {user ? "Account" : "Sign in"}
+            </Link>
+            <button
+              type="button"
+              onClick={() => { closeMenus(); cart.setOpen(true); }}
+              aria-label={`Open basket (${cart.count} items)`}
+              className="relative flex h-11 w-11 items-center justify-center rounded-full text-foreground/80 hover:bg-secondary hover:text-primary"
+            >
+              <BagIcon />
+              {cart.count > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground">{cart.count}</span>
+              )}
+            </button>
+            <button
+              type="button"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              onClick={() => { setOpenMenu(null); setMobileOpen((open) => !open); }}
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground/80 hover:border-primary hover:text-primary lg:hidden"
+            >
+              {mobileOpen ? <CloseIcon /> : <MenuIcon />}
+            </button>
+            </div>
+          </div>
 
-          <nav className="hidden items-center gap-8 lg:flex">
+          <nav className="hidden items-center justify-center gap-8 pb-3 lg:flex">
+
             {Object.keys(megaMenus).map((key) => (
               <div
                 key={key}
@@ -292,53 +350,6 @@ export function SiteHeader() {
 
           </nav>
 
-          <div className="flex shrink-0 items-center gap-1 sm:gap-4">
-            <button
-              type="button"
-              aria-label="Search products"
-              onClick={() => { closeMenus(); setSearchOpen(true); }}
-              className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
-            >
-              <SearchIcon />
-            </button>
-            <Link
-              to="/wishlist"
-              onClick={closeMenus}
-              aria-label="Your saved products"
-              className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
-            >
-              <HeartIcon />
-            </Link>
-            <Link
-              to={user ? "/account" : "/auth"}
-              onClick={closeMenus}
-              aria-label={user ? "Your account" : "Sign in"}
-              className="hidden items-center gap-2 rounded-full border border-border px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/80 hover:border-primary hover:text-primary md:inline-flex"
-            >
-              <UserIcon />
-              {user ? "Account" : "Sign in"}
-            </Link>
-            <button
-              type="button"
-              onClick={() => { closeMenus(); cart.setOpen(true); }}
-              aria-label={`Open basket (${cart.count} items)`}
-              className="relative flex h-11 w-11 items-center justify-center rounded-full text-foreground/80 hover:bg-secondary hover:text-primary"
-            >
-              <BagIcon />
-              {cart.count > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground">{cart.count}</span>
-              )}
-            </button>
-            <button
-              type="button"
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              aria-expanded={mobileOpen}
-              onClick={() => { setOpenMenu(null); setMobileOpen((open) => !open); }}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground/80 hover:border-primary hover:text-primary lg:hidden"
-            >
-              {mobileOpen ? <CloseIcon /> : <MenuIcon />}
-            </button>
-          </div>
         </div>
 
         {openMenu && megaMenus[openMenu] && (
