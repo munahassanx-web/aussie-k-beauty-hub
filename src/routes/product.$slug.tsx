@@ -257,8 +257,9 @@ function ProductPage() {
       </nav>
 
       <div className="mt-8 grid gap-12 lg:grid-cols-2">
-        {/* Gallery — auto-rotates while you read; pauses on hover, on focus,
-            when the visitor hits pause, or when they prefer reduced motion. */}
+        {/* Gallery — visitor-controlled only: arrows, thumbnails, swipe and
+            arrow keys. No auto-advance. */}
+
         <div
           role="group"
           aria-roledescription="image gallery"
