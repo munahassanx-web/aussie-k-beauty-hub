@@ -52,6 +52,10 @@ export function toOrderEmailData(row: Record<string, any>): OrderEmailData {
     shippingMethod: row['shipping_method'] ?? null,
     trackingNumber: row['tracking_number'] ?? null,
     shippingCarrier: row['shipping_carrier'] ?? null,
+    status: row['status'] ?? null,
+    dispatchedAt: row['dispatched_at'] ?? row['shipped_at'] ?? null,
+    deliveredAt: row['delivered_at'] ?? null,
+    refundedCents: typeof row['refunded_cents'] === 'number' ? row['refunded_cents'] : null,
   };
 }
 
@@ -95,7 +99,14 @@ export async function dispatchOrderNotification(
 
   const recipient = await resolveRecipient(supabase, row);
   const order = toOrderEmailData(row);
-  const rendered = kind === 'dispatch' ? renderDispatchNotice(order) : renderOrderConfirmation(order);
+  const rendered =
+    kind === 'dispatch'
+      ? renderDispatchNotice(order)
+      : kind === 'delivery'
+        ? renderDeliveryConfirmation(order)
+        : kind === 'cancellation'
+          ? renderCancellationNotice(order)
+          : renderOrderConfirmation(order);
 
   const base = {
     order_id: orderId,
