@@ -462,19 +462,18 @@ function ProductPage() {
 
 
         {/* Buy box */}
-        <div className="lg:pt-4">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">{product.brand}</p>
-          <h1 className="mt-3 font-display text-[2.1rem] leading-tight text-foreground md:text-[2.6rem]">
+        <div className="lg:pt-2">
+          <p className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+            {product.brand}
+          </p>
+          <h1 className="mt-3 font-display text-[2rem] leading-[1.1] text-foreground md:text-[2.5rem]">
             {product.name}
           </h1>
 
-          <div className="mt-4 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-sm">
-            <span className="text-xl tabular-nums text-foreground">{product.price} AUD</span>
-            {size && <span className="text-muted-foreground">{size}</span>}
-            <span className="text-xs uppercase tracking-[0.18em] text-primary">
-              {routineStepLabel(product)}
-            </span>
-          </div>
+          <p className="mt-3 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            {routineStepLabel(product)}
+            {size ? ` · ${size}` : ''}
+          </p>
 
           <p className="mt-6 text-[0.95rem] leading-relaxed text-muted-foreground">
             {productDescription(product)}
@@ -489,54 +488,66 @@ function ProductPage() {
             </p>
           )}
 
-          <div className="mt-8 space-y-3">
-            {product.comingSoon ? (
-              <div className="border border-border px-6 py-5 text-center">
-                <p className="text-sm font-medium text-foreground">
-                  Arriving soon · {product.price}
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  On its way to our Melbourne warehouse. Not available to order yet.
-                </p>
-              </div>
-            ) : (
-              <button
-                onClick={() =>
-                  buy({
-                    priceId: product.priceId,
-                    name: product.name,
-                    priceLabel: `${product.price} AUD`,
-                  })
-                }
-                className="min-h-14 w-full bg-primary px-7 text-sm font-medium tracking-wide text-primary-foreground transition-opacity hover:opacity-90"
-              >
-                Add to bag · {product.price}
-              </button>
-            )}
-            {!product.comingSoon && restockId && (
-              <button
-                onClick={() =>
-                  buy({ priceId: restockId, name: product.name, priceLabel: `${product.price} AUD` })
-                }
-                className="min-h-12 w-full border border-border px-7 text-xs uppercase tracking-wider text-foreground hover:bg-secondary"
-              >
-                Restock monthly · save 15%
-              </button>
-            )}
-            <WishlistButton
-              variant="inline"
-              productId={product.priceId}
-              productName={`${product.brand} ${product.name}`}
-            />
-          </div>
+          <div className="mt-8 border-t border-border pt-6">
+            <div className="flex items-baseline justify-between gap-4">
+              <span className="font-display text-2xl tabular-nums text-foreground">
+                {product.price}
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                AUD · incl. GST
+              </span>
+            </div>
 
-          <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
-            Dispatched from our Melbourne warehouse · Free shipping over A$80 ·{' '}
-            <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-foreground">
-              Shipping &amp; returns
-            </Link>
-          </p>
+            <div className="mt-5 space-y-3">
+              {product.comingSoon ? (
+                <div className="rounded-[2px] border border-border px-6 py-5 text-center">
+                  <p className="text-sm font-medium text-foreground">
+                    Arriving soon · {product.price}
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    On its way to our Melbourne warehouse. Not available to order yet.
+                  </p>
+                </div>
+              ) : (
+                <button
+                  onClick={() =>
+                    buy({
+                      priceId: product.priceId,
+                      name: product.name,
+                      priceLabel: `${product.price} AUD`,
+                    })
+                  }
+                  className="min-h-14 w-full rounded-[2px] bg-foreground px-7 text-[11px] font-medium uppercase tracking-[0.24em] text-background transition-opacity hover:opacity-90"
+                >
+                  Add to bag
+                </button>
+              )}
+              {!product.comingSoon && restockId && (
+                <button
+                  onClick={() =>
+                    buy({ priceId: restockId, name: product.name, priceLabel: `${product.price} AUD` })
+                  }
+                  className="min-h-12 w-full rounded-[2px] border border-border px-7 text-[10px] uppercase tracking-[0.2em] text-foreground transition-colors hover:border-foreground"
+                >
+                  Restock monthly · save 15%
+                </button>
+              )}
+              <WishlistButton
+                variant="inline"
+                productId={product.priceId}
+                productName={`${product.brand} ${product.name}`}
+              />
+            </div>
+
+            <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
+              Dispatched from our Melbourne warehouse · Free shipping over A$80 ·{' '}
+              <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-foreground">
+                Shipping &amp; returns
+              </Link>
+            </p>
+          </div>
         </div>
+
       </div>
 
       {/* Details — vertically scannable, mobile-first */}
