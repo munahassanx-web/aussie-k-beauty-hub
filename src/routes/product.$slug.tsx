@@ -341,22 +341,23 @@ function ProductPage() {
               </span>
               <span
                 aria-hidden="true"
-                className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background/85 text-foreground backdrop-blur transition-colors group-hover:bg-background"
+                className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-[2px] border border-border bg-background/85 text-muted-foreground transition-colors group-hover:text-foreground"
               >
-                <ExpandIcon className="h-4 w-4" />
+                <ExpandIcon className="h-3.5 w-3.5" />
               </span>
             </button>
 
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center gap-1.5 p-4">
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center gap-2 p-4">
               {gallery.map((g, i) => (
                 <span
                   key={g.src}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === active ? 'w-6 bg-foreground/70' : 'w-1.5 bg-foreground/25'
+                  className={`h-px transition-all duration-300 ${
+                    i === active ? 'w-7 bg-foreground/70' : 'w-4 bg-foreground/25'
                   }`}
                 />
               ))}
             </div>
+
           </div>
 
           {/* Announce the current slide to screen readers */}
