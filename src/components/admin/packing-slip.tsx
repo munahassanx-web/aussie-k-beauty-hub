@@ -18,7 +18,7 @@ export function PackingSlip({ order }: { order: AdminOrderDetail }) {
   ].filter(Boolean);
 
   return (
-    <div className="hidden print:block print:text-black">
+    <div id="packing-slip" className="hidden print:block print:text-black">
       <header className="flex items-start justify-between border-b border-black pb-4">
         <div>
           <p className="font-display text-2xl">SKIN GROCER</p>

@@ -118,7 +118,11 @@ export async function dispatchOrderNotification(
   };
 
   const write = async (patch: Record<string, unknown>) => {
-    await supabase.from('order_notifications').upsert({ ...base, ...patch }, { onConflict: 'order_id,kind' });
+    const { error: writeError } = await supabase
+      .from('order_notifications')
+      .upsert({ ...base, ...patch }, { onConflict: 'order_id,kind' });
+    if (writeError) console.error('[email] ledger write failed', kind, orderId, writeError.message);
+    return writeError ?? null;
   };
 
   if (!recipient) {
@@ -131,6 +135,12 @@ export async function dispatchOrderNotification(
     await write({ status: 'not_configured', provider: 'none', error: null });
     return { status: 'not_configured' };
   }
+
+  // Claim the send in the ledger BEFORE handing anything to the provider. If the
+  // ledger cannot record the attempt, we must not send — an unrecorded send is
+  // an email we would repeat on the next webhook retry.
+  const claimError = await write({ status: 'queued', provider: provider.id, error: null });
+  if (claimError) return { status: 'failed', reason: 'ledger_unavailable' };
 
   const result = await provider.send({
     to: recipient,
