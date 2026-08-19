@@ -540,6 +540,10 @@ async function handleWebhook(req: Request, env: StripeEnv) {
     case 'invoice.payment_failed':
       await handleInvoiceFailed(event.data.object, env);
       break;
+    case 'charge.refunded':
+      // Stripe already refunded the money; we only record it and notify.
+      await handleChargeRefunded(event.data.object, env);
+      break;
     default:
       logCommerce('webhook', 'event.unhandled', { type: event.type });
   }
