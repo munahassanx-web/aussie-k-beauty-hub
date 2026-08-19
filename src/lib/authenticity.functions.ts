@@ -237,7 +237,7 @@ export const getVerificationRecord = createServerFn({ method: 'POST' })
     await supabaseAdmin.rpc('record_authenticity_scan', { _card_id: card.id });
 
     const checklist = (card.checklist ?? {}) as Record<string, boolean>;
-    const checks = (Object.keys(CHECK_LABELS) as Array<keyof typeof CHECK_LABELS>)
+    const checks = [...REQUIRED_CHECKS, ...OPTIONAL_CHECKS]
       .filter((key) => checklist[key] === true)
       .map((key) => CHECK_LABELS[key]);
 
