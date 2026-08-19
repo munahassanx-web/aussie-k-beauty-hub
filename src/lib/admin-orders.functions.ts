@@ -256,6 +256,10 @@ export const updateOrderFulfilment = createServerFn({ method: 'POST' })
     if (input.fulfillmentStatus && !EDITABLE_STATUSES.includes(input.fulfillmentStatus as any)) {
       throw new Error('Unknown fulfilment status');
     }
+    // "Delivered" notifies the customer, so it has its own confirmed action.
+    if (input.fulfillmentStatus === 'delivered') {
+      throw new Error('Use the confirmed "Mark delivered" action for this order');
+    }
     if (input.trackingNumber && input.trackingNumber.trim().length > 80) throw new Error('Tracking number too long');
     if (input.shipmentId && input.shipmentId.trim().length > 120) throw new Error('Shipment ID too long');
     if (input.labelUrl && !/^https:\/\//i.test(input.labelUrl.trim()) && input.labelUrl.trim() !== '') {
@@ -274,6 +278,17 @@ export const updateOrderFulfilment = createServerFn({ method: 'POST' })
     await assertStaff(context as any);
     const supabase = context.supabase as any;
     const now = new Date().toISOString();
+
+    // Payment gate: only a genuinely paid order can move into packing or
+    // dispatch. Pending / failed / refunded orders can be cancelled or noted,
+    // never fulfilled by accident.
+    if (data.fulfillmentStatus && data.fulfillmentStatus !== 'cancelled') {
+      const { data: payRow } = await supabase.from('orders').select('status').eq('id', data.id).maybeSingle();
+      const payStatus = (payRow?.status as string | null) ?? 'pending';
+      if (payStatus !== 'paid') {
+        throw new Error(`Payment status is "${payStatus}" — only paid orders can be packed or dispatched`);
+      }
+    }
 
     const patch: Record<string, unknown> = {
       fulfillment_updated_at: now,
@@ -294,6 +309,7 @@ export const updateOrderFulfilment = createServerFn({ method: 'POST' })
     }
     if (data.fulfillmentStatus) {
       patch['fulfillment_status'] = data.fulfillmentStatus;
+      if (data.fulfillmentStatus === 'cancelled') patch['cancelled_at'] = now;
       if (data.fulfillmentStatus === 'packed') patch['packed_at'] = now;
       if (data.fulfillmentStatus === 'shipped') {
         patch['shipped_at'] = now;
@@ -340,7 +356,7 @@ export const updateOrderFulfilment = createServerFn({ method: 'POST' })
 // ------------------------------------------------------------------ comms
 
 export type OrderNotification = {
-  kind: 'order_confirmation' | 'dispatch' | 'delivery';
+  kind: 'order_confirmation' | 'dispatch' | 'delivery' | 'cancellation';
   status: 'pending' | 'not_configured' | 'queued' | 'sent' | 'failed' | 'skipped';
   provider: string;
   recipientMasked: string | null;
@@ -403,14 +419,88 @@ export const getOrderComms = createServerFn({ method: 'POST' })
  */
 export const sendOrderNotification = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { id: string; kind: 'order_confirmation' | 'dispatch' }) => {
+  .inputValidator((input: { id: string; kind: 'order_confirmation' | 'dispatch' | 'delivery' | 'cancellation' }) => {
     if (!input?.id) throw new Error('Missing order id');
-    if (input.kind !== 'order_confirmation' && input.kind !== 'dispatch') throw new Error('Unknown notification kind');
+    if (!['order_confirmation', 'dispatch', 'delivery', 'cancellation'].includes(input.kind)) {
+      throw new Error('Unknown notification kind');
+    }
     return input;
   })
   .handler(async ({ data, context }) => {
     await assertStaff(context as any);
+    const supabase = context.supabase as any;
+    const { data: row } = await supabase
+      .from('orders')
+      .select('status, fulfillment_status, delivered_at, refunded_at')
+      .eq('id', data.id)
+      .maybeSingle();
+    if (!row) throw new Error('Order not found');
+
+    // Each notice may only be (re)sent when the state it describes is real.
+    if (data.kind === 'delivery' && !row.delivered_at) {
+      throw new Error('This order has not been marked delivered yet');
+    }
+    if (data.kind === 'cancellation' && !row.refunded_at && row.fulfillment_status !== 'cancelled') {
+      throw new Error('This order has no recorded cancellation or refund');
+    }
+    if (data.kind === 'dispatch' && row.fulfillment_status !== 'shipped' && row.fulfillment_status !== 'delivered') {
+      throw new Error('This order has not been dispatched yet');
+    }
+
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
     const { dispatchOrderNotification } = await import('@/lib/email/notifications.server');
     return dispatchOrderNotification(supabaseAdmin, data.id, data.kind);
+  });
+
+/**
+ * Staff-confirmed delivery. Australia Post MyPost Business gives this project
+ * no authenticated tracking API, so there is no trustworthy automatic delivery
+ * signal — a human confirms it. Sets the stage, stamps `delivered_at` and sends
+ * the approved Delivered email exactly once via the notification ledger.
+ */
+export const markOrderDelivered = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { id: string; confirm: true }) => {
+    if (!input?.id) throw new Error('Missing order id');
+    if (input.confirm !== true) throw new Error('Delivery must be explicitly confirmed');
+    return input;
+  })
+  .handler(async ({ data, context }) => {
+    await assertStaff(context as any);
+    const supabase = context.supabase as any;
+    const now = new Date().toISOString();
+
+    const { data: row } = await supabase
+      .from('orders')
+      .select('status, fulfillment_status, delivered_at')
+      .eq('id', data.id)
+      .maybeSingle();
+    if (!row) throw new Error('Order not found');
+    if (row.status !== 'paid') throw new Error('Only a paid order can be marked delivered');
+    if (row.fulfillment_status !== 'shipped' && row.fulfillment_status !== 'delivered') {
+      throw new Error('Mark the order dispatched before marking it delivered');
+    }
+
+    if (!row.delivered_at) {
+      const { error } = await supabase
+        .from('orders')
+        .update({
+          fulfillment_status: 'delivered',
+          delivered_at: now,
+          fulfillment_updated_at: now,
+          fulfillment_updated_by: context.userId,
+        })
+        .eq('id', data.id);
+      if (error) throw new Error(error.message);
+    }
+
+    let notification: { status: string; reason?: string } = { status: 'failed' };
+    try {
+      const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+      const { dispatchOrderNotification } = await import('@/lib/email/notifications.server');
+      notification = await dispatchOrderNotification(supabaseAdmin, data.id, 'delivery');
+    } catch (e) {
+      console.error('[ops] delivery notification failed', (e as Error)?.message);
+    }
+    return { ok: true, notification };
   });
