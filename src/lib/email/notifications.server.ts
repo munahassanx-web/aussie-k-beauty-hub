@@ -13,13 +13,16 @@
 
 import { activeEmailProvider } from './provider.server';
 import {
+  renderCancellationNotice,
+  renderDeliveryConfirmation,
   renderDispatchNotice,
   renderOrderConfirmation,
   type OrderEmailData,
 } from './order-emails.server';
 import { maskEmail } from '@/lib/commerce-log';
 
-export type NotificationKind = 'order_confirmation' | 'dispatch' | 'delivery';
+export type NotificationKind = 'order_confirmation' | 'dispatch' | 'delivery' | 'cancellation';
+
 
 const ORDER_EMAIL_COLUMNS =
   'id, created_at, currency, amount_cents, shipping_cents, discount_cents, line_items, shipping_name, shipping_line1, shipping_line2, shipping_city, shipping_state, shipping_postcode, shipping_country, shipping_method, tracking_number, shipping_carrier, user_id, guest_email, status, fulfillment_status';
