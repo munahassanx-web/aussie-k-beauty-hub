@@ -13,6 +13,7 @@ import {
 } from '@/lib/admin-orders.functions';
 import { CARRIERS, DEFAULT_CARRIER_LABEL, findCarrier, isPlausibleTracking, trackingLink, trackingLinkLabel } from '@/lib/shipping/carriers';
 import { PackingSlip } from '@/components/admin/packing-slip';
+import { AuthenticityPanel } from '@/components/admin/authenticity-panel';
 import { useAuth } from '@/hooks/use-auth';
 
 export const Route = createFileRoute('/admin/orders/$id')({
@@ -477,6 +478,8 @@ function OrderDetail() {
             their account.
           </p>
         </section>
+
+        <AuthenticityPanel orderId={order.id} enabled={Boolean(user)} />
 
         <section className="mt-4 rounded-2xl border border-border p-4 text-sm sm:p-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Customer communication — staff only</p>
