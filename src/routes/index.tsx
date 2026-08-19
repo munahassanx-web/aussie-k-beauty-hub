@@ -17,7 +17,6 @@ import applyingSerum from "@/assets/applying-serum.png.asset.json";
 import authenticityCard from "@/assets/authenticity-card.png.asset.json";
 import ritualScene from "@/assets/ritual-scene.jpg";
 import quizBareSkin from "@/assets/quiz-bare-skin.jpg";
-import categoryMasks from "@/assets/category-masks.jpg";
 import cabinetLineup from "@/assets/brand-lineup.png.asset.json";
 
 export const Route = createFileRoute("/")({
@@ -917,13 +916,14 @@ function ProvenanceCard() {
         <div className="md:col-span-5">
           <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-ink">
             <img
-              src={categoryMasks}
-              alt="A curated flatlay of Korean sheet masks in their original branded packaging, including Abib, Medicube, Mixsoon and Torriden"
+              src={authenticityCard.url}
+              alt="A Skin Grocer authenticity card with a wax seal, resting among Korean skincare in original branded packaging from Haruharu Wonder, SKIN1004, Anua, mixsoon and Beauty of Joseon"
               loading="lazy"
-              className="h-full w-full object-cover opacity-60"
+              className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-ink/50" />
+            <div className="absolute inset-0 bg-ink/10" />
           </div>
+
         </div>
 
         <div className="md:col-span-7">
