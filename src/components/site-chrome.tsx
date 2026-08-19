@@ -203,19 +203,21 @@ export function SiteHeader() {
         className="border-b border-border/60 bg-background/95 backdrop-blur"
         onMouseLeave={() => setOpenMenu(null)}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-3">
-          <Link
-            to="/"
-            aria-label="Skin Grocer — home"
-            className="flex shrink-0 items-center py-2"
-            onClick={closeMenus}
-            onMouseEnter={() => setOpenMenu(null)}
-          >
-            <BrandWordmark size="md" sub className="text-foreground" />
-          </Link>
+        <div className="mx-auto max-w-7xl px-6">
+          {/* Brand row — large centered wordmark, Concept 1 */}
+          <div className="relative flex items-center justify-center py-4 md:py-7">
+            <Link
+              to="/"
+              aria-label="Skin Grocer — home"
+              className="block text-center"
+              onClick={closeMenus}
+              onMouseEnter={() => setOpenMenu(null)}
+            >
+              <BrandWordmark size="display" sub className="text-foreground" />
+            </Link>
 
+          <nav className="hidden items-center justify-center gap-8 pb-3 lg:flex">
 
-          <nav className="hidden items-center gap-8 lg:flex">
             {Object.keys(megaMenus).map((key) => (
               <div
                 key={key}
