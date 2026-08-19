@@ -16,6 +16,12 @@ const STATUS_COPY: Record<string, string> = {
   superseded: 'Superseded',
 };
 
+function printCard() {
+  document.documentElement.classList.add('printing-card');
+  window.print();
+  window.setTimeout(() => document.documentElement.classList.remove('printing-card'), 500);
+}
+
 function when(value: string | null) {
   return value ? new Date(value).toLocaleString('en-AU') : '—';
 }
@@ -101,7 +107,7 @@ export function AuthenticityPanel({ orderId, enabled }: { orderId: string; enabl
                 type="button"
                 disabled={!issued}
                 title={issued ? undefined : 'The QR can only be printed in the session it was issued. Reissue to print again.'}
-                onClick={() => window.print()}
+                onClick={printCard}
                 className="rounded-full border border-border px-4 py-2 text-xs hover:border-foreground disabled:opacity-50"
               >
                 Print card
@@ -141,7 +147,7 @@ export function AuthenticityPanel({ orderId, enabled }: { orderId: string; enabl
             <p className="mt-1 break-all font-mono text-xs text-muted-foreground">{issued.verifyUrl}</p>
             <button
               type="button"
-              onClick={() => window.print()}
+              onClick={printCard}
               className="mt-3 rounded-full bg-primary px-5 py-2.5 text-xs text-primary-foreground hover:opacity-90"
             >
               Print authenticity card
