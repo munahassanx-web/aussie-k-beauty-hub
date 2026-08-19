@@ -34,7 +34,6 @@ import { Route as TrackRouteImport } from './routes/track'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AdminGuideLinksRouteImport } from './routes/admin.guide-links'
 import { Route as AdminInventoryRouteImport } from './routes/admin.inventory'
-import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminSignalsRouteImport } from './routes/admin.signals'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
@@ -50,6 +49,7 @@ import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as RoutinesIndexRouteImport } from './routes/routines.index'
 import { Route as RoutinesBundleIdRouteImport } from './routes/routines.$bundleId'
 import { Route as AdminIssuesIdRouteImport } from './routes/admin.issues.$id'
+import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.index'
 import { Route as AdminOrdersIdRouteImport } from './routes/admin.orders.$id'
 import { Route as ApiPublicEmailPreviewRouteImport } from './routes/api/public/email-preview'
 import { Route as LearnArticleSlugRouteImport } from './routes/learn.article.$slug'
@@ -185,11 +185,6 @@ const AdminInventoryRoute = AdminInventoryRouteImport.update({
   path: '/admin/inventory',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminOrdersRoute = AdminOrdersRouteImport.update({
-  id: '/admin/orders',
-  path: '/admin/orders',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminReviewsRoute = AdminReviewsRouteImport.update({
   id: '/admin/reviews',
   path: '/admin/reviews',
@@ -265,10 +260,15 @@ const AdminIssuesIdRoute = AdminIssuesIdRouteImport.update({
   path: '/admin/issues/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminOrdersIndexRoute = AdminOrdersIndexRouteImport.update({
+  id: '/admin/orders/',
+  path: '/admin/orders/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminOrdersIdRoute = AdminOrdersIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => AdminOrdersRoute,
+  id: '/admin/orders/$id',
+  path: '/admin/orders/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicEmailPreviewRoute = ApiPublicEmailPreviewRouteImport.update({
   id: '/api/public/email-preview',
@@ -339,7 +339,6 @@ export interface FileRoutesByFullPath {
   '/wishlist': typeof WishlistRoute
   '/admin/guide-links': typeof AdminGuideLinksRoute
   '/admin/inventory': typeof AdminInventoryRoute
-  '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -358,6 +357,7 @@ export interface FileRoutesByFullPath {
   '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/api/public/email-preview': typeof ApiPublicEmailPreviewRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
+  '/admin/orders/': typeof AdminOrdersIndexRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
@@ -391,7 +391,6 @@ export interface FileRoutesByTo {
   '/wishlist': typeof WishlistRoute
   '/admin/guide-links': typeof AdminGuideLinksRoute
   '/admin/inventory': typeof AdminInventoryRoute
-  '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -410,6 +409,7 @@ export interface FileRoutesByTo {
   '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/api/public/email-preview': typeof ApiPublicEmailPreviewRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
+  '/admin/orders': typeof AdminOrdersIndexRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
@@ -444,7 +444,6 @@ export interface FileRoutesById {
   '/wishlist': typeof WishlistRoute
   '/admin/guide-links': typeof AdminGuideLinksRoute
   '/admin/inventory': typeof AdminInventoryRoute
-  '/admin/orders': typeof AdminOrdersRouteWithChildren
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -463,6 +462,7 @@ export interface FileRoutesById {
   '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/api/public/email-preview': typeof ApiPublicEmailPreviewRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
+  '/admin/orders/': typeof AdminOrdersIndexRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
@@ -498,7 +498,6 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin/guide-links'
     | '/admin/inventory'
-    | '/admin/orders'
     | '/admin/reviews'
     | '/admin/signals'
     | '/blog/$slug'
@@ -517,6 +516,7 @@ export interface FileRouteTypes {
     | '/admin/orders/$id'
     | '/api/public/email-preview'
     | '/learn/article/$slug'
+    | '/admin/orders/'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
     | '/api/public/signals/harvest'
@@ -550,7 +550,6 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin/guide-links'
     | '/admin/inventory'
-    | '/admin/orders'
     | '/admin/reviews'
     | '/admin/signals'
     | '/blog/$slug'
@@ -569,6 +568,7 @@ export interface FileRouteTypes {
     | '/admin/orders/$id'
     | '/api/public/email-preview'
     | '/learn/article/$slug'
+    | '/admin/orders'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
     | '/api/public/signals/harvest'
@@ -602,7 +602,6 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/admin/guide-links'
     | '/admin/inventory'
-    | '/admin/orders'
     | '/admin/reviews'
     | '/admin/signals'
     | '/blog/$slug'
@@ -621,6 +620,7 @@ export interface FileRouteTypes {
     | '/admin/orders/$id'
     | '/api/public/email-preview'
     | '/learn/article/$slug'
+    | '/admin/orders/'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
     | '/api/public/signals/harvest'
@@ -655,7 +655,6 @@ export interface RootRouteChildren {
   WishlistRoute: typeof WishlistRoute
   AdminGuideLinksRoute: typeof AdminGuideLinksRoute
   AdminInventoryRoute: typeof AdminInventoryRoute
-  AdminOrdersRoute: typeof AdminOrdersRouteWithChildren
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSignalsRoute: typeof AdminSignalsRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -670,8 +669,10 @@ export interface RootRouteChildren {
   LearnIndexRoute: typeof LearnIndexRoute
   RoutinesIndexRoute: typeof RoutinesIndexRoute
   AdminIssuesIdRoute: typeof AdminIssuesIdRoute
+  AdminOrdersIdRoute: typeof AdminOrdersIdRoute
   ApiPublicEmailPreviewRoute: typeof ApiPublicEmailPreviewRoute
   LearnArticleSlugRoute: typeof LearnArticleSlugRoute
+  AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
   ApiPublicIssueCoverIdRoute: typeof ApiPublicIssueCoverIdRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
   ApiPublicSignalsHarvestRoute: typeof ApiPublicSignalsHarvestRoute
@@ -857,13 +858,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminInventoryRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/orders': {
-      id: '/admin/orders'
-      path: '/admin/orders'
-      fullPath: '/admin/orders'
-      preLoaderRoute: typeof AdminOrdersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/admin/reviews': {
       id: '/admin/reviews'
       path: '/admin/reviews'
@@ -969,12 +963,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIssuesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/orders/': {
+      id: '/admin/orders/'
+      path: '/admin/orders'
+      fullPath: '/admin/orders/'
+      preLoaderRoute: typeof AdminOrdersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/orders/$id': {
       id: '/admin/orders/$id'
-      path: '/$id'
+      path: '/admin/orders/$id'
       fullPath: '/admin/orders/$id'
       preLoaderRoute: typeof AdminOrdersIdRouteImport
-      parentRoute: typeof AdminOrdersRoute
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/email-preview': {
       id: '/api/public/email-preview'
@@ -1047,18 +1048,6 @@ const CheckoutRouteWithChildren = CheckoutRoute._addFileChildren(
   CheckoutRouteChildren,
 )
 
-interface AdminOrdersRouteChildren {
-  AdminOrdersIdRoute: typeof AdminOrdersIdRoute
-}
-
-const AdminOrdersRouteChildren: AdminOrdersRouteChildren = {
-  AdminOrdersIdRoute: AdminOrdersIdRoute,
-}
-
-const AdminOrdersRouteWithChildren = AdminOrdersRoute._addFileChildren(
-  AdminOrdersRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -1085,7 +1074,6 @@ const rootRouteChildren: RootRouteChildren = {
   WishlistRoute: WishlistRoute,
   AdminGuideLinksRoute: AdminGuideLinksRoute,
   AdminInventoryRoute: AdminInventoryRoute,
-  AdminOrdersRoute: AdminOrdersRouteWithChildren,
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSignalsRoute: AdminSignalsRoute,
   BlogSlugRoute: BlogSlugRoute,
@@ -1100,8 +1088,10 @@ const rootRouteChildren: RootRouteChildren = {
   LearnIndexRoute: LearnIndexRoute,
   RoutinesIndexRoute: RoutinesIndexRoute,
   AdminIssuesIdRoute: AdminIssuesIdRoute,
+  AdminOrdersIdRoute: AdminOrdersIdRoute,
   ApiPublicEmailPreviewRoute: ApiPublicEmailPreviewRoute,
   LearnArticleSlugRoute: LearnArticleSlugRoute,
+  AdminOrdersIndexRoute: AdminOrdersIndexRoute,
   ApiPublicIssueCoverIdRoute: ApiPublicIssueCoverIdRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
   ApiPublicSignalsHarvestRoute: ApiPublicSignalsHarvestRoute,
