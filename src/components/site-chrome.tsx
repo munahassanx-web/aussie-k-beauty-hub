@@ -118,20 +118,27 @@ function AnnouncementBar() {
 
   return (
     <div
-      className="border-b border-primary-foreground/10 bg-primary text-primary-foreground"
+      className="border-b border-border/70 bg-background text-foreground"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="mx-auto max-w-7xl px-6 py-2">
+      <div className="relative mx-auto max-w-7xl px-6 py-2">
+        <span className="absolute left-6 top-1/2 hidden -translate-y-1/2 text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70 md:block">
+          AUD $ · Australia
+        </span>
+        <span className="absolute right-6 top-1/2 hidden -translate-y-1/2 items-center gap-6 text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70 md:flex">
+          <Link to="/track" className="hover:text-foreground">Track order</Link>
+          <Link to="/contact" className="hover:text-foreground">Help</Link>
+        </span>
         {/* Desktop: all three trust messages in a calm, spaced row */}
         <div className="hidden items-center justify-center md:flex">
           {announcements.map((msg, i) => (
             <span key={msg} className="flex items-center">
-              <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-primary-foreground/90">
+              <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70">
                 {msg}
               </span>
               {i < announcements.length - 1 && (
-                <span className="mx-8 text-[11px] text-primary-foreground/40" aria-hidden="true">·</span>
+                <span className="mx-8 text-[10px] text-foreground/30" aria-hidden="true">·</span>
               )}
             </span>
           ))}
@@ -142,7 +149,7 @@ function AnnouncementBar() {
           {announcements.map((msg, i) => (
             <span
               key={msg}
-              className={`absolute inset-0 flex items-center justify-center text-[11px] font-medium uppercase tracking-[0.2em] text-primary-foreground/90 ease-out ${
+              className={`absolute inset-0 flex items-center justify-center text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70 ease-out ${
                 i === active
                   ? "opacity-100 translate-y-0 transition-all duration-700 delay-200"
                   : "opacity-0 -translate-y-1 transition-all duration-200"
