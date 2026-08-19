@@ -102,7 +102,7 @@ export function NewsletterForm({
         <button
           type="submit"
           disabled={status === "loading"}
-          className={`border px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition disabled:opacity-60 sm:rounded-none sm:border-l-0 ${
+          className={`whitespace-nowrap border px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition disabled:opacity-60 sm:rounded-none sm:border-l-0 ${
             dark
               ? "border-paper/25 bg-paper text-ink hover:bg-paper/90"
               : "border-ink/15 bg-ink text-paper hover:bg-ink/85"
