@@ -17,7 +17,7 @@ export function BrandWordmark({
 }) {
   const scale =
     size === "display"
-      ? "text-[1.75rem] sm:text-[3.2rem] md:text-[4.6rem] lg:text-[5.4rem] tracking-[0.045em]"
+      ? "text-[1.45rem] sm:text-[3.2rem] md:text-[4.6rem] lg:text-[5.4rem] tracking-[0.045em]"
       : size === "xl"
         ? "text-[1.9rem] md:text-[2.5rem] tracking-[0.13em]"
         : size === "lg"
