@@ -70,7 +70,14 @@ export type OrderEmailData = {
   shippingMethod: string | null;
   trackingNumber: string | null;
   shippingCarrier: string | null;
+  /** Optional, only present when the stored order actually holds them. */
+  status?: string | null;
+  dispatchedAt?: string | null;
+  deliveredAt?: string | null;
+  /** Refunded amount in cents — only set when a real refund figure is stored. */
+  refundedCents?: number | null;
 };
+
 
 export function orderReference(id: string): string {
   return `SG-${id.slice(0, 8).toUpperCase()}`;
