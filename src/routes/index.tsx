@@ -327,56 +327,118 @@ function SkinQuizSection() {
 
 
 
+const CABINET_BRANDS = [
+  "AESTURA", "BIODANCE", "Beauty of Joseon", "Dr.G", "HARUHARU WONDER",
+  "ISNTREE", "MEDICUBE", "ROUND LAB", "S.NATURE", "TIRTIR",
+  "TORRIDEN", "WELLAGE", "beplain",
+];
+
+const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
 function BrandMarquee() {
-  const brands = [
-    "AESTURA", "BIODANCE", "Beauty of Joseon", "Dr.G", "HARUHARU WONDER",
-    "ISNTREE", "MEDICUBE", "ROUND LAB", "S.NATURE", "TIRTIR",
-    "TORRIDEN", "WELLAGE", "beplain",
-  ];
+  const groups = new Map<string, { name: string; count: number }[]>();
+  for (const name of [...CABINET_BRANDS].sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }))) {
+    const letter = name[0]!.toUpperCase();
+    const count = SHOP_PRODUCTS.filter((p) => p.brand.toLowerCase() === name.toLowerCase()).length;
+    const bucket = groups.get(letter) ?? [];
+    bucket.push({ name, count });
+    groups.set(letter, bucket);
+  }
+  const letters = [...groups.keys()];
+
   return (
-    <section className="border-y border-border/60 bg-paper">
+    <section className="border-y border-border/60 bg-background">
       <div className="mx-auto max-w-7xl px-6 py-20 md:py-28">
-        <div className="mb-14 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-2xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
+        <header className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-6 md:flex md:justify-between">
+          <div className="min-w-0 max-w-2xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-ink/50">
               THE BRAND CABINET
             </p>
-            <h2 className="mt-3 font-display text-3xl leading-tight text-ink md:text-4xl">
-              Korean skincare houses, <span className="italic text-hanbok-deep">chosen with intention.</span>
+            <h2 className="mt-4 font-display text-3xl leading-[1.05] text-ink md:text-5xl">
+              Korean skincare houses, <span className="italic">chosen with intention.</span>
             </h2>
-            <p className="mt-4 max-w-xl text-sm text-ink/70">
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink/60">
               From barrier specialists to modern cult favourites, explore the names shaping the Skin Grocer edit.
             </p>
           </div>
           <Link
             to="/brands"
-            className="group inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink transition hover:text-hanbok-deep"
+            className="group shrink-0 self-end text-[11px] font-semibold uppercase tracking-[0.2em] text-ink"
           >
-            Browse all brands
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            <span className="border-b border-ink/25 pb-1 transition-colors group-hover:border-[var(--stripe-gold)]">
+              Browse all brands
+            </span>
           </Link>
-        </div>
+        </header>
 
-        <ul className="grid divide-y divide-border/60 border-t border-border/60 md:grid-cols-3 md:divide-x md:divide-y-0">
-          {brands.map((brand, i) => (
-            <li
-              key={brand}
-              className="group flex items-center justify-between border-b border-border/60 px-1 py-5 md:px-4 md:py-6"
+        {/* A–Z index */}
+        <nav
+          aria-label="Brand index A to Z"
+          className="mt-12 -mx-6 overflow-x-auto px-6 md:mx-0 md:px-0"
+        >
+          <ul className="flex min-w-max items-center gap-x-3 border-y border-border/60 py-3 md:min-w-0 md:flex-wrap md:gap-x-5">
+            {ALPHABET.map((l) => {
+              const active = groups.has(l);
+              return (
+                <li key={l}>
+                  {active ? (
+                    <a
+                      href={`#cabinet-${l}`}
+                      className="block px-1 py-1 font-display text-[13px] tracking-[0.08em] text-ink underline-offset-[6px] transition-colors hover:text-[var(--stripe-gold)] hover:underline focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                    >
+                      {l}
+                    </a>
+                  ) : (
+                    <span aria-hidden className="block px-1 py-1 font-display text-[13px] tracking-[0.08em] text-ink/20">
+                      {l}
+                    </span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        <div className="mt-4">
+          {letters.map((letter) => (
+            <section
+              key={letter}
+              id={`cabinet-${letter}`}
+              aria-labelledby={`cabinet-${letter}-label`}
+              className="scroll-mt-32 border-b border-border/60 py-10 md:grid md:grid-cols-[7rem_minmax(0,1fr)] md:gap-10 md:py-12"
             >
-              <div className="flex items-baseline gap-4">
-                <span className="font-display text-xs italic text-ink/60">
-                  {String(i + 1).padStart(2, "0")}
+              <h3
+                id={`cabinet-${letter}-label`}
+                className="font-display text-4xl leading-none text-ink md:text-6xl"
+              >
+                {letter}
+                <span className="ml-2 align-super text-[10px] tracking-[0.2em] text-[var(--stripe-gold)]">
+                  {String(groups.get(letter)!.length).padStart(2, "0")}
                 </span>
-                <span className="text-[13px] font-semibold uppercase tracking-[0.12em] text-ink transition-colors group-hover:text-hanbok-deep">
-                  {brand}
-                </span>
-              </div>
-              <span className="text-ink/20 transition-all duration-300 group-hover:translate-x-1 group-hover:text-hanbok-deep">
-                →
-              </span>
-            </li>
+              </h3>
+              <ul className="mt-6 grid gap-x-10 gap-y-5 sm:grid-cols-2 md:mt-0 lg:grid-cols-3">
+                {groups.get(letter)!.map((b) => (
+                  <li key={b.name}>
+                    <Link
+                      to="/shop"
+                      search={{ brand: b.name }}
+                      className="group flex min-h-11 items-baseline justify-between gap-4 py-1 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                    >
+                      <span className="min-w-0 truncate border-b border-transparent pb-1 text-[15px] font-medium uppercase tracking-[0.1em] text-ink transition-all duration-300 group-hover:translate-x-0.5 group-hover:border-[var(--stripe-gold)] md:text-base">
+                        {b.name}
+                      </span>
+                      {b.count > 0 && (
+                        <span className="shrink-0 text-[10px] tracking-[0.18em] text-ink/35">
+                          {String(b.count).padStart(2, "0")}
+                        </span>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );
