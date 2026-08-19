@@ -7,7 +7,7 @@ import {
   revokeAuthenticityCard,
   type OpsCard,
 } from '@/lib/authenticity.functions';
-import { CHECK_LABELS_OPS, OPTIONAL_CHECKS, REQUIRED_CHECKS, type CheckKey } from '@/lib/authenticity.server';
+import { CHECK_LABELS_OPS, OPTIONAL_CHECKS, REQUIRED_CHECKS, type CheckKey } from '@/lib/authenticity-checks';
 import { AuthenticityCardPrint } from '@/components/admin/authenticity-card-print';
 
 const STATUS_COPY: Record<string, string> = {

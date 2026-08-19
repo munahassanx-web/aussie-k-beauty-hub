@@ -128,9 +128,8 @@ export const issueAuthenticityCard = createServerFn({ method: 'POST' })
     await assertStaff(context as any);
     const supabase = context.supabase as any;
 
-    const { REQUIRED_CHECKS, OPTIONAL_CHECKS, generateToken, generateCardRef, hashToken } = await import(
-      '@/lib/authenticity.server'
-    );
+    const { generateToken, generateCardRef, hashToken } = await import('@/lib/authenticity.server');
+    const { REQUIRED_CHECKS, OPTIONAL_CHECKS } = await import('@/lib/authenticity-checks');
 
     for (const key of REQUIRED_CHECKS) {
       if (data.checklist[key] !== true) throw new Error('Complete the required verification checklist first');
