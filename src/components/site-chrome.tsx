@@ -145,11 +145,11 @@ function AnnouncementBar() {
         </div>
 
         {/* Mobile: rotate one message at a time with a gentle fade */}
-        <div className="relative h-4 md:hidden">
+        <div className="relative h-4 w-full md:hidden">
           {announcements.map((msg, i) => (
             <span
               key={msg}
-              className={`absolute inset-0 flex items-center justify-center text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70 ease-out ${
+              className={`absolute inset-0 flex items-center justify-center whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.16em] text-foreground/70 ease-out ${
                 i === active
                   ? "opacity-100 translate-y-0 transition-all duration-700 delay-200"
                   : "opacity-0 -translate-y-1 transition-all duration-200"
@@ -212,7 +212,7 @@ export function SiteHeader() {
       >
         <div className="mx-auto max-w-7xl px-6">
           {/* Brand row — large centered wordmark, Concept 1 */}
-          <div className="relative flex items-center justify-center px-14 py-6 md:px-0 md:min-h-[136px] md:py-0">
+          <div className="relative flex items-center justify-center px-16 py-6 md:px-0 md:min-h-[136px] md:py-0">
             <Link
               to="/"
               aria-label="Skin Grocer — home"
