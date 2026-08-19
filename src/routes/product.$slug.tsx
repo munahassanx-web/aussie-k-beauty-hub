@@ -285,7 +285,7 @@ function ProductPage() {
           onMouseLeave={() => setHovered(false)}
           onFocus={() => setHovered(true)}
           onBlur={() => setHovered(false)}
-          className="lg:sticky lg:top-24 rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+          className="lg:sticky lg:top-24 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
         >
           <div
             ref={stageRef}
@@ -294,7 +294,7 @@ function ProductPage() {
             onPointerUp={endSwipe}
             onPointerCancel={endSwipe}
             style={{ touchAction: count > 1 ? 'pan-y' : undefined }}
-            className="relative aspect-square touch-pan-y overflow-hidden rounded-3xl bg-secondary"
+            className="relative aspect-square touch-pan-y overflow-hidden bg-secondary"
           >
             {gallery.map((g, i) => {
               const isActive = i === active;
@@ -312,7 +312,7 @@ function ProductPage() {
                   loading={i === 0 ? 'eager' : 'lazy'}
                   aria-hidden={!isActive}
                   style={visible ? { transform: `translate3d(${x}px,0,0)` } : undefined}
-                  className={`absolute inset-0 h-full w-full select-none object-cover ${
+                  className={`absolute inset-0 h-full w-full select-none object-contain p-8 sm:p-12 ${
                     prefersReducedMotion || dragging
                       ? ''
                       : 'transition-[opacity,transform] duration-700'
@@ -320,6 +320,7 @@ function ProductPage() {
                 />
               );
             })}
+
 
             {/* Click (or focus + Enter) anywhere on the stage to open the fullscreen viewer */}
             <button
