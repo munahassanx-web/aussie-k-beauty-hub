@@ -373,7 +373,7 @@ function ProductPage() {
                   step(-1);
                 }}
                 aria-label="Previous image"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:bg-secondary"
+                className="inline-flex h-10 w-10 items-center justify-center border border-border text-foreground transition-colors hover:bg-secondary"
               >
                 ‹
               </button>
@@ -384,7 +384,7 @@ function ProductPage() {
                   step(1);
                 }}
                 aria-label="Next image"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:bg-secondary"
+                className="inline-flex h-10 w-10 items-center justify-center border border-border text-foreground transition-colors hover:bg-secondary"
               >
                 ›
               </button>
@@ -392,15 +392,14 @@ function ProductPage() {
                 type="button"
                 onClick={() => setUserPaused((p) => !p)}
                 aria-pressed={userPaused || prefersReducedMotion}
-                className="ml-1 rounded-full border border-border px-4 py-2 text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:bg-secondary"
+                className="sr-only focus:not-sr-only focus:ml-1 focus:border focus:border-border focus:px-4 focus:py-2 focus:text-[11px] focus:uppercase focus:tracking-[0.16em] focus:text-muted-foreground"
               >
                 {userPaused || prefersReducedMotion ? 'Play slideshow' : 'Pause slideshow'}
               </button>
-              <span className="ml-auto text-xs text-muted-foreground" aria-hidden="true">
-                Use ← → keys
-              </span>
+              <span className="sr-only">Use the left and right arrow keys to move between images.</span>
             </div>
           )}
+
 
           {/* Thumbnail strip — roving tabindex: Tab enters the strip on the
               active thumb, then ← → Home End move focus and selection. */}
