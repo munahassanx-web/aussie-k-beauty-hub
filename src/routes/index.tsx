@@ -917,13 +917,14 @@ function ProvenanceCard() {
         <div className="md:col-span-5">
           <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-ink">
             <img
-              src={categoryMasks}
-              alt="A curated flatlay of Korean sheet masks in their original branded packaging, including Abib, Medicube, Mixsoon and Torriden"
+              src={authenticityCard.url}
+              alt="A Skin Grocer authenticity card with a wax seal, resting among Korean skincare in original branded packaging from Haruharu Wonder, SKIN1004, Anua, mixsoon and Beauty of Joseon"
               loading="lazy"
-              className="h-full w-full object-cover opacity-60"
+              className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-ink/50" />
+            <div className="absolute inset-0 bg-ink/10" />
           </div>
+
         </div>
 
         <div className="md:col-span-7">
