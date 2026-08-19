@@ -502,7 +502,7 @@ function ProductPage() {
                     priceLabel: `${product.price} AUD`,
                   })
                 }
-                className="min-h-14 w-full rounded-full bg-primary px-7 text-sm font-medium tracking-wide text-primary-foreground transition-opacity hover:opacity-90"
+                className="min-h-14 w-full bg-primary px-7 text-sm font-medium tracking-wide text-primary-foreground transition-opacity hover:opacity-90"
               >
                 Add to bag · {product.price}
               </button>
@@ -512,7 +512,7 @@ function ProductPage() {
                 onClick={() =>
                   buy({ priceId: restockId, name: product.name, priceLabel: `${product.price} AUD` })
                 }
-                className="min-h-12 w-full rounded-full border border-border px-7 text-xs uppercase tracking-wider text-foreground hover:bg-secondary"
+                className="min-h-12 w-full border border-border px-7 text-xs uppercase tracking-wider text-foreground hover:bg-secondary"
               >
                 Restock monthly · save 15%
               </button>

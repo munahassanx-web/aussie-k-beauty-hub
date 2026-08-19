@@ -83,7 +83,7 @@ function AddButton({ p, dark = false }: { p: ShopProduct; dark?: boolean }) {
           : "border-foreground/30 text-foreground hover:border-foreground"
       }`}
     >
-      Add to order
+      Add to bag
     </button>
   );
 }

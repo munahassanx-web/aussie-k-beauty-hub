@@ -690,7 +690,7 @@ function RoutineColumn({
                     }
                     className="min-h-10 rounded-full border border-ink px-4 text-[10px] uppercase tracking-wider text-ink transition-colors hover:bg-ink hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                   >
-                    Add to cart
+                    Add to bag
                   </button>
                   <Link
                     to="/guide/$productId"

@@ -68,7 +68,7 @@ export function CartDrawer() {
             <Link
               to="/shop"
               onClick={() => cart.setOpen(false)}
-              className="rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"
+              className="bg-primary px-7 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"
             >
               Browse the shop
             </Link>
