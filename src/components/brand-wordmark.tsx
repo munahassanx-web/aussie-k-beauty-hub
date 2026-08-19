@@ -62,16 +62,26 @@ export function BrandWordmark({
   return (
     <Tag className={`inline-block ${className}`}>
       {mark}
-      <span className="mt-1.5 flex items-center justify-center gap-2" aria-hidden="true">
-        <span className="h-px w-4 flex-none" style={{ background: "var(--stripe-gold)" }} />
+      <span
+        className={`flex items-center justify-center ${size === "display" ? "mt-3 gap-3 md:gap-4" : "mt-1.5 gap-2"}`}
+        aria-hidden="true"
+      >
+        <span
+          className={`h-px flex-none ${size === "display" ? "w-8 md:w-14" : "w-4"}`}
+          style={{ background: "var(--stripe-gold)" }}
+        />
         <span
           className={`font-body font-medium uppercase leading-none ${subScale}`}
-          style={{ letterSpacing: "0.42em", textIndent: "0.42em", color: "var(--stripe-gold)" }}
+          style={{ letterSpacing: "0.42em", textIndent: "0.42em", color: "currentColor" }}
         >
           Inner Beauty
         </span>
-        <span className="h-px w-4 flex-none" style={{ background: "var(--stripe-gold)" }} />
+        <span
+          className={`h-px flex-none ${size === "display" ? "w-8 md:w-14" : "w-4"}`}
+          style={{ background: "var(--stripe-gold)" }}
+        />
       </span>
+
     </Tag>
   );
 }
