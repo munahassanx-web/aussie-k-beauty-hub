@@ -66,7 +66,7 @@ export function CartDrawer() {
 
         {cart.lines.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-6 px-8 text-center">
-            <span className="h-px w-12 bg-champagne" aria-hidden="true" />
+            <span className="h-px w-12 bg-rose-gold" aria-hidden="true" />
             <p className="font-display text-2xl leading-tight text-foreground">Your bag is empty</p>
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
               Start with a cleanser, a hydrating serum and an SPF — the three that do most of the work.
@@ -110,7 +110,7 @@ export function CartDrawer() {
                   aria-valuenow={progress}
                   aria-label="Progress towards free shipping"
                 >
-                  <div className="h-px bg-champagne transition-all duration-500" style={{ width: `${progress}%` }} />
+                  <div className="h-px bg-rose-gold transition-all duration-500" style={{ width: `${progress}%` }} />
                 </div>
               </div>
             )}
