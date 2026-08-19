@@ -373,15 +373,15 @@ function BrandMarquee() {
           <figure className="m-0 md:pl-8">
             <div className="relative border border-border/60">
               <img
-                src={cabinetShelf}
-                alt="Shopper selecting Korean skincare from a minimal Seoul beauty shelf"
+                src={cabinetLineup.url}
+                alt="Editorial still life of Korean skincare: AESTURA A-Cica 365 serum, Beauty of Joseon Glow Serum, COSRX AHA/BHA toner, Torriden DIVE-IN serum and Biodance collagen mask to foam cleanser"
                 loading="lazy"
                 decoding="async"
                 className="aspect-[4/3] w-full object-cover md:aspect-[5/4]"
               />
             </div>
             <figcaption className="mt-3 text-[10px] uppercase tracking-[0.24em] text-ink/40">
-              Seoul shelf &middot; the edit begins in store
+              The edit &middot; Aestura, Beauty of Joseon, COSRX, Torriden, Biodance
             </figcaption>
           </figure>
         </header>
