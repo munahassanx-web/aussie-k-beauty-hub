@@ -97,8 +97,14 @@ function Contact() {
 
           <dl className="mt-10 space-y-6">
             <div>
-              <dt className="text-xs uppercase tracking-wider text-muted-foreground">Email</dt>
-              <dd className="mt-1 font-display text-2xl text-foreground">hello@skingrocer.com.au</dd>
+              <dt className="text-xs uppercase tracking-wider text-muted-foreground">Customer care</dt>
+              <dd className="mt-1 font-display text-2xl text-foreground">customercare@skingrocer.com.au</dd>
+              <p className="mt-1 text-sm text-muted-foreground">Orders, shipping, delivery, returns, refunds and routine help.</p>
+            </div>
+            <div>
+              <dt className="text-xs uppercase tracking-wider text-muted-foreground">General &amp; business enquiries</dt>
+              <dd className="mt-1 font-display text-2xl text-foreground">info@skingrocer.com.au</dd>
+              <p className="mt-1 text-sm text-muted-foreground">Suppliers, partnerships, wholesale, vending machines and press.</p>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">Warehouse</dt>

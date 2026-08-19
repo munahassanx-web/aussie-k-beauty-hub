@@ -32,8 +32,8 @@ function ReturnsPolicy() {
           <h2 className="font-display text-2xl text-foreground">Change of mind — 30 days</h2>
           <p className="mt-3 text-muted-foreground">
             If you simply change your mind, you can return any unopened, unused product in its original packaging within 30 days of delivery for a refund or exchange. The item needs to be in resaleable condition. Email{" "}
-            <a href="mailto:hello@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
-              hello@skingrocer.com.au
+            <a href="mailto:customercare@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
+              customercare@skingrocer.com.au
             </a>{" "}
             with your order number to start a return. Return shipping for change-of-mind returns is at your own cost unless the item arrived faulty or incorrect.
           </p>
@@ -43,8 +43,8 @@ function ReturnsPolicy() {
           <h2 className="font-display text-2xl text-foreground">Our glow-or-refund guarantee</h2>
           <p className="mt-3 text-muted-foreground">
             If you followed a routine we personally recommended (through the skin quiz or direct advice) and it didn't work for your skin, we'll make it right within 30 days of delivery — even if the product's been opened. Email{" "}
-            <a href="mailto:hello@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
-              hello@skingrocer.com.au
+            <a href="mailto:customercare@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
+              customercare@skingrocer.com.au
             </a>{" "}
             with your order number and a note on what didn't work.
           </p>
@@ -75,8 +75,8 @@ function ReturnsPolicy() {
           <h2 className="font-display text-2xl text-foreground">Questions</h2>
           <p className="mt-3 text-muted-foreground">
             Email{" "}
-            <a href="mailto:hello@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
-              hello@skingrocer.com.au
+            <a href="mailto:customercare@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
+              customercare@skingrocer.com.au
             </a>{" "}
             with your order number and we'll walk you through it.
           </p>

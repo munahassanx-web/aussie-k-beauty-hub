@@ -9,7 +9,7 @@ export const MUTED = '#6B655B'
 export const RULE = '#E0D9CB'
 
 export const SITE_URL = 'https://skingrocer.com.au'
-export const SUPPORT_EMAIL = 'hello@skingrocer.com.au'
+export const SUPPORT_EMAIL = 'customercare@skingrocer.com.au'
 
 export const text = { fontSize: '14px', color: MUTED, lineHeight: '1.7', margin: '0 0 20px' }
 export const link = { color: NAVY, textDecoration: 'underline' }

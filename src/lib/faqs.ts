@@ -117,7 +117,7 @@ export const SHOP_FAQS: Faq[] = [
   },
   {
     q: 'What if a product breaks me out or stings?',
-    a: 'Stop the new product, go back to cleanser, moisturiser and sunscreen only for a week, then reintroduce one product every five to seven days. Email hello@skingrocer.com.au and we will help you rebuild the routine — our 30-day guarantee applies.',
+    a: 'Stop the new product, go back to cleanser, moisturiser and sunscreen only for a week, then reintroduce one product every five to seven days. Email customercare@skingrocer.com.au and we will help you rebuild the routine — our 30-day guarantee applies.',
   },
 ];
 
