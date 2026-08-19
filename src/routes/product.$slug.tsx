@@ -285,7 +285,7 @@ function ProductPage() {
           onMouseLeave={() => setHovered(false)}
           onFocus={() => setHovered(true)}
           onBlur={() => setHovered(false)}
-          className="lg:sticky lg:top-24 rounded-3xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+          className="lg:sticky lg:top-24 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
         >
           <div
             ref={stageRef}
@@ -294,7 +294,7 @@ function ProductPage() {
             onPointerUp={endSwipe}
             onPointerCancel={endSwipe}
             style={{ touchAction: count > 1 ? 'pan-y' : undefined }}
-            className="relative aspect-square touch-pan-y overflow-hidden rounded-3xl bg-secondary"
+            className="relative aspect-square touch-pan-y overflow-hidden bg-secondary"
           >
             {gallery.map((g, i) => {
               const isActive = i === active;
@@ -312,7 +312,7 @@ function ProductPage() {
                   loading={i === 0 ? 'eager' : 'lazy'}
                   aria-hidden={!isActive}
                   style={visible ? { transform: `translate3d(${x}px,0,0)` } : undefined}
-                  className={`absolute inset-0 h-full w-full select-none object-cover ${
+                  className={`absolute inset-0 h-full w-full select-none object-contain p-8 sm:p-12 ${
                     prefersReducedMotion || dragging
                       ? ''
                       : 'transition-[opacity,transform] duration-700'
@@ -320,6 +320,7 @@ function ProductPage() {
                 />
               );
             })}
+
 
             {/* Click (or focus + Enter) anywhere on the stage to open the fullscreen viewer */}
             <button
@@ -340,22 +341,23 @@ function ProductPage() {
               </span>
               <span
                 aria-hidden="true"
-                className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-background/85 text-foreground backdrop-blur transition-colors group-hover:bg-background"
+                className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-[2px] border border-border bg-background/85 text-muted-foreground transition-colors group-hover:text-foreground"
               >
-                <ExpandIcon className="h-4 w-4" />
+                <ExpandIcon className="h-3.5 w-3.5" />
               </span>
             </button>
 
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center gap-1.5 p-4">
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center gap-2 p-4">
               {gallery.map((g, i) => (
                 <span
                   key={g.src}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === active ? 'w-6 bg-foreground/70' : 'w-1.5 bg-foreground/25'
+                  className={`h-px transition-all duration-300 ${
+                    i === active ? 'w-7 bg-foreground/70' : 'w-4 bg-foreground/25'
                   }`}
                 />
               ))}
             </div>
+
           </div>
 
           {/* Announce the current slide to screen readers */}
@@ -373,7 +375,7 @@ function ProductPage() {
                   step(-1);
                 }}
                 aria-label="Previous image"
-                className="inline-flex h-10 w-10 items-center justify-center border border-border text-foreground transition-colors hover:bg-secondary"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-[2px] border border-border/70 text-sm text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
               >
                 ‹
               </button>
@@ -384,7 +386,7 @@ function ProductPage() {
                   step(1);
                 }}
                 aria-label="Next image"
-                className="inline-flex h-10 w-10 items-center justify-center border border-border text-foreground transition-colors hover:bg-secondary"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-[2px] border border-border/70 text-sm text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
               >
                 ›
               </button>
@@ -394,7 +396,7 @@ function ProductPage() {
                 aria-pressed={userPaused || prefersReducedMotion}
                 aria-label={userPaused || prefersReducedMotion ? 'Play slideshow' : 'Pause slideshow'}
                 title={userPaused || prefersReducedMotion ? 'Play slideshow' : 'Pause slideshow'}
-                className="ml-auto inline-flex h-10 w-10 items-center justify-center border border-border/70 text-[11px] text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                className="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-[2px] border border-border/70 text-[10px] text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
               >
                 <span aria-hidden="true">{userPaused || prefersReducedMotion ? '▶' : '❙❙'}</span>
               </button>
@@ -427,8 +429,8 @@ function ProductPage() {
                     setUserPaused(true);
                     setActive(i);
                   }}
-                  className={`relative h-20 w-20 shrink-0 snap-start overflow-hidden rounded-xl border-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
-                    i === active ? 'border-primary' : 'border-transparent hover:border-border'
+                  className={`relative h-[68px] w-[68px] shrink-0 snap-start overflow-hidden rounded-[2px] border bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                    i === active ? 'border-foreground' : 'border-border/60 hover:border-foreground/40'
                   }`}
                 >
                   <img
@@ -436,12 +438,13 @@ function ProductPage() {
                     alt=""
                     loading="lazy"
                     draggable={false}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-contain p-1.5"
                   />
                 </button>
               ))}
             </div>
           )}
+
 
 
           <ImageLightbox
@@ -459,19 +462,18 @@ function ProductPage() {
 
 
         {/* Buy box */}
-        <div className="lg:pt-4">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">{product.brand}</p>
-          <h1 className="mt-3 font-display text-[2.1rem] leading-tight text-foreground md:text-[2.6rem]">
+        <div className="lg:pt-2">
+          <p className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+            {product.brand}
+          </p>
+          <h1 className="mt-3 font-display text-[2rem] leading-[1.1] text-foreground md:text-[2.5rem]">
             {product.name}
           </h1>
 
-          <div className="mt-4 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-sm">
-            <span className="text-xl tabular-nums text-foreground">{product.price} AUD</span>
-            {size && <span className="text-muted-foreground">{size}</span>}
-            <span className="text-xs uppercase tracking-[0.18em] text-primary">
-              {routineStepLabel(product)}
-            </span>
-          </div>
+          <p className="mt-3 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            {routineStepLabel(product)}
+            {size ? ` · ${size}` : ''}
+          </p>
 
           <p className="mt-6 text-[0.95rem] leading-relaxed text-muted-foreground">
             {productDescription(product)}
@@ -486,54 +488,66 @@ function ProductPage() {
             </p>
           )}
 
-          <div className="mt-8 space-y-3">
-            {product.comingSoon ? (
-              <div className="border border-border px-6 py-5 text-center">
-                <p className="text-sm font-medium text-foreground">
-                  Arriving soon · {product.price}
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  On its way to our Melbourne warehouse. Not available to order yet.
-                </p>
-              </div>
-            ) : (
-              <button
-                onClick={() =>
-                  buy({
-                    priceId: product.priceId,
-                    name: product.name,
-                    priceLabel: `${product.price} AUD`,
-                  })
-                }
-                className="min-h-14 w-full bg-primary px-7 text-sm font-medium tracking-wide text-primary-foreground transition-opacity hover:opacity-90"
-              >
-                Add to bag · {product.price}
-              </button>
-            )}
-            {!product.comingSoon && restockId && (
-              <button
-                onClick={() =>
-                  buy({ priceId: restockId, name: product.name, priceLabel: `${product.price} AUD` })
-                }
-                className="min-h-12 w-full border border-border px-7 text-xs uppercase tracking-wider text-foreground hover:bg-secondary"
-              >
-                Restock monthly · save 15%
-              </button>
-            )}
-            <WishlistButton
-              variant="inline"
-              productId={product.priceId}
-              productName={`${product.brand} ${product.name}`}
-            />
-          </div>
+          <div className="mt-8 border-t border-border pt-6">
+            <div className="flex items-baseline justify-between gap-4">
+              <span className="font-display text-2xl tabular-nums text-foreground">
+                {product.price}
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                AUD · incl. GST
+              </span>
+            </div>
 
-          <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
-            Dispatched from our Melbourne warehouse · Free shipping over A$80 ·{' '}
-            <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-foreground">
-              Shipping &amp; returns
-            </Link>
-          </p>
+            <div className="mt-5 space-y-3">
+              {product.comingSoon ? (
+                <div className="rounded-[2px] border border-border px-6 py-5 text-center">
+                  <p className="text-sm font-medium text-foreground">
+                    Arriving soon · {product.price}
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    On its way to our Melbourne warehouse. Not available to order yet.
+                  </p>
+                </div>
+              ) : (
+                <button
+                  onClick={() =>
+                    buy({
+                      priceId: product.priceId,
+                      name: product.name,
+                      priceLabel: `${product.price} AUD`,
+                    })
+                  }
+                  className="min-h-14 w-full rounded-[2px] bg-foreground px-7 text-[11px] font-medium uppercase tracking-[0.24em] text-background transition-opacity hover:opacity-90"
+                >
+                  Add to bag
+                </button>
+              )}
+              {!product.comingSoon && restockId && (
+                <button
+                  onClick={() =>
+                    buy({ priceId: restockId, name: product.name, priceLabel: `${product.price} AUD` })
+                  }
+                  className="min-h-12 w-full rounded-[2px] border border-border px-7 text-[10px] uppercase tracking-[0.2em] text-foreground transition-colors hover:border-foreground"
+                >
+                  Restock monthly · save 15%
+                </button>
+              )}
+              <WishlistButton
+                variant="inline"
+                productId={product.priceId}
+                productName={`${product.brand} ${product.name}`}
+              />
+            </div>
+
+            <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
+              Dispatched from our Melbourne warehouse · Free shipping over A$80 ·{' '}
+              <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-foreground">
+                Shipping &amp; returns
+              </Link>
+            </p>
+          </div>
         </div>
+
       </div>
 
       {/* Details — vertically scannable, mobile-first */}
@@ -716,6 +730,35 @@ function ProductPage() {
         </section>
       )}
 
+      {/* Mobile purchase bar — reuses the exact buy handler, price and availability above. */}
+      {!product.comingSoon && (
+        <>
+          <div aria-hidden="true" className="h-20 lg:hidden" />
+          <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur lg:hidden">
+            <div className="flex items-center gap-4 px-4 py-3 pr-24">
+              <div className="min-w-0">
+                <p className="truncate text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                  {product.brand}
+                </p>
+                <p className="text-sm tabular-nums text-foreground">{product.price}</p>
+              </div>
+              <button
+                onClick={() =>
+                  buy({
+                    priceId: product.priceId,
+                    name: product.name,
+                    priceLabel: `${product.price} AUD`,
+                  })
+                }
+                className="ml-auto min-h-12 flex-1 rounded-[2px] bg-foreground px-5 text-[11px] font-medium uppercase tracking-[0.22em] text-background"
+              >
+                Add to bag
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
+
   );
 }
