@@ -102,13 +102,13 @@ function Checkout() {
     return (
       <div className="mx-auto max-w-2xl px-6 py-24 text-center">
         <p className="text-[11px] uppercase tracking-[0.24em] text-muted-foreground">Checkout</p>
-        <h1 className="mt-4 font-display text-4xl text-foreground">Your basket is empty</h1>
+        <h1 className="mt-4 font-display text-4xl text-foreground">Your bag is empty</h1>
         <p className="mt-3 text-muted-foreground">Add a few staples and come back — nothing has been lost.</p>
         <Link
           to="/shop"
-          className="mt-8 inline-flex bg-primary px-8 py-3.5 text-sm font-medium uppercase tracking-[0.18em] text-primary-foreground transition hover:opacity-90"
+          className="mt-8 inline-flex min-h-13 items-center rounded-[2px] bg-foreground px-9 text-[11px] font-medium uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-90"
         >
-          Browse the shop
+          Shop skincare
         </Link>
       </div>
     );
@@ -130,14 +130,14 @@ function Checkout() {
           {!hasSubscription && (
             <button
               onClick={() => setGuestMode(true)}
-              className="w-full bg-primary px-7 py-4 text-sm font-medium uppercase tracking-[0.18em] text-primary-foreground transition hover:opacity-90"
+              className="flex min-h-14 w-full items-center justify-center rounded-[2px] bg-foreground px-7 text-[11px] font-medium uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-90"
             >
               Continue as guest
             </button>
           )}
           <button
             onClick={() => navigate({ to: '/auth' })}
-            className="w-full border border-border px-7 py-4 text-sm font-medium uppercase tracking-[0.18em] text-foreground transition hover:bg-secondary"
+            className="flex min-h-14 w-full items-center justify-center rounded-[2px] border border-border px-7 text-[11px] font-medium uppercase tracking-[0.22em] text-foreground transition-colors hover:bg-secondary"
           >
             Sign in or create an account
           </button>
@@ -204,7 +204,7 @@ function Checkout() {
           onClick={() => cart.setOpen(true)}
           className="text-xs uppercase tracking-[0.16em] text-muted-foreground underline-offset-4 transition hover:text-foreground hover:underline"
         >
-          Edit basket
+          Edit bag
         </button>
       </div>
     </>
@@ -236,15 +236,15 @@ function Checkout() {
         <div>
           {cart.mixedModes ? (
             <div className="border border-border bg-secondary/60 p-6 text-sm text-foreground">
-              <p>Your basket mixes Restock subscriptions with one-off items.</p>
+              <p>Your bag mixes Restock subscriptions with one-off items.</p>
               <p className="mt-2 text-muted-foreground">
-                Please remove one type from your basket and check the other out separately.
+                Please remove one type from your bag and check the other out separately.
               </p>
               <button
                 onClick={() => cart.setOpen(true)}
                 className="mt-4 border border-border px-5 py-2.5 text-xs uppercase tracking-[0.16em] text-foreground transition hover:bg-background"
               >
-                Edit basket
+                Edit bag
               </button>
             </div>
           ) : !started ? (
@@ -348,10 +348,13 @@ function Checkout() {
                   setEmailError(null);
                   setStarted(true);
                 }}
-                className="w-full bg-primary py-4 text-sm font-medium uppercase tracking-[0.18em] text-primary-foreground transition hover:opacity-90"
+                className="flex min-h-14 w-full items-center justify-center rounded-[2px] bg-foreground text-[11px] font-medium uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-90"
               >
                 Continue to payment
               </button>
+              <p className="text-center text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                Secure payment by Stripe
+              </p>
             </div>
           ) : (
             <div>
