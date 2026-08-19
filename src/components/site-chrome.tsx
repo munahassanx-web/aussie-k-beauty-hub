@@ -216,6 +216,55 @@ export function SiteHeader() {
               <BrandWordmark size="display" sub className="text-foreground" />
             </Link>
 
+            <div className="absolute right-0 top-1/2 flex -translate-y-1/2 items-center gap-1 sm:gap-3">
+            <button
+              type="button"
+              aria-label="Search products"
+              onClick={() => { closeMenus(); setSearchOpen(true); }}
+              className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
+            >
+              <SearchIcon />
+            </button>
+            <Link
+              to="/wishlist"
+              onClick={closeMenus}
+              aria-label="Your saved products"
+              className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
+            >
+              <HeartIcon />
+            </Link>
+            <Link
+              to={user ? "/account" : "/auth"}
+              onClick={closeMenus}
+              aria-label={user ? "Your account" : "Sign in"}
+              className="hidden items-center gap-2 rounded-full border border-border px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/80 hover:border-primary hover:text-primary md:inline-flex"
+            >
+              <UserIcon />
+              {user ? "Account" : "Sign in"}
+            </Link>
+            <button
+              type="button"
+              onClick={() => { closeMenus(); cart.setOpen(true); }}
+              aria-label={`Open basket (${cart.count} items)`}
+              className="relative flex h-11 w-11 items-center justify-center rounded-full text-foreground/80 hover:bg-secondary hover:text-primary"
+            >
+              <BagIcon />
+              {cart.count > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground">{cart.count}</span>
+              )}
+            </button>
+            <button
+              type="button"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              onClick={() => { setOpenMenu(null); setMobileOpen((open) => !open); }}
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground/80 hover:border-primary hover:text-primary lg:hidden"
+            >
+              {mobileOpen ? <CloseIcon /> : <MenuIcon />}
+            </button>
+            </div>
+          </div>
+
           <nav className="hidden items-center justify-center gap-8 pb-3 lg:flex">
 
             {Object.keys(megaMenus).map((key) => (
@@ -294,53 +343,6 @@ export function SiteHeader() {
 
           </nav>
 
-          <div className="flex shrink-0 items-center gap-1 sm:gap-4">
-            <button
-              type="button"
-              aria-label="Search products"
-              onClick={() => { closeMenus(); setSearchOpen(true); }}
-              className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
-            >
-              <SearchIcon />
-            </button>
-            <Link
-              to="/wishlist"
-              onClick={closeMenus}
-              aria-label="Your saved products"
-              className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
-            >
-              <HeartIcon />
-            </Link>
-            <Link
-              to={user ? "/account" : "/auth"}
-              onClick={closeMenus}
-              aria-label={user ? "Your account" : "Sign in"}
-              className="hidden items-center gap-2 rounded-full border border-border px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/80 hover:border-primary hover:text-primary md:inline-flex"
-            >
-              <UserIcon />
-              {user ? "Account" : "Sign in"}
-            </Link>
-            <button
-              type="button"
-              onClick={() => { closeMenus(); cart.setOpen(true); }}
-              aria-label={`Open basket (${cart.count} items)`}
-              className="relative flex h-11 w-11 items-center justify-center rounded-full text-foreground/80 hover:bg-secondary hover:text-primary"
-            >
-              <BagIcon />
-              {cart.count > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground">{cart.count}</span>
-              )}
-            </button>
-            <button
-              type="button"
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              aria-expanded={mobileOpen}
-              onClick={() => { setOpenMenu(null); setMobileOpen((open) => !open); }}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground/80 hover:border-primary hover:text-primary lg:hidden"
-            >
-              {mobileOpen ? <CloseIcon /> : <MenuIcon />}
-            </button>
-          </div>
         </div>
 
         {openMenu && megaMenus[openMenu] && (
