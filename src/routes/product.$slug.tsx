@@ -171,7 +171,6 @@ function ProductPage() {
       s.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
       if (s.axis === 'x') {
         setDragging(true);
-        setUserPaused(true);
       }
     }
     if (s.axis !== 'x') return;
@@ -201,19 +200,15 @@ function ProductPage() {
     if (count < 2) return;
     if (e.key === 'ArrowRight') {
       e.preventDefault();
-      setUserPaused(true);
       step(1);
     } else if (e.key === 'ArrowLeft') {
       e.preventDefault();
-      setUserPaused(true);
       step(-1);
     } else if (e.key === 'Home') {
       e.preventDefault();
-      setUserPaused(true);
       setActive(0);
     } else if (e.key === 'End') {
       e.preventDefault();
-      setUserPaused(true);
       setActive(count - 1);
     }
   };
@@ -221,7 +216,6 @@ function ProductPage() {
   const stripRef = useRef<HTMLDivElement | null>(null);
 
   const focusThumb = (i: number) => {
-    setUserPaused(true);
     setActive(i);
     const btn = stripRef.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[i];
     btn?.focus();
@@ -361,7 +355,6 @@ function ProductPage() {
               <button
                 type="button"
                 onClick={() => {
-                  setUserPaused(true);
                   step(-1);
                 }}
                 aria-label="Previous image"
@@ -372,7 +365,6 @@ function ProductPage() {
               <button
                 type="button"
                 onClick={() => {
-                  setUserPaused(true);
                   step(1);
                 }}
                 aria-label="Next image"
@@ -416,7 +408,6 @@ function ProductPage() {
                   aria-label={`Show image ${i + 1} of ${count}: ${g.alt}`}
                   tabIndex={i === active ? 0 : -1}
                   onClick={() => {
-                    setUserPaused(true);
                     setActive(i);
                   }}
                   className={`relative h-[68px] w-[68px] shrink-0 snap-start overflow-hidden rounded-[2px] border bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
