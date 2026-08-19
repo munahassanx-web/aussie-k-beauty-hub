@@ -57,8 +57,9 @@ const slides: Slide[] = [
 
     align: "left",
     vertical: "center",
+    scrimClass: "bg-[linear-gradient(100deg,rgba(12,16,22,0.74)_0%,rgba(12,16,22,0.46)_30%,rgba(12,16,22,0.16)_52%,rgba(12,16,22,0)_74%)]",
     navLabel: "SKIN GROCER",
-    filter: "brightness(1.06) contrast(1.02) saturate(1.03)",
+    filter: "brightness(1.00) contrast(1.02) saturate(1.00)",
   },
   {
     // Local access: Seoul shelf edit, type sits in the left negative space
@@ -75,9 +76,9 @@ const slides: Slide[] = [
     bodyClass: "max-w-sm",
     align: "left",
     vertical: "center",
-    scrimClass: "bg-gradient-to-r from-ink/46 via-ink/12 to-transparent",
+    scrimClass: "bg-[linear-gradient(100deg,rgba(12,16,22,0.62)_0%,rgba(12,16,22,0.34)_30%,rgba(12,16,22,0.10)_54%,rgba(12,16,22,0)_76%)]",
     navLabel: "LOCAL ACCESS",
-    filter: "brightness(1.04) contrast(1.03) saturate(1.02)",
+    filter: "brightness(1.02) contrast(1.03) saturate(1.01)",
   },
   {
     // Routine guidance: hands holding product in lower-left, type takes upper-right
@@ -95,9 +96,9 @@ const slides: Slide[] = [
     bodyClass: "max-w-xs",
     align: "right",
     vertical: "top",
-    scrimClass: "bg-gradient-to-bl from-ink/58 via-ink/18 to-transparent",
+    scrimClass: "bg-[linear-gradient(215deg,rgba(12,16,22,0.68)_0%,rgba(12,16,22,0.38)_32%,rgba(12,16,22,0.10)_58%,rgba(12,16,22,0)_80%)]",
     navLabel: "ROUTINE GUIDANCE",
-    filter: "brightness(1.08) contrast(1.03) saturate(1.02)",
+    filter: "brightness(1.00) contrast(1.03) saturate(1.01)",
   },
   {
     // Authenticity: portrait with product left-of-centre, type sits right
@@ -114,9 +115,9 @@ const slides: Slide[] = [
     bodyClass: "max-w-sm",
     align: "right",
     vertical: "center",
-    scrimClass: "bg-gradient-to-l from-ink/62 via-ink/22 to-transparent",
+    scrimClass: "bg-[linear-gradient(260deg,rgba(12,16,22,0.70)_0%,rgba(12,16,22,0.40)_30%,rgba(12,16,22,0.12)_56%,rgba(12,16,22,0)_78%)]",
     navLabel: "AUTHENTICITY",
-    filter: "brightness(1.05) contrast(1.03) saturate(1.03)",
+    filter: "brightness(1.02) contrast(1.03) saturate(1.01)",
   },
   {
     // Discovery: packing shot, type takes lower-left
@@ -133,9 +134,9 @@ const slides: Slide[] = [
     bodyClass: "max-w-sm",
     align: "left",
     vertical: "center",
-    scrimClass: "bg-gradient-to-r from-ink/48 via-ink/14 to-transparent",
+    scrimClass: "bg-[linear-gradient(100deg,rgba(12,16,22,0.66)_0%,rgba(12,16,22,0.38)_30%,rgba(12,16,22,0.12)_54%,rgba(12,16,22,0)_76%)]",
     navLabel: "DISCOVERY",
-    filter: "brightness(1.07) contrast(1.02) saturate(1.02)",
+    filter: "brightness(1.02) contrast(1.02) saturate(1.01)",
   },
 
 ];
@@ -320,7 +321,7 @@ export function HeroCarousel() {
                   style={
                     {
                       "--hero-drift-duration": `${slide.durationMs + 2200}ms`,
-                      filter: slide.filter ?? "brightness(1.05) contrast(1.03) saturate(1.02)",
+                      filter: slide.filter ?? "brightness(1.02) contrast(1.03) saturate(1.01)",
                     } as React.CSSProperties
                   }
                 />
@@ -339,6 +340,12 @@ export function HeroCarousel() {
             className={`absolute inset-0 hidden transition-opacity duration-[1400ms] md:block ${slides[active].scrimClass}`}
           />
         ) : null}
+
+        {/* Mobile: soft localized falloff behind the centred copy column */}
+        <div
+          aria-hidden="true"
+          className="hero-scrim-mobile absolute inset-0 md:hidden"
+        />
       </div>
 
       {/* Content */}
