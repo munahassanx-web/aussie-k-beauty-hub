@@ -405,7 +405,7 @@ function BrandMarquee() {
               key={letter}
               id={`cabinet-${letter}`}
               aria-labelledby={`cabinet-${letter}-label`}
-              className="scroll-mt-32 border-b border-border/60 py-10 md:grid md:grid-cols-[7rem_minmax(0,1fr)] md:gap-10 md:py-12"
+              className="scroll-mt-32 border-b border-border/60 py-8 md:grid md:grid-cols-[6rem_minmax(0,1fr)] md:items-start md:gap-10 md:py-9"
             >
               <h3
                 id={`cabinet-${letter}-label`}
@@ -416,19 +416,19 @@ function BrandMarquee() {
                   {String(groups.get(letter)!.length).padStart(2, "0")}
                 </span>
               </h3>
-              <ul className="mt-6 grid gap-x-10 gap-y-5 sm:grid-cols-2 md:mt-0 lg:grid-cols-3">
+              <ul className="mt-6 grid gap-x-12 gap-y-4 sm:grid-cols-2 md:mt-1 lg:grid-cols-3">
                 {groups.get(letter)!.map((b) => (
                   <li key={b.name}>
                     <Link
                       to="/shop"
                       search={{ brand: b.name }}
-                      className="group flex min-h-11 items-baseline justify-between gap-4 py-1 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                      className="group inline-flex min-h-11 w-full items-baseline gap-3 py-1 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-ink"
                     >
                       <span className="min-w-0 truncate border-b border-transparent pb-1 text-[15px] font-medium uppercase tracking-[0.1em] text-ink transition-all duration-300 group-hover:translate-x-0.5 group-hover:border-[var(--stripe-gold)] md:text-base">
                         {b.name}
                       </span>
                       {b.count > 0 && (
-                        <span className="shrink-0 text-[10px] tracking-[0.18em] text-ink/35">
+                        <span className="shrink-0 text-[10px] tracking-[0.18em] text-ink/30">
                           {String(b.count).padStart(2, "0")}
                         </span>
                       )}
