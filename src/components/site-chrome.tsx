@@ -195,7 +195,7 @@ export function SiteHeader() {
       {/* The Grocer Stripe — signature brand band, fixed height (no CLS) */}
       <div
         aria-hidden="true"
-        className="grocer-stripe grocer-stripe-sweep h-[9px] w-full md:h-[12px]"
+        className="grocer-stripe h-[16px] w-full md:h-[32px]"
       />
       <AnnouncementBar />
       {/* Main nav */}
