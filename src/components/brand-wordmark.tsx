@@ -17,7 +17,7 @@ export function BrandWordmark({
 }) {
   const scale =
     size === "display"
-      ? "text-[2.1rem] sm:text-[3.4rem] md:text-[4.3rem] lg:text-[4.9rem] tracking-[0.07em]"
+      ? "text-[1.7rem] sm:text-[2.7rem] md:text-[3.3rem] lg:text-[3.8rem] tracking-[0.07em]"
       : size === "xl"
         ? "text-[1.9rem] md:text-[2.5rem] tracking-[0.09em]"
         : size === "lg"
@@ -62,11 +62,11 @@ export function BrandWordmark({
     <Tag className={`inline-block ${className}`}>
       {mark}
       <span
-        className={`flex items-center justify-center ${size === "display" ? "mt-3 gap-5 md:mt-4 md:gap-7" : "mt-1.5 gap-2"}`}
+        className={`flex items-center justify-center ${size === "display" ? "mt-2 gap-3 md:mt-3 md:gap-5" : "mt-1.5 gap-2"}`}
         aria-hidden="true"
       >
         <span
-          className={`h-px flex-none ${size === "display" ? "w-9 md:w-16" : "w-4"}`}
+          className={`h-px flex-none ${size === "display" ? "w-6 md:w-10" : "w-4"}`}
           style={{ background: "var(--stripe-gold)" }}
         />
         <span
@@ -76,7 +76,7 @@ export function BrandWordmark({
           Inner Beauty
         </span>
         <span
-          className={`h-px flex-none ${size === "display" ? "w-9 md:w-16" : "w-4"}`}
+          className={`h-px flex-none ${size === "display" ? "w-6 md:w-10" : "w-4"}`}
           style={{ background: "var(--stripe-gold)" }}
         />
       </span>
