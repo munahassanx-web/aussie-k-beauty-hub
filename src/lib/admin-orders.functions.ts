@@ -566,7 +566,7 @@ export const markOrderDelivered = createServerFn({ method: 'POST' })
       .eq('id', data.id)
       .maybeSingle();
     if (!row) throw new Error('Order not found');
-    if (row.status !== 'paid') throw new Error('Only a paid order can be marked delivered');
+    await assertFulfilable(supabase, data.id);
     if (row.fulfillment_status !== 'shipped' && row.fulfillment_status !== 'delivered') {
       throw new Error('Mark the order dispatched before marking it delivered');
     }
