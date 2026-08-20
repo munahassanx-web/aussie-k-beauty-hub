@@ -229,10 +229,7 @@ export function SiteHeader() {
   return (
     <header>
       {/* The Grocer Stripe — signature brand band, fixed height (no CLS) */}
-      <div
-        aria-hidden="true"
-        className="grocer-stripe h-[10px] w-full md:h-[18px]"
-      />
+      <GrocerStripe className="h-[10px] w-full md:h-[18px]" />
       {/* Main nav wrapper preserves layout when the pinned header is fixed */}
       <div ref={wrapperRef} className="relative">
         {/* Pinned header — brand, navigation, and trust messages stay visible while scrolling */}
