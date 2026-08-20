@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { productPrice } from "@/lib/product-detail";
 import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { CompareDrawer, CompareModal, type CompareItem } from "@/components/product-compare";
