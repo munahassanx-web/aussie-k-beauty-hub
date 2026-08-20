@@ -61,7 +61,7 @@ export const HOME_FAQS: Faq[] = [
   },
   {
     q: 'How does shipping and returns work?',
-    a: 'Orders are dispatched from our Melbourne warehouse in Epping, Victoria. Orders placed before 12pm on a business day are dispatched the same day, with free express shipping over A$80. Unopened products can be returned within 30 days of delivery, and nothing in our policy limits your rights under Australian Consumer Law.',
+    a: 'Orders are dispatched from our Melbourne warehouse in Epping, Victoria. Orders placed before 12pm on a business day are dispatched the same day, shipped with Australia Post — free shipping over A$80, and free Express Post for Circle members. Unopened products can be returned within 30 days of delivery, and nothing in our policy limits your rights under Australian Consumer Law.',
   },
 ];
 

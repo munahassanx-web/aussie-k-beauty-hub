@@ -93,7 +93,7 @@ const megaMenus: Record<string, MegaSection[]> = {
 };
 
 const announcements = [
-  "Free express AU shipping over $80",
+  "Free AU shipping over $80",
   "Authenticity guaranteed",
   "Dispatched from Australia",
 ];

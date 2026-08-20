@@ -4,9 +4,9 @@ export const Route = createFileRoute("/shipping-policy")({
   head: () => ({
     meta: [
       { title: "Shipping Policy — Skin Grocer" },
-      { name: "description", content: "Australia-wide shipping from our Melbourne warehouse. Free express over A$80, same-day dispatch before 12pm, and tracking on every order." },
+      { name: "description", content: "Australia Post shipping from our Melbourne warehouse. Free shipping over A$80, same-day dispatch before 12pm, and tracking on every order." },
       { property: "og:title", content: "Shipping Policy — Skin Grocer" },
-      { property: "og:description", content: "Australia-wide shipping from our Melbourne warehouse. Free express over A$80, same-day dispatch before 12pm." },
+      { property: "og:description", content: "Australia Post shipping from our Melbourne warehouse. Free shipping over A$80, same-day dispatch before 12pm." },
       { property: "og:url", content: "https://skingrocer.com.au/shipping-policy" },
     ],
     links: [{ rel: "canonical", href: "https://skingrocer.com.au/shipping-policy" }],
@@ -36,21 +36,24 @@ function ShippingPolicy() {
         <section>
           <h2 className="font-display text-2xl text-foreground">Delivery times</h2>
           <p className="mt-3 text-muted-foreground">
-            Metro Melbourne, Sydney, Canberra, Adelaide and Brisbane — typically next business day after dispatch. Regional areas, WA and NT — typically 2–5 business days after dispatch. These are typical timeframes based on our carrier's standard service, not guarantees.
+            We ship with Australia Post. Estimated transit after dispatch: metro Melbourne, Sydney, Canberra, Adelaide and Brisbane — typically 1–2 business days. Regional areas, WA and NT — typically 2–5 business days. These are Australia Post's own estimates and depend on your postcode and the service available there. They are estimates, not guarantees, and can be affected by carrier delays.
           </p>
         </section>
 
         <section>
           <h2 className="font-display text-2xl text-foreground">Shipping cost</h2>
           <p className="mt-3 text-muted-foreground">
-            Free express shipping on orders over A$80. Orders under A$80 ship for a flat A$9.95. All prices shown at checkout include GST.
+            Free shipping on orders over A$80. Orders under A$80 ship for a flat A$9.95. All prices shown at checkout include GST.
+          </p>
+          <p className="mt-3 text-muted-foreground">
+            Circle members receive free Australia Post Express Post on every order, with no minimum spend. Express Post delivery timeframes depend on whether your postcode is in the Australia Post Express Post network.
           </p>
         </section>
 
         <section>
           <h2 className="font-display text-2xl text-foreground">Order tracking</h2>
           <p className="mt-3 text-muted-foreground">
-            Once your order is dispatched, you'll receive a tracking link by email. You can also check order status anytime at the{" "}
+            Every order ships with Australia Post tracking. Once your order is dispatched, you'll receive a tracking link by email. You can also check order status anytime at the{" "}
             <Link to="/track" className="text-primary underline underline-offset-4 hover:no-underline">
               Track your order
             </Link>{" "}
