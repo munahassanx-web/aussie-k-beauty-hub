@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/lib/cart";
 import { ProductSearchOverlay } from "@/components/product-search";
 import { BrandWordmark, BrandLine } from "@/components/brand-wordmark";
+import { GrocerStripe } from "@/components/grocer-stripe";
 
 
 type MegaLink = { label: string; to: string; search?: Record<string, string>; hash?: string };
