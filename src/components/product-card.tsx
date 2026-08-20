@@ -2,7 +2,8 @@ import { Link } from '@tanstack/react-router';
 import { useBuyNow } from '@/hooks/use-buy-now';
 import { useSoldOutSkus } from '@/hooks/use-stock';
 import { WishlistButton } from '@/components/wishlist-button';
-import { productPrice, productSlug, routineStepLabel } from '@/lib/product-detail';
+import { productSlug, routineStepLabel } from '@/lib/product-detail';
+import { productPrice } from '@/lib/shop-catalog';
 import type { ShopProduct } from '@/lib/shop-catalog';
 import { track } from '@/lib/analytics';
 
