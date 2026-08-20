@@ -14,6 +14,7 @@ import {
 import { CARRIERS, DEFAULT_CARRIER_LABEL, findCarrier, isPlausibleTracking, trackingLink, trackingLinkLabel } from '@/lib/shipping/carriers';
 import { PackingSlip } from '@/components/admin/packing-slip';
 import { AuthenticityPanel } from '@/components/admin/authenticity-panel';
+import { OrderWorkflowGuide } from '@/components/admin/order-workflow-guide';
 import { useAuth } from '@/hooks/use-auth';
 
 export const Route = createFileRoute('/admin/orders/$id')({
@@ -187,6 +188,8 @@ function OrderDetail() {
           </button>
         </div>
 
+        <OrderWorkflowGuide order={order} />
+
         <section className="mt-8 grid gap-4 sm:grid-cols-2">
           <div className="rounded-2xl border border-border p-4 text-sm sm:p-5">
             <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Ship to</p>
@@ -229,7 +232,7 @@ function OrderDetail() {
           </div>
         </section>
 
-        <section className="mt-4 rounded-2xl border border-border p-4 sm:p-5">
+        <section id="ops-pick-list" className="mt-4 scroll-mt-24 rounded-2xl border border-border p-4 sm:p-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Pick list</p>
           <ul className="mt-3 divide-y divide-border text-sm">
             {order.lines.map((l, i) => (
@@ -242,7 +245,7 @@ function OrderDetail() {
           </ul>
         </section>
 
-        <section className="mt-4 rounded-2xl border border-border p-4 sm:p-5">
+        <section id="ops-fulfilment" className="mt-4 scroll-mt-24 rounded-2xl border border-border p-4 sm:p-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Fulfilment</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {[...FULFILMENT_STAGES.filter((f) => f !== 'delivered'), 'cancelled'].map((s) => (
@@ -349,7 +352,8 @@ function OrderDetail() {
           </div>
 
           <form
-            className="mt-5 grid gap-4 sm:grid-cols-2"
+            id="ops-shipping-form"
+            className="mt-5 grid scroll-mt-24 gap-4 sm:grid-cols-2"
             onSubmit={(e) => {
               e.preventDefault();
               mutate.mutate({
@@ -479,7 +483,9 @@ function OrderDetail() {
           </p>
         </section>
 
-        <AuthenticityPanel orderId={order.id} enabled={Boolean(user)} />
+        <div id="ops-authenticity" className="scroll-mt-24">
+          <AuthenticityPanel orderId={order.id} enabled={Boolean(user)} />
+        </div>
 
         <section className="mt-4 rounded-2xl border border-border p-4 text-sm sm:p-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Customer communication — staff only</p>
