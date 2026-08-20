@@ -233,8 +233,10 @@ export const getVerificationRecord = createServerFn({ method: 'POST' })
       supabaseAdmin.from('orders').select('dispatched_at, shipped_at').eq('id', card.order_id).maybeSingle(),
     ]);
 
-    // Scan telemetry: counter + timestamps only, no identity of any kind.
-    await supabaseAdmin.rpc('record_authenticity_scan', { _card_id: card.id });
+    // Scan telemetry is deliberately NOT recorded here. This lookup runs during
+    // SSR and can run again on client navigation, which double-counted a single
+    // visit. The page records exactly one scan via recordVerificationScan.
+
 
     const checklist = (card.checklist ?? {}) as Record<string, boolean>;
     const checks = [...REQUIRED_CHECKS, ...OPTIONAL_CHECKS]
