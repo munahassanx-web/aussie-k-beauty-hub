@@ -64,7 +64,7 @@ function productJsonLd(p: ShopProduct, soldOut: boolean) {
 }
 
 export const Route = createFileRoute('/product/$slug')({
-  head: ({ params, loaderData }) => {
+  head: ({ params, loaderData }: { params: { slug: string }; loaderData?: { soldOut?: string[] } }) => {
     const p = findProductBySlug(params.slug);
     const title = p ? `${p.name} — ${p.brand} | Skin Grocer` : 'Product — Skin Grocer';
     const description = p
