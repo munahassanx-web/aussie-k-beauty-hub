@@ -2,6 +2,7 @@ import { NewsletterForm } from "@/components/newsletter-form";
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
+import { useStaffAccess } from "@/hooks/use-staff-access";
 import { useCart } from "@/lib/cart";
 import { ProductSearchOverlay } from "@/components/product-search";
 import { BrandWordmark, BrandLine } from "@/components/brand-wordmark";
@@ -178,6 +179,7 @@ export function SiteHeader() {
   const navRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
+  const { isStaff } = useStaffAccess();
   const cart = useCart();
 
   const closeMenus = () => {
@@ -280,6 +282,16 @@ export function SiteHeader() {
               <UserIcon />
               {user ? "Account" : "Sign in"}
             </Link>
+            {isStaff && (
+              <Link
+                to="/admin"
+                onClick={closeMenus}
+                aria-label="Admin dashboard"
+                className="hidden items-center rounded-full border border-primary px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-primary hover:bg-primary hover:text-primary-foreground md:inline-flex"
+              >
+                Admin
+              </Link>
+            )}
             <button
               type="button"
               onClick={() => { closeMenus(); cart.setOpen(true); }}
@@ -479,6 +491,12 @@ export function SiteHeader() {
                   {user ? "Your account" : "Sign in"}
                   <span className="text-base text-primary">→</span>
                 </Link>
+                {isStaff && (
+                  <Link to="/admin" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-primary">
+                    Admin dashboard
+                    <span className="text-base text-primary">→</span>
+                  </Link>
+                )}
                 <Link to="/wishlist" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground">
                   Saved
                   <span className="text-base text-primary">→</span>

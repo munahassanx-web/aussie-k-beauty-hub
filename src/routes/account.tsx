@@ -3,6 +3,7 @@ import { createFileRoute, Link, useRouter } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { useAuth } from '@/hooks/use-auth';
+import { useStaffAccess } from '@/hooks/use-staff-access';
 import { supabase } from '@/integrations/supabase/client';
 import { getAccountOverview, type AccountOrder } from '@/lib/account.functions';
 import {
@@ -39,6 +40,7 @@ export const Route = createFileRoute('/account')({
 
 function AccountPage() {
   const { user, loading: authLoading } = useAuth();
+  const { isStaff } = useStaffAccess();
   const router = useRouter();
   const [signingOut, setSigningOut] = useState(false);
 
@@ -89,14 +91,24 @@ function AccountPage() {
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">{overview.data?.email ?? user.email}</p>
         </div>
-        <button
-          type="button"
-          onClick={() => void handleSignOut()}
-          disabled={signingOut}
-          className="min-h-11 border border-border px-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground hover:border-primary hover:text-primary disabled:opacity-60"
-        >
-          {signingOut ? 'Signing out…' : 'Sign out'}
-        </button>
+        <div className="flex flex-wrap items-center gap-3">
+          {isStaff && (
+            <Link
+              to="/admin"
+              className="inline-flex min-h-11 items-center border border-primary px-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary hover:bg-primary hover:text-primary-foreground"
+            >
+              Admin dashboard
+            </Link>
+          )}
+          <button
+            type="button"
+            onClick={() => void handleSignOut()}
+            disabled={signingOut}
+            className="min-h-11 border border-border px-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground hover:border-primary hover:text-primary disabled:opacity-60"
+          >
+            {signingOut ? 'Signing out…' : 'Sign out'}
+          </button>
+        </div>
       </header>
 
       {overview.isLoading && <p className="mt-10 text-sm text-muted-foreground">Loading your account…</p>}
