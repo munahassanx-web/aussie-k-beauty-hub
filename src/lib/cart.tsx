@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 export type CartLine = {
   priceId: string;
@@ -77,17 +77,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(lines));
   }, [lines, hydrated]);
 
-  // view_cart — emitted once the drawer is actually open with its final contents.
+  // view_cart — once per drawer opening, with the contents actually shown.
+  const viewCartReported = useRef(false);
   useEffect(() => {
-    if (!open || lines.length === 0) return;
+    if (!open) {
+      viewCartReported.current = false;
+      return;
+    }
+    if (viewCartReported.current || lines.length === 0) return;
+    viewCartReported.current = true;
     track('view_cart', {
       currency: 'AUD',
       value: centsToAud(lines.reduce((sum, l) => sum + l.unitCents * l.quantity, 0)),
       items: lines.map((l) => lineToItem(l)),
     });
-    // Only when the drawer transitions open — not on every line change.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [open, lines]);
 
   const value = useMemo<CartContextValue>(() => {
     const subtotalCents = lines.reduce((sum, l) => sum + l.unitCents * l.quantity, 0);
