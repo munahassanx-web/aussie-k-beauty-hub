@@ -71,6 +71,16 @@ function NotValid({ state }: { state: 'revoked' | 'superseded' | 'unknown' }) {
 
 function VerifyPage() {
   const record = Route.useLoaderData() as PublicVerification;
+  const { token } = Route.useParams();
+  const scanned = useRef(false);
+
+  // One visit = one scan. The ref survives StrictMode's double effect and any
+  // re-render, and this only ever runs in the browser (never during SSR).
+  useEffect(() => {
+    if (record.state !== 'valid' || scanned.current) return;
+    scanned.current = true;
+    void recordVerificationScan({ data: { token } }).catch(() => {});
+  }, [record.state, token]);
 
   if (record.state !== 'valid') return <Shell><NotValid state={record.state} /></Shell>;
 
