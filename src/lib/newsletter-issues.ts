@@ -237,7 +237,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         name: "Glow Serum: Propolis + Niacinamide 30ml",
         brand: "Beauty of Joseon",
         price: "A$34",
-        image: "/__l5e/assets-v1/910b33a5-3e9c-4af3-8af0-d8d106de9b22/boj-glow-serum-propolis.jpg",
+        image: "/__l5e/assets-v1/d5d743cf-0c9b-4181-8715-2aa3dc4426c3/boj-glow-serum-propolis.png",
         note: "Niacinamide with propolis extract — the low-irritation end of brightening, which is the end that works long-term.",
         reasons: [
           "Niacinamide is one of the few brightening actives that rarely irritates",
@@ -257,14 +257,14 @@ export const newsletterIssues: NewsletterIssue[] = [
       shouldAussiesCare:
         "Yes — as your default daily brightener, not your hero. If a product lists niacinamide high in the ingredients, you're likely in a useful range. If your skin flushes on it, drop to a lower-percentage formula rather than abandoning the ingredient; the flush is usually dose, not allergy.",
       tryIt: [
-        { name: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", price: "A$34", image: "/__l5e/assets-v1/910b33a5-3e9c-4af3-8af0-d8d106de9b22/boj-glow-serum-propolis.jpg", note: "The daily one." },
+        { name: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", price: "A$34", image: "/__l5e/assets-v1/d5d743cf-0c9b-4181-8715-2aa3dc4426c3/boj-glow-serum-propolis.png", note: "The daily one." },
         { name: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", price: "A$26", image: "/products/isntree/green-tea-fresh-toner-200ml.png", note: "Green tea polyphenols — antioxidant support under SPF." },
         { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "A$18", image: "/products/round-lab/1025-dokdo-toner-100ml.png", note: "Hydration base so you can tolerate an active daily." },
       ],
     },
     aisle: [
       { emoji: "☀️", concern: "Sun-triggered spots", pick: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", why: "The only step that stops the trigger. Everything else is maintenance.", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png" },
-      { emoji: "🍯", concern: "Dull with uneven tone", pick: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", why: "Daily niacinamide, low irritation, safe to run for months.", image: "/__l5e/assets-v1/910b33a5-3e9c-4af3-8af0-d8d106de9b22/boj-glow-serum-propolis.jpg" },
+      { emoji: "🍯", concern: "Dull with uneven tone", pick: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", why: "Daily niacinamide, low irritation, safe to run for months.", image: "/__l5e/assets-v1/d5d743cf-0c9b-4181-8715-2aa3dc4426c3/boj-glow-serum-propolis.png" },
       { emoji: "🌱", concern: "Post-acne marks", pick: "Chestnut BHA 2% Clear Liquid 100ml", brand: "ISNTREE", why: "Clears the congestion causing new marks. Two to three nights a week, not daily.", image: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.png" },
       { emoji: "🍵", concern: "Redness plus pigment", pick: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", why: "Calms the inflammation that keeps generating fresh pigment.", image: "/products/isntree/green-tea-fresh-toner-200ml.png" },
       { emoji: "🌙", concern: "Fine lines with dark spots", pick: "Revive Eye Serum: Ginseng + Retinal 30ml", brand: "Beauty of Joseon", why: "Low-dose retinal, used sparingly. Retinoids are the strongest evidence base we have.", image: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.png" },
@@ -275,7 +275,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       steps: [
         { step: "01 · Cleanse", what: "Gentle, low-pH. Scrubbing pigment does nothing except make more of it.", pick: "Yam Root Vegan Milk Cleanser 220ml", brand: "ISNTREE", image: "/products/isntree/yam-root-vegan-milk-cleanser-220ml.png" },
         { step: "02 · Hydrate", what: "Damp skin, one pass. Hydrated skin tolerates actives better.", pick: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", image: "/products/isntree/green-tea-fresh-toner-200ml.png" },
-        { step: "03 · Brighten", what: "Niacinamide serum, morning. Every day for at least eight weeks.", pick: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", image: "/__l5e/assets-v1/910b33a5-3e9c-4af3-8af0-d8d106de9b22/boj-glow-serum-propolis.jpg" },
+        { step: "03 · Brighten", what: "Niacinamide serum, morning. Every day for at least eight weeks.", pick: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", image: "/__l5e/assets-v1/d5d743cf-0c9b-4181-8715-2aa3dc4426c3/boj-glow-serum-propolis.png" },
         { step: "04 · Protect", what: "SPF, generously, reapplied when you're outdoors. This is the treatment.", pick: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png" },
       ],
       closer:
@@ -309,7 +309,7 @@ export const newsletterIssues: NewsletterIssue[] = [
     basket: {
       forWho: "For pigmentation and uneven tone",
       items: [
-        { name: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", price: "A$34", image: "/__l5e/assets-v1/910b33a5-3e9c-4af3-8af0-d8d106de9b22/boj-glow-serum-propolis.jpg", note: "The daily brightener." },
+        { name: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", price: "A$34", image: "/__l5e/assets-v1/d5d743cf-0c9b-4181-8715-2aa3dc4426c3/boj-glow-serum-propolis.png", note: "The daily brightener." },
         { name: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", price: "A$26", image: "/products/isntree/green-tea-fresh-toner-200ml.png", note: "Calm the trigger." },
         { name: "Chestnut BHA 2% Clear Liquid 100ml", brand: "ISNTREE", price: "A$36", image: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.png", note: "Fewer new marks." },
         { name: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", price: "A$10", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", note: "Protect the result." },

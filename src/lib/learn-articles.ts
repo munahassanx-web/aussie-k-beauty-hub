@@ -509,8 +509,8 @@ const baseArticles: LearnArticle[] = [
     title: "What's Actually Selling In Seoul (And What's Only Big On TikTok)",
     blurb: "The gap between domestic Korean demand and the global K-beauty feed, in numbers.",
     read: "6 min read",
-    cover: seoulShelf,
-    coverAlt: "Shopper reaching for skincare on a Seoul beauty retail shelf",
+    cover: oliveYoungStore.url,
+    coverAlt: "Interior of a Korean Olive Young health and beauty store, with skincare and hair care aisles fully stocked with branded Korean products",
     standfirst:
       "There is a measurable gap between what Korean women buy and what the internet says Korean women buy. Reading the domestic data instead of the feed is the single most useful thing an Australian shopper can do.",
     sections: [
