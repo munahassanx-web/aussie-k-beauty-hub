@@ -1,5 +1,10 @@
+import { useEffect, useRef } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
-import { getVerificationRecord, type PublicVerification } from '@/lib/authenticity.functions';
+import {
+  getVerificationRecord,
+  recordVerificationScan,
+  type PublicVerification,
+} from '@/lib/authenticity.functions';
 
 /**
  * Public verification page. The token in the URL is the only credential; the
