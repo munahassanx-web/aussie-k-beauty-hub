@@ -491,6 +491,12 @@ export function SiteHeader() {
                   {user ? "Your account" : "Sign in"}
                   <span className="text-base text-primary">→</span>
                 </Link>
+                {isStaff && (
+                  <Link to="/admin" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-primary">
+                    Admin dashboard
+                    <span className="text-base text-primary">→</span>
+                  </Link>
+                )}
                 <Link to="/wishlist" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground">
                   Saved
                   <span className="text-base text-primary">→</span>
