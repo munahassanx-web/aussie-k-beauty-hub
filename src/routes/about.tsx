@@ -10,7 +10,7 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About — Skin Grocer" },
-      { name: "description", content: "A Melbourne-based team sourcing authentic K-beauty directly from Korea, batch-verifying every arrival, and shipping locally with a provenance card in every parcel." },
+      { name: "description", content: "A Melbourne-based team sourcing authentic K-beauty directly from Korea, checking every arrival by hand, and shipping locally with a QR authenticity card in every parcel." },
       { property: "og:title", content: "About — Skin Grocer" },
       { property: "og:description", content: "Australian K-beauty built on authenticity: direct from Seoul, verified in Melbourne, guided like a friend." },
       { property: "og:url", content: "https://skingrocer.com.au/about" },
@@ -53,7 +53,7 @@ function About() {
               Skin Grocer started with a simple frustration: it was almost impossible to know if the K-beauty sitting on an Australian shelf was actually what it claimed to be.
             </p>
             <p className="leading-relaxed text-muted-foreground">
-              So we built the thing we couldn't find — direct relationships with Korean distributors, batch verification on every arrival, and a provenance card in every parcel that traces your product from factory floor to your bathroom shelf.
+              So we built the thing we couldn't find — direct relationships with Korean distributors, hands-on checks on every arrival, and an authenticity card in every parcel, linked by QR to the verification record for your order.
             </p>
             <p className="leading-relaxed text-muted-foreground">
               We're a small, Melbourne-based team who'd rather show you the receipts than tell you to trust us.
@@ -101,10 +101,10 @@ function About() {
             },
             {
               img: verifyAsset.url,
-              alt: "Hands checking a batch code on a skincare bottle against a verification sheet",
+              alt: "Hands checking the code on a skincare bottle against a verification sheet",
               step: "Step 02",
-              t: "Every batch checked by hand",
-              d: "Batch codes, seals and expiry dates are cross-checked against the supplier manifest before stock is listed. Anything that does not match goes straight back.",
+              t: "Every arrival checked by hand",
+              d: "Product identity is matched to our catalogue and packaging and seals are inspected before stock is listed. Anything that does not match goes straight back.",
             },
             {
               img: packingAsset.url,

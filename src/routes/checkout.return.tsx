@@ -209,7 +209,7 @@ function CheckoutReturn() {
         <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">What happens next</h2>
         <ol className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
           <li>
-            <span className="text-foreground">1.</span> We pick, batch-check and pack your order in Melbourne.
+            <span className="text-foreground">1.</span> We pick, check and pack your order in Melbourne.
           </li>
           <li>
             <span className="text-foreground">2.</span> You’ll get a dispatch email with carrier tracking. Allow 1–3

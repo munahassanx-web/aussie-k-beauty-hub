@@ -36,7 +36,7 @@ export function faqJsonLd(items: Faq[]) {
 export const HOME_FAQS: Faq[] = [
   {
     q: 'How do I know Skin Grocer products are authentic?',
-    a: 'Our products come straight from Seoul. Every batch is verified and QR coded, so the exact stock you receive can be authenticated rather than taken on trust.',
+    a: 'Our products come straight from Seoul through approved supply channels. Every order is checked by our Melbourne team before it is sealed, and ships with a QR authenticity card linked to that specific order so you can see the verification record we made for it.',
   },
   {
     q: 'I am new to K-beauty — where should I start?',
@@ -113,7 +113,7 @@ export const SHOP_FAQS: Faq[] = [
   },
   {
     q: 'How do I check a Korean product is genuine?',
-    a: 'Check the batch code on the base or crimp of the packaging, the Korean-language regulatory text on the back, and the seal. Every Skin Grocer order includes a provenance card with the batch reference so you can verify the exact unit you received.',
+    a: 'Check the code printed on the base or crimp of the packaging, the Korean-language regulatory text on the back, and the seal. Every Skin Grocer order also includes an authenticity card with a QR code and card reference you can scan to see the verification record we made for your order.',
   },
   {
     q: 'What if a product breaks me out or stings?',
