@@ -67,7 +67,7 @@ export type ShippingSelection = {
 /**
  * Authoritative shipping selection. Circle members always get Australia Post
  * Express Post at A$0, whatever the subtotal; everyone else keeps the normal
- * A$9.95 / free-over-A$80 Parcel Post rules.
+ * A$9.95 / free-over-A$100 Parcel Post rules.
  */
 export function shippingSelectionFor(subtotal: number, circleExpress: boolean): ShippingSelection {
   if (circleExpress) {

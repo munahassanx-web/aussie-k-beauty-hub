@@ -4,9 +4,9 @@ export const Route = createFileRoute("/shipping-policy")({
   head: () => ({
     meta: [
       { title: "Shipping Policy — Skin Grocer" },
-      { name: "description", content: "Australia Post shipping from our Melbourne warehouse. Free shipping over A$80, same-day dispatch before 12pm, and tracking on every order." },
+      { name: "description", content: "Australia Post shipping from our Melbourne warehouse. Free standard shipping over A$100, same-day dispatch before 12pm, and tracking on every order." },
       { property: "og:title", content: "Shipping Policy — Skin Grocer" },
-      { property: "og:description", content: "Australia Post shipping from our Melbourne warehouse. Free shipping over A$80, same-day dispatch before 12pm." },
+      { property: "og:description", content: "Australia Post shipping from our Melbourne warehouse. Free standard shipping over A$100, same-day dispatch before 12pm." },
       { property: "og:url", content: "https://skingrocer.com.au/shipping-policy" },
     ],
     links: [{ rel: "canonical", href: "https://skingrocer.com.au/shipping-policy" }],
@@ -43,7 +43,7 @@ function ShippingPolicy() {
         <section>
           <h2 className="font-display text-2xl text-foreground">Shipping cost</h2>
           <p className="mt-3 text-muted-foreground">
-            Free shipping on orders over A$80. Orders under A$80 ship for a flat A$9.95. All prices shown at checkout include GST.
+            Free standard delivery on orders A$100 and over. Orders under A$100 ship for a flat A$9.95. All prices shown at checkout include GST.
           </p>
           <p className="mt-3 text-muted-foreground">
             Circle members receive free Australia Post Express Post on every order, with no minimum spend. Express Post delivery timeframes depend on whether your postcode is in the Australia Post Express Post network.
