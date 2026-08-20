@@ -33,6 +33,7 @@ import { Route as SkinConcernsRouteImport } from './routes/skin-concerns'
 import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as WishlistRouteImport } from './routes/wishlist'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminGuideLinksRouteImport } from './routes/admin.guide-links'
 import { Route as AdminInventoryRouteImport } from './routes/admin.inventory'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
@@ -180,6 +181,11 @@ const TrackRoute = TrackRouteImport.update({
 const WishlistRoute = WishlistRouteImport.update({
   id: '/wishlist',
   path: '/wishlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminGuideLinksRoute = AdminGuideLinksRouteImport.update({
@@ -363,6 +369,7 @@ export interface FileRoutesByFullPath {
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
   '/verify/$token': typeof VerifyTokenRoute
+  '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/grocery-list/': typeof GroceryListIndexRoute
   '/learn/': typeof LearnIndexRoute
@@ -417,6 +424,7 @@ export interface FileRoutesByTo {
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
   '/verify/$token': typeof VerifyTokenRoute
+  '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
   '/grocery-list': typeof GroceryListIndexRoute
   '/learn': typeof LearnIndexRoute
@@ -472,6 +480,7 @@ export interface FileRoutesById {
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
   '/verify/$token': typeof VerifyTokenRoute
+  '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/grocery-list/': typeof GroceryListIndexRoute
   '/learn/': typeof LearnIndexRoute
@@ -528,6 +537,7 @@ export interface FileRouteTypes {
     | '/product/$slug'
     | '/routines/$bundleId'
     | '/verify/$token'
+    | '/admin/'
     | '/blog/'
     | '/grocery-list/'
     | '/learn/'
@@ -582,6 +592,7 @@ export interface FileRouteTypes {
     | '/product/$slug'
     | '/routines/$bundleId'
     | '/verify/$token'
+    | '/admin'
     | '/blog'
     | '/grocery-list'
     | '/learn'
@@ -636,6 +647,7 @@ export interface FileRouteTypes {
     | '/product/$slug'
     | '/routines/$bundleId'
     | '/verify/$token'
+    | '/admin/'
     | '/blog/'
     | '/grocery-list/'
     | '/learn/'
@@ -690,6 +702,7 @@ export interface RootRouteChildren {
   ProductSlugRoute: typeof ProductSlugRoute
   RoutinesBundleIdRoute: typeof RoutinesBundleIdRoute
   VerifyTokenRoute: typeof VerifyTokenRoute
+  AdminIndexRoute: typeof AdminIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
   GroceryListIndexRoute: typeof GroceryListIndexRoute
   LearnIndexRoute: typeof LearnIndexRoute
@@ -875,6 +888,13 @@ declare module '@tanstack/react-router' {
       path: '/wishlist'
       fullPath: '/wishlist'
       preLoaderRoute: typeof WishlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/guide-links': {
@@ -1125,6 +1145,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductSlugRoute: ProductSlugRoute,
   RoutinesBundleIdRoute: RoutinesBundleIdRoute,
   VerifyTokenRoute: VerifyTokenRoute,
+  AdminIndexRoute: AdminIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
   GroceryListIndexRoute: GroceryListIndexRoute,
   LearnIndexRoute: LearnIndexRoute,
