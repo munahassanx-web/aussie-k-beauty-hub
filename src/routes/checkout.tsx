@@ -8,6 +8,7 @@ import { createCartCheckout, createGuestCartCheckout } from '@/lib/commerce.func
 import { supabase } from '@/integrations/supabase/client';
 import { useCircle } from '@/hooks/use-circle';
 import { track, centsToAud } from '@/lib/analytics';
+import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
 
 export const Route = createFileRoute('/checkout')({
   head: () => ({
@@ -359,6 +360,8 @@ function Checkout() {
                       item_id: l.priceId,
                       item_name: l.name,
                       item_brand: l.brand,
+                      item_category: SHOP_PRODUCTS.find((p) => p.priceId === l.priceId)?.category,
+                      item_variant: l.recurring ? 'restock_subscription' : 'one_time',
                       price: centsToAud(l.unitCents),
                       quantity: l.quantity,
                     })),
