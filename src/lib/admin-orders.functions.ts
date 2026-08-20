@@ -439,7 +439,7 @@ export const sendOrderNotification = createServerFn({ method: 'POST' })
     const supabase = context.supabase as any;
     const { data: row } = await supabase
       .from('orders')
-      .select('status, fulfillment_status, delivered_at, refunded_at')
+      .select('status, fulfillment_status, delivered_at, refunded_at, tracking_number, shipping_carrier')
       .eq('id', data.id)
       .maybeSingle();
     if (!row) throw new Error('Order not found');
@@ -454,10 +454,17 @@ export const sendOrderNotification = createServerFn({ method: 'POST' })
     if (data.kind === 'dispatch' && row.fulfillment_status !== 'shipped' && row.fulfillment_status !== 'delivered') {
       throw new Error('This order has not been dispatched yet');
     }
+    if (data.kind === 'dispatch' && !isPlausibleTracking(row.shipping_carrier ?? null, row.tracking_number ?? null)) {
+      throw new Error('Add a valid tracking number before sending the dispatch email');
+    }
+    if (data.kind === 'order_confirmation' && row.status !== 'paid') {
+      throw new Error('Only a paid order can receive an order confirmation');
+    }
 
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
     const { dispatchOrderNotification } = await import('@/lib/email/notifications.server');
-    return dispatchOrderNotification(supabaseAdmin, data.id, data.kind);
+    // Staff pressed the button deliberately, so a completed notice may be re-sent.
+    return dispatchOrderNotification(supabaseAdmin, data.id, data.kind, { force: true });
   });
 
 /**
