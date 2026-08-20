@@ -19,7 +19,7 @@ const EDITABLE_STATUSES = [...FULFILMENT_STAGES, 'cancelled'] as const;
  * Payment states that represent real money taken. Everything else (pending,
  * failed, unpaid) is diagnostics only and never enters the fulfilment queue.
  */
-export const PAYABLE_STATUSES = ['paid', 'partially_refunded'] as const satisfies readonly string[];
+export const PAYABLE_STATUSES: readonly string[] = ['paid', 'partially_refunded'];
 
 export type AdminOrderLine = { name: string; quantity: number; amountCents: number; lookupKey: string | null };
 
