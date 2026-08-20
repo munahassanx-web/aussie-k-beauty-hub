@@ -42,20 +42,41 @@ const STAGE_LABEL: Record<string, string> = {
   shipped: 'Dispatched',
   delivered: 'Delivered',
   cancelled: 'Cancelled',
+  unpaid: 'Unpaid / failed',
 };
+
+const PAYMENT_LABEL: Record<string, string> = {
+  paid: 'Paid',
+  partially_refunded: 'Part refunded',
+  refunded: 'Refunded',
+  pending: 'Unpaid',
+  failed: 'Payment failed',
+};
+
+/** Loud, unmistakable marker so a test order is never mistaken for a sale. */
+function TestBadge() {
+  return (
+    <span className="ml-2 rounded-full border border-destructive px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-destructive">
+      Test
+    </span>
+  );
+}
 
 function OrderQueue() {
   const { user, loading } = useAuth();
+  const [environment, setEnvironment] = useState<'live' | 'sandbox'>('live');
   const [stage, setStage] = useState<string>('processing');
   const [search, setSearch] = useState('');
   const fetchOrders = useServerFn(listAdminOrders);
 
   const q = useQuery({
-    queryKey: ['admin-orders', stage, search],
-    queryFn: () => fetchOrders({ data: { stage, search } }),
+    queryKey: ['admin-orders', environment, stage, search],
+    queryFn: () => fetchOrders({ data: { stage, search, environment } }),
     enabled: Boolean(user),
     retry: false,
   });
+
+  const isSandbox = environment === 'sandbox';
 
   if (loading) return <Shell><p className="text-sm text-muted-foreground">Loading…</p></Shell>;
   if (!user) {
@@ -75,17 +96,54 @@ function OrderQueue() {
     );
   }
 
+
   const data = q.data;
 
   return (
     <Shell>
+      {/* Environment separation. Live is the operational default; sandbox is a
+          deliberate diagnostics view and never counts as business. */}
+      <div className="flex flex-wrap items-center gap-2">
+        {(['live', 'sandbox'] as const).map((env) => (
+          <button
+            key={env}
+            type="button"
+            onClick={() => setEnvironment(env)}
+            aria-pressed={environment === env}
+            className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.14em] ${
+              environment === env
+                ? env === 'sandbox'
+                  ? 'border-destructive bg-destructive text-destructive-foreground'
+                  : 'border-foreground bg-foreground text-background'
+                : 'border-border text-muted-foreground'
+            }`}
+          >
+            {env === 'live' ? 'Live orders' : 'Sandbox / test orders'}
+            {data && environment !== env ? ` (${data.otherEnvironmentCount})` : ''}
+          </button>
+        ))}
+      </div>
+
+      {isSandbox && (
+        <p className="mt-4 rounded-2xl border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive">
+          <strong>Stripe test mode.</strong> These are test-card orders kept for diagnostics only. No money was taken,
+          they are excluded from every live metric, and they cannot be packed or dispatched.
+        </p>
+      )}
+
       {data && (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            { label: 'To pack', value: String(data.counts['processing'] ?? 0) },
-            { label: 'Dispatched', value: String(data.counts['shipped'] ?? 0) },
-            { label: 'Paid orders (7 days)', value: String(data.totals.last7Count) },
-            { label: 'Revenue (7 days)', value: money(data.totals.last7Cents) },
+            { label: isSandbox ? 'Test: processing' : 'To pack', value: String(data.counts['processing'] ?? 0) },
+            { label: isSandbox ? 'Test: dispatched' : 'Dispatched', value: String(data.counts['shipped'] ?? 0) },
+            {
+              label: isSandbox ? 'Test orders (7 days)' : 'Paid orders (7 days)',
+              value: String(data.totals.last7Count),
+            },
+            {
+              label: isSandbox ? 'Test value (7 days, not revenue)' : 'Revenue (7 days)',
+              value: money(data.totals.last7Cents),
+            },
           ].map((s) => (
             <div key={s.label} className="rounded-2xl border border-border p-4 sm:p-5">
               <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">{s.label}</p>
@@ -96,7 +154,7 @@ function OrderQueue() {
       )}
 
       <div className="mt-8 flex flex-wrap items-center gap-2">
-        {(['all', ...FULFILMENT_STAGES, 'cancelled'] as string[]).map((s) => (
+        {(['all', ...FULFILMENT_STAGES, 'cancelled', 'unpaid'] as string[]).map((s) => (
           <button
             key={s}
             type="button"
@@ -106,7 +164,7 @@ function OrderQueue() {
               stage === s ? 'border-foreground bg-foreground text-background' : 'border-border text-muted-foreground'
             }`}
           >
-            {s === 'all' ? 'All' : STAGE_LABEL[s] ?? s}
+            {s === 'all' ? 'All paid' : STAGE_LABEL[s] ?? s}
             {s !== 'all' && data ? ` (${data.counts[s] ?? 0})` : ''}
           </button>
         ))}
@@ -118,6 +176,7 @@ function OrderQueue() {
           className="ml-auto w-full max-w-xs rounded-full border border-border bg-background px-4 py-2 text-sm outline-none focus:border-primary"
         />
       </div>
+
 
       <div className="mt-6 hidden overflow-x-auto rounded-2xl border border-border md:block">
         <table className="w-full min-w-[720px] text-left text-sm">
@@ -143,14 +202,21 @@ function OrderQueue() {
               <tr key={o.id} className="border-b border-border/60 last:border-0">
                 <td className="px-4 py-3 text-muted-foreground">{when(o.createdAt)}</td>
                 <td className="px-4 py-3">
-                  <p className="text-foreground">{o.customerName ?? 'Not provided'}</p>
+                  <p className="text-foreground">
+                    {o.customerName ?? 'Not provided'}
+                    {o.environment !== 'live' && <TestBadge />}
+                  </p>
                   <p className="text-xs text-muted-foreground">
                     {o.customerEmail ?? '—'}{o.isGuest ? ' · guest' : ''}
                   </p>
                 </td>
                 <td className="px-4 py-3 text-muted-foreground">{o.itemCount}</td>
                 <td className="px-4 py-3 text-foreground">{money(o.amountCents, o.currency)}</td>
-                <td className="px-4 py-3">{STAGE_LABEL[o.fulfillmentStatus] ?? o.fulfillmentStatus}</td>
+                <td className="px-4 py-3">
+                  {STAGE_LABEL[o.fulfillmentStatus] ?? o.fulfillmentStatus}
+                  <span className="block text-xs text-muted-foreground">{PAYMENT_LABEL[o.status] ?? o.status}</span>
+                </td>
+
                 <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{o.trackingNumber ?? '—'}</td>
                 <td className="px-4 py-3 text-right">
                   <Link
@@ -181,7 +247,10 @@ function OrderQueue() {
               className="block rounded-2xl border border-border p-4 active:border-foreground"
             >
               <div className="flex items-baseline justify-between gap-3">
-                <span className="font-display text-lg text-foreground">{o.customerName ?? 'Not provided'}</span>
+                <span className="font-display text-lg text-foreground">
+                  {o.customerName ?? 'Not provided'}
+                  {o.environment !== 'live' && <TestBadge />}
+                </span>
                 <span className="text-sm text-foreground">{money(o.amountCents, o.currency)}</span>
               </div>
               <p className="mt-1 text-xs text-muted-foreground">
@@ -189,8 +258,9 @@ function OrderQueue() {
               </p>
               <p className="mt-2 text-xs text-muted-foreground">
                 {when(o.createdAt)} · {o.itemCount} item{o.itemCount === 1 ? '' : 's'} ·{' '}
-                {STAGE_LABEL[o.fulfillmentStatus] ?? o.fulfillmentStatus}
+                {STAGE_LABEL[o.fulfillmentStatus] ?? o.fulfillmentStatus} · {PAYMENT_LABEL[o.status] ?? o.status}
               </p>
+
               <p className="mt-1 font-mono text-xs text-muted-foreground">
                 {o.trackingNumber ? `${o.shippingCarrier ?? 'Carrier'} ${o.trackingNumber}` : 'No tracking yet'}
               </p>

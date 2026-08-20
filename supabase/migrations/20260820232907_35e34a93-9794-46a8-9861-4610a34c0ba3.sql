@@ -1,0 +1,1 @@
+revoke all on function public.guard_order_fulfilment() from public, anon, authenticated;

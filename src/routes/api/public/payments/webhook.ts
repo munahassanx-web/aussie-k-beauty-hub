@@ -304,32 +304,11 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
     elapsedMs: since(startedAt),
   });
 
-  if (paid) {
-    // Idempotent per order line — Stripe retries never double-decrement.
-    const { recordOrderStockSale } = await import('@/lib/inventory.server');
-    await recordOrderStockSale(order.id, lineItems);
-  }
-
-  if (paid && userId) {
-    await awardPoints(userId, order.id, pointsEarned, pointsRedeemed, {
-      tier,
-      multiplier,
-      is_subscription: isSubscription,
-    });
-    logCommerce('points', 'ledger.written', {
-      orderId: order.id,
-      userId: shortId(userId),
-      pointsEarned,
-      pointsRedeemed,
-      tier,
-      multiplier,
-    });
-  }
-
-  // Order confirmation. The (order_id, kind) unique row is the idempotency
-  // guard, so Stripe webhook retries can never produce a second confirmation.
-  // With no provider connected this only records `not_configured` — it never
-  // claims an email was sent.
+  // The confirmation email is the customer's proof of purchase, so it is
+  // attempted FIRST and nothing after the paid order row can prevent it. The
+  // (order_id, kind) unique row is the idempotency guard, so Stripe webhook
+  // retries and replays can never produce a second confirmation. Failures are
+  // recorded honestly in the ledger and never roll back the paid order.
   if (paid) {
     try {
       const outcome = await dispatchOrderNotification(supabase, order.id, 'order_confirmation');
@@ -338,7 +317,38 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
       errorCommerce('webhook', 'notification.order_confirmation_failed', e, { orderId: order.id });
     }
   }
+
+  if (paid) {
+    // Idempotent per order line — Stripe retries never double-decrement.
+    try {
+      const { recordOrderStockSale } = await import('@/lib/inventory.server');
+      await recordOrderStockSale(order.id, lineItems);
+    } catch (e) {
+      errorCommerce('webhook', 'inventory.stock_sale_failed', e, { orderId: order.id });
+    }
+  }
+
+  if (paid && userId) {
+    try {
+      await awardPoints(userId, order.id, pointsEarned, pointsRedeemed, {
+        tier,
+        multiplier,
+        is_subscription: isSubscription,
+      });
+      logCommerce('points', 'ledger.written', {
+        orderId: order.id,
+        userId: shortId(userId),
+        pointsEarned,
+        pointsRedeemed,
+        tier,
+        multiplier,
+      });
+    } catch (e) {
+      errorCommerce('webhook', 'points.ledger_failed', e, { orderId: order.id });
+    }
+  }
 }
+
 
 /**
  * Authoritative refund event from Stripe. This handler NEVER initiates a
