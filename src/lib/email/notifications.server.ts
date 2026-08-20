@@ -82,6 +82,7 @@ export async function dispatchOrderNotification(
   supabaseAdminClient: any,
   orderId: string,
   kind: NotificationKind,
+  options: { force?: boolean } = {},
 ): Promise<{ status: string; reason?: string }> {
   const supabase = supabaseAdminClient;
 
@@ -92,7 +93,10 @@ export async function dispatchOrderNotification(
     .eq('kind', kind)
     .maybeSingle();
 
-  if (existing?.status === 'sent') return { status: 'sent', reason: 'already_sent' };
+  // Automatic paths (webhook replay, retries, refresh) never re-send. Only a
+  // deliberate staff action passes `force`.
+  if (existing?.status === 'sent' && !options.force) return { status: 'sent', reason: 'already_sent' };
+
 
   const { data: row, error } = await supabase.from('orders').select(ORDER_EMAIL_COLUMNS).eq('id', orderId).maybeSingle();
   if (error || !row) return { status: 'failed', reason: 'order_not_found' };
