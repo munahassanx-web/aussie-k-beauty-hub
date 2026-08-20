@@ -101,13 +101,49 @@ function OrderQueue() {
 
   return (
     <Shell>
+      {/* Environment separation. Live is the operational default; sandbox is a
+          deliberate diagnostics view and never counts as business. */}
+      <div className="flex flex-wrap items-center gap-2">
+        {(['live', 'sandbox'] as const).map((env) => (
+          <button
+            key={env}
+            type="button"
+            onClick={() => setEnvironment(env)}
+            aria-pressed={environment === env}
+            className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.14em] ${
+              environment === env
+                ? env === 'sandbox'
+                  ? 'border-destructive bg-destructive text-destructive-foreground'
+                  : 'border-foreground bg-foreground text-background'
+                : 'border-border text-muted-foreground'
+            }`}
+          >
+            {env === 'live' ? 'Live orders' : 'Sandbox / test orders'}
+            {data && environment !== env ? ` (${data.otherEnvironmentCount})` : ''}
+          </button>
+        ))}
+      </div>
+
+      {isSandbox && (
+        <p className="mt-4 rounded-2xl border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive">
+          <strong>Stripe test mode.</strong> These are test-card orders kept for diagnostics only. No money was taken,
+          they are excluded from every live metric, and they cannot be packed or dispatched.
+        </p>
+      )}
+
       {data && (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            { label: 'To pack', value: String(data.counts['processing'] ?? 0) },
-            { label: 'Dispatched', value: String(data.counts['shipped'] ?? 0) },
-            { label: 'Paid orders (7 days)', value: String(data.totals.last7Count) },
-            { label: 'Revenue (7 days)', value: money(data.totals.last7Cents) },
+            { label: isSandbox ? 'Test: processing' : 'To pack', value: String(data.counts['processing'] ?? 0) },
+            { label: isSandbox ? 'Test: dispatched' : 'Dispatched', value: String(data.counts['shipped'] ?? 0) },
+            {
+              label: isSandbox ? 'Test orders (7 days)' : 'Paid orders (7 days)',
+              value: String(data.totals.last7Count),
+            },
+            {
+              label: isSandbox ? 'Test value (7 days, not revenue)' : 'Revenue (7 days)',
+              value: money(data.totals.last7Cents),
+            },
           ].map((s) => (
             <div key={s.label} className="rounded-2xl border border-border p-4 sm:p-5">
               <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">{s.label}</p>
@@ -118,7 +154,7 @@ function OrderQueue() {
       )}
 
       <div className="mt-8 flex flex-wrap items-center gap-2">
-        {(['all', ...FULFILMENT_STAGES, 'cancelled'] as string[]).map((s) => (
+        {(['all', ...FULFILMENT_STAGES, 'cancelled', 'unpaid'] as string[]).map((s) => (
           <button
             key={s}
             type="button"
@@ -128,7 +164,7 @@ function OrderQueue() {
               stage === s ? 'border-foreground bg-foreground text-background' : 'border-border text-muted-foreground'
             }`}
           >
-            {s === 'all' ? 'All' : STAGE_LABEL[s] ?? s}
+            {s === 'all' ? 'All paid' : STAGE_LABEL[s] ?? s}
             {s !== 'all' && data ? ` (${data.counts[s] ?? 0})` : ''}
           </button>
         ))}
@@ -140,6 +176,7 @@ function OrderQueue() {
           className="ml-auto w-full max-w-xs rounded-full border border-border bg-background px-4 py-2 text-sm outline-none focus:border-primary"
         />
       </div>
+
 
       <div className="mt-6 hidden overflow-x-auto rounded-2xl border border-border md:block">
         <table className="w-full min-w-[720px] text-left text-sm">
