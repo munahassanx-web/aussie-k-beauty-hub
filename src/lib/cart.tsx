@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 export type CartLine = {
   priceId: string;
@@ -65,6 +65,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [open, setOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  // Latest lines, readable from callbacks that fire in the same tick as an update.
+  const linesRef = useRef<CartLine[]>([]);
+  linesRef.current = lines;
 
   // Read after mount so SSR and first client render match.
   useEffect(() => {
@@ -96,12 +99,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
       mixedModes,
       open,
       setOpen: (next: boolean) => {
-        if (next && lines.length > 0) {
-          track('view_cart', {
-            currency: 'AUD',
-            value: centsToAud(subtotalCents),
-            items: lines.map((l) => lineToItem(l)),
-          });
+        if (next) {
+          // Defer so a bag opened by "add to bag" reports the post-add contents.
+          setTimeout(() => {
+            const current = linesRef.current;
+            if (current.length === 0) return;
+            track('view_cart', {
+              currency: 'AUD',
+              value: centsToAud(current.reduce((sum, l) => sum + l.unitCents * l.quantity, 0)),
+              items: current.map((l) => lineToItem(l)),
+            });
+          }, 0);
         }
         setOpen(next);
       },
