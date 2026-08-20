@@ -27,7 +27,7 @@ export const Route = createFileRoute('/track')({
 
 const STAGES: Array<{ key: string; label: string; note: string }> = [
   { key: 'processing', label: 'Order received', note: 'Payment confirmed, picking in Melbourne.' },
-  { key: 'packed', label: 'Packed', note: 'Sealed, batch-checked and labelled.' },
+  { key: 'packed', label: 'Packed', note: 'Checked against your order, sealed and labelled.' },
   { key: 'shipped', label: 'Dispatched', note: 'On its way with your carrier.' },
   { key: 'delivered', label: 'Delivered', note: 'Enjoy the ritual.' },
 ];

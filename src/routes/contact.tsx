@@ -118,7 +118,7 @@ function Contact() {
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">Next-day cutoff</dt>
               <dd className="mt-1 font-display text-xl text-foreground sm:text-2xl">
                 Order by 12pm*
-                <span className="mt-2 block font-body text-xs text-muted-foreground">*Next-day delivery covers metro and most regional areas. Remote postcodes may take 1–2 extra days.</span>
+                <span className="mt-2 block font-body text-xs text-muted-foreground">*Order before 12pm AEST/AEDT on a business day for same-day dispatch. Transit times vary by destination — see our Shipping Policy.</span>
               </dd>
             </div>
           </dl>
@@ -239,30 +239,30 @@ function Contact() {
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-2xl border border-border bg-secondary/30 p-6">
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Melbourne metro</p>
-            <p className="mt-2 font-display text-2xl text-foreground">1–2 business days</p>
+            <p className="mt-2 font-display text-2xl text-foreground">Next business day</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Dispatched from our Melbourne warehouse, then 1–2 business days in transit.
+              Typically next business day after dispatch from our Epping warehouse.
             </p>
           </div>
           <div className="rounded-2xl border border-border bg-secondary/30 p-6">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">Regional VIC & major metros</p>
-            <p className="mt-2 font-display text-2xl text-foreground">1–2 business days</p>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Sydney, Canberra, Adelaide, Brisbane</p>
+            <p className="mt-2 font-display text-2xl text-foreground">Next business day</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Covers regional Victoria, Sydney, Adelaide, Canberra and surrounding metros.
+              Typical metro transit time on our carrier’s standard service.
             </p>
           </div>
           <div className="rounded-2xl border border-border bg-secondary/30 p-6">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">QLD, TAS & WA</p>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Regional Australia</p>
             <p className="mt-2 font-display text-2xl text-foreground">2–5 business days</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Standard transit times from Melbourne to Brisbane, Hobart and Perth.
+              Typical transit time to regional addresses after dispatch.
             </p>
           </div>
           <div className="rounded-2xl border border-border bg-secondary/30 p-6">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">NT & remote postcodes</p>
-            <p className="mt-2 font-display text-2xl text-foreground">3–7 business days</p>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">WA & NT</p>
+            <p className="mt-2 font-display text-2xl text-foreground">2–5 business days</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Remote areas may take a little longer; we’ll share tracking as soon as it ships.
+              Typical transit time; we’ll share tracking as soon as it ships.
             </p>
           </div>
         </div>
@@ -278,7 +278,7 @@ function Contact() {
             </div>
           </div>
           <p className="text-xs text-muted-foreground">
-            *All transit times are estimates from dispatch. Business days exclude public holidays.
+            *All transit times are typical estimates from dispatch, not guarantees. Business days exclude public holidays.
           </p>
         </div>
       </section>

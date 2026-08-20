@@ -33,6 +33,8 @@ function PrivacyPolicy() {
           <ul className="mt-3 list-disc space-y-2 pl-5 text-muted-foreground">
             <li>Contact and account details you give us (name, email, delivery address, phone number, password if you create an account).</li>
             <li>Order information (what you bought, order history, Restock Club loyalty points balance).</li>
+            <li>Messages you send us through the contact form (name, email, topic and your message).</li>
+            <li>Your email address if you subscribe to our newsletter, along with where on the site you subscribed.</li>
             <li>Skin quiz responses, if completed, used to personalise recommendations.</li>
             <li>Payment information processed directly by Stripe, our payment provider — we don't see or store your full card details.</li>
             <li>Technical information (IP address, browser/device type, pages viewed) collected automatically to keep the site working and secure.</li>
@@ -54,7 +56,24 @@ function PrivacyPolicy() {
         <section>
           <h2 className="font-display text-2xl text-foreground">Who we share it with</h2>
           <p className="mt-3 text-muted-foreground">
-            Stripe (payment processing). Supabase (our database/hosting provider) and our shipping carriers, solely to run the site and deliver orders. We do not sell personal information to third parties. Some providers may store or process data outside Australia; we take reasonable steps to ensure it's handled consistently with the Australian Privacy Principles.
+            Stripe (payment processing), our hosting and database provider, our email delivery provider (used to send order, account and newsletter emails), and our shipping carriers — solely to run the site and deliver your orders. We do not sell personal information to third parties. Some providers may store or process data outside Australia; we take reasonable steps to ensure it's handled consistently with the Australian Privacy Principles.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="font-display text-2xl text-foreground">Authenticity card verification</h2>
+          <p className="mt-3 text-muted-foreground">
+            Scanning the QR code on the authenticity card included with your order opens a verification page for that order. We record that the card was scanned and when it was last scanned, so we can spot duplicated or misused cards. The page does not show your name, address, payment or tracking details, and you don't need to sign in to view it.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="font-display text-2xl text-foreground">Marketing emails</h2>
+          <p className="mt-3 text-muted-foreground">
+            If you join our newsletter we'll email you about new arrivals, restocks and offers. You can unsubscribe at any time using the link in any marketing email, or by emailing{" "}
+            <a href="mailto:customercare@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:no-underline">
+              customercare@skingrocer.com.au
+            </a>. Order and account emails aren't marketing and are sent as part of servicing your order.
           </p>
         </section>
 

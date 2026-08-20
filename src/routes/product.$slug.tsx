@@ -635,8 +635,8 @@ function ProductPage() {
               content: (
                 <div className="space-y-3 text-sm text-foreground/85">
                   <p>
-                    Sourced through verified brand channels in Korea and held in our Melbourne
-                    warehouse — the same batch you'd buy in Seoul.
+                    Sourced through approved supply channels in Korea and held in our Melbourne
+                    warehouse — the same product you'd buy in Seoul.
                   </p>
                   <p className="text-muted-foreground">
                     Every product has its own “How to apply” page, open to anyone — no login, no

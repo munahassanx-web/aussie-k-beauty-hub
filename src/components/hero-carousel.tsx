@@ -106,7 +106,7 @@ const slides: Slide[] = [
     src: overwhelmed,
     eyebrow: "AUTHENTICITY, ALWAYS",
     headline: "KNOW WHAT'S TOUCHING YOUR SKIN.",
-    body: "Authentic skincare. Carefully sourced. Batch-checked. No guesswork.",
+    body: "Authentic skincare. Carefully sourced. Checked before dispatch. No guesswork.",
     durationMs: 7000,
     ctas: [
       { label: "OUR AUTHENTICITY PROMISE", to: "/about", variant: "primary", icon: "arrow" },
@@ -488,7 +488,7 @@ export function HeroCarousel() {
 
             {[
               "Sourced direct from Seoul",
-              "Sealed & batch-checked",
+              "Sealed & checked before dispatch",
               "Dispatched from Melbourne",
               "Express AU shipping",
               "Advisor-built routines",

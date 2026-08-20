@@ -122,8 +122,8 @@ function WhyPillars() {
     },
     {
       n: "02",
-      title: "EVERY BATCH VERIFIED",
-      copy: "Every batch is verified for authenticity and QR coded, adding another layer of confidence to what reaches your shelf.",
+      title: "EVERY ORDER VERIFIED",
+      copy: "Every order is checked by our team before dispatch and sent with a QR authenticity card linked to that order, so you can see exactly what we recorded.",
     },
     {
       n: "03",
@@ -595,7 +595,7 @@ function LearnStrip() {
 
 function Promise() {
   const items = [
-    { num: "01", title: "AUTHENTIC FROM KOREA", line: "Batch verified" },
+    { num: "01", title: "AUTHENTIC FROM KOREA", line: "Verified by Skin Grocer" },
     { num: "02", title: "DISPATCHED FROM MELBOURNE", line: "Fast Australian delivery" },
     { num: "03", title: "PERSONAL GUIDANCE", line: "Skincare made simpler" },
     { num: "04", title: "CURATED WITH INTENTION", line: "Only what’s worth knowing" },
