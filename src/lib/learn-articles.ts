@@ -9,7 +9,11 @@ import layeringHumid from "@/assets/learn/layering-humid.jpg";
 import acidsFrequency from "@/assets/learn/acids-frequency.jpg";
 import climateZoneRoutines from "@/assets/learn/climate-zone-routines.jpg";
 import preventionFirst from "@/assets/learn/prevention-first-sunscreen.jpg";
-import seoulShelf from "@/assets/learn/seoul-shelf.jpg";
+// Real, unaltered photograph of an Olive Young store interior (Wonju Dangu branch),
+// by Choi Kwang-mo, released CC0 via Wikimedia Commons:
+// https://commons.wikimedia.org/wiki/File:2020-04-17_22.19.24_%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81_%EC%9B%90%EC%A3%BC%EB%8B%A8%EA%B5%AC%EC%A0%90.jpg
+// Cropped to 16:10 only — no signage, packaging or product was altered.
+import oliveYoungStore from "@/assets/olive-young-store-interior.jpg.asset.json";
 
 export type ArticleSection = { heading?: string; body: string };
 
