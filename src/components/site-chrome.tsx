@@ -282,6 +282,16 @@ export function SiteHeader() {
               <UserIcon />
               {user ? "Account" : "Sign in"}
             </Link>
+            {isStaff && (
+              <Link
+                to="/admin"
+                onClick={closeMenus}
+                aria-label="Admin dashboard"
+                className="hidden items-center rounded-full border border-primary px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-primary hover:bg-primary hover:text-primary-foreground md:inline-flex"
+              >
+                Admin
+              </Link>
+            )}
             <button
               type="button"
               onClick={() => { closeMenus(); cart.setOpen(true); }}
