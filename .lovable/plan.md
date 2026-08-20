@@ -1,60 +1,66 @@
-# QR Authenticity & Provenance Card — Backend Plan
+# Skin Grocer — Auth & Admin Authorization Report (findings only, no changes made)
 
-Backend design for a per-order QR card that resolves to a public "Verified by Skin Grocer" page. No production data, payment, webhook, email, or order-creation behaviour changes.
+## 1. How users sign up / sign in
+- Backend: Lovable Cloud (managed Postgres + Auth), one project.
+- Single public auth page: `/auth` (`src/routes/auth.tsx`), modes: sign in, sign up, forgot password, password reset (recovery link returns to `/auth`).
+- Providers in use: **Google OAuth** (via the managed Lovable auth broker) and **email + password**. Email confirmation is on for password signups (no auto-confirm).
+- Client session handling: `src/hooks/use-auth.tsx` (`onAuthStateChange` + `getSession`). On sign-in it calls the `claim_guest_orders` function so guest orders with a matching email get linked.
+- Existing accounts today: 4 users — 2 Google sign-ins (one is the owner account, already `admin`) and 2 email accounts that have never signed in.
 
-## What the project already has (verified)
+## 2. How admin routes decide who is staff
+Two-layer model; the real enforcement is server-side.
 
-- `orders` table: fulfilment lifecycle (`fulfillment_status`, `packed_at`, `shipped_at`, `dispatched_at`, `delivered_at`, `tracking_number`, `shipping_carrier`, `label_status`), plus `line_items` as **JSONB** — there is no separate `order_items` table.
-- `inventory` (keyed by `sku`) and `inventory_movements` (deltas, reasons `purchase_received` / `sale` / `manual_adjustment` etc., idempotent via `reference`). **No batch/lot fields, no supplier or receipt table.**
-- Products: `products` (text id), `routine_bundles`, catalog in `src/lib/shop-catalog.ts`. SKUs live in inventory keyed by text SKU.
-- Operations: `/admin/orders` list + `/admin/orders/$id` detail with a print packing slip (`src/components/admin/packing-slip.tsx`) using browser print — no PDF library.
-- Access control: `is_fulfillment_staff(uid)` (admin/moderator) and `has_role`; server functions in `src/lib/admin-orders.functions.ts` with `requireSupabaseAuth`.
-- Public HTTP surface exists under `src/routes/api/public/*`; public pages are plain top-level routes.
+- Pages (`/admin/*`) only check "is someone signed in" in the browser and then call server functions. They render an error/empty state if the call is rejected — the page shell itself is not a security boundary.
+- Every admin server function runs through `requireSupabaseAuth`, which validates the bearer token server-side and rebuilds a database client acting **as that user** (row-level security applies).
+- On top of that, each admin function calls a database check before doing work:
+  - `is_fulfillment_staff(uid)` → true for role `admin` or `moderator` — used by orders (`src/lib/admin-orders.functions.ts`), inventory, authenticity cards.
+  - `has_role(uid,'admin')` → admin only — used by reviews moderation and the Seoul Signal desk.
+- Database RLS policies repeat the same rule independently: `orders` staff read/update, `inventory` read, `authenticity_cards` read all require `is_fulfillment_staff(auth.uid())`; customers can only read `orders` where `user_id = auth.uid()`. Sensitive write operations (issue/revoke authenticity card, stock adjustments) are security-definer database functions that re-check staff status internally and raise `Unauthorized` otherwise.
 
-### Gaps
-1. No batch/lot capture anywhere (blocks batch-level claims today).
-2. No supplier / purchase-receipt table (blocks sourcing evidence today).
-3. Line items are denormalised JSON, so provenance must snapshot from JSON at card-issue time.
-4. No QR generation dependency and no PDF utility (browser print is the current mechanism).
+## 3. Where roles live / how the first owner is granted access
+- Roles are in a dedicated table `public.user_roles (user_id, role)` with enum `app_role = admin | moderator | user`. Roles are **not** stored on `profiles` and not in client storage — correct design.
+- There is no email allowlist anywhere; membership in `user_roles` is the only source of truth.
+- Grant policies: only an existing `admin` can insert/update/delete rows in `user_roles`. Bootstrapping the very first admin therefore has to be done from the backend (privileged) side, not from the app UI.
+- Current state: the owner's Google account (`munahassanx@gmail.com`) already holds `admin`. No other account has any role.
 
-**Claims consequence (ACCC):** with today's data we can honestly state only order-level statements — Skin Grocer received, inspected and dispatched these goods from its Melbourne facility, with named brands/products. Batch-verified or country-of-origin claims must stay hidden until Phase 2 records real evidence. The page renders only what evidence rows exist; nothing is hard-coded.
+## 4. Can a customer reach admin data by manipulating the client?
+No — based on the code and policies as they stand:
+- Editing local state or calling the admin server functions directly still hits `requireSupabaseAuth` (server-verified token) plus the `has_role` / `is_fulfillment_staff` check.
+- Even if a check were bypassed, RLS on `orders`, `inventory`, `authenticity_cards` and `user_roles` blocks the read as the non-staff user.
+- A customer cannot self-promote: inserting into `user_roles` requires already being admin.
+Residual (cosmetic, not data) exposure: `/admin/*` URLs are reachable and render an admin-looking shell before the server rejects the data call; they are `noindex, nofollow`.
 
-## Proposed schema (Phase 1)
+## 5. Safest procedure to create the owner login and promote it (no password sharing)
+1. Owner opens the site `/auth` and signs in themselves — recommended **Continue with Google** with the owner's own Google account (no password ever created or shared) — or email + password they set themselves and never disclose.
+2. Confirm the account exists: it appears under the backend Auth users list after first sign-in.
+3. Promote by adding one row to `public.user_roles` for that user id with role `admin`, done from the backend (privileged) side — never through a public app form.
+4. Owner signs out and back in, then loads `/admin/orders`; the queue loading is the proof the role is live.
+5. Never share the password/session; a second staff member always gets their own account.
+(The current owner account already has step 3 done.)
 
-`public.authenticity_cards`
-- `id uuid pk`, `order_id uuid references orders(id)`, `token_hash text unique not null` (SHA-256 of the token; raw token never stored), `token_prefix text` (first 6 chars, for Ops lookup), `card_ref text unique` (human ID, e.g. `SG-7F2K-9QD4`), `status text` (`active` | `revoked` | `superseded`), `version int` (reissue counter per order), `issued_by uuid`, `issued_at timestamptz`, `revoked_at`, `revoked_reason text`, `verified_at timestamptz` (when Ops completed checklist), `checklist jsonb` (evidence booleans + who/when), `snapshot jsonb` (safe product/brand list captured at issue), `first_scanned_at`, `last_scanned_at`, `scan_count int default 0`.
-- Indexes: unique on `token_hash`, unique on `card_ref`, index on `order_id`, partial unique on `(order_id)` where `status='active'`.
+## 6. Adding / removing future staff
+- Add: the person self-registers at `/auth` (Google preferred), then an existing admin adds their `user_roles` row — `moderator` for warehouse/fulfilment-only access (orders, inventory, authenticity), `admin` for full access incl. reviews and the Seoul Signal desk.
+- Remove: delete that person's `user_roles` row. Access to orders/inventory/cards stops immediately on their next request; sign them out / disable or delete the auth user if they are leaving entirely.
+- There is currently **no in-app screen** to manage staff roles — all grants/revokes happen via the backend. That is safe but manual.
 
-`public.authenticity_card_items` — one row per line: `card_id`, `sku`, `product_name`, `brand`, `quantity`, `batch_code text null`, `origin_country text null`, `source_receipt_id uuid null`. Nullable evidence fields render only when populated.
+## 7. MFA
+- The underlying auth service supports TOTP multi-factor, but this app has **no MFA enrolment or challenge UI**, and no policy requiring it — so MFA is effectively not available to staff today.
+- Practical recommendation now: have all staff sign in with **Google** and enforce 2-Step Verification on those Google accounts — that gives MFA in front of the admin surface without app changes. Building in-app TOTP for staff would be a separate piece of work.
 
-`public.authenticity_events` — audit log: `card_id`, `event` (`issued`/`reissued`/`revoked`/`verified`/`scanned`), `actor uuid null`, `metadata jsonb`, `created_at`. Scans store no IP, no user agent, no fingerprint — only a timestamp and coarse counter.
+## 8. Gaps worth fixing before/around onboarding staff (nothing blocking)
+1. No MFA in-app — mitigate via Google 2SV as above.
+2. Two never-used email accounts (`hahaha@`, `hana@`) exist from testing; they hold no roles but should be cleaned up before launch.
+3. No staff-management UI and no audit log of role grants/revokes — role changes are invisible after the fact.
+4. `/admin/*` pages render their shell to any signed-in user before the server rejects data; a shared "not authorised" screen driven by a role check would be cleaner (presentation only, no security change).
+5. Password sign-up remains open to the public — fine for customers, but staff should be told to use Google only.
 
-Phase 2 adds `public.source_receipts` (supplier name, receipt date, document reference, country of origin, SKU, batch code, quantity) and `product_batches`, both linked from `authenticity_card_items`.
+## Admin URLs and consoles the owner needs
+- `/admin/orders` — order queue (fulfilment home)
+- `/admin/orders/{id}` — order detail, packing slip, authenticity card, dispatch
+- `/admin/inventory` — stock counts and movements
+- `/admin/reviews` — review moderation (admin role)
+- `/admin/signals`, `/admin/issues/{id}` — Seoul Signal drafts/issues (admin role)
+- `/admin/guide-links` — product guide link checker
+- Backend console: the Lovable Cloud backend view in this project (Auth users list and the `user_roles` table) — that is where the first/next admin rows are added.
 
-### Access rules
-- RLS on all tables; `GRANT` blocks per table in the same migration.
-- No `anon` SELECT on any card table. The public page reads through an **unauthenticated server function** that hashes the submitted token, looks it up with the service-role client inside the handler, and returns a hand-built safe DTO. Raw rows never leave the server.
-- Staff (`is_fulfillment_staff`) get SELECT via policy; all writes go through `SECURITY DEFINER` RPCs (`issue_authenticity_card`, `revoke_authenticity_card`, `record_card_verification`) that check the role, exactly like the existing inventory RPCs.
-
-### Token model
-- 32 random bytes → base32, ~26 chars, generated server-side (`crypto.getRandomValues`). Returned **once** at issue time for printing; only the hash is persisted.
-- Reissue: mark current card `superseded`, insert a new row with `version + 1`. Revoke sets `revoked` + reason; the public page then shows a neutral "this card is no longer valid — contact customer care" state, never order data.
-- Lookup is constant-work: hash then unique-index probe; unknown tokens return the same generic not-found shape.
-
-## Routes / API
-
-- Public page `src/routes/verify.$token.tsx` — SSR, calls a public server fn `getVerificationRecord({ token })`, own `head()` metadata, `noindex`.
-- Server fns in `src/lib/authenticity.functions.ts`: `getVerificationRecord` (public), plus `issueCard`, `reissueCard`, `revokeCard`, `getCardForOrder` (all `requireSupabaseAuth` + staff check).
-- Scan recording happens inside the public fn via the RPC (timestamp + counter only).
-
-## Ops workflow
-
-On `/admin/orders/$id`, a new "Authenticity card" panel: shows current card ref/status/version, an **Issue card** action at packing stage, a **Reissue** action (reason required), **Revoke**, and a print-ready card view reusing the existing browser-print pattern (`print:` classes) rather than adding a PDF stack. QR rendering via a small client-side QR library added at implementation time.
-
-## Public page content (evidence-derived only)
-
-Verification status, card ref, verified date, dispatch date if present, brands/products, checklist items that were actually ticked, plus batch/origin/supplier-category rows **only where a value exists**. Never: customer name, email, address, order id, tracking, prices, costs, supplier invoices, ops notes.
-
-## Recommendation
-
-Build Phase 1 now as described, but only after approval — it needs one migration, so it cannot be truly "preview-only" against the shared database. Nothing in Phase 1 touches checkout, Stripe, webhooks, emails, or existing order/fulfilment logic; it is additive tables plus a new admin panel and a new public route. Phase 2 (batches + supplier receipts) then unlocks the stronger provenance claims, and Phase 3 adds batch label printing and duplicate-scan alerting.
+No credentials, emails or roles were invented; no code, data or configuration was changed.
