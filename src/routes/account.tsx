@@ -3,6 +3,7 @@ import { createFileRoute, Link, useRouter } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { useAuth } from '@/hooks/use-auth';
+import { useStaffAccess } from '@/hooks/use-staff-access';
 import { supabase } from '@/integrations/supabase/client';
 import { getAccountOverview, type AccountOrder } from '@/lib/account.functions';
 import {
@@ -39,6 +40,7 @@ export const Route = createFileRoute('/account')({
 
 function AccountPage() {
   const { user, loading: authLoading } = useAuth();
+  const { isStaff } = useStaffAccess();
   const router = useRouter();
   const [signingOut, setSigningOut] = useState(false);
 
