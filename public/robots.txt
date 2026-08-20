@@ -4,6 +4,20 @@
 
 User-agent: *
 Allow: /
+# Private, transactional and internal-only areas
+Disallow: /admin/
+Disallow: /account
+Disallow: /auth
+Disallow: /checkout
+Disallow: /checkout/
+Disallow: /verify/
+Disallow: /track
+Disallow: /wishlist
+Disallow: /restock
+Disallow: /search
+Disallow: /email-preview
+Disallow: /api/
+Disallow: /lovable/
 
 # AI answer engines / assistants — explicitly allowed
 User-agent: GPTBot

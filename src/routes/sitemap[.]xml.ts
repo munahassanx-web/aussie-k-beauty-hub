@@ -27,11 +27,14 @@ const STATIC_ENTRIES: Entry[] = [
   { path: "/about", priority: "0.7", changefreq: "monthly" },
   { path: "/reviews", priority: "0.7", changefreq: "weekly" },
   { path: "/blog", priority: "0.8", changefreq: "weekly" },
+  { path: "/club", priority: "0.6", changefreq: "monthly" },
+  { path: "/journey", priority: "0.5", changefreq: "monthly" },
   { path: "/faq", priority: "0.6", changefreq: "monthly" },
   { path: "/contact", priority: "0.6", changefreq: "monthly" },
   { path: "/shipping-policy", priority: "0.3", changefreq: "yearly" },
   { path: "/returns-policy", priority: "0.3", changefreq: "yearly" },
   { path: "/privacy-policy", priority: "0.3", changefreq: "yearly" },
+  { path: "/terms-and-conditions", priority: "0.3", changefreq: "yearly" },
 ];
 
 async function publishedIssueEntries(): Promise<Entry[]> {

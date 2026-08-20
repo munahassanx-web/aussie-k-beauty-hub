@@ -7,6 +7,7 @@ import { useCart, formatAud, FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS 
 import { createCartCheckout, createGuestCartCheckout } from '@/lib/commerce.functions';
 import { supabase } from '@/integrations/supabase/client';
 import { useCircle } from '@/hooks/use-circle';
+import { track, centsToAud } from '@/lib/analytics';
 
 export const Route = createFileRoute('/checkout')({
   head: () => ({
@@ -351,6 +352,17 @@ function Checkout() {
                     return;
                   }
                   setEmailError(null);
+                  track('begin_checkout', {
+                    currency: 'AUD',
+                    value: centsToAud(cart.subtotalCents),
+                    items: cart.lines.map((l) => ({
+                      item_id: l.priceId,
+                      item_name: l.name,
+                      item_brand: l.brand,
+                      price: centsToAud(l.unitCents),
+                      quantity: l.quantity,
+                    })),
+                  });
                   setStarted(true);
                 }}
                 className="flex min-h-14 w-full items-center justify-center rounded-[2px] bg-foreground text-[11px] font-medium uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-90"

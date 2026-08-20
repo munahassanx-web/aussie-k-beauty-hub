@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { ProductCard } from "@/components/product-card";
 import { ConsultationNudge } from "@/components/product-search";
 import { CATALOG_SIZE, isBroadIntent, searchCatalog } from "@/lib/product-search";
 import { sortProducts, SORT_OPTIONS, type SortValue } from "@/lib/collection-filters";
+import { track } from "@/lib/analytics";
 
 const searchSchema = z.object({
   q: z.string().optional(),
@@ -50,6 +51,11 @@ function SearchPage() {
     const list = results.map((r) => r.product);
     return sort === "relevance" ? list : sortProducts(list, sort as SortValue);
   }, [results, sort]);
+
+  useEffect(() => {
+    if (!query) return;
+    track("search", { search_term: query, results: results.length });
+  }, [query, results.length]);
 
   const broad = isBroadIntent(query);
 

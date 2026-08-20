@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 export type CartLine = {
   priceId: string;
@@ -16,6 +16,17 @@ export {
   FREE_SHIPPING_THRESHOLD_LABEL,
 } from '@/lib/shipping-rates';
 import { FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS } from '@/lib/shipping-rates';
+import { track, centsToAud, type AnalyticsItem } from '@/lib/analytics';
+
+function lineToItem(line: Pick<CartLine, 'priceId' | 'name' | 'brand' | 'unitCents'> & { quantity?: number }): AnalyticsItem {
+  return {
+    item_id: line.priceId,
+    item_name: line.name,
+    item_brand: line.brand,
+    price: centsToAud(line.unitCents),
+    quantity: line.quantity ?? 1,
+  };
+}
 
 const STORAGE_KEY = 'sg-cart-v1';
 
@@ -66,6 +77,22 @@ export function CartProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(lines));
   }, [lines, hydrated]);
 
+  // view_cart — once per drawer opening, with the contents actually shown.
+  const viewCartReported = useRef(false);
+  useEffect(() => {
+    if (!open) {
+      viewCartReported.current = false;
+      return;
+    }
+    if (viewCartReported.current || lines.length === 0) return;
+    viewCartReported.current = true;
+    track('view_cart', {
+      currency: 'AUD',
+      value: centsToAud(lines.reduce((sum, l) => sum + l.unitCents * l.quantity, 0)),
+      items: lines.map((l) => lineToItem(l)),
+    });
+  }, [open, lines]);
+
   const value = useMemo<CartContextValue>(() => {
     const subtotalCents = lines.reduce((sum, l) => sum + l.unitCents * l.quantity, 0);
     const hasSubscription = lines.some((l) => l.recurring);
@@ -85,7 +112,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
       mixedModes,
       open,
       setOpen,
-      add: (line, quantity = 1) =>
+      add: (line, quantity = 1) => {
+        track('add_to_cart', {
+          currency: 'AUD',
+          value: centsToAud(line.unitCents * quantity),
+          items: [lineToItem({ ...line, quantity })],
+        });
         setLines((prev) => {
           const existing = prev.find((l) => l.priceId === line.priceId);
           if (existing) {
@@ -94,17 +126,38 @@ export function CartProvider({ children }: { children: ReactNode }) {
             );
           }
           return [...prev, { ...line, quantity: Math.min(10, quantity) }];
-        }),
+        });
+      },
       setQuantity: (priceId, quantity) =>
-        setLines((prev) =>
-          quantity <= 0
+        setLines((prev) => {
+          const existing = prev.find((l) => l.priceId === priceId);
+          if (existing && quantity <= 0) {
+            track('remove_from_cart', {
+              currency: 'AUD',
+              value: centsToAud(existing.unitCents * existing.quantity),
+              items: [lineToItem(existing)],
+            });
+          }
+          return quantity <= 0
             ? prev.filter((l) => l.priceId !== priceId)
-            : prev.map((l) => (l.priceId === priceId ? { ...l, quantity: Math.min(10, quantity) } : l)),
-        ),
-      remove: (priceId) => setLines((prev) => prev.filter((l) => l.priceId !== priceId)),
+            : prev.map((l) => (l.priceId === priceId ? { ...l, quantity: Math.min(10, quantity) } : l));
+        }),
+      remove: (priceId) =>
+        setLines((prev) => {
+          const existing = prev.find((l) => l.priceId === priceId);
+          if (existing) {
+            track('remove_from_cart', {
+              currency: 'AUD',
+              value: centsToAud(existing.unitCents * existing.quantity),
+              items: [lineToItem(existing)],
+            });
+          }
+          return prev.filter((l) => l.priceId !== priceId);
+        }),
       clear: () => setLines([]),
     };
   }, [lines, open]);
+
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
