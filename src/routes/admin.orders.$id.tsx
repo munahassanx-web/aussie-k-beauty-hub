@@ -170,15 +170,28 @@ function OrderDetail() {
         <Link to="/admin/orders" className="text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">
           ← Order queue
         </Link>
+        {order.environment !== 'live' && (
+          <p className="mt-4 rounded-2xl border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive">
+            <strong>Stripe test / sandbox order.</strong> No real payment was taken. It is excluded from live metrics
+            and cannot be packed, dispatched or delivered.
+          </p>
+        )}
         <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h1 className="font-display text-4xl text-foreground">Order {order.id.slice(0, 8).toUpperCase()}</h1>
+            <h1 className="font-display text-4xl text-foreground">
+              Order {order.id.slice(0, 8).toUpperCase()}
+              {order.environment !== 'live' && (
+                <span className="ml-3 align-middle rounded-full border border-destructive px-2 py-0.5 text-xs font-semibold uppercase tracking-[0.14em] text-destructive">
+                  Test
+                </span>
+              )}
+            </h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              {new Date(order.createdAt).toLocaleString('en-AU')} · {order.status} ·{' '}
+              {new Date(order.createdAt).toLocaleString('en-AU')} · Payment: {order.status} ·{' '}
               {STAGE_LABEL[order.fulfillmentStatus] ?? order.fulfillmentStatus}
-              {order.environment !== 'live' ? ` · ${order.environment}` : ''}
             </p>
           </div>
+
           <button
             type="button"
             onClick={() => window.print()}
