@@ -596,6 +596,7 @@ export function SiteFooter() {
             <li><Link to="/shipping-policy" className="hover:text-paper">Shipping Policy</Link></li>
             <li><Link to="/returns-policy" className="hover:text-paper">Returns & Refund Policy</Link></li>
             <li><Link to="/privacy-policy" className="hover:text-paper">Privacy Policy</Link></li>
+            <li><Link to="/terms-and-conditions" className="hover:text-paper">Terms &amp; Conditions</Link></li>
           </ul>
         </div>
 
@@ -610,11 +611,12 @@ export function SiteFooter() {
 
       <div className="border-t border-paper/10">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-5 text-xs text-paper/70 md:flex-row">
-          <p>© {new Date().getFullYear()} Skin Grocer Pty Ltd — Melbourne, Australia · ABN {import.meta.env.VITE_COMPANY_ABN || "xx xxx xxx xxx"}</p>
+          <p>© {new Date().getFullYear()} Skin Grocer Pty Ltd — Melbourne, Australia</p>
           <div className="flex gap-5">
             <Link to="/shipping-policy" className="hover:text-paper">Shipping</Link>
             <Link to="/returns-policy" className="hover:text-paper">Returns</Link>
             <Link to="/privacy-policy" className="hover:text-paper">Privacy</Link>
+            <Link to="/terms-and-conditions" className="hover:text-paper">Terms</Link>
           </div>
 
         </div>
