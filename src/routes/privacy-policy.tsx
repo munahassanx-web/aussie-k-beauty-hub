@@ -56,7 +56,7 @@ function PrivacyPolicy() {
         <section>
           <h2 className="font-display text-2xl text-foreground">Who we share it with</h2>
           <p className="mt-3 text-muted-foreground">
-            Stripe (payment processing). Supabase (our database/hosting provider) and our shipping carriers, solely to run the site and deliver orders. We do not sell personal information to third parties. Some providers may store or process data outside Australia; we take reasonable steps to ensure it's handled consistently with the Australian Privacy Principles.
+            Stripe (payment processing), our hosting and database provider, our email delivery provider (used to send order, account and newsletter emails), and our shipping carriers — solely to run the site and deliver your orders. We do not sell personal information to third parties. Some providers may store or process data outside Australia; we take reasonable steps to ensure it's handled consistently with the Australian Privacy Principles.
           </p>
         </section>
 
