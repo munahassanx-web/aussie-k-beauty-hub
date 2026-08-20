@@ -28,6 +28,8 @@ export type AdminOrderSummary = {
   createdAt: string;
   status: string;
   fulfillmentStatus: string;
+  /** 'live' = real customer order. 'sandbox' = Stripe test-mode diagnostics. */
+  environment: string;
   amountCents: number;
   currency: string;
   isSubscriptionOrder: boolean;
@@ -101,6 +103,7 @@ function summarise(row: Row, emailByUser: Map<string, { email: string | null; na
     createdAt: row['created_at'],
     status: row['status'] ?? 'paid',
     fulfillmentStatus: row['fulfillment_status'] ?? 'processing',
+    environment: (row['environment'] as string) ?? 'sandbox',
     amountCents: row['amount_cents'] ?? 0,
     currency: (row['currency'] ?? 'aud').toUpperCase(),
     isSubscriptionOrder: Boolean(row['is_subscription_order']),
