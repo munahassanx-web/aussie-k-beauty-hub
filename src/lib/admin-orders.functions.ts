@@ -122,18 +122,44 @@ async function profileMap(supabase: any, rows: Row[]) {
 }
 
 const LIST_COLUMNS =
-  'id, created_at, status, fulfillment_status, amount_cents, currency, is_subscription_order, line_items, user_id, guest_email, shipping_name, shipping_city, shipping_state, tracking_number, shipping_carrier';
+  'id, created_at, status, fulfillment_status, environment, amount_cents, currency, is_subscription_order, line_items, user_id, guest_email, shipping_name, shipping_city, shipping_state, tracking_number, shipping_carrier';
 
-/** Owner overview + the live fulfilment queue in one round trip. */
+/**
+ * Owner overview + the fulfilment queue in one round trip.
+ *
+ * Environment separation: the queue and every metric are scoped to ONE
+ * environment, defaulting to `live`. Stripe test-mode orders are real rows we
+ * keep for diagnostics, but they are never mixed into live operations, counts
+ * or revenue. Staff switch to them deliberately via `environment: 'sandbox'`.
+ *
+ * Payment separation: only genuinely paid (or partially refunded) orders can
+ * appear in a fulfilment stage. Unpaid / pending / failed rows are reachable
+ * only through the explicit `unpaid` stage view.
+ */
 export const listAdminOrders = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { stage?: string; search?: string } | undefined) => input ?? {})
+  .inputValidator((input: { stage?: string; search?: string; environment?: string } | undefined) => {
+    const env = input?.environment === 'sandbox' ? 'sandbox' : 'live';
+    return { stage: input?.stage, search: input?.search, environment: env };
+  })
   .handler(async ({ data, context }) => {
     await assertStaff(context as any);
     const supabase = context.supabase as any;
+    const env = data.environment;
 
-    let query = supabase.from('orders').select(LIST_COLUMNS).order('created_at', { ascending: false }).limit(200);
-    if (data.stage && data.stage !== 'all') query = query.eq('fulfillment_status', data.stage);
+    let query = supabase
+      .from('orders')
+      .select(LIST_COLUMNS)
+      .eq('environment', env)
+      .order('created_at', { ascending: false })
+      .limit(200);
+
+    if (data.stage === 'unpaid') {
+      query = query.not('status', 'in', `(${PAYABLE_STATUSES.join(',')})`);
+    } else {
+      query = query.in('status', PAYABLE_STATUSES);
+      if (data.stage && data.stage !== 'all') query = query.eq('fulfillment_status', data.stage);
+    }
 
     const { data: rows, error } = await query;
     if (error) throw new Error(error.message);
@@ -150,19 +176,26 @@ export const listAdminOrders = createServerFn({ method: 'POST' })
       );
     }
 
-    // Counts are computed over the unfiltered queue so the overview stays stable.
+    // Counts/metrics are computed over this environment only, so sandbox money
+    // can never be presented as live business activity.
     const { data: allRows } = await supabase
       .from('orders')
       .select('fulfillment_status, status, amount_cents, created_at')
+      .eq('environment', env)
       .order('created_at', { ascending: false })
       .limit(500);
 
-    const counts: Record<string, number> = { processing: 0, packed: 0, shipped: 0, delivered: 0, cancelled: 0 };
+    const counts: Record<string, number> = { processing: 0, packed: 0, shipped: 0, delivered: 0, cancelled: 0, unpaid: 0 };
     let revenueCents = 0;
     let last7Cents = 0;
     let last7Count = 0;
     const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
     for (const r of (allRows ?? []) as Row[]) {
+      const paid = PAYABLE_STATUSES.includes((r['status'] as string) ?? 'pending');
+      if (!paid) {
+        counts['unpaid'] = (counts['unpaid'] ?? 0) + 1;
+        continue;
+      }
       const stage = (r['fulfillment_status'] as string) ?? 'processing';
       counts[stage] = (counts[stage] ?? 0) + 1;
       if (r['status'] === 'paid') {
@@ -174,12 +207,23 @@ export const listAdminOrders = createServerFn({ method: 'POST' })
       }
     }
 
+    // How many test orders exist, so the sandbox view can be surfaced honestly
+    // without ever counting them as business.
+    const otherEnv = env === 'live' ? 'sandbox' : 'live';
+    const { count: otherCount } = await supabase
+      .from('orders')
+      .select('id', { count: 'exact', head: true })
+      .eq('environment', otherEnv);
+
     return {
+      environment: env,
+      otherEnvironmentCount: otherCount ?? 0,
       orders,
       counts,
       totals: { revenueCents, last7Cents, last7Count, total: (allRows ?? []).length },
     };
   });
+
 
 export const getAdminOrder = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
