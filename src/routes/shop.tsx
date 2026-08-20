@@ -94,10 +94,14 @@ function Shop() {
     if (visible.length === 0) return;
     track("view_item_list", {
       item_list_name: "Shop",
+      currency: "AUD",
       items: visible.slice(0, 24).map((p, index) => ({
         item_id: p.priceId,
         item_name: p.name,
         item_brand: p.brand,
+        item_category: p.category,
+        price: productPrice(p),
+        item_list_name: "Shop",
         index,
       })),
     });

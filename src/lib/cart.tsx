@@ -17,12 +17,22 @@ export {
 } from '@/lib/shipping-rates';
 import { FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS } from '@/lib/shipping-rates';
 import { track, centsToAud, type AnalyticsItem } from '@/lib/analytics';
+import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
 
-function lineToItem(line: Pick<CartLine, 'priceId' | 'name' | 'brand' | 'unitCents'> & { quantity?: number }): AnalyticsItem {
+/** Catalogue category for a cart line, looked up by the stable price/SKU id. */
+function categoryFor(priceId: string): string | undefined {
+  return SHOP_PRODUCTS.find((p) => p.priceId === priceId)?.category;
+}
+
+function lineToItem(
+  line: Pick<CartLine, 'priceId' | 'name' | 'brand' | 'unitCents'> & { quantity?: number; recurring?: boolean },
+): AnalyticsItem {
   return {
     item_id: line.priceId,
     item_name: line.name,
     item_brand: line.brand,
+    item_category: categoryFor(line.priceId),
+    item_variant: line.recurring ? 'restock_subscription' : 'one_time',
     price: centsToAud(line.unitCents),
     quantity: line.quantity ?? 1,
   };

@@ -150,7 +150,9 @@ function ProductPage() {
           item_id: product.priceId,
           item_name: product.name,
           item_brand: product.brand,
+          item_category: product.category,
           price: productPrice(product),
+          quantity: 1,
         },
       ],
     });

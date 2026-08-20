@@ -48,7 +48,7 @@ export function NewsletterForm({
     }
 
     // Signup event carries the placement only — never the email address.
-    track("newsletter_signup", { method: "site_form", placement: source });
+    track("sign_up", { method: "newsletter", placement: source });
     setStatus("success");
     setMessage(
       error?.code === "23505"
