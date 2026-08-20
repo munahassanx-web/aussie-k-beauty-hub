@@ -4,6 +4,7 @@ import { z } from "zod";
 import { CompareDrawer, CompareModal, type CompareItem } from "@/components/product-compare";
 import { ProductCard } from "@/components/product-card";
 import { track, centsToAud } from "@/lib/analytics";
+import { productPrice } from "@/lib/shop-catalog";
 import {
   AppliedFilters,
   FilterSheet,
@@ -94,10 +95,14 @@ function Shop() {
     if (visible.length === 0) return;
     track("view_item_list", {
       item_list_name: "Shop",
+      currency: "AUD",
       items: visible.slice(0, 24).map((p, index) => ({
         item_id: p.priceId,
         item_name: p.name,
         item_brand: p.brand,
+        item_category: p.category,
+        price: productPrice(p),
+        item_list_name: "Shop",
         index,
       })),
     });

@@ -68,11 +68,17 @@ function CheckoutReturn() {
       currency: 'AUD',
       value: centsToAud(receipt.amountCents),
       shipping: centsToAud(receipt.shippingCents),
-      items: receipt.lineItems.map((l) => ({
-        item_name: l.name,
-        quantity: l.quantity,
-        price: centsToAud(l.amountCents),
-      })),
+      items: receipt.lineItems.map((l) => {
+        const matched = matchProductByReference(l.name);
+        return {
+          item_id: matched?.priceId ?? l.name,
+          item_name: l.name,
+          item_brand: matched?.brand,
+          item_category: matched?.category,
+          quantity: l.quantity,
+          price: centsToAud(Math.round(l.amountCents / Math.max(1, l.quantity))),
+        };
+      }),
     });
   }, [receipt]);
 

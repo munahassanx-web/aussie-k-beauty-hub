@@ -14,6 +14,7 @@ import { productFaqs, faqJsonLd } from '@/lib/faqs';
 import { track } from '@/lib/analytics';
 
 import { restockPriceIdFor, productPrice, type ShopProduct } from '@/lib/shop-catalog';
+import { listSoldOutSkus } from '@/lib/inventory.functions';
 import {
   findProductBySlug,
   galleryFor,
@@ -33,7 +34,7 @@ function absoluteProductImage(src: string): string {
   return `https://skingrocer.com.au${src}`;
 }
 
-function productJsonLd(p: ShopProduct) {
+function productJsonLd(p: ShopProduct, soldOut: boolean) {
   const numericPrice = productPrice(p);
   const productUrl = `https://skingrocer.com.au/product/${productSlug(p)}`;
   const imageUrl = absoluteProductImage(galleryFor(p)[0]?.src ?? p.image);
@@ -48,9 +49,10 @@ function productJsonLd(p: ShopProduct) {
       '@type': 'Offer',
       price: numericPrice.toFixed(2),
       priceCurrency: 'AUD',
-      availability: p.comingSoon
-        ? 'https://schema.org/OutOfStock'
-        : 'https://schema.org/InStock',
+      // Live warehouse state: a SKU is only advertised as InStock when it is
+      // genuinely purchasable right now (not pre-launch, not sold out).
+      availability:
+        p.comingSoon || soldOut ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
       url: productUrl,
     },
   };
@@ -62,7 +64,7 @@ function productJsonLd(p: ShopProduct) {
 }
 
 export const Route = createFileRoute('/product/$slug')({
-  head: ({ params }) => {
+  head: ({ params, loaderData }: { params: { slug: string }; loaderData?: { soldOut?: string[] } }) => {
     const p = findProductBySlug(params.slug);
     const title = p ? `${p.name} — ${p.brand} | Skin Grocer` : 'Product — Skin Grocer';
     const description = p
@@ -88,14 +90,23 @@ export const Route = createFileRoute('/product/$slug')({
       scripts: p
         ? [
             faqJsonLd(productFaqs(p, { steps: howToUse(p), description: productDescription(p) })),
-            productJsonLd(p),
+            productJsonLd(p, Boolean(loaderData?.soldOut?.includes(p.priceId))),
           ]
         : [],
     };
   },
-  loader: ({ params }) => {
-    if (!findProductBySlug(params.slug)) throw notFound();
-    return null;
+  loader: async ({ params }) => {
+    const product = findProductBySlug(params.slug);
+    if (!product) throw notFound();
+    // Live inventory drives Product schema availability. Never blocks the page:
+    // if the lookup fails we fall back to the catalogue's own state.
+    let soldOut: string[] = [];
+    try {
+      soldOut = await listSoldOutSkus({ data: undefined as never });
+    } catch {
+      soldOut = [];
+    }
+    return { soldOut };
   },
   notFoundComponent: ProductNotFound,
   component: ProductPage,
@@ -150,7 +161,9 @@ function ProductPage() {
           item_id: product.priceId,
           item_name: product.name,
           item_brand: product.brand,
+          item_category: product.category,
           price: productPrice(product),
+          quantity: 1,
         },
       ],
     });

@@ -17,6 +17,7 @@ import { CartProvider } from "../lib/cart";
 import { WishlistProvider } from "../lib/wishlist";
 import { Toaster } from "sonner";
 import { CartDrawer } from "../components/cart-drawer";
+import { initAnalytics, trackPageView } from "../lib/analytics";
 
 function NotFoundComponent() {
   return (
@@ -76,6 +77,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Skin Grocer — Authentic Korean Skincare, Dispatched from Melbourne" },
       { name: "description", content: "Melbourne's destination for authentic K-beauty and premium imports. Locally stocked, expertly guided and dispatched from Melbourne across Australia." },
       { name: "author", content: "Skin Grocer" },
+      ...(SITE_VERIFICATION
+        ? [{ name: "google-site-verification", content: SITE_VERIFICATION }]
+        : []),
       { property: "og:title", content: "Skin Grocer — Authentic Korean Skincare, Dispatched from Melbourne" },
       { property: "og:description", content: "Melbourne's destination for authentic K-beauty and premium imports. Locally stocked, expertly guided and dispatched from Melbourne across Australia." },
       { property: "og:type", content: "website" },
@@ -112,8 +116,24 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+/** Google Search Console ownership token, supplied by configuration only. */
+const SITE_VERIFICATION = (import.meta.env as Record<string, string | undefined>)[
+  "VITE_GOOGLE_SITE_VERIFICATION"
+];
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+
+  // GA4 loads only when a Measurement ID is configured for the production
+  // domain; otherwise events stay in the local debug buffer.
+  useEffect(() => {
+    initAnalytics();
+    trackPageView(window.location.pathname);
+    return router.subscribe("onResolved", ({ toLocation }) => {
+      trackPageView(toLocation.pathname);
+    });
+  }, [router]);
   return (
     <QueryClientProvider client={queryClient}>
       <CartProvider>

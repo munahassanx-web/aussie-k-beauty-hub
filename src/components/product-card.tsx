@@ -3,6 +3,7 @@ import { useBuyNow } from '@/hooks/use-buy-now';
 import { useSoldOutSkus } from '@/hooks/use-stock';
 import { WishlistButton } from '@/components/wishlist-button';
 import { productSlug, routineStepLabel } from '@/lib/product-detail';
+import { productPrice } from '@/lib/shop-catalog';
 import type { ShopProduct } from '@/lib/shop-catalog';
 import { track } from '@/lib/analytics';
 
@@ -87,7 +88,16 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
             params={{ slug }}
             onClick={() =>
               track('select_item', {
-                items: [{ item_id: p.priceId, item_name: p.name, item_brand: p.brand }],
+                currency: 'AUD',
+                items: [
+                  {
+                    item_id: p.priceId,
+                    item_name: p.name,
+                    item_brand: p.brand,
+                    item_category: p.category,
+                    price: productPrice(p),
+                  },
+                ],
               })
             }
             className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:underline focus-visible:underline-offset-4"
