@@ -42,20 +42,41 @@ const STAGE_LABEL: Record<string, string> = {
   shipped: 'Dispatched',
   delivered: 'Delivered',
   cancelled: 'Cancelled',
+  unpaid: 'Unpaid / failed',
 };
+
+const PAYMENT_LABEL: Record<string, string> = {
+  paid: 'Paid',
+  partially_refunded: 'Part refunded',
+  refunded: 'Refunded',
+  pending: 'Unpaid',
+  failed: 'Payment failed',
+};
+
+/** Loud, unmistakable marker so a test order is never mistaken for a sale. */
+function TestBadge() {
+  return (
+    <span className="ml-2 rounded-full border border-destructive px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-destructive">
+      Test
+    </span>
+  );
+}
 
 function OrderQueue() {
   const { user, loading } = useAuth();
+  const [environment, setEnvironment] = useState<'live' | 'sandbox'>('live');
   const [stage, setStage] = useState<string>('processing');
   const [search, setSearch] = useState('');
   const fetchOrders = useServerFn(listAdminOrders);
 
   const q = useQuery({
-    queryKey: ['admin-orders', stage, search],
-    queryFn: () => fetchOrders({ data: { stage, search } }),
+    queryKey: ['admin-orders', environment, stage, search],
+    queryFn: () => fetchOrders({ data: { stage, search, environment } }),
     enabled: Boolean(user),
     retry: false,
   });
+
+  const isSandbox = environment === 'sandbox';
 
   if (loading) return <Shell><p className="text-sm text-muted-foreground">Loading…</p></Shell>;
   if (!user) {
@@ -74,6 +95,7 @@ function OrderQueue() {
       </Shell>
     );
   }
+
 
   const data = q.data;
 
