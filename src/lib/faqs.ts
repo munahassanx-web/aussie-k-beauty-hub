@@ -214,7 +214,7 @@ export function productFaqs(
     },
     {
       q: `Is ${p.brand} ${p.name} authentic, and where does it ship from?`,
-      a: `Yes. This stock is sourced from ${p.brand} or its authorised distributor and held in our Melbourne warehouse in Epping, Victoria. Order before 12pm on a business day and it is dispatched the same day, with next-business-day delivery to most Australian metro addresses.`,
+      a: `Yes. This stock is sourced from ${p.brand} or its authorised distributor and held in our Melbourne warehouse in Epping, Victoria. Order before 12pm on a business day and it is dispatched the same day with Australia Post. Estimated transit after dispatch is typically 1–2 business days to metro areas and 2–5 business days regionally — these are Australia Post estimates, not guarantees.`,
     },
     {
       q: `What can I use ${p.brand} ${p.name} with?`,
