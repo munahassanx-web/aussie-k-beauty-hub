@@ -231,31 +231,32 @@ function Contact() {
             <h2 className="mt-3 font-display text-3xl text-foreground md:text-4xl">Delivery coverage & timing.</h2>
           </div>
           <p className="max-w-md text-muted-foreground">
-            We ship Australia-wide from our Melbourne warehouse. Most orders are
-            picked, packed and dispatched the same day when placed before 12pm AEST.
+            We ship Australia-wide with Australia Post from our Melbourne warehouse. Most orders are
+            picked, packed and dispatched the same day when placed before 12pm AEST. Transit times below are
+            Australia Post estimates and depend on your postcode.
           </p>
         </div>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-2xl border border-border bg-secondary/30 p-6">
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Melbourne metro</p>
-            <p className="mt-2 font-display text-2xl text-foreground">Next business day</p>
+            <p className="mt-2 font-display text-2xl text-foreground">1–2 business days</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Typically next business day after dispatch from our Epping warehouse.
+              Estimated transit after dispatch from our Epping warehouse — not a guarantee.
             </p>
           </div>
           <div className="rounded-2xl border border-border bg-secondary/30 p-6">
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Sydney, Canberra, Adelaide, Brisbane</p>
-            <p className="mt-2 font-display text-2xl text-foreground">Next business day</p>
+            <p className="mt-2 font-display text-2xl text-foreground">1–2 business days</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Typical metro transit time on our carrier’s standard service.
+              Estimated metro transit on Australia Post’s standard service.
             </p>
           </div>
           <div className="rounded-2xl border border-border bg-secondary/30 p-6">
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Regional Australia</p>
             <p className="mt-2 font-display text-2xl text-foreground">2–5 business days</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Typical transit time to regional addresses after dispatch.
+              Estimated Australia Post transit to regional addresses after dispatch.
             </p>
           </div>
           <div className="rounded-2xl border border-border bg-secondary/30 p-6">

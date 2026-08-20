@@ -270,6 +270,11 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
         discount_cents: discountCents,
         shipping_cents: shippingCents,
         shipping_method: session.shipping_cost?.shipping_rate ? 'standard' : null,
+        // Service level is decided server-side at checkout and recorded here so
+        // fulfilment ships Circle orders as Australia Post Express Post.
+        shipping_service:
+          session.metadata?.shippingService === 'auspost_express_post' ? 'Express Post' : 'Parcel Post',
+        shipping_carrier: session.metadata?.shippingCarrier || 'Australia Post',
         line_items: lineItems,
         shipping_name: shipping?.name ?? null,
         shipping_phone: session.customer_details?.phone ?? null,

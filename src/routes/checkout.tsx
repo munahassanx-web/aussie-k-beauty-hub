@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { useCart, formatAud, FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS } from '@/lib/cart';
 import { createCartCheckout, createGuestCartCheckout } from '@/lib/commerce.functions';
 import { supabase } from '@/integrations/supabase/client';
+import { useCircle } from '@/hooks/use-circle';
 
 export const Route = createFileRoute('/checkout')({
   head: () => ({
@@ -25,6 +26,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 function Checkout() {
   const cart = useCart();
   const { user, loading } = useAuth();
+  const { isCircle } = useCircle();
   const navigate = useNavigate();
   const [redeem, setRedeem] = useState(0);
   const [points, setPoints] = useState<number | null>(null);
@@ -60,7 +62,10 @@ function Checkout() {
   const canRedeem = Boolean(user) && maxRedeem >= 100;
   const hasSubscription = cart.lines.some((l) => l.recurring);
   const discountCents = (redeem / 100) * 500;
-  const grandTotal = Math.max(0, cart.totalCents - discountCents);
+  // Circle members ship free on Express Post — the server applies the same rule.
+  const circleExpress = isCircle && !hasSubscription;
+  const shippingCents = circleExpress ? 0 : cart.shippingCents;
+  const grandTotal = Math.max(0, cart.subtotalCents + shippingCents - discountCents);
 
   const fetchClientSecret = async (): Promise<string> => {
     const returnUrl = `${window.location.origin}/checkout/return?session_id={CHECKOUT_SESSION_ID}`;
@@ -174,9 +179,9 @@ function Checkout() {
           <span>{formatAud(cart.subtotalCents)}</span>
         </div>
         <div className="flex justify-between text-muted-foreground">
-          <span>Standard shipping</span>
+          <span>{circleExpress ? 'Circle member · Free Express Post' : 'Standard shipping'}</span>
           <span>
-            {cart.hasSubscription ? 'Included' : cart.shippingCents === 0 ? 'Free' : formatAud(FLAT_SHIPPING_CENTS)}
+            {cart.hasSubscription ? 'Included' : shippingCents === 0 ? 'Free' : formatAud(FLAT_SHIPPING_CENTS)}
           </span>
         </div>
         {redeem > 0 && (
@@ -193,7 +198,7 @@ function Checkout() {
           Includes GST. Any promotion code you enter on the payment step is applied by Stripe before you pay.
         </p>
       </div>
-      {!cart.hasSubscription && cart.subtotalCents < FREE_SHIPPING_THRESHOLD_CENTS && (
+      {!cart.hasSubscription && !circleExpress && cart.subtotalCents < FREE_SHIPPING_THRESHOLD_CENTS && (
         <p className="mt-3 text-[11px] text-muted-foreground">
           Add {formatAud(FREE_SHIPPING_THRESHOLD_CENTS - cart.subtotalCents)} more to qualify for free shipping.
         </p>

@@ -23,7 +23,7 @@ function PrivacyPolicy() {
       <div className="mt-16 space-y-12">
         <section>
           <p className="text-muted-foreground">
-            Skin Grocer Pty Ltd (ABN 11 772 386 817, "Skin Grocer", "we", "us") respects your privacy. This policy explains what personal information we collect through skingrocer.com.au, how we use it, and your rights.
+            Skin Grocer Pty Ltd ("Skin Grocer", "we", "us") respects your privacy. This policy explains what personal information we collect through skingrocer.com.au, how we use it, and your rights.
           </p>
           <p className="mt-4 text-sm text-muted-foreground">Last updated: 16 August 2026</p>
         </section>

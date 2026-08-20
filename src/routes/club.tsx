@@ -12,7 +12,7 @@ export const Route = createFileRoute('/club')({
   head: () => ({
     meta: [
       { title: 'The Restock Club — Skin Grocer' },
-      { name: 'description', content: 'Earn points on every order, subscribe to restock your routine, and unlock Circle for 2x points, free express shipping, and early access to new brand drops.' },
+      { name: 'description', content: 'Earn points on every order, subscribe to restock your routine, and unlock Circle for 2x points, free Australia Post Express Post, and early access to new brand drops.' },
       { property: 'og:title', content: 'The Restock Club — Skin Grocer' },
       { property: 'og:description', content: 'Loyalty + subscriptions for Skin Grocer members.' },
     ],
@@ -68,7 +68,7 @@ const TIERS: Array<{
     perks: [
       'Everything in Restock',
       '2x points on all orders',
-      'Free express shipping, always',
+      'Free Australia Post Express Post on every order, no minimum spend',
       'Early access to new brand drops',
       'A seasonal gift with every subscription order',
       'Priority customer support',

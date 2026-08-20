@@ -50,19 +50,64 @@ export function shippingCentsFor(subtotal: number, isSubscription: boolean): num
   return subtotal >= FREE_SHIPPING_THRESHOLD_CENTS ? 0 : FLAT_SHIPPING_CENTS;
 }
 
-export function shippingOptionFor(subtotal: number) {
+/** Circle price lookup keys — the only subscriptions that grant free Express Post. */
+export const CIRCLE_PRICE_IDS = new Set(['circle_monthly', 'circle_yearly']);
+
+/** Service level recorded on the order so fulfilment ships the right product. */
+export type ShippingService = 'auspost_parcel_post' | 'auspost_express_post';
+
+export type ShippingSelection = {
+  service: ShippingService;
+  carrier: 'Australia Post';
+  amountCents: number;
+  displayName: string;
+};
+
+/**
+ * Authoritative shipping selection. Circle members always get Australia Post
+ * Express Post at A$0, whatever the subtotal; everyone else keeps the normal
+ * A$9.95 / free-over-A$80 Parcel Post rules.
+ */
+export function shippingSelectionFor(subtotal: number, circleExpress: boolean): ShippingSelection {
+  if (circleExpress) {
+    return {
+      service: 'auspost_express_post',
+      carrier: 'Australia Post',
+      amountCents: 0,
+      displayName: 'Circle member · Free Express Post (Australia Post)',
+    };
+  }
   const amount = shippingCentsFor(subtotal, false);
+  return {
+    service: 'auspost_parcel_post',
+    carrier: 'Australia Post',
+    amountCents: amount,
+    displayName: amount === 0 ? 'Free standard shipping (Australia Post)' : 'Standard shipping (Australia Post)',
+  };
+}
+
+export function shippingOptionFor(subtotal: number, circleExpress = false) {
+  const selection = shippingSelectionFor(subtotal, circleExpress);
   return {
     shipping_rate_data: {
       type: 'fixed_amount' as const,
-      fixed_amount: { amount, currency: 'aud' },
-      display_name: amount === 0 ? 'Free standard shipping' : 'Standard shipping',
+      fixed_amount: { amount: selection.amountCents, currency: 'aud' },
+      display_name: selection.displayName,
       delivery_estimate: {
         minimum: { unit: 'business_day' as const, value: 1 },
-        maximum: { unit: 'business_day' as const, value: 3 },
+        maximum: { unit: 'business_day' as const, value: circleExpress ? 3 : 5 },
       },
     },
   };
+}
+
+/** True when a subscriptions row grants Circle benefits right now. */
+export function isActiveCircleRow(row: { price_id?: string | null; status?: string | null; current_period_end?: string | null }): boolean {
+  if (!row.price_id || !CIRCLE_PRICE_IDS.has(row.price_id)) return false;
+  const status = row.status ?? '';
+  if (status === 'active' || status === 'trialing' || status === 'past_due') return true;
+  // End-of-period grace: cancelled but still inside the paid period.
+  return status === 'canceled' && Boolean(row.current_period_end) && new Date(row.current_period_end!) > new Date();
 }
 
 /** Points redeemable against a subtotal, rounded down to whole 100-point blocks. */
