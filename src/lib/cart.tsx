@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 
 export type CartLine = {
   priceId: string;
@@ -65,9 +65,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [open, setOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
-  // Latest lines, readable from callbacks that fire in the same tick as an update.
-  const linesRef = useRef<CartLine[]>([]);
-  linesRef.current = lines;
 
   // Read after mount so SSR and first client render match.
   useEffect(() => {
@@ -79,6 +76,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (!hydrated) return;
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(lines));
   }, [lines, hydrated]);
+
+  // view_cart — emitted once the drawer is actually open with its final contents.
+  useEffect(() => {
+    if (!open || lines.length === 0) return;
+    track('view_cart', {
+      currency: 'AUD',
+      value: centsToAud(lines.reduce((sum, l) => sum + l.unitCents * l.quantity, 0)),
+      items: lines.map((l) => lineToItem(l)),
+    });
+    // Only when the drawer transitions open — not on every line change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
   const value = useMemo<CartContextValue>(() => {
     const subtotalCents = lines.reduce((sum, l) => sum + l.unitCents * l.quantity, 0);
@@ -98,21 +107,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       hasSubscription,
       mixedModes,
       open,
-      setOpen: (next: boolean) => {
-        if (next) {
-          // Defer so a bag opened by "add to bag" reports the post-add contents.
-          setTimeout(() => {
-            const current = linesRef.current;
-            if (current.length === 0) return;
-            track('view_cart', {
-              currency: 'AUD',
-              value: centsToAud(current.reduce((sum, l) => sum + l.unitCents * l.quantity, 0)),
-              items: current.map((l) => lineToItem(l)),
-            });
-          }, 0);
-        }
-        setOpen(next);
-      },
+      setOpen,
       add: (line, quantity = 1) => {
         track('add_to_cart', {
           currency: 'AUD',
