@@ -202,14 +202,21 @@ function OrderQueue() {
               <tr key={o.id} className="border-b border-border/60 last:border-0">
                 <td className="px-4 py-3 text-muted-foreground">{when(o.createdAt)}</td>
                 <td className="px-4 py-3">
-                  <p className="text-foreground">{o.customerName ?? 'Not provided'}</p>
+                  <p className="text-foreground">
+                    {o.customerName ?? 'Not provided'}
+                    {o.environment !== 'live' && <TestBadge />}
+                  </p>
                   <p className="text-xs text-muted-foreground">
                     {o.customerEmail ?? '—'}{o.isGuest ? ' · guest' : ''}
                   </p>
                 </td>
                 <td className="px-4 py-3 text-muted-foreground">{o.itemCount}</td>
                 <td className="px-4 py-3 text-foreground">{money(o.amountCents, o.currency)}</td>
-                <td className="px-4 py-3">{STAGE_LABEL[o.fulfillmentStatus] ?? o.fulfillmentStatus}</td>
+                <td className="px-4 py-3">
+                  {STAGE_LABEL[o.fulfillmentStatus] ?? o.fulfillmentStatus}
+                  <span className="block text-xs text-muted-foreground">{PAYMENT_LABEL[o.status] ?? o.status}</span>
+                </td>
+
                 <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{o.trackingNumber ?? '—'}</td>
                 <td className="px-4 py-3 text-right">
                   <Link
@@ -240,7 +247,10 @@ function OrderQueue() {
               className="block rounded-2xl border border-border p-4 active:border-foreground"
             >
               <div className="flex items-baseline justify-between gap-3">
-                <span className="font-display text-lg text-foreground">{o.customerName ?? 'Not provided'}</span>
+                <span className="font-display text-lg text-foreground">
+                  {o.customerName ?? 'Not provided'}
+                  {o.environment !== 'live' && <TestBadge />}
+                </span>
                 <span className="text-sm text-foreground">{money(o.amountCents, o.currency)}</span>
               </div>
               <p className="mt-1 text-xs text-muted-foreground">
@@ -248,8 +258,9 @@ function OrderQueue() {
               </p>
               <p className="mt-2 text-xs text-muted-foreground">
                 {when(o.createdAt)} · {o.itemCount} item{o.itemCount === 1 ? '' : 's'} ·{' '}
-                {STAGE_LABEL[o.fulfillmentStatus] ?? o.fulfillmentStatus}
+                {STAGE_LABEL[o.fulfillmentStatus] ?? o.fulfillmentStatus} · {PAYMENT_LABEL[o.status] ?? o.status}
               </p>
+
               <p className="mt-1 font-mono text-xs text-muted-foreground">
                 {o.trackingNumber ? `${o.shippingCarrier ?? 'Carrier'} ${o.trackingNumber}` : 'No tracking yet'}
               </p>
