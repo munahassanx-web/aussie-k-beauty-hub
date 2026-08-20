@@ -1,9 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { Link } from '@tanstack/react-router';
 import { FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS, formatAud, useCart } from '@/lib/cart';
+import { useCircle } from '@/hooks/use-circle';
 
 export function CartDrawer() {
   const cart = useCart();
+  const { isCircle } = useCircle();
   const panelRef = useRef<HTMLDivElement>(null);
   const open = cart.open;
 
@@ -89,7 +91,18 @@ export function CartDrawer() {
           </div>
         ) : (
           <>
-            {!cart.hasSubscription && (
+            {!cart.hasSubscription && isCircle && (
+              <div className="border-b border-border px-6 py-4 sm:px-7">
+                <p className="text-[11px] uppercase tracking-[0.16em] text-foreground">
+                  Circle member · Free Express Post
+                </p>
+                <p className="mt-1 text-[11px] normal-case tracking-normal text-muted-foreground">
+                  Australia Post Express Post, applied at checkout on every order.
+                </p>
+              </div>
+            )}
+
+            {!cart.hasSubscription && !isCircle && (
               <div className="border-b border-border px-6 py-4 sm:px-7">
                 <p className="text-[11px] uppercase tracking-[0.16em] text-foreground">
                   {remainingForFree > 0 ? (
@@ -183,10 +196,12 @@ export function CartDrawer() {
                   <span>{formatAud(cart.subtotalCents)}</span>
                 </div>
                 <div className="flex justify-between text-sm text-muted-foreground">
-                  <span>Standard shipping</span>
+                  <span>{isCircle && !cart.hasSubscription ? 'Express Post · Circle member' : 'Standard shipping'}</span>
                   <span>
-                    {cart.hasSubscription
-                      ? 'Included'
+                    {cart.hasSubscription || isCircle
+                      ? cart.hasSubscription
+                        ? 'Included'
+                        : 'Free'
                       : cart.shippingCents === 0
                         ? 'Free'
                         : formatAud(FLAT_SHIPPING_CENTS)}
@@ -196,12 +211,12 @@ export function CartDrawer() {
               <div className="mt-4 flex items-baseline justify-between border-t border-border pt-4">
                 <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Total</span>
                 <span className="font-display text-[1.75rem] leading-none text-foreground">
-                  {formatAud(cart.totalCents)}
+                  {formatAud(isCircle && !cart.hasSubscription ? cart.subtotalCents : cart.totalCents)}
                 </span>
               </div>
               <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-                Includes GST. Shipping within Australia, dispatched from Melbourne — allow 1–3 business days in transit
-                after dispatch.
+                Includes GST. Shipped with Australia Post from our Melbourne warehouse — transit times are estimates and
+                depend on your postcode and the service available there.
               </p>
               <Link
                 to="/checkout"
