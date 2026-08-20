@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getLearnArticle, learnArticles } from "@/lib/learn-articles";
 import { ArticleProductPicks } from "@/components/article-product-picks";
+import { GrocerStripe } from "@/components/grocer-stripe";
 
 export const Route = createFileRoute("/learn/article/$slug")({
   loader: ({ params }) => {
@@ -106,11 +107,15 @@ function ArticlePage() {
       </header>
 
       <div className="mx-auto max-w-5xl px-6">
-        <img
-          src={article.cover}
-          alt={article.coverAlt}
-          className="h-[260px] w-full rounded-sm object-cover md:h-[440px]"
-        />
+        <figure className="overflow-hidden rounded-sm">
+          <img
+            src={article.cover}
+            alt={article.coverAlt}
+            className="h-[260px] w-full object-cover md:h-[440px]"
+          />
+          {/* Reusable Skin Grocer brand band — same motif as the site header */}
+          <GrocerStripe className="h-[6px] w-full md:h-[10px]" />
+        </figure>
       </div>
 
       <div className="mx-auto mt-14 max-w-3xl px-6">

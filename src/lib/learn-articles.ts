@@ -13,7 +13,7 @@ import preventionFirst from "@/assets/learn/prevention-first-sunscreen.jpg";
 // by Choi Kwang-mo, released CC0 via Wikimedia Commons:
 // https://commons.wikimedia.org/wiki/File:2020-04-17_22.19.24_%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81_%EC%9B%90%EC%A3%BC%EB%8B%A8%EA%B5%AC%EC%A0%90.jpg
 // Cropped to 16:10 only — no signage, packaging or product was altered.
-import oliveYoungStore from "@/assets/olive-young-store-interior.jpg.asset.json";
+import seoulSkincareAisle from "@/assets/seoul-skincare-aisle.jpg.asset.json";
 
 export type ArticleSection = { heading?: string; body: string };
 
@@ -509,8 +509,8 @@ const baseArticles: LearnArticle[] = [
     title: "What's Actually Selling In Seoul (And What's Only Big On TikTok)",
     blurb: "The gap between domestic Korean demand and the global K-beauty feed, in numbers.",
     read: "6 min read",
-    cover: oliveYoungStore.url,
-    coverAlt: "Interior of a Korean Olive Young health and beauty store, with skincare and hair care aisles fully stocked with branded Korean products",
+    cover: seoulSkincareAisle.url,
+    coverAlt: "Bright modern Korean skincare store aisle in Seoul, shelves densely stocked with serums, toners and creams, a shopper seen from behind carrying a black shopping basket",
     standfirst:
       "There is a measurable gap between what Korean women buy and what the internet says Korean women buy. Reading the domestic data instead of the feed is the single most useful thing an Australian shopper can do.",
     sections: [

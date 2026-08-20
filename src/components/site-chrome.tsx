@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/lib/cart";
 import { ProductSearchOverlay } from "@/components/product-search";
 import { BrandWordmark, BrandLine } from "@/components/brand-wordmark";
+import { GrocerStripe } from "@/components/grocer-stripe";
 
 
 type MegaLink = { label: string; to: string; search?: Record<string, string>; hash?: string };
@@ -228,10 +229,7 @@ export function SiteHeader() {
   return (
     <header>
       {/* The Grocer Stripe — signature brand band, fixed height (no CLS) */}
-      <div
-        aria-hidden="true"
-        className="grocer-stripe h-[10px] w-full md:h-[18px]"
-      />
+      <GrocerStripe className="h-[10px] w-full md:h-[18px]" />
       {/* Main nav wrapper preserves layout when the pinned header is fixed */}
       <div ref={wrapperRef} className="relative">
         {/* Pinned header — brand, navigation, and trust messages stay visible while scrolling */}
