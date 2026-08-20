@@ -1,8 +1,9 @@
 import type Stripe from 'stripe';
 import { createStripeClient } from '@/lib/stripe.server';
 
-export const FLAT_SHIPPING_CENTS = 995;
-export const FREE_SHIPPING_THRESHOLD_CENTS = 8000;
+import { FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS } from '@/lib/shipping-rates';
+
+export { FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS };
 export const POINTS_PER_DOLLAR_REDEEM = 100; // 100 points = A$5
 export const REDEEM_CENTS_PER_BLOCK = 500;
 
@@ -66,7 +67,7 @@ export type ShippingSelection = {
 /**
  * Authoritative shipping selection. Circle members always get Australia Post
  * Express Post at A$0, whatever the subtotal; everyone else keeps the normal
- * A$9.95 / free-over-A$80 Parcel Post rules.
+ * A$9.95 / free-over-A$100 Parcel Post rules.
  */
 export function shippingSelectionFor(subtotal: number, circleExpress: boolean): ShippingSelection {
   if (circleExpress) {

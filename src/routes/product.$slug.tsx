@@ -513,7 +513,7 @@ function ProductPage() {
             </div>
 
             <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
-              Dispatched from our Melbourne warehouse · Free shipping over A$80 ·{' '}
+              Dispatched from our Melbourne warehouse · Free standard shipping over A$100 ·{' '}
               <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-foreground">
                 Shipping &amp; returns
               </Link>
@@ -651,7 +651,7 @@ function ProductPage() {
               title: 'Shipping & returns',
               content: (
                 <div className="space-y-3 text-sm text-foreground/85">
-                  <p>Dispatched from Melbourne. Free standard shipping on orders over A$80.</p>
+                  <p>Dispatched from Melbourne. Free standard delivery on orders A$100 and over.</p>
                   <p className="text-muted-foreground">
                     Full details in our{' '}
                     <Link

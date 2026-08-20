@@ -106,7 +106,8 @@ function TermsAndConditions() {
         <section>
           <h2 className="font-display text-2xl text-foreground">8. Delivery</h2>
           <p className="mt-3 text-muted-foreground">
-            Orders are dispatched from our Melbourne warehouse with Australia Post. Delivery timeframes shown anywhere on
+            Orders are dispatched from our Melbourne warehouse with Australia Post. Standard delivery is free on orders
+            A$100 and over; orders under A$100 are charged the flat standard rate shown at checkout. Delivery timeframes shown anywhere on
             this site are estimates based on the carrier's published service for your postcode — they are not guarantees,
             and the service available varies by destination. Our{" "}
             <Link to="/shipping-policy" className="text-primary underline underline-offset-4 hover:no-underline">
