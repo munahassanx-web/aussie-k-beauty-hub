@@ -15,6 +15,12 @@ export const FULFILMENT_STAGES = ['processing', 'packed', 'shipped', 'delivered'
 export type FulfilmentStage = (typeof FULFILMENT_STAGES)[number];
 const EDITABLE_STATUSES = [...FULFILMENT_STAGES, 'cancelled'] as const;
 
+/**
+ * Payment states that represent real money taken. Everything else (pending,
+ * failed, unpaid) is diagnostics only and never enters the fulfilment queue.
+ */
+export const PAYABLE_STATUSES = ['paid', 'partially_refunded'] as const satisfies readonly string[];
+
 export type AdminOrderLine = { name: string; quantity: number; amountCents: number; lookupKey: string | null };
 
 export type AdminOrderSummary = {
