@@ -179,6 +179,7 @@ export function SiteHeader() {
   const navRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
+  const { isStaff } = useStaffAccess();
   const cart = useCart();
 
   const closeMenus = () => {
