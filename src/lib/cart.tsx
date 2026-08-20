@@ -10,8 +10,12 @@ export type CartLine = {
   recurring: boolean;
 };
 
-export const FLAT_SHIPPING_CENTS = 995;
-export const FREE_SHIPPING_THRESHOLD_CENTS = 8000;
+export {
+  FLAT_SHIPPING_CENTS,
+  FREE_SHIPPING_THRESHOLD_CENTS,
+  FREE_SHIPPING_THRESHOLD_LABEL,
+} from '@/lib/shipping-rates';
+import { FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS } from '@/lib/shipping-rates';
 
 const STORAGE_KEY = 'sg-cart-v1';
 

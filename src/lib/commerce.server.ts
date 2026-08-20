@@ -1,8 +1,9 @@
 import type Stripe from 'stripe';
 import { createStripeClient } from '@/lib/stripe.server';
 
-export const FLAT_SHIPPING_CENTS = 995;
-export const FREE_SHIPPING_THRESHOLD_CENTS = 8000;
+import { FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS } from '@/lib/shipping-rates';
+
+export { FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS };
 export const POINTS_PER_DOLLAR_REDEEM = 100; // 100 points = A$5
 export const REDEEM_CENTS_PER_BLOCK = 500;
 
