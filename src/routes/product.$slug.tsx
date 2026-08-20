@@ -11,6 +11,7 @@ import { ProductCard, productSize } from '@/components/product-card';
 import { ProductReviews } from '@/components/product-reviews';
 import { FaqSection } from '@/components/faq-section';
 import { productFaqs, faqJsonLd } from '@/lib/faqs';
+import { track } from '@/lib/analytics';
 
 import { restockPriceIdFor, productPrice, type ShopProduct } from '@/lib/shop-catalog';
 import {
@@ -76,6 +77,12 @@ export const Route = createFileRoute('/product/$slug')({
         { property: 'og:type', content: 'product' },
         { name: 'twitter:card', content: 'summary_large_image' },
         { property: 'og:url', content: `https://skingrocer.com.au/product/${params.slug}` },
+        ...(p
+          ? [
+              { property: 'og:image', content: absoluteProductImage(galleryFor(p)[0]?.src ?? p.image) },
+              { name: 'twitter:image', content: absoluteProductImage(galleryFor(p)[0]?.src ?? p.image) },
+            ]
+          : []),
       ],
       links: [{ rel: 'canonical', href: `https://skingrocer.com.au/product/${params.slug}` }],
       scripts: p
@@ -131,6 +138,24 @@ function ProductPage() {
 
   const gallery = product ? galleryFor(product) : [];
   const count = gallery.length;
+
+  // view_item — non-PII catalogue data only.
+  useEffect(() => {
+    if (!product) return;
+    track('view_item', {
+      currency: 'AUD',
+      value: productPrice(product),
+      items: [
+        {
+          item_id: product.priceId,
+          item_name: product.name,
+          item_brand: product.brand,
+          price: productPrice(product),
+        },
+      ],
+    });
+  }, [product?.priceId]);
+
 
   useEffect(() => {
     setActive(0);

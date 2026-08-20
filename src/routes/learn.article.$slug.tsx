@@ -20,6 +20,12 @@ export const Route = createFileRoute("/learn/article/$slug")({
     }
     const title = `${loaderData.title} | Skin Grocer Learn`;
     const url = `https://skingrocer.com.au/learn/article/${loaderData.slug}`;
+    const cover =
+      typeof loaderData.cover === "string" && loaderData.cover
+        ? /^https?:\/\//i.test(loaderData.cover)
+          ? loaderData.cover
+          : `https://skingrocer.com.au${loaderData.cover}`
+        : undefined;
     return {
       meta: [
         { title },
@@ -29,6 +35,12 @@ export const Route = createFileRoute("/learn/article/$slug")({
         { property: "og:type", content: "article" },
         { property: "og:url", content: url },
         { name: "twitter:card", content: "summary_large_image" },
+        ...(cover
+          ? [
+              { property: "og:image", content: cover },
+              { name: "twitter:image", content: cover },
+            ]
+          : []),
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [
@@ -44,6 +56,7 @@ export const Route = createFileRoute("/learn/article/$slug")({
                 mainEntityOfPage: url,
                 about: loaderData.keyPoints,
                 articleSection: loaderData.pillar,
+                ...(cover ? { image: cover } : {}),
                 author: { "@type": "Organization", name: "Skin Grocer" },
                 publisher: { "@type": "Organization", name: "Skin Grocer" },
                 citation: loaderData.sources.map((s) => s.label),

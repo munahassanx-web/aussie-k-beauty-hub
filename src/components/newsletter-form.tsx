@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { track } from "@/lib/analytics";
 
 const emailSchema = z
   .string()
@@ -46,6 +47,8 @@ export function NewsletterForm({
       return;
     }
 
+    // Signup event carries the placement only — never the email address.
+    track("newsletter_signup", { method: "site_form", placement: source });
     setStatus("success");
     setMessage(
       error?.code === "23505"

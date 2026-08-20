@@ -19,8 +19,12 @@ export const Route = createFileRoute('/track')({
         content: 'Enter your email and order ID to see fulfilment status and tracking for your Skin Grocer order.',
       },
       { property: 'og:type', content: 'website' },
+      { property: 'og:url', content: 'https://skingrocer.com.au/track' },
       { name: 'twitter:card', content: 'summary_large_image' },
+      // Order lookups surface personal fulfilment data — keep them out of the index.
+      { name: 'robots', content: 'noindex, follow' },
     ],
+    links: [{ rel: 'canonical', href: 'https://skingrocer.com.au/track' }],
   }),
   component: TrackOrderPage,
 });

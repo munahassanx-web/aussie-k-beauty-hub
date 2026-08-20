@@ -4,6 +4,7 @@ import { useSoldOutSkus } from '@/hooks/use-stock';
 import { WishlistButton } from '@/components/wishlist-button';
 import { productSlug, routineStepLabel } from '@/lib/product-detail';
 import type { ShopProduct } from '@/lib/shop-catalog';
+import { track } from '@/lib/analytics';
 
 /** Pack size printed in the product name, when the brand states one. */
 export function productSize(p: ShopProduct): string | null {
@@ -84,6 +85,11 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
           <Link
             to="/product/$slug"
             params={{ slug }}
+            onClick={() =>
+              track('select_item', {
+                items: [{ item_id: p.priceId, item_name: p.name, item_brand: p.brand }],
+              })
+            }
             className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:underline focus-visible:underline-offset-4"
           >
             {displayName(p)}

@@ -15,19 +15,56 @@ export const Route = createFileRoute("/blog/$slug")({
     }
     const { issue } = loaderData;
     const title = `${issue.title} — Skin Grocer Blog`;
+    const url = `https://skingrocer.com.au/blog/${issue.slug}`;
+    const cover = typeof issue.cover === "string" && issue.cover
+      ? (/^https?:\/\//i.test(issue.cover) ? issue.cover : `https://skingrocer.com.au${issue.cover}`)
+      : undefined;
     return {
       meta: [
         { title },
         { name: "description", content: issue.standfirst },
         { property: "og:title", content: title },
         { property: "og:description", content: issue.standfirst },
-        { property: "og:url", content: `https://skingrocer.com.au/blog/${issue.slug}` },
+        { property: "og:url", content: url },
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary_large_image" },
+        ...(cover
+          ? [
+              { property: "og:image", content: cover },
+              { name: "twitter:image", content: cover },
+            ]
+          : []),
       ],
-      links: [{ rel: "canonical", href: `https://skingrocer.com.au/blog/${issue.slug}` }],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "BlogPosting",
+                headline: issue.title,
+                description: issue.standfirst,
+                mainEntityOfPage: url,
+                ...(cover ? { image: cover } : {}),
+                author: { "@type": "Organization", name: "Skin Grocer" },
+                publisher: { "@type": "Organization", name: "Skin Grocer" },
+              },
+              {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Blog", item: "https://skingrocer.com.au/blog" },
+                  { "@type": "ListItem", position: 2, name: issue.title, item: url },
+                ],
+              },
+            ],
+          }),
+        },
+      ],
     };
   },
+
   notFoundComponent: IssueNotFound,
   component: IssuePage,
 });

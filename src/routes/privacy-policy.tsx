@@ -80,7 +80,9 @@ function PrivacyPolicy() {
         <section>
           <h2 className="font-display text-2xl text-foreground">Cookies</h2>
           <p className="mt-3 text-muted-foreground">
-            We use essential cookies to run the cart and checkout, and may use analytics cookies to understand site usage. You can control cookies through your browser settings.
+            We use essential cookies and local browser storage to run your bag, your session and checkout. We do not
+            currently run third-party advertising or cross-site tracking cookies. If we introduce analytics cookies in
+            future, we will update this policy first. You can control cookies through your browser settings.
           </p>
         </section>
 

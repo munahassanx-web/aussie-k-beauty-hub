@@ -15,7 +15,11 @@ export const Route = createFileRoute('/club')({
       { name: 'description', content: 'Earn points on every order, subscribe to restock your routine, and unlock Circle for 2x points, free Australia Post Express Post, and early access to new brand drops.' },
       { property: 'og:title', content: 'The Restock Club — Skin Grocer' },
       { property: 'og:description', content: 'Loyalty + subscriptions for Skin Grocer members.' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:url', content: 'https://skingrocer.com.au/club' },
+      { name: 'twitter:card', content: 'summary_large_image' },
     ],
+    links: [{ rel: 'canonical', href: 'https://skingrocer.com.au/club' }],
   }),
   component: ClubPage,
 });

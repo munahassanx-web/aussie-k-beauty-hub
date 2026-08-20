@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { CompareDrawer, CompareModal, type CompareItem } from "@/components/product-compare";
 import { ProductCard } from "@/components/product-card";
+import { track, centsToAud } from "@/lib/analytics";
 import {
   AppliedFilters,
   FilterSheet,
@@ -87,6 +88,20 @@ function Shop() {
     () => sortProducts(SHOP_PRODUCTS.filter((p) => matchesFilters(p, filters)), sort),
     [filters, sort],
   );
+
+  // view_item_list — catalogue attributes only, capped to the first screenful.
+  useEffect(() => {
+    if (visible.length === 0) return;
+    track("view_item_list", {
+      item_list_name: "Shop",
+      items: visible.slice(0, 24).map((p, index) => ({
+        item_id: p.priceId,
+        item_name: p.name,
+        item_brand: p.brand,
+        index,
+      })),
+    });
+  }, [visible]);
 
   const patch = (next: Partial<Record<keyof Filters, string | undefined>>) =>
     navigate({ search: (prev) => ({ ...prev, ...next }) });

@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { useCart, formatAud } from '@/lib/cart';
 import { ladderIndexFor, matchProductByReference } from '@/lib/guide-content';
 import { productSlug } from '@/lib/product-detail';
+import { trackOnce, centsToAud } from '@/lib/analytics';
 
 
 export const Route = createFileRoute('/checkout/return')({
@@ -54,6 +55,26 @@ function CheckoutReturn() {
     }, tries === 0 ? 400 : 1500);
     return () => clearTimeout(timer);
   }, [sessionId, receipt, tries]);
+
+  // purchase — fires only once a paid receipt is confirmed by the webhook, and
+  // at most once per order for this browser session (refresh-safe). No customer
+  // name, email or address is included.
+  useEffect(() => {
+    if (!receipt || receipt.status !== 'paid') return;
+    const orderId = receipt.orderId;
+    if (!orderId) return;
+    trackOnce(`purchase:${orderId}`, 'purchase', {
+      transaction_id: orderId,
+      currency: 'AUD',
+      value: centsToAud(receipt.amountCents),
+      shipping: centsToAud(receipt.shippingCents),
+      items: receipt.lineItems.map((l) => ({
+        item_name: l.name,
+        quantity: l.quantity,
+        price: centsToAud(l.amountCents),
+      })),
+    });
+  }, [receipt]);
 
   // Match this order's line items back to catalog products so we can link the
   // exact guides purchased. Unmatched lines are simply omitted.
