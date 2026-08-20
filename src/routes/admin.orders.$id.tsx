@@ -508,16 +508,34 @@ function OrderDetail() {
                   return (
                     <div key={kind} className="flex flex-wrap items-baseline justify-between gap-2 border-b border-border/60 pb-2">
                       <dt className="text-foreground">{label}</dt>
-                      <dd className="text-muted-foreground">
-                        {STATUS_COPY[state] ?? state}
-                        {record?.recipientMasked ? ` · ${record.recipientMasked}` : ''}
-                        {record?.sentAt ? ` · ${new Date(record.sentAt).toLocaleString('en-AU')}` : ''}
-                        {record?.error ? ` · ${record.error}` : ''}
+                      <dd className="flex flex-wrap items-baseline gap-2 text-muted-foreground">
+                        <span>
+                          {STATUS_COPY[state] ?? state}
+                          {record?.recipientMasked ? ` · ${record.recipientMasked}` : ''}
+                          {record?.sentAt ? ` · ${new Date(record.sentAt).toLocaleString('en-AU')}` : ''}
+                          {record?.error ? ` · ${record.error}` : ''}
+                        </span>
+                        {comms.data!.capability.configured && (
+                          <button
+                            type="button"
+                            onClick={() => resend.mutate(kind)}
+                            disabled={resend.isPending}
+                            className="rounded-full border border-border px-3 py-1 text-xs hover:border-foreground disabled:opacity-60"
+                          >
+                            {state === 'sent' ? 'Resend' : 'Send'}
+                          </button>
+                        )}
                       </dd>
                     </div>
                   );
                 })}
               </dl>
+              {resend.isError && (
+                <p className="mt-2 text-xs text-destructive">{(resend.error as Error).message}</p>
+              )}
+              {resend.isSuccess && !resend.isPending && (
+                <p className="mt-2 text-xs text-muted-foreground">Last action: {resend.data?.status}{resend.data?.reason ? ` (${resend.data.reason})` : ''}</p>
+              )}
 
               {!comms.data.capability.configured && (
                 <p className="mt-4 rounded-xl bg-muted/50 p-3 text-xs text-muted-foreground">
@@ -527,6 +545,7 @@ function OrderDetail() {
                   “not configured” to real sends — templates, ledger and triggers are already in place.
                 </p>
               )}
+
 
               {comms.data.dispatchMessage && (
                 <div className="mt-4">
