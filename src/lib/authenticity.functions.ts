@@ -233,8 +233,10 @@ export const getVerificationRecord = createServerFn({ method: 'POST' })
       supabaseAdmin.from('orders').select('dispatched_at, shipped_at').eq('id', card.order_id).maybeSingle(),
     ]);
 
-    // Scan telemetry: counter + timestamps only, no identity of any kind.
-    await supabaseAdmin.rpc('record_authenticity_scan', { _card_id: card.id });
+    // Scan telemetry is deliberately NOT recorded here. This lookup runs during
+    // SSR and can run again on client navigation, which double-counted a single
+    // visit. The page records exactly one scan via recordVerificationScan.
+
 
     const checklist = (card.checklist ?? {}) as Record<string, boolean>;
     const checks = [...REQUIRED_CHECKS, ...OPTIONAL_CHECKS]
@@ -256,4 +258,33 @@ export const getVerificationRecord = createServerFn({ method: 'POST' })
       })),
       checks,
     };
+  });
+
+/**
+ * Records a single scan for one verification-page visit.
+ *
+ * Called once from the client after hydration so SSR + hydration of the same
+ * visit cannot double-count. Counter and timestamps only — no IP, user agent,
+ * cookie, fingerprint or customer identifier is captured or stored.
+ */
+export const recordVerificationScan = createServerFn({ method: 'POST' })
+  .inputValidator((input: { token: string }) => ({ token: String(input?.token ?? '') }))
+  .handler(async ({ data }) => {
+    const { isWellFormedToken, hashToken } = await import('@/lib/authenticity.server');
+    if (!isWellFormedToken(data.token)) return { ok: false };
+
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+    const tokenHash = await hashToken(data.token);
+
+    const { data: card } = await supabaseAdmin
+      .from('authenticity_cards')
+      .select('id, status')
+      .eq('token_hash', tokenHash)
+      .maybeSingle();
+
+    // Only active cards count as a verification scan.
+    if (!card || card.status !== 'active') return { ok: false };
+
+    await supabaseAdmin.rpc('record_authenticity_scan', { _card_id: card.id });
+    return { ok: true };
   });
