@@ -80,6 +80,29 @@ export type AdminOrderDetail = AdminOrderSummary & {
 
 type Row = Record<string, any>;
 
+/**
+ * Server-side fulfilment gate, mirrored by the `guard_order_fulfilment`
+ * database trigger. A test-mode order or an order without real money taken can
+ * never be packed, dispatched or delivered — not from the UI, not from a raw
+ * server-function call.
+ */
+async function assertFulfilable(supabase: any, orderId: string) {
+  const { data: row } = await supabase
+    .from('orders')
+    .select('status, environment')
+    .eq('id', orderId)
+    .maybeSingle();
+  if (!row) throw new Error('Order not found');
+  const env = (row.environment as string | null) ?? 'sandbox';
+  const status = (row.status as string | null) ?? 'pending';
+  if (env !== 'live') {
+    throw new Error('This is a Stripe test/sandbox order — it cannot be packed, dispatched or delivered');
+  }
+  if (!PAYABLE_STATUSES.includes(status)) {
+    throw new Error(`Payment status is "${status}" — only paid orders can be packed or dispatched`);
+  }
+}
+
 async function assertStaff(context: { supabase: any; userId: string }) {
   const { data, error } = await context.supabase.rpc('is_fulfillment_staff', { _user_id: context.userId });
   if (error || data !== true) throw new Error('Unauthorized: fulfilment staff only');
@@ -340,16 +363,15 @@ export const updateOrderFulfilment = createServerFn({ method: 'POST' })
     const supabase = context.supabase as any;
     const now = new Date().toISOString();
 
-    // Payment gate: only a genuinely paid order can move into packing or
-    // dispatch. Pending / failed / refunded orders can be cancelled or noted,
-    // never fulfilled by accident.
+    // Payment + environment gate: only a genuinely paid LIVE order can move
+    // into packing or dispatch. Sandbox/test orders and pending/failed orders
+    // can be cancelled or noted, never fulfilled by accident. The database
+    // trigger `guard_order_fulfilment` enforces the same rule, so a direct
+    // server-function call cannot bypass it either.
     if (data.fulfillmentStatus && data.fulfillmentStatus !== 'cancelled') {
-      const { data: payRow } = await supabase.from('orders').select('status').eq('id', data.id).maybeSingle();
-      const payStatus = (payRow?.status as string | null) ?? 'pending';
-      if (payStatus !== 'paid') {
-        throw new Error(`Payment status is "${payStatus}" — only paid orders can be packed or dispatched`);
-      }
+      await assertFulfilable(supabase, data.id);
     }
+
 
     const patch: Record<string, unknown> = {
       fulfillment_updated_at: now,
