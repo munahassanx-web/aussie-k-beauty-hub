@@ -2,6 +2,7 @@ import { NewsletterForm } from "@/components/newsletter-form";
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
+import { useStaffAccess } from "@/hooks/use-staff-access";
 import { useCart } from "@/lib/cart";
 import { ProductSearchOverlay } from "@/components/product-search";
 import { BrandWordmark, BrandLine } from "@/components/brand-wordmark";
