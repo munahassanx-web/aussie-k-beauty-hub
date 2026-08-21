@@ -254,15 +254,16 @@ function shell(title: string, preheader: string, inner: string): string {
   img { border:0; outline:none; text-decoration:none; -ms-interpolation-mode:bicubic; }
   a { color:${NAVY}; }
   @media only screen and (max-width:620px) {
-    .sg-pad { padding-left:22px !important; padding-right:22px !important; }
-    .sg-gap { height:28px !important; }
-    .sg-rail { width:12px !important; }
-    .sg-stack { display:block !important; width:100% !important; max-width:100% !important; padding-left:0 !important; padding-right:0 !important; padding-bottom:22px !important; }
-    .sg-meta { padding:16px 22px !important; border-left:0 !important; border-top:1px solid ${RULE} !important; }
+    .sg-pad { padding-left:18px !important; padding-right:18px !important; }
+    .sg-gap { height:22px !important; }
+    .sg-rail { width:7px !important; }
+    .sg-stack { display:block !important; width:100% !important; max-width:100% !important; padding-left:0 !important; padding-right:0 !important; padding-bottom:18px !important; }
+    .sg-meta { padding:14px 18px !important; border-left:0 !important; border-top:1px solid ${RULE} !important; }
     .sg-meta-first { border-top:0 !important; }
-    .sg-thumb { width:64px !important; }
-    .sg-wordmark { font-size:27px !important; letter-spacing:.18em !important; }
-    .sg-display { font-size:22px !important; }
+    .sg-thumb { width:60px !important; }
+    .sg-wordmark { font-size:24px !important; letter-spacing:.16em !important; }
+    .sg-display { font-size:21px !important; }
+
     .sg-stage { display:block !important; width:100% !important; border-left:0 !important; border-top:1px solid ${RULE} !important; padding:14px 0 !important; }
     .sg-stage-first { border-top:0 !important; }
     .sg-benefit { display:block !important; width:100% !important; border-left:0 !important; border-top:1px solid ${RULE} !important; padding:16px 10px !important; }
