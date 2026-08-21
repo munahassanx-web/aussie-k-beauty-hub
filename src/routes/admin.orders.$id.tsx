@@ -513,6 +513,17 @@ function OrderDetail() {
                 Email provider: <strong className="text-foreground">{comms.data.capability.providerLabel}</strong>
                 {!comms.data.capability.configured && ' — nothing is sent automatically yet.'}
               </p>
+              <p className="mt-1 text-muted-foreground">
+                {comms.data.recipientMasked ? (
+                  <>
+                    Recipient on file:{' '}
+                    <strong className="text-foreground">{comms.data.recipientMasked}</strong>
+                    {comms.data.recipientSource === 'guest_checkout' ? ' (guest checkout email)' : ' (account email)'}
+                  </>
+                ) : (
+                  'No stored email address for this order — nothing can be sent until one is recovered from the payment record.'
+                )}
+              </p>
 
               <dl className="mt-4 space-y-2">
                 {(['order_confirmation', 'dispatch', 'delivery', 'cancellation'] as const).map((kind) => {
