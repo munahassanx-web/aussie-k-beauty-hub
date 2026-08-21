@@ -473,7 +473,7 @@ export const getOrderComms = createServerFn({ method: 'POST' })
     const { data: order } = await supabase
       .from('orders')
       .select(
-        'id, created_at, currency, amount_cents, shipping_cents, discount_cents, line_items, shipping_name, shipping_line1, shipping_line2, shipping_city, shipping_state, shipping_postcode, shipping_country, shipping_method, shipping_service, tracking_number, shipping_carrier, status, environment, fulfillment_status, dispatched_at, shipped_at, delivered_at, refunded_at, refunded_cents',
+        'id, created_at, currency, amount_cents, shipping_cents, discount_cents, line_items, shipping_name, shipping_line1, shipping_line2, shipping_city, shipping_state, shipping_postcode, shipping_country, shipping_method, shipping_service, tracking_number, shipping_carrier, status, environment, fulfillment_status, dispatched_at, shipped_at, delivered_at, refunded_at, refunded_cents, user_id, guest_email',
       )
       .eq('id', data.id)
       .maybeSingle();
