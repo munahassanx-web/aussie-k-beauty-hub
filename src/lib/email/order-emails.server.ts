@@ -213,21 +213,22 @@ function footerBlock(originLine = 'Skin Grocer · Melbourne, Australia'): string
  */
 function masthead(headline: string, statement: string, standfirst: string): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${PAPER}" style="background-color:${PAPER};">
-    <tr><td align="center" class="sg-pad" style="padding:52px 48px 0;">
-      <p class="sg-wordmark" style="margin:0;font-family:${SERIF};font-size:36px;line-height:1.05;letter-spacing:.24em;text-transform:uppercase;color:${NAVY};font-weight:normal;">Skin&nbsp;Grocer</p>
-      <p style="margin:16px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.32em;text-transform:uppercase;color:${GOLD_DEEP};">Seoul Sourced. Skin Assured.</p>
-      <div style="height:26px;line-height:26px;font-size:0;">&nbsp;</div>
+    <tr><td align="center" class="sg-pad" style="padding:36px 48px 0;">
+      <p class="sg-wordmark" style="margin:0;font-family:${SERIF};font-size:32px;line-height:1.05;letter-spacing:.24em;text-transform:uppercase;color:${NAVY};font-weight:normal;">Skin&nbsp;Grocer</p>
+      <p style="margin:12px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.32em;text-transform:uppercase;color:${GOLD_DEEP};">Seoul Sourced. Skin Assured.</p>
+      <div style="height:20px;line-height:20px;font-size:0;">&nbsp;</div>
       ${goldDivider(54)}
     </td></tr>
-    <tr><td align="left" class="sg-pad" style="padding:44px 48px 0;">
-      <p style="margin:0 0 6px;font-family:${SERIF};font-size:26px;line-height:1.3;color:${MUTED};font-weight:normal;" class="sg-display">${esc(
+    <tr><td align="left" class="sg-pad" style="padding:32px 48px 0;">
+      <p style="margin:0 0 6px;font-family:${SERIF};font-size:24px;line-height:1.3;color:${MUTED};font-weight:normal;" class="sg-display">${esc(
         headline,
       )}</p>
-      <p style="margin:0 0 18px;font-family:${SERIF};font-size:28px;line-height:1.25;color:${INK};font-weight:bold;" class="sg-display">${esc(
+      <p style="margin:0 0 14px;font-family:${SERIF};font-size:26px;line-height:1.25;color:${INK};font-weight:bold;" class="sg-display">${esc(
         statement,
       )}</p>
-      <p style="margin:0;font-family:${SANS};font-size:15px;line-height:1.8;color:${MUTED};">${standfirst}</p>
+      <p style="margin:0;font-family:${SANS};font-size:15px;line-height:1.75;color:${MUTED};">${standfirst}</p>
     </td></tr>
+
   </table>`;
 }
 
