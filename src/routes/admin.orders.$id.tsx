@@ -551,8 +551,18 @@ function OrderDetail() {
                           <button
                             type="button"
                             onClick={() => resend.mutate(kind)}
-                            title={kind === 'dispatch' && !comms.data!.dispatchReady ? comms.data!.dispatchBlockedReason ?? undefined : undefined}
-                            disabled={resend.isPending || (kind === 'dispatch' && !comms.data!.dispatchReady)}
+                            title={
+                              !comms.data!.recipientMasked
+                                ? 'No stored email address for this order.'
+                                : kind === 'dispatch' && !comms.data!.dispatchReady
+                                  ? comms.data!.dispatchBlockedReason ?? undefined
+                                  : undefined
+                            }
+                            disabled={
+                              resend.isPending ||
+                              !comms.data!.recipientMasked ||
+                              (kind === 'dispatch' && !comms.data!.dispatchReady)
+                            }
                             className="rounded-full border border-border px-3 py-1 text-xs hover:border-foreground disabled:opacity-60"
                           >
                             {state === 'sent' ? 'Resend' : 'Send'}
