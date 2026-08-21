@@ -1,4 +1,5 @@
 import { isPlausibleTracking } from '@/lib/shipping/carriers';
+import { maskEmail } from '@/lib/commerce-log';
 import { createServerFn } from '@tanstack/react-start';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
 
