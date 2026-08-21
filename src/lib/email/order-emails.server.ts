@@ -467,47 +467,45 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
 
   const html = shell(
     `Order ${ref} confirmed`,
-    `Order ${ref} — payment received. Your selection is confirmed and being prepared in Melbourne.`,
+    `Order ${ref} — payment received. We are preparing your selection.`,
     `
     ${masthead(
-      first ? `Thank you, ${first}.` : 'Thank you.',
-      'Your selection is confirmed.',
-      `We&rsquo;ve carefully selected the best for your skin. Payment for <span style="color:${INK};">${ref}</span> was received on ${esc(
+      first ? `Thank you, ${first}.` : 'Thank you for your order.',
+      'Your order is confirmed.',
+      `Your payment has been received and we&rsquo;re preparing your selection. Order <span style="color:${INK};">${ref}</span> was placed on ${esc(
         placed,
-      )}, and a second email will follow with carrier and tracking details.`,
+      )}; a further email will follow with carrier and tracking details once it is dispatched.`,
     )}
     ${bodyBlock(`
-      ${gap(36)}
+      ${gap(28)}
       ${metaStrip(o, 'Confirmed')}
-      ${gap(38)}
+      ${gap(30)}
       ${label('Your order')}
       ${itemsTable(o, true)}
-      ${gap(28)}
+      ${gap(24)}
       ${totalsTable(o)}
-      ${gap(38)}
+      ${gap(30)}
       ${ctaButton(`${SITE_URL}/track`, 'View your order')}
-      ${gap(44)}
+      ${gap(34)}
       ${twoColumn(
         'Shipping to',
         address.length ? address.map(esc).join('<br />') : `<span style="color:${MUTED};">Address on file</span>`,
-        'Payment',
-        `Paid in full · ${esc(money(o.amountCents, o.currency))}${
-          o.shippingMethod ? `<br />Method: ${esc(o.shippingMethod)}` : ''
-        }<br /><span style="color:${MUTED};">Card details are held by our payment processor and never stored by us.</span>`,
+        'Payment & delivery',
+        `Paid in full · ${esc(money(o.amountCents, o.currency))}<br />Delivery: ${esc(
+          deliveryLabel(o),
+        )}<br /><span style="color:${MUTED};">Card details are held by our payment processor and never stored by us.</span>`,
       )}
-      ${gap(44)}
+      ${gap(34)}
       ${label('Order progress')}
       ${orderJourney('received')}
-      ${gap(44)}
+      ${gap(34)}
       ${assuranceLine()}
-      ${gap(38)}
-      ${hairline()}
-      ${gap(26)}
+      ${gap(28)}
       ${label('Customer care')}
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
         Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
       </p>
-      ${gap(46)}
+      ${gap(34)}
     `)}
     ${footerBlock()}
   `,
@@ -516,15 +514,17 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
   const text = [
     'SKIN GROCER — Seoul Sourced. Skin Assured.',
     '',
-    first ? `Thank you, ${first}. Your selection is confirmed.` : 'Thank you. Your selection is confirmed.',
-    "We've carefully selected the best for your skin.",
+    first ? `Thank you, ${first}. Your order is confirmed.` : 'Thank you for your order. Your order is confirmed.',
+    "Your payment has been received and we're preparing your selection.",
     '',
-    `Payment for order ${ref} was received on ${placed}.`,
+    `Order ${ref} · placed ${placed}`,
     '',
     ...o.lines.map((l) => `- ${l.name} x${l.quantity} — ${money(l.amountCents, o.currency)}`),
     o.discountCents > 0 ? `Discount: -${money(o.discountCents, o.currency)}` : null,
     `Shipping: ${o.shippingCents > 0 ? money(o.shippingCents, o.currency) : 'Complimentary'}`,
+    `Delivery: ${deliveryLabel(o)}`,
     `Total paid: ${money(o.amountCents, o.currency)}`,
+
     '',
     address.length ? `Shipping to:\n${address.join('\n')}` : null,
     '',
