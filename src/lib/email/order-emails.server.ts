@@ -140,7 +140,7 @@ const goldDivider = (width = 54) =>
 /** Horizontal run of the signature frame (top and bottom edges). */
 function frameBar(): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-    <tr><td bgcolor="${NAVY}" height="22" style="background-color:${NAVY};height:22px;line-height:0;font-size:0;">
+    <tr><td class="sg-framebar" bgcolor="${NAVY}" height="22" style="background-color:${NAVY};height:22px;line-height:0;font-size:0;">
       <img src="${FRAME_H}" width="620" height="22" alt="" class="sg-hide-mobile" style="display:block;width:100%;max-width:620px;height:22px;border:0;" />
       <img src="${FRAME_H_MOBILE}" width="390" height="16" alt="" class="sg-show-mobile" style="display:none;width:100%;height:auto;border:0;mso-hide:all;" />
     </td></tr>
@@ -264,6 +264,7 @@ function shell(title: string, preheader: string, inner: string): string {
     .sg-wordmark { font-size:24px !important; letter-spacing:.16em !important; }
     .sg-display { font-size:21px !important; }
 
+    .sg-framebar { height:10px !important; }
     .sg-stage { display:block !important; width:100% !important; border-left:0 !important; border-top:1px solid ${RULE} !important; padding:14px 0 !important; }
     .sg-stage-first { border-top:0 !important; }
     .sg-benefit { display:block !important; width:100% !important; border-left:0 !important; border-top:1px solid ${RULE} !important; padding:16px 10px !important; }
@@ -336,7 +337,9 @@ function productRow(line: OrderEmailLine, currency: string, showPrice: boolean):
         `${product.brand} ${product.name}`,
       )}" style="display:block;width:72px;height:72px;object-fit:cover;background-color:#F4F4F2;" />`
     : `<table role="presentation" width="72" height="72" cellpadding="0" cellspacing="0" border="0" bgcolor="#F4F4F2" style="background-color:#F4F4F2;width:72px;height:72px;"><tr>
-         <td align="center" valign="middle" style="font-family:${SANS};font-size:9px;letter-spacing:.20em;text-transform:uppercase;color:${GOLD_DEEP};">Item</td></tr></table>`;
+         <td align="center" valign="middle" style="font-family:${SERIF};font-size:13px;letter-spacing:.10em;color:${GOLD_DEEP};">${esc(
+           (line.name.trim()[0] ?? 'S').toUpperCase(),
+         )}</td></tr></table>`;
 
   const meta = [size ? esc(String(size)) : null, `Quantity ${line.quantity}`].filter(Boolean).join(' &nbsp;·&nbsp; ');
 
