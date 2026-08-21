@@ -507,8 +507,32 @@ export const getOrderComms = createServerFn({ method: 'POST' })
       return { ready: true, reason: null };
     })();
 
+    // Current recipient, resolved server-side exactly as the send path does:
+    // guest checkout email first, otherwise the account profile email. Only a
+    // masked form ever leaves the server.
+    let recipientMasked: string | null = null;
+    let recipientSource: 'guest_checkout' | 'account' | null = null;
+    const guestEmail = ((order?.['guest_email'] as string | null) ?? '').trim();
+    if (guestEmail) {
+      recipientMasked = maskEmail(guestEmail);
+      recipientSource = 'guest_checkout';
+    } else if (order?.['user_id']) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('email')
+        .eq('id', order['user_id'])
+        .maybeSingle();
+      const accountEmail = ((profile?.email as string | null) ?? '').trim();
+      if (accountEmail) {
+        recipientMasked = maskEmail(accountEmail);
+        recipientSource = 'account';
+      }
+    }
+
     return {
       capability: emailCapability(),
+      recipientMasked,
+      recipientSource,
       dispatchReady: dispatchReadiness.ready,
       dispatchBlockedReason: dispatchReadiness.reason,
       notifications: ((rows ?? []) as Row[]).map((r) => ({
