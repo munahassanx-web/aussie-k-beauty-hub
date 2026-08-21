@@ -785,14 +785,28 @@ export function renderCancellationNotice(
   const ref = orderReference(o.id);
   const first = firstNameOf(o);
   const refunded = typeof o.refundedCents === 'number' && o.refundedCents > 0 ? o.refundedCents : null;
-  const isRefund = refunded !== null || (o.status ?? '').toLowerCase().includes('refund');
-  const heading = isRefund ? 'Your refund is on its way.' : 'Your order has been cancelled.';
-  const statusLabel = isRefund ? 'Refunded' : 'Cancelled';
+  // "Refunded" is claimed ONLY when an authoritative stored refund amount exists.
+  // A refund-flavoured status without a figure is still reported as a cancellation
+  // with the refund described as in progress.
+  const isRefund = refunded !== null;
+  const partial = refunded !== null && refunded < o.amountCents;
+  const refundPending = refunded === null && (o.status ?? '').toLowerCase().includes('refund');
+  const heading = isRefund
+    ? partial
+      ? 'Your partial refund has been issued.'
+      : 'Your refund has been issued.'
+    : 'Your order has been cancelled.';
+  const statusLabel = isRefund ? (partial ? 'Partially refunded' : 'Refunded') : 'Cancelled';
   const note = options.reasonNote?.trim() || null;
 
   const refundBody = refunded
-    ? `${esc(money(refunded, o.currency))} has been returned to the original payment method. Banks generally take five to ten business days to show it.`
-    : `We have cancelled this order with our payment processor. Any amount captured is returned to the original payment method — your bank statement is the source of truth for the exact figure and timing.`;
+    ? `${esc(money(refunded, o.currency))} has been refunded to the original payment method${
+        partial ? ` against an order total of ${esc(money(o.amountCents, o.currency))}` : ''
+      }. Banks generally take five to ten business days to show it.`
+    : refundPending
+      ? `This order has been cancelled and a refund has been requested with our payment processor. We will confirm the exact amount once it is settled; your bank statement is the source of truth for timing.`
+      : `We have cancelled this order with our payment processor. Any amount captured is returned to the original payment method — your bank statement is the source of truth for the exact figure and timing.`;
+
 
   const html = shell(
     `Order ${ref} ${statusLabel.toLowerCase()}`,
