@@ -21,7 +21,7 @@
  * payment details we do not hold.
  */
 
-import { trackingLink, trackingLinkLabel } from '@/lib/shipping/carriers';
+import { trackingLink, trackingLinkLabel, isPlausibleTracking } from '@/lib/shipping/carriers';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
 
 export const SITE_URL = 'https://skingrocer.com.au';
@@ -567,7 +567,7 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
        <p style="margin:20px 0 0;font-family:${SANS};font-size:13px;line-height:1.7;color:${MUTED};">Delivery timing is set by ${esc(
          carrier ?? 'the carrier',
        )}; their tracking page is the live source of truth.</p>`
-    : `<p style="margin:0;font-family:${SANS};font-size:15px;line-height:1.8;color:${MUTED};">This parcel was hand-dispatched without a carrier tracking number. Reply to this email and we will update you directly.</p>`;
+    : `<p style="margin:0;font-family:${SANS};font-size:15px;line-height:1.8;color:${MUTED};">Your tracking details are being finalised and will follow shortly. Reply to this email if you need an update sooner.</p>`;
 
   const html = shell(
     `Order ${ref} dispatched`,
@@ -612,7 +612,7 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
     first ? `On its way, ${first}. Your selection has left us.` : 'On its way. Your selection has left us.',
     '',
     `Order ${ref} has been dispatched from our Melbourne warehouse.`,
-    tracking ? `${carrier ?? 'Carrier'} tracking: ${tracking}` : 'Hand-dispatched — no carrier tracking number.',
+    tracking ? `${carrier ?? 'Carrier'} tracking: ${tracking}` : 'Tracking details are being finalised and will follow shortly.',
     link ? `Track it: ${link}` : null,
     '',
     ...o.lines.map((l) => `- ${l.name} x${l.quantity}`),
@@ -628,20 +628,25 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
   return { subject: `Your Skin Grocer order is on its way — ${ref}`, html, text };
 }
 
-/** Short, copy-pasteable dispatch message for the manual fallback in the admin UI. */
-export function dispatchMessagePlainText(o: OrderEmailData): string {
+/**
+ * Short, copy-pasteable dispatch message for the manual fallback in the admin UI.
+ *
+ * Returns `null` unless the order genuinely holds carrier + tracking details:
+ * staff must never be handed wording that claims a dispatch we cannot evidence.
+ * There is deliberately no "hand-dispatched, no tracking" fallback.
+ */
+export function dispatchMessagePlainText(o: OrderEmailData): string | null {
   const ref = orderReference(o.id);
   const carrier = o.shippingCarrier?.trim() || null;
   const tracking = o.trackingNumber?.trim() || null;
+  if (!isPlausibleTracking(carrier, tracking)) return null;
   const link = trackingLink(carrier, tracking);
   const first = firstNameOf(o);
   return [
     first ? `Hi ${first},` : 'Hi,',
     '',
     `Your Skin Grocer order ${ref} has been dispatched from Melbourne.`,
-    tracking
-      ? `${carrier ?? 'Carrier'} tracking number: ${tracking}`
-      : 'It was hand-dispatched, so there is no carrier tracking number.',
+    `${carrier ?? 'Carrier'} tracking number: ${tracking}`,
     link ? `${trackingLinkLabel(carrier)}: ${link}` : null,
     '',
     'Delivery timing is set by the carrier. Reply to this email if anything looks wrong.',
