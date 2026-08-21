@@ -38,7 +38,9 @@ const STATUS_COPY: Record<string, string> = {
   queued: 'Queued',
   sent: 'Sent',
   failed: 'Failed',
-  skipped: 'Skipped — no stored email address',
+  // "Skipped" only means no send happened — the ledger row carries the real
+  // reason, which is shown next to it. It does NOT imply a missing email.
+  skipped: 'Not sent',
 };
 
 function money(cents: number, currency = 'AUD') {
