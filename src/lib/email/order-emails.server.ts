@@ -163,64 +163,49 @@ function ctaButton(href: string, text: string): string {
     </td></tr></table>`;
 }
 
-/** The four restrained assurances. Typographic marks only — no imagery. */
-function benefitsRow(): string {
-  const items: Array<[string, string]> = [
-    ['&#9670;', 'Seoul Sourced'],
-    ['&#9671;', 'Curated K-Beauty'],
-    ['&#9678;', 'Skin Assured'],
-    ['&#9654;', 'Fast Shipping Australia Wide'],
-  ];
+/**
+ * Single tight reassurance line. Replaces the old four-icon marketing block —
+ * transactional clarity over decoration, and no pictorial icons at all.
+ */
+function assuranceLine(): string {
+  const dot = `<span style="color:${GOLD};">&nbsp;·&nbsp;</span>`;
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid ${RULE};border-bottom:1px solid ${RULE};">
-    <tr>${items
-      .map(
-        ([mark, text], i) => `<td class="sg-benefit${i === 0 ? ' sg-benefit-first' : ''}" width="25%" align="center" valign="top" style="padding:22px 10px;${
-          i === 0 ? '' : `border-left:1px solid ${RULE};`
-        }">
-        <p style="margin:0 0 9px;font-family:${SANS};font-size:13px;line-height:1;color:${GOLD};">${mark}</p>
-        <p style="margin:0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.20em;text-transform:uppercase;color:${MUTED};">${esc(
-          text,
-        )}</p>
-      </td>`,
-      )
-      .join('')}</tr>
+    <tr><td align="center" style="padding:14px 8px;">
+      <p style="margin:0;font-family:${SANS};font-size:9px;line-height:1.7;letter-spacing:.18em;text-transform:uppercase;color:${MUTED};">Seoul sourced${dot}Authenticity guaranteed${dot}Melbourne, Australia</p>
+    </td></tr>
   </table>`;
 }
 
-/** Deep navy footer, enclosed by the same frame. */
-function footerBlock(): string {
+/**
+ * Deep navy footer, enclosed by the same frame.
+ * `originLine` must stay truthful per template: only dispatch-stage emails may
+ * speak about a parcel having left Melbourne.
+ */
+function footerBlock(originLine = 'Skin Grocer · Melbourne, Australia'): string {
   const navLink = (href: string, text: string) =>
     `<a href="${href}" style="font-family:${SANS};font-size:10px;letter-spacing:.20em;text-transform:uppercase;color:${NAVY_MUTED};text-decoration:none;">${esc(
       text,
     )}</a>`;
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${NAVY}" style="background-color:${NAVY};">
-    <tr><td align="center" class="sg-pad" style="padding:38px 40px 34px;">
-      <p style="margin:0;font-family:${SERIF};font-size:24px;line-height:1.1;letter-spacing:.22em;text-transform:uppercase;color:${PAPER};font-weight:normal;">Skin&nbsp;Grocer</p>
-      <p style="margin:14px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.30em;text-transform:uppercase;color:${GOLD};">Seoul Sourced. Skin Assured.</p>
-      <div style="height:22px;line-height:22px;font-size:0;">&nbsp;</div>
+    <tr><td align="center" class="sg-pad" style="padding:30px 40px 28px;">
+      <p style="margin:0;font-family:${SERIF};font-size:20px;line-height:1.1;letter-spacing:.22em;text-transform:uppercase;color:${PAPER};font-weight:normal;">Skin&nbsp;Grocer</p>
+      <p style="margin:12px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.30em;text-transform:uppercase;color:${GOLD};">Seoul Sourced. Skin Assured.</p>
+      <div style="height:18px;line-height:18px;font-size:0;">&nbsp;</div>
       ${goldDivider(40)}
-      <div style="height:22px;line-height:22px;font-size:0;">&nbsp;</div>
-      <p style="margin:0;font-family:${SANS};font-size:10px;line-height:2.2;letter-spacing:.20em;">
+      <div style="height:18px;line-height:18px;font-size:0;">&nbsp;</div>
+      <p style="margin:0;font-family:${SANS};font-size:10px;line-height:2.4;letter-spacing:.20em;">
         ${navLink(`${SITE_URL}/shop`, 'Shop')}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(
-          `${SITE_URL}/routines`,
-          'Routines',
-        )}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(`${SITE_URL}/learn`, 'Learn')}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(
           `${SITE_URL}/track`,
           'Track Order',
-        )}
-      </p>
-      <p style="margin:6px 0 0;font-family:${SANS};font-size:10px;line-height:2.2;letter-spacing:.20em;">
-        ${navLink('https://www.instagram.com/skingrocer', 'Instagram')}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(
-          'https://www.tiktok.com/@skingrocer',
-          'TikTok',
         )}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(`mailto:${SUPPORT_EMAIL}`, 'Contact')}
       </p>
-      <div style="height:24px;line-height:24px;font-size:0;">&nbsp;</div>
-      <p style="margin:0;font-family:${SANS};font-size:11px;line-height:1.75;color:${NAVY_MUTED};">Skin Grocer · Dispatched from Melbourne, Australia</p>
-      <p style="margin:6px 0 0;font-family:${SANS};font-size:11px;line-height:1.75;color:#6C7686;">You are receiving this message because you placed an order with Skin Grocer.</p>
+      <div style="height:18px;line-height:18px;font-size:0;">&nbsp;</div>
+      <p style="margin:0;font-family:${SANS};font-size:11px;line-height:1.75;color:${NAVY_MUTED};">${esc(originLine)}</p>
+      <p style="margin:6px 0 0;font-family:${SANS};font-size:11px;line-height:1.75;color:#6C7686;">This is a service message about your order.</p>
     </td></tr>
   </table>`;
 }
+
 
 /**
  * Spacious white masthead: wordmark, gold tagline, fine gold divider, then the
