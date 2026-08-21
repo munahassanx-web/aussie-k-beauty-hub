@@ -113,7 +113,34 @@ function addressLines(o: OrderEmailData): string[] {
   ].filter((v): v is string => Boolean(v && v.trim()));
 }
 
-/** Catalog lookup for brand + photography. Never guesses by display name. */
+/**
+ * Customer-facing delivery wording. Prefers the authoritative carrier service
+ * stored on the order, then polishes the raw stored method code (e.g.
+ * "standard" -> "Standard Shipping"). Never invents a service we don't hold.
+ */
+function deliveryLabel(o: OrderEmailData): string {
+  const carrier = o.shippingCarrier?.trim() || null;
+  const raw = o.shippingMethod?.trim() || null;
+  const known: Record<string, string> = {
+    standard: 'Standard Shipping',
+    standard_shipping: 'Standard Shipping',
+    express: 'Express Shipping',
+    express_shipping: 'Express Shipping',
+    express_post: 'Express Post',
+    parcel_post: 'Parcel Post',
+    free: 'Standard Shipping',
+    free_standard: 'Standard Shipping',
+    free_express: 'Express Shipping',
+  };
+  const pretty = raw
+    ? (known[raw.toLowerCase().replace(/[\s-]+/g, '_')] ??
+      raw.replace(/[_-]+/g, ' ').replace(/\b\p{L}/gu, (c) => c.toUpperCase()))
+    : null;
+  if (carrier && pretty) return `${pretty} · ${carrier}`;
+  return pretty ?? carrier ?? 'Standard Shipping';
+}
+
+
 function catalogFor(line: OrderEmailLine) {
   if (!line.lookupKey) return null;
   return SHOP_PRODUCTS.find((p) => p.priceId === line.lookupKey) ?? null;
