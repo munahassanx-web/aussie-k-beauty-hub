@@ -113,7 +113,34 @@ function addressLines(o: OrderEmailData): string[] {
   ].filter((v): v is string => Boolean(v && v.trim()));
 }
 
-/** Catalog lookup for brand + photography. Never guesses by display name. */
+/**
+ * Customer-facing delivery wording. Prefers the authoritative carrier service
+ * stored on the order, then polishes the raw stored method code (e.g.
+ * "standard" -> "Standard Shipping"). Never invents a service we don't hold.
+ */
+function deliveryLabel(o: OrderEmailData): string {
+  const carrier = o.shippingCarrier?.trim() || null;
+  const raw = o.shippingMethod?.trim() || null;
+  const known: Record<string, string> = {
+    standard: 'Standard Shipping',
+    standard_shipping: 'Standard Shipping',
+    express: 'Express Shipping',
+    express_shipping: 'Express Shipping',
+    express_post: 'Express Post',
+    parcel_post: 'Parcel Post',
+    free: 'Standard Shipping',
+    free_standard: 'Standard Shipping',
+    free_express: 'Express Shipping',
+  };
+  const pretty = raw
+    ? (known[raw.toLowerCase().replace(/[\s-]+/g, '_')] ??
+      raw.replace(/[_-]+/g, ' ').replace(/\b\p{L}/gu, (c) => c.toUpperCase()))
+    : null;
+  if (carrier && pretty) return `${pretty} · ${carrier}`;
+  return pretty ?? carrier ?? 'Standard Shipping';
+}
+
+
 function catalogFor(line: OrderEmailLine) {
   if (!line.lookupKey) return null;
   return SHOP_PRODUCTS.find((p) => p.priceId === line.lookupKey) ?? null;
@@ -140,7 +167,7 @@ const goldDivider = (width = 54) =>
 /** Horizontal run of the signature frame (top and bottom edges). */
 function frameBar(): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-    <tr><td bgcolor="${NAVY}" height="22" style="background-color:${NAVY};height:22px;line-height:0;font-size:0;">
+    <tr><td class="sg-framebar" bgcolor="${NAVY}" height="22" style="background-color:${NAVY};height:22px;line-height:0;font-size:0;">
       <img src="${FRAME_H}" width="620" height="22" alt="" class="sg-hide-mobile" style="display:block;width:100%;max-width:620px;height:22px;border:0;" />
       <img src="${FRAME_H_MOBILE}" width="390" height="16" alt="" class="sg-show-mobile" style="display:none;width:100%;height:auto;border:0;mso-hide:all;" />
     </td></tr>
@@ -163,64 +190,49 @@ function ctaButton(href: string, text: string): string {
     </td></tr></table>`;
 }
 
-/** The four restrained assurances. Typographic marks only — no imagery. */
-function benefitsRow(): string {
-  const items: Array<[string, string]> = [
-    ['&#9670;', 'Seoul Sourced'],
-    ['&#9671;', 'Curated K-Beauty'],
-    ['&#9678;', 'Skin Assured'],
-    ['&#9654;', 'Fast Shipping Australia Wide'],
-  ];
+/**
+ * Single tight reassurance line. Replaces the old four-icon marketing block —
+ * transactional clarity over decoration, and no pictorial icons at all.
+ */
+function assuranceLine(): string {
+  const dot = `<span style="color:${GOLD};">&nbsp;·&nbsp;</span>`;
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid ${RULE};border-bottom:1px solid ${RULE};">
-    <tr>${items
-      .map(
-        ([mark, text], i) => `<td class="sg-benefit${i === 0 ? ' sg-benefit-first' : ''}" width="25%" align="center" valign="top" style="padding:22px 10px;${
-          i === 0 ? '' : `border-left:1px solid ${RULE};`
-        }">
-        <p style="margin:0 0 9px;font-family:${SANS};font-size:13px;line-height:1;color:${GOLD};">${mark}</p>
-        <p style="margin:0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.20em;text-transform:uppercase;color:${MUTED};">${esc(
-          text,
-        )}</p>
-      </td>`,
-      )
-      .join('')}</tr>
+    <tr><td align="center" style="padding:14px 8px;">
+      <p style="margin:0;font-family:${SANS};font-size:9px;line-height:1.7;letter-spacing:.18em;text-transform:uppercase;color:${MUTED};">Seoul sourced${dot}Authenticity guaranteed${dot}Melbourne, Australia</p>
+    </td></tr>
   </table>`;
 }
 
-/** Deep navy footer, enclosed by the same frame. */
-function footerBlock(): string {
+/**
+ * Deep navy footer, enclosed by the same frame.
+ * `originLine` must stay truthful per template: only dispatch-stage emails may
+ * speak about a parcel having left Melbourne.
+ */
+function footerBlock(originLine = 'Skin Grocer · Melbourne, Australia'): string {
   const navLink = (href: string, text: string) =>
     `<a href="${href}" style="font-family:${SANS};font-size:10px;letter-spacing:.20em;text-transform:uppercase;color:${NAVY_MUTED};text-decoration:none;">${esc(
       text,
     )}</a>`;
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${NAVY}" style="background-color:${NAVY};">
-    <tr><td align="center" class="sg-pad" style="padding:38px 40px 34px;">
-      <p style="margin:0;font-family:${SERIF};font-size:24px;line-height:1.1;letter-spacing:.22em;text-transform:uppercase;color:${PAPER};font-weight:normal;">Skin&nbsp;Grocer</p>
-      <p style="margin:14px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.30em;text-transform:uppercase;color:${GOLD};">Seoul Sourced. Skin Assured.</p>
-      <div style="height:22px;line-height:22px;font-size:0;">&nbsp;</div>
+    <tr><td align="center" class="sg-pad" style="padding:30px 40px 28px;">
+      <p style="margin:0;font-family:${SERIF};font-size:20px;line-height:1.1;letter-spacing:.22em;text-transform:uppercase;color:${PAPER};font-weight:normal;">Skin&nbsp;Grocer</p>
+      <p style="margin:12px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.30em;text-transform:uppercase;color:${GOLD};">Seoul Sourced. Skin Assured.</p>
+      <div style="height:18px;line-height:18px;font-size:0;">&nbsp;</div>
       ${goldDivider(40)}
-      <div style="height:22px;line-height:22px;font-size:0;">&nbsp;</div>
-      <p style="margin:0;font-family:${SANS};font-size:10px;line-height:2.2;letter-spacing:.20em;">
+      <div style="height:18px;line-height:18px;font-size:0;">&nbsp;</div>
+      <p style="margin:0;font-family:${SANS};font-size:10px;line-height:2.4;letter-spacing:.20em;">
         ${navLink(`${SITE_URL}/shop`, 'Shop')}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(
-          `${SITE_URL}/routines`,
-          'Routines',
-        )}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(`${SITE_URL}/learn`, 'Learn')}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(
           `${SITE_URL}/track`,
           'Track Order',
-        )}
-      </p>
-      <p style="margin:6px 0 0;font-family:${SANS};font-size:10px;line-height:2.2;letter-spacing:.20em;">
-        ${navLink('https://www.instagram.com/skingrocer', 'Instagram')}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(
-          'https://www.tiktok.com/@skingrocer',
-          'TikTok',
         )}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(`mailto:${SUPPORT_EMAIL}`, 'Contact')}
       </p>
-      <div style="height:24px;line-height:24px;font-size:0;">&nbsp;</div>
-      <p style="margin:0;font-family:${SANS};font-size:11px;line-height:1.75;color:${NAVY_MUTED};">Skin Grocer · Dispatched from Melbourne, Australia</p>
-      <p style="margin:6px 0 0;font-family:${SANS};font-size:11px;line-height:1.75;color:#6C7686;">You are receiving this message because you placed an order with Skin Grocer.</p>
+      <div style="height:18px;line-height:18px;font-size:0;">&nbsp;</div>
+      <p style="margin:0;font-family:${SANS};font-size:11px;line-height:1.75;color:${NAVY_MUTED};">${esc(originLine)}</p>
+      <p style="margin:6px 0 0;font-family:${SANS};font-size:11px;line-height:1.75;color:#6C7686;">This is a service message about your order.</p>
     </td></tr>
   </table>`;
 }
+
 
 /**
  * Spacious white masthead: wordmark, gold tagline, fine gold divider, then the
@@ -228,21 +240,22 @@ function footerBlock(): string {
  */
 function masthead(headline: string, statement: string, standfirst: string): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${PAPER}" style="background-color:${PAPER};">
-    <tr><td align="center" class="sg-pad" style="padding:52px 48px 0;">
-      <p class="sg-wordmark" style="margin:0;font-family:${SERIF};font-size:36px;line-height:1.05;letter-spacing:.24em;text-transform:uppercase;color:${NAVY};font-weight:normal;">Skin&nbsp;Grocer</p>
-      <p style="margin:16px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.32em;text-transform:uppercase;color:${GOLD_DEEP};">Seoul Sourced. Skin Assured.</p>
-      <div style="height:26px;line-height:26px;font-size:0;">&nbsp;</div>
+    <tr><td align="center" class="sg-pad" style="padding:36px 48px 0;">
+      <p class="sg-wordmark" style="margin:0;font-family:${SERIF};font-size:32px;line-height:1.05;letter-spacing:.24em;text-transform:uppercase;color:${NAVY};font-weight:normal;">Skin&nbsp;Grocer</p>
+      <p style="margin:12px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.32em;text-transform:uppercase;color:${GOLD_DEEP};">Seoul Sourced. Skin Assured.</p>
+      <div style="height:20px;line-height:20px;font-size:0;">&nbsp;</div>
       ${goldDivider(54)}
     </td></tr>
-    <tr><td align="left" class="sg-pad" style="padding:44px 48px 0;">
-      <p style="margin:0 0 6px;font-family:${SERIF};font-size:26px;line-height:1.3;color:${MUTED};font-weight:normal;" class="sg-display">${esc(
+    <tr><td align="left" class="sg-pad" style="padding:32px 48px 0;">
+      <p style="margin:0 0 6px;font-family:${SERIF};font-size:24px;line-height:1.3;color:${MUTED};font-weight:normal;" class="sg-display">${esc(
         headline,
       )}</p>
-      <p style="margin:0 0 18px;font-family:${SERIF};font-size:28px;line-height:1.25;color:${INK};font-weight:bold;" class="sg-display">${esc(
+      <p style="margin:0 0 14px;font-family:${SERIF};font-size:26px;line-height:1.25;color:${INK};font-weight:bold;" class="sg-display">${esc(
         statement,
       )}</p>
-      <p style="margin:0;font-family:${SANS};font-size:15px;line-height:1.8;color:${MUTED};">${standfirst}</p>
+      <p style="margin:0;font-family:${SANS};font-size:15px;line-height:1.75;color:${MUTED};">${standfirst}</p>
     </td></tr>
+
   </table>`;
 }
 
@@ -268,15 +281,17 @@ function shell(title: string, preheader: string, inner: string): string {
   img { border:0; outline:none; text-decoration:none; -ms-interpolation-mode:bicubic; }
   a { color:${NAVY}; }
   @media only screen and (max-width:620px) {
-    .sg-pad { padding-left:22px !important; padding-right:22px !important; }
-    .sg-gap { height:28px !important; }
-    .sg-rail { width:12px !important; }
-    .sg-stack { display:block !important; width:100% !important; max-width:100% !important; padding-left:0 !important; padding-right:0 !important; padding-bottom:22px !important; }
-    .sg-meta { padding:16px 22px !important; border-left:0 !important; border-top:1px solid ${RULE} !important; }
+    .sg-pad { padding-left:18px !important; padding-right:18px !important; }
+    .sg-gap { height:22px !important; }
+    .sg-rail { width:7px !important; }
+    .sg-stack { display:block !important; width:100% !important; max-width:100% !important; padding-left:0 !important; padding-right:0 !important; padding-bottom:18px !important; }
+    .sg-meta { padding:14px 18px !important; border-left:0 !important; border-top:1px solid ${RULE} !important; }
     .sg-meta-first { border-top:0 !important; }
-    .sg-thumb { width:64px !important; }
-    .sg-wordmark { font-size:27px !important; letter-spacing:.18em !important; }
-    .sg-display { font-size:22px !important; }
+    .sg-thumb { width:60px !important; }
+    .sg-wordmark { font-size:24px !important; letter-spacing:.16em !important; }
+    .sg-display { font-size:21px !important; }
+
+    .sg-framebar { height:10px !important; }
     .sg-stage { display:block !important; width:100% !important; border-left:0 !important; border-top:1px solid ${RULE} !important; padding:14px 0 !important; }
     .sg-stage-first { border-top:0 !important; }
     .sg-benefit { display:block !important; width:100% !important; border-left:0 !important; border-top:1px solid ${RULE} !important; padding:16px 10px !important; }
@@ -349,7 +364,9 @@ function productRow(line: OrderEmailLine, currency: string, showPrice: boolean):
         `${product.brand} ${product.name}`,
       )}" style="display:block;width:72px;height:72px;object-fit:cover;background-color:#F4F4F2;" />`
     : `<table role="presentation" width="72" height="72" cellpadding="0" cellspacing="0" border="0" bgcolor="#F4F4F2" style="background-color:#F4F4F2;width:72px;height:72px;"><tr>
-         <td align="center" valign="middle" style="font-family:${SANS};font-size:9px;letter-spacing:.20em;text-transform:uppercase;color:${GOLD_DEEP};">Item</td></tr></table>`;
+         <td align="center" valign="middle" style="font-family:${SERIF};font-size:13px;letter-spacing:.10em;color:${GOLD_DEEP};">${esc(
+           (line.name.trim()[0] ?? 'S').toUpperCase(),
+         )}</td></tr></table>`;
 
   const meta = [size ? esc(String(size)) : null, `Quantity ${line.quantity}`].filter(Boolean).join(' &nbsp;·&nbsp; ');
 
@@ -477,47 +494,45 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
 
   const html = shell(
     `Order ${ref} confirmed`,
-    `Order ${ref} — payment received. Your selection is confirmed and being prepared in Melbourne.`,
+    `Order ${ref} — payment received. We are preparing your selection.`,
     `
     ${masthead(
-      first ? `Thank you, ${first}.` : 'Thank you.',
-      'Your selection is confirmed.',
-      `We&rsquo;ve carefully selected the best for your skin. Payment for <span style="color:${INK};">${ref}</span> was received on ${esc(
+      first ? `Thank you, ${first}.` : 'Thank you for your order.',
+      'Your order is confirmed.',
+      `Your payment has been received and we&rsquo;re preparing your selection. Order <span style="color:${INK};">${ref}</span> was placed on ${esc(
         placed,
-      )}, and a second email will follow with carrier and tracking details.`,
+      )}; a further email will follow with carrier and tracking details once it is dispatched.`,
     )}
     ${bodyBlock(`
-      ${gap(36)}
+      ${gap(28)}
       ${metaStrip(o, 'Confirmed')}
-      ${gap(38)}
+      ${gap(30)}
       ${label('Your order')}
       ${itemsTable(o, true)}
-      ${gap(28)}
+      ${gap(24)}
       ${totalsTable(o)}
-      ${gap(38)}
+      ${gap(30)}
       ${ctaButton(`${SITE_URL}/track`, 'View your order')}
-      ${gap(44)}
+      ${gap(34)}
       ${twoColumn(
         'Shipping to',
         address.length ? address.map(esc).join('<br />') : `<span style="color:${MUTED};">Address on file</span>`,
-        'Payment',
-        `Paid in full · ${esc(money(o.amountCents, o.currency))}${
-          o.shippingMethod ? `<br />Method: ${esc(o.shippingMethod)}` : ''
-        }<br /><span style="color:${MUTED};">Card details are held by our payment processor and never stored by us.</span>`,
+        'Payment & delivery',
+        `Paid in full · ${esc(money(o.amountCents, o.currency))}<br />Delivery: ${esc(
+          deliveryLabel(o),
+        )}<br /><span style="color:${MUTED};">Card details are held by our payment processor and never stored by us.</span>`,
       )}
-      ${gap(44)}
+      ${gap(34)}
       ${label('Order progress')}
       ${orderJourney('received')}
-      ${gap(44)}
-      ${benefitsRow()}
-      ${gap(38)}
-      ${hairline()}
-      ${gap(26)}
+      ${gap(34)}
+      ${assuranceLine()}
+      ${gap(28)}
       ${label('Customer care')}
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
         Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
       </p>
-      ${gap(46)}
+      ${gap(34)}
     `)}
     ${footerBlock()}
   `,
@@ -526,15 +541,17 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
   const text = [
     'SKIN GROCER — Seoul Sourced. Skin Assured.',
     '',
-    first ? `Thank you, ${first}. Your selection is confirmed.` : 'Thank you. Your selection is confirmed.',
-    "We've carefully selected the best for your skin.",
+    first ? `Thank you, ${first}. Your order is confirmed.` : 'Thank you for your order. Your order is confirmed.',
+    "Your payment has been received and we're preparing your selection.",
     '',
-    `Payment for order ${ref} was received on ${placed}.`,
+    `Order ${ref} · placed ${placed}`,
     '',
     ...o.lines.map((l) => `- ${l.name} x${l.quantity} — ${money(l.amountCents, o.currency)}`),
     o.discountCents > 0 ? `Discount: -${money(o.discountCents, o.currency)}` : null,
     `Shipping: ${o.shippingCents > 0 ? money(o.shippingCents, o.currency) : 'Complimentary'}`,
+    `Delivery: ${deliveryLabel(o)}`,
     `Total paid: ${money(o.amountCents, o.currency)}`,
+
     '',
     address.length ? `Shipping to:\n${address.join('\n')}` : null,
     '',
@@ -563,7 +580,7 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
         'Tracking number',
         `<span style="letter-spacing:.06em;">${esc(tracking)}</span>`,
       )}
-       ${link ? `${gap(28)}${ctaButton(link, 'Track your order')}` : ''}
+       ${link ? `${gap(22)}${ctaButton(link, 'Track your parcel')}` : ''}
        <p style="margin:20px 0 0;font-family:${SANS};font-size:13px;line-height:1.7;color:${MUTED};">Delivery timing is set by ${esc(
          carrier ?? 'the carrier',
        )}; their tracking page is the live source of truth.</p>`
@@ -575,41 +592,41 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
     `
     ${masthead(
       first ? `On its way, ${first}.` : 'On its way.',
-      'Your selection has left us.',
-      `Order <span style="color:${INK};">${ref}</span> has been hand-packed, sealed and collected from our Melbourne warehouse.`,
+      'Your order has been dispatched.',
+      `Order <span style="color:${INK};">${ref}</span> has been packed and collected from our Melbourne warehouse${
+        carrier ? ` by ${esc(carrier)}` : ''
+      }. Tracking details are below.`,
     )}
     ${bodyBlock(`
-      ${gap(36)}
+      ${gap(28)}
       ${metaStrip(o, 'Dispatched')}
-      ${gap(38)}
+      ${gap(30)}
       ${label('Tracking')}
       ${trackingBlock}
-      ${gap(44)}
+      ${gap(34)}
       ${label('Order progress')}
       ${orderJourney('on_its_way')}
-      ${gap(44)}
+      ${gap(34)}
       ${label('In this parcel')}
       ${itemsTable(o, false)}
-      ${gap(40)}
-      ${address.length ? twoColumn('Delivering to', address.map(esc).join('<br />'), null, null) + gap(40) : ''}
-      ${benefitsRow()}
-      ${gap(38)}
-      ${hairline()}
-      ${gap(26)}
+      ${gap(30)}
+      ${address.length ? twoColumn('Delivering to', address.map(esc).join('<br />'), null, null) + gap(30) : ''}
+      ${assuranceLine()}
+      ${gap(28)}
       ${label('Customer care')}
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
         Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
       </p>
-      ${gap(46)}
+      ${gap(32)}
     `)}
-    ${footerBlock()}
+    ${footerBlock('Skin Grocer · Dispatched from Melbourne, Australia')}
   `,
   );
 
   const text = [
     'SKIN GROCER — Seoul Sourced. Skin Assured.',
     '',
-    first ? `On its way, ${first}. Your selection has left us.` : 'On its way. Your selection has left us.',
+    first ? `On its way, ${first}. Your order has been dispatched.` : 'On its way. Your order has been dispatched.',
     '',
     `Order ${ref} has been dispatched from our Melbourne warehouse.`,
     tracking ? `${carrier ?? 'Carrier'} tracking: ${tracking}` : 'Tracking details are being finalised and will follow shortly.',
@@ -681,23 +698,23 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
     `
     ${masthead(
       first ? `It has arrived, ${first}.` : 'It has arrived.',
-      'Your selection has been delivered.',
+      'Your order has been delivered.',
       `Order <span style="color:${INK};">${ref}</span> has been marked delivered${
         deliveredOn ? ` on ${esc(deliveredOn)}` : ''
       }${carrier ? ` by ${esc(carrier)}` : ''}. If anything is missing or damaged, reply to this email and we will make it right.`,
     )}
     ${bodyBlock(`
-      ${gap(36)}
+      ${gap(28)}
       ${metaStrip(o, 'Delivered')}
-      ${gap(38)}
+      ${gap(28)}
       ${label('In this parcel')}
       ${itemsTable(o, false)}
-      ${gap(38)}
+      ${gap(28)}
       ${ctaButton(`${SITE_URL}/track`, 'View your order')}
-      ${gap(44)}
+      ${gap(32)}
       ${label('Order progress')}
       ${orderJourney('delivered')}
-      ${gap(44)}
+      ${gap(32)}
       ${twoColumn(
         'Delivered to',
         address.length ? address.map(esc).join('<br />') : `<span style="color:${MUTED};">Address on file</span>`,
@@ -712,22 +729,22 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
             }`
           : null,
       )}
-      ${gap(44)}
+      ${gap(32)}
       ${label('Using your routine')}
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.8;color:${MUTED};">
         Introduce one new step at a time, and give each formula a fortnight before judging it. Guidance for every product
         we carry lives in the <a href="${SITE_URL}/learn" style="color:${NAVY};text-decoration:underline;">Skin Grocer library</a>.
       </p>
-      ${gap(44)}
-      ${benefitsRow()}
-      ${gap(38)}
+      ${gap(32)}
+      ${assuranceLine()}
+      ${gap(28)}
       ${hairline()}
       ${gap(26)}
       ${label('Customer care')}
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
         Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
       </p>
-      ${gap(46)}
+      ${gap(32)}
     `)}
     ${footerBlock()}
   `,
@@ -736,7 +753,7 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
   const text = [
     'SKIN GROCER — Seoul Sourced. Skin Assured.',
     '',
-    first ? `It has arrived, ${first}. Your selection has been delivered.` : 'It has arrived. Your selection has been delivered.',
+    first ? `It has arrived, ${first}. Your order has been delivered.` : 'It has arrived. Your order has been delivered.',
     '',
     `Order ${ref} has been marked delivered${deliveredOn ? ` on ${deliveredOn}` : ''}${carrier ? ` by ${carrier}` : ''}.`,
     tracking ? `${carrier ?? 'Carrier'} tracking: ${tracking}` : null,
@@ -768,14 +785,28 @@ export function renderCancellationNotice(
   const ref = orderReference(o.id);
   const first = firstNameOf(o);
   const refunded = typeof o.refundedCents === 'number' && o.refundedCents > 0 ? o.refundedCents : null;
-  const isRefund = refunded !== null || (o.status ?? '').toLowerCase().includes('refund');
-  const heading = isRefund ? 'Your refund is on its way.' : 'Your order has been cancelled.';
-  const statusLabel = isRefund ? 'Refunded' : 'Cancelled';
+  // "Refunded" is claimed ONLY when an authoritative stored refund amount exists.
+  // A refund-flavoured status without a figure is still reported as a cancellation
+  // with the refund described as in progress.
+  const isRefund = refunded !== null;
+  const partial = refunded !== null && refunded < o.amountCents;
+  const refundPending = refunded === null && (o.status ?? '').toLowerCase().includes('refund');
+  const heading = isRefund
+    ? partial
+      ? 'Your partial refund has been issued.'
+      : 'Your refund has been issued.'
+    : 'Your order has been cancelled.';
+  const statusLabel = isRefund ? (partial ? 'Partially refunded' : 'Refunded') : 'Cancelled';
   const note = options.reasonNote?.trim() || null;
 
   const refundBody = refunded
-    ? `${esc(money(refunded, o.currency))} has been returned to the original payment method. Banks generally take five to ten business days to show it.`
-    : `We have cancelled this order with our payment processor. Any amount captured is returned to the original payment method — your bank statement is the source of truth for the exact figure and timing.`;
+    ? `${esc(money(refunded, o.currency))} has been refunded to the original payment method${
+        partial ? ` against an order total of ${esc(money(o.amountCents, o.currency))}` : ''
+      }. Banks generally take five to ten business days to show it.`
+    : refundPending
+      ? `This order has been cancelled and a refund has been requested with our payment processor. We will confirm the exact amount once it is settled; your bank statement is the source of truth for timing.`
+      : `We have cancelled this order with our payment processor. Any amount captured is returned to the original payment method — your bank statement is the source of truth for the exact figure and timing.`;
+
 
   const html = shell(
     `Order ${ref} ${statusLabel.toLowerCase()}`,
@@ -789,27 +820,27 @@ export function renderCancellationNotice(
       )}. Nothing further will be shipped against it, and no further payment will be taken.`,
     )}
     ${bodyBlock(`
-      ${gap(36)}
+      ${gap(28)}
       ${metaStrip(o, statusLabel)}
-      ${gap(38)}
+      ${gap(28)}
       ${label(isRefund ? 'Refund' : 'Cancellation')}
       <p style="margin:0;font-family:${SANS};font-size:15px;line-height:1.8;color:${MUTED};">${refundBody}</p>
       ${note ? `<p style="margin:16px 0 0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">${esc(note)}</p>` : ''}
-      ${gap(38)}
+      ${gap(28)}
       ${twoColumn(
         'Order total',
         `${esc(money(o.amountCents, o.currency))}`,
         refunded ? 'Amount refunded' : null,
         refunded ? `${esc(money(refunded, o.currency))}` : null,
       )}
-      ${gap(40)}
+      ${gap(30)}
       ${label(isRefund ? 'Items refunded' : 'Items cancelled')}
       ${itemsTable(o, true)}
-      ${gap(38)}
+      ${gap(28)}
       ${ctaButton(`${SITE_URL}/shop`, 'Shop Skin Grocer')}
-      ${gap(44)}
-      ${benefitsRow()}
-      ${gap(38)}
+      ${gap(32)}
+      ${assuranceLine()}
+      ${gap(28)}
       ${hairline()}
       ${gap(26)}
       ${label('Customer care')}
@@ -817,7 +848,7 @@ export function renderCancellationNotice(
         If this was not expected, reply to this email or write to
         <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a> and we will look into it straight away.
       </p>
-      ${gap(46)}
+      ${gap(32)}
     `)}
     ${footerBlock()}
   `,
