@@ -308,6 +308,28 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
     elapsedMs: since(startedAt),
   });
 
+  // Last-resort recipient recovery: a guest order must never reach the
+  // confirmation step without a stored email. If the session payload arrived
+  // without customer details, re-read the session from Stripe (authoritative)
+  // and persist the email BEFORE dispatching. The address is never guessed.
+  if (paid && !userId && !guestEmail) {
+    try {
+      const fresh: any = await stripe.checkout.sessions.retrieve(session.id);
+      const recovered = fresh?.customer_details?.email ?? fresh?.customer_email ?? null;
+      if (recovered) {
+        await supabase.from('orders').update({ guest_email: recovered }).eq('id', order.id);
+        logCommerce('webhook', 'order.guest_email_recovered', {
+          orderId: order.id,
+          guestEmail: maskEmail(recovered),
+        });
+      } else {
+        warnCommerce('webhook', 'order.guest_email_missing', { orderId: order.id, sessionId: session.id });
+      }
+    } catch (e) {
+      errorCommerce('webhook', 'order.guest_email_recovery_failed', e, { orderId: order.id });
+    }
+  }
+
   // The confirmation email is the customer's proof of purchase, so it is
   // attempted FIRST and nothing after the paid order row can prevent it. The
   // (order_id, kind) unique row is the idempotency guard, so Stripe webhook
