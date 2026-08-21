@@ -1,4 +1,5 @@
 import { isPlausibleTracking } from '@/lib/shipping/carriers';
+import { maskEmail } from '@/lib/commerce-log';
 import { createServerFn } from '@tanstack/react-start';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
 
@@ -473,7 +474,7 @@ export const getOrderComms = createServerFn({ method: 'POST' })
     const { data: order } = await supabase
       .from('orders')
       .select(
-        'id, created_at, currency, amount_cents, shipping_cents, discount_cents, line_items, shipping_name, shipping_line1, shipping_line2, shipping_city, shipping_state, shipping_postcode, shipping_country, shipping_method, shipping_service, tracking_number, shipping_carrier, status, environment, fulfillment_status, dispatched_at, shipped_at, delivered_at, refunded_at, refunded_cents',
+        'id, created_at, currency, amount_cents, shipping_cents, discount_cents, line_items, shipping_name, shipping_line1, shipping_line2, shipping_city, shipping_state, shipping_postcode, shipping_country, shipping_method, shipping_service, tracking_number, shipping_carrier, status, environment, fulfillment_status, dispatched_at, shipped_at, delivered_at, refunded_at, refunded_cents, user_id, guest_email',
       )
       .eq('id', data.id)
       .maybeSingle();
@@ -506,8 +507,32 @@ export const getOrderComms = createServerFn({ method: 'POST' })
       return { ready: true, reason: null };
     })();
 
+    // Current recipient, resolved server-side exactly as the send path does:
+    // guest checkout email first, otherwise the account profile email. Only a
+    // masked form ever leaves the server.
+    let recipientMasked: string | null = null;
+    let recipientSource: 'guest_checkout' | 'account' | null = null;
+    const guestEmail = ((order?.['guest_email'] as string | null) ?? '').trim();
+    if (guestEmail) {
+      recipientMasked = maskEmail(guestEmail);
+      recipientSource = 'guest_checkout';
+    } else if (order?.['user_id']) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('email')
+        .eq('id', order['user_id'])
+        .maybeSingle();
+      const accountEmail = ((profile?.email as string | null) ?? '').trim();
+      if (accountEmail) {
+        recipientMasked = maskEmail(accountEmail);
+        recipientSource = 'account';
+      }
+    }
+
     return {
       capability: emailCapability(),
+      recipientMasked,
+      recipientSource,
       dispatchReady: dispatchReadiness.ready,
       dispatchBlockedReason: dispatchReadiness.reason,
       notifications: ((rows ?? []) as Row[]).map((r) => ({

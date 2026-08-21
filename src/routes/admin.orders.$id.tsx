@@ -38,7 +38,9 @@ const STATUS_COPY: Record<string, string> = {
   queued: 'Queued',
   sent: 'Sent',
   failed: 'Failed',
-  skipped: 'Skipped — no stored email address',
+  // "Skipped" only means no send happened — the ledger row carries the real
+  // reason, which is shown next to it. It does NOT imply a missing email.
+  skipped: 'Not sent',
 };
 
 function money(cents: number, currency = 'AUD') {
@@ -511,6 +513,17 @@ function OrderDetail() {
                 Email provider: <strong className="text-foreground">{comms.data.capability.providerLabel}</strong>
                 {!comms.data.capability.configured && ' — nothing is sent automatically yet.'}
               </p>
+              <p className="mt-1 text-muted-foreground">
+                {comms.data.recipientMasked ? (
+                  <>
+                    Recipient on file:{' '}
+                    <strong className="text-foreground">{comms.data.recipientMasked}</strong>
+                    {comms.data.recipientSource === 'guest_checkout' ? ' (guest checkout email)' : ' (account email)'}
+                  </>
+                ) : (
+                  'No stored email address for this order — nothing can be sent until one is recovered from the payment record.'
+                )}
+              </p>
 
               <dl className="mt-4 space-y-2">
                 {(['order_confirmation', 'dispatch', 'delivery', 'cancellation'] as const).map((kind) => {
@@ -538,8 +551,18 @@ function OrderDetail() {
                           <button
                             type="button"
                             onClick={() => resend.mutate(kind)}
-                            title={kind === 'dispatch' && !comms.data!.dispatchReady ? comms.data!.dispatchBlockedReason ?? undefined : undefined}
-                            disabled={resend.isPending || (kind === 'dispatch' && !comms.data!.dispatchReady)}
+                            title={
+                              !comms.data!.recipientMasked
+                                ? 'No stored email address for this order.'
+                                : kind === 'dispatch' && !comms.data!.dispatchReady
+                                  ? comms.data!.dispatchBlockedReason ?? undefined
+                                  : undefined
+                            }
+                            disabled={
+                              resend.isPending ||
+                              !comms.data!.recipientMasked ||
+                              (kind === 'dispatch' && !comms.data!.dispatchReady)
+                            }
                             className="rounded-full border border-border px-3 py-1 text-xs hover:border-foreground disabled:opacity-60"
                           >
                             {state === 'sent' ? 'Resend' : 'Send'}

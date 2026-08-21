@@ -181,7 +181,11 @@ async function awardPoints(
 async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean) {
   const startedAt = Date.now();
   const userId = session.metadata?.userId ?? null;
-  const guestEmail = session.metadata?.guestEmail ?? session.customer_details?.email ?? null;
+  // Stripe's own `customer_details.email` is authoritative — it is what the
+  // customer confirmed on the payment step. The checkout metadata is only a
+  // fallback for the (rare) case where Stripe returns no customer details.
+  const guestEmail =
+    session.customer_details?.email ?? session.customer_email ?? session.metadata?.guestEmail ?? null;
   if (!userId && !guestEmail) {
     warnCommerce('webhook', 'session.missing_identity_metadata', { sessionId: session.id, env });
     return;
@@ -303,6 +307,28 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
     hasShippingAddress: Boolean(address?.line1),
     elapsedMs: since(startedAt),
   });
+
+  // Last-resort recipient recovery: a guest order must never reach the
+  // confirmation step without a stored email. If the session payload arrived
+  // without customer details, re-read the session from Stripe (authoritative)
+  // and persist the email BEFORE dispatching. The address is never guessed.
+  if (paid && !userId && !guestEmail) {
+    try {
+      const fresh: any = await stripe.checkout.sessions.retrieve(session.id);
+      const recovered = fresh?.customer_details?.email ?? fresh?.customer_email ?? null;
+      if (recovered) {
+        await supabase.from('orders').update({ guest_email: recovered }).eq('id', order.id);
+        logCommerce('webhook', 'order.guest_email_recovered', {
+          orderId: order.id,
+          guestEmail: maskEmail(recovered),
+        });
+      } else {
+        warnCommerce('webhook', 'order.guest_email_missing', { orderId: order.id, sessionId: session.id });
+      }
+    } catch (e) {
+      errorCommerce('webhook', 'order.guest_email_recovery_failed', e, { orderId: order.id });
+    }
+  }
 
   // The confirmation email is the customer's proof of purchase, so it is
   // attempted FIRST and nothing after the paid order row can prevent it. The
