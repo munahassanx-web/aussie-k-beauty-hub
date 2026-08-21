@@ -21,7 +21,7 @@
  * payment details we do not hold.
  */
 
-import { trackingLink, trackingLinkLabel } from '@/lib/shipping/carriers';
+import { trackingLink, trackingLinkLabel, isPlausibleTracking } from '@/lib/shipping/carriers';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
 
 export const SITE_URL = 'https://skingrocer.com.au';

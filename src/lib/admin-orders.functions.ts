@@ -473,13 +473,43 @@ export const getOrderComms = createServerFn({ method: 'POST' })
     const { data: order } = await supabase
       .from('orders')
       .select(
-        'id, created_at, currency, amount_cents, shipping_cents, discount_cents, line_items, shipping_name, shipping_line1, shipping_line2, shipping_city, shipping_state, shipping_postcode, shipping_country, shipping_method, tracking_number, shipping_carrier',
+        'id, created_at, currency, amount_cents, shipping_cents, discount_cents, line_items, shipping_name, shipping_line1, shipping_line2, shipping_city, shipping_state, shipping_postcode, shipping_country, shipping_method, shipping_service, tracking_number, shipping_carrier, status, environment, fulfillment_status, dispatched_at, shipped_at, delivered_at, refunded_at, refunded_cents',
       )
       .eq('id', data.id)
       .maybeSingle();
 
+    // Dispatch readiness is authoritative: it mirrors the send-side guards in
+    // `sendOrderNotification` and the `guard_order_fulfilment` trigger. Until an
+    // order is genuinely a live, paid, dispatched Australia Post parcel with a
+    // real tracking number, staff see no dispatch wording and no send control.
+    const dispatchReadiness = ((): { ready: boolean; reason: string | null } => {
+      if (!order) return { ready: false, reason: 'Order not found.' };
+      const env = (order['environment'] as string | null) ?? 'sandbox';
+      const status = (order['status'] as string | null) ?? 'pending';
+      const stage = (order['fulfillment_status'] as string | null) ?? 'processing';
+      if (env !== 'live') {
+        return { ready: false, reason: 'Stripe test/sandbox order — no customer communication is possible.' };
+      }
+      if (!PAYABLE_STATUSES.includes(status)) {
+        return { ready: false, reason: `Payment status is "${status}" — dispatch communication is only for paid orders.` };
+      }
+      if (!isPlausibleTracking(order['shipping_carrier'] ?? null, order['tracking_number'] ?? null)) {
+        return {
+          ready: false,
+          reason:
+            'Not ready — add valid Australia Post shipping/tracking details and complete dispatch first.',
+        };
+      }
+      if (stage !== 'shipped' && stage !== 'delivered') {
+        return { ready: false, reason: 'Not ready — mark this order Dispatched once the parcel has actually left.' };
+      }
+      return { ready: true, reason: null };
+    })();
+
     return {
       capability: emailCapability(),
+      dispatchReady: dispatchReadiness.ready,
+      dispatchBlockedReason: dispatchReadiness.reason,
       notifications: ((rows ?? []) as Row[]).map((r) => ({
         kind: r['kind'],
         status: r['status'],
@@ -492,7 +522,8 @@ export const getOrderComms = createServerFn({ method: 'POST' })
         sentAt: r['sent_at'] ?? null,
       })) as OrderNotification[],
       // Manual fallback text — real order reference, carrier, tracking and link only.
-      dispatchMessage: order ? dispatchMessagePlainText(toOrderEmailData(order as Row)) : null,
+      dispatchMessage:
+        order && dispatchReadiness.ready ? dispatchMessagePlainText(toOrderEmailData(order as Row)) : null,
     };
   });
 
