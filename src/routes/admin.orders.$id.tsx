@@ -538,7 +538,8 @@ function OrderDetail() {
                           <button
                             type="button"
                             onClick={() => resend.mutate(kind)}
-                            disabled={resend.isPending}
+                            title={kind === 'dispatch' && !comms.data!.dispatchReady ? comms.data!.dispatchBlockedReason ?? undefined : undefined}
+                            disabled={resend.isPending || (kind === 'dispatch' && !comms.data!.dispatchReady)}
                             className="rounded-full border border-border px-3 py-1 text-xs hover:border-foreground disabled:opacity-60"
                           >
                             {state === 'sent' ? 'Resend' : 'Send'}
@@ -566,7 +567,7 @@ function OrderDetail() {
               )}
 
 
-              {comms.data.dispatchMessage && (
+              {comms.data.dispatchMessage ? (
                 <div className="mt-4">
                   <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
                     Manual dispatch message (copy &amp; paste)
@@ -600,7 +601,20 @@ function OrderDetail() {
                     {resend.isError && <span className="text-xs text-destructive">{(resend.error as Error).message}</span>}
                   </div>
                 </div>
+              ) : (
+                <div className="mt-4 rounded-xl border border-dashed border-border p-3 text-xs text-muted-foreground">
+                  <p className="font-medium text-foreground">Dispatch message not available yet</p>
+                  <p className="mt-1">
+                    {comms.data.dispatchBlockedReason ??
+                      'Not ready — add valid Australia Post shipping/tracking details and complete dispatch first.'}
+                  </p>
+                  <p className="mt-1">
+                    Workflow: buy the label in MyPost Business → save carrier, service and tracking number above → mark
+                    the order Dispatched. The customer message is then generated from the saved tracking details.
+                  </p>
+                </div>
               )}
+
             </>
           )}
         </section>

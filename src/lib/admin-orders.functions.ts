@@ -545,7 +545,7 @@ export const sendOrderNotification = createServerFn({ method: 'POST' })
     const supabase = context.supabase as any;
     const { data: row } = await supabase
       .from('orders')
-      .select('status, fulfillment_status, delivered_at, refunded_at, tracking_number, shipping_carrier')
+      .select('status, environment, fulfillment_status, delivered_at, refunded_at, tracking_number, shipping_carrier')
       .eq('id', data.id)
       .maybeSingle();
     if (!row) throw new Error('Order not found');
@@ -556,6 +556,9 @@ export const sendOrderNotification = createServerFn({ method: 'POST' })
     }
     if (data.kind === 'cancellation' && !row.refunded_at && row.fulfillment_status !== 'cancelled') {
       throw new Error('This order has no recorded cancellation or refund');
+    }
+    if (data.kind === 'dispatch' && ((row.environment ?? 'sandbox') !== 'live' || !PAYABLE_STATUSES.includes(row.status ?? 'pending'))) {
+      throw new Error('Only a live, paid order can receive a dispatch email');
     }
     if (data.kind === 'dispatch' && row.fulfillment_status !== 'shipped' && row.fulfillment_status !== 'delivered') {
       throw new Error('This order has not been dispatched yet');
