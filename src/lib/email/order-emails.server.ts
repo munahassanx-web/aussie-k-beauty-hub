@@ -580,7 +580,7 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
         'Tracking number',
         `<span style="letter-spacing:.06em;">${esc(tracking)}</span>`,
       )}
-       ${link ? `${gap(28)}${ctaButton(link, 'Track your order')}` : ''}
+       ${link ? `${gap(22)}${ctaButton(link, 'Track your parcel')}` : ''}
        <p style="margin:20px 0 0;font-family:${SANS};font-size:13px;line-height:1.7;color:${MUTED};">Delivery timing is set by ${esc(
          carrier ?? 'the carrier',
        )}; their tracking page is the live source of truth.</p>`
@@ -592,41 +592,41 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
     `
     ${masthead(
       first ? `On its way, ${first}.` : 'On its way.',
-      'Your selection has left us.',
-      `Order <span style="color:${INK};">${ref}</span> has been hand-packed, sealed and collected from our Melbourne warehouse.`,
+      'Your order has been dispatched.',
+      `Order <span style="color:${INK};">${ref}</span> has been packed and collected from our Melbourne warehouse${
+        carrier ? ` by ${esc(carrier)}` : ''
+      }. Tracking details are below.`,
     )}
     ${bodyBlock(`
-      ${gap(36)}
+      ${gap(28)}
       ${metaStrip(o, 'Dispatched')}
-      ${gap(38)}
+      ${gap(30)}
       ${label('Tracking')}
       ${trackingBlock}
-      ${gap(44)}
+      ${gap(34)}
       ${label('Order progress')}
       ${orderJourney('on_its_way')}
-      ${gap(44)}
+      ${gap(34)}
       ${label('In this parcel')}
       ${itemsTable(o, false)}
-      ${gap(40)}
-      ${address.length ? twoColumn('Delivering to', address.map(esc).join('<br />'), null, null) + gap(40) : ''}
+      ${gap(30)}
+      ${address.length ? twoColumn('Delivering to', address.map(esc).join('<br />'), null, null) + gap(30) : ''}
       ${assuranceLine()}
-      ${gap(38)}
-      ${hairline()}
-      ${gap(26)}
+      ${gap(28)}
       ${label('Customer care')}
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
         Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
       </p>
-      ${gap(46)}
+      ${gap(32)}
     `)}
-    ${footerBlock()}
+    ${footerBlock('Skin Grocer · Dispatched from Melbourne, Australia')}
   `,
   );
 
   const text = [
     'SKIN GROCER — Seoul Sourced. Skin Assured.',
     '',
-    first ? `On its way, ${first}. Your selection has left us.` : 'On its way. Your selection has left us.',
+    first ? `On its way, ${first}. Your order has been dispatched.` : 'On its way. Your order has been dispatched.',
     '',
     `Order ${ref} has been dispatched from our Melbourne warehouse.`,
     tracking ? `${carrier ?? 'Carrier'} tracking: ${tracking}` : 'Tracking details are being finalised and will follow shortly.',
@@ -698,23 +698,23 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
     `
     ${masthead(
       first ? `It has arrived, ${first}.` : 'It has arrived.',
-      'Your selection has been delivered.',
+      'Your order has been delivered.',
       `Order <span style="color:${INK};">${ref}</span> has been marked delivered${
         deliveredOn ? ` on ${esc(deliveredOn)}` : ''
       }${carrier ? ` by ${esc(carrier)}` : ''}. If anything is missing or damaged, reply to this email and we will make it right.`,
     )}
     ${bodyBlock(`
-      ${gap(36)}
+      ${gap(28)}
       ${metaStrip(o, 'Delivered')}
-      ${gap(38)}
+      ${gap(28)}
       ${label('In this parcel')}
       ${itemsTable(o, false)}
-      ${gap(38)}
+      ${gap(28)}
       ${ctaButton(`${SITE_URL}/track`, 'View your order')}
-      ${gap(44)}
+      ${gap(32)}
       ${label('Order progress')}
       ${orderJourney('delivered')}
-      ${gap(44)}
+      ${gap(32)}
       ${twoColumn(
         'Delivered to',
         address.length ? address.map(esc).join('<br />') : `<span style="color:${MUTED};">Address on file</span>`,
@@ -729,22 +729,22 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
             }`
           : null,
       )}
-      ${gap(44)}
+      ${gap(32)}
       ${label('Using your routine')}
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.8;color:${MUTED};">
         Introduce one new step at a time, and give each formula a fortnight before judging it. Guidance for every product
         we carry lives in the <a href="${SITE_URL}/learn" style="color:${NAVY};text-decoration:underline;">Skin Grocer library</a>.
       </p>
-      ${gap(44)}
+      ${gap(32)}
       ${assuranceLine()}
-      ${gap(38)}
+      ${gap(28)}
       ${hairline()}
       ${gap(26)}
       ${label('Customer care')}
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
         Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
       </p>
-      ${gap(46)}
+      ${gap(32)}
     `)}
     ${footerBlock()}
   `,
@@ -753,7 +753,7 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
   const text = [
     'SKIN GROCER — Seoul Sourced. Skin Assured.',
     '',
-    first ? `It has arrived, ${first}. Your selection has been delivered.` : 'It has arrived. Your selection has been delivered.',
+    first ? `It has arrived, ${first}. Your order has been delivered.` : 'It has arrived. Your order has been delivered.',
     '',
     `Order ${ref} has been marked delivered${deliveredOn ? ` on ${deliveredOn}` : ''}${carrier ? ` by ${carrier}` : ''}.`,
     tracking ? `${carrier ?? 'Carrier'} tracking: ${tracking}` : null,
@@ -806,27 +806,27 @@ export function renderCancellationNotice(
       )}. Nothing further will be shipped against it, and no further payment will be taken.`,
     )}
     ${bodyBlock(`
-      ${gap(36)}
+      ${gap(28)}
       ${metaStrip(o, statusLabel)}
-      ${gap(38)}
+      ${gap(28)}
       ${label(isRefund ? 'Refund' : 'Cancellation')}
       <p style="margin:0;font-family:${SANS};font-size:15px;line-height:1.8;color:${MUTED};">${refundBody}</p>
       ${note ? `<p style="margin:16px 0 0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">${esc(note)}</p>` : ''}
-      ${gap(38)}
+      ${gap(28)}
       ${twoColumn(
         'Order total',
         `${esc(money(o.amountCents, o.currency))}`,
         refunded ? 'Amount refunded' : null,
         refunded ? `${esc(money(refunded, o.currency))}` : null,
       )}
-      ${gap(40)}
+      ${gap(30)}
       ${label(isRefund ? 'Items refunded' : 'Items cancelled')}
       ${itemsTable(o, true)}
-      ${gap(38)}
+      ${gap(28)}
       ${ctaButton(`${SITE_URL}/shop`, 'Shop Skin Grocer')}
-      ${gap(44)}
+      ${gap(32)}
       ${assuranceLine()}
-      ${gap(38)}
+      ${gap(28)}
       ${hairline()}
       ${gap(26)}
       ${label('Customer care')}
@@ -834,7 +834,7 @@ export function renderCancellationNotice(
         If this was not expected, reply to this email or write to
         <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a> and we will look into it straight away.
       </p>
-      ${gap(46)}
+      ${gap(32)}
     `)}
     ${footerBlock()}
   `,
