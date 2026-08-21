@@ -494,7 +494,7 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
       ${label('Order progress')}
       ${orderJourney('received')}
       ${gap(44)}
-      ${benefitsRow()}
+      ${assuranceLine()}
       ${gap(38)}
       ${hairline()}
       ${gap(26)}
@@ -577,7 +577,7 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
       ${itemsTable(o, false)}
       ${gap(40)}
       ${address.length ? twoColumn('Delivering to', address.map(esc).join('<br />'), null, null) + gap(40) : ''}
-      ${benefitsRow()}
+      ${assuranceLine()}
       ${gap(38)}
       ${hairline()}
       ${gap(26)}
@@ -704,7 +704,7 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
         we carry lives in the <a href="${SITE_URL}/learn" style="color:${NAVY};text-decoration:underline;">Skin Grocer library</a>.
       </p>
       ${gap(44)}
-      ${benefitsRow()}
+      ${assuranceLine()}
       ${gap(38)}
       ${hairline()}
       ${gap(26)}
@@ -793,7 +793,7 @@ export function renderCancellationNotice(
       ${gap(38)}
       ${ctaButton(`${SITE_URL}/shop`, 'Shop Skin Grocer')}
       ${gap(44)}
-      ${benefitsRow()}
+      ${assuranceLine()}
       ${gap(38)}
       ${hairline()}
       ${gap(26)}
