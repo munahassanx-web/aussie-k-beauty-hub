@@ -181,7 +181,11 @@ async function awardPoints(
 async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean) {
   const startedAt = Date.now();
   const userId = session.metadata?.userId ?? null;
-  const guestEmail = session.metadata?.guestEmail ?? session.customer_details?.email ?? null;
+  // Stripe's own `customer_details.email` is authoritative — it is what the
+  // customer confirmed on the payment step. The checkout metadata is only a
+  // fallback for the (rare) case where Stripe returns no customer details.
+  const guestEmail =
+    session.customer_details?.email ?? session.customer_email ?? session.metadata?.guestEmail ?? null;
   if (!userId && !guestEmail) {
     warnCommerce('webhook', 'session.missing_identity_metadata', { sessionId: session.id, env });
     return;
