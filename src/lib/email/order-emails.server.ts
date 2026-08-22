@@ -22,6 +22,7 @@
  */
 
 import { trackingLink, trackingLinkLabel, isPlausibleTracking } from '@/lib/shipping/carriers';
+import { orderReference } from '@/lib/order-reference';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
 
 export const SITE_URL = 'https://skingrocer.com.au';
@@ -78,10 +79,7 @@ export type OrderEmailData = {
   refundedCents?: number | null;
 };
 
-
-export function orderReference(id: string): string {
-  return `SG-${id.slice(0, 8).toUpperCase()}`;
-}
+export { orderReference };
 
 export function money(cents: number, currency = 'AUD'): string {
   return `${currency.toUpperCase()} $${(cents / 100).toFixed(2)}`;
