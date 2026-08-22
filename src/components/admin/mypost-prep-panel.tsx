@@ -71,9 +71,10 @@ export function MyPostPrepPanel({ order }: { order: AdminOrderDetail }) {
 
   // ---- SEND FROM — only what is genuinely configured; the rest is flagged.
   const sender = DISPATCH_SENDER;
-  const senderBlock = [sender.businessName, sender.streetAddress, sender.cityLabel, sender.email, sender.phone]
+  const senderBlock = [sender.businessName, sender.contactPerson, sender.streetAddress, sender.cityLabel, sender.email, sender.phone]
     .filter(Boolean)
     .join('\n');
+
 
   // ---- DELIVER TO — authoritative order shipping fields only.
   const toName = order.shippingName ?? order.customerName;
@@ -133,6 +134,7 @@ export function MyPostPrepPanel({ order }: { order: AdminOrderDetail }) {
           <SubHeading>1 · Send from</SubHeading>
           <div className="mt-1 divide-y divide-border/60">
             <Field label="Business / sender name" value={sender.businessName} />
+            <Field label="Contact person" value={sender.contactPerson} missing="Owner setup required" />
             <Field label="Street address" value={sender.streetAddress} missing="Owner setup required" />
             <Field label="Suburb / city" value={sender.cityLabel} />
             <Field label="Email" value={sender.email} />
@@ -142,6 +144,7 @@ export function MyPostPrepPanel({ order }: { order: AdminOrderDetail }) {
             <CopyButton value={senderBlock} label="Copy sender block" />
           </div>
         </div>
+
 
         {/* 2) DELIVER TO */}
         <div className="rounded-xl border border-border bg-background p-4">
