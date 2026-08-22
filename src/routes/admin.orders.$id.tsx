@@ -15,6 +15,7 @@ import { CARRIERS, DEFAULT_CARRIER_LABEL, findCarrier, isPlausibleTracking, trac
 import { PackingSlip } from '@/components/admin/packing-slip';
 import { AuthenticityPanel } from '@/components/admin/authenticity-panel';
 import { OrderWorkflowGuide } from '@/components/admin/order-workflow-guide';
+import { MyPostPrepPanel } from '@/components/admin/mypost-prep-panel';
 import { useAuth } from '@/hooks/use-auth';
 
 export const Route = createFileRoute('/admin/orders/$id')({
@@ -126,7 +127,11 @@ function OrderDetail() {
   const resend = useMutation({
     mutationFn: (kind: 'order_confirmation' | 'dispatch' | 'delivery' | 'cancellation') =>
       sendNotification({ data: { id, kind } }),
-    onSuccess: () => void qc.invalidateQueries({ queryKey: ['admin-order-comms', id] }),
+    // Await the ledger re-read after every send attempt — success OR failure —
+    // so the panel can never keep showing a stale "Not sent" after a real send.
+    onSettled: async () => {
+      await qc.invalidateQueries({ queryKey: ['admin-order-comms', id] });
+    },
   });
 
   const markDelivered = useServerFn(markOrderDelivered);
@@ -506,6 +511,13 @@ function OrderDetail() {
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Customer communication — staff only</p>
 
           {comms.isLoading && <p className="mt-2 text-muted-foreground">Loading communication status…</p>}
+
+          {comms.isError && (
+            <p className="mt-2 text-destructive">
+              Communication status could not be refreshed ({(comms.error as Error).message})
+              {comms.data ? ' — the last loaded state is shown below.' : ' Reload the page to try again.'}
+            </p>
+          )}
 
           {comms.data && (
             <>

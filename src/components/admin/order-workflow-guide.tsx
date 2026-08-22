@@ -105,7 +105,7 @@ export function OrderWorkflowGuide({ order }: { order: AdminOrderDetail }) {
     {
       key: 'label',
       title: 'Create Australia Post label in MyPost Business',
-      instruction: 'Buy the label in MyPost Business — nothing here creates labels.',
+      instruction: 'Buy the label in MyPost Business — nothing here creates labels. The prep panel has every field to copy.',
       detail: labelEvidence
         ? 'Label details recorded on this order.'
         : trackingSaved
@@ -113,7 +113,7 @@ export function OrderWorkflowGuide({ order }: { order: AdminOrderDetail }) {
           : 'Done in the carrier portal — the system cannot confirm it until details are saved.',
       done: labelEvidence || trackingSaved,
       unknown: !labelEvidence && !trackingSaved,
-      anchor: 'ops-shipping-form',
+      anchor: 'ops-mypost',
     },
     {
       key: 'tracking',
