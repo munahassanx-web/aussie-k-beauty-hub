@@ -16,8 +16,8 @@ export const DISPATCH_SENDER = {
   cityLabel: 'Epping VIC 3076, Australia',
   /** Owner-confirmed warehouse phone number. */
   phone: '+61 474 587 111',
-  /** No individual sender contact person is configured; do not invent one. */
-  contactPerson: null as string | null,
+  /** Owner-confirmed fulfilment contact person. */
+  contactPerson: 'Muna Hasan',
 };
 
 /** Official Australia Post MyPost Business sign-in page. */
