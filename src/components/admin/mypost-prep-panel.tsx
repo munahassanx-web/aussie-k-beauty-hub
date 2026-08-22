@@ -71,9 +71,10 @@ export function MyPostPrepPanel({ order }: { order: AdminOrderDetail }) {
 
   // ---- SEND FROM — only what is genuinely configured; the rest is flagged.
   const sender = DISPATCH_SENDER;
-  const senderBlock = [sender.businessName, sender.streetAddress, sender.cityLabel, sender.email, sender.phone]
+  const senderBlock = [sender.businessName, sender.contactPerson, sender.streetAddress, sender.cityLabel, sender.email, sender.phone]
     .filter(Boolean)
     .join('\n');
+
 
   // ---- DELIVER TO — authoritative order shipping fields only.
   const toName = order.shippingName ?? order.customerName;
