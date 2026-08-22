@@ -11,11 +11,15 @@ export const DISPATCH_SENDER = {
   businessName: 'Skin Grocer',
   /** Customer-care mailbox used across the transactional email templates. */
   email: 'customercare@skingrocer.com.au',
-  /** The packing slip and site copy already state dispatch from Melbourne. */
-  cityLabel: 'Melbourne, Australia',
-  streetAddress: null as string | null,
-  phone: null as string | null,
+  /** The owner-confirmed warehouse/dispatch address in Australia Post-friendly format. */
+  streetAddress: 'Unit 13, 30 Willandra Drive',
+  cityLabel: 'Epping VIC 3076, Australia',
+  /** Owner-confirmed warehouse phone number. */
+  phone: '+61 474 587 111',
+  /** No individual sender contact person is configured; do not invent one. */
+  contactPerson: null as string | null,
 };
 
 /** Official Australia Post MyPost Business sign-in page. */
 export const MYPOST_BUSINESS_URL = 'https://mypostbusiness.auspost.com.au';
+
