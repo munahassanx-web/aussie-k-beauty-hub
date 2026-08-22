@@ -265,6 +265,8 @@ function OrderDetail() {
           </ul>
         </section>
 
+        <MyPostPrepPanel order={order} />
+
         <section id="ops-fulfilment" className="mt-4 scroll-mt-24 rounded-2xl border border-border p-4 sm:p-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Fulfilment</p>
           <div className="mt-3 flex flex-wrap gap-2">
