@@ -18,7 +18,6 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ClubRouteImport } from './routes/club'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as DevMypostPreviewRouteImport } from './routes/dev-mypost-preview'
 import { Route as EmailPreviewRouteImport } from './routes/email-preview'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as JourneyRouteImport } from './routes/journey'
@@ -107,11 +106,6 @@ const ConsultationRoute = ConsultationRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DevMypostPreviewRoute = DevMypostPreviewRouteImport.update({
-  id: '/dev-mypost-preview',
-  path: '/dev-mypost-preview',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EmailPreviewRoute = EmailPreviewRouteImport.update({
@@ -347,7 +341,6 @@ export interface FileRoutesByFullPath {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
-  '/dev-mypost-preview': typeof DevMypostPreviewRoute
   '/email-preview': typeof EmailPreviewRoute
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
@@ -403,7 +396,6 @@ export interface FileRoutesByTo {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
-  '/dev-mypost-preview': typeof DevMypostPreviewRoute
   '/email-preview': typeof EmailPreviewRoute
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
@@ -460,7 +452,6 @@ export interface FileRoutesById {
   '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
-  '/dev-mypost-preview': typeof DevMypostPreviewRoute
   '/email-preview': typeof EmailPreviewRoute
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
@@ -518,7 +509,6 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
-    | '/dev-mypost-preview'
     | '/email-preview'
     | '/faq'
     | '/journey'
@@ -574,7 +564,6 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
-    | '/dev-mypost-preview'
     | '/email-preview'
     | '/faq'
     | '/journey'
@@ -630,7 +619,6 @@ export interface FileRouteTypes {
     | '/club'
     | '/consultation'
     | '/contact'
-    | '/dev-mypost-preview'
     | '/email-preview'
     | '/faq'
     | '/journey'
@@ -687,7 +675,6 @@ export interface RootRouteChildren {
   ClubRoute: typeof ClubRoute
   ConsultationRoute: typeof ConsultationRoute
   ContactRoute: typeof ContactRoute
-  DevMypostPreviewRoute: typeof DevMypostPreviewRoute
   EmailPreviewRoute: typeof EmailPreviewRoute
   FaqRoute: typeof FaqRoute
   JourneyRoute: typeof JourneyRoute
@@ -796,13 +783,6 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dev-mypost-preview': {
-      id: '/dev-mypost-preview'
-      path: '/dev-mypost-preview'
-      fullPath: '/dev-mypost-preview'
-      preLoaderRoute: typeof DevMypostPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/email-preview': {
@@ -1138,7 +1118,6 @@ const rootRouteChildren: RootRouteChildren = {
   ClubRoute: ClubRoute,
   ConsultationRoute: ConsultationRoute,
   ContactRoute: ContactRoute,
-  DevMypostPreviewRoute: DevMypostPreviewRoute,
   EmailPreviewRoute: EmailPreviewRoute,
   FaqRoute: FaqRoute,
   JourneyRoute: JourneyRoute,
