@@ -133,6 +133,7 @@ export function MyPostPrepPanel({ order }: { order: AdminOrderDetail }) {
           <SubHeading>1 · Send from</SubHeading>
           <div className="mt-1 divide-y divide-border/60">
             <Field label="Business / sender name" value={sender.businessName} />
+            <Field label="Contact person" value={sender.contactPerson} missing="Owner setup required" />
             <Field label="Street address" value={sender.streetAddress} missing="Owner setup required" />
             <Field label="Suburb / city" value={sender.cityLabel} />
             <Field label="Email" value={sender.email} />
@@ -142,6 +143,7 @@ export function MyPostPrepPanel({ order }: { order: AdminOrderDetail }) {
             <CopyButton value={senderBlock} label="Copy sender block" />
           </div>
         </div>
+
 
         {/* 2) DELIVER TO */}
         <div className="rounded-xl border border-border bg-background p-4">
