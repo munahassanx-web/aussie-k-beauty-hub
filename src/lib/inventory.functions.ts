@@ -247,20 +247,14 @@ export const setInventorySettings = createServerFn({ method: 'POST' })
  * the warehouse instead.
  */
 export const listSoldOutSkus = createServerFn({ method: 'GET' }).handler(async (): Promise<string[]> => {
-  const { createClient } = await import('@supabase/supabase-js');
-  const key = process.env['SUPABASE_PUBLISHABLE_KEY']!;
-  const client = createClient(process.env['SUPABASE_URL']!, key, {
-    auth: { persistSession: false, autoRefreshToken: false },
-    global: {
-      fetch: (input: any, init: any) => {
-        const h = new Headers(init?.headers);
-        if (key.startsWith('sb_') && h.get('Authorization') === `Bearer ${key}`) h.delete('Authorization');
-        h.set('apikey', key);
-        return fetch(input, { ...init, headers: h });
-      },
-    },
-  });
-  const { data, error } = await client.rpc('sold_out_skus');
+  // sold_out_skus() is SECURITY DEFINER over the staff-only inventory table and
+  // is deliberately NOT executable by the anon role (database hardening: the
+  // linter flags any SECURITY DEFINER function the public can call). This public
+  // availability read therefore goes through the service role; the function
+  // itself is the safe projection — it returns only sold-out SKU strings, never
+  // quantities.
+  const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+  const { data, error } = await supabaseAdmin.rpc('sold_out_skus');
   if (error) return [];
   const skus = ((data ?? []) as Array<{ sku: string }>).map((r) => r.sku);
   return [...new Set([...skus, ...compositesBlockedBy(skus)])];
