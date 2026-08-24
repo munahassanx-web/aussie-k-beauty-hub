@@ -18,6 +18,12 @@ export const Route = createFileRoute("/brands")({
       { property: "og:url", content: "https://skingrocer.com.au/brands" },
     ],
     links: [{ rel: "canonical", href: "https://skingrocer.com.au/brands" }],
+    scripts: [
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Brands", path: "/brands" },
+      ]),
+    ],
   }),
   component: BrandsPage,
 });

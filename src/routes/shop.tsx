@@ -48,7 +48,13 @@ export const Route = createFileRoute("/shop")({
       { property: "og:url", content: "https://skingrocer.com.au/shop" },
     ],
     links: [{ rel: "canonical", href: "https://skingrocer.com.au/shop" }],
-    scripts: [faqJsonLd(SHOP_FAQS)],
+    scripts: [
+      faqJsonLd(SHOP_FAQS),
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Shop", path: "/shop" },
+      ]),
+    ],
   }),
   component: Shop,
 });

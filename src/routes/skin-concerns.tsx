@@ -16,6 +16,12 @@ export const Route = createFileRoute("/skin-concerns")({
       { property: "og:url", content: "https://skingrocer.com.au/skin-concerns" },
     ],
     links: [{ rel: "canonical", href: "https://skingrocer.com.au/skin-concerns" }],
+    scripts: [
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Skin Concerns", path: "/skin-concerns" },
+      ]),
+    ],
   }),
   component: ConcernsPage,
 });

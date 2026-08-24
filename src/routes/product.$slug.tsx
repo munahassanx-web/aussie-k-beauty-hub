@@ -92,6 +92,14 @@ export const Route = createFileRoute('/product/$slug')({
         ? [
             faqJsonLd(productFaqs(p, { steps: howToUse(p), description: productDescription(p) })),
             productJsonLd(p, Boolean(loaderData?.soldOut?.includes(p.priceId))),
+            // Home > Shop > [Brand] > [Product]. The brand step resolves to the
+            // real /shop?brand=… filtered URL — there is no per-brand page.
+            breadcrumbJsonLd([
+              { name: 'Home', path: '/' },
+              { name: 'Shop', path: '/shop' },
+              { name: p.brand, path: `/shop?brand=${encodeURIComponent(p.brand)}` },
+              { name: p.name, path: `/product/${productSlug(p)}` },
+            ]),
           ]
         : [],
     };
