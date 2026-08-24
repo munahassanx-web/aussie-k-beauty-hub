@@ -50,6 +50,7 @@ export const Route = createFileRoute("/blog/$slug")({
     const cover = typeof issue.cover === "string" && issue.cover
       ? (/^https?:\/\//i.test(issue.cover) ? issue.cover : `https://skingrocer.com.au${issue.cover}`)
       : undefined;
+    const datePublished = parseIssueDateToIso(issue.date);
     return {
       meta: [
         { title },
@@ -77,10 +78,26 @@ export const Route = createFileRoute("/blog/$slug")({
                 "@type": "BlogPosting",
                 headline: issue.title,
                 description: issue.standfirst,
-                mainEntityOfPage: url,
+                mainEntityOfPage: {
+                  "@type": "WebPage",
+                  "@id": url,
+                },
                 ...(cover ? { image: cover } : {}),
-                author: { "@type": "Organization", name: "Skin Grocer" },
-                publisher: { "@type": "Organization", name: "Skin Grocer" },
+                ...(datePublished
+                  ? { datePublished, dateModified: datePublished }
+                  : {}),
+                author: {
+                  "@type": "Organization",
+                  name: HOUSE_BYLINE,
+                },
+                publisher: {
+                  "@type": "Organization",
+                  name: "Skin Grocer",
+                  logo: {
+                    "@type": "ImageObject",
+                    url: SITE_LOGO_URL,
+                  },
+                },
               },
               {
                 "@type": "BreadcrumbList",
