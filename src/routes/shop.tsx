@@ -26,6 +26,7 @@ import { Reveal } from "@/components/reveal";
 
 import { FaqSection } from "@/components/faq-section";
 import { SHOP_FAQS, faqJsonLd } from "@/lib/faqs";
+import { breadcrumbJsonLd } from "@/lib/breadcrumbs";
 
 const searchSchema = z.object({
   category: z.string().optional(),
@@ -47,7 +48,13 @@ export const Route = createFileRoute("/shop")({
       { property: "og:url", content: "https://skingrocer.com.au/shop" },
     ],
     links: [{ rel: "canonical", href: "https://skingrocer.com.au/shop" }],
-    scripts: [faqJsonLd(SHOP_FAQS)],
+    scripts: [
+      faqJsonLd(SHOP_FAQS),
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Shop", path: "/shop" },
+      ]),
+    ],
   }),
   component: Shop,
 });

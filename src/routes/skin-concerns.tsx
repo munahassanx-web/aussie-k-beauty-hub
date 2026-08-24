@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { breadcrumbJsonLd } from "@/lib/breadcrumbs";
 import imgHydration from "@/assets/concerns/page-hydration.jpg";
 import imgAcne from "@/assets/concerns/page-acne.jpg";
 import imgPigmentation from "@/assets/concerns/page-pigmentation.jpg";
@@ -15,6 +16,12 @@ export const Route = createFileRoute("/skin-concerns")({
       { property: "og:url", content: "https://skingrocer.com.au/skin-concerns" },
     ],
     links: [{ rel: "canonical", href: "https://skingrocer.com.au/skin-concerns" }],
+    scripts: [
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Skin Concerns", path: "/skin-concerns" },
+      ]),
+    ],
   }),
   component: ConcernsPage,
 });
