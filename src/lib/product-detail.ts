@@ -11,7 +11,7 @@ import ritualScene from '@/assets/ritual-scene.webp';
 import productFlatlay from '@/assets/product-flatlay.webp';
 import textureMacro from '@/assets/texture-macro.webp';
 import skinMacro from '@/assets/skin-macro.webp';
-import applyingSerumAsset from '@/assets/applying-serum.png.asset.json';
+import applyingSerumAsset from '@/assets/applying-serum.webp.asset.json';
 import learnFeatureSerum from '@/assets/learn-feature-serum.webp';
 import heroDewy from '@/assets/hero-dewy.webp';
 import glow from '@/assets/glow.webp';
