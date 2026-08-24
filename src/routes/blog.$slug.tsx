@@ -192,6 +192,9 @@ function IssuePage() {
         <p className="mt-6 text-[11px] uppercase tracking-[0.22em] text-foreground/45">
           {issue.date}
         </p>
+        <p className="mt-2 text-[11px] uppercase tracking-[0.22em] text-grocer-green">
+          By {HOUSE_BYLINE}
+        </p>
       </header>
 
       <img
