@@ -1,11 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { breadcrumbJsonLd } from "@/lib/breadcrumbs";
-import imgHydration from "@/assets/concerns/page-hydration.jpg";
-import imgAcne from "@/assets/concerns/page-acne.jpg";
-import imgPigmentation from "@/assets/concerns/page-pigmentation.jpg";
-import imgSensitivity from "@/assets/concerns/page-sensitivity.jpg";
-import imgAntiAging from "@/assets/concerns/page-anti-aging.jpg";
-import imgBarrier from "@/assets/concerns/page-barrier.jpg";
+import imgHydration from "@/assets/concerns/page-hydration.webp";
+import imgAcne from "@/assets/concerns/page-acne.webp";
+import imgPigmentation from "@/assets/concerns/page-pigmentation.webp";
+import imgSensitivity from "@/assets/concerns/page-sensitivity.webp";
+import imgAntiAging from "@/assets/concerns/page-anti-aging.webp";
+import imgBarrier from "@/assets/concerns/page-barrier.webp";
 
 export const Route = createFileRoute("/skin-concerns")({
   head: () => ({

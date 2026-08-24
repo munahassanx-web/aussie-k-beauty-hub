@@ -4,7 +4,7 @@
 // to list "Shop products with this ingredient". When the shop grows to
 // include the rest of these products, wire real priceIds / images here.
 
-import productReliefSun from "@/assets/product-relief-sun.jpg";
+import productReliefSun from "@/assets/product-relief-sun.webp";
 
 export type CatalogEntry = {
   productId: string;

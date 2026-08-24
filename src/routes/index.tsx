@@ -15,8 +15,8 @@ import completeGlowExplainer from "@/assets/bundle-explainers/complete-glow-edit
 import calmClearExplainer from "@/assets/bundle-explainers/calm-clear-bundle.png.asset.json";
 import applyingSerum from "@/assets/applying-serum.png.asset.json";
 import authenticityCard from "@/assets/authenticity-card.png.asset.json";
-import ritualScene from "@/assets/ritual-scene.jpg";
-import quizBareSkin from "@/assets/quiz-bare-skin.jpg";
+import ritualScene from "@/assets/ritual-scene.webp";
+import quizBareSkin from "@/assets/quiz-bare-skin.webp";
 import cabinetLineup from "@/assets/brand-lineup.png.asset.json";
 
 const SITE_LOGO_URL =
@@ -67,12 +67,12 @@ const categories: {
   ingredient: string;
   search: { category: "cleanse" | "tone" | "treat" | "moisturise" | "protect" | "masks" };
 }[] = [
-  { name: "Cleansers", count: "Melt & rinse", img: "/products/beplain/mung-bean-cleansing-oil-200ml.png", label: "beplain Mung Bean Cleansing Oil", brand: "beplain", price: "A$35", size: "200ml", benefit: "Dissolves SPF, makeup and sebum, rinses clean without stripping.", ingredient: "Mung bean extract", search: { category: "cleanse" } },
-  { name: "Toners & Essences", count: "Prep & hydrate", img: "/products/wellage/real-hyaluronic-toner-200ml.png", label: "WELLAGE Real Hyaluronic Toner", brand: "WELLAGE", price: "A$28", size: "200ml", benefit: "A watery first layer that preps skin so everything after absorbs better.", ingredient: "Hyaluronic acid", search: { category: "tone" } },
-  { name: "Serums", count: "Treat & target", img: "/products/medicube/pdrn-pink-peptide-serum-30ml.png", label: "MEDICUBE PDRN Pink Peptide Serum", brand: "MEDICUBE", price: "A$40", size: "30ml", benefit: "Concentrated step aimed at firmness and elasticity.", ingredient: "PDRN + peptides", search: { category: "treat" } },
-  { name: "Moisturisers", count: "Seal & protect", img: "/products/aestura/atobarrier365-cream.png", label: "AESTURA Atobarrier365 Cream", brand: "AESTURA", price: "A$55", size: "Cream", benefit: "Seals in the layers underneath and supports a dry, reactive barrier.", ingredient: "Ceramides", search: { category: "moisturise" } },
-  { name: "SPF", count: "Everyday defence", img: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", label: "AESTURA Derma UV365 Mineral Sun Cream", brand: "AESTURA", price: "A$10", size: "20ml", benefit: "A mineral daily sunscreen that finishes moisturising, not chalky.", ingredient: "Mineral UV filters", search: { category: "protect" } },
-  { name: "Masks", count: "Sheet & overnight masks", img: "/products/biodance/bio-collagen-real-deep-mask.png", label: "BIODANCE Bio Collagen Real Deep Mask", brand: "BIODANCE", price: "A$38", size: "Hydrogel mask", benefit: "An overnight hydrogel mask that melts down onto skin as you sleep.", ingredient: "Bio-collagen", search: { category: "masks" } },
+  { name: "Cleansers", count: "Melt & rinse", img: "/products/beplain/mung-bean-cleansing-oil-200ml.webp", label: "beplain Mung Bean Cleansing Oil", brand: "beplain", price: "A$35", size: "200ml", benefit: "Dissolves SPF, makeup and sebum, rinses clean without stripping.", ingredient: "Mung bean extract", search: { category: "cleanse" } },
+  { name: "Toners & Essences", count: "Prep & hydrate", img: "/products/wellage/real-hyaluronic-toner-200ml.webp", label: "WELLAGE Real Hyaluronic Toner", brand: "WELLAGE", price: "A$28", size: "200ml", benefit: "A watery first layer that preps skin so everything after absorbs better.", ingredient: "Hyaluronic acid", search: { category: "tone" } },
+  { name: "Serums", count: "Treat & target", img: "/products/medicube/pdrn-pink-peptide-serum-30ml.webp", label: "MEDICUBE PDRN Pink Peptide Serum", brand: "MEDICUBE", price: "A$40", size: "30ml", benefit: "Concentrated step aimed at firmness and elasticity.", ingredient: "PDRN + peptides", search: { category: "treat" } },
+  { name: "Moisturisers", count: "Seal & protect", img: "/products/aestura/atobarrier365-cream.webp", label: "AESTURA Atobarrier365 Cream", brand: "AESTURA", price: "A$55", size: "Cream", benefit: "Seals in the layers underneath and supports a dry, reactive barrier.", ingredient: "Ceramides", search: { category: "moisturise" } },
+  { name: "SPF", count: "Everyday defence", img: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp", label: "AESTURA Derma UV365 Mineral Sun Cream", brand: "AESTURA", price: "A$10", size: "20ml", benefit: "A mineral daily sunscreen that finishes moisturising, not chalky.", ingredient: "Mineral UV filters", search: { category: "protect" } },
+  { name: "Masks", count: "Sheet & overnight masks", img: "/products/biodance/bio-collagen-real-deep-mask.webp", label: "BIODANCE Bio Collagen Real Deep Mask", brand: "BIODANCE", price: "A$38", size: "Hydrogel mask", benefit: "An overnight hydrogel mask that melts down onto skin as you sleep.", ingredient: "Bio-collagen", search: { category: "masks" } },
 ];
 
 

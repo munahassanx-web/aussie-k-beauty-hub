@@ -1,10 +1,10 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { Link } from "@tanstack/react-router";
-import brandMoment from "@/assets/hero-slides/brand-moment.jpg";
-import notStocked from "@/assets/hero-slides/not-stocked.jpg";
-import authenticityCheck from "@/assets/hero-slides/authenticity-check.jpg";
-import overwhelmed from "@/assets/hero-slides/overwhelmed.jpg";
-import localDispatch from "@/assets/hero-slides/local-dispatch.jpg";
+import brandMoment from "@/assets/hero-slides/brand-moment.webp";
+import notStocked from "@/assets/hero-slides/not-stocked.webp";
+import authenticityCheck from "@/assets/hero-slides/authenticity-check.webp";
+import overwhelmed from "@/assets/hero-slides/overwhelmed.webp";
+import localDispatch from "@/assets/hero-slides/local-dispatch.webp";
 
 
 

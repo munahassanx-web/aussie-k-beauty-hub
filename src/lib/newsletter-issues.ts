@@ -2,16 +2,16 @@
 // site as collectible issues. Each issue follows the same eight-part structure
 // so readers learn the format and come back for it.
 
-import portraitDeep from "@/assets/learn/deeper-skin-tones.jpg";
-import matureSkin from "@/assets/learn/mature-skin.jpg";
-import hypeScrutiny from "@/assets/learn/hype-ingredient-scrutiny.jpg";
-import routineFlatlay from "@/assets/learn-routine-flatlay.jpg";
-import signalIssue01Cover from "@/assets/signal-issue-01-cover.jpg";
-import issue02Cover from "@/assets/issues/issue-02-barrier.jpg";
-import issue03Cover from "@/assets/issues/issue-03-routine.jpg";
-import issue04Cover from "@/assets/issues/issue-04-pdrn.jpg";
-import issue05Cover from "@/assets/issues/issue-05-pigmentation.jpg";
-import issue06Cover from "@/assets/issues/issue-06-undiscovered.jpg";
+import portraitDeep from "@/assets/learn/deeper-skin-tones.webp";
+import matureSkin from "@/assets/learn/mature-skin.webp";
+import hypeScrutiny from "@/assets/learn/hype-ingredient-scrutiny.webp";
+import routineFlatlay from "@/assets/learn-routine-flatlay.webp";
+import signalIssue01Cover from "@/assets/signal-issue-01-cover.webp";
+import issue02Cover from "@/assets/issues/issue-02-barrier.webp";
+import issue03Cover from "@/assets/issues/issue-03-routine.webp";
+import issue04Cover from "@/assets/issues/issue-04-pdrn.webp";
+import issue05Cover from "@/assets/issues/issue-05-pigmentation.webp";
+import issue06Cover from "@/assets/issues/issue-06-undiscovered.webp";
 
 export type IssuePick = {
   name: string;
@@ -125,7 +125,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         name: "Atobarrier365 Cream (2nd Generation)",
         brand: "AESTURA",
         price: "A$55",
-        image: "/products/aestura/atobarrier365-cream.png",
+        image: "/products/aestura/atobarrier365-cream.webp",
         note: "A pharmacy-channel ceramide cream that Korean derm clinics hand out — no fragrance, no essential oils, nothing to react to.",
         reasons: [
           "Ceramide-led formula built for eczema-prone, compromised skin",
@@ -145,26 +145,26 @@ export const newsletterIssues: NewsletterIssue[] = [
       shouldAussiesCare:
         "Yes, especially if oils have historically broken you out. Squalane is non-comedogenic for most people, lightweight, and one of the few lipids that suits both a Brisbane summer and a Melbourne winter. It is not an active: it will not brighten, resurface or firm anything. It fixes texture and comfort, and that's the whole job.",
       tryIt: [
-        { name: "Aqua Squalane Serum", brand: "S.NATURE", price: "A$34", image: "/products/s-nature/aqua-squalane-serum.png", note: "Lightweight squalane and water — the summer version." },
-        { name: "Aqua Squalane Moisturizing Cream", brand: "S.NATURE", price: "A$35", image: "/products/s-nature/aqua-squalane-moisturizing-cream.png", note: "Same idea, sealed. Good for dry mornings." },
-        { name: "Milk Ceramide Moisturizing Cream", brand: "beplain", price: "A$35", image: "/products/beplain/milk-ceramide-moisturizing-cream.png", note: "Lipids plus ceramides if squalane alone isn't enough." },
+        { name: "Aqua Squalane Serum", brand: "S.NATURE", price: "A$34", image: "/products/s-nature/aqua-squalane-serum.webp", note: "Lightweight squalane and water — the summer version." },
+        { name: "Aqua Squalane Moisturizing Cream", brand: "S.NATURE", price: "A$35", image: "/products/s-nature/aqua-squalane-moisturizing-cream.webp", note: "Same idea, sealed. Good for dry mornings." },
+        { name: "Milk Ceramide Moisturizing Cream", brand: "beplain", price: "A$35", image: "/products/beplain/milk-ceramide-moisturizing-cream.webp", note: "Lipids plus ceramides if squalane alone isn't enough." },
       ],
     },
     aisle: [
-      { emoji: "🥛", concern: "Tight after cleansing", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", why: "Low-pH, low-foam. Removes the day without stripping the barrier that keeps water in.", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.png" },
-      { emoji: "🌿", concern: "Reactive", pick: "Cicaful Ampoule 30ml", brand: "beplain", why: "Centella-led, fragrance-free, short list. Nothing in it to argue with.", image: "/products/beplain/cicaful-ampoule-30ml.png" },
-      { emoji: "💧", concern: "Dehydrated but oily", pick: "Aqua Oasis Moisturizing Gel", brand: "S.NATURE", why: "Humectant gel with no heavy occlusive — hydration without the film.", image: "/products/s-nature/aqua-oasis-moisturizing-gel.png" },
-      { emoji: "🧴", concern: "Barrier damage", pick: "Atobarrier 365 Hydro Soothing Cream", brand: "AESTURA", why: "The lighter Atobarrier for warm weather. Same repair logic, less weight.", image: "/products/aestura/atobarrier-365-hydro-soothing-cream.png" },
-      { emoji: "🍶", concern: "Dull, uneven", pick: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", why: "Fermented rice extract and HA — hydration first, gentle tone-evening second.", image: "/products/haruharu-wonder/black-rice-hyaluronic-toner-150ml.png" },
+      { emoji: "🥛", concern: "Tight after cleansing", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", why: "Low-pH, low-foam. Removes the day without stripping the barrier that keeps water in.", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
+      { emoji: "🌿", concern: "Reactive", pick: "Cicaful Ampoule 30ml", brand: "beplain", why: "Centella-led, fragrance-free, short list. Nothing in it to argue with.", image: "/products/beplain/cicaful-ampoule-30ml.webp" },
+      { emoji: "💧", concern: "Dehydrated but oily", pick: "Aqua Oasis Moisturizing Gel", brand: "S.NATURE", why: "Humectant gel with no heavy occlusive — hydration without the film.", image: "/products/s-nature/aqua-oasis-moisturizing-gel.webp" },
+      { emoji: "🧴", concern: "Barrier damage", pick: "Atobarrier 365 Hydro Soothing Cream", brand: "AESTURA", why: "The lighter Atobarrier for warm weather. Same repair logic, less weight.", image: "/products/aestura/atobarrier-365-hydro-soothing-cream.webp" },
+      { emoji: "🍶", concern: "Dull, uneven", pick: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", why: "Fermented rice extract and HA — hydration first, gentle tone-evening second.", image: "/products/haruharu-wonder/black-rice-hyaluronic-toner-150ml.webp" },
     ],
     fiveMinute: {
       intro:
         "The version we'd build for someone who has been burned by viral products and wants to reset with things that were never trendy in the first place.",
       steps: [
-        { step: "01 · Cleanse", what: "One gentle wash at night, water only in the morning if you're dry.", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.png" },
-        { step: "02 · Hydrate", what: "Onto damp skin. Fermented rice and HA, two light passes.", pick: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", image: "/products/haruharu-wonder/black-rice-hyaluronic-toner-150ml.png" },
-        { step: "03 · Comfort", what: "Squalane where skin feels rough. Skip on humid days.", pick: "Aqua Squalane Serum", brand: "S.NATURE", image: "/products/s-nature/aqua-squalane-serum.png" },
-        { step: "04 · Seal", what: "Ceramides at night. SPF over the top in the morning, all year.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.png" },
+        { step: "01 · Cleanse", what: "One gentle wash at night, water only in the morning if you're dry.", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
+        { step: "02 · Hydrate", what: "Onto damp skin. Fermented rice and HA, two light passes.", pick: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", image: "/products/haruharu-wonder/black-rice-hyaluronic-toner-150ml.webp" },
+        { step: "03 · Comfort", what: "Squalane where skin feels rough. Skip on humid days.", pick: "Aqua Squalane Serum", brand: "S.NATURE", image: "/products/s-nature/aqua-squalane-serum.webp" },
+        { step: "04 · Seal", what: "Ceramides at night. SPF over the top in the morning, all year.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.webp" },
       ],
       closer:
         "Nothing in this routine has ever trended. That's the point — it's the one you can still be using in two years.",
@@ -184,7 +184,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       product: "Aqua Oasis Toner",
       brand: "S.NATURE",
       duration: "3 weeks, two testers on our team",
-      image: "/products/s-nature/aqua-oasis-toner.png",
+      image: "/products/s-nature/aqua-oasis-toner.webp",
       scores: [
         { label: "Absorption", value: "9/10" },
         { label: "Stickiness", value: "None" },
@@ -197,10 +197,10 @@ export const newsletterIssues: NewsletterIssue[] = [
     basket: {
       forWho: "For starting over after a bad run",
       items: [
-        { name: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", price: "A$24", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.png", note: "Stop the damage." },
-        { name: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", price: "A$28", image: "/products/haruharu-wonder/black-rice-hyaluronic-toner-150ml.png", note: "Water in." },
-        { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.png", note: "Water stays in." },
-        { name: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", price: "A$10", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", note: "The only anti-ageing step that's proven." },
+        { name: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", price: "A$24", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp", note: "Stop the damage." },
+        { name: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", price: "A$28", image: "/products/haruharu-wonder/black-rice-hyaluronic-toner-150ml.webp", note: "Water in." },
+        { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.webp", note: "Water stays in." },
+        { name: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", price: "A$10", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp", note: "The only anti-ageing step that's proven." },
       ],
     },
     askTheGrocer: {
@@ -258,25 +258,25 @@ export const newsletterIssues: NewsletterIssue[] = [
         "Yes — as your default daily brightener, not your hero. If a product lists niacinamide high in the ingredients, you're likely in a useful range. If your skin flushes on it, drop to a lower-percentage formula rather than abandoning the ingredient; the flush is usually dose, not allergy.",
       tryIt: [
         { name: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", price: "A$34", image: "/__l5e/assets-v1/d5d743cf-0c9b-4181-8715-2aa3dc4426c3/boj-glow-serum-propolis.png", note: "The daily one." },
-        { name: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", price: "A$26", image: "/products/isntree/green-tea-fresh-toner-200ml.png", note: "Green tea polyphenols — antioxidant support under SPF." },
-        { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "A$18", image: "/products/round-lab/1025-dokdo-toner-100ml.png", note: "Hydration base so you can tolerate an active daily." },
+        { name: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", price: "A$26", image: "/products/isntree/green-tea-fresh-toner-200ml.webp", note: "Green tea polyphenols — antioxidant support under SPF." },
+        { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "A$18", image: "/products/round-lab/1025-dokdo-toner-100ml.webp", note: "Hydration base so you can tolerate an active daily." },
       ],
     },
     aisle: [
-      { emoji: "☀️", concern: "Sun-triggered spots", pick: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", why: "The only step that stops the trigger. Everything else is maintenance.", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png" },
+      { emoji: "☀️", concern: "Sun-triggered spots", pick: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", why: "The only step that stops the trigger. Everything else is maintenance.", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp" },
       { emoji: "🍯", concern: "Dull with uneven tone", pick: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", why: "Daily niacinamide, low irritation, safe to run for months.", image: "/__l5e/assets-v1/d5d743cf-0c9b-4181-8715-2aa3dc4426c3/boj-glow-serum-propolis.png" },
-      { emoji: "🌱", concern: "Post-acne marks", pick: "Chestnut BHA 2% Clear Liquid 100ml", brand: "ISNTREE", why: "Clears the congestion causing new marks. Two to three nights a week, not daily.", image: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.png" },
-      { emoji: "🍵", concern: "Redness plus pigment", pick: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", why: "Calms the inflammation that keeps generating fresh pigment.", image: "/products/isntree/green-tea-fresh-toner-200ml.png" },
-      { emoji: "🌙", concern: "Fine lines with dark spots", pick: "Revive Eye Serum: Ginseng + Retinal 30ml", brand: "Beauty of Joseon", why: "Low-dose retinal, used sparingly. Retinoids are the strongest evidence base we have.", image: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.png" },
+      { emoji: "🌱", concern: "Post-acne marks", pick: "Chestnut BHA 2% Clear Liquid 100ml", brand: "ISNTREE", why: "Clears the congestion causing new marks. Two to three nights a week, not daily.", image: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.webp" },
+      { emoji: "🍵", concern: "Redness plus pigment", pick: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", why: "Calms the inflammation that keeps generating fresh pigment.", image: "/products/isntree/green-tea-fresh-toner-200ml.webp" },
+      { emoji: "🌙", concern: "Fine lines with dark spots", pick: "Revive Eye Serum: Ginseng + Retinal 30ml", brand: "Beauty of Joseon", why: "Low-dose retinal, used sparingly. Retinoids are the strongest evidence base we have.", image: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.webp" },
     ],
     fiveMinute: {
       intro:
         "A pigmentation routine you can hold for three months, because three months is the actual timeframe. Anything more aggressive gets abandoned in week two.",
       steps: [
-        { step: "01 · Cleanse", what: "Gentle, low-pH. Scrubbing pigment does nothing except make more of it.", pick: "Yam Root Vegan Milk Cleanser 220ml", brand: "ISNTREE", image: "/products/isntree/yam-root-vegan-milk-cleanser-220ml.png" },
-        { step: "02 · Hydrate", what: "Damp skin, one pass. Hydrated skin tolerates actives better.", pick: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", image: "/products/isntree/green-tea-fresh-toner-200ml.png" },
+        { step: "01 · Cleanse", what: "Gentle, low-pH. Scrubbing pigment does nothing except make more of it.", pick: "Yam Root Vegan Milk Cleanser 220ml", brand: "ISNTREE", image: "/products/isntree/yam-root-vegan-milk-cleanser-220ml.webp" },
+        { step: "02 · Hydrate", what: "Damp skin, one pass. Hydrated skin tolerates actives better.", pick: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", image: "/products/isntree/green-tea-fresh-toner-200ml.webp" },
         { step: "03 · Brighten", what: "Niacinamide serum, morning. Every day for at least eight weeks.", pick: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", image: "/__l5e/assets-v1/d5d743cf-0c9b-4181-8715-2aa3dc4426c3/boj-glow-serum-propolis.png" },
-        { step: "04 · Protect", what: "SPF, generously, reapplied when you're outdoors. This is the treatment.", pick: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png" },
+        { step: "04 · Protect", what: "SPF, generously, reapplied when you're outdoors. This is the treatment.", pick: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp" },
       ],
       closer:
         "If you only do one of these four, do the sunscreen. It out-performs every brightening serum ever sold, including the ones we stock.",
@@ -296,7 +296,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       product: "Green Tea Fresh Toner 200ml",
       brand: "ISNTREE",
       duration: "4 weeks, one tester with combination skin",
-      image: "/products/isntree/green-tea-fresh-toner-200ml.png",
+      image: "/products/isntree/green-tea-fresh-toner-200ml.webp",
       scores: [
         { label: "Comfort", value: "9/10" },
         { label: "Redness", value: "⭐⭐⭐⭐" },
@@ -310,9 +310,9 @@ export const newsletterIssues: NewsletterIssue[] = [
       forWho: "For pigmentation and uneven tone",
       items: [
         { name: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", price: "A$34", image: "/__l5e/assets-v1/d5d743cf-0c9b-4181-8715-2aa3dc4426c3/boj-glow-serum-propolis.png", note: "The daily brightener." },
-        { name: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", price: "A$26", image: "/products/isntree/green-tea-fresh-toner-200ml.png", note: "Calm the trigger." },
-        { name: "Chestnut BHA 2% Clear Liquid 100ml", brand: "ISNTREE", price: "A$36", image: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.png", note: "Fewer new marks." },
-        { name: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", price: "A$10", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", note: "Protect the result." },
+        { name: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", price: "A$26", image: "/products/isntree/green-tea-fresh-toner-200ml.webp", note: "Calm the trigger." },
+        { name: "Chestnut BHA 2% Clear Liquid 100ml", brand: "ISNTREE", price: "A$36", image: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.webp", note: "Fewer new marks." },
+        { name: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", price: "A$10", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp", note: "Protect the result." },
       ],
     },
     askTheGrocer: {
@@ -349,7 +349,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         name: "Hyper PDRN Repair Ampoule 30ml",
         brand: "WELLAGE",
         price: "A$40",
-        image: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.png",
+        image: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.webp",
         note: "If you want to try the category, this is the straightforward one: concentrated, fragrance-free, no theatre.",
         reasons: [
           "Comfortable enough for sensitised, over-exfoliated skin",
@@ -369,26 +369,26 @@ export const newsletterIssues: NewsletterIssue[] = [
       shouldAussiesCare:
         "Cautiously. Same barrier problem as PDRN, plus far less consistency in what's in the bottle. Judge these products by the rest of the formula — the humectants, the lipids, the soothing agents — because that's what's doing the work you can feel. If a serum is good, it's good; the exosome claim is a bonus you shouldn't pay much extra for.",
       tryIt: [
-        { name: "One Day Exosome Shot Pore Serum 2000 30ml", brand: "MEDICUBE", price: "A$40", image: "/products/medicube/one-day-exosome-shot-pore-serum-2000-30ml.png", note: "The category example — a light, pore-focused serum." },
-        { name: "PDRN Pink Peptide Serum 30ml", brand: "MEDICUBE", price: "A$40", image: "/products/medicube/pdrn-pink-peptide-serum-30ml.png", note: "Peptides alongside PDRN — the peptides are the better-evidenced half." },
-        { name: "Real Hyaluronic Blue 100 Ampoule 60ml", brand: "WELLAGE", price: "A$34", image: "/products/wellage/real-hyaluronic-blue-100-ampoule-60ml.png", note: "The unglamorous control: pure hydration, cheaper per ml." },
+        { name: "One Day Exosome Shot Pore Serum 2000 30ml", brand: "MEDICUBE", price: "A$40", image: "/products/medicube/one-day-exosome-shot-pore-serum-2000-30ml.webp", note: "The category example — a light, pore-focused serum." },
+        { name: "PDRN Pink Peptide Serum 30ml", brand: "MEDICUBE", price: "A$40", image: "/products/medicube/pdrn-pink-peptide-serum-30ml.webp", note: "Peptides alongside PDRN — the peptides are the better-evidenced half." },
+        { name: "Real Hyaluronic Blue 100 Ampoule 60ml", brand: "WELLAGE", price: "A$34", image: "/products/wellage/real-hyaluronic-blue-100-ampoule-60ml.webp", note: "The unglamorous control: pure hydration, cheaper per ml." },
       ],
     },
     aisle: [
-      { emoji: "💉", concern: "Post-treatment skin", pick: "Hyper PDRN Repair Ampoule 30ml", brand: "WELLAGE", why: "Calm, hydrating and fragrance-free — safe on skin that's had enough.", image: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.png" },
-      { emoji: "👁️", concern: "Crepey under-eyes", pick: "PDRN Pink Peptide Eye Cream 30ml", brand: "MEDICUBE", why: "Thin skin shows dehydration first. This is a hydration fix that looks like a firming one.", image: "/products/medicube/pdrn-pink-peptide-eye-cream-30ml.png" },
-      { emoji: "🫧", concern: "Visible pores", pick: "One Day Exosome Shot Pore Serum 2000 30ml", brand: "MEDICUBE", why: "Light texture, smoothing finish. Pores don't close — they can look tidier.", image: "/products/medicube/one-day-exosome-shot-pore-serum-2000-30ml.png" },
-      { emoji: "🧊", concern: "Redness after actives", pick: "PDRN Pink Cica Soothing Toner 250ml", brand: "MEDICUBE", why: "Centella-led toner to reset a face you've pushed too hard.", image: "/products/medicube/pdrn-pink-cica-soothing-toner-250ml.png" },
-      { emoji: "🪞", concern: "Loss of bounce", pick: "Collagen Jelly Cream 110ml", brand: "MEDICUBE", why: "Occlusive comfort. Topical collagen hydrates the surface — it doesn't rebuild yours.", image: "/products/medicube/collagen-jelly-cream-110ml.png" },
+      { emoji: "💉", concern: "Post-treatment skin", pick: "Hyper PDRN Repair Ampoule 30ml", brand: "WELLAGE", why: "Calm, hydrating and fragrance-free — safe on skin that's had enough.", image: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.webp" },
+      { emoji: "👁️", concern: "Crepey under-eyes", pick: "PDRN Pink Peptide Eye Cream 30ml", brand: "MEDICUBE", why: "Thin skin shows dehydration first. This is a hydration fix that looks like a firming one.", image: "/products/medicube/pdrn-pink-peptide-eye-cream-30ml.webp" },
+      { emoji: "🫧", concern: "Visible pores", pick: "One Day Exosome Shot Pore Serum 2000 30ml", brand: "MEDICUBE", why: "Light texture, smoothing finish. Pores don't close — they can look tidier.", image: "/products/medicube/one-day-exosome-shot-pore-serum-2000-30ml.webp" },
+      { emoji: "🧊", concern: "Redness after actives", pick: "PDRN Pink Cica Soothing Toner 250ml", brand: "MEDICUBE", why: "Centella-led toner to reset a face you've pushed too hard.", image: "/products/medicube/pdrn-pink-cica-soothing-toner-250ml.webp" },
+      { emoji: "🪞", concern: "Loss of bounce", pick: "Collagen Jelly Cream 110ml", brand: "MEDICUBE", why: "Occlusive comfort. Topical collagen hydrates the surface — it doesn't rebuild yours.", image: "/products/medicube/collagen-jelly-cream-110ml.webp" },
     ],
     fiveMinute: {
       intro:
         "How we'd actually use a PDRN product: as the hydrating layer in a short routine, not as the centrepiece of an expensive one.",
       steps: [
-        { step: "01 · Cleanse", what: "Whip cleanser, lukewarm water, thirty seconds.", pick: "PDRN Pink Niacinamide Whip Cleanser 120g", brand: "MEDICUBE", image: "/products/medicube/pdrn-pink-niacinamide-whip-cleanser-120g.png" },
-        { step: "02 · Calm", what: "Centella toner on damp skin, especially after actives.", pick: "PDRN Pink Cica Soothing Toner 250ml", brand: "MEDICUBE", image: "/products/medicube/pdrn-pink-cica-soothing-toner-250ml.png" },
-        { step: "03 · Hydrate", what: "PDRN ampoule while skin is still damp — that's when it performs.", pick: "Hyper PDRN Repair Ampoule 30ml", brand: "WELLAGE", image: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.png" },
-        { step: "04 · Seal", what: "Cream over the top, or none of the above stays put.", pick: "Real Hyaluronic 100 Cream 80ml", brand: "WELLAGE", image: "/products/wellage/real-hyaluronic-100-cream-80ml.png" },
+        { step: "01 · Cleanse", what: "Whip cleanser, lukewarm water, thirty seconds.", pick: "PDRN Pink Niacinamide Whip Cleanser 120g", brand: "MEDICUBE", image: "/products/medicube/pdrn-pink-niacinamide-whip-cleanser-120g.webp" },
+        { step: "02 · Calm", what: "Centella toner on damp skin, especially after actives.", pick: "PDRN Pink Cica Soothing Toner 250ml", brand: "MEDICUBE", image: "/products/medicube/pdrn-pink-cica-soothing-toner-250ml.webp" },
+        { step: "03 · Hydrate", what: "PDRN ampoule while skin is still damp — that's when it performs.", pick: "Hyper PDRN Repair Ampoule 30ml", brand: "WELLAGE", image: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.webp" },
+        { step: "04 · Seal", what: "Cream over the top, or none of the above stays put.", pick: "Real Hyaluronic 100 Cream 80ml", brand: "WELLAGE", image: "/products/wellage/real-hyaluronic-100-cream-80ml.webp" },
       ],
       closer:
         "A good PDRN routine is a good hydration routine with better branding. Buy it for how your skin feels at 4pm, not for what the ad implied.",
@@ -408,7 +408,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       product: "PDRN Pink Peptide Eye Cream 30ml",
       brand: "MEDICUBE",
       duration: "4 weeks, one tester in her forties",
-      image: "/products/medicube/pdrn-pink-peptide-eye-cream-30ml.png",
+      image: "/products/medicube/pdrn-pink-peptide-eye-cream-30ml.webp",
       scores: [
         { label: "Texture", value: "8/10" },
         { label: "Morning puffiness", value: "⭐⭐⭐" },
@@ -421,10 +421,10 @@ export const newsletterIssues: NewsletterIssue[] = [
     basket: {
       forWho: "For calm, well-hydrated skin",
       items: [
-        { name: "Hyper PDRN Repair Ampoule 30ml", brand: "WELLAGE", price: "A$40", image: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.png", note: "The category, done properly." },
-        { name: "PDRN Pink Cica Soothing Toner 250ml", brand: "MEDICUBE", price: "A$36", image: "/products/medicube/pdrn-pink-cica-soothing-toner-250ml.png", note: "Reset layer." },
-        { name: "Real Hyaluronic 100 Cream 80ml", brand: "WELLAGE", price: "A$30", image: "/products/wellage/real-hyaluronic-100-cream-80ml.png", note: "Seal." },
-        { name: "PDRN Pink Peptide Eye Cream 30ml", brand: "MEDICUBE", price: "A$38", image: "/products/medicube/pdrn-pink-peptide-eye-cream-30ml.png", note: "Where dehydration shows first." },
+        { name: "Hyper PDRN Repair Ampoule 30ml", brand: "WELLAGE", price: "A$40", image: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.webp", note: "The category, done properly." },
+        { name: "PDRN Pink Cica Soothing Toner 250ml", brand: "MEDICUBE", price: "A$36", image: "/products/medicube/pdrn-pink-cica-soothing-toner-250ml.webp", note: "Reset layer." },
+        { name: "Real Hyaluronic 100 Cream 80ml", brand: "WELLAGE", price: "A$30", image: "/products/wellage/real-hyaluronic-100-cream-80ml.webp", note: "Seal." },
+        { name: "PDRN Pink Peptide Eye Cream 30ml", brand: "MEDICUBE", price: "A$38", image: "/products/medicube/pdrn-pink-peptide-eye-cream-30ml.webp", note: "Where dehydration shows first." },
       ],
     },
     askTheGrocer: {
@@ -461,7 +461,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         name: "Dive In Soothing Cream",
         brand: "TORRIDEN",
         price: "A$40",
-        image: "/products/torriden/dive-in-soothing-cream.png",
+        image: "/products/torriden/dive-in-soothing-cream.webp",
         note: "One cream that hydrates, soothes and seals — the multi-function step that lets you delete two others.",
         reasons: [
           "Low-molecular hyaluronic acid plus centella in one step",
@@ -481,26 +481,26 @@ export const newsletterIssues: NewsletterIssue[] = [
       shouldAussiesCare:
         "Especially here. Our climate swings hard between a dry, air-conditioned winter and a humid, high-UV summer, and a bloated routine is far harder to adjust than a four-step one. Fewer products also makes it possible to identify the culprit when something goes wrong — which is impossible with eleven.",
       tryIt: [
-        { name: "1025 Dokdo Toner + Lotion Special Set (200ml + 200ml)", brand: "ROUND LAB", price: "A$45", image: "/products/round-lab/1025-dokdo-toner-plus-lotion-special-set.png", note: "Two steps, one purchase, both fragrance-free." },
-        { name: "Dive In Trial Kit (Global)", brand: "TORRIDEN", price: "A$35", image: "/products/torriden/dive-in-trial-kit.png", note: "A whole minimal routine in travel sizes before you commit." },
-        { name: "Balanceful Cleansing Gel", brand: "TORRIDEN", price: "A$34", image: "/products/torriden/balanceful-cleansing-gel.png", note: "One cleanser that handles most days without a double-cleanse." },
+        { name: "1025 Dokdo Toner + Lotion Special Set (200ml + 200ml)", brand: "ROUND LAB", price: "A$45", image: "/products/round-lab/1025-dokdo-toner-plus-lotion-special-set.webp", note: "Two steps, one purchase, both fragrance-free." },
+        { name: "Dive In Trial Kit (Global)", brand: "TORRIDEN", price: "A$35", image: "/products/torriden/dive-in-trial-kit.webp", note: "A whole minimal routine in travel sizes before you commit." },
+        { name: "Balanceful Cleansing Gel", brand: "TORRIDEN", price: "A$34", image: "/products/torriden/balanceful-cleansing-gel.webp", note: "One cleanser that handles most days without a double-cleanse." },
       ],
     },
     aisle: [
-      { emoji: "🧼", concern: "Over-cleansed", pick: "Balanceful Cleansing Gel", brand: "TORRIDEN", why: "Replaces a stripping foam. If your face squeaks, that's damage, not clean.", image: "/products/torriden/balanceful-cleansing-gel.png" },
-      { emoji: "🧪", concern: "Too many actives", pick: "Dive In Serum", brand: "TORRIDEN", why: "The rest week product. Pure hydration while your barrier recovers.", image: "/products/torriden/dive-in-serum.png" },
-      { emoji: "🕖", concern: "No time", pick: "1025 Dokdo Lotion 200ml", brand: "ROUND LAB", why: "Hydrate and moisturise in one pass. Ninety seconds, done.", image: "/products/round-lab/1025-dokdo-lotion-200ml.png" },
-      { emoji: "🌡️", concern: "Humid summer", pick: "Aqua Oasis Moisturizing Gel", brand: "S.NATURE", why: "Swap your winter cream for this and delete a step until March.", image: "/products/s-nature/aqua-oasis-moisturizing-gel.png" },
-      { emoji: "🛏️", concern: "Late nights", pick: "Dive In Mask Pack 1pc", brand: "TORRIDEN", why: "The whole routine in one sheet when you genuinely cannot.", image: "/products/torriden/dive-in-mask-pack-1pc.png" },
+      { emoji: "🧼", concern: "Over-cleansed", pick: "Balanceful Cleansing Gel", brand: "TORRIDEN", why: "Replaces a stripping foam. If your face squeaks, that's damage, not clean.", image: "/products/torriden/balanceful-cleansing-gel.webp" },
+      { emoji: "🧪", concern: "Too many actives", pick: "Dive In Serum", brand: "TORRIDEN", why: "The rest week product. Pure hydration while your barrier recovers.", image: "/products/torriden/dive-in-serum.webp" },
+      { emoji: "🕖", concern: "No time", pick: "1025 Dokdo Lotion 200ml", brand: "ROUND LAB", why: "Hydrate and moisturise in one pass. Ninety seconds, done.", image: "/products/round-lab/1025-dokdo-lotion-200ml.webp" },
+      { emoji: "🌡️", concern: "Humid summer", pick: "Aqua Oasis Moisturizing Gel", brand: "S.NATURE", why: "Swap your winter cream for this and delete a step until March.", image: "/products/s-nature/aqua-oasis-moisturizing-gel.webp" },
+      { emoji: "🛏️", concern: "Late nights", pick: "Dive In Mask Pack 1pc", brand: "TORRIDEN", why: "The whole routine in one sheet when you genuinely cannot.", image: "/products/torriden/dive-in-mask-pack-1pc.webp" },
     ],
     fiveMinute: {
       intro:
         "The four steps, in order, with the reason each one earns its place. Delete anything that isn't on this list until your skin is calm.",
       steps: [
-        { step: "01 · Cleanse", what: "Once at night. Add an oil cleanse first only if you wore sunscreen and makeup.", pick: "Balanceful Cleansing Gel", brand: "TORRIDEN", image: "/products/torriden/balanceful-cleansing-gel.png" },
-        { step: "02 · Hydrate", what: "Onto damp skin, within a minute of washing. This is the step that does the most.", pick: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", image: "/products/round-lab/1025-dokdo-toner-100ml.png" },
-        { step: "03 · Treat", what: "One active, some nights. Not three, not nightly, not while your skin stings.", pick: "Dive In Serum", brand: "TORRIDEN", image: "/products/torriden/dive-in-serum.png" },
-        { step: "04 · Seal", what: "Cream at night; SPF instead in the morning, over a lighter moisturiser.", pick: "Dive In Soothing Cream", brand: "TORRIDEN", image: "/products/torriden/dive-in-soothing-cream.png" },
+        { step: "01 · Cleanse", what: "Once at night. Add an oil cleanse first only if you wore sunscreen and makeup.", pick: "Balanceful Cleansing Gel", brand: "TORRIDEN", image: "/products/torriden/balanceful-cleansing-gel.webp" },
+        { step: "02 · Hydrate", what: "Onto damp skin, within a minute of washing. This is the step that does the most.", pick: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", image: "/products/round-lab/1025-dokdo-toner-100ml.webp" },
+        { step: "03 · Treat", what: "One active, some nights. Not three, not nightly, not while your skin stings.", pick: "Dive In Serum", brand: "TORRIDEN", image: "/products/torriden/dive-in-serum.webp" },
+        { step: "04 · Seal", what: "Cream at night; SPF instead in the morning, over a lighter moisturiser.", pick: "Dive In Soothing Cream", brand: "TORRIDEN", image: "/products/torriden/dive-in-soothing-cream.webp" },
       ],
       closer:
         "Four products used every night beat eleven used when you can face it. Consistency is the active ingredient nobody can sell you.",
@@ -520,7 +520,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       product: "1025 Dokdo Lotion 200ml",
       brand: "ROUND LAB",
       duration: "3 weeks, two testers, morning and night",
-      image: "/products/round-lab/1025-dokdo-lotion-200ml.png",
+      image: "/products/round-lab/1025-dokdo-lotion-200ml.webp",
       scores: [
         { label: "Absorption", value: "9/10" },
         { label: "Under SPF", value: "⭐⭐⭐⭐⭐" },
@@ -533,10 +533,10 @@ export const newsletterIssues: NewsletterIssue[] = [
     basket: {
       forWho: "For a four-step reset",
       items: [
-        { name: "Balanceful Cleansing Gel", brand: "TORRIDEN", price: "A$34", image: "/products/torriden/balanceful-cleansing-gel.png", note: "Stop stripping." },
-        { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "A$18", image: "/products/round-lab/1025-dokdo-toner-100ml.png", note: "Water in." },
-        { name: "Dive In Serum", brand: "TORRIDEN", price: "A$38", image: "/products/torriden/dive-in-serum.png", note: "The one treat step." },
-        { name: "Dive In Soothing Cream", brand: "TORRIDEN", price: "A$40", image: "/products/torriden/dive-in-soothing-cream.png", note: "Seal and soothe." },
+        { name: "Balanceful Cleansing Gel", brand: "TORRIDEN", price: "A$34", image: "/products/torriden/balanceful-cleansing-gel.webp", note: "Stop stripping." },
+        { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "A$18", image: "/products/round-lab/1025-dokdo-toner-100ml.webp", note: "Water in." },
+        { name: "Dive In Serum", brand: "TORRIDEN", price: "A$38", image: "/products/torriden/dive-in-serum.webp", note: "The one treat step." },
+        { name: "Dive In Soothing Cream", brand: "TORRIDEN", price: "A$40", image: "/products/torriden/dive-in-soothing-cream.webp", note: "Seal and soothe." },
       ],
     },
     askTheGrocer: {
@@ -573,7 +573,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         name: "Atobarrier365 Cream (2nd Generation)",
         brand: "AESTURA",
         price: "A$55",
-        image: "/products/aestura/atobarrier365-cream.png",
+        image: "/products/aestura/atobarrier365-cream.webp",
         note: "The ceramide cream Korean derm clinics reach for with eczema-prone patients. Fragrance-free, no essential oils, nothing decorative.",
         reasons: [
           "Ceramide-led lipid blend that mirrors what depleted skin has lost",
@@ -593,26 +593,26 @@ export const newsletterIssues: NewsletterIssue[] = [
       shouldAussiesCare:
         "Yes, and not only in winter. Air conditioning, salt water, chlorine and daily sunscreen removal all deplete surface lipids. If you can only own one thing from this issue, own a ceramide cream. It is the least exciting and most consistently useful product in skincare.",
       tryIt: [
-        { name: "Black Rice 5 Ceramide Barrier Moisturizing Cream", brand: "HARUHARU WONDER", price: "A$38", image: "/products/haruharu-wonder/black-rice-5-ceramide-barrier-moisturizing-cream.png", note: "Five ceramides, lighter texture — good for combination skin." },
-        { name: "Milk Ceramide Moisturizing Cream", brand: "beplain", price: "A$35", image: "/products/beplain/milk-ceramide-moisturizing-cream.png", note: "Simple, gentle, well-priced entry point." },
-        { name: "Real Hyaluronic Soothing Cream 80ml", brand: "WELLAGE", price: "A$38", image: "/products/wellage/real-hyaluronic-soothing-cream-80ml.png", note: "Hydration plus soothing when skin is actively reactive." },
+        { name: "Black Rice 5 Ceramide Barrier Moisturizing Cream", brand: "HARUHARU WONDER", price: "A$38", image: "/products/haruharu-wonder/black-rice-5-ceramide-barrier-moisturizing-cream.webp", note: "Five ceramides, lighter texture — good for combination skin." },
+        { name: "Milk Ceramide Moisturizing Cream", brand: "beplain", price: "A$35", image: "/products/beplain/milk-ceramide-moisturizing-cream.webp", note: "Simple, gentle, well-priced entry point." },
+        { name: "Real Hyaluronic Soothing Cream 80ml", brand: "WELLAGE", price: "A$38", image: "/products/wellage/real-hyaluronic-soothing-cream-80ml.webp", note: "Hydration plus soothing when skin is actively reactive." },
       ],
     },
     aisle: [
-      { emoji: "🔥", concern: "Stinging", pick: "Cicaful Ampoule 30ml", brand: "beplain", why: "Centella and madecassoside — the best-evidenced calming pairing in K-beauty.", image: "/products/beplain/cicaful-ampoule-30ml.png" },
-      { emoji: "🧱", concern: "Barrier damage", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", why: "The repair cream. Twice daily until stinging stops, then keep using it.", image: "/products/aestura/atobarrier365-cream.png" },
-      { emoji: "🫧", concern: "Over-cleansed", pick: "Mung Bean Cleansing Oil 200ml", brand: "beplain", why: "Removes sunscreen without a second foaming wash that strips lipids.", image: "/products/beplain/mung-bean-cleansing-oil-200ml.png" },
-      { emoji: "🌾", concern: "Flaky and oily at once", pick: "Black Rice 5 Ceramide Barrier Moisturizing Cream", brand: "HARUHARU WONDER", why: "Lipids without the weight — dehydration and oiliness usually travel together.", image: "/products/haruharu-wonder/black-rice-5-ceramide-barrier-moisturizing-cream.png" },
-      { emoji: "🩹", concern: "Angry, red patches", pick: "R.E.D Blemish Clear Soothing Cream 70ml", brand: "Dr.G", why: "Calming cream for reactive, blemish-prone skin during a repair phase.", image: "/products/dr-g/r-e-d-blemish-clear-soothing-cream-70ml.png" },
+      { emoji: "🔥", concern: "Stinging", pick: "Cicaful Ampoule 30ml", brand: "beplain", why: "Centella and madecassoside — the best-evidenced calming pairing in K-beauty.", image: "/products/beplain/cicaful-ampoule-30ml.webp" },
+      { emoji: "🧱", concern: "Barrier damage", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", why: "The repair cream. Twice daily until stinging stops, then keep using it.", image: "/products/aestura/atobarrier365-cream.webp" },
+      { emoji: "🫧", concern: "Over-cleansed", pick: "Mung Bean Cleansing Oil 200ml", brand: "beplain", why: "Removes sunscreen without a second foaming wash that strips lipids.", image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp" },
+      { emoji: "🌾", concern: "Flaky and oily at once", pick: "Black Rice 5 Ceramide Barrier Moisturizing Cream", brand: "HARUHARU WONDER", why: "Lipids without the weight — dehydration and oiliness usually travel together.", image: "/products/haruharu-wonder/black-rice-5-ceramide-barrier-moisturizing-cream.webp" },
+      { emoji: "🩹", concern: "Angry, red patches", pick: "R.E.D Blemish Clear Soothing Cream 70ml", brand: "Dr.G", why: "Calming cream for reactive, blemish-prone skin during a repair phase.", image: "/products/dr-g/r-e-d-blemish-clear-soothing-cream-70ml.webp" },
     ],
     fiveMinute: {
       intro:
         "The repair routine. Deliberately boring — three products, no actives, for at least two weeks before you reintroduce anything.",
       steps: [
-        { step: "01 · Cleanse", what: "Oil cleanse at night only if you wore SPF or makeup. Water in the morning.", pick: "Mung Bean Cleansing Oil 200ml", brand: "beplain", image: "/products/beplain/mung-bean-cleansing-oil-200ml.png" },
-        { step: "02 · Hydrate", what: "One hydrating layer on damp skin. No acids, no vitamin C, no exceptions.", pick: "Real Hyaluronic Toner 200ml", brand: "WELLAGE", image: "/products/wellage/real-hyaluronic-toner-200ml.png" },
-        { step: "03 · Repair", what: "Ceramide cream, morning and night, generously. This is the treatment.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.png" },
-        { step: "04 · Protect", what: "SPF every morning. Damaged skin burns faster and heals slower.", pick: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png" },
+        { step: "01 · Cleanse", what: "Oil cleanse at night only if you wore SPF or makeup. Water in the morning.", pick: "Mung Bean Cleansing Oil 200ml", brand: "beplain", image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp" },
+        { step: "02 · Hydrate", what: "One hydrating layer on damp skin. No acids, no vitamin C, no exceptions.", pick: "Real Hyaluronic Toner 200ml", brand: "WELLAGE", image: "/products/wellage/real-hyaluronic-toner-200ml.webp" },
+        { step: "03 · Repair", what: "Ceramide cream, morning and night, generously. This is the treatment.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.webp" },
+        { step: "04 · Protect", what: "SPF every morning. Damaged skin burns faster and heals slower.", pick: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp" },
       ],
       closer:
         "If it stings, you're not done. The urge to add something is the thing that broke it in the first place.",
@@ -632,7 +632,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       product: "Atobarrier365 Cream (2nd Generation)",
       brand: "AESTURA",
       duration: "6 weeks, one tester recovering from over-exfoliation",
-      image: "/products/aestura/atobarrier365-cream.png",
+      image: "/products/aestura/atobarrier365-cream.webp",
       scores: [
         { label: "Stinging by week 2", value: "Gone" },
         { label: "Texture", value: "8/10" },
@@ -645,10 +645,10 @@ export const newsletterIssues: NewsletterIssue[] = [
     basket: {
       forWho: "For a compromised barrier",
       items: [
-        { name: "Mung Bean Cleansing Oil 200ml", brand: "beplain", price: "A$35", image: "/products/beplain/mung-bean-cleansing-oil-200ml.png", note: "Gentle removal." },
-        { name: "Real Hyaluronic Toner 200ml", brand: "WELLAGE", price: "A$28", image: "/products/wellage/real-hyaluronic-toner-200ml.png", note: "Water in." },
-        { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.png", note: "The repair step." },
-        { name: "Cicaful Ampoule 30ml", brand: "beplain", price: "A$38", image: "/products/beplain/cicaful-ampoule-30ml.png", note: "For the reactive days." },
+        { name: "Mung Bean Cleansing Oil 200ml", brand: "beplain", price: "A$35", image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp", note: "Gentle removal." },
+        { name: "Real Hyaluronic Toner 200ml", brand: "WELLAGE", price: "A$28", image: "/products/wellage/real-hyaluronic-toner-200ml.webp", note: "Water in." },
+        { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.webp", note: "The repair step." },
+        { name: "Cicaful Ampoule 30ml", brand: "beplain", price: "A$38", image: "/products/beplain/cicaful-ampoule-30ml.webp", note: "For the reactive days." },
       ],
     },
     askTheGrocer: {
@@ -687,7 +687,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         name: "1025 Dokdo Toner 100ml",
         brand: "ROUND LAB",
         price: "A$18",
-        image: "/products/round-lab/1025-dokdo-toner-100ml.png",
+        image: "/products/round-lab/1025-dokdo-toner-100ml.webp",
         note: "Deep-sea mineral water, no fragrance, no sting. The one we hand to people who've never used a toner they liked.",
         reasons: [
           "Lightweight hydration that absorbs in seconds — no tacky film",
@@ -712,21 +712,21 @@ export const newsletterIssues: NewsletterIssue[] = [
           name: "Hyper PDRN Repair Ampoule 30ml",
           brand: "WELLAGE",
           price: "A$40",
-          image: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.png",
+          image: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.webp",
           note: "The easiest entry point — a concentrated PDRN repair ampoule, no fragrance.",
         },
         {
           name: "PDRN Pink Peptide Eye Cream 30ml",
           brand: "MEDICUBE",
           price: "A$38",
-          image: "/products/medicube/pdrn-pink-peptide-eye-cream-30ml.png",
+          image: "/products/medicube/pdrn-pink-peptide-eye-cream-30ml.webp",
           note: "Where Koreans usually start: the thin skin that shows dehydration first.",
         },
         {
           name: "Atobarrier365 Cream (2nd Generation)",
           brand: "AESTURA",
           price: "A$55",
-          image: "/products/aestura/atobarrier365-cream.png",
+          image: "/products/aestura/atobarrier365-cream.webp",
           note: "Not PDRN, but the barrier cream Korean dermatology clinics pair it with.",
         },
       ],
@@ -739,7 +739,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         pick: "Atobarrier365 Cream (2nd Generation)",
         brand: "AESTURA",
         why: "Ceramide-led occlusive that holds oil in skin that genuinely doesn't make enough.",
-        image: "/products/aestura/atobarrier365-cream.png",
+        image: "/products/aestura/atobarrier365-cream.webp",
       },
       {
         emoji: "🍋",
@@ -747,7 +747,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         pick: "Revive Eye Serum: Ginseng + Retinal",
         brand: "Beauty of Joseon",
         why: "Ginseng with a low-dose retinal — brightens tired, dull skin without the sting of an acid.",
-        image: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.png",
+        image: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.webp",
       },
       {
         emoji: "🌶️",
@@ -755,7 +755,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         pick: "Cicaful Ampoule 30ml",
         brand: "beplain",
         why: "Centella-led and stripped back. Calming, fragrance-free, nothing in it to react to.",
-        image: "/products/beplain/cicaful-ampoule-30ml.png",
+        image: "/products/beplain/cicaful-ampoule-30ml.webp",
       },
       {
         emoji: "🍚",
@@ -763,7 +763,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         pick: "Dive In Serum",
         brand: "TORRIDEN",
         why: "Low-molecular hyaluronic acid, applied damp. The thirst fix.",
-        image: "/products/torriden/dive-in-serum.png",
+        image: "/products/torriden/dive-in-serum.webp",
       },
       {
         emoji: "🫛",
@@ -771,7 +771,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         pick: "Bio Collagen Real Deep Mask",
         brand: "BIODANCE",
         why: "Overnight hydrogel that softens congestion without scrubbing at it.",
-        image: "/products/biodance/bio-collagen-real-deep-mask.png",
+        image: "/products/biodance/bio-collagen-real-deep-mask.webp",
       },
     ],
 
@@ -779,10 +779,10 @@ export const newsletterIssues: NewsletterIssue[] = [
       intro:
         "The \"I can't be bothered\" routine. Four steps, roughly five minutes, and honestly better for most Australian skin than eleven products applied inconsistently.",
       steps: [
-        { step: "01 · Cleanse", what: "Low-foam, no squeak. If your face feels tight after, the cleanser is wrong.", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.png" },
-        { step: "02 · Hydrate", what: "Toner or HA serum onto damp skin. Two light passes, not one heavy one.", pick: "Dive In Serum", brand: "TORRIDEN", image: "/products/torriden/dive-in-serum.png" },
-        { step: "03 · Treat", what: "One active. Niacinamide by day, or nothing at all on a bad skin week.", pick: "Revive Eye Serum: Ginseng + Retinal", brand: "Beauty of Joseon", image: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.png" },
-        { step: "04 · Moisturise", what: "Seal it. Morning: add SPF over the top, every single day, all year.", pick: "Dive In Soothing Cream", brand: "TORRIDEN", image: "/products/torriden/dive-in-soothing-cream.png" },
+        { step: "01 · Cleanse", what: "Low-foam, no squeak. If your face feels tight after, the cleanser is wrong.", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
+        { step: "02 · Hydrate", what: "Toner or HA serum onto damp skin. Two light passes, not one heavy one.", pick: "Dive In Serum", brand: "TORRIDEN", image: "/products/torriden/dive-in-serum.webp" },
+        { step: "03 · Treat", what: "One active. Niacinamide by day, or nothing at all on a bad skin week.", pick: "Revive Eye Serum: Ginseng + Retinal", brand: "Beauty of Joseon", image: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.webp" },
+        { step: "04 · Moisturise", what: "Seal it. Morning: add SPF over the top, every single day, all year.", pick: "Dive In Soothing Cream", brand: "TORRIDEN", image: "/products/torriden/dive-in-soothing-cream.webp" },
       ],
       closer:
         "That's it. You don't need eleven products to have a good skincare routine — you need four you'll actually use, and a sunscreen you don't hate.",
@@ -804,7 +804,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       product: "Aqua Squalane Moisturizing Cream",
       brand: "S.NATURE",
       duration: "2 weeks, one tester in Melbourne, one in Brisbane",
-      image: "/products/s-nature/aqua-squalane-moisturizing-cream.png",
+      image: "/products/s-nature/aqua-squalane-moisturizing-cream.webp",
       scores: [
         { label: "Texture", value: "9/10" },
         { label: "Dry skin", value: "⭐⭐⭐⭐⭐" },
@@ -819,10 +819,10 @@ export const newsletterIssues: NewsletterIssue[] = [
     basket: {
       forWho: "For dehydrated skin",
       items: [
-        { name: "Dive In Serum", brand: "TORRIDEN", price: "A$38", image: "/products/torriden/dive-in-serum.png", note: "Water in." },
-        { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "A$18", image: "/products/round-lab/1025-dokdo-toner-100ml.png", note: "The layer underneath." },
-        { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.png", note: "Water stays in." },
-        { name: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", price: "A$10", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.png", note: "Non-negotiable." },
+        { name: "Dive In Serum", brand: "TORRIDEN", price: "A$38", image: "/products/torriden/dive-in-serum.webp", note: "Water in." },
+        { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "A$18", image: "/products/round-lab/1025-dokdo-toner-100ml.webp", note: "The layer underneath." },
+        { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.webp", note: "Water stays in." },
+        { name: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", price: "A$10", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp", note: "Non-negotiable." },
       ],
     },
 

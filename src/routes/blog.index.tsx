@@ -5,12 +5,12 @@ import { NewsletterForm } from "@/components/newsletter-form";
 import { newsletterIssues } from "@/lib/newsletter-issues";
 import { listPublishedIssues } from "@/lib/published-issues.functions";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
-import issue01 from "@/assets/issues/issue-01-hydration.jpg";
-import issue02 from "@/assets/issues/issue-02-barrier.jpg";
-import issue03 from "@/assets/issues/issue-03-routine.jpg";
-import issue04 from "@/assets/issues/issue-04-pdrn.jpg";
-import issue05 from "@/assets/issues/issue-05-pigmentation.jpg";
-import issue06 from "@/assets/issues/issue-06-undiscovered.jpg";
+import issue01 from "@/assets/issues/issue-01-hydration.webp";
+import issue02 from "@/assets/issues/issue-02-barrier.webp";
+import issue03 from "@/assets/issues/issue-03-routine.webp";
+import issue04 from "@/assets/issues/issue-04-pdrn.webp";
+import issue05 from "@/assets/issues/issue-05-pigmentation.webp";
+import issue06 from "@/assets/issues/issue-06-undiscovered.webp";
 
 const issueCovers: Record<string, { src: string; alt: string }> = {
   "01": {
