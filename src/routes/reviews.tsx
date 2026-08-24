@@ -1,31 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { Stars } from "@/components/product-reviews";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
-
-export const Route = createFileRoute("/reviews")({
-  head: () => ({
-    meta: [
-      { title: "Customer Reviews — Skin Grocer" },
-      {
-        name: "description",
-        content:
-          "Verified customer reviews of Korean skincare bought from Skin Grocer. Only reviews from real, completed orders are published here.",
-      },
-      { property: "og:title", content: "Customer Reviews — Skin Grocer" },
-      {
-        property: "og:description",
-        content: "Only reviews from real, completed Skin Grocer orders are published here.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "https://skingrocer.com.au/reviews" },
-    ],
-    links: [{ rel: "canonical", href: "https://skingrocer.com.au/reviews" }],
-  }),
-  component: Reviews,
-});
+import { listApprovedReviews } from "@/lib/reviews.functions";
 
 type Row = {
   id: string;
@@ -37,16 +14,12 @@ type Row = {
   created_at: string;
 };
 
-async function fetchApproved() {
-  const { data, error } = await supabase
-    .from("reviews")
-    .select("id, product_id, rating, review_text, customer_name, verified_purchase, created_at")
-    .eq("approved", true)
-    .order("created_at", { ascending: false })
-    .limit(60);
-  if (error) throw error;
-  return (data ?? []) as unknown as Row[];
-}
+const approvedReviewsQuery = queryOptions({
+  queryKey: ["all-reviews"],
+  queryFn: () => listApprovedReviews(),
+});
+
+const SITE_URL = "https://skingrocer.com.au";
 
 function productLabel(id: string) {
   const p = SHOP_PRODUCTS.find((x) => x.priceId === id);
@@ -54,11 +27,10 @@ function productLabel(id: string) {
   return `${p.brand} ${p.name}`;
 }
 
-const SITE_URL = "https://skingrocer.com.au";
-
 /**
  * Structured data for the reviews page, built only from real approved reviews.
- * AggregateRating is emitted only when at least one review exists — no invented numbers.
+ * The Organization block is always emitted; AggregateRating and individual
+ * Review blocks appear only when at least one review exists — no invented numbers.
  */
 function buildReviewsJsonLd(reviews: Row[]) {
   const org: Record<string, unknown> = {
@@ -88,19 +60,47 @@ function buildReviewsJsonLd(reviews: Row[]) {
   return org;
 }
 
+export const Route = createFileRoute("/reviews")({
+  // Loader runs during SSR so head() below can emit review JSON-LD in the
+  // initial HTML response, same pattern as the product/blog templates.
+  loader: ({ context }) => context.queryClient.ensureQueryData(approvedReviewsQuery),
+  head: ({ loaderData }) => {
+    const reviews = (loaderData ?? []) as Row[];
+    return {
+      meta: [
+        { title: "Customer Reviews — Skin Grocer" },
+        {
+          name: "description",
+          content:
+            "Verified customer reviews of Korean skincare bought from Skin Grocer. Only reviews from real, completed orders are published here.",
+        },
+        { property: "og:title", content: "Customer Reviews — Skin Grocer" },
+        {
+          property: "og:description",
+          content: "Only reviews from real, completed Skin Grocer orders are published here.",
+        },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { property: "og:url", content: `${SITE_URL}/reviews` },
+      ],
+      links: [{ rel: "canonical", href: `${SITE_URL}/reviews` }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(buildReviewsJsonLd(reviews)),
+        },
+      ],
+    };
+  },
+  component: Reviews,
+});
+
 function Reviews() {
-  const { data, isLoading } = useQuery({ queryKey: ["all-reviews"], queryFn: fetchApproved });
-  const reviews = data ?? [];
-  const jsonLd = isLoading ? null : buildReviewsJsonLd(reviews);
+  const { data } = useSuspenseQuery(approvedReviewsQuery);
+  const reviews = (data ?? []) as Row[];
 
   return (
     <>
-      {jsonLd && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      )}
       <section className="mx-auto max-w-4xl px-6 py-24">
         <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Reviews</p>
         <h1 className="mt-6 font-display text-4xl leading-[1.05] text-foreground md:text-6xl">
@@ -115,9 +115,7 @@ function Reviews() {
 
       <section className="border-t border-border">
         <div className="mx-auto max-w-4xl px-6 py-16">
-          {isLoading ? (
-            <p className="text-sm text-muted-foreground">Loading reviews…</p>
-          ) : reviews.length === 0 ? (
+          {reviews.length === 0 ? (
             <div>
               <h2 className="font-display text-2xl text-foreground">No published reviews yet</h2>
               <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
