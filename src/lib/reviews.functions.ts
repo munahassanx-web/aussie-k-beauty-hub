@@ -112,6 +112,31 @@ export const submitReview = createServerFn({ method: 'POST' })
     return { ok: true, pending: true };
   });
 
+/**
+ * Public read of approved reviews for the /reviews page. No auth: RLS exposes
+ * only approved rows. Runs during SSR so review JSON-LD lands in the initial
+ * HTML for crawlers. Never blocks the page: failures return an empty list.
+ */
+export const listApprovedReviews = createServerFn({ method: 'GET' }).handler(async () => {
+  const { publicClient } = await import('@/lib/signals.server');
+  const { data, error } = await publicClient()
+    .from('reviews')
+    .select('id, product_id, rating, review_text, customer_name, verified_purchase, created_at')
+    .eq('approved', true)
+    .order('created_at', { ascending: false })
+    .limit(60);
+  if (error) return [];
+  return (data ?? []) as Array<{
+    id: string;
+    product_id: string;
+    rating: number;
+    review_text: string | null;
+    customer_name: string | null;
+    verified_purchase: boolean | null;
+    created_at: string;
+  }>;
+});
+
 export const listPendingReviews = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
