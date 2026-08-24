@@ -10,14 +10,14 @@ import { HeroCarousel } from "@/components/hero-carousel";
 import { SeoulSignalStrip } from "@/components/seoul-signal";
 import { KoreaRightNow } from "@/components/korea-right-now";
 import { bundleMath, BUNDLE_DEFINITIONS, RESTOCK_DISCOUNT_PERCENT, SHOP_PRODUCTS } from "@/lib/shop-catalog";
-import glassSkinStarterExplainer from "@/assets/bundle-explainers/glass-skin-starter.png.asset.json";
-import completeGlowExplainer from "@/assets/bundle-explainers/complete-glow-edit.png.asset.json";
-import calmClearExplainer from "@/assets/bundle-explainers/calm-clear-bundle.png.asset.json";
-import applyingSerum from "@/assets/applying-serum.png.asset.json";
-import authenticityCard from "@/assets/authenticity-card.png.asset.json";
+import glassSkinStarterExplainer from "@/assets/bundle-explainers/glass-skin-starter.webp.asset.json";
+import completeGlowExplainer from "@/assets/bundle-explainers/complete-glow-edit.webp.asset.json";
+import calmClearExplainer from "@/assets/bundle-explainers/calm-clear-bundle.webp.asset.json";
+import applyingSerum from "@/assets/applying-serum.webp.asset.json";
+import authenticityCard from "@/assets/authenticity-card.webp.asset.json";
 import ritualScene from "@/assets/ritual-scene.webp";
 import quizBareSkin from "@/assets/quiz-bare-skin.webp";
-import cabinetLineup from "@/assets/brand-lineup.png.asset.json";
+import cabinetLineup from "@/assets/brand-lineup.webp.asset.json";
 
 const SITE_LOGO_URL =
   "https://storage.googleapis.com/gpt-engineer-file-uploads/gwAaOXihtTTGgkEaOKEPWaclwS23/social-images/social-1784706252879-hf_20260721_011553_e0d5b100-374e-4eb3-a3e3-9303ef469a0d.webp";
