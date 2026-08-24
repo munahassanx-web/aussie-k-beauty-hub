@@ -3,6 +3,37 @@ import { GroceryLabel, SectionHeading } from "@/components/grocery-label";
 import { getIssue, newsletterIssues } from "@/lib/newsletter-issues";
 import { getPublishedIssue } from "@/lib/published-issues.functions";
 
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+] as const;
+
+function parseIssueDateToIso(dateStr: string): string | undefined {
+  const match = dateStr.match(
+    /(\d{1,2})\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})/,
+  );
+  if (!match) return undefined;
+  const [, day, month, year] = match;
+  const monthIndex = MONTHS.indexOf(month as (typeof MONTHS)[number]);
+  if (monthIndex === -1) return undefined;
+  return `${year}-${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+}
+
+const HOUSE_BYLINE = "The Skin Grocer Team";
+const SITE_LOGO_URL =
+  "https://storage.googleapis.com/gpt-engineer-file-uploads/gwAaOXihtTTGgkEaOKEPWaclwS23/social-images/social-1784706252879-hf_20260721_011553_e0d5b100-374e-4eb3-a3e3-9303ef469a0d.webp";
+
+
 export const Route = createFileRoute("/blog/$slug")({
   loader: async ({ params }) => {
     const issue = getIssue(params.slug) ?? (await getPublishedIssue({ data: { slug: params.slug } }));
@@ -19,6 +50,7 @@ export const Route = createFileRoute("/blog/$slug")({
     const cover = typeof issue.cover === "string" && issue.cover
       ? (/^https?:\/\//i.test(issue.cover) ? issue.cover : `https://skingrocer.com.au${issue.cover}`)
       : undefined;
+    const datePublished = parseIssueDateToIso(issue.date);
     return {
       meta: [
         { title },
@@ -46,10 +78,26 @@ export const Route = createFileRoute("/blog/$slug")({
                 "@type": "BlogPosting",
                 headline: issue.title,
                 description: issue.standfirst,
-                mainEntityOfPage: url,
+                mainEntityOfPage: {
+                  "@type": "WebPage",
+                  "@id": url,
+                },
                 ...(cover ? { image: cover } : {}),
-                author: { "@type": "Organization", name: "Skin Grocer" },
-                publisher: { "@type": "Organization", name: "Skin Grocer" },
+                ...(datePublished
+                  ? { datePublished, dateModified: datePublished }
+                  : {}),
+                author: {
+                  "@type": "Organization",
+                  name: HOUSE_BYLINE,
+                },
+                publisher: {
+                  "@type": "Organization",
+                  name: "Skin Grocer",
+                  logo: {
+                    "@type": "ImageObject",
+                    url: SITE_LOGO_URL,
+                  },
+                },
               },
               {
                 "@type": "BreadcrumbList",
@@ -143,6 +191,9 @@ function IssuePage() {
         </p>
         <p className="mt-6 text-[11px] uppercase tracking-[0.22em] text-foreground/45">
           {issue.date}
+        </p>
+        <p className="mt-2 text-[11px] uppercase tracking-[0.22em] text-grocer-green">
+          By {HOUSE_BYLINE}
         </p>
       </header>
 
