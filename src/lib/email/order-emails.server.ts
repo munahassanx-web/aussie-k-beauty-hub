@@ -352,13 +352,25 @@ function metaStrip(o: OrderEmailData, status: string): string {
   </table>`;
 }
 
+/**
+ * Email-safe product image. Desktop Outlook cannot render WebP, so catalog
+ * packshots are mirrored as small JPEGs under /products/email/. CDN-hosted
+ * images (rare) fall through as-is.
+ */
+function emailImageSrc(image: string): string {
+  if (image.startsWith('/products/')) {
+    return `${SITE_URL}${image.replace('/products/', '/products/email/').replace(/\.webp$/, '.jpg')}`;
+  }
+  return `${SITE_URL}${image}`;
+}
+
 /** Product row: real ordered product photography when known, neutral tile otherwise. */
 function productRow(line: OrderEmailLine, currency: string, showPrice: boolean): string {
   const product = catalogFor(line);
   const brand = product?.brand ?? null;
   const size = (product as any)?.size ?? (product as any)?.volume ?? null;
   const thumb = product
-    ? `<img src="${SITE_URL}${product.image}" width="72" height="72" alt="${esc(
+    ? `<img src="${emailImageSrc(product.image)}" width="72" height="72" alt="${esc(
         `${product.brand} ${product.name}`,
       )}" style="display:block;width:72px;height:72px;object-fit:cover;background-color:#F4F4F2;" />`
     : `<table role="presentation" width="72" height="72" cellpadding="0" cellspacing="0" border="0" bgcolor="#F4F4F2" style="background-color:#F4F4F2;width:72px;height:72px;"><tr>
