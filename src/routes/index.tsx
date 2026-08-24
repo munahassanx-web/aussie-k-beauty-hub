@@ -19,6 +19,27 @@ import ritualScene from "@/assets/ritual-scene.jpg";
 import quizBareSkin from "@/assets/quiz-bare-skin.jpg";
 import cabinetLineup from "@/assets/brand-lineup.png.asset.json";
 
+const SITE_LOGO_URL =
+  "https://storage.googleapis.com/gpt-engineer-file-uploads/gwAaOXihtTTGgkEaOKEPWaclwS23/social-images/social-1784706252879-hf_20260721_011553_e0d5b100-374e-4eb3-a3e3-9303ef469a0d.webp";
+
+/** Organization JSON-LD for Google's brand knowledge panel. */
+function organizationJsonLd() {
+  return {
+    type: "application/ld+json" as const,
+    children: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "Skin Grocer",
+      url: "https://skingrocer.com.au",
+      logo: {
+        "@type": "ImageObject",
+        url: SITE_LOGO_URL,
+      },
+      sameAs: [],
+    }),
+  };
+}
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -29,7 +50,7 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: "https://skingrocer.com.au/" },
     ],
     links: [{ rel: "canonical", href: "https://skingrocer.com.au/" }],
-    scripts: [faqJsonLd(HOME_FAQS)],
+    scripts: [faqJsonLd(HOME_FAQS), organizationJsonLd()],
   }),
   component: HomePage,
 });
