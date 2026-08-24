@@ -31,7 +31,7 @@ function parseIssueDateToIso(dateStr: string): string | undefined {
 
 const HOUSE_BYLINE = "The Skin Grocer Team";
 const SITE_LOGO_URL =
-  "https://storage.googleapis.com/gpt-engineer-file-uploads/gwAaOXihtTTGgkEaOKEPWaclwS23/social-images/social-1784706252879-hf_20260721_011553_e0d5b100-374e-4eb3-a3e3-9303ef469a0d.webp";
+  "https://skingrocer.com.au/__l5e/assets-v1/e71f3ca2-370b-42a2-bc13-d5609d11ac73/skin-grocer-logo.jpg";
 
 
 export const Route = createFileRoute("/blog/$slug")({
