@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { breadcrumbJsonLd } from "@/lib/breadcrumbs";
 import imgHydration from "@/assets/concerns/page-hydration.jpg";
 import imgAcne from "@/assets/concerns/page-acne.jpg";
 import imgPigmentation from "@/assets/concerns/page-pigmentation.jpg";

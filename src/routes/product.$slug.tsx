@@ -14,6 +14,7 @@ import { productFaqs, faqJsonLd } from '@/lib/faqs';
 import { track } from '@/lib/analytics';
 
 import { restockPriceIdFor, productPrice, type ShopProduct } from '@/lib/shop-catalog';
+import { breadcrumbJsonLd } from '@/lib/breadcrumbs';
 import { listSoldOutSkus } from '@/lib/inventory.functions';
 import {
   findProductBySlug,

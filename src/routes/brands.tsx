@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
+import { breadcrumbJsonLd } from "@/lib/breadcrumbs";
 import splashWater from "@/assets/brand-splash/water.jpg";
 import splashCream from "@/assets/brand-splash/cream.jpg";
 import splashGel from "@/assets/brand-splash/gel.jpg";

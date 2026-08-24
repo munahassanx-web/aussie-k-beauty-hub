@@ -26,6 +26,7 @@ import { Reveal } from "@/components/reveal";
 
 import { FaqSection } from "@/components/faq-section";
 import { SHOP_FAQS, faqJsonLd } from "@/lib/faqs";
+import { breadcrumbJsonLd } from "@/lib/breadcrumbs";
 
 const searchSchema = z.object({
   category: z.string().optional(),
