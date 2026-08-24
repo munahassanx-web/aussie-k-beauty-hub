@@ -54,6 +54,40 @@ function productLabel(id: string) {
   return `${p.brand} ${p.name}`;
 }
 
+const SITE_URL = "https://skingrocer.com.au";
+
+/**
+ * Structured data for the reviews page, built only from real approved reviews.
+ * AggregateRating is emitted only when at least one review exists — no invented numbers.
+ */
+function buildReviewsJsonLd(reviews: Row[]) {
+  const org: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Skin Grocer",
+    url: SITE_URL,
+  };
+
+  if (reviews.length > 0) {
+    const average = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+    org.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: Number(average.toFixed(1)),
+      reviewCount: reviews.length,
+    };
+    org.review = reviews.map((r) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: r.customer_name ?? "Skin Grocer customer" },
+      datePublished: r.created_at,
+      reviewRating: { "@type": "Rating", ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+      ...(r.review_text ? { reviewBody: r.review_text } : {}),
+      itemReviewed: { "@type": "Product", name: productLabel(r.product_id) },
+    }));
+  }
+
+  return org;
+}
+
 function Reviews() {
   const { data, isLoading } = useQuery({ queryKey: ["all-reviews"], queryFn: fetchApproved });
   const reviews = data ?? [];
