@@ -1,14 +1,14 @@
 import { originArticles } from "@/lib/learn-origin-articles";
-import deeperSkinTones from "@/assets/learn/deeper-skin-tones.jpg";
-import barrierClimate from "@/assets/learn/barrier-climate.jpg";
-import unevenTone from "@/assets/learn/uneven-tone.jpg";
-import pdrnAmpoule from "@/assets/learn/pdrn-ampoule.jpg";
-import centellaLeaves from "@/assets/learn/centella-leaves.jpg";
-import sunscreenStandards from "@/assets/learn/sunscreen-standards.jpg";
-import layeringHumid from "@/assets/learn/layering-humid.jpg";
-import acidsFrequency from "@/assets/learn/acids-frequency.jpg";
-import climateZoneRoutines from "@/assets/learn/climate-zone-routines.jpg";
-import preventionFirst from "@/assets/learn/prevention-first-sunscreen.jpg";
+import deeperSkinTones from "@/assets/learn/deeper-skin-tones.webp";
+import barrierClimate from "@/assets/learn/barrier-climate.webp";
+import unevenTone from "@/assets/learn/uneven-tone.webp";
+import pdrnAmpoule from "@/assets/learn/pdrn-ampoule.webp";
+import centellaLeaves from "@/assets/learn/centella-leaves.webp";
+import sunscreenStandards from "@/assets/learn/sunscreen-standards.webp";
+import layeringHumid from "@/assets/learn/layering-humid.webp";
+import acidsFrequency from "@/assets/learn/acids-frequency.webp";
+import climateZoneRoutines from "@/assets/learn/climate-zone-routines.webp";
+import preventionFirst from "@/assets/learn/prevention-first-sunscreen.webp";
 // Real, unaltered photograph of an Olive Young store interior (Wonju Dangu branch),
 // by Choi Kwang-mo, released CC0 via Wikimedia Commons:
 // https://commons.wikimedia.org/wiki/File:2020-04-17_22.19.24_%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81_%EC%9B%90%EC%A3%BC%EB%8B%A8%EA%B5%AC%EC%A0%90.jpg

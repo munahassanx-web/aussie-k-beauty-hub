@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { breadcrumbJsonLd } from "@/lib/breadcrumbs";
-import splashWater from "@/assets/brand-splash/water.jpg";
-import splashCream from "@/assets/brand-splash/cream.jpg";
-import splashGel from "@/assets/brand-splash/gel.jpg";
-import splashOil from "@/assets/brand-splash/oil.jpg";
+import splashWater from "@/assets/brand-splash/water.webp";
+import splashCream from "@/assets/brand-splash/cream.webp";
+import splashGel from "@/assets/brand-splash/gel.webp";
+import splashOil from "@/assets/brand-splash/oil.webp";
 
 export const Route = createFileRoute("/brands")({
   head: () => ({
@@ -42,79 +42,79 @@ const brands: BrandCard[] = [
   {
     name: "AESTURA", splash: splashCream,
     tag: "Dermatologist-backed barrier repair, born in a Korean hospital lab",
-    hero: "/products/aestura/atobarrier365-cream.png",
+    hero: "/products/aestura/atobarrier365-cream.webp",
     from: "#e8f0f7", to: "#b9cede", ink: "dark",
   },
   {
     name: "BIODANCE", splash: splashGel,
     tag: "Overnight bio-collagen masks that melt into the skin",
-    hero: "/products/biodance/bio-collagen-real-deep-mask.png",
+    hero: "/products/biodance/bio-collagen-real-deep-mask.webp",
     from: "#f3ecff", to: "#c9b6f2", ink: "dark",
   },
   {
     name: "Beauty of Joseon", splash: splashOil,
     tag: "Korean heritage ingredients in modern formulas",
-    hero: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.png",
+    hero: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.webp",
     from: "#f7efe2", to: "#d8bd90", ink: "dark",
   },
   {
     name: "Dr.G", splash: splashGel,
     tag: "Clinical care for red, blemish-prone and reactive skin",
-    hero: "/products/dr-g/red-blemish-clear-soothing-foam-150ml.png",
+    hero: "/products/dr-g/red-blemish-clear-soothing-foam-150ml.webp",
     from: "#eaf6f0", to: "#a8d3bd", ink: "dark",
   },
   {
     name: "HARUHARU WONDER", splash: splashOil,
     tag: "Fermented black rice, clean and low-irritation",
-    hero: "/products/haruharu-wonder/black-rice-hyaluronic-toner-150ml.png",
+    hero: "/products/haruharu-wonder/black-rice-hyaluronic-toner-150ml.webp",
     from: "#efeae6", to: "#8f8378", ink: "light",
   },
   {
     name: "ISNTREE", splash: splashWater,
     tag: "Ingredient-led hydration and gentle exfoliation",
-    hero: "/products/isntree/hyaluronic-acid-water-essence-50ml.png",
+    hero: "/products/isntree/hyaluronic-acid-water-essence-50ml.webp",
     from: "#e9f4ef", to: "#9fc9b7", ink: "dark",
   },
   {
     name: "MEDICUBE", splash: splashCream,
     tag: "PDRN and exosome technology for visible results",
-    hero: "/products/medicube/pdrn-pink-peptide-serum-30ml.png",
+    hero: "/products/medicube/pdrn-pink-peptide-serum-30ml.webp",
     from: "#ffeef4", to: "#f4a9c4", ink: "dark",
   },
   {
     name: "ROUND LAB", splash: splashWater,
     tag: "The 1025 Dokdo line — simple, everyday essentials",
-    hero: "/products/round-lab/1025-dokdo-toner-100ml.png",
+    hero: "/products/round-lab/1025-dokdo-toner-100ml.webp",
     from: "#e8f2fb", to: "#9dc2e6", ink: "dark",
   },
   {
     name: "S.NATURE", splash: splashWater,
     tag: "Aqua Oasis hydration built on squalane and botanicals",
-    hero: "/products/s-nature/aqua-squalane-serum.png",
+    hero: "/products/s-nature/aqua-squalane-serum.webp",
     from: "#e6f5f7", to: "#95cbd4", ink: "dark",
   },
   {
     name: "TIRTIR", splash: splashCream,
     tag: "Milky ceramide care with a cult following",
-    hero: "/products/tirtir/ceramic-milk-ampoule-40ml.png",
+    hero: "/products/tirtir/ceramic-milk-ampoule-40ml.webp",
     from: "#fdf3ee", to: "#e7b9a2", ink: "dark",
   },
   {
     name: "TORRIDEN", splash: splashWater,
     tag: "Low-molecular hyaluronic acid, deep dive hydration",
-    hero: "/products/torriden/dive-in-serum.png",
+    hero: "/products/torriden/dive-in-serum.webp",
     from: "#e7eefc", to: "#8ea6e8", ink: "light",
   },
   {
     name: "WELLAGE", splash: splashGel,
     tag: "Real Hyaluronic and PDRN ampoules from a K-derm favourite",
-    hero: "/products/wellage/real-hyaluronic-blue-100-ampoule-60ml.png",
+    hero: "/products/wellage/real-hyaluronic-blue-100-ampoule-60ml.webp",
     from: "#e9edf8", to: "#7f93cf", ink: "light",
   },
   {
     name: "beplain", splash: splashGel,
     tag: "Mung bean cleansing and calm, pH-balanced basics",
-    hero: "/products/beplain/mung-bean-cleansing-oil-200ml.png",
+    hero: "/products/beplain/mung-bean-cleansing-oil-200ml.webp",
     from: "#f1f5e6", to: "#bfd08a", ink: "dark",
   },
 ];

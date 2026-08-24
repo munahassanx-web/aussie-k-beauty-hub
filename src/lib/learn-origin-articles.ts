@@ -2,13 +2,13 @@
 // watchlist, and "what not to use" guides. Written to be extractable by AI
 // answer engines — self-contained sections, plain claims, cited sources.
 
-import ginsengRoot from "@/assets/learn/ginseng-root.jpg";
-import mugwort from "@/assets/learn/mugwort.jpg";
-import heartleaf from "@/assets/learn/heartleaf.jpg";
-import riceFerment from "@/assets/learn/rice-ferment.jpg";
-import snailMucin from "@/assets/learn/snail-mucin-texture.jpg";
-import whatNotToMix from "@/assets/learn/what-not-to-mix.jpg";
-import newLaunchWatchlist from "@/assets/learn/new-launch-watchlist.jpg";
+import ginsengRoot from "@/assets/learn/ginseng-root.webp";
+import mugwort from "@/assets/learn/mugwort.webp";
+import heartleaf from "@/assets/learn/heartleaf.webp";
+import riceFerment from "@/assets/learn/rice-ferment.webp";
+import snailMucin from "@/assets/learn/snail-mucin-texture.webp";
+import whatNotToMix from "@/assets/learn/what-not-to-mix.webp";
+import newLaunchWatchlist from "@/assets/learn/new-launch-watchlist.webp";
 import type { LearnArticle } from "@/lib/learn-articles";
 
 const SRC_HWAHAE = {

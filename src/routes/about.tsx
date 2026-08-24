@@ -2,8 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import verifyAsset from "@/assets/verify-batch-code.png.asset.json";
 import packingAsset from "@/assets/packing-wax-seal.png.asset.json";
 import warehouseStockAsset from "@/assets/warehouse-stock.png.asset.json";
-import deskFlatlay from "@/assets/founder-desk-flatlay.jpg";
-import signatureAsset from "@/assets/signature-skin-grocer.png";
+import deskFlatlay from "@/assets/founder-desk-flatlay.webp";
+import signatureAsset from "@/assets/signature-skin-grocer.webp";
 
 
 export const Route = createFileRoute("/about")({

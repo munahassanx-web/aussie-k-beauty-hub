@@ -1,9 +1,9 @@
 import { createFileRoute, Link, useNavigate, stripSearchParams } from "@tanstack/react-router";
 import { zodValidator, fallback } from "@tanstack/zod-adapter";
 import { z } from "zod";
-import petri from "@/assets/learn/pdrn-ampoule.jpg";
-import portraitDeep from "@/assets/learn/deeper-skin-tones.jpg";
-import routineFlatlay from "@/assets/learn/layering-humid.jpg";
+import petri from "@/assets/learn/pdrn-ampoule.webp";
+import portraitDeep from "@/assets/learn/deeper-skin-tones.webp";
+import routineFlatlay from "@/assets/learn/layering-humid.webp";
 import { articlesByPillar, getLearnArticle, type LearnArticle } from "@/lib/learn-articles";
 import { filterArticles, tagGroups, tagsFor } from "@/lib/learn-tags";
 import { FaqSection } from "@/components/faq-section";
