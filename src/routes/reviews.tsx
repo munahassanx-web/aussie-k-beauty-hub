@@ -91,9 +91,16 @@ function buildReviewsJsonLd(reviews: Row[]) {
 function Reviews() {
   const { data, isLoading } = useQuery({ queryKey: ["all-reviews"], queryFn: fetchApproved });
   const reviews = data ?? [];
+  const jsonLd = isLoading ? null : buildReviewsJsonLd(reviews);
 
   return (
     <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
       <section className="mx-auto max-w-4xl px-6 py-24">
         <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Reviews</p>
         <h1 className="mt-6 font-display text-4xl leading-[1.05] text-foreground md:text-6xl">
