@@ -3,6 +3,37 @@ import { GroceryLabel, SectionHeading } from "@/components/grocery-label";
 import { getIssue, newsletterIssues } from "@/lib/newsletter-issues";
 import { getPublishedIssue } from "@/lib/published-issues.functions";
 
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+] as const;
+
+function parseIssueDateToIso(dateStr: string): string | undefined {
+  const match = dateStr.match(
+    /(\d{1,2})\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})/,
+  );
+  if (!match) return undefined;
+  const [, day, month, year] = match;
+  const monthIndex = MONTHS.indexOf(month as (typeof MONTHS)[number]);
+  if (monthIndex === -1) return undefined;
+  return `${year}-${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+}
+
+const HOUSE_BYLINE = "The Skin Grocer Team";
+const SITE_LOGO_URL =
+  "https://storage.googleapis.com/gpt-engineer-file-uploads/gwAaOXihtTTGgkEaOKEPWaclwS23/social-images/social-1784706252879-hf_20260721_011553_e0d5b100-374e-4eb3-a3e3-9303ef469a0d.webp";
+
+
 export const Route = createFileRoute("/blog/$slug")({
   loader: async ({ params }) => {
     const issue = getIssue(params.slug) ?? (await getPublishedIssue({ data: { slug: params.slug } }));
