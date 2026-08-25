@@ -282,7 +282,7 @@ export function SiteHeader() {
               <UserIcon />
               {user ? "Account" : "Sign in"}
             </Link>
-            {isStaff && (
+            {isStaff ? (
               <Link
                 to="/admin"
                 onClick={closeMenus}
@@ -290,6 +290,17 @@ export function SiteHeader() {
                 className="hidden items-center rounded-full border border-primary px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-primary hover:bg-primary hover:text-primary-foreground md:inline-flex"
               >
                 Admin
+              </Link>
+            ) : (
+              <Link
+                to="/admin"
+                onClick={closeMenus}
+                aria-label="Admin login — staff accounts only"
+                title="Admin login — staff accounts only"
+                className="hidden items-center gap-1.5 rounded-full border border-border/70 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/55 hover:border-foreground/30 hover:text-foreground md:inline-flex"
+              >
+                <LockIcon />
+                Admin Login
               </Link>
             )}
             <button
@@ -491,9 +502,17 @@ export function SiteHeader() {
                   {user ? "Your account" : "Sign in"}
                   <span className="text-base text-primary">→</span>
                 </Link>
-                {isStaff && (
+                {isStaff ? (
                   <Link to="/admin" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-primary">
                     Admin dashboard
+                    <span className="text-base text-primary">→</span>
+                  </Link>
+                ) : (
+                  <Link to="/admin" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground/70">
+                    <span>
+                      Admin Login
+                      <span className="block text-sm font-normal normal-case text-foreground/45">Staff accounts only</span>
+                    </span>
                     <span className="text-base text-primary">→</span>
                   </Link>
                 )}
@@ -606,6 +625,13 @@ export function SiteFooter() {
               </button>
             </li>
           </ul>
+          <div className="mt-8 border-t border-paper/15 pt-5">
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">Staff</h4>
+            <p className="mt-3 text-sm text-paper/70">
+              <Link to="/admin" className="hover:text-paper">Admin Login</Link>
+            </p>
+            <p className="mt-1 text-xs text-paper/45">Staff accounts required.</p>
+          </div>
         </div>
 
         <div className="md:col-span-2">
@@ -670,6 +696,15 @@ function BagIcon() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
       <path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8z" />
       <path d="M9 8V6a3 3 0 0 1 6 0v2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function LockIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <rect x="5" y="11" width="14" height="10" rx="2" />
+      <path d="M8 11V7a4 4 0 0 1 8 0v4" strokeLinecap="round" />
     </svg>
   );
 }
