@@ -282,7 +282,7 @@ export function SiteHeader() {
               <UserIcon />
               {user ? "Account" : "Sign in"}
             </Link>
-            {isStaff && (
+            {isStaff ? (
               <Link
                 to="/admin"
                 onClick={closeMenus}
@@ -290,6 +290,17 @@ export function SiteHeader() {
                 className="hidden items-center rounded-full border border-primary px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-primary hover:bg-primary hover:text-primary-foreground md:inline-flex"
               >
                 Admin
+              </Link>
+            ) : (
+              <Link
+                to="/admin"
+                onClick={closeMenus}
+                aria-label="Admin login — staff accounts only"
+                title="Admin login — staff accounts only"
+                className="hidden items-center gap-1.5 rounded-full border border-border/70 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/55 hover:border-foreground/30 hover:text-foreground md:inline-flex"
+              >
+                <LockIcon />
+                Admin Login
               </Link>
             )}
             <button
@@ -491,9 +502,17 @@ export function SiteHeader() {
                   {user ? "Your account" : "Sign in"}
                   <span className="text-base text-primary">→</span>
                 </Link>
-                {isStaff && (
+                {isStaff ? (
                   <Link to="/admin" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-primary">
                     Admin dashboard
+                    <span className="text-base text-primary">→</span>
+                  </Link>
+                ) : (
+                  <Link to="/admin" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground/70">
+                    <span>
+                      Admin Login
+                      <span className="block text-sm font-normal normal-case text-foreground/45">Staff accounts only</span>
+                    </span>
                     <span className="text-base text-primary">→</span>
                   </Link>
                 )}
