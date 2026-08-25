@@ -625,6 +625,13 @@ export function SiteFooter() {
               </button>
             </li>
           </ul>
+          <div className="mt-8 border-t border-paper/15 pt-5">
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">Staff</h4>
+            <p className="mt-3 text-sm text-paper/70">
+              <Link to="/admin" className="hover:text-paper">Admin Login</Link>
+            </p>
+            <p className="mt-1 text-xs text-paper/45">Staff accounts required.</p>
+          </div>
         </div>
 
         <div className="md:col-span-2">
