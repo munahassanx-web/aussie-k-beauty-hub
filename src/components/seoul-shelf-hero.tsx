@@ -1,10 +1,19 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowDown, ArrowRight, ArrowUpRight, BadgeCheck, ScanLine, Sparkles, Truck } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, BadgeCheck, Palette, ScanLine, Sparkles, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
 import tonerCutout from "@/assets/haruharu-toner-cutout.png";
+
+type ShelfPalette = "seoul" | "jeju" | "plum" | "coast";
+
+const SHELF_PALETTES: { id: ShelfPalette; label: string; swatch: string }[] = [
+  { id: "seoul", label: "Seoul Night", swatch: "oklch(0.19 0.025 262)" },
+  { id: "jeju", label: "Jeju Morning", swatch: "oklch(0.28 0.035 145)" },
+  { id: "plum", label: "Gyeongbok Plum", swatch: "oklch(0.24 0.04 340)" },
+  { id: "coast", label: "Busan Coast", swatch: "oklch(0.26 0.04 200)" },
+];
 
 const SHELF_PICKS = [
   "haruharu_wonder_black_rice_hyaluronic_toner_150ml_onetime",
