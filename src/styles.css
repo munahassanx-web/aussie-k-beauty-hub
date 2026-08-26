@@ -191,6 +191,16 @@
   --sanctuary-sage: oklch(0.89 0.05 320);
   --sanctuary-sage-deep: oklch(0.83 0.055 320);
 }
+[data-sanctuary-palette="cloud"] {
+  --sanctuary-bg: oklch(0.97 0.008 300);
+  --sanctuary-ink: oklch(0.30 0.05 300);
+  --sanctuary-muted: oklch(0.55 0.06 300);
+  --sanctuary-line: oklch(0.86 0.025 300);
+  --sanctuary-gold: oklch(0.62 0.10 195);
+  --sanctuary-gold-deep: oklch(0.52 0.12 200);
+  --sanctuary-sage: oklch(0.93 0.015 300);
+  --sanctuary-sage-deep: oklch(0.88 0.02 300);
+}
 
 :root {
 
