@@ -116,6 +116,41 @@
   --shelf-gold: var(--rose-gold);
 }
 
+/* Seoul Shelf hero palette worlds — applied via data-shelf-palette on the hero section */
+[data-shelf-palette="seoul"],
+:root:has(:not([data-shelf-palette])) [data-shelf-palette="seoul"] {
+  --shelf-bg: oklch(0.19 0.025 262);
+  --shelf-ink: oklch(0.965 0.015 90);
+  --shelf-muted: oklch(0.76 0.02 262);
+  --shelf-line: oklch(0.34 0.025 262);
+  --shelf-tile: oklch(0.96 0.012 92);
+  --shelf-gold: var(--rose-gold);
+}
+[data-shelf-palette="jeju"] {
+  --shelf-bg: oklch(0.28 0.035 145);
+  --shelf-ink: oklch(0.97 0.01 95);
+  --shelf-muted: oklch(0.80 0.03 135);
+  --shelf-line: oklch(0.44 0.03 140);
+  --shelf-tile: oklch(0.96 0.012 95);
+  --shelf-gold: oklch(0.72 0.13 80);
+}
+[data-shelf-palette="plum"] {
+  --shelf-bg: oklch(0.24 0.04 340);
+  --shelf-ink: oklch(0.97 0.01 90);
+  --shelf-muted: oklch(0.80 0.04 340);
+  --shelf-line: oklch(0.42 0.04 340);
+  --shelf-tile: oklch(0.955 0.015 85);
+  --shelf-gold: oklch(0.78 0.12 75);
+}
+[data-shelf-palette="coast"] {
+  --shelf-bg: oklch(0.26 0.04 200);
+  --shelf-ink: oklch(0.975 0.008 95);
+  --shelf-muted: oklch(0.82 0.03 195);
+  --shelf-line: oklch(0.44 0.03 200);
+  --shelf-tile: oklch(0.96 0.012 100);
+  --shelf-gold: oklch(0.70 0.12 45);
+}
+
 /* Hero palette variations — applied via data-hero-palette on the observatory stage */
 [data-hero-palette="matcha"] {
   --observatory-porcelain: oklch(0.97 0.01 95);
