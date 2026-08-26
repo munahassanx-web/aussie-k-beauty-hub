@@ -13,6 +13,7 @@ import {
   type Transition,
 } from "motion/react";
 import { Button } from "@/components/ui/button";
+import { useStaffAccess } from "@/hooks/use-staff-access";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
 import {
@@ -163,6 +164,7 @@ export function AtmosHero() {
   const [mounted, setMounted] = useState(false);
   const [styleId, setStyleId] = useState(DEFAULT_HERO_MOTION_STYLE);
   const [replayKey, setReplayKey] = useState(0);
+  const { isStaff } = useStaffAccess();
   useEffect(() => {
     setMounted(true);
     const saved = window.localStorage.getItem(HERO_MOTION_STORAGE_KEY);
@@ -416,47 +418,49 @@ export function AtmosHero() {
             </Link>
           </motion.div>
 
-          {/* Act selector — chapter markers with cycle timer */}
-          <ul
-            className="mt-8 flex flex-wrap gap-2"
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
-          >
-            {CHAPTERS.map((c, i) => (
-              <li key={c.id}>
-                <motion.button
-                  type="button"
-                  onClick={() => setIndex(i)}
-                  aria-pressed={i === index}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.96 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 26 }}
-                  className="relative overflow-hidden rounded-full border px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] transition-colors"
-                  style={
-                    i === index
-                      ? { borderColor: `rgb(var(--act-accent))`, color: `rgb(var(--act-accent))` }
-                      : { borderColor: `rgb(var(--act-ink) / 0.22)`, color: `rgb(var(--act-ink) / 0.6)` }
-                  }
-                >
-                  {i === index && (
-                    <motion.span
-                      aria-hidden="true"
-                      className="absolute inset-y-0 left-0 -z-10"
-                      style={{ backgroundColor: `rgb(var(--act-accent) / 0.2)` }}
-                      initial={{ width: "0%" }}
-                      animate={{ width: paused || reduce ? "100%" : ["0%", "100%"] }}
-                      transition={{ duration: paused || reduce ? 0.3 : CYCLE_MS / 1000, ease: "linear" }}
-                    />
-                  )}
-                  <span className="mr-2 font-display normal-case tracking-normal">{c.hangul}</span>
-                  {`0${i + 1}`}
-                </motion.button>
-              </li>
-            ))}
-          </ul>
+          {/* Act selector — chapter markers with cycle timer (staff preview only) */}
+          {isStaff && (
+            <ul
+              className="mt-8 flex flex-wrap gap-2"
+              onMouseEnter={() => setPaused(true)}
+              onMouseLeave={() => setPaused(false)}
+            >
+              {CHAPTERS.map((c, i) => (
+                <li key={c.id}>
+                  <motion.button
+                    type="button"
+                    onClick={() => setIndex(i)}
+                    aria-pressed={i === index}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.96 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 26 }}
+                    className="relative overflow-hidden rounded-full border px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] transition-colors"
+                    style={
+                      i === index
+                        ? { borderColor: `rgb(var(--act-accent))`, color: `rgb(var(--act-accent))` }
+                        : { borderColor: `rgb(var(--act-ink) / 0.22)`, color: `rgb(var(--act-ink) / 0.6)` }
+                    }
+                  >
+                    {i === index && (
+                      <motion.span
+                        aria-hidden="true"
+                        className="absolute inset-y-0 left-0 -z-10"
+                        style={{ backgroundColor: `rgb(var(--act-accent) / 0.2)` }}
+                        initial={{ width: "0%" }}
+                        animate={{ width: paused || reduce ? "100%" : ["0%", "100%"] }}
+                        transition={{ duration: paused || reduce ? 0.3 : CYCLE_MS / 1000, ease: "linear" }}
+                      />
+                    )}
+                    <span className="mr-2 font-display normal-case tracking-normal">{c.hangul}</span>
+                    {`0${i + 1}`}
+                  </motion.button>
+                </li>
+              ))}
+            </ul>
+          )}
 
-          {/* Entrance style switcher — preview each act's animation personality */}
-          {mounted && !reduce && (
+          {/* Entrance style switcher — staff preview only */}
+          {isStaff && mounted && !reduce && (
             <div className="mt-6">
               <p
                 className="text-[9px] font-semibold uppercase tracking-[0.26em]"
