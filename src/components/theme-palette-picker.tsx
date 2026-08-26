@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { Check, Palette, RotateCcw } from "lucide-react";
+import { Check, Leaf, Palette, RotateCcw } from "lucide-react";
 
 type SiteTheme = "signature" | "matcha" | "ocean" | "blossom" | "amber" | "lavender";
 
 const STORAGE_KEY = "sg-site-theme";
+/** Stored when the owner opts into automatic seasonal palettes. */
+const AUTO_VALUE = "auto";
 
 const THEMES: {
   id: SiteTheme;
