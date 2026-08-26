@@ -429,7 +429,7 @@ export function AtmosHero() {
           {/* Act selector — available to staff and inside the private Lovable preview. */}
           {showPreviewTools && (
             <ul
-              className="mt-8 flex flex-wrap gap-2"
+              className="fixed bottom-[6.25rem] left-1/2 z-[180] flex max-w-[calc(100vw-2rem)] -translate-x-1/2 flex-wrap justify-center gap-2 rounded-md border border-border bg-background/95 p-2 shadow-xl backdrop-blur"
               onMouseEnter={() => setPaused(true)}
               onMouseLeave={() => setPaused(false)}
             >
@@ -469,14 +469,14 @@ export function AtmosHero() {
 
           {/* Entrance style switcher — hidden from shoppers on the published site. */}
           {showPreviewTools && mounted && !reduce && (
-            <div className="mt-6">
+            <div className="fixed bottom-4 left-1/2 z-[180] w-max max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-md border border-border bg-background/95 p-3 shadow-xl backdrop-blur">
               <p
-                className="text-[9px] font-semibold uppercase tracking-[0.26em]"
+                className="text-center text-[9px] font-semibold uppercase tracking-[0.26em]"
                 style={{ color: `rgb(var(--act-ink) / 0.45)` }}
               >
-                Entrance style · {motionStyle.blurb}
+                Preview animation · {motionStyle.blurb}
               </p>
-              <div className="mt-2 flex flex-wrap gap-1.5">
+              <div className="mt-2 flex flex-wrap justify-center gap-1.5">
                 {HERO_MOTION_STYLES.map((s) => (
                   <button
                     key={s.id}
