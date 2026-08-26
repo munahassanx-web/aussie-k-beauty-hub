@@ -20,6 +20,7 @@ import {
   HERO_MOTION_STORAGE_KEY,
   HERO_MOTION_STYLES,
   shardsFor,
+  fragmentsFor,
 } from "@/lib/hero-motion-styles";
 import bgPlum from "@/assets/hero-bg-plum.jpg";
 import bgCica from "@/assets/hero-bg-cica.jpg";
@@ -169,6 +170,7 @@ export function AtmosHero() {
   }, []);
   const motionStyle = HERO_MOTION_STYLES.find((s) => s.id === styleId) ?? HERO_MOTION_STYLES[0]!;
   const shards = shardsFor(motionStyle);
+  const fragments = fragmentsFor(motionStyle);
   /** Same act, new choreography — force a fresh entrance so the pick is visible. */
   const swapKey = `${act.id}-${motionStyle.id}-${replayKey}`;
   const pickStyle = (id: string) => {
