@@ -107,6 +107,7 @@ export function ProductObservatoryHero() {
   return (
     <section
       ref={stageRef}
+      data-hero-palette={palette}
       aria-labelledby="observatory-heading"
       className="observatory-stage group relative isolate min-h-[calc(100svh-7rem)] cursor-grab overflow-hidden bg-observatory-deep text-observatory-porcelain active:cursor-grabbing md:min-h-[calc(100svh-10rem)]"
       onPointerMove={setPointer}
