@@ -1,11 +1,22 @@
-import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ArrowDown, ArrowRight, Check, QrCode, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowRight, Check, Palette, QrCode, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import observatoryArtwork from "@/assets/skin-grocer-matcha-observatory.jpg";
 
 type Hotspot = "verified" | "routine" | "guide";
 type SkinAnswer = "dry" | "oily" | "combination" | "often";
+type PaletteKey = "matcha" | "plum" | "cobalt" | "jeju" | "noir";
+
+const PALETTE_STORAGE_KEY = "sg-hero-palette";
+
+const palettes: { key: PaletteKey; label: string; swatch: string[] }[] = [
+  { key: "matcha", label: "Matcha & Gold", swatch: ["#1f3128", "#c6a15b", "#f6f4ee"] },
+  { key: "plum", label: "Plum & Citron", swatch: ["#321526", "#d7f238", "#f8f3f0"] },
+  { key: "cobalt", label: "Seoul Cobalt", swatch: ["#161f3f", "#e0685c", "#f5f6fa"] },
+  { key: "jeju", label: "Jeju Mineral", swatch: ["#12262b", "#d1502c", "#f7f4ec"] },
+  { key: "noir", label: "Orchid Noir", swatch: ["#191216", "#e2c98f", "#f6f1e7"] },
+];
 
 const answers: { label: string; value: SkinAnswer }[] = [
   { label: "Tight or dry", value: "dry" },
@@ -13,6 +24,7 @@ const answers: { label: string; value: SkinAnswer }[] = [
   { label: "Oily T-zone, dry cheeks", value: "combination" },
   { label: "Red and reactive", value: "often" },
 ];
+
 
 const hotspotCopy: Record<Exclude<Hotspot, "routine">, { title: string; body: string }> = {
   verified: {
@@ -31,6 +43,23 @@ export function ProductObservatoryHero() {
   const dragStart = useRef<number | null>(null);
   const [rotation, setRotation] = useState(0);
   const [activeHotspot, setActiveHotspot] = useState<Hotspot | null>(null);
+  const [palette, setPalette] = useState<PaletteKey>("matcha");
+  const [savedPalette, setSavedPalette] = useState<PaletteKey>("matcha");
+  const [paletteOpen, setPaletteOpen] = useState(false);
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem(PALETTE_STORAGE_KEY) as PaletteKey | null;
+    if (stored && palettes.some((entry) => entry.key === stored)) {
+      setPalette(stored);
+      setSavedPalette(stored);
+    }
+  }, []);
+
+  const savePalette = () => {
+    window.localStorage.setItem(PALETTE_STORAGE_KEY, palette);
+    setSavedPalette(palette);
+  };
+
 
   const setPointer = (event: ReactPointerEvent<HTMLElement>) => {
     const bounds = stageRef.current?.getBoundingClientRect();
@@ -78,6 +107,7 @@ export function ProductObservatoryHero() {
   return (
     <section
       ref={stageRef}
+      data-hero-palette={palette}
       aria-labelledby="observatory-heading"
       className="observatory-stage group relative isolate min-h-[calc(100svh-7rem)] cursor-grab overflow-hidden bg-observatory-deep text-observatory-porcelain active:cursor-grabbing md:min-h-[calc(100svh-10rem)]"
       onPointerMove={setPointer}
@@ -112,6 +142,55 @@ export function ProductObservatoryHero() {
             Drag to inspect
           </span>
         </div>
+
+        <div className="pointer-events-none absolute right-4 top-16 z-40 flex flex-col items-end gap-2 md:right-10 md:top-20">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setPaletteOpen((open) => !open)}
+            aria-expanded={paletteOpen}
+            className="pointer-events-auto h-9 rounded-none border-observatory-porcelain/35 bg-observatory-deep/70 px-3 text-[9px] uppercase tracking-[0.2em] text-observatory-porcelain shadow-none backdrop-blur-md hover:bg-observatory-porcelain hover:text-observatory-deep"
+          >
+            <Palette className="h-3.5 w-3.5" /> Palette
+          </Button>
+          {paletteOpen ? (
+            <div className="pointer-events-auto w-56 border border-observatory-orchid/25 bg-observatory-deep/90 p-3 backdrop-blur-xl">
+              <p className="text-[9px] uppercase tracking-[0.22em] text-observatory-orchid/80">Preview themes</p>
+              <div className="mt-3 flex flex-col gap-1">
+                {palettes.map((entry) => (
+                  <button
+                    key={entry.key}
+                    type="button"
+                    onClick={() => setPalette(entry.key)}
+                    aria-pressed={palette === entry.key}
+                    className={`flex items-center gap-2 border px-2 py-2 text-left text-[11px] transition ${
+                      palette === entry.key
+                        ? "border-observatory-citron text-observatory-porcelain"
+                        : "border-transparent text-observatory-orchid/80 hover:border-observatory-orchid/30"
+                    }`}
+                  >
+                    <span className="flex">
+                      {entry.swatch.map((color) => (
+                        <span key={color} className="h-4 w-4 rounded-full ring-1 ring-black/20 [&:not(:first-child)]:-ml-1.5" style={{ background: color }} />
+                      ))}
+                    </span>
+                    <span className="flex-1">{entry.label}</span>
+                    {savedPalette === entry.key ? <Check className="h-3.5 w-3.5 text-observatory-citron" /> : null}
+                  </button>
+                ))}
+              </div>
+              <Button
+                size="sm"
+                onClick={savePalette}
+                disabled={savedPalette === palette}
+                className="mt-3 h-9 w-full rounded-none bg-observatory-citron text-[9px] font-bold uppercase tracking-[0.2em] text-observatory-deep hover:bg-observatory-porcelain"
+              >
+                {savedPalette === palette ? "Saved" : "Save this theme"}
+              </Button>
+            </div>
+          ) : null}
+        </div>
+
 
         <div className="grid flex-1 items-center md:grid-cols-12">
           <div className="max-w-xl py-14 md:col-span-5 md:py-10">
