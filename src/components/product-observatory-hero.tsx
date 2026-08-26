@@ -1,11 +1,22 @@
-import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ArrowDown, ArrowRight, Check, QrCode, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowRight, Check, Palette, QrCode, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import observatoryArtwork from "@/assets/skin-grocer-matcha-observatory.jpg";
 
 type Hotspot = "verified" | "routine" | "guide";
 type SkinAnswer = "dry" | "oily" | "combination" | "often";
+type PaletteKey = "matcha" | "plum" | "cobalt" | "jeju" | "noir";
+
+const PALETTE_STORAGE_KEY = "sg-hero-palette";
+
+const palettes: { key: PaletteKey; label: string; swatch: string[] }[] = [
+  { key: "matcha", label: "Matcha & Gold", swatch: ["#1f3128", "#c6a15b", "#f6f4ee"] },
+  { key: "plum", label: "Plum & Citron", swatch: ["#321526", "#d7f238", "#f8f3f0"] },
+  { key: "cobalt", label: "Seoul Cobalt", swatch: ["#161f3f", "#e0685c", "#f5f6fa"] },
+  { key: "jeju", label: "Jeju Mineral", swatch: ["#12262b", "#d1502c", "#f7f4ec"] },
+  { key: "noir", label: "Orchid Noir", swatch: ["#191216", "#e2c98f", "#f6f1e7"] },
+];
 
 const answers: { label: string; value: SkinAnswer }[] = [
   { label: "Tight or dry", value: "dry" },
@@ -13,6 +24,7 @@ const answers: { label: string; value: SkinAnswer }[] = [
   { label: "Oily T-zone, dry cheeks", value: "combination" },
   { label: "Red and reactive", value: "often" },
 ];
+
 
 const hotspotCopy: Record<Exclude<Hotspot, "routine">, { title: string; body: string }> = {
   verified: {
