@@ -66,7 +66,7 @@ const brands: BrandCard[] = [
   {
     name: "HARUHARU WONDER", splash: splashOil,
     tag: "Fermented black rice, clean and low-irritation",
-    hero: "/products/haruharu-wonder/black-rice-hyaluronic-toner-150ml.webp",
+    hero: "/__l5e/assets-v1/5c2e77da-7082-420c-809a-9005bdb6aef8/haruharu-wonder-black-rice-hyaluronic-toner-150ml.png",
     from: "#efeae6", to: "#8f8378", ink: "light",
   },
   {
