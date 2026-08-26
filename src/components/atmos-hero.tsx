@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Sparkles, ShieldCheck, Truck, Clock3 } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import {
   AnimatePresence,
   motion,
@@ -14,64 +14,112 @@ import {
 import { Button } from "@/components/ui/button";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
-import tonerCutout from "@/assets/haruharu-toner-cutout.png";
 import stageBackdrop from "@/assets/hero-3d-stage.jpg";
 import droplet from "@/assets/hero-3d-droplet.png";
-import ginseng from "@/assets/ingredient-ginseng.png";
-import mugwort from "@/assets/ingredient-mugwort.png";
-import blackRice from "@/assets/ingredient-black-rice.png";
-import centella from "@/assets/ingredient-centella.png";
+import glowSerum from "@/assets/hero-chapter-glow.png";
+import diveSerum from "@/assets/hero-chapter-dive.png";
+import pdrnSerum from "@/assets/hero-chapter-pdrn.png";
+import dynastyCream from "@/assets/hero-chapter-dynasty.png";
 
-const FEATURED_PRICE_ID = "haruharu_wonder_black_rice_hyaluronic_toner_150ml_onetime";
-const CYCLE_MS = 6000;
+const CYCLE_MS = 7000;
 
-type Ingredient = {
+type Chapter = {
   id: string;
+  act: string;
   hangul: string;
-  name: string;
-  latin: string;
-  headline: string;
-  note: string;
+  /** Aggressive, imperative headline — line one plain, line two accented. */
+  title: [string, string];
+  subtitle: string;
+  /** The transformation promise — what you look and feel like after. */
+  becoming: string;
+  ingredient: string;
+  cta: string;
+  priceId: string;
   image: string;
+  /** Per-chapter colour theme, painted as local CSS variables. */
+  theme: { accent: string; deep: string; glow: string; ink: string };
 };
 
-/** Four ingredients Korean formulators reach for that Western shelves rarely carry. */
-const INGREDIENTS: Ingredient[] = [
+/**
+ * The hero's journey, four acts. Each act is a real SKU from the shelf with
+ * its own colour grade, so the stage repaints as the story advances.
+ */
+const CHAPTERS: Chapter[] = [
   {
-    id: "black-rice",
-    hangul: "흑미",
-    name: "Black rice ferment",
-    latin: "Oryza sativa extract",
-    headline: "Black rice,",
-    note: "Fermented rice bran — the quiet brightener behind Korea's glass-skin toners.",
-    image: blackRice,
+    id: "call",
+    act: "Act I · The call",
+    hangul: "광채",
+    title: ["Stop hiding", "behind filters."],
+    subtitle:
+      "Propolis and niacinamide, whipped in Seoul into the serum Korean women reach for the week before they need to be photographed.",
+    becoming: "Day 14 — you catch your own reflection in a shop window and don't look away.",
+    ingredient: "Propolis extract 60% · Niacinamide 2%",
+    cta: "Begin with glow",
+    priceId: "beauty_of_joseon_glow_serum_propolis_plus_niacinamide_30ml_onetime",
+    image: glowSerum,
+    theme: {
+      accent: "255 197 92",
+      deep: "36 24 9",
+      glow: "255 176 63",
+      ink: "255 244 226",
+    },
   },
   {
-    id: "ginseng",
-    hangul: "인삼",
-    name: "Red ginseng",
-    latin: "Panax ginseng root",
-    headline: "Red ginseng,",
-    note: "Six-year-root ginsenosides, used in Korea for firmness and warmth in the skin.",
-    image: ginseng,
+    id: "descent",
+    act: "Act II · The descent",
+    hangul: "수분",
+    title: ["Melbourne air", "is stealing your skin."],
+    subtitle:
+      "Five weights of hyaluronic acid sink past the surface and hold. Built for a city that swings from heater to southerly in one afternoon.",
+    becoming: "Night 3 — you press a cheek and it presses back, plump and quiet.",
+    ingredient: "5D Complex Hyaluronic Acid · Panthenol",
+    cta: "Drown the dryness",
+    priceId: "torriden_dive_in_serum_onetime",
+    image: diveSerum,
+    theme: {
+      accent: "126 205 236",
+      deep: "6 27 43",
+      glow: "84 179 224",
+      ink: "233 248 255",
+    },
   },
   {
-    id: "mugwort",
-    hangul: "쑥",
-    name: "Mugwort",
-    latin: "Artemisia princeps",
-    headline: "Ganghwa mugwort,",
-    note: "Steeped like tea and poured into ampoules to settle heat and reactivity.",
-    image: mugwort,
+    id: "trial",
+    act: "Act III · The trial",
+    hangul: "재생",
+    title: ["Rebuild what", "the years took."],
+    subtitle:
+      "PDRN — the salmon-DNA fragment Korean clinics inject — bottled at 1% with a peptide complex, so the repair keeps running while you sleep.",
+    becoming: "Week 6 — the fine lines under your eyes stop being the first thing you check.",
+    ingredient: "PDRN (Sodium DNA) 1% · Peptide complex",
+    cta: "Take the clinic home",
+    priceId: "medicube_pdrn_pink_peptide_serum_30ml_onetime",
+    image: pdrnSerum,
+    theme: {
+      accent: "247 168 187",
+      deep: "40 15 26",
+      glow: "236 132 163",
+      ink: "255 238 243",
+    },
   },
   {
-    id: "centella",
-    hangul: "병풀",
-    name: "Centella asiatica",
-    latin: "Madecassoside · asiaticoside",
-    headline: "Centella,",
-    note: "Korea's cica leaf — the barrier-repair standard in post-procedure care.",
-    image: centella,
+    id: "return",
+    act: "Act IV · The return",
+    hangul: "왕조",
+    title: ["Walk in like", "you were born glowing."],
+    subtitle:
+      "A Joseon-dynasty recipe of rice bran, ginseng and orchid, sealed as the last step so nothing you built during the night escapes.",
+    becoming: "Month 3 — people ask what you're doing differently. You just smile.",
+    ingredient: "Rice bran · Ginseng root · Orchid extract",
+    cta: "Seal the routine",
+    priceId: "beauty_of_joseon_dynasty_cream_50ml_onetime",
+    image: dynastyCream,
+    theme: {
+      accent: "196 214 178",
+      deep: "16 30 24",
+      glow: "160 196 150",
+      ink: "240 249 236",
+    },
   },
 ];
 
@@ -79,31 +127,29 @@ const EASE_OUT: Transition = { duration: 0.8, ease: [0.16, 1, 0.3, 1] };
 const SPRING = { stiffness: 120, damping: 22, mass: 0.6 };
 
 /**
- * "Atmos" hero — a motion-graphics driven cinematic ingredient stage.
+ * "Atmos" hero — a cinematic, four-act product story that stays above the fold.
  *
- * Motion is orchestrated with the `motion` library: spring-tracked pointer
- * parallax across five depth layers, scroll-linked camera drift, an
- * AnimatePresence ingredient swap, per-word kinetic type, an SVG orbit with an
- * animated dash trace, and an SVG progress ring that draws down the 6s cycle.
- * Everything collapses to a static composition under prefers-reduced-motion.
+ * Each act repaints the stage with its own colour grade, swaps in a real SKU
+ * cutout on a spotlit pedestal, and lands an imperative headline with a
+ * transformation promise. Motion: spring pointer parallax across five depth
+ * layers, scroll-linked camera recede, AnimatePresence act swaps, kinetic type
+ * and an SVG orbit. Everything flattens under prefers-reduced-motion.
  */
 export function AtmosHero() {
-  const featured = SHOP_PRODUCTS.find((p) => p.priceId === FEATURED_PRICE_ID);
   const stageRef = useRef<HTMLElement>(null);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const active = INGREDIENTS[index]!;
+  const act = CHAPTERS[index]!;
+  const product = SHOP_PRODUCTS.find((p) => p.priceId === act.priceId);
   const reduce = useReducedMotion();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  // Pointer parallax — raw values, spring-smoothed so nothing snaps.
   const px = useMotionValue(0);
   const py = useMotionValue(0);
   const mx = useSpring(px, SPRING);
   const my = useSpring(py, SPRING);
 
-  // Scroll-linked camera: the stage recedes as the shelf comes up.
   const { scrollYProgress } = useScroll({
     target: stageRef,
     offset: ["start start", "end start"],
@@ -122,9 +168,11 @@ export function AtmosHero() {
   const coneDepth = depth(18);
   const glowDepth = depth(-30);
   const heroDepth = depth(-46);
-  const bottleDepth = depth(28);
   const heroTiltY = useTransform(mx, (v) => v * 18);
   const heroTiltX = useTransform(my, (v) => v * -14);
+  const dropA = { x: useTransform(mx, (v) => v * 56), y: useTransform(my, (v) => v * 42) };
+  const dropB = { x: useTransform(mx, (v) => v * -44), y: useTransform(my, (v) => v * -30) };
+  const dropC = { x: useTransform(mx, (v) => v * 32), y: useTransform(my, (v) => v * 24) };
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -148,17 +196,32 @@ export function AtmosHero() {
 
   useEffect(() => {
     if (paused || reduce) return;
-    const t = window.setInterval(() => setIndex((i) => (i + 1) % INGREDIENTS.length), CYCLE_MS);
+    const t = window.setInterval(() => setIndex((i) => (i + 1) % CHAPTERS.length), CYCLE_MS);
     return () => window.clearInterval(t);
   }, [paused, reduce]);
+
+  const themeVars = {
+    "--act-accent": act.theme.accent,
+    "--act-deep": act.theme.deep,
+    "--act-glow": act.theme.glow,
+    "--act-ink": act.theme.ink,
+  } as React.CSSProperties;
 
   return (
     <section
       ref={stageRef}
       aria-labelledby="atmos-heading"
-      className="relative isolate overflow-hidden bg-hanbok-deep text-paper"
+      style={themeVars}
+      className="relative isolate flex min-h-[calc(100svh-8.5rem)] items-center overflow-hidden transition-[background-color] duration-1000 ease-out"
     >
-      {/* Layer 1 — cinematic backdrop plate, scroll + pointer driven */}
+      {/* Colour-graded ground for the current act */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 transition-colors duration-1000"
+        style={{ backgroundColor: `rgb(var(--act-deep))` }}
+      />
+
+      {/* Layer 1 — cinematic backdrop plate */}
       <motion.img
         src={stageBackdrop}
         alt=""
@@ -166,93 +229,147 @@ export function AtmosHero() {
         width={1920}
         height={1280}
         style={{ x: bgDepth.x, y: camY, scale: camScale, opacity: camFade }}
-        className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-70 will-change-transform"
-      />
-      {/* Layer 2 — palette wash */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(90%_70%_at_50%_18%,color-mix(in_oklab,var(--hanbok)_55%,transparent)_0%,transparent_62%),linear-gradient(180deg,color-mix(in_oklab,var(--hanbok-deep)_55%,transparent)_0%,transparent_38%,color-mix(in_oklab,var(--hanbok-deep)_92%,transparent)_100%)]"
-      />
-      {/* Layer 3 — volumetric spotlight cone, breathing */}
-      <motion.div
-        aria-hidden="true"
-        style={{ x: coneDepth.x }}
-        animate={reduce ? undefined : { opacity: [0.55, 0.95, 0.55], scaleY: [1, 1.05, 1] }}
-        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute left-1/2 top-0 h-[70%] w-[52rem] origin-top -translate-x-1/2 bg-[conic-gradient(from_180deg_at_50%_0%,transparent_0deg,color-mix(in_oklab,var(--grocer-butter)_22%,transparent)_172deg,color-mix(in_oklab,var(--grocer-butter)_22%,transparent)_188deg,transparent_360deg)] blur-2xl"
+        className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-40 mix-blend-luminosity will-change-transform"
       />
 
-      <div className="relative z-10 mx-auto grid max-w-7xl gap-16 px-6 pb-24 pt-24 md:px-12 md:pb-32 md:pt-32 lg:grid-cols-12 lg:items-center">
-        {/* Kinetic type */}
-        <motion.div className="lg:col-span-6">
-          <motion.p
-            initial={false}
-            animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
-            transition={EASE_OUT}
-            className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.32em] text-grocer-butter"
-          >
-            <motion.span
-              className="h-px w-8 origin-left bg-grocer-butter"
-              initial={false}
-              animate={mounted ? { scaleX: 1 } : { scaleX: 0 }}
-              transition={{ ...EASE_OUT, delay: 0.2 }}
-            />
-            The Korean ingredient shelf
-          </motion.p>
+      {/* Layer 2 — act colour wash */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 transition-[background] duration-1000"
+        style={{
+          background: `radial-gradient(85% 65% at 62% 30%, rgb(var(--act-glow) / 0.28) 0%, transparent 62%), linear-gradient(180deg, rgb(var(--act-deep) / 0.35) 0%, transparent 34%, rgb(var(--act-deep) / 0.95) 100%)`,
+        }}
+      />
+
+      {/* Layer 3 — volumetric spotlight cone */}
+      <motion.div
+        aria-hidden="true"
+        style={{
+          x: coneDepth.x,
+          background: `conic-gradient(from 180deg at 50% 0%, transparent 0deg, rgb(var(--act-accent) / 0.2) 172deg, rgb(var(--act-accent) / 0.2) 188deg, transparent 360deg)`,
+        }}
+        animate={reduce ? undefined : { opacity: [0.5, 0.95, 0.5], scaleY: [1, 1.05, 1] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute left-[62%] top-0 h-[75%] w-[46rem] origin-top -translate-x-1/2 blur-2xl"
+      />
+
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-10 px-6 py-12 md:px-12 md:py-14 lg:grid-cols-12 lg:gap-8">
+        {/* Kinetic type column */}
+        <div className="lg:col-span-6">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.p
+              key={`${act.id}-act`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.5 }}
+              className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.32em]"
+              style={{ color: `rgb(var(--act-accent))` }}
+            >
+              <span className="h-px w-8" style={{ backgroundColor: `rgb(var(--act-accent))` }} />
+              {act.act}
+              <span className="font-display text-sm tracking-normal">{act.hangul}</span>
+            </motion.p>
+          </AnimatePresence>
 
           <h1
             id="atmos-heading"
-            className="mt-8 font-masthead text-[clamp(2.7rem,7vw,6rem)] leading-[0.92] tracking-tight [text-shadow:0_24px_60px_rgba(0,0,0,0.45)]"
+            className="mt-5 font-masthead text-[clamp(2.4rem,5.6vw,4.6rem)] leading-[0.92] tracking-tight [text-shadow:0_24px_60px_rgba(0,0,0,0.5)]"
+            style={{ color: `rgb(var(--act-ink))` }}
           >
-            <span className="block overflow-hidden">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span
-                  key={active.id}
-                  className="block"
-                  initial={{ y: "110%", rotateX: -55, opacity: 0 }}
-                  animate={{ y: "0%", rotateX: 0, opacity: 1 }}
-                  exit={{ y: "-90%", rotateX: 35, opacity: 0 }}
-                  transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  {active.headline}
-                </motion.span>
-              </AnimatePresence>
-            </span>
-            <span className="block overflow-hidden">
-              <motion.span
-                className="block italic text-grocer-butter"
-                initial={false}
-                animate={mounted ? { y: "0%" } : { y: "110%" }}
-                transition={{ duration: 0.95, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              >
-                bottled in Seoul.
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span key={`${act.id}-title`} className="block">
+                <span className="block overflow-hidden">
+                  <motion.span
+                    className="block"
+                    initial={{ y: "110%", rotateX: -55, opacity: 0 }}
+                    animate={{ y: "0%", rotateX: 0, opacity: 1 }}
+                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    {act.title[0]}
+                  </motion.span>
+                </span>
+                <span className="block overflow-hidden">
+                  <motion.span
+                    className="block italic"
+                    style={{ color: `rgb(var(--act-accent))` }}
+                    initial={{ y: "110%", opacity: 0 }}
+                    animate={{ y: "0%", opacity: 1 }}
+                    transition={{ duration: 0.8, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    {act.title[1]}
+                  </motion.span>
+                </span>
               </motion.span>
-            </span>
+            </AnimatePresence>
           </h1>
 
-          <div className="mt-7 min-h-[3.5rem] max-w-md">
+          <div className="mt-5 min-h-[5.5rem] max-w-xl">
             <AnimatePresence mode="wait" initial={false}>
-              <motion.p
-                key={`${active.id}-note`}
+              <motion.div
+                key={`${act.id}-copy`}
                 initial={{ opacity: 0, y: 12, filter: "blur(6px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 exit={{ opacity: 0, y: -8, filter: "blur(6px)" }}
                 transition={{ duration: 0.55, ease: "easeOut" }}
-                className="text-[15px] font-light leading-relaxed text-paper/75"
               >
-                {active.note}
-              </motion.p>
+                <p
+                  className="text-[15px] font-light leading-relaxed"
+                  style={{ color: `rgb(var(--act-ink) / 0.78)` }}
+                >
+                  {act.subtitle}
+                </p>
+                <p
+                  className="mt-3 border-l pl-4 text-[13px] font-light italic leading-relaxed"
+                  style={{
+                    color: `rgb(var(--act-ink) / 0.62)`,
+                    borderColor: `rgb(var(--act-accent) / 0.5)`,
+                  }}
+                >
+                  {act.becoming}
+                </p>
+              </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* Ingredient selector — each pill carries its own cycle timer ring */}
+          {/* Calls to action */}
+          <motion.div
+            initial={false}
+            animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+            transition={{ ...EASE_OUT, delay: 0.25 }}
+            className="mt-7 flex flex-wrap items-center gap-5"
+          >
+            {product && (
+              <Button
+                asChild
+                className="rounded-full px-8 py-6 text-[11px] font-semibold uppercase tracking-[0.22em] shadow-[0_20px_50px_-18px_rgba(0,0,0,0.85)] transition-transform hover:-translate-y-0.5"
+                style={{ backgroundColor: `rgb(var(--act-accent))`, color: `rgb(var(--act-deep))` }}
+              >
+                <Link to="/product/$slug" params={{ slug: productSlug(product) }}>
+                  {act.cta} — {product.price} <ArrowRight />
+                </Link>
+              </Button>
+            )}
+            <Link
+              to="/consultation"
+              search={{}}
+              className="group inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] transition"
+              style={{ color: `rgb(var(--act-ink) / 0.75)` }}
+            >
+              <Sparkles className="h-3.5 w-3.5" />
+              Get my free skin report
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </motion.div>
+
+          {/* Act selector — chapter markers with cycle timer */}
           <ul
             className="mt-8 flex flex-wrap gap-2"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
           >
-            {INGREDIENTS.map((ing, i) => (
-              <li key={ing.id}>
+            {CHAPTERS.map((c, i) => (
+              <li key={c.id}>
                 <motion.button
                   type="button"
                   onClick={() => setIndex(i)}
@@ -260,89 +377,52 @@ export function AtmosHero() {
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.96 }}
                   transition={{ type: "spring", stiffness: 400, damping: 26 }}
-                  className={`relative overflow-hidden rounded-full border px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] transition-colors ${
+                  className="relative overflow-hidden rounded-full border px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] transition-colors"
+                  style={
                     i === index
-                      ? "border-grocer-butter text-grocer-butter"
-                      : "border-paper/20 text-paper/60 hover:border-paper/45 hover:text-paper"
-                  }`}
+                      ? { borderColor: `rgb(var(--act-accent))`, color: `rgb(var(--act-accent))` }
+                      : { borderColor: `rgb(var(--act-ink) / 0.22)`, color: `rgb(var(--act-ink) / 0.6)` }
+                  }
                 >
                   {i === index && (
                     <motion.span
                       aria-hidden="true"
-                      className="absolute inset-y-0 left-0 -z-10 bg-grocer-butter/20"
+                      className="absolute inset-y-0 left-0 -z-10"
+                      style={{ backgroundColor: `rgb(var(--act-accent) / 0.2)` }}
                       initial={{ width: "0%" }}
                       animate={{ width: paused || reduce ? "100%" : ["0%", "100%"] }}
                       transition={{ duration: paused || reduce ? 0.3 : CYCLE_MS / 1000, ease: "linear" }}
                     />
                   )}
-                  <span className="mr-2 font-display normal-case tracking-normal">{ing.hangul}</span>
-                  {ing.name}
+                  <span className="mr-2 font-display normal-case tracking-normal">{c.hangul}</span>
+                  {`0${i + 1}`}
                 </motion.button>
               </li>
             ))}
           </ul>
+        </div>
 
-          <motion.div
-            initial={false}
-            animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-            transition={{ ...EASE_OUT, delay: 0.35 }}
-            className="mt-10 flex flex-wrap items-center gap-5"
-          >
-            <Button
-              asChild
-              className="rounded-full bg-grocer-butter px-9 py-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-hanbok-deep shadow-[0_20px_50px_-18px_rgba(0,0,0,0.8)] transition-transform hover:-translate-y-0.5 hover:bg-paper"
-            >
-              <Link to="/consultation" search={{}}>
-                Match me to my ingredients <Sparkles />
-              </Link>
-            </Button>
-            <Link
-              to="/learn"
-              className="group inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-paper/70 transition hover:text-paper"
-            >
-              Read the ingredient library
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-          </motion.div>
-
-          <motion.dl
-            initial={false}
-            animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
-            transition={{ ...EASE_OUT, delay: 0.45 }}
-            className="mt-12 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-2xl bg-paper/10 text-center ring-1 ring-paper/10"
-          >
-            {[
-              { icon: ShieldCheck, k: "Authentic", v: "Checked in Seoul" },
-              { icon: Truck, k: "Next day", v: "Melbourne dispatch" },
-              { icon: Clock3, k: "24 hours", v: "Consult reply" },
-            ].map((s) => (
-              <div key={s.k} className="bg-hanbok-deep/70 px-3 py-5 backdrop-blur-sm">
-                <s.icon className="mx-auto h-4 w-4 text-grocer-butter" />
-                <dt className="mt-2 font-display text-xs uppercase tracking-[0.16em]">{s.k}</dt>
-                <dd className="mt-1 text-[10px] uppercase tracking-[0.14em] text-paper/50">{s.v}</dd>
-              </div>
-            ))}
-          </motion.dl>
-        </motion.div>
-
-        {/* 3D ingredient stage */}
+        {/* 3D product stage */}
         <div className="relative lg:col-span-6">
-          <div className="relative mx-auto aspect-[4/5] w-full max-w-md [perspective:1200px]">
-            {/* Pedestal glow — pulses with the cycle */}
+          <div className="relative mx-auto aspect-square w-full max-w-[26rem] [perspective:1200px]">
             <motion.div
               aria-hidden="true"
-              style={{ x: glowDepth.x, y: glowDepth.y }}
+              style={{
+                x: glowDepth.x,
+                y: glowDepth.y,
+                backgroundColor: `rgb(var(--act-glow) / 0.3)`,
+              }}
               animate={reduce ? undefined : { scale: [1, 1.08, 1], opacity: [0.75, 1, 0.75] }}
               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute left-1/2 top-1/2 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-grocer-butter/25 blur-[90px]"
+              className="absolute left-1/2 top-1/2 h-[22rem] w-[22rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[90px]"
             />
 
-            {/* SVG orbit graphics — a traced dash ring plus a counter-rotating ring */}
+            {/* SVG orbit */}
             <motion.svg
               aria-hidden="true"
               viewBox="0 0 400 400"
-              style={{ rotate: ringSpin }}
-              className="absolute left-1/2 top-[60%] h-[24rem] w-[24rem] -translate-x-1/2 -translate-y-1/2 [transform:rotateX(72deg)]"
+              style={{ rotate: ringSpin, color: `rgb(var(--act-accent))` }}
+              className="absolute left-1/2 top-[62%] h-[22rem] w-[22rem] -translate-x-1/2 -translate-y-1/2 [transform:rotateX(72deg)]"
             >
               <motion.circle
                 cx="200"
@@ -350,8 +430,8 @@ export function AtmosHero() {
                 r="180"
                 fill="none"
                 stroke="currentColor"
+                strokeOpacity="0.3"
                 strokeWidth="1"
-                className="text-paper/25"
                 strokeDasharray="6 14"
                 animate={reduce ? undefined : { strokeDashoffset: [0, -200] }}
                 transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
@@ -362,8 +442,8 @@ export function AtmosHero() {
                 r="120"
                 fill="none"
                 stroke="currentColor"
+                strokeOpacity="0.5"
                 strokeWidth="1.5"
-                className="text-grocer-butter/45"
                 strokeDasharray="300 460"
                 animate={reduce ? undefined : { rotate: -360 }}
                 transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
@@ -373,9 +453,9 @@ export function AtmosHero() {
 
             {/* Drifting glass droplets */}
             {[
-              { c: "left-2 top-10 w-14", d: 1.4 },
-              { c: "right-4 top-24 w-9", d: -1.1 },
-              { c: "left-8 bottom-24 w-7", d: 0.8 },
+              { c: "left-0 top-8 w-12", d: dropA, dur: 8 },
+              { c: "right-2 top-20 w-8", d: dropB, dur: 9.6 },
+              { c: "left-6 bottom-16 w-7", d: dropC, dur: 11 },
             ].map((o, i) => (
               <motion.img
                 key={o.c}
@@ -385,14 +465,14 @@ export function AtmosHero() {
                 loading="lazy"
                 width={768}
                 height={768}
-                style={{ x: useTransform(mx, (v) => v * 40 * o.d), y: useTransform(my, (v) => v * 30 * o.d) }}
-                animate={reduce ? undefined : { y: [0, -14, 0], rotate: [0, o.d * 6, 0] }}
-                transition={{ duration: 8 + i * 1.6, repeat: Infinity, ease: "easeInOut" }}
-                className={`absolute ${o.c} opacity-70 mix-blend-screen`}
+                style={{ x: o.d.x, y: o.d.y }}
+                animate={reduce ? undefined : { y: [0, -14, 0] }}
+                transition={{ duration: o.dur, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
+                className={`absolute ${o.c} opacity-60 mix-blend-screen`}
               />
             ))}
 
-            {/* Hero ingredient — AnimatePresence swap, 3D tilt, mirrored reflection */}
+            {/* The product — swap with a cinematic dissolve, 3D tilt, reflection */}
             <motion.div
               style={{
                 x: heroDepth.x,
@@ -401,29 +481,29 @@ export function AtmosHero() {
                 rotateX: heroTiltX,
                 transformStyle: "preserve-3d",
               }}
-              className="absolute inset-x-0 top-[6%] mx-auto w-[62%] will-change-transform"
+              className="absolute inset-x-0 top-[4%] mx-auto w-[58%] will-change-transform"
             >
               <div className="relative aspect-square">
                 <AnimatePresence initial={false}>
                   <motion.div
-                    key={active.id}
+                    key={act.id}
                     className="absolute inset-0"
-                    initial={{ opacity: 0, scale: 0.86, filter: "blur(12px)", rotate: -8 }}
+                    initial={{ opacity: 0, scale: 0.86, filter: "blur(14px)", rotate: -7 }}
                     animate={{ opacity: 1, scale: 1, filter: "blur(0px)", rotate: 0 }}
-                    exit={{ opacity: 0, scale: 1.08, filter: "blur(14px)", rotate: 6 }}
+                    exit={{ opacity: 0, scale: 1.08, filter: "blur(16px)", rotate: 6 }}
                     transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <motion.img
-                      src={active.image}
-                      alt={`${active.name} — ${active.latin}`}
+                      src={act.image}
+                      alt={product ? `${product.brand} ${product.name}` : act.ingredient}
                       width={1024}
                       height={1024}
                       animate={reduce ? undefined : { y: [0, -16, 0] }}
                       transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-                      className="w-full drop-shadow-[0_50px_70px_rgba(0,0,0,0.65)]"
+                      className="w-full drop-shadow-[0_50px_70px_rgba(0,0,0,0.7)]"
                     />
                     <img
-                      src={active.image}
+                      src={act.image}
                       alt=""
                       aria-hidden="true"
                       loading="lazy"
@@ -434,69 +514,58 @@ export function AtmosHero() {
               </div>
             </motion.div>
 
-            {/* The bottle it lives in — small, orbiting the ingredient */}
-            {featured && (
-              <motion.div
-                style={{ x: bottleDepth.x, y: bottleDepth.y }}
-                whileHover={{ scale: 1.06, y: -10 }}
-                transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                className="absolute bottom-[30%] right-0 w-[22%]"
-              >
-                <Link
-                  to="/product/$slug"
-                  params={{ slug: productSlug(featured) }}
-                  aria-label={`${featured.brand} ${featured.name}`}
-                >
-                  <motion.img
-                    src={tonerCutout}
-                    alt={`${featured.brand} ${featured.name}`}
-                    width={600}
-                    height={900}
-                    loading="lazy"
-                    animate={reduce ? undefined : { y: [0, -10, 0] }}
-                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                    className="w-full drop-shadow-[0_40px_50px_rgba(0,0,0,0.6)]"
-                  />
-                </Link>
-              </motion.div>
-            )}
-
-            {/* Ingredient caption plate */}
-            <div className="absolute inset-x-4 bottom-2 overflow-hidden rounded-2xl border border-paper/15 bg-hanbok-deep/60 px-5 py-4 backdrop-blur-md">
+            {/* Product plate */}
+            <div
+              className="absolute inset-x-2 bottom-0 overflow-hidden rounded-2xl border px-5 py-4 backdrop-blur-md"
+              style={{
+                borderColor: `rgb(var(--act-ink) / 0.16)`,
+                backgroundColor: `rgb(var(--act-deep) / 0.6)`,
+              }}
+            >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
-                  key={`${active.id}-plate`}
+                  key={`${act.id}-plate`}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -14 }}
                   transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-grocer-butter">
-                    {active.hangul} · On the stage
+                  <p
+                    className="text-[10px] font-semibold uppercase tracking-[0.24em]"
+                    style={{ color: `rgb(var(--act-accent))` }}
+                  >
+                    {product?.brand ?? "Skin Grocer"} · {product?.price ?? ""}
                   </p>
-                  <p className="mt-1.5 font-display text-sm uppercase tracking-[0.1em]">{active.name}</p>
-                  <p className="mt-1 text-[11px] font-light italic text-paper/55">{active.latin}</p>
+                  <p
+                    className="mt-1.5 font-display text-sm uppercase tracking-[0.1em]"
+                    style={{ color: `rgb(var(--act-ink))` }}
+                  >
+                    {product?.name ?? act.title[0]}
+                  </p>
+                  <p
+                    className="mt-1 text-[11px] font-light italic"
+                    style={{ color: `rgb(var(--act-ink) / 0.6)` }}
+                  >
+                    {act.ingredient}
+                  </p>
                 </motion.div>
               </AnimatePresence>
-              {featured && (
-                <Link
-                  to="/product/$slug"
-                  params={{ slug: productSlug(featured) }}
-                  className="group mt-3 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-paper/70 transition hover:text-paper"
-                >
-                  Shop the formula
-                  <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
-                </Link>
-              )}
             </div>
           </div>
         </div>
       </div>
 
       {/* Specular sweep across the bottom edge */}
-      <div aria-hidden="true" className="relative z-10 h-px w-full overflow-hidden bg-paper/10">
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 z-10 h-px overflow-hidden"
+        style={{ backgroundColor: `rgb(var(--act-ink) / 0.12)` }}
+      >
         <motion.div
-          className="h-px w-1/3 bg-gradient-to-r from-transparent via-grocer-butter to-transparent"
+          className="h-px w-1/3"
+          style={{
+            background: `linear-gradient(90deg, transparent, rgb(var(--act-accent)), transparent)`,
+          }}
           animate={reduce ? undefined : { x: ["-100%", "300%"] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         />
