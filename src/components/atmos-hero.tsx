@@ -691,8 +691,8 @@ export function AtmosHero() {
                             exit={{ x: f.dx * 1.3, y: f.dy * 1.3 + 60, rotate: f.rot * 1.4, opacity: 0, scale: 1.1 }}
                             transition={{
                               type: "spring",
-                              stiffness: 420,
-                              damping: 18,
+                              stiffness: motionStyle.fragment?.stiffness ?? 420,
+                              damping: motionStyle.fragment?.damping ?? 18,
                               mass: 0.7,
                               delay: f.delay,
                               opacity: { duration: 0.18, delay: f.delay },

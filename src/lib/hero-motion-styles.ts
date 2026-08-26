@@ -28,7 +28,16 @@ export type HeroMotionStyle = {
    * When set, the product image itself is sliced into clip-path fragments that
    * fly apart on exit and slam back together on entry.
    */
-  fragment: { cols: number; rows: number; dist: number; spin: number; stagger: number } | null;
+  fragment: {
+    cols: number;
+    rows: number;
+    dist: number;
+    spin: number;
+    stagger: number;
+    /** Spring feel for the pieces — soft/slow for reveals, stiff for shatters. */
+    stiffness?: number;
+    damping?: number;
+  } | null;
 };
 
 const OVERSHOOT: Transition = {
@@ -61,7 +70,7 @@ export const HERO_MOTION_STYLES: HeroMotionStyle[] = [
     flash: { enabled: true, from: 0.9, to: 2.4, duration: 1.5 },
     waves: { count: 2, scale: 3.4, duration: 1.9, stagger: 0.45 },
     shards: { count: 10, dist: 120, duration: 2.2, gravity: -70 },
-    fragment: { cols: 1, rows: 2, dist: 150, spin: 16, stagger: 0.09 },
+    fragment: { cols: 1, rows: 2, dist: 150, spin: 16, stagger: 0.09, stiffness: 90, damping: 22 },
   },
   {
     id: "shatter",
