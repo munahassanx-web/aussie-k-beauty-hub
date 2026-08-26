@@ -333,7 +333,7 @@ export function AtmosHero() {
                   transform:
                     "translate3d(calc(var(--mx) * 28px), calc(var(--my) * 18px), 0) rotateY(calc(var(--mx) * -14deg))",
                 }}
-                className="group absolute bottom-[16%] right-[2%] w-[24%] transition-transform duration-500 ease-out [transform-style:preserve-3d]"
+                className="group absolute bottom-[30%] right-[0%] w-[22%] transition-transform duration-500 ease-out [transform-style:preserve-3d]"
                 aria-label={`${featured.brand} ${featured.name}`}
               >
                 <img
