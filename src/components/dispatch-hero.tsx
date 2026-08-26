@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -37,12 +38,58 @@ const TICKER_ITEMS = [
  */
 export function DispatchHero() {
   const featured = SHOP_PRODUCTS.find((p) => p.priceId === FEATURED_PRICE_ID);
+  const stageRef = useRef<HTMLElement>(null);
+
+  /**
+   * Subtle motion: the hero dims and lifts away as the next section arrives,
+   * and the glow / product drift opposite the pointer. Both respect
+   * prefers-reduced-motion.
+   */
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const rect = stage.getBoundingClientRect();
+        const p = Math.min(Math.max(-rect.top / Math.max(rect.height, 1), 0), 1);
+        stage.style.setProperty("--hero-dim", String(p * 0.55));
+        stage.style.setProperty("--hero-lift", `${-p * 5}%`);
+      });
+    };
+    const onPointer = (e: PointerEvent) => {
+      const rect = stage.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      stage.style.setProperty("--hero-mx", `${-x * 18}px`);
+      stage.style.setProperty("--hero-my", `${-y * 14}px`);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    stage.addEventListener("pointermove", onPointer);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      stage.removeEventListener("pointermove", onPointer);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
 
   return (
     <section
+      ref={stageRef}
       aria-labelledby="dispatch-heading"
-      className="relative isolate overflow-hidden bg-hanbok-deep text-paper"
+      className="relative isolate overflow-hidden bg-hanbok-deep text-paper [--hero-dim:0] [--hero-lift:0%] [--hero-mx:0px] [--hero-my:0px]"
     >
+      {/* Gradient field — bright at the centre, deep at the edges, so the eye
+          falls on the headline before anything else. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[radial-gradient(120%_90%_at_38%_28%,color-mix(in_oklab,var(--hanbok)_70%,transparent)_0%,transparent_58%),radial-gradient(90%_70%_at_92%_78%,color-mix(in_oklab,var(--grocer-butter)_22%,transparent)_0%,transparent_60%),linear-gradient(180deg,transparent_35%,color-mix(in_oklab,black_45%,transparent)_100%)]"
+      />
       {/* Subtle vertical grooves — packaging-inspired texture */}
       <div aria-hidden="true" className="absolute inset-0 opacity-[0.06]">
         <div className="absolute left-1/5 top-0 h-full w-px bg-paper" />
@@ -50,13 +97,23 @@ export function DispatchHero() {
         <div className="absolute left-3/5 top-0 h-full w-px bg-paper" />
         <div className="absolute left-4/5 top-0 h-full w-px bg-paper" />
       </div>
-      {/* Warm glow behind the card */}
+      {/* Warm glow behind the card — drifts against the pointer */}
       <div
         aria-hidden="true"
-        className="absolute -right-40 top-1/3 h-[34rem] w-[34rem] rounded-full bg-grocer-butter/15 blur-3xl"
+        style={{ transform: "translate3d(var(--hero-mx), var(--hero-my), 0)" }}
+        className="absolute -right-40 top-1/3 h-[34rem] w-[34rem] rounded-full bg-grocer-butter/20 blur-3xl transition-transform duration-500 ease-out will-change-transform"
+      />
+      {/* Scroll dim — hands attention to the section below */}
+      <div
+        aria-hidden="true"
+        style={{ opacity: "var(--hero-dim)" }}
+        className="pointer-events-none absolute inset-0 z-30 bg-hanbok-deep"
       />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pb-24 pt-24 md:px-12 md:pb-32 md:pt-32">
+      <div
+        style={{ transform: "translate3d(0, var(--hero-lift), 0)" }}
+        className="relative z-10 mx-auto max-w-7xl px-6 pb-28 pt-28 will-change-transform md:px-12 md:pb-40 md:pt-40"
+      >
         <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.32em] text-grocer-butter">
           <span className="h-px w-8 bg-grocer-butter" />
           Skin Grocer · Australia&rsquo;s K-beauty grocer
