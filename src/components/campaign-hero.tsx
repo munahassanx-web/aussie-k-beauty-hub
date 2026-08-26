@@ -4,10 +4,28 @@ import { ArrowRight, ArrowUpRight, BadgeCheck, Sparkles, Truck } from "lucide-re
 import { Button } from "@/components/ui/button";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
-import campaignImage from "@/assets/hero-editorial-campaign.jpg";
+import campaignSummer from "@/assets/hero-editorial-campaign.jpg";
+import campaignAutumn from "@/assets/hero-editorial-campaign-2.jpg";
+import campaignWinter from "@/assets/hero-editorial-campaign-3.jpg";
+import campaignSpring from "@/assets/hero-editorial-campaign-4.jpg";
 import tonerCutout from "@/assets/haruharu-toner-cutout.png";
 
 const FEATURED_PRICE_ID = "haruharu_wonder_black_rice_hyaluronic_toner_150ml_onetime";
+
+/**
+ * Seasonal campaign rotation (Southern Hemisphere).
+ * Summer Dec–Feb · Autumn Mar–May · Winter Jun–Aug · Spring Sep–Nov.
+ * To pin one campaign year-round, return a fixed key, e.g. "summer".
+ */
+function seasonalCampaign(): { src: string; key: string } {
+  const month = new Date().getMonth(); // 0 = Jan
+  if (month >= 2 && month <= 4) return { src: campaignAutumn, key: "autumn" };
+  if (month >= 5 && month <= 7) return { src: campaignWinter, key: "winter" };
+  if (month >= 8 && month <= 10) return { src: campaignSpring, key: "spring" };
+  return { src: campaignSummer, key: "summer" };
+}
+
+const CAMPAIGN = seasonalCampaign();
 
 /**
  * Rhode-inspired full-bleed editorial hero: campaign photography fills the
