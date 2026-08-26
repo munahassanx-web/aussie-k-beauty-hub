@@ -16,10 +16,10 @@ import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
 import stageBackdrop from "@/assets/hero-3d-stage.jpg";
 import droplet from "@/assets/hero-3d-droplet.png";
-import glowSerum from "@/assets/hero-chapter-glow.png";
-import diveSerum from "@/assets/hero-chapter-dive.png";
-import pdrnSerum from "@/assets/hero-chapter-pdrn.png";
-import dynastyCream from "@/assets/hero-chapter-dynasty.png";
+import plumToner from "@/assets/hero-spring-plum.png";
+import cicaAmpoule from "@/assets/hero-spring-cica.png";
+import sunCream from "@/assets/hero-spring-sun.png";
+import glowSerum from "@/assets/hero-spring-glow.png";
 
 const CYCLE_MS = 7000;
 
