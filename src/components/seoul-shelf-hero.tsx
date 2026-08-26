@@ -172,7 +172,7 @@ export function SeoulShelfHero() {
                   <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-shelf-bg/55">
                     {active.product.brand}
                   </p>
-                  <p className="mt-1 font-masthead text-xl italic leading-tight text-shelf-bg">
+                  <p className="mx-auto mt-1 max-w-[16rem] text-pretty px-2 font-masthead text-xl italic leading-tight text-shelf-bg">
                     {active.product.name}
                   </p>
                   <div className="mt-3 flex items-center justify-center gap-4">
