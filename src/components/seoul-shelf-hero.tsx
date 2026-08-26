@@ -224,8 +224,8 @@ export function SeoulShelfHero() {
                 "translate(calc(var(--shelf-x, 0) * 14px), calc(var(--shelf-y, 0) * 10px))",
             }}
           >
-            <div className="relative overflow-hidden rounded-[2rem] rounded-t-[10rem] border border-shelf-tile/10 bg-shelf-tile p-8 pb-6 text-shelf-bg shadow-[0_40px_80px_-24px_rgba(0,0,0,0.55)]">
-              <p className="text-center text-[9px] font-bold uppercase tracking-[0.3em] text-shelf-bg/50">
+            <div className="relative overflow-hidden rounded-[2rem] rounded-t-[10rem] border border-shelf-tile/10 bg-shelf-tile p-8 pb-6 text-shelf-tile-ink shadow-[0_40px_80px_-24px_rgba(0,0,0,0.55)]">
+              <p className="text-center text-[9px] font-bold uppercase tracking-[0.3em] text-shelf-tile-ink/50">
                 This week&apos;s shelf · {String(activeIndex + 1).padStart(2, "0")}/{String(picks.length).padStart(2, "0")}
               </p>
               <div key={active.slug} className="animate-[shelf-swap_0.55s_cubic-bezier(0.22,1,0.36,1)]">
@@ -237,11 +237,11 @@ export function SeoulShelfHero() {
                     fetchPriority={activeIndex === 0 ? "high" : "auto"}
                   />
                 </div>
-                <div className="mt-6 border-t border-shelf-bg/10 pt-4 text-center">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-shelf-bg/55">
+                <div className="mt-6 border-t border-shelf-tile-ink/10 pt-4 text-center">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-shelf-tile-ink/55">
                     {active.product.brand}
                   </p>
-                  <p className="mx-auto mt-1 max-w-[16rem] text-pretty px-2 font-masthead text-xl italic leading-tight text-shelf-bg">
+                  <p className="mx-auto mt-1 max-w-[16rem] text-pretty px-2 font-masthead text-xl italic leading-tight text-shelf-tile-ink">
                     {active.product.name}
                   </p>
                   <div className="mt-3 flex items-center justify-center gap-4">
@@ -249,7 +249,7 @@ export function SeoulShelfHero() {
                     <Link
                       to="/product/$slug"
                       params={{ slug: active.slug }}
-                      className="group inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.2em] text-shelf-bg/70 transition hover:text-shelf-bg"
+                      className="group inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.2em] text-shelf-tile-ink/70 transition hover:text-shelf-tile-ink"
                     >
                       View product
                       <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
