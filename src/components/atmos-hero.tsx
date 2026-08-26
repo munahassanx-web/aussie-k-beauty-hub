@@ -20,6 +20,7 @@ import {
   HERO_MOTION_STORAGE_KEY,
   HERO_MOTION_STYLES,
   shardsFor,
+  fragmentsFor,
 } from "@/lib/hero-motion-styles";
 import bgPlum from "@/assets/hero-bg-plum.jpg";
 import bgCica from "@/assets/hero-bg-cica.jpg";
@@ -169,6 +170,7 @@ export function AtmosHero() {
   }, []);
   const motionStyle = HERO_MOTION_STYLES.find((s) => s.id === styleId) ?? HERO_MOTION_STYLES[0]!;
   const shards = shardsFor(motionStyle);
+  const fragments = fragmentsFor(motionStyle);
   /** Same act, new choreography — force a fresh entrance so the pick is visible. */
   const swapKey = `${act.id}-${motionStyle.id}-${replayKey}`;
   const pickStyle = (id: string) => {
@@ -660,15 +662,57 @@ export function AtmosHero() {
                     exit={reduce ? { opacity: 0 } : motionStyle.product.exit}
                     transition={reduce ? { duration: 0.3 } : motionStyle.product.transition}
                   >
-                    <motion.img
-                      src={act.image}
-                      alt={product ? `${product.brand} ${product.name}` : act.ingredient}
-                      width={1024}
-                      height={1024}
-                      animate={reduce ? undefined : { y: [0, -14, 0] }}
-                      transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-                      className="w-full drop-shadow-[0_50px_70px_rgba(0,0,0,0.7)]"
-                    />
+                    {fragments.length > 0 && !reduce ? (
+                      <motion.div
+                        className="relative w-full"
+                        animate={{ y: [0, -14, 0] }}
+                        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+                      >
+                        {/* Invisible sizer keeps layout identical to the whole bottle */}
+                        <img
+                          src={act.image}
+                          alt={product ? `${product.brand} ${product.name}` : act.ingredient}
+                          width={1024}
+                          height={1024}
+                          className="w-full opacity-0"
+                        />
+                        {fragments.map((f, i) => (
+                          <motion.img
+                            key={`${swapKey}-frag-${i}`}
+                            src={act.image}
+                            alt=""
+                            aria-hidden="true"
+                            width={1024}
+                            height={1024}
+                            className="absolute inset-0 w-full drop-shadow-[0_50px_70px_rgba(0,0,0,0.7)]"
+                            style={{ clipPath: f.clip, WebkitClipPath: f.clip }}
+                            initial={{ x: f.dx, y: f.dy, rotate: f.rot, opacity: 0, scale: 1.25, filter: "blur(10px)" }}
+                            animate={{ x: 0, y: 0, rotate: 0, opacity: 1, scale: 1, filter: "blur(0px)" }}
+                            exit={{ x: f.dx * 1.3, y: f.dy * 1.3 + 60, rotate: f.rot * 1.4, opacity: 0, scale: 1.1 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 420,
+                              damping: 18,
+                              mass: 0.7,
+                              delay: f.delay,
+                              opacity: { duration: 0.18, delay: f.delay },
+                              filter: { duration: 0.3, delay: f.delay },
+                            }}
+                          />
+                        ))}
+                      </motion.div>
+                    ) : (
+                      <motion.img
+                        src={act.image}
+                        alt={product ? `${product.brand} ${product.name}` : act.ingredient}
+                        width={1024}
+                        height={1024}
+                        animate={reduce ? undefined : { y: [0, -14, 0] }}
+                        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+                        className="w-full drop-shadow-[0_50px_70px_rgba(0,0,0,0.7)]"
+                      />
+                    )}
+
                     <img
                       src={act.image}
                       alt=""
