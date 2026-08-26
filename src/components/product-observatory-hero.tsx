@@ -46,8 +46,11 @@ export function ProductObservatoryHero() {
   };
 
   const stopDrag = (event: ReactPointerEvent<HTMLElement>) => {
+    const wasDragging = dragStart.current !== null;
     dragStart.current = null;
-    event.currentTarget.releasePointerCapture?.(event.pointerId);
+    if (wasDragging && event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
   };
 
   const chooseAnswer = (answer: SkinAnswer) => {
