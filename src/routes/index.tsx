@@ -6,7 +6,7 @@ import { HOME_FAQS, faqJsonLd } from "@/lib/faqs";
 import { Reveal } from "@/components/reveal";
 
 
-import { DispatchHero } from "@/components/dispatch-hero";
+import { AtmosHero } from "@/components/atmos-hero";
 import { ProductShelf } from "@/components/product-shelf";
 import { SeoulSignalStrip } from "@/components/seoul-signal";
 import { KoreaRightNow } from "@/components/korea-right-now";
@@ -104,7 +104,7 @@ const ingredients = [
 function HomePage() {
   return (
     <div>
-      <DispatchHero />
+      <AtmosHero />
       <ProductShelf />
       <div id="skin-grocer-promise"><Promise /></div>
       <KoreaRightNow />
