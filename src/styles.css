@@ -150,6 +150,48 @@
   --observatory-moss: oklch(0.55 0.07 320);
 }
 
+/* Clinical Sanctuary hero palette worlds — applied via data-sanctuary-palette on the hero section */
+[data-sanctuary-palette="porcelain"] {
+  --sanctuary-bg: oklch(0.965 0.008 95);
+  --sanctuary-ink: oklch(0.28 0.015 70);
+  --sanctuary-muted: oklch(0.55 0.02 80);
+  --sanctuary-line: oklch(0.85 0.015 85);
+  --sanctuary-gold: oklch(0.70 0.10 78);
+  --sanctuary-gold-deep: oklch(0.62 0.10 75);
+  --sanctuary-sage: oklch(0.92 0.02 125);
+  --sanctuary-sage-deep: oklch(0.86 0.03 120);
+}
+[data-sanctuary-palette="plum"] {
+  --sanctuary-bg: oklch(0.955 0.012 40);
+  --sanctuary-ink: oklch(0.26 0.07 350);
+  --sanctuary-muted: oklch(0.52 0.05 350);
+  --sanctuary-line: oklch(0.84 0.04 350);
+  --sanctuary-gold: oklch(0.88 0.17 115);
+  --sanctuary-gold-deep: oklch(0.46 0.13 355);
+  --sanctuary-sage: oklch(0.90 0.05 340);
+  --sanctuary-sage-deep: oklch(0.84 0.06 340);
+}
+[data-sanctuary-palette="jeju"] {
+  --sanctuary-bg: oklch(0.965 0.012 95);
+  --sanctuary-ink: oklch(0.27 0.04 205);
+  --sanctuary-muted: oklch(0.52 0.04 200);
+  --sanctuary-line: oklch(0.85 0.025 195);
+  --sanctuary-gold: oklch(0.66 0.17 32);
+  --sanctuary-gold-deep: oklch(0.55 0.13 35);
+  --sanctuary-sage: oklch(0.90 0.05 195);
+  --sanctuary-sage-deep: oklch(0.84 0.06 200);
+}
+[data-sanctuary-palette="noir"] {
+  --sanctuary-bg: oklch(0.955 0.014 80);
+  --sanctuary-ink: oklch(0.20 0.03 320);
+  --sanctuary-muted: oklch(0.50 0.04 320);
+  --sanctuary-line: oklch(0.84 0.035 320);
+  --sanctuary-gold: oklch(0.78 0.09 38);
+  --sanctuary-gold-deep: oklch(0.60 0.08 30);
+  --sanctuary-sage: oklch(0.89 0.05 320);
+  --sanctuary-sage-deep: oklch(0.83 0.055 320);
+}
+
 :root {
 
 

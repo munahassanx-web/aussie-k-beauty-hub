@@ -1,4 +1,4 @@
-import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, BadgeCheck, QrCode, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +6,15 @@ import tonerBottle from "@/assets/haruharu-toner-cutout.png";
 
 type Hotspot = "verified" | "routine" | "guide";
 type SkinAnswer = "dry" | "oily" | "combination" | "often";
+type SanctuaryPalette = "porcelain" | "plum" | "jeju" | "noir";
+
+const SANCTUARY_PALETTES: { id: SanctuaryPalette; label: string; swatch: string }[] = [
+  { id: "porcelain", label: "Porcelain", swatch: "oklch(0.70 0.10 78)" },
+  { id: "plum", label: "Plum", swatch: "oklch(0.46 0.13 355)" },
+  { id: "jeju", label: "Jeju", swatch: "oklch(0.66 0.17 32)" },
+  { id: "noir", label: "Noir", swatch: "oklch(0.20 0.03 320)" },
+];
+const PALETTE_STORAGE_KEY = "sg-sanctuary-palette";
 
 const answers: { label: string; value: SkinAnswer }[] = [
   { label: "Tight or dry", value: "dry" },
@@ -29,6 +38,19 @@ export function ProductObservatoryHero() {
   const navigate = useNavigate();
   const stageRef = useRef<HTMLElement>(null);
   const [activeHotspot, setActiveHotspot] = useState<Hotspot | null>(null);
+  const [palette, setPalette] = useState<SanctuaryPalette>("porcelain");
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem(PALETTE_STORAGE_KEY);
+    if (stored && SANCTUARY_PALETTES.some((p) => p.id === stored)) {
+      setPalette(stored as SanctuaryPalette);
+    }
+  }, []);
+
+  const choosePalette = (next: SanctuaryPalette) => {
+    setPalette(next);
+    window.localStorage.setItem(PALETTE_STORAGE_KEY, next);
+  };
 
   const setPointer = (event: ReactPointerEvent<HTMLElement>) => {
     const bounds = stageRef.current?.getBoundingClientRect();
@@ -65,6 +87,7 @@ export function ProductObservatoryHero() {
       ref={stageRef}
       aria-labelledby="sanctuary-heading"
       onPointerMove={setPointer}
+      data-sanctuary-palette={palette}
       className="group relative isolate min-h-[calc(100svh-7rem)] overflow-hidden bg-sanctuary-bg text-sanctuary-ink md:min-h-[calc(100svh-10rem)]"
     >
       {/* Ambient washes */}
@@ -84,6 +107,29 @@ export function ProductObservatoryHero() {
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sanctuary-ink" />
           Move to explore
         </span>
+      </div>
+
+      {/* Palette toggle */}
+      <div className="absolute right-6 top-16 z-30 flex items-center gap-1.5 rounded-full border border-sanctuary-line bg-white/70 px-3 py-2 backdrop-blur-md md:right-12 md:top-20">
+        <span className="mr-1 text-[8px] font-semibold uppercase tracking-[0.25em] text-sanctuary-muted">
+          Palette
+        </span>
+        {SANCTUARY_PALETTES.map((option) => (
+          <button
+            key={option.id}
+            type="button"
+            title={option.label}
+            aria-label={`Switch to ${option.label} palette`}
+            aria-pressed={palette === option.id}
+            onClick={() => choosePalette(option.id)}
+            className={`h-5 w-5 rounded-full border-2 transition ${
+              palette === option.id
+                ? "scale-110 border-sanctuary-ink"
+                : "border-white/80 hover:scale-105"
+            }`}
+            style={{ backgroundColor: option.swatch }}
+          />
+        ))}
       </div>
 
       <div className="relative z-10 mx-auto grid min-h-[calc(100svh-7rem)] w-full max-w-7xl items-center gap-12 px-6 pb-20 pt-24 md:px-12 md:min-h-[calc(100svh-10rem)] lg:grid-cols-2 lg:pb-16">
