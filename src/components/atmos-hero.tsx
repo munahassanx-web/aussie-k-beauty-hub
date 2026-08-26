@@ -13,6 +13,7 @@ import {
   type Transition,
 } from "motion/react";
 import { Button } from "@/components/ui/button";
+import { useStaffAccess } from "@/hooks/use-staff-access";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
 import {
