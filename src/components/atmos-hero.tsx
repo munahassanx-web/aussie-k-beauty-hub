@@ -164,6 +164,7 @@ export function AtmosHero() {
   const [mounted, setMounted] = useState(false);
   const [styleId, setStyleId] = useState(DEFAULT_HERO_MOTION_STYLE);
   const [replayKey, setReplayKey] = useState(0);
+  const { isStaff } = useStaffAccess();
   useEffect(() => {
     setMounted(true);
     const saved = window.localStorage.getItem(HERO_MOTION_STORAGE_KEY);
