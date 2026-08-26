@@ -60,6 +60,7 @@
   --color-shelf-muted: var(--shelf-muted);
   --color-shelf-line: var(--shelf-line);
   --color-shelf-tile: var(--shelf-tile);
+  --color-shelf-tile-ink: var(--shelf-tile-ink);
   --color-shelf-gold: var(--shelf-gold);
 
 
@@ -124,6 +125,7 @@
   --shelf-muted: oklch(0.76 0.02 262);
   --shelf-line: oklch(0.34 0.025 262);
   --shelf-tile: oklch(0.96 0.012 92);
+  --shelf-tile-ink: oklch(0.19 0.025 262);
   --shelf-gold: var(--rose-gold);
 }
 [data-shelf-palette="jeju"] {
@@ -132,6 +134,7 @@
   --shelf-muted: oklch(0.80 0.03 135);
   --shelf-line: oklch(0.44 0.03 140);
   --shelf-tile: oklch(0.96 0.012 95);
+  --shelf-tile-ink: oklch(0.28 0.035 145);
   --shelf-gold: oklch(0.72 0.13 80);
 }
 [data-shelf-palette="plum"] {
@@ -140,6 +143,7 @@
   --shelf-muted: oklch(0.80 0.04 340);
   --shelf-line: oklch(0.42 0.04 340);
   --shelf-tile: oklch(0.955 0.015 85);
+  --shelf-tile-ink: oklch(0.24 0.04 340);
   --shelf-gold: oklch(0.78 0.12 75);
 }
 [data-shelf-palette="coast"] {
@@ -148,7 +152,35 @@
   --shelf-muted: oklch(0.82 0.03 195);
   --shelf-line: oklch(0.44 0.03 200);
   --shelf-tile: oklch(0.96 0.012 100);
+  --shelf-tile-ink: oklch(0.26 0.04 200);
   --shelf-gold: oklch(0.70 0.12 45);
+}
+[data-shelf-palette="dawn"] {
+  --shelf-bg: oklch(0.965 0.012 75);
+  --shelf-ink: oklch(0.30 0.03 60);
+  --shelf-muted: oklch(0.58 0.025 60);
+  --shelf-line: oklch(0.86 0.015 70);
+  --shelf-tile: oklch(0.98 0.01 85);
+  --shelf-tile-ink: oklch(0.30 0.03 60);
+  --shelf-gold: oklch(0.62 0.12 45);
+}
+[data-shelf-palette="blossom"] {
+  --shelf-bg: oklch(0.955 0.015 340);
+  --shelf-ink: oklch(0.30 0.04 330);
+  --shelf-muted: oklch(0.58 0.04 330);
+  --shelf-line: oklch(0.84 0.02 330);
+  --shelf-tile: oklch(0.99 0.01 330);
+  --shelf-tile-ink: oklch(0.30 0.04 330);
+  --shelf-gold: oklch(0.60 0.14 25);
+}
+[data-shelf-palette="sage"] {
+  --shelf-bg: oklch(0.96 0.018 135);
+  --shelf-ink: oklch(0.28 0.035 140);
+  --shelf-muted: oklch(0.55 0.03 135);
+  --shelf-line: oklch(0.86 0.02 135);
+  --shelf-tile: oklch(0.98 0.012 100);
+  --shelf-tile-ink: oklch(0.28 0.035 140);
+  --shelf-gold: oklch(0.66 0.13 80);
 }
 
 /* Hero palette variations — applied via data-hero-palette on the observatory stage */
