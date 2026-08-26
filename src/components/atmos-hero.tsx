@@ -164,12 +164,20 @@ export function AtmosHero() {
   const [mounted, setMounted] = useState(false);
   const [styleId, setStyleId] = useState(DEFAULT_HERO_MOTION_STYLE);
   const [replayKey, setReplayKey] = useState(0);
+  const [isLovablePreview, setIsLovablePreview] = useState(false);
   const { isStaff } = useStaffAccess();
   useEffect(() => {
     setMounted(true);
+    const hostname = window.location.hostname;
+    setIsLovablePreview(
+      hostname === "localhost" ||
+        hostname.includes("-preview--") ||
+        hostname.endsWith("-dev.lovable.app"),
+    );
     const saved = window.localStorage.getItem(HERO_MOTION_STORAGE_KEY);
     if (saved && HERO_MOTION_STYLES.some((s) => s.id === saved)) setStyleId(saved);
   }, []);
+  const showPreviewTools = isStaff || isLovablePreview;
   const motionStyle = HERO_MOTION_STYLES.find((s) => s.id === styleId) ?? HERO_MOTION_STYLES[0]!;
   const shards = shardsFor(motionStyle);
   const fragments = fragmentsFor(motionStyle);
@@ -418,8 +426,8 @@ export function AtmosHero() {
             </Link>
           </motion.div>
 
-          {/* Act selector — chapter markers with cycle timer (staff preview only) */}
-          {isStaff && (
+          {/* Act selector — available to staff and inside the private Lovable preview. */}
+          {showPreviewTools && (
             <ul
               className="mt-8 flex flex-wrap gap-2"
               onMouseEnter={() => setPaused(true)}
@@ -459,8 +467,8 @@ export function AtmosHero() {
             </ul>
           )}
 
-          {/* Entrance style switcher — staff preview only */}
-          {isStaff && mounted && !reduce && (
+          {/* Entrance style switcher — hidden from shoppers on the published site. */}
+          {showPreviewTools && mounted && !reduce && (
             <div className="mt-6">
               <p
                 className="text-[9px] font-semibold uppercase tracking-[0.26em]"
