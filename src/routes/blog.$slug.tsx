@@ -29,7 +29,7 @@ function parseIssueDateToIso(dateStr: string): string | undefined {
   return `${year}-${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
-const HOUSE_BYLINE = "The Skin Grocer Team";
+export const HOUSE_BYLINE = "The Skin Grocer Team";
 const SITE_LOGO_URL =
   "https://skingrocer.com.au/__l5e/assets-v1/e71f3ca2-370b-42a2-bc13-d5609d11ac73/skin-grocer-logo.jpg";
 
