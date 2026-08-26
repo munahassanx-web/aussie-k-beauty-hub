@@ -122,7 +122,7 @@ export function DispatchHero() {
         {/* Masthead headline */}
         <h1
           id="dispatch-heading"
-          className="mt-8 font-masthead text-[clamp(3.2rem,8.5vw,7.5rem)] leading-[0.9] tracking-tight"
+          className="mt-10 font-masthead text-[clamp(3.2rem,8.5vw,7.5rem)] leading-[0.9] tracking-tight [text-shadow:0_18px_40px_rgba(0,0,0,0.35)]"
         >
           <span className="block animate-[rise_0.9s_ease-out_both]">A skin clinic,</span>
           <span className="block animate-[rise_0.9s_ease-out_0.15s_both] italic text-grocer-butter">
@@ -130,7 +130,7 @@ export function DispatchHero() {
           </span>
         </h1>
 
-        <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:items-end">
+        <div className="mt-16 grid gap-14 lg:grid-cols-12 lg:items-end lg:gap-16">
           {/* Pitch + CTAs */}
           <div className="lg:col-span-6">
             <p className="max-w-md text-[15px] font-light leading-relaxed text-paper/80">
