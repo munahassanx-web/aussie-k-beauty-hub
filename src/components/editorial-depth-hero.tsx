@@ -183,9 +183,9 @@ export function EditorialDepthHero() {
         </div>
 
         {/* 3D stage */}
-        <div className="relative z-10 flex w-full flex-1 items-center justify-center px-6 pb-20 pt-6 lg:w-[54%] lg:py-24 lg:pr-16">
+        <div className="relative z-10 flex w-full flex-1 items-center justify-center px-6 pb-20 pt-6 lg:w-[54%] lg:py-16 lg:pr-16">
           <div
-            className="depth-stage relative aspect-square w-full max-w-[34rem]"
+            className="depth-stage relative aspect-[4/5] w-full max-w-[30rem]"
             style={{ perspective: "1200px" }}
           >
             {/* Shelf floor line */}
@@ -241,7 +241,7 @@ export function EditorialDepthHero() {
               to="/product/$slug"
               params={{ slug: hero.slug }}
               aria-label={`${hero.product.brand} ${hero.product.name}`}
-              className="depth-layer absolute left-1/2 top-1/2 z-40 block w-[38%] -translate-x-1/2 -translate-y-1/2"
+              className="depth-layer absolute left-1/2 top-[54%] z-40 block w-[42%] -translate-x-1/2 -translate-y-1/2"
               style={{
                 transform:
                   "translate(-50%,-50%) translate3d(calc(var(--hx,0)*48px), calc(var(--hy,0)*26px), 90px) rotateY(calc(var(--hx,0)*14deg)) rotateX(calc(var(--hy,0)*-10deg))",
