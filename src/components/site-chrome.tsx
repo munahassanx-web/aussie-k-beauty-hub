@@ -120,18 +120,19 @@ function AnnouncementBar() {
 
   return (
     <div
-      className="border-b border-border/70 bg-background text-foreground"
+      className="bg-ink text-paper"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
       <div className="relative mx-auto flex min-h-[32px] max-w-7xl items-center px-6 py-1 md:min-h-[36px]">
-        <span className="absolute left-6 top-1/2 hidden -translate-y-1/2 text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70 md:block">
+        <span className="absolute left-6 top-1/2 hidden -translate-y-1/2 text-[10px] font-medium uppercase tracking-[0.2em] text-paper/70 md:block">
           AUD $ · Australia
         </span>
-        <span className="absolute right-6 top-1/2 hidden -translate-y-1/2 items-center gap-6 text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70 md:flex">
-          <Link to="/track" className="hover:text-foreground">Track order</Link>
-          <Link to="/contact" className="hover:text-foreground">Help</Link>
+        <span className="absolute right-6 top-1/2 hidden -translate-y-1/2 items-center gap-6 text-[10px] font-medium uppercase tracking-[0.2em] text-paper/70 md:flex">
+          <Link to="/track" className="hover:text-paper">Track order</Link>
+          <Link to="/contact" className="hover:text-paper">Help</Link>
         </span>
+
         {/* Desktop: all three trust messages in a calm, spaced row */}
         <div className="hidden w-full items-center justify-center md:flex">
           {announcements.map((msg, i) => (
