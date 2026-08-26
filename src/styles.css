@@ -297,32 +297,32 @@
 
 
 
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.17 0.012 265);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.17 0.012 265);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.17 0.012 265);
-  --primary: oklch(0.22 0.018 265);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.968 0.002 265);
-  --secondary-foreground: oklch(0.17 0.012 265);
-  --muted: oklch(0.972 0.002 265);
-  --muted-foreground: oklch(0.47 0.012 265);
-  --accent: oklch(0.90 0.006 265);
-  --accent-foreground: oklch(0.17 0.012 265);
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--hanbok-deep);
+  --primary-foreground: var(--paper);
+  --secondary: var(--sand);
+  --secondary-foreground: var(--ink);
+  --muted: var(--sand);
+  --muted-foreground: var(--clay);
+  --accent: var(--sand-deep);
+  --accent-foreground: var(--ink);
   --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.912 0.004 265);
-  --input: oklch(0.912 0.004 265);
-  --ring: oklch(0.36 0.018 265);
+  --border: var(--sand-deep);
+  --input: var(--sand-deep);
+  --ring: var(--hanbok);
 
   /* Consultation quiz stage — dark cinematic wash */
-  --quiz-stage-top: oklch(0.24 0.018 265);
-  --quiz-stage-bottom: oklch(0.15 0.02 265);
-  --quiz-glow-1: oklch(0.72 0.10 85);
-  --quiz-glow-2: oklch(0.55 0.13 255);
-  --quiz-glow-3: oklch(0.60 0.10 20);
+  --quiz-stage-top: var(--hanbok-deep);
+  --quiz-stage-bottom: var(--ink);
+  --quiz-glow-1: var(--grocer-butter);
+  --quiz-glow-2: var(--hanbok);
+  --quiz-glow-3: var(--rose-gold);
 
 }
 
