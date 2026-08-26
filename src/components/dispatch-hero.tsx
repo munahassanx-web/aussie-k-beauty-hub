@@ -169,7 +169,12 @@ export function DispatchHero() {
 
           {/* Consultation report card */}
           <div className="relative lg:col-span-6">
-            <div className="relative ml-auto max-w-md rounded-2xl bg-paper p-7 text-ink shadow-2xl shadow-black/30 md:p-8">
+            {/* Depth: a warm plate sitting behind and offset from the card */}
+            <div
+              aria-hidden="true"
+              className="absolute -right-3 -top-4 hidden h-full w-[min(28rem,100%)] rounded-2xl bg-grocer-butter/20 md:block"
+            />
+            <div className="relative ml-auto max-w-md rounded-2xl bg-paper p-8 text-ink shadow-[0_40px_80px_-20px_rgba(0,0,0,0.55)] ring-1 ring-black/5 md:p-9">
               <div className="flex items-center justify-between border-b border-ink/10 pb-4">
                 <p className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em] text-clay">
                   <ClipboardList className="h-3.5 w-3.5" /> Your skin report
@@ -225,14 +230,15 @@ export function DispatchHero() {
                 <Link
                   to="/product/$slug"
                   params={{ slug: productSlug(featured) }}
-                  className="group/bottle absolute -left-16 -top-14 hidden w-28 animate-[float-slow_7s_ease-in-out_infinite] md:block"
+                  style={{ transform: "translate3d(calc(var(--hero-mx) * 1.6), calc(var(--hero-my) * 1.6), 0)" }}
+                  className="group/bottle absolute -left-20 -top-16 hidden w-32 transition-transform duration-500 ease-out will-change-transform md:block"
                   aria-label={`${featured.brand} ${featured.name}`}
                 >
                   <img
                     src={tonerCutout}
                     alt=""
                     loading="lazy"
-                    className="w-full drop-shadow-[0_18px_24px_rgba(0,0,0,0.35)] transition-transform duration-500 group-hover/bottle:-translate-y-1.5"
+                    className="w-full animate-[float-slow_7s_ease-in-out_infinite] drop-shadow-[0_28px_36px_rgba(0,0,0,0.45)] transition-transform duration-500 group-hover/bottle:-translate-y-1.5"
                   />
                 </Link>
               )}
