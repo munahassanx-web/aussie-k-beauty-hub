@@ -91,7 +91,7 @@ export function ProductObservatoryHero() {
     >
       <div aria-hidden="true" className="observatory-media absolute inset-0">
         <img
-          src={observatoryArtwork.url}
+          src={observatoryArtwork}
           alt=""
           width={1536}
           height={864}
