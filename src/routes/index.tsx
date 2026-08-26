@@ -7,6 +7,7 @@ import { Reveal } from "@/components/reveal";
 
 
 import { CampaignHero } from "@/components/campaign-hero";
+import { ProductShelf } from "@/components/product-shelf";
 import { SeoulSignalStrip } from "@/components/seoul-signal";
 import { KoreaRightNow } from "@/components/korea-right-now";
 import { bundleMath, BUNDLE_DEFINITIONS, RESTOCK_DISCOUNT_PERCENT, SHOP_PRODUCTS } from "@/lib/shop-catalog";
