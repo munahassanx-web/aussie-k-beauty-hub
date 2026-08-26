@@ -16,10 +16,10 @@ import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
 import stageBackdrop from "@/assets/hero-3d-stage.jpg";
 import droplet from "@/assets/hero-3d-droplet.png";
-import glowSerum from "@/assets/hero-chapter-glow.png";
-import diveSerum from "@/assets/hero-chapter-dive.png";
-import pdrnSerum from "@/assets/hero-chapter-pdrn.png";
-import dynastyCream from "@/assets/hero-chapter-dynasty.png";
+import plumToner from "@/assets/hero-spring-plum.png";
+import cicaAmpoule from "@/assets/hero-spring-cica.png";
+import sunCream from "@/assets/hero-spring-sun.png";
+import glowSerum from "@/assets/hero-spring-glow.png";
 
 const CYCLE_MS = 7000;
 
@@ -46,79 +46,79 @@ type Chapter = {
  */
 const CHAPTERS: Chapter[] = [
   {
-    id: "call",
-    act: "Act I · The call",
+    id: "shed",
+    act: "Act I · The thaw",
+    hangul: "각질",
+    title: ["Shed the winter", "you're still wearing."],
+    subtitle:
+      "Green plum with AHA and BHA lifts the dull, heater-dried layer months of Melbourne cold left behind — gently, on a toner pad's worth of acid.",
+    becoming: "Day 5 — makeup stops sitting in patches and starts sitting on skin.",
+    ingredient: "Green plum extract · AHA + BHA",
+    cta: "Start the reset",
+    priceId: "beauty_of_joseon_green_plum_refreshing_toner_150ml_onetime",
+    image: plumToner,
+    theme: {
+      accent: "168 220 168",
+      deep: "12 30 20",
+      glow: "132 200 142",
+      ink: "238 251 238",
+    },
+  },
+  {
+    id: "calm",
+    act: "Act II · The pollen",
+    hangul: "진정",
+    title: ["Spring hits back.", "Calm it down."],
+    subtitle:
+      "Centella asiatica at ampoule strength for the September weeks when pollen, wind and warm afternoons turn every cheek pink.",
+    becoming: "Night 2 — the sting after cleansing simply isn't there anymore.",
+    ingredient: "Centella asiatica 76% · Madecassoside",
+    cta: "Soothe the flare",
+    priceId: "beplain_cicaful_ampoule_30ml_onetime",
+    image: cicaAmpoule,
+    theme: {
+      accent: "198 226 196",
+      deep: "16 32 26",
+      glow: "150 198 160",
+      ink: "241 250 240",
+    },
+  },
+  {
+    id: "shield",
+    act: "Act III · The sun returns",
+    hangul: "자외선",
+    title: ["The UV index", "doesn't wait for summer."],
+    subtitle:
+      "A mineral SPF50+ PA++++ built on barrier ceramides — light enough for spring commutes, serious enough for an Australian October.",
+    becoming: "Week 4 — the freckles you were bracing for never arrive.",
+    ingredient: "Mineral SPF50+ PA++++ · Ceramide barrier complex",
+    cta: "Shield the skin",
+    priceId: "aestura_derma_uv365_barrier_moisture_mineral_sun_cream_onetime",
+    image: sunCream,
+    theme: {
+      accent: "142 205 240",
+      deep: "8 26 42",
+      glow: "96 178 226",
+      ink: "234 247 255",
+    },
+  },
+  {
+    id: "bloom",
+    act: "Act IV · The bloom",
     hangul: "광채",
-    title: ["Stop hiding", "behind filters."],
+    title: ["Step into spring", "already glowing."],
     subtitle:
       "Propolis and niacinamide, whipped in Seoul into the serum Korean women reach for the week before they need to be photographed.",
     becoming: "Day 14 — you catch your own reflection in a shop window and don't look away.",
     ingredient: "Propolis extract 60% · Niacinamide 2%",
-    cta: "Begin with glow",
+    cta: "Finish with glow",
     priceId: "beauty_of_joseon_glow_serum_propolis_plus_niacinamide_30ml_onetime",
     image: glowSerum,
     theme: {
-      accent: "255 197 92",
-      deep: "36 24 9",
-      glow: "255 176 63",
-      ink: "255 244 226",
-    },
-  },
-  {
-    id: "descent",
-    act: "Act II · The descent",
-    hangul: "수분",
-    title: ["Melbourne air", "is stealing your skin."],
-    subtitle:
-      "Five weights of hyaluronic acid sink past the surface and hold. Built for a city that swings from heater to southerly in one afternoon.",
-    becoming: "Night 3 — you press a cheek and it presses back, plump and quiet.",
-    ingredient: "5D Complex Hyaluronic Acid · Panthenol",
-    cta: "Drown the dryness",
-    priceId: "torriden_dive_in_serum_onetime",
-    image: diveSerum,
-    theme: {
-      accent: "126 205 236",
-      deep: "6 27 43",
-      glow: "84 179 224",
-      ink: "233 248 255",
-    },
-  },
-  {
-    id: "trial",
-    act: "Act III · The trial",
-    hangul: "재생",
-    title: ["Rebuild what", "the years took."],
-    subtitle:
-      "PDRN — the salmon-DNA fragment Korean clinics inject — bottled at 1% with a peptide complex, so the repair keeps running while you sleep.",
-    becoming: "Week 6 — the fine lines under your eyes stop being the first thing you check.",
-    ingredient: "PDRN (Sodium DNA) 1% · Peptide complex",
-    cta: "Take the clinic home",
-    priceId: "medicube_pdrn_pink_peptide_serum_30ml_onetime",
-    image: pdrnSerum,
-    theme: {
-      accent: "247 168 187",
-      deep: "40 15 26",
-      glow: "236 132 163",
-      ink: "255 238 243",
-    },
-  },
-  {
-    id: "return",
-    act: "Act IV · The return",
-    hangul: "왕조",
-    title: ["Walk in like", "you were born glowing."],
-    subtitle:
-      "A Joseon-dynasty recipe of rice bran, ginseng and orchid, sealed as the last step so nothing you built during the night escapes.",
-    becoming: "Month 3 — people ask what you're doing differently. You just smile.",
-    ingredient: "Rice bran · Ginseng root · Orchid extract",
-    cta: "Seal the routine",
-    priceId: "beauty_of_joseon_dynasty_cream_50ml_onetime",
-    image: dynastyCream,
-    theme: {
-      accent: "196 214 178",
-      deep: "16 30 24",
-      glow: "160 196 150",
-      ink: "240 249 236",
+      accent: "248 186 196",
+      deep: "40 20 26",
+      glow: "244 158 178",
+      ink: "255 240 244",
     },
   },
 ];
