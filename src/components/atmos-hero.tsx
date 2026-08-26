@@ -160,7 +160,23 @@ export function AtmosHero() {
   const product = SHOP_PRODUCTS.find((p) => p.priceId === act.priceId);
   const reduce = useReducedMotion();
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const [styleId, setStyleId] = useState(DEFAULT_HERO_MOTION_STYLE);
+  const [replayKey, setReplayKey] = useState(0);
+  useEffect(() => {
+    setMounted(true);
+    const saved = window.localStorage.getItem(HERO_MOTION_STORAGE_KEY);
+    if (saved && HERO_MOTION_STYLES.some((s) => s.id === saved)) setStyleId(saved);
+  }, []);
+  const motionStyle = HERO_MOTION_STYLES.find((s) => s.id === styleId) ?? HERO_MOTION_STYLES[0]!;
+  const shards = shardsFor(motionStyle);
+  /** Same act, new choreography — force a fresh entrance so the pick is visible. */
+  const swapKey = `${act.id}-${motionStyle.id}-${replayKey}`;
+  const pickStyle = (id: string) => {
+    setStyleId(id);
+    window.localStorage.setItem(HERO_MOTION_STORAGE_KEY, id);
+    setReplayKey((k) => k + 1);
+  };
+
 
   const px = useMotionValue(0);
   const py = useMotionValue(0);
