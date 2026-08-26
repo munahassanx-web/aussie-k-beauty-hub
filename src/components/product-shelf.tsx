@@ -63,13 +63,23 @@ export function ProductShelf() {
   return (
     <section
       aria-labelledby="shelf-heading"
-      className="relative isolate overflow-hidden border-t border-ink/10 bg-sand text-ink"
+      className="relative isolate overflow-hidden bg-gradient-to-b from-sand-deep via-sand to-paper text-ink"
     >
+      {/* Gel light carried down from the hero stage */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 -top-32 h-[380px] opacity-80 blur-3xl"
+        style={{
+          background:
+            "radial-gradient(55% 100% at 25% 0%, color-mix(in oklab, var(--grocer-butter) 55%, transparent), transparent 70%), radial-gradient(45% 90% at 85% 0%, color-mix(in oklab, var(--hanbok-deep) 14%, transparent), transparent 72%)",
+        }}
+      />
       {/* Soft centre-light gradient ground */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_0%,color-mix(in_oklab,var(--paper)_75%,transparent)_0%,transparent_65%)]"
+        className="absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_0%,color-mix(in_oklab,var(--paper)_55%,transparent)_0%,transparent_65%)]"
       />
+
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 md:px-12 md:py-32">
         {/* Header row */}
         <div className="flex flex-wrap items-end justify-between gap-6">

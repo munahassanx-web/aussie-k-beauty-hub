@@ -120,27 +120,28 @@ function AnnouncementBar() {
 
   return (
     <div
-      className="border-b border-border/70 bg-background text-foreground"
+      className="bg-ink text-paper"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
       <div className="relative mx-auto flex min-h-[32px] max-w-7xl items-center px-6 py-1 md:min-h-[36px]">
-        <span className="absolute left-6 top-1/2 hidden -translate-y-1/2 text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70 md:block">
+        <span className="absolute left-6 top-1/2 hidden -translate-y-1/2 text-[10px] font-medium uppercase tracking-[0.2em] text-paper/70 md:block">
           AUD $ · Australia
         </span>
-        <span className="absolute right-6 top-1/2 hidden -translate-y-1/2 items-center gap-6 text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70 md:flex">
-          <Link to="/track" className="hover:text-foreground">Track order</Link>
-          <Link to="/contact" className="hover:text-foreground">Help</Link>
+        <span className="absolute right-6 top-1/2 hidden -translate-y-1/2 items-center gap-6 text-[10px] font-medium uppercase tracking-[0.2em] text-paper/70 md:flex">
+          <Link to="/track" className="hover:text-paper">Track order</Link>
+          <Link to="/contact" className="hover:text-paper">Help</Link>
         </span>
+
         {/* Desktop: all three trust messages in a calm, spaced row */}
         <div className="hidden w-full items-center justify-center md:flex">
           {announcements.map((msg, i) => (
             <span key={msg} className="flex items-center">
-              <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70">
+              <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-paper/70">
                 {msg}
               </span>
               {i < announcements.length - 1 && (
-                <span className="mx-8 text-[10px] text-foreground/30" aria-hidden="true">·</span>
+                <span className="mx-8 text-[10px] text-paper/30" aria-hidden="true">·</span>
               )}
             </span>
           ))}
@@ -151,7 +152,7 @@ function AnnouncementBar() {
           {announcements.map((msg, i) => (
             <span
               key={msg}
-              className={`absolute inset-0 flex items-center justify-center whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.16em] text-foreground/70 ease-out ${
+              className={`absolute inset-0 flex items-center justify-center whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.16em] text-paper/70 ease-out ${
                 i === active
                   ? "opacity-100 translate-y-0 transition-all duration-700 delay-200"
                   : "opacity-0 -translate-y-1 transition-all duration-200"
@@ -237,15 +238,22 @@ export function SiteHeader() {
         {/* Pinned header — brand, navigation, and trust messages stay visible while scrolling */}
         <div
           ref={navRef}
-          className={`z-50 bg-background/95 backdrop-blur shadow-[0_1px_0_rgba(0,0,0,0.04)] ${
-            isSticky ? "fixed left-0 right-0 top-0" : "relative"
+          className={`z-50 transition-[background-color,box-shadow] duration-500 ${
+            isSticky
+              ? "fixed left-0 right-0 top-0 bg-background/92 shadow-[0_1px_0_rgba(0,0,0,0.06)] backdrop-blur-2xl"
+              : "relative bg-background/60 backdrop-blur-2xl"
           }`}
           onMouseLeave={() => setOpenMenu(null)}
         >
           <AnnouncementBar />
-          <div className="mx-auto max-w-7xl px-6 border-b border-border/60">
+          <div className="mx-auto max-w-7xl px-6 border-b border-foreground/5">
             {/* Brand row — large centered wordmark, Concept 1 */}
-            <div className="relative flex items-center justify-center px-4 pt-10 pb-4 md:px-0 md:pt-0 md:pb-0 md:min-h-[84px]">
+            <div
+              className={`relative flex items-center justify-center px-4 pt-10 pb-4 transition-all duration-500 md:px-0 md:pt-0 md:pb-0 ${
+                isSticky ? "md:min-h-[62px] md:scale-[0.82]" : "md:min-h-[84px]"
+              }`}
+            >
+
             <Link
               to="/"
               aria-label="Skin Grocer — home"

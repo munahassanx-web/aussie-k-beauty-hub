@@ -162,8 +162,21 @@ function WhyPillars() {
   ];
 
   return (
-    <section className="bg-paper" aria-labelledby="why-heading">
-      <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
+    <section
+      className="relative overflow-hidden bg-gradient-to-b from-sand via-paper to-paper"
+      aria-labelledby="why-heading"
+    >
+      {/* Cinematic hand-off from the hero: soft gel light bleeding down into the page */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 -top-40 h-[420px] opacity-70 blur-3xl"
+        style={{
+          background:
+            "radial-gradient(60% 100% at 30% 0%, color-mix(in oklab, var(--grocer-butter) 45%, transparent), transparent 70%), radial-gradient(50% 90% at 80% 0%, color-mix(in oklab, var(--hanbok-deep) 18%, transparent), transparent 70%)",
+        }}
+      />
+      <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
+
         <div className="max-w-2xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
             Why Skin Grocer
@@ -197,11 +210,11 @@ function WhyPillars() {
               {points.map((p) => (
                 <li
                   key={p.title}
-                  className={`border-b border-border py-7 ${p.hero ? "md:py-9" : ""}`}
+                  className={`group border-b border-ink/10 py-7 transition-colors hover:border-ink/25 ${p.hero ? "md:py-9" : ""}`}
                 >
                   <div className="flex gap-5 md:gap-6">
                     <span
-                      className={`font-display italic text-hanbok-deep/30 ${p.hero ? "text-3xl" : "text-2xl"}`}
+                      className={`font-display italic text-hanbok-deep/30 transition-colors group-hover:text-hanbok-deep/60 ${p.hero ? "text-3xl" : "text-2xl"}`}
                     >
                       {p.n}
                     </span>
@@ -225,7 +238,16 @@ function WhyPillars() {
 
           {/* Navy packaging visual panel — placeholder for the approved real photograph */}
           <div className="md:col-span-5">
-            <div className="relative flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-sm bg-hanbok-deep px-8 py-10 md:aspect-auto md:h-full">
+            <div className="relative flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-sm bg-hanbok-deep px-8 py-10 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.45)] md:aspect-auto md:h-full">
+              {/* Cinematic gel light across the panel, echoing the hero stage */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "radial-gradient(70% 50% at 20% 0%, color-mix(in oklab, var(--grocer-butter) 30%, transparent), transparent 65%), radial-gradient(60% 45% at 100% 100%, color-mix(in oklab, var(--grocer-butter) 18%, transparent), transparent 70%)",
+                }}
+              />
               {/* Quiet vertical lines as a premium texture layer */}
               <div className="absolute inset-0 opacity-[0.08]">
                 <div className="absolute left-1/4 top-0 h-full w-px bg-paper" />
