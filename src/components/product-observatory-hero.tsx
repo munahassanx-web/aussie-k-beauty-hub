@@ -43,6 +43,23 @@ export function ProductObservatoryHero() {
   const dragStart = useRef<number | null>(null);
   const [rotation, setRotation] = useState(0);
   const [activeHotspot, setActiveHotspot] = useState<Hotspot | null>(null);
+  const [palette, setPalette] = useState<PaletteKey>("matcha");
+  const [savedPalette, setSavedPalette] = useState<PaletteKey>("matcha");
+  const [paletteOpen, setPaletteOpen] = useState(false);
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem(PALETTE_STORAGE_KEY) as PaletteKey | null;
+    if (stored && palettes.some((entry) => entry.key === stored)) {
+      setPalette(stored);
+      setSavedPalette(stored);
+    }
+  }, []);
+
+  const savePalette = () => {
+    window.localStorage.setItem(PALETTE_STORAGE_KEY, palette);
+    setSavedPalette(palette);
+  };
+
 
   const setPointer = (event: ReactPointerEvent<HTMLElement>) => {
     const bounds = stageRef.current?.getBoundingClientRect();
