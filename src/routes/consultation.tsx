@@ -148,10 +148,14 @@ function ConsultationPage() {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw) as { draft?: Draft; done?: boolean };
+        const parsed = JSON.parse(raw) as { draft?: Draft; done?: boolean; heroStarted?: boolean };
         if (parsed?.draft) {
-          setDraft({ ...EMPTY, ...parsed.draft });
-          if (parsed.done && isComplete({ ...EMPTY, ...parsed.draft })) setPhase("result");
+          const restored = { ...EMPTY, ...parsed.draft };
+          setDraft(restored);
+          if (parsed.done && isComplete(restored)) setPhase("result");
+          else if (parsed.heroStarted && restored.skinFeel) {
+            setPhase(restored.primaryConcern ? "secondary" : "primary");
+          }
         }
       }
     } catch {
