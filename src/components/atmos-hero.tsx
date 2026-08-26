@@ -21,7 +21,7 @@ import cicaAmpoule from "@/assets/hero-spring-cica.png";
 import sunCream from "@/assets/hero-spring-sun.png";
 import glowSerum from "@/assets/hero-spring-glow.png";
 
-const CYCLE_MS = 7000;
+const CYCLE_MS = 5200;
 
 type Chapter = {
   id: string;
@@ -124,7 +124,7 @@ const CHAPTERS: Chapter[] = [
 ];
 
 const EASE_OUT: Transition = { duration: 0.8, ease: [0.16, 1, 0.3, 1] };
-const SPRING = { stiffness: 120, damping: 22, mass: 0.6 };
+const SPRING = { stiffness: 260, damping: 18, mass: 0.4 };
 
 /**
  * "Atmos" hero — a cinematic, four-act product story that stays above the fold.
@@ -484,22 +484,58 @@ export function AtmosHero() {
               className="absolute inset-x-0 top-[4%] mx-auto w-[58%] will-change-transform"
             >
               <div className="relative aspect-square">
+                {/* Shockwave burst on each act change */}
+                {!reduce && (
+                  <AnimatePresence initial={false}>
+                    {[0, 0.12].map((delay) => (
+                      <motion.span
+                        key={`${act.id}-wave-${delay}`}
+                        aria-hidden="true"
+                        className="pointer-events-none absolute left-1/2 top-[58%] h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full border-2"
+                        style={{ borderColor: `rgb(var(--act-accent) / 0.7)` }}
+                        initial={{ scale: 0.2, opacity: 0.75 }}
+                        animate={{ scale: 3.4, opacity: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] }}
+                      />
+                    ))}
+                  </AnimatePresence>
+                )}
                 <AnimatePresence initial={false}>
                   <motion.div
                     key={act.id}
                     className="absolute inset-0"
-                    initial={{ opacity: 0, scale: 0.86, filter: "blur(14px)", rotate: -7 }}
-                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)", rotate: 0 }}
-                    exit={{ opacity: 0, scale: 1.08, filter: "blur(16px)", rotate: 6 }}
-                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    initial={
+                      reduce
+                        ? { opacity: 0 }
+                        : { opacity: 0, scale: 0.32, filter: "blur(20px)", rotate: -16, y: 80 }
+                    }
+                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)", rotate: 0, y: 0 }}
+                    exit={
+                      reduce
+                        ? { opacity: 0 }
+                        : { opacity: 0, scale: 1.45, filter: "blur(18px)", rotate: 10, y: -70 }
+                    }
+                    transition={
+                      reduce
+                        ? { duration: 0.3 }
+                        : {
+                            type: "spring",
+                            stiffness: 340,
+                            damping: 15,
+                            mass: 0.7,
+                            opacity: { duration: 0.22 },
+                            filter: { duration: 0.35 },
+                          }
+                    }
                   >
                     <motion.img
                       src={act.image}
                       alt={product ? `${product.brand} ${product.name}` : act.ingredient}
                       width={1024}
                       height={1024}
-                      animate={reduce ? undefined : { y: [0, -16, 0] }}
-                      transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+                      animate={reduce ? undefined : { y: [0, -14, 0] }}
+                      transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
                       className="w-full drop-shadow-[0_50px_70px_rgba(0,0,0,0.7)]"
                     />
                     <img
@@ -525,10 +561,10 @@ export function AtmosHero() {
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={`${act.id}-plate`}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -14 }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: -14, filter: "blur(6px)" }}
+                  transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <p
                     className="text-[10px] font-semibold uppercase tracking-[0.24em]"
