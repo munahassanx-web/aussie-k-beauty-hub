@@ -53,16 +53,12 @@ export function ProductIngredients({ productId }: { productId: string }) {
                 key={ing.id}
                 className={
                   hero
-                    ? 'rounded-2xl border-2 p-5 shadow-sm'
+                    ? 'rounded-2xl border-2 border-primary bg-secondary p-5 shadow-sm'
                     : 'rounded-xl border border-border bg-secondary/40 p-4'
                 }
-                style={hero ? { borderColor: '#1F2A37', backgroundColor: '#F4F5F7' } : undefined}
               >
                 {hero && (
-                  <p
-                    className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em]"
-                    style={{ color: '#1F2A37' }}
-                  >
+                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
                     Hero Ingredient
                   </p>
                 )}

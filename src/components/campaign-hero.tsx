@@ -64,7 +64,7 @@ export function CampaignHero() {
     <section
       ref={stageRef}
       aria-labelledby="campaign-heading"
-      className="relative isolate overflow-hidden bg-[#EDE6DC] text-[#2B2118]"
+      className="relative isolate overflow-hidden bg-sand text-ink"
     >
       {/* Full-bleed campaign photography */}
       <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
@@ -80,15 +80,15 @@ export function CampaignHero() {
           />
         </div>
         {/* Legibility wash — light on the copy side, keeps skin tones intact */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#F3EDE4] via-[#F3EDE4]/70 to-transparent md:bg-gradient-to-r md:from-[#F3EDE4]/90 md:via-[#F3EDE4]/20 md:to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#F3EDE4]/70 to-transparent md:from-[#F3EDE4]/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-sand via-sand/70 to-transparent md:bg-gradient-to-r md:from-sand/90 md:via-sand/20 md:to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-sand/70 to-transparent md:from-sand/50" />
       </div>
 
       {/* Copy — low and left, Rhode cadence */}
       <div className="relative z-10 mx-auto flex min-h-[86svh] w-full max-w-7xl items-end px-6 pb-20 pt-24 md:min-h-[92svh] md:px-12 md:pb-24">
         <div className="max-w-xl">
-          <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.32em] text-[#7A6A58]">
-            <span className="h-px w-8 bg-[#7A6A58]" />
+          <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.32em] text-clay">
+            <span className="h-px w-8 bg-clay" />
             Seoul verified · Dispatched from Melbourne
           </p>
           <h1
@@ -96,16 +96,16 @@ export function CampaignHero() {
             className="mt-6 font-masthead text-[clamp(3rem,7vw,6.25rem)] leading-[0.92] tracking-tight"
           >
             Your skin,
-            <span className="block italic text-[#9A6B4F]">properly read.</span>
+            <span className="block italic text-hanbok">properly read.</span>
           </h1>
-          <p className="mt-6 max-w-md text-[15px] font-light leading-relaxed text-[#4C4034]">
+          <p className="mt-6 max-w-md text-[15px] font-light leading-relaxed text-ink/80">
             Authentic Korean skincare, matched to your skin through a free
             skin-clinic-grade consultation — then delivered to your door by morning.
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-5">
             <Button
               asChild
-              className="h-13 rounded-full bg-[#2B2118] px-9 py-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#F6F1E9] shadow-lg shadow-[#2B2118]/20 transition-colors hover:bg-[#4A3A2B]"
+              className="h-13 rounded-full bg-ink px-9 py-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-paper shadow-lg shadow-ink/20 transition-colors hover:bg-hanbok"
             >
               <Link to="/consultation" search={{}}>
                 Start my consultation <Sparkles />
@@ -113,7 +113,7 @@ export function CampaignHero() {
             </Button>
             <Link
               to="/shop"
-              className="group inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#2B2118]/80 transition hover:text-[#2B2118]"
+              className="group inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-ink/80 transition hover:text-ink"
             >
               Shop the shelf
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
@@ -121,7 +121,7 @@ export function CampaignHero() {
           </div>
 
           {/* Quiet trust line */}
-          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[10px] font-medium uppercase tracking-[0.2em] text-[#7A6A58]">
+          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[10px] font-medium uppercase tracking-[0.2em] text-clay">
             <span className="inline-flex items-center gap-1.5">
               <BadgeCheck className="h-3.5 w-3.5" /> 100% authentic, checked in Seoul
             </span>
@@ -137,7 +137,7 @@ export function CampaignHero() {
         <Link
           to="/product/$slug"
           params={{ slug: productSlug(featured) }}
-          className="group absolute bottom-10 right-8 z-20 hidden w-52 rounded-2xl border border-white/50 bg-white/55 p-4 shadow-xl shadow-[#2B2118]/10 backdrop-blur-xl transition hover:bg-white/70 lg:block xl:right-14"
+          className="group absolute bottom-10 right-8 z-20 hidden w-52 rounded-2xl border border-paper/50 bg-paper/55 p-4 shadow-xl shadow-ink/10 backdrop-blur-xl transition hover:bg-paper/70 lg:block xl:right-14"
         >
           <div className="flex h-40 items-center justify-center">
             <img
@@ -147,16 +147,16 @@ export function CampaignHero() {
               className="max-h-full w-auto object-contain drop-shadow-[0_16px_20px_rgba(43,33,24,0.18)] transition-transform duration-500 group-hover:-translate-y-1"
             />
           </div>
-          <div className="mt-3 border-t border-[#2B2118]/10 pt-3">
-            <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#7A6A58]">
+          <div className="mt-3 border-t border-ink/10 pt-3">
+            <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-clay">
               {featured.brand}
             </p>
-            <p className="mt-1 font-masthead text-sm italic leading-snug text-[#2B2118]">
+            <p className="mt-1 font-masthead text-sm italic leading-snug text-ink">
               {featured.name}
             </p>
-            <p className="mt-2 flex items-center justify-between text-xs font-semibold text-[#2B2118]">
+            <p className="mt-2 flex items-center justify-between text-xs font-semibold text-ink">
               {featured.price}
-              <span className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.18em] text-[#7A6A58] transition group-hover:text-[#2B2118]">
+              <span className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.18em] text-clay transition group-hover:text-ink">
                 View <ArrowUpRight className="h-3 w-3" />
               </span>
             </p>
