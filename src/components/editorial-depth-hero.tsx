@@ -269,7 +269,7 @@ export function EditorialDepthHero() {
 
             {/* Floating clinic badge */}
             <div
-              className="depth-layer absolute bottom-[10%] right-[2%] z-50 hidden md:block"
+              className="depth-layer absolute bottom-[1%] right-0 z-50 hidden md:block"
               style={{ transform: "translate3d(calc(var(--hx,0)*58px), calc(var(--hy,0)*30px), 110px)" }}
             >
               <div className="flex items-center gap-3 rounded-2xl border border-shelf-line/50 bg-shelf-line/20 p-4 shadow-2xl backdrop-blur-xl">
