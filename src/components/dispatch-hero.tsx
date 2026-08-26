@@ -130,7 +130,7 @@ export function DispatchHero() {
           </span>
         </h1>
 
-        <div className="mt-16 grid gap-14 lg:grid-cols-12 lg:items-end lg:gap-16">
+        <div className="mt-16 grid gap-14 lg:grid-cols-12 lg:items-start lg:gap-16">
           {/* Pitch + CTAs */}
           <div className="lg:col-span-6">
             <p className="max-w-md text-[15px] font-light leading-relaxed text-paper/80">
@@ -231,7 +231,7 @@ export function DispatchHero() {
                   to="/product/$slug"
                   params={{ slug: productSlug(featured) }}
                   style={{ transform: "translate3d(calc(var(--hero-mx) * 1.6), calc(var(--hero-my) * 1.6), 0)" }}
-                  className="group/bottle absolute -left-20 -top-16 hidden w-32 transition-transform duration-500 ease-out will-change-transform md:block"
+                  className="group/bottle absolute -left-24 -top-20 hidden w-28 transition-transform duration-500 ease-out will-change-transform md:block"
                   aria-label={`${featured.brand} ${featured.name}`}
                 >
                   <img
