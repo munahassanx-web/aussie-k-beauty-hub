@@ -113,6 +113,47 @@ export function SeoulShelfHero() {
         <div className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(var(--shelf-line)_1px,transparent_1px),linear-gradient(90deg,var(--shelf-line)_1px,transparent_1px)] [background-size:120px_120px]" />
       </div>
 
+      {/* Palette toggle */}
+      <div className="absolute right-4 top-4 z-30 md:right-8 md:top-8">
+        <div
+          className="relative rounded-full border border-shelf-line/60 bg-shelf-bg/80 p-1.5 shadow-lg backdrop-blur-md"
+          onMouseEnter={() => setPaletteOpen(true)}
+          onMouseLeave={() => setPaletteOpen(false)}
+        >
+          <button
+            type="button"
+            aria-label="Colour worlds"
+            aria-expanded={paletteOpen}
+            className="flex h-9 w-9 items-center justify-center rounded-full text-shelf-gold transition hover:bg-shelf-line/30"
+          >
+            <Palette className="h-4 w-4" />
+          </button>
+          <div
+            className={`absolute right-0 top-full mt-2 flex flex-col gap-2 rounded-2xl border border-shelf-line/60 bg-shelf-bg/95 p-2 shadow-xl backdrop-blur-md transition-all duration-200 ${
+              paletteOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
+            }`}
+          >
+            {SHELF_PALETTES.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => setPalette(p.id)}
+                aria-pressed={palette === p.id}
+                className={`flex items-center gap-2 rounded-full px-2 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] transition ${
+                  palette === p.id ? "bg-shelf-gold/20 text-shelf-gold" : "text-shelf-muted hover:bg-shelf-line/30 hover:text-shelf-ink"
+                }`}
+              >
+                <span
+                  className="h-5 w-5 rounded-full border border-shelf-line/50 shadow-sm"
+                  style={{ background: p.swatch }}
+                />
+                {p.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div className="relative z-10 mx-auto grid w-full max-w-7xl flex-1 items-center gap-14 px-6 pb-28 pt-16 md:px-12 lg:grid-cols-[1.05fr_0.95fr] lg:pt-10">
         {/* Editorial column */}
         <div className="flex flex-col items-start">
