@@ -124,6 +124,7 @@
   --shelf-muted: oklch(0.76 0.02 262);
   --shelf-line: oklch(0.34 0.025 262);
   --shelf-tile: oklch(0.96 0.012 92);
+  --shelf-tile-ink: oklch(0.19 0.025 262);
   --shelf-gold: var(--rose-gold);
 }
 [data-shelf-palette="jeju"] {
