@@ -104,7 +104,7 @@ const ingredients = [
 function HomePage() {
   return (
     <div>
-      <CampaignHero />
+      <DispatchHero />
       <ProductShelf />
       <div id="skin-grocer-promise"><Promise /></div>
       <KoreaRightNow />
