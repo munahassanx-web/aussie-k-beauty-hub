@@ -459,8 +459,8 @@ export function AtmosHero() {
             </ul>
           )}
 
-          {/* Entrance style switcher — preview each act's animation personality */}
-          {mounted && !reduce && (
+          {/* Entrance style switcher — staff preview only */}
+          {isStaff && mounted && !reduce && (
             <div className="mt-6">
               <p
                 className="text-[9px] font-semibold uppercase tracking-[0.26em]"
