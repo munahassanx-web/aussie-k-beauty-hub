@@ -584,49 +584,34 @@ export function AtmosHero() {
             >
               <div className="relative aspect-square">
                 {/* Shockwave burst on each act change */}
-                {!reduce && (
+                {!reduce && motionStyle.waves && (
                   <AnimatePresence initial={false}>
-                    {[0, 0.12].map((delay) => (
+                    {Array.from({ length: motionStyle.waves.count }, (_, w) => (
                       <motion.span
-                        key={`${act.id}-wave-${delay}`}
+                        key={`${swapKey}-wave-${w}`}
                         aria-hidden="true"
                         className="pointer-events-none absolute left-1/2 top-[58%] h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full border-2"
                         style={{ borderColor: `rgb(var(--act-accent) / 0.7)` }}
                         initial={{ scale: 0.2, opacity: 0.75 }}
-                        animate={{ scale: 3.4, opacity: 0 }}
+                        animate={{ scale: motionStyle.waves!.scale, opacity: 0 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] }}
+                        transition={{
+                          duration: motionStyle.waves!.duration,
+                          delay: w * motionStyle.waves!.stagger,
+                          ease: [0.16, 1, 0.3, 1],
+                        }}
                       />
                     ))}
                   </AnimatePresence>
                 )}
                 <AnimatePresence initial={false}>
                   <motion.div
-                    key={act.id}
+                    key={swapKey}
                     className="absolute inset-0"
-                    initial={
-                      reduce
-                        ? { opacity: 0 }
-                        : { opacity: 0, scale: 2.6, filter: "blur(26px)", rotate: 18, y: -140 }
-                    }
-                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)", rotate: 0, y: 0 }}
-                    exit={
-                      reduce
-                        ? { opacity: 0 }
-                        : { opacity: 0, scale: 1.45, filter: "blur(18px)", rotate: 10, y: -70 }
-                    }
-                    transition={
-                      reduce
-                        ? { duration: 0.3 }
-                        : {
-                            type: "spring",
-                            stiffness: 520,
-                            damping: 13,
-                            mass: 0.9,
-                            opacity: { duration: 0.16 },
-                            filter: { duration: 0.28 },
-                          }
-                    }
+                    initial={reduce ? { opacity: 0 } : motionStyle.product.initial}
+                    animate={motionStyle.product.animate}
+                    exit={reduce ? { opacity: 0 } : motionStyle.product.exit}
+                    transition={reduce ? { duration: 0.3 } : motionStyle.product.transition}
                   >
                     <motion.img
                       src={act.image}
