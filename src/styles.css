@@ -150,6 +150,30 @@
   --shelf-tile: oklch(0.96 0.012 100);
   --shelf-gold: oklch(0.70 0.12 45);
 }
+[data-shelf-palette="dawn"] {
+  --shelf-bg: oklch(0.965 0.012 75);
+  --shelf-ink: oklch(0.30 0.03 60);
+  --shelf-muted: oklch(0.58 0.025 60);
+  --shelf-line: oklch(0.86 0.015 70);
+  --shelf-tile: oklch(0.98 0.01 85);
+  --shelf-gold: oklch(0.62 0.12 45);
+}
+[data-shelf-palette="blossom"] {
+  --shelf-bg: oklch(0.955 0.015 340);
+  --shelf-ink: oklch(0.30 0.04 330);
+  --shelf-muted: oklch(0.58 0.04 330);
+  --shelf-line: oklch(0.84 0.02 330);
+  --shelf-tile: oklch(0.99 0.01 330);
+  --shelf-gold: oklch(0.60 0.14 25);
+}
+[data-shelf-palette="sage"] {
+  --shelf-bg: oklch(0.96 0.018 135);
+  --shelf-ink: oklch(0.28 0.035 140);
+  --shelf-muted: oklch(0.55 0.03 135);
+  --shelf-line: oklch(0.86 0.02 135);
+  --shelf-tile: oklch(0.98 0.012 100);
+  --shelf-gold: oklch(0.66 0.13 80);
+}
 
 /* Hero palette variations — applied via data-hero-palette on the observatory stage */
 [data-hero-palette="matcha"] {
