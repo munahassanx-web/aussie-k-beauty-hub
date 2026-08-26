@@ -101,6 +101,7 @@ export function SeoulShelfHero() {
   return (
     <section
       ref={stageRef}
+      data-shelf-palette={palette}
       aria-labelledby="shelf-heading"
       onPointerMove={setPointer}
       className="relative isolate flex min-h-[calc(100svh-7rem)] flex-col overflow-hidden bg-shelf-bg text-shelf-ink md:min-h-[calc(100svh-10rem)]"
