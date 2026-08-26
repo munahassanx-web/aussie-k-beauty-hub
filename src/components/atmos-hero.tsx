@@ -452,7 +452,54 @@ export function AtmosHero() {
               </li>
             ))}
           </ul>
+
+          {/* Entrance style switcher — preview each act's animation personality */}
+          {mounted && !reduce && (
+            <div className="mt-6">
+              <p
+                className="text-[9px] font-semibold uppercase tracking-[0.26em]"
+                style={{ color: `rgb(var(--act-ink) / 0.45)` }}
+              >
+                Entrance style · {motionStyle.blurb}
+              </p>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {HERO_MOTION_STYLES.map((s) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => pickStyle(s.id)}
+                    aria-pressed={s.id === motionStyle.id}
+                    title={s.blurb}
+                    className="rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] transition-colors"
+                    style={
+                      s.id === motionStyle.id
+                        ? {
+                            borderColor: `rgb(var(--act-accent))`,
+                            backgroundColor: `rgb(var(--act-accent) / 0.14)`,
+                            color: `rgb(var(--act-accent))`,
+                          }
+                        : {
+                            borderColor: `rgb(var(--act-ink) / 0.18)`,
+                            color: `rgb(var(--act-ink) / 0.55)`,
+                          }
+                    }
+                  >
+                    {s.label}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setReplayKey((k) => k + 1)}
+                  className="rounded-full px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] underline underline-offset-4"
+                  style={{ color: `rgb(var(--act-ink) / 0.5)` }}
+                >
+                  Replay
+                </button>
+              </div>
+            </div>
+          )}
         </div>
+
 
         {/* 3D product stage */}
         <div className="relative lg:col-span-6">
