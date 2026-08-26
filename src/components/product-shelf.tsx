@@ -63,9 +63,14 @@ export function ProductShelf() {
   return (
     <section
       aria-labelledby="shelf-heading"
-      className="border-t border-ink/10 bg-sand text-ink"
+      className="relative isolate overflow-hidden border-t border-ink/10 bg-sand text-ink"
     >
-      <div className="mx-auto max-w-7xl px-6 py-20 md:px-12 md:py-28">
+      {/* Soft centre-light gradient ground */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_0%,color-mix(in_oklab,var(--paper)_75%,transparent)_0%,transparent_65%)]"
+      />
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-24 md:px-12 md:py-32">
         {/* Header row */}
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-lg">
@@ -117,7 +122,7 @@ export function ProductShelf() {
               params={{ slug: productSlug(p) }}
               className="group w-[240px] shrink-0 snap-start md:w-[264px]"
             >
-              <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-sand-deep">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-sand-deep shadow-[0_18px_40px_-24px_rgba(43,33,24,0.55)] transition-shadow duration-500 group-hover:shadow-[0_30px_60px_-24px_rgba(43,33,24,0.6)]">
                 <img
                   src={p.image}
                   alt={`${p.brand} ${p.name}`}
