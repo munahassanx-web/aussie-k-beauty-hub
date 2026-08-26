@@ -252,7 +252,7 @@ export function EditorialDepthHero() {
                   src={hero.image}
                   alt=""
                   fetchPriority="high"
-                  className="mx-auto h-48 w-auto object-contain drop-shadow-[0_20px_24px_rgba(0,0,0,0.2)] md:h-64"
+                  className="mx-auto h-40 w-auto object-contain drop-shadow-[0_20px_24px_rgba(0,0,0,0.2)] md:h-52"
                 />
                 <p className="mt-3 text-center text-[8px] font-bold uppercase tracking-[0.28em] text-shelf-tile-ink/55">
                   {hero.product.brand}
