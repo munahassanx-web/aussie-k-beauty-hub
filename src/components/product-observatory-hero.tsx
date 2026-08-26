@@ -39,8 +39,9 @@ export function ProductObservatoryHero() {
     const y = (event.clientY - bounds.top) / bounds.height - 0.5;
     stageRef.current?.style.setProperty("--observatory-x", x.toFixed(3));
     stageRef.current?.style.setProperty("--observatory-y", y.toFixed(3));
-    if (dragStart.current !== null) {
-      setRotation((current) => current + (event.clientX - dragStart.current) * 0.18);
+    const previousX = dragStart.current;
+    if (previousX !== null) {
+      setRotation((current) => current + (event.clientX - previousX) * 0.18);
       dragStart.current = event.clientX;
     }
   };
