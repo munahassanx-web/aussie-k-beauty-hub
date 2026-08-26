@@ -238,15 +238,22 @@ export function SiteHeader() {
         {/* Pinned header — brand, navigation, and trust messages stay visible while scrolling */}
         <div
           ref={navRef}
-          className={`z-50 bg-background/95 backdrop-blur shadow-[0_1px_0_rgba(0,0,0,0.04)] ${
-            isSticky ? "fixed left-0 right-0 top-0" : "relative"
+          className={`z-50 transition-[background-color,box-shadow] duration-500 ${
+            isSticky
+              ? "fixed left-0 right-0 top-0 bg-background/92 shadow-[0_1px_0_rgba(0,0,0,0.06)] backdrop-blur-2xl"
+              : "relative bg-background/60 backdrop-blur-2xl"
           }`}
           onMouseLeave={() => setOpenMenu(null)}
         >
           <AnnouncementBar />
-          <div className="mx-auto max-w-7xl px-6 border-b border-border/60">
+          <div className="mx-auto max-w-7xl px-6 border-b border-foreground/5">
             {/* Brand row — large centered wordmark, Concept 1 */}
-            <div className="relative flex items-center justify-center px-4 pt-10 pb-4 md:px-0 md:pt-0 md:pb-0 md:min-h-[84px]">
+            <div
+              className={`relative flex items-center justify-center px-4 pt-10 pb-4 transition-all duration-500 md:px-0 md:pt-0 md:pb-0 ${
+                isSticky ? "md:min-h-[62px] md:scale-[0.82]" : "md:min-h-[84px]"
+              }`}
+            >
+
             <Link
               to="/"
               aria-label="Skin Grocer — home"
