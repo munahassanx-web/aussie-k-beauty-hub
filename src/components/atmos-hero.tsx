@@ -15,6 +15,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
+import {
+  DEFAULT_HERO_MOTION_STYLE,
+  HERO_MOTION_STORAGE_KEY,
+  HERO_MOTION_STYLES,
+  shardsFor,
+} from "@/lib/hero-motion-styles";
 import bgPlum from "@/assets/hero-bg-plum.jpg";
 import bgCica from "@/assets/hero-bg-cica.jpg";
 import bgSun from "@/assets/hero-bg-sun.jpg";
