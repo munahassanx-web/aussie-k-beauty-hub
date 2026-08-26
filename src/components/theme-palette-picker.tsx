@@ -61,38 +61,62 @@ function isPreviewHost(hostname: string): boolean {
   );
 }
 
-function savedTheme(): SiteTheme {
-  if (typeof window === "undefined") return "signature";
+/**
+ * Southern Hemisphere seasonal defaults (Melbourne).
+ * Summer Dec–Feb · Autumn Mar–May · Winter Jun–Aug · Spring Sep–Nov.
+ */
+function seasonalTheme(): { id: SiteTheme; label: string } {
+  const month = new Date().getMonth(); // 0 = Jan
+  if (month >= 2 && month <= 4) return { id: "amber", label: "Autumn" };
+  if (month >= 5 && month <= 7) return { id: "signature", label: "Winter" };
+  if (month >= 8 && month <= 10) return { id: "blossom", label: "Spring" };
+  return { id: "ocean", label: "Summer" };
+}
+
+type ThemeChoice = SiteTheme | typeof AUTO_VALUE;
+
+/**
+ * Returns the stored choice. A missing or unknown value defaults to "auto"
+ * so the site follows the seasons until the owner picks a palette.
+ */
+function savedChoice(): ThemeChoice {
+  if (typeof window === "undefined") return AUTO_VALUE;
   const saved = window.localStorage.getItem(STORAGE_KEY);
-  return THEMES.some((theme) => theme.id === saved) ? (saved as SiteTheme) : "signature";
+  if (saved === AUTO_VALUE) return AUTO_VALUE;
+  return THEMES.some((theme) => theme.id === saved) ? (saved as SiteTheme) : AUTO_VALUE;
 }
 
 /**
- * Owner-facing theme preview control. It applies a saved palette to the shared
- * design tokens across every page, but only renders its UI on preview/dev hosts
- * so customers never see an internal design tool.
+ * Owner-facing theme preview control. It applies a palette to the shared
+ * design tokens across every page, but only renders its UI on preview/dev
+ * hosts so customers never see an internal design tool.
  */
 export function ThemePalettePicker() {
-  const [theme, setTheme] = useState<SiteTheme>("signature");
+  const [choice, setChoice] = useState<ThemeChoice>(AUTO_VALUE);
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
 
+  const resolved: SiteTheme = choice === AUTO_VALUE ? seasonalTheme().id : choice;
+
   useEffect(() => {
-    const initial = savedTheme();
-    setTheme(initial);
-    document.documentElement.dataset.siteTheme = initial;
+    const initial = savedChoice();
+    setChoice(initial);
+    document.documentElement.dataset.siteTheme =
+      initial === AUTO_VALUE ? seasonalTheme().id : initial;
     setVisible(isPreviewHost(window.location.hostname));
   }, []);
 
-  const choose = (next: SiteTheme) => {
-    setTheme(next);
-    document.documentElement.dataset.siteTheme = next;
+  const choose = (next: ThemeChoice) => {
+    setChoice(next);
+    document.documentElement.dataset.siteTheme =
+      next === AUTO_VALUE ? seasonalTheme().id : next;
     window.localStorage.setItem(STORAGE_KEY, next);
   };
 
   if (!visible) return null;
 
-  const active = THEMES.find((item) => item.id === theme) ?? THEMES[0];
+  const active = THEMES.find((item) => item.id === resolved) ?? THEMES[0];
+  const season = seasonalTheme();
 
   return (
     <div className="fixed bottom-16 left-4 z-[300] font-body">
