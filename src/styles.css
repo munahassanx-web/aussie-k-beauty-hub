@@ -55,6 +55,12 @@
   --color-sanctuary-gold-deep: var(--sanctuary-gold-deep);
   --color-sanctuary-sage: var(--sanctuary-sage);
   --color-sanctuary-sage-deep: var(--sanctuary-sage-deep);
+  --color-shelf-bg: var(--shelf-bg);
+  --color-shelf-ink: var(--shelf-ink);
+  --color-shelf-muted: var(--shelf-muted);
+  --color-shelf-line: var(--shelf-line);
+  --color-shelf-tile: var(--shelf-tile);
+  --color-shelf-gold: var(--shelf-gold);
 
 
 
