@@ -505,7 +505,7 @@ export function AtmosHero() {
         <div className="relative lg:col-span-6">
           <motion.div
             animate={impact}
-            className="relative mx-auto aspect-square w-full max-w-[26rem] [perspective:1200px]"
+            className="relative mx-auto aspect-square w-full max-w-[31rem] [perspective:1200px]"
           >
             {/* Impact flash */}
             {!reduce && motionStyle.flash && (
@@ -627,7 +627,7 @@ export function AtmosHero() {
                 rotateX: heroTiltX,
                 transformStyle: "preserve-3d",
               }}
-              className="absolute inset-x-0 top-[4%] mx-auto w-[58%] will-change-transform"
+              className="absolute inset-x-0 top-[2%] mx-auto w-[74%] will-change-transform"
             >
               <div className="relative aspect-square">
                 {/* Shockwave burst on each act change */}
