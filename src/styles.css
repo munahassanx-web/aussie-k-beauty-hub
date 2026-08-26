@@ -41,6 +41,12 @@
   --color-grocer-brown: var(--grocer-brown);
   --color-grocer-cream: var(--grocer-cream);
   --color-rose-gold: var(--rose-gold);
+  --color-observatory-porcelain: var(--observatory-porcelain);
+  --color-observatory-orchid: var(--observatory-orchid);
+  --color-observatory-plum: var(--observatory-plum);
+  --color-observatory-deep: var(--observatory-deep);
+  --color-observatory-citron: var(--observatory-citron);
+  --color-observatory-moss: var(--observatory-moss);
 
 
   --font-display: "Fraunces", Georgia, serif;
@@ -68,6 +74,14 @@
   --rose-gold: oklch(0.74 0.062 38);
   /* Champagne gold (#C6A15B) — shared with the transactional email identity */
   --stripe-gold: #c6a15b;
+  /* Product Observatory — citron is reserved for active/verified touchpoints. */
+  --observatory-porcelain: oklch(0.97 0.01 25);
+  --observatory-orchid: oklch(0.85 0.055 345);
+  --observatory-plum: oklch(0.43 0.12 345);
+  --observatory-deep: oklch(0.20 0.055 340);
+  --observatory-citron: oklch(0.89 0.19 120);
+  --observatory-citron-soft: color-mix(in oklab, var(--observatory-citron) 52%, transparent);
+  --observatory-moss: oklch(0.62 0.11 120);
 
 
 
