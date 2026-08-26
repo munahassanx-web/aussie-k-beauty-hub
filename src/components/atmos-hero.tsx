@@ -133,6 +133,13 @@ const CHAPTERS: Chapter[] = [
   },
 ];
 
+/** Debris flung from the point of impact when a product lands. */
+const SHARDS = Array.from({ length: 14 }, (_, i) => ({
+  angle: (i / 14) * Math.PI * 2 + (i % 2 ? 0.22 : 0),
+  dist: 130 + (i % 5) * 42,
+  size: 5 + (i % 4) * 4,
+}));
+
 const EASE_OUT: Transition = { duration: 0.45, ease: [0.16, 1, 0.3, 1] };
 const SPRING = { stiffness: 260, damping: 18, mass: 0.4 };
 
@@ -209,6 +216,20 @@ export function AtmosHero() {
     const t = window.setInterval(() => setIndex((i) => (i + 1) % CHAPTERS.length), CYCLE_MS);
     return () => window.clearInterval(t);
   }, [paused, reduce]);
+
+  // Impact: every act change slams the stage — recoil shake plus a flash burst.
+  const impact = useAnimationControls();
+  useEffect(() => {
+    if (reduce) return;
+    impact.set({ x: 0, y: 0, rotate: 0, scale: 1 });
+    void impact.start({
+      x: [0, -22, 16, -9, 4, 0],
+      y: [0, 14, -9, 5, -2, 0],
+      rotate: [0, -1.6, 1.1, -0.5, 0],
+      scale: [1, 1.05, 0.985, 1],
+      transition: { duration: 0.62, ease: "easeOut", times: [0, 0.12, 0.3, 0.52, 0.78, 1] },
+    });
+  }, [index, impact, reduce]);
 
   const themeVars = {
     "--act-accent": act.theme.accent,
@@ -425,7 +446,54 @@ export function AtmosHero() {
 
         {/* 3D product stage */}
         <div className="relative lg:col-span-6">
-          <div className="relative mx-auto aspect-square w-full max-w-[26rem] [perspective:1200px]">
+          <motion.div
+            animate={impact}
+            className="relative mx-auto aspect-square w-full max-w-[26rem] [perspective:1200px]"
+          >
+            {/* Impact flash */}
+            {!reduce && (
+              <AnimatePresence initial={false}>
+                <motion.span
+                  key={`${act.id}-flash`}
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 z-20 rounded-full blur-3xl"
+                  style={{
+                    background: `radial-gradient(circle at 50% 55%, rgb(255 255 255 / 0.9) 0%, rgb(var(--act-glow) / 0.7) 38%, transparent 70%)`,
+                  }}
+                  initial={{ opacity: 0.95, scale: 0.5 }}
+                  animate={{ opacity: 0, scale: 1.5 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                />
+              </AnimatePresence>
+            )}
+
+            {/* Shards flung outward on impact */}
+            {!reduce && (
+              <AnimatePresence initial={false}>
+                {SHARDS.map((sh, i) => (
+                  <motion.span
+                    key={`${act.id}-shard-${i}`}
+                    aria-hidden="true"
+                    className="pointer-events-none absolute left-1/2 top-[56%] z-20 rounded-full"
+                    style={{
+                      width: sh.size,
+                      height: sh.size,
+                      backgroundColor: `rgb(var(--act-accent) / 0.65)`,
+                    }}
+                    initial={{ x: 0, y: 0, opacity: 0.9, scale: 1 }}
+                    animate={{
+                      x: Math.cos(sh.angle) * sh.dist,
+                      y: Math.sin(sh.angle) * sh.dist + 40,
+                      opacity: 0,
+                      scale: 0.3,
+                    }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.9 + (i % 4) * 0.1, ease: [0.12, 0.8, 0.3, 1] }}
+                  />
+                ))}
+              </AnimatePresence>
+            )}
             <motion.div
               aria-hidden="true"
               style={{
@@ -529,7 +597,7 @@ export function AtmosHero() {
                     initial={
                       reduce
                         ? { opacity: 0 }
-                        : { opacity: 0, scale: 0.32, filter: "blur(20px)", rotate: -16, y: 80 }
+                        : { opacity: 0, scale: 2.6, filter: "blur(26px)", rotate: 18, y: -140 }
                     }
                     animate={{ opacity: 1, scale: 1, filter: "blur(0px)", rotate: 0, y: 0 }}
                     exit={
@@ -542,11 +610,11 @@ export function AtmosHero() {
                         ? { duration: 0.3 }
                         : {
                             type: "spring",
-                            stiffness: 340,
-                            damping: 15,
-                            mass: 0.7,
-                            opacity: { duration: 0.22 },
-                            filter: { duration: 0.35 },
+                            stiffness: 520,
+                            damping: 13,
+                            mass: 0.9,
+                            opacity: { duration: 0.16 },
+                            filter: { duration: 0.28 },
                           }
                     }
                   >
@@ -608,7 +676,7 @@ export function AtmosHero() {
                 </motion.div>
               </AnimatePresence>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
