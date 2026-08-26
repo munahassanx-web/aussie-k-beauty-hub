@@ -160,6 +160,7 @@
   --shelf-muted: oklch(0.58 0.025 60);
   --shelf-line: oklch(0.86 0.015 70);
   --shelf-tile: oklch(0.98 0.01 85);
+  --shelf-tile-ink: oklch(0.30 0.03 60);
   --shelf-gold: oklch(0.62 0.12 45);
 }
 [data-shelf-palette="blossom"] {
@@ -168,6 +169,7 @@
   --shelf-muted: oklch(0.58 0.04 330);
   --shelf-line: oklch(0.84 0.02 330);
   --shelf-tile: oklch(0.99 0.01 330);
+  --shelf-tile-ink: oklch(0.30 0.04 330);
   --shelf-gold: oklch(0.60 0.14 25);
 }
 [data-shelf-palette="sage"] {
@@ -176,6 +178,7 @@
   --shelf-muted: oklch(0.55 0.03 135);
   --shelf-line: oklch(0.86 0.02 135);
   --shelf-tile: oklch(0.98 0.012 100);
+  --shelf-tile-ink: oklch(0.28 0.035 140);
   --shelf-gold: oklch(0.66 0.13 80);
 }
 
