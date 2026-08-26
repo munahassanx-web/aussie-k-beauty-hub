@@ -849,6 +849,15 @@
   from { opacity: 0; transform: translateY(18px) scale(0.985); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
+@keyframes campaign-settle {
+  from { opacity: 0.6; transform: scale(1.12); }
+  to { opacity: 1; transform: scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-\[campaign-settle_2\.4s_ease-out\] { animation: none; }
+}
+
 @keyframes shelf-lift {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }

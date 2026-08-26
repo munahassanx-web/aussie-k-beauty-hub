@@ -6,7 +6,7 @@ import { HOME_FAQS, faqJsonLd } from "@/lib/faqs";
 import { Reveal } from "@/components/reveal";
 
 
-import { EditorialDepthHero } from "@/components/editorial-depth-hero";
+import { CampaignHero } from "@/components/campaign-hero";
 import { SeoulSignalStrip } from "@/components/seoul-signal";
 import { KoreaRightNow } from "@/components/korea-right-now";
 import { bundleMath, BUNDLE_DEFINITIONS, RESTOCK_DISCOUNT_PERCENT, SHOP_PRODUCTS } from "@/lib/shop-catalog";
@@ -103,7 +103,7 @@ const ingredients = [
 function HomePage() {
   return (
     <div>
-      <EditorialDepthHero />
+      <CampaignHero />
       <div id="skin-grocer-promise"><Promise /></div>
       <KoreaRightNow />
       <Reveal><Categories /></Reveal>
