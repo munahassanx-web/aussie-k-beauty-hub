@@ -155,14 +155,14 @@ export const newsletterIssues: NewsletterIssue[] = [
       { emoji: "🌿", concern: "Reactive", pick: "Cicaful Ampoule 30ml", brand: "beplain", why: "Centella-led, fragrance-free, short list. Nothing in it to argue with.", image: "/products/beplain/cicaful-ampoule-30ml.webp" },
       { emoji: "💧", concern: "Dehydrated but oily", pick: "Aqua Oasis Moisturizing Gel", brand: "S.NATURE", why: "Humectant gel with no heavy occlusive — hydration without the film.", image: "/products/s-nature/aqua-oasis-moisturizing-gel.webp" },
       { emoji: "🧴", concern: "Barrier damage", pick: "Atobarrier 365 Hydro Soothing Cream", brand: "AESTURA", why: "The lighter Atobarrier for warm weather. Same repair logic, less weight.", image: "/products/aestura/atobarrier-365-hydro-soothing-cream.webp" },
-      { emoji: "🍶", concern: "Dull, uneven", pick: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", why: "Fermented rice extract and HA — hydration first, gentle tone-evening second.", image: "/products/haruharu-wonder/black-rice-hyaluronic-toner-150ml.webp" },
+      { emoji: "🍶", concern: "Dull, uneven", pick: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", why: "Fermented rice extract and HA — hydration first, gentle tone-evening second.", image: "/__l5e/assets-v1/5c2e77da-7082-420c-809a-9005bdb6aef8/haruharu-wonder-black-rice-hyaluronic-toner-150ml.png" },
     ],
     fiveMinute: {
       intro:
         "The version we'd build for someone who has been burned by viral products and wants to reset with things that were never trendy in the first place.",
       steps: [
         { step: "01 · Cleanse", what: "One gentle wash at night, water only in the morning if you're dry.", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
-        { step: "02 · Hydrate", what: "Onto damp skin. Fermented rice and HA, two light passes.", pick: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", image: "/products/haruharu-wonder/black-rice-hyaluronic-toner-150ml.webp" },
+        { step: "02 · Hydrate", what: "Onto damp skin. Fermented rice and HA, two light passes.", pick: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", image: "/__l5e/assets-v1/5c2e77da-7082-420c-809a-9005bdb6aef8/haruharu-wonder-black-rice-hyaluronic-toner-150ml.png" },
         { step: "03 · Comfort", what: "Squalane where skin feels rough. Skip on humid days.", pick: "Aqua Squalane Serum", brand: "S.NATURE", image: "/products/s-nature/aqua-squalane-serum.webp" },
         { step: "04 · Seal", what: "Ceramides at night. SPF over the top in the morning, all year.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.webp" },
       ],
@@ -198,7 +198,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       forWho: "For starting over after a bad run",
       items: [
         { name: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", price: "A$24", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp", note: "Stop the damage." },
-        { name: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", price: "A$28", image: "/products/haruharu-wonder/black-rice-hyaluronic-toner-150ml.webp", note: "Water in." },
+        { name: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", price: "A$28", image: "/__l5e/assets-v1/5c2e77da-7082-420c-809a-9005bdb6aef8/haruharu-wonder-black-rice-hyaluronic-toner-150ml.png", note: "Water in." },
         { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.webp", note: "Water stays in." },
         { name: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", price: "A$10", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp", note: "The only anti-ageing step that's proven." },
       ],
