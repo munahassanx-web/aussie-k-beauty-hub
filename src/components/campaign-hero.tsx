@@ -70,8 +70,9 @@ export function CampaignHero() {
       <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
         <div data-campaign-media className="h-full w-full will-change-transform">
           <img
-            src={campaignImage}
+            src={CAMPAIGN.src}
             alt=""
+            data-campaign={CAMPAIGN.key}
             width={1920}
             height={1200}
             fetchPriority="high"
