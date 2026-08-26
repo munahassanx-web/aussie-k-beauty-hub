@@ -137,11 +137,11 @@ function AnnouncementBar() {
         <div className="hidden w-full items-center justify-center md:flex">
           {announcements.map((msg, i) => (
             <span key={msg} className="flex items-center">
-              <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/70">
+              <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-paper/70">
                 {msg}
               </span>
               {i < announcements.length - 1 && (
-                <span className="mx-8 text-[10px] text-foreground/30" aria-hidden="true">·</span>
+                <span className="mx-8 text-[10px] text-paper/30" aria-hidden="true">·</span>
               )}
             </span>
           ))}
@@ -152,7 +152,7 @@ function AnnouncementBar() {
           {announcements.map((msg, i) => (
             <span
               key={msg}
-              className={`absolute inset-0 flex items-center justify-center whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.16em] text-foreground/70 ease-out ${
+              className={`absolute inset-0 flex items-center justify-center whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.16em] text-paper/70 ease-out ${
                 i === active
                   ? "opacity-100 translate-y-0 transition-all duration-700 delay-200"
                   : "opacity-0 -translate-y-1 transition-all duration-200"
