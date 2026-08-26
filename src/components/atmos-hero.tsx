@@ -15,6 +15,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
+import {
+  DEFAULT_HERO_MOTION_STYLE,
+  HERO_MOTION_STORAGE_KEY,
+  HERO_MOTION_STYLES,
+  shardsFor,
+} from "@/lib/hero-motion-styles";
 import bgPlum from "@/assets/hero-bg-plum.jpg";
 import bgCica from "@/assets/hero-bg-cica.jpg";
 import bgSun from "@/assets/hero-bg-sun.jpg";
@@ -133,12 +139,6 @@ const CHAPTERS: Chapter[] = [
   },
 ];
 
-/** Debris flung from the point of impact when a product lands. */
-const SHARDS = Array.from({ length: 14 }, (_, i) => ({
-  angle: (i / 14) * Math.PI * 2 + (i % 2 ? 0.22 : 0),
-  dist: 130 + (i % 5) * 42,
-  size: 5 + (i % 4) * 4,
-}));
 
 const EASE_OUT: Transition = { duration: 0.45, ease: [0.16, 1, 0.3, 1] };
 const SPRING = { stiffness: 260, damping: 18, mass: 0.4 };
@@ -160,7 +160,23 @@ export function AtmosHero() {
   const product = SHOP_PRODUCTS.find((p) => p.priceId === act.priceId);
   const reduce = useReducedMotion();
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const [styleId, setStyleId] = useState(DEFAULT_HERO_MOTION_STYLE);
+  const [replayKey, setReplayKey] = useState(0);
+  useEffect(() => {
+    setMounted(true);
+    const saved = window.localStorage.getItem(HERO_MOTION_STORAGE_KEY);
+    if (saved && HERO_MOTION_STYLES.some((s) => s.id === saved)) setStyleId(saved);
+  }, []);
+  const motionStyle = HERO_MOTION_STYLES.find((s) => s.id === styleId) ?? HERO_MOTION_STYLES[0]!;
+  const shards = shardsFor(motionStyle);
+  /** Same act, new choreography — force a fresh entrance so the pick is visible. */
+  const swapKey = `${act.id}-${motionStyle.id}-${replayKey}`;
+  const pickStyle = (id: string) => {
+    setStyleId(id);
+    window.localStorage.setItem(HERO_MOTION_STORAGE_KEY, id);
+    setReplayKey((k) => k + 1);
+  };
+
 
   const px = useMotionValue(0);
   const py = useMotionValue(0);
@@ -217,19 +233,13 @@ export function AtmosHero() {
     return () => window.clearInterval(t);
   }, [paused, reduce]);
 
-  // Impact: every act change slams the stage — recoil shake plus a flash burst.
+  // Impact: every act change slams the stage per the selected motion style.
   const impact = useAnimationControls();
   useEffect(() => {
     if (reduce) return;
     impact.set({ x: 0, y: 0, rotate: 0, scale: 1 });
-    void impact.start({
-      x: [0, -22, 16, -9, 4, 0],
-      y: [0, 14, -9, 5, -2, 0],
-      rotate: [0, -1.6, 1.1, -0.5, 0],
-      scale: [1, 1.05, 0.985, 1],
-      transition: { duration: 0.62, ease: "easeOut", times: [0, 0.12, 0.3, 0.52, 0.78, 1] },
-    });
-  }, [index, impact, reduce]);
+    void impact.start(motionStyle.impact);
+  }, [swapKey, impact, reduce, motionStyle]);
 
   const themeVars = {
     "--act-accent": act.theme.accent,
@@ -442,7 +452,54 @@ export function AtmosHero() {
               </li>
             ))}
           </ul>
+
+          {/* Entrance style switcher — preview each act's animation personality */}
+          {mounted && !reduce && (
+            <div className="mt-6">
+              <p
+                className="text-[9px] font-semibold uppercase tracking-[0.26em]"
+                style={{ color: `rgb(var(--act-ink) / 0.45)` }}
+              >
+                Entrance style · {motionStyle.blurb}
+              </p>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {HERO_MOTION_STYLES.map((s) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => pickStyle(s.id)}
+                    aria-pressed={s.id === motionStyle.id}
+                    title={s.blurb}
+                    className="rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] transition-colors"
+                    style={
+                      s.id === motionStyle.id
+                        ? {
+                            borderColor: `rgb(var(--act-accent))`,
+                            backgroundColor: `rgb(var(--act-accent) / 0.14)`,
+                            color: `rgb(var(--act-accent))`,
+                          }
+                        : {
+                            borderColor: `rgb(var(--act-ink) / 0.18)`,
+                            color: `rgb(var(--act-ink) / 0.55)`,
+                          }
+                    }
+                  >
+                    {s.label}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setReplayKey((k) => k + 1)}
+                  className="rounded-full px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] underline underline-offset-4"
+                  style={{ color: `rgb(var(--act-ink) / 0.5)` }}
+                >
+                  Replay
+                </button>
+              </div>
+            </div>
+          )}
         </div>
+
 
         {/* 3D product stage */}
         <div className="relative lg:col-span-6">
@@ -451,29 +508,29 @@ export function AtmosHero() {
             className="relative mx-auto aspect-square w-full max-w-[26rem] [perspective:1200px]"
           >
             {/* Impact flash */}
-            {!reduce && (
+            {!reduce && motionStyle.flash && (
               <AnimatePresence initial={false}>
                 <motion.span
-                  key={`${act.id}-flash`}
+                  key={`${swapKey}-flash`}
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-0 z-20 rounded-full blur-3xl"
                   style={{
                     background: `radial-gradient(circle at 50% 55%, rgb(255 255 255 / 0.9) 0%, rgb(var(--act-glow) / 0.7) 38%, transparent 70%)`,
                   }}
-                  initial={{ opacity: 0.95, scale: 0.5 }}
-                  animate={{ opacity: 0, scale: 1.5 }}
+                  initial={{ opacity: motionStyle.flash.from, scale: 0.5 }}
+                  animate={{ opacity: 0, scale: motionStyle.flash.to }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  transition={{ duration: motionStyle.flash.duration, ease: "easeOut" }}
                 />
               </AnimatePresence>
             )}
 
             {/* Shards flung outward on impact */}
-            {!reduce && (
+            {!reduce && shards.length > 0 && (
               <AnimatePresence initial={false}>
-                {SHARDS.map((sh, i) => (
+                {shards.map((sh, i) => (
                   <motion.span
-                    key={`${act.id}-shard-${i}`}
+                    key={`${swapKey}-shard-${i}`}
                     aria-hidden="true"
                     className="pointer-events-none absolute left-1/2 top-[56%] z-20 rounded-full"
                     style={{
@@ -484,12 +541,12 @@ export function AtmosHero() {
                     initial={{ x: 0, y: 0, opacity: 0.9, scale: 1 }}
                     animate={{
                       x: Math.cos(sh.angle) * sh.dist,
-                      y: Math.sin(sh.angle) * sh.dist + 40,
+                      y: Math.sin(sh.angle) * sh.dist + sh.gravity,
                       opacity: 0,
                       scale: 0.3,
                     }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.9 + (i % 4) * 0.1, ease: [0.12, 0.8, 0.3, 1] }}
+                    transition={{ duration: sh.duration, ease: [0.12, 0.8, 0.3, 1] }}
                   />
                 ))}
               </AnimatePresence>
@@ -574,49 +631,34 @@ export function AtmosHero() {
             >
               <div className="relative aspect-square">
                 {/* Shockwave burst on each act change */}
-                {!reduce && (
+                {!reduce && motionStyle.waves && (
                   <AnimatePresence initial={false}>
-                    {[0, 0.12].map((delay) => (
+                    {Array.from({ length: motionStyle.waves.count }, (_, w) => (
                       <motion.span
-                        key={`${act.id}-wave-${delay}`}
+                        key={`${swapKey}-wave-${w}`}
                         aria-hidden="true"
                         className="pointer-events-none absolute left-1/2 top-[58%] h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full border-2"
                         style={{ borderColor: `rgb(var(--act-accent) / 0.7)` }}
                         initial={{ scale: 0.2, opacity: 0.75 }}
-                        animate={{ scale: 3.4, opacity: 0 }}
+                        animate={{ scale: motionStyle.waves!.scale, opacity: 0 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] }}
+                        transition={{
+                          duration: motionStyle.waves!.duration,
+                          delay: w * motionStyle.waves!.stagger,
+                          ease: [0.16, 1, 0.3, 1],
+                        }}
                       />
                     ))}
                   </AnimatePresence>
                 )}
                 <AnimatePresence initial={false}>
                   <motion.div
-                    key={act.id}
+                    key={swapKey}
                     className="absolute inset-0"
-                    initial={
-                      reduce
-                        ? { opacity: 0 }
-                        : { opacity: 0, scale: 2.6, filter: "blur(26px)", rotate: 18, y: -140 }
-                    }
-                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)", rotate: 0, y: 0 }}
-                    exit={
-                      reduce
-                        ? { opacity: 0 }
-                        : { opacity: 0, scale: 1.45, filter: "blur(18px)", rotate: 10, y: -70 }
-                    }
-                    transition={
-                      reduce
-                        ? { duration: 0.3 }
-                        : {
-                            type: "spring",
-                            stiffness: 520,
-                            damping: 13,
-                            mass: 0.9,
-                            opacity: { duration: 0.16 },
-                            filter: { duration: 0.28 },
-                          }
-                    }
+                    initial={reduce ? { opacity: 0 } : motionStyle.product.initial}
+                    animate={motionStyle.product.animate}
+                    exit={reduce ? { opacity: 0 } : motionStyle.product.exit}
+                    transition={reduce ? { duration: 0.3 } : motionStyle.product.transition}
                   >
                     <motion.img
                       src={act.image}
