@@ -461,29 +461,29 @@ export function AtmosHero() {
             className="relative mx-auto aspect-square w-full max-w-[26rem] [perspective:1200px]"
           >
             {/* Impact flash */}
-            {!reduce && (
+            {!reduce && motionStyle.flash && (
               <AnimatePresence initial={false}>
                 <motion.span
-                  key={`${act.id}-flash`}
+                  key={`${swapKey}-flash`}
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-0 z-20 rounded-full blur-3xl"
                   style={{
                     background: `radial-gradient(circle at 50% 55%, rgb(255 255 255 / 0.9) 0%, rgb(var(--act-glow) / 0.7) 38%, transparent 70%)`,
                   }}
-                  initial={{ opacity: 0.95, scale: 0.5 }}
-                  animate={{ opacity: 0, scale: 1.5 }}
+                  initial={{ opacity: motionStyle.flash.from, scale: 0.5 }}
+                  animate={{ opacity: 0, scale: motionStyle.flash.to }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  transition={{ duration: motionStyle.flash.duration, ease: "easeOut" }}
                 />
               </AnimatePresence>
             )}
 
             {/* Shards flung outward on impact */}
-            {!reduce && (
+            {!reduce && shards.length > 0 && (
               <AnimatePresence initial={false}>
-                {SHARDS.map((sh, i) => (
+                {shards.map((sh, i) => (
                   <motion.span
-                    key={`${act.id}-shard-${i}`}
+                    key={`${swapKey}-shard-${i}`}
                     aria-hidden="true"
                     className="pointer-events-none absolute left-1/2 top-[56%] z-20 rounded-full"
                     style={{
@@ -494,12 +494,12 @@ export function AtmosHero() {
                     initial={{ x: 0, y: 0, opacity: 0.9, scale: 1 }}
                     animate={{
                       x: Math.cos(sh.angle) * sh.dist,
-                      y: Math.sin(sh.angle) * sh.dist + 40,
+                      y: Math.sin(sh.angle) * sh.dist + sh.gravity,
                       opacity: 0,
                       scale: 0.3,
                     }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.9 + (i % 4) * 0.1, ease: [0.12, 0.8, 0.3, 1] }}
+                    transition={{ duration: sh.duration, ease: [0.12, 0.8, 0.3, 1] }}
                   />
                 ))}
               </AnimatePresence>
