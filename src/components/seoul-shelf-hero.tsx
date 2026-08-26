@@ -40,6 +40,21 @@ export function SeoulShelfHero() {
   const stageRef = useRef<HTMLElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [userPicked, setUserPicked] = useState(false);
+  const [palette, setPalette] = useState<ShelfPalette>("seoul");
+  const [paletteOpen, setPaletteOpen] = useState(false);
+
+  useEffect(() => {
+    const saved = typeof window !== "undefined" ? window.localStorage.getItem("sg-shelf-palette") : null;
+    if (saved && SHELF_PALETTES.some((p) => p.id === saved)) {
+      setPalette(saved as ShelfPalette);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("sg-shelf-palette", palette);
+    }
+  }, [palette]);
 
   const picks = useMemo(
     () =>
