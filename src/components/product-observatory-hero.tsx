@@ -3,7 +3,6 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, Check, Palette, QrCode, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import observatoryArtwork from "@/assets/skin-grocer-matcha-observatory.jpg";
-import heroBottleAsset from "@/assets/haruharu-wonder-toner-cutout.png.asset.json";
 
 type Hotspot = "verified" | "routine" | "guide";
 type SkinAnswer = "dry" | "oily" | "combination" | "often";
@@ -133,15 +132,6 @@ export function ProductObservatoryHero() {
         <div className="observatory-depth absolute inset-0" />
         <div className="observatory-vignette absolute inset-0" />
         <div className="observatory-orbit absolute left-[43%] top-[52%] hidden h-[24rem] w-[44rem] -translate-y-1/2 rounded-[50%] border border-observatory-citron/70 shadow-[0_0_22px_var(--observatory-citron-soft)] md:block" />
-        <img
-          src={heroBottleAsset.url}
-          alt="Haruharu Wonder Black Rice Hyaluronic Toner 150ml"
-          width={157}
-          height={432}
-          fetchPriority="high"
-          className="absolute left-[43%] top-[52%] h-[16rem] w-auto -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_24px_40px_rgba(0,0,0,0.55)] md:h-[22rem]"
-          style={{ transform: `translate(-50%, -50%) rotate(${rotation}deg)` }}
-        />
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-[calc(100svh-7rem)] max-w-[1600px] flex-col justify-between px-6 pb-6 pt-8 md:min-h-[calc(100svh-10rem)] md:px-10 md:pb-8 lg:px-16">
