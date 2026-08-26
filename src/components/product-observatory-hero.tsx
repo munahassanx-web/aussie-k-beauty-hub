@@ -2,7 +2,7 @@ import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react"
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, Check, QrCode, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import observatoryArtwork from "@/assets/skin-grocer-orbit-observatory.jpg.asset.json";
+import observatoryArtwork from "@/assets/skin-grocer-matcha-observatory.jpg";
 
 type Hotspot = "verified" | "routine" | "guide";
 type SkinAnswer = "dry" | "oily" | "combination" | "often";
@@ -91,7 +91,7 @@ export function ProductObservatoryHero() {
     >
       <div aria-hidden="true" className="observatory-media absolute inset-0">
         <img
-          src={observatoryArtwork.url}
+          src={observatoryArtwork}
           alt=""
           width={1536}
           height={864}
