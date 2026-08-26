@@ -139,12 +139,6 @@ const CHAPTERS: Chapter[] = [
   },
 ];
 
-/** Debris flung from the point of impact when a product lands. */
-const SHARDS = Array.from({ length: 14 }, (_, i) => ({
-  angle: (i / 14) * Math.PI * 2 + (i % 2 ? 0.22 : 0),
-  dist: 130 + (i % 5) * 42,
-  size: 5 + (i % 4) * 4,
-}));
 
 const EASE_OUT: Transition = { duration: 0.45, ease: [0.16, 1, 0.3, 1] };
 const SPRING = { stiffness: 260, damping: 18, mass: 0.4 };
