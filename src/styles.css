@@ -956,3 +956,8 @@
     transition: none;
   }
 }
+
+@keyframes hero-sweep {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(420%); }
+}
