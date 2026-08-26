@@ -163,18 +163,9 @@ function WhyPillars() {
 
   return (
     <section
-      className="relative overflow-hidden bg-gradient-to-b from-sand via-paper to-paper"
+      className="relative overflow-hidden bg-paper"
       aria-labelledby="why-heading"
     >
-      {/* Cinematic hand-off from the hero: soft gel light bleeding down into the page */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 -top-40 h-[420px] opacity-70 blur-3xl"
-        style={{
-          background:
-            "radial-gradient(60% 100% at 30% 0%, color-mix(in oklab, var(--grocer-butter) 45%, transparent), transparent 70%), radial-gradient(50% 90% at 80% 0%, color-mix(in oklab, var(--hanbok-deep) 18%, transparent), transparent 70%)",
-        }}
-      />
       <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
 
         <div className="max-w-2xl">
