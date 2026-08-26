@@ -1,10 +1,19 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowDown, ArrowRight, ArrowUpRight, BadgeCheck, ScanLine, Sparkles, Truck } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, BadgeCheck, Palette, ScanLine, Sparkles, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
 import tonerCutout from "@/assets/haruharu-toner-cutout.png";
+
+type ShelfPalette = "seoul" | "jeju" | "plum" | "coast";
+
+const SHELF_PALETTES: { id: ShelfPalette; label: string; swatch: string }[] = [
+  { id: "seoul", label: "Seoul Night", swatch: "oklch(0.19 0.025 262)" },
+  { id: "jeju", label: "Jeju Morning", swatch: "oklch(0.28 0.035 145)" },
+  { id: "plum", label: "Gyeongbok Plum", swatch: "oklch(0.24 0.04 340)" },
+  { id: "coast", label: "Busan Coast", swatch: "oklch(0.26 0.04 200)" },
+];
 
 const SHELF_PICKS = [
   "haruharu_wonder_black_rice_hyaluronic_toner_150ml_onetime",
@@ -31,6 +40,21 @@ export function SeoulShelfHero() {
   const stageRef = useRef<HTMLElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [userPicked, setUserPicked] = useState(false);
+  const [palette, setPalette] = useState<ShelfPalette>("seoul");
+  const [paletteOpen, setPaletteOpen] = useState(false);
+
+  useEffect(() => {
+    const saved = typeof window !== "undefined" ? window.localStorage.getItem("sg-shelf-palette") : null;
+    if (saved && SHELF_PALETTES.some((p) => p.id === saved)) {
+      setPalette(saved as ShelfPalette);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("sg-shelf-palette", palette);
+    }
+  }, [palette]);
 
   const picks = useMemo(
     () =>
@@ -77,6 +101,7 @@ export function SeoulShelfHero() {
   return (
     <section
       ref={stageRef}
+      data-shelf-palette={palette}
       aria-labelledby="shelf-heading"
       onPointerMove={setPointer}
       className="relative isolate flex min-h-[calc(100svh-7rem)] flex-col overflow-hidden bg-shelf-bg text-shelf-ink md:min-h-[calc(100svh-10rem)]"
@@ -86,6 +111,47 @@ export function SeoulShelfHero() {
         <div className="absolute -right-[12%] -top-[18%] h-[55%] w-[55%] rounded-full bg-hanbok opacity-40 blur-[140px]" />
         <div className="absolute -bottom-[20%] -left-[10%] h-[45%] w-[45%] rounded-full bg-rose-gold opacity-[0.14] blur-[120px]" />
         <div className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(var(--shelf-line)_1px,transparent_1px),linear-gradient(90deg,var(--shelf-line)_1px,transparent_1px)] [background-size:120px_120px]" />
+      </div>
+
+      {/* Palette toggle */}
+      <div className="absolute right-4 top-4 z-30 md:right-8 md:top-8">
+        <div
+          className="relative rounded-full border border-shelf-line/60 bg-shelf-bg/80 p-1.5 shadow-lg backdrop-blur-md"
+          onMouseEnter={() => setPaletteOpen(true)}
+          onMouseLeave={() => setPaletteOpen(false)}
+        >
+          <button
+            type="button"
+            aria-label="Colour worlds"
+            aria-expanded={paletteOpen}
+            className="flex h-9 w-9 items-center justify-center rounded-full text-shelf-gold transition hover:bg-shelf-line/30"
+          >
+            <Palette className="h-4 w-4" />
+          </button>
+          <div
+            className={`absolute right-0 top-full mt-2 flex flex-col gap-2 rounded-2xl border border-shelf-line/60 bg-shelf-bg/95 p-2 shadow-xl backdrop-blur-md transition-all duration-200 ${
+              paletteOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
+            }`}
+          >
+            {SHELF_PALETTES.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => setPalette(p.id)}
+                aria-pressed={palette === p.id}
+                className={`flex items-center gap-2 rounded-full px-2 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] transition ${
+                  palette === p.id ? "bg-shelf-gold/20 text-shelf-gold" : "text-shelf-muted hover:bg-shelf-line/30 hover:text-shelf-ink"
+                }`}
+              >
+                <span
+                  className="h-5 w-5 rounded-full border border-shelf-line/50 shadow-sm"
+                  style={{ background: p.swatch }}
+                />
+                {p.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="relative z-10 mx-auto grid w-full max-w-7xl flex-1 items-center gap-14 px-6 pb-28 pt-16 md:px-12 lg:grid-cols-[1.05fr_0.95fr] lg:pt-10">
