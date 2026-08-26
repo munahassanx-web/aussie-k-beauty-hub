@@ -1,4 +1,4 @@
-import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, BadgeCheck, QrCode, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +6,15 @@ import tonerBottle from "@/assets/haruharu-toner-cutout.png";
 
 type Hotspot = "verified" | "routine" | "guide";
 type SkinAnswer = "dry" | "oily" | "combination" | "often";
+type SanctuaryPalette = "porcelain" | "plum" | "jeju" | "noir";
+
+const SANCTUARY_PALETTES: { id: SanctuaryPalette; label: string; swatch: string }[] = [
+  { id: "porcelain", label: "Porcelain", swatch: "oklch(0.70 0.10 78)" },
+  { id: "plum", label: "Plum", swatch: "oklch(0.46 0.13 355)" },
+  { id: "jeju", label: "Jeju", swatch: "oklch(0.66 0.17 32)" },
+  { id: "noir", label: "Noir", swatch: "oklch(0.20 0.03 320)" },
+];
+const PALETTE_STORAGE_KEY = "sg-sanctuary-palette";
 
 const answers: { label: string; value: SkinAnswer }[] = [
   { label: "Tight or dry", value: "dry" },
