@@ -205,7 +205,7 @@ export function AtmosHero() {
                 transform:
                   "translate3d(calc(var(--mx) * -46px), calc(var(--my) * -26px + var(--s) * -8%), 0) rotateY(calc(var(--mx) * 16deg)) rotateX(calc(var(--my) * -12deg))",
               }}
-              className="absolute inset-x-0 top-[8%] mx-auto w-[54%] transition-transform duration-500 ease-out will-change-transform [transform-style:preserve-3d]"
+              className="absolute inset-x-0 top-[2%] mx-auto w-[44%] transition-transform duration-500 ease-out will-change-transform [transform-style:preserve-3d]"
             >
               {featured ? (
                 <Link
@@ -235,7 +235,7 @@ export function AtmosHero() {
 
             {/* Product caption plate */}
             {featured && (
-              <div className="absolute inset-x-6 bottom-0 rounded-2xl border border-paper/15 bg-hanbok-deep/60 px-5 py-4 backdrop-blur-md">
+              <div className="absolute inset-x-4 bottom-2 rounded-2xl border border-paper/15 bg-hanbok-deep/60 px-5 py-4 backdrop-blur-md">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-grocer-butter">
                   On the stage
                 </p>
