@@ -79,10 +79,7 @@ function IngredientDetailPage() {
       </Link>
 
       <header className="mt-8 border-b border-border pb-10">
-        <p
-          className="text-[11px] font-semibold uppercase tracking-[0.24em]"
-          style={{ color: "#1F2A37" }}
-        >
+        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-primary">
           {i.category}
         </p>
         <h1 className="mt-4 font-display text-5xl leading-tight text-foreground md:text-6xl">
@@ -124,14 +121,8 @@ function IngredientDetailPage() {
           )}
 
           {i.common_myth && (
-            <div
-              className="rounded-2xl border-l-4 p-6"
-              style={{ borderColor: "#1F2A37", backgroundColor: "#F4F5F7" }}
-            >
-              <p
-                className="text-[11px] font-semibold uppercase tracking-[0.2em]"
-                style={{ color: "#1F2A37" }}
-              >
+            <div className="rounded-2xl border-l-4 border-primary bg-secondary p-6">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
                 Myth vs reality
               </p>
               <p className="mt-3 text-base leading-relaxed text-foreground/85">{i.common_myth}</p>
@@ -239,10 +230,9 @@ function IngredientDetailPage() {
                 key={p.productId}
                 className={
                   p.isHero
-                    ? "rounded-2xl border-2 p-5"
+                    ? "rounded-2xl border-2 border-primary bg-secondary p-5"
                     : "rounded-2xl border border-border bg-background p-5"
                 }
-                style={p.isHero ? { borderColor: "#1F2A37", backgroundColor: "#F4F5F7" } : undefined}
               >
                 <div className="flex gap-4">
                   {p.image ? (
@@ -258,10 +248,7 @@ function IngredientDetailPage() {
                   )}
                   <div className="min-w-0 flex-1">
                     {p.isHero && (
-                      <p
-                        className="text-[10px] font-semibold uppercase tracking-[0.18em]"
-                        style={{ color: "#1F2A37" }}
-                      >
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
                         Hero ingredient
                       </p>
                     )}

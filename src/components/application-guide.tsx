@@ -22,14 +22,8 @@ export function ApplicationGuideDetails({ guide }: { guide: ProductGuide }) {
         ))}
       </dl>
       {guide.pro_tip && (
-        <div
-          className="rounded-2xl border-2 p-5"
-          style={{ borderColor: '#1F2A37', backgroundColor: '#F4F5F7' }}
-        >
-          <p
-            className="text-[10px] font-semibold uppercase tracking-[0.18em]"
-            style={{ color: '#1F2A37' }}
-          >
+        <div className="rounded-2xl border-2 border-primary bg-secondary p-5">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
             Pro tip
           </p>
           <p className="mt-2 text-sm text-foreground/85">{guide.pro_tip}</p>

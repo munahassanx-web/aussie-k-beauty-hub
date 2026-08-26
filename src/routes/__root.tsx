@@ -18,6 +18,7 @@ import { WishlistProvider } from "../lib/wishlist";
 import { Toaster } from "sonner";
 import { CartDrawer } from "../components/cart-drawer";
 import { PreviewRefreshButton } from "../components/preview-refresh-button";
+import { ThemePalettePicker } from "../components/theme-palette-picker";
 import { initAnalytics, trackPageView } from "../lib/analytics";
 
 function NotFoundComponent() {
@@ -155,6 +156,7 @@ function RootComponent() {
         <CartDrawer />
         <ChatWidget />
         <PreviewRefreshButton />
+        <ThemePalettePicker />
         <Toaster position="bottom-right" richColors closeButton />
         </WishlistProvider>
       </CartProvider>

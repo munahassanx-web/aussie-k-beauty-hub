@@ -145,10 +145,7 @@ function LearnPage() {
                   params={{ slug: ingredientSlug(i.name_english) }}
                   className="group block h-full rounded-2xl border border-border bg-background p-6 transition-colors hover:border-primary"
                 >
-                  <p
-                    className="text-[10px] font-semibold uppercase tracking-[0.2em]"
-                    style={{ color: "#1F2A37" }}
-                  >
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
                     {i.category}
                   </p>
                   <h2 className="mt-3 font-display text-xl text-foreground group-hover:text-primary">

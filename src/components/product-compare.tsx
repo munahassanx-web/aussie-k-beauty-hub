@@ -136,7 +136,7 @@ export function CompareModal({
                 <p className="mt-2 text-sm text-foreground">{p.price} AUD</p>
 
                 <div className="mt-5 border-t border-border pt-4">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em]" style={{ color: "#1F2A37" }}>Hero ingredients</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">Hero ingredients</p>
                   {heroes.length ? (
                     <ul className="mt-2 space-y-1 text-sm text-foreground">
                       {heroes.map((h) => <li key={h}>• {h}</li>)}
