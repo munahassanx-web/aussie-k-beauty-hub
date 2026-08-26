@@ -140,7 +140,7 @@ export function ProductObservatoryHero() {
           height={432}
           fetchPriority="high"
           className="absolute left-[43%] top-[52%] h-[16rem] w-auto -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_24px_40px_rgba(0,0,0,0.55)] md:h-[22rem]"
-          style={{ transform: `translate(-50%, -50%) rotate(var(--observatory-drag, 0deg))` }}
+          style={{ transform: `translate(-50%, -50%) rotate(${rotation}deg)` }}
         />
       </div>
 
