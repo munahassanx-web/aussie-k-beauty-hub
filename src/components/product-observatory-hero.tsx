@@ -143,6 +143,55 @@ export function ProductObservatoryHero() {
           </span>
         </div>
 
+        <div className="pointer-events-none absolute right-4 top-16 z-40 flex flex-col items-end gap-2 md:right-10 md:top-20">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setPaletteOpen((open) => !open)}
+            aria-expanded={paletteOpen}
+            className="pointer-events-auto h-9 rounded-none border-observatory-porcelain/35 bg-observatory-deep/70 px-3 text-[9px] uppercase tracking-[0.2em] text-observatory-porcelain shadow-none backdrop-blur-md hover:bg-observatory-porcelain hover:text-observatory-deep"
+          >
+            <Palette className="h-3.5 w-3.5" /> Palette
+          </Button>
+          {paletteOpen ? (
+            <div className="pointer-events-auto w-56 border border-observatory-orchid/25 bg-observatory-deep/90 p-3 backdrop-blur-xl">
+              <p className="text-[9px] uppercase tracking-[0.22em] text-observatory-orchid/80">Preview themes</p>
+              <div className="mt-3 flex flex-col gap-1">
+                {palettes.map((entry) => (
+                  <button
+                    key={entry.key}
+                    type="button"
+                    onClick={() => setPalette(entry.key)}
+                    aria-pressed={palette === entry.key}
+                    className={`flex items-center gap-2 border px-2 py-2 text-left text-[11px] transition ${
+                      palette === entry.key
+                        ? "border-observatory-citron text-observatory-porcelain"
+                        : "border-transparent text-observatory-orchid/80 hover:border-observatory-orchid/30"
+                    }`}
+                  >
+                    <span className="flex">
+                      {entry.swatch.map((color) => (
+                        <span key={color} className="h-4 w-4 rounded-full ring-1 ring-black/20 [&:not(:first-child)]:-ml-1.5" style={{ background: color }} />
+                      ))}
+                    </span>
+                    <span className="flex-1">{entry.label}</span>
+                    {savedPalette === entry.key ? <Check className="h-3.5 w-3.5 text-observatory-citron" /> : null}
+                  </button>
+                ))}
+              </div>
+              <Button
+                size="sm"
+                onClick={savePalette}
+                disabled={savedPalette === palette}
+                className="mt-3 h-9 w-full rounded-none bg-observatory-citron text-[9px] font-bold uppercase tracking-[0.2em] text-observatory-deep hover:bg-observatory-porcelain"
+              >
+                {savedPalette === palette ? "Saved" : "Save this theme"}
+              </Button>
+            </div>
+          ) : null}
+        </div>
+
+
         <div className="grid flex-1 items-center md:grid-cols-12">
           <div className="max-w-xl py-14 md:col-span-5 md:py-10">
             <p className="mb-5 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-observatory-citron">
