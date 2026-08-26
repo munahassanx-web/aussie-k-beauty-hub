@@ -61,8 +61,8 @@ export function CampaignHero() {
           />
         </div>
         {/* Legibility wash — light on the copy side, keeps skin tones intact */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#F3EDE4]/90 via-[#F3EDE4]/35 to-transparent md:via-[#F3EDE4]/20" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#F3EDE4]/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#F3EDE4] via-[#F3EDE4]/70 to-transparent md:bg-gradient-to-r md:from-[#F3EDE4]/90 md:via-[#F3EDE4]/20 md:to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#F3EDE4]/70 to-transparent md:from-[#F3EDE4]/50" />
       </div>
 
       {/* Copy — low and left, Rhode cadence */}
