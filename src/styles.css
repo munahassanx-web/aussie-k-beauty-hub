@@ -55,6 +55,12 @@
   --color-sanctuary-gold-deep: var(--sanctuary-gold-deep);
   --color-sanctuary-sage: var(--sanctuary-sage);
   --color-sanctuary-sage-deep: var(--sanctuary-sage-deep);
+  --color-shelf-bg: var(--shelf-bg);
+  --color-shelf-ink: var(--shelf-ink);
+  --color-shelf-muted: var(--shelf-muted);
+  --color-shelf-line: var(--shelf-line);
+  --color-shelf-tile: var(--shelf-tile);
+  --color-shelf-gold: var(--shelf-gold);
 
 
 
@@ -101,6 +107,13 @@
   --sanctuary-gold-deep: oklch(0.62 0.10 75);
   --sanctuary-sage: oklch(0.92 0.02 125);
   --sanctuary-sage-deep: oklch(0.86 0.03 120);
+  /* The Seoul Shelf hero — deep grocer navy, cream tile, rose-gold accent */
+  --shelf-bg: oklch(0.19 0.025 262);
+  --shelf-ink: oklch(0.965 0.015 90);
+  --shelf-muted: oklch(0.76 0.02 262);
+  --shelf-line: oklch(0.34 0.025 262);
+  --shelf-tile: oklch(0.96 0.012 92);
+  --shelf-gold: var(--rose-gold);
 }
 
 /* Hero palette variations — applied via data-hero-palette on the observatory stage */
@@ -758,4 +771,18 @@
     color: #000 !important;
     background: #fff !important;
   }
+}
+
+/* The Seoul Shelf hero — marquee ticker + shelf swap motion */
+@keyframes shelf-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes shelf-swap {
+  from { opacity: 0; transform: translateY(18px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes shelf-lift {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
