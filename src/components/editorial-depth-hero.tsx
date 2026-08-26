@@ -241,7 +241,7 @@ export function EditorialDepthHero() {
               to="/product/$slug"
               params={{ slug: hero.slug }}
               aria-label={`${hero.product.brand} ${hero.product.name}`}
-              className="depth-layer absolute left-1/2 top-[54%] z-40 block w-[42%] -translate-x-1/2 -translate-y-1/2"
+              className="depth-layer absolute left-1/2 top-[54%] z-40 block w-[42%]"
               style={{
                 transform:
                   "translate(-50%,-50%) translate3d(calc(var(--hx,0)*48px), calc(var(--hy,0)*26px), 90px) rotateY(calc(var(--hx,0)*14deg)) rotateX(calc(var(--hy,0)*-10deg))",
