@@ -82,6 +82,57 @@
   --observatory-citron: oklch(0.72 0.12 85);
   --observatory-citron-soft: color-mix(in oklab, var(--observatory-citron) 52%, transparent);
   --observatory-moss: oklch(0.58 0.09 145);
+}
+
+/* Hero palette variations — applied via data-hero-palette on the observatory stage */
+[data-hero-palette="matcha"] {
+  --observatory-porcelain: oklch(0.97 0.01 95);
+  --observatory-orchid: oklch(0.65 0.08 145);
+  --observatory-plum: oklch(0.43 0.09 145);
+  --observatory-deep: oklch(0.30 0.04 145);
+  --observatory-citron: oklch(0.72 0.12 85);
+  --observatory-citron-soft: color-mix(in oklab, oklch(0.72 0.12 85) 52%, transparent);
+  --observatory-moss: oklch(0.58 0.09 145);
+}
+[data-hero-palette="plum"] {
+  --observatory-porcelain: oklch(0.96 0.012 40);
+  --observatory-orchid: oklch(0.84 0.05 340);
+  --observatory-plum: oklch(0.42 0.14 350);
+  --observatory-deep: oklch(0.24 0.09 345);
+  --observatory-citron: oklch(0.91 0.19 115);
+  --observatory-citron-soft: color-mix(in oklab, oklch(0.91 0.19 115) 52%, transparent);
+  --observatory-moss: oklch(0.63 0.13 120);
+}
+[data-hero-palette="cobalt"] {
+  --observatory-porcelain: oklch(0.97 0.005 250);
+  --observatory-orchid: oklch(0.78 0.06 255);
+  --observatory-plum: oklch(0.45 0.15 265);
+  --observatory-deep: oklch(0.24 0.09 265);
+  --observatory-citron: oklch(0.72 0.14 25);
+  --observatory-citron-soft: color-mix(in oklab, oklch(0.72 0.14 25) 52%, transparent);
+  --observatory-moss: oklch(0.60 0.11 255);
+}
+[data-hero-palette="jeju"] {
+  --observatory-porcelain: oklch(0.97 0.01 95);
+  --observatory-orchid: oklch(0.78 0.06 195);
+  --observatory-plum: oklch(0.44 0.09 200);
+  --observatory-deep: oklch(0.26 0.05 205);
+  --observatory-citron: oklch(0.66 0.19 32);
+  --observatory-citron-soft: color-mix(in oklab, oklch(0.66 0.19 32) 52%, transparent);
+  --observatory-moss: oklch(0.58 0.08 200);
+}
+[data-hero-palette="noir"] {
+  --observatory-porcelain: oklch(0.96 0.015 80);
+  --observatory-orchid: oklch(0.80 0.06 320);
+  --observatory-plum: oklch(0.40 0.10 320);
+  --observatory-deep: oklch(0.18 0.02 320);
+  --observatory-citron: oklch(0.84 0.09 80);
+  --observatory-citron-soft: color-mix(in oklab, oklch(0.84 0.09 80) 52%, transparent);
+  --observatory-moss: oklch(0.55 0.07 320);
+}
+
+:root {
+
 
 
 
