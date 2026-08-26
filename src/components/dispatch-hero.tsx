@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -37,12 +38,58 @@ const TICKER_ITEMS = [
  */
 export function DispatchHero() {
   const featured = SHOP_PRODUCTS.find((p) => p.priceId === FEATURED_PRICE_ID);
+  const stageRef = useRef<HTMLElement>(null);
+
+  /**
+   * Subtle motion: the hero dims and lifts away as the next section arrives,
+   * and the glow / product drift opposite the pointer. Both respect
+   * prefers-reduced-motion.
+   */
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const rect = stage.getBoundingClientRect();
+        const p = Math.min(Math.max(-rect.top / Math.max(rect.height, 1), 0), 1);
+        stage.style.setProperty("--hero-dim", String(p * 0.55));
+        stage.style.setProperty("--hero-lift", `${-p * 5}%`);
+      });
+    };
+    const onPointer = (e: PointerEvent) => {
+      const rect = stage.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      stage.style.setProperty("--hero-mx", `${-x * 18}px`);
+      stage.style.setProperty("--hero-my", `${-y * 14}px`);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    stage.addEventListener("pointermove", onPointer);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      stage.removeEventListener("pointermove", onPointer);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
 
   return (
     <section
+      ref={stageRef}
       aria-labelledby="dispatch-heading"
-      className="relative isolate overflow-hidden bg-hanbok-deep text-paper"
+      className="relative isolate overflow-hidden bg-hanbok-deep text-paper [--hero-dim:0] [--hero-lift:0%] [--hero-mx:0px] [--hero-my:0px]"
     >
+      {/* Gradient field — bright at the centre, deep at the edges, so the eye
+          falls on the headline before anything else. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[radial-gradient(120%_90%_at_38%_28%,color-mix(in_oklab,var(--hanbok)_70%,transparent)_0%,transparent_58%),radial-gradient(90%_70%_at_92%_78%,color-mix(in_oklab,var(--grocer-butter)_22%,transparent)_0%,transparent_60%),linear-gradient(180deg,transparent_35%,color-mix(in_oklab,black_45%,transparent)_100%)]"
+      />
       {/* Subtle vertical grooves — packaging-inspired texture */}
       <div aria-hidden="true" className="absolute inset-0 opacity-[0.06]">
         <div className="absolute left-1/5 top-0 h-full w-px bg-paper" />
@@ -50,13 +97,23 @@ export function DispatchHero() {
         <div className="absolute left-3/5 top-0 h-full w-px bg-paper" />
         <div className="absolute left-4/5 top-0 h-full w-px bg-paper" />
       </div>
-      {/* Warm glow behind the card */}
+      {/* Warm glow behind the card — drifts against the pointer */}
       <div
         aria-hidden="true"
-        className="absolute -right-40 top-1/3 h-[34rem] w-[34rem] rounded-full bg-grocer-butter/15 blur-3xl"
+        style={{ transform: "translate3d(var(--hero-mx), var(--hero-my), 0)" }}
+        className="absolute -right-40 top-1/3 h-[34rem] w-[34rem] rounded-full bg-grocer-butter/20 blur-3xl transition-transform duration-500 ease-out will-change-transform"
+      />
+      {/* Scroll dim — hands attention to the section below */}
+      <div
+        aria-hidden="true"
+        style={{ opacity: "var(--hero-dim)" }}
+        className="pointer-events-none absolute inset-0 z-30 bg-hanbok-deep"
       />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 pb-24 pt-24 md:px-12 md:pb-32 md:pt-32">
+      <div
+        style={{ transform: "translate3d(0, var(--hero-lift), 0)" }}
+        className="relative z-10 mx-auto max-w-7xl px-6 pb-28 pt-28 will-change-transform md:px-12 md:pb-40 md:pt-40"
+      >
         <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.32em] text-grocer-butter">
           <span className="h-px w-8 bg-grocer-butter" />
           Skin Grocer · Australia&rsquo;s K-beauty grocer
@@ -65,7 +122,7 @@ export function DispatchHero() {
         {/* Masthead headline */}
         <h1
           id="dispatch-heading"
-          className="mt-8 font-masthead text-[clamp(3.2rem,8.5vw,7.5rem)] leading-[0.9] tracking-tight"
+          className="mt-10 font-masthead text-[clamp(3.2rem,8.5vw,7.5rem)] leading-[0.9] tracking-tight [text-shadow:0_18px_40px_rgba(0,0,0,0.35)]"
         >
           <span className="block animate-[rise_0.9s_ease-out_both]">A skin clinic,</span>
           <span className="block animate-[rise_0.9s_ease-out_0.15s_both] italic text-grocer-butter">
@@ -73,7 +130,7 @@ export function DispatchHero() {
           </span>
         </h1>
 
-        <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:items-end">
+        <div className="mt-16 grid gap-14 lg:grid-cols-12 lg:items-start lg:gap-16">
           {/* Pitch + CTAs */}
           <div className="lg:col-span-6">
             <p className="max-w-md text-[15px] font-light leading-relaxed text-paper/80">
@@ -112,7 +169,12 @@ export function DispatchHero() {
 
           {/* Consultation report card */}
           <div className="relative lg:col-span-6">
-            <div className="relative ml-auto max-w-md rounded-2xl bg-paper p-7 text-ink shadow-2xl shadow-black/30 md:p-8">
+            {/* Depth: a warm plate sitting behind and offset from the card */}
+            <div
+              aria-hidden="true"
+              className="absolute -right-3 -top-4 hidden h-full w-[min(28rem,100%)] rounded-2xl bg-grocer-butter/20 md:block"
+            />
+            <div className="relative ml-auto max-w-md rounded-2xl bg-paper p-8 text-ink shadow-[0_40px_80px_-20px_rgba(0,0,0,0.55)] ring-1 ring-black/5 md:p-9">
               <div className="flex items-center justify-between border-b border-ink/10 pb-4">
                 <p className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em] text-clay">
                   <ClipboardList className="h-3.5 w-3.5" /> Your skin report
@@ -168,14 +230,15 @@ export function DispatchHero() {
                 <Link
                   to="/product/$slug"
                   params={{ slug: productSlug(featured) }}
-                  className="group/bottle absolute -left-16 -top-14 hidden w-28 animate-[float-slow_7s_ease-in-out_infinite] md:block"
+                  style={{ transform: "translate3d(calc(var(--hero-mx) * 1.6), calc(var(--hero-my) * 1.6), 0)" }}
+                  className="group/bottle absolute -left-24 -top-20 hidden w-28 transition-transform duration-500 ease-out will-change-transform md:block"
                   aria-label={`${featured.brand} ${featured.name}`}
                 >
                   <img
                     src={tonerCutout}
                     alt=""
                     loading="lazy"
-                    className="w-full drop-shadow-[0_18px_24px_rgba(0,0,0,0.35)] transition-transform duration-500 group-hover/bottle:-translate-y-1.5"
+                    className="w-full animate-[float-slow_7s_ease-in-out_infinite] drop-shadow-[0_28px_36px_rgba(0,0,0,0.45)] transition-transform duration-500 group-hover/bottle:-translate-y-1.5"
                   />
                 </Link>
               )}
