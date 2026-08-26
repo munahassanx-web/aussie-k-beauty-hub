@@ -42,6 +42,28 @@ const OVERSHOOT: Transition = {
 
 export const HERO_MOTION_STYLES: HeroMotionStyle[] = [
   {
+    id: "reveal",
+    label: "Reveal",
+    blurb: "Splits along a seam and hinges open on a glowing core, drifting slowly with smoke.",
+    product: {
+      initial: { opacity: 1, scale: 1.06, rotate: -3 },
+      animate: { opacity: 1, scale: 1, rotate: 0 },
+      exit: { opacity: 0, scale: 1.08, rotate: 3 },
+      transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
+    },
+    impact: {
+      x: [0, 0, 0],
+      y: [0, -10, 0],
+      rotate: [0, -0.8, 0.4, 0],
+      scale: [1, 1.03, 1],
+      transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] },
+    },
+    flash: { enabled: true, from: 0.9, to: 2.4, duration: 1.5 },
+    waves: { count: 2, scale: 3.4, duration: 1.9, stagger: 0.45 },
+    shards: { count: 10, dist: 120, duration: 2.2, gravity: -70 },
+    fragment: { cols: 1, rows: 2, dist: 150, spin: 16, stagger: 0.09 },
+  },
+  {
     id: "shatter",
     label: "Shatter",
     blurb: "The product itself breaks apart into shards and reassembles with a bang.",
