@@ -233,19 +233,13 @@ export function AtmosHero() {
     return () => window.clearInterval(t);
   }, [paused, reduce]);
 
-  // Impact: every act change slams the stage — recoil shake plus a flash burst.
+  // Impact: every act change slams the stage per the selected motion style.
   const impact = useAnimationControls();
   useEffect(() => {
     if (reduce) return;
     impact.set({ x: 0, y: 0, rotate: 0, scale: 1 });
-    void impact.start({
-      x: [0, -22, 16, -9, 4, 0],
-      y: [0, 14, -9, 5, -2, 0],
-      rotate: [0, -1.6, 1.1, -0.5, 0],
-      scale: [1, 1.05, 0.985, 1],
-      transition: { duration: 0.62, ease: "easeOut", times: [0, 0.12, 0.3, 0.52, 0.78, 1] },
-    });
-  }, [index, impact, reduce]);
+    void impact.start(motionStyle.impact);
+  }, [swapKey, impact, reduce, motionStyle]);
 
   const themeVars = {
     "--act-accent": act.theme.accent,
