@@ -123,7 +123,7 @@ const CHAPTERS: Chapter[] = [
   },
 ];
 
-const EASE_OUT: Transition = { duration: 0.8, ease: [0.16, 1, 0.3, 1] };
+const EASE_OUT: Transition = { duration: 0.45, ease: [0.16, 1, 0.3, 1] };
 const SPRING = { stiffness: 260, damping: 18, mass: 0.4 };
 
 /**
@@ -284,7 +284,7 @@ export function AtmosHero() {
                     className="block"
                     initial={{ y: "110%", rotateX: -55, opacity: 0 }}
                     animate={{ y: "0%", rotateX: 0, opacity: 1 }}
-                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
                   >
                     {act.title[0]}
                   </motion.span>
@@ -295,7 +295,7 @@ export function AtmosHero() {
                     style={{ color: `rgb(var(--act-accent))` }}
                     initial={{ y: "110%", opacity: 0 }}
                     animate={{ y: "0%", opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.4, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
                   >
                     {act.title[1]}
                   </motion.span>
@@ -336,7 +336,7 @@ export function AtmosHero() {
           <motion.div
             initial={false}
             animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-            transition={{ ...EASE_OUT, delay: 0.25 }}
+            transition={{ ...EASE_OUT, delay: 0.12 }}
             className="mt-7 flex flex-wrap items-center gap-5"
           >
             {product && (
