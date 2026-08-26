@@ -6,13 +6,16 @@ import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
 import tonerCutout from "@/assets/haruharu-toner-cutout.png";
 
-type ShelfPalette = "seoul" | "jeju" | "plum" | "coast";
+type ShelfPalette = "seoul" | "jeju" | "plum" | "coast" | "dawn" | "blossom" | "sage";
 
 const SHELF_PALETTES: { id: ShelfPalette; label: string; swatch: string }[] = [
   { id: "seoul", label: "Seoul Night", swatch: "oklch(0.19 0.025 262)" },
   { id: "jeju", label: "Jeju Morning", swatch: "oklch(0.28 0.035 145)" },
   { id: "plum", label: "Gyeongbok Plum", swatch: "oklch(0.24 0.04 340)" },
   { id: "coast", label: "Busan Coast", swatch: "oklch(0.26 0.04 200)" },
+  { id: "dawn", label: "Seoul Dawn", swatch: "oklch(0.965 0.012 75)" },
+  { id: "blossom", label: "Cherry Blossom", swatch: "oklch(0.955 0.015 340)" },
+  { id: "sage", label: "Soft Sage", swatch: "oklch(0.96 0.018 135)" },
 ];
 
 const SHELF_PICKS = [
