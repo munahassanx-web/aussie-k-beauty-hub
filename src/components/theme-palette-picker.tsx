@@ -136,15 +136,42 @@ export function ThemePalettePicker() {
           </p>
         </div>
         <div className="max-h-[45vh] space-y-1 overflow-y-auto p-2">
+          <button
+            type="button"
+            role="radio"
+            aria-checked={choice === AUTO_VALUE}
+            onClick={() => choose(AUTO_VALUE)}
+            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition ${
+              choice === AUTO_VALUE
+                ? "bg-secondary text-foreground"
+                : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
+            }`}
+          >
+            <span
+              className="flex h-6 w-6 items-center justify-center rounded-full border border-border bg-secondary"
+              aria-hidden="true"
+            >
+              <Leaf className="h-3.5 w-3.5 text-primary" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-xs font-semibold">Auto · Seasonal</span>
+              <span className="block truncate text-[11px] text-muted-foreground">
+                Follows Melbourne seasons — now: {season.label} ({active.label})
+              </span>
+            </span>
+            {choice === AUTO_VALUE && (
+              <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+            )}
+          </button>
           {THEMES.map((item) => (
             <button
               key={item.id}
               type="button"
               role="radio"
-              aria-checked={theme === item.id}
+              aria-checked={choice === item.id}
               onClick={() => choose(item.id)}
               className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition ${
-                theme === item.id ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
+                choice === item.id ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
               }`}
             >
               <span className="flex -space-x-1.5" aria-hidden="true">
@@ -160,17 +187,17 @@ export function ThemePalettePicker() {
                 <span className="block text-xs font-semibold">{item.label}</span>
                 <span className="block truncate text-[11px] text-muted-foreground">{item.description}</span>
               </span>
-              {theme === item.id && <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />}
+              {choice === item.id && <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />}
             </button>
           ))}
         </div>
         <button
           type="button"
-          onClick={() => choose("signature")}
+          onClick={() => choose(AUTO_VALUE)}
           className="flex w-full items-center justify-center gap-2 border-t border-border px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground transition hover:bg-secondary/60 hover:text-foreground"
         >
           <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
-          Reset to signature
+          Reset to seasonal auto
         </button>
       </div>
 
@@ -178,11 +205,16 @@ export function ThemePalettePicker() {
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
-        aria-label={`Preview site palette. Current palette: ${active.label}`}
+        aria-label={`Preview site palette. Current palette: ${active.label}${choice === AUTO_VALUE ? ` (auto — ${season.label})` : ""}`}
         className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-xs font-semibold text-foreground shadow-lg transition hover:bg-secondary"
       >
         <Palette className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
         <span>{active.label}</span>
+        {choice === AUTO_VALUE && (
+          <span className="rounded-full bg-secondary px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+            {season.label}
+          </span>
+        )}
       </button>
     </div>
   );
