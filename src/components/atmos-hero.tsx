@@ -4,6 +4,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import {
   AnimatePresence,
   motion,
+  useAnimationControls,
   useMotionValue,
   useReducedMotion,
   useScroll,
@@ -14,7 +15,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
-import stageBackdrop from "@/assets/hero-gel-backdrop.jpg";
+import bgPlum from "@/assets/hero-bg-plum.jpg";
+import bgCica from "@/assets/hero-bg-cica.jpg";
+import bgSun from "@/assets/hero-bg-sun.jpg";
+import bgGlow from "@/assets/hero-bg-glow.jpg";
 import droplet from "@/assets/hero-3d-droplet.png";
 import plumToner from "@/assets/hero-spring-plum.png";
 import cicaAmpoule from "@/assets/hero-spring-cica.png";
@@ -36,6 +40,8 @@ type Chapter = {
   cta: string;
   priceId: string;
   image: string;
+  /** Macro gel backdrop graded to the product's own colour. */
+  backdrop: string;
   /** Per-chapter colour theme, painted as local CSS variables. */
   theme: { accent: string; deep: string; glow: string; ink: string };
 };
@@ -57,10 +63,11 @@ const CHAPTERS: Chapter[] = [
     cta: "Start the reset",
     priceId: "beauty_of_joseon_green_plum_refreshing_toner_150ml_onetime",
     image: plumToner,
+    backdrop: bgPlum,
     theme: {
-      accent: "92 116 74",
-      deep: "238 233 221",
-      glow: "206 214 186",
+      accent: "104 128 58",
+      deep: "240 234 216",
+      glow: "203 216 150",
       ink: "46 40 31",
     },
   },
@@ -76,10 +83,11 @@ const CHAPTERS: Chapter[] = [
     cta: "Soothe the flare",
     priceId: "beplain_cicaful_ampoule_30ml_onetime",
     image: cicaAmpoule,
+    backdrop: bgCica,
     theme: {
-      accent: "74 112 96",
-      deep: "240 234 224",
-      glow: "200 218 205",
+      accent: "62 122 92",
+      deep: "240 236 222",
+      glow: "186 216 186",
       ink: "46 40 31",
     },
   },
@@ -95,10 +103,11 @@ const CHAPTERS: Chapter[] = [
     cta: "Shield the skin",
     priceId: "aestura_derma_uv365_barrier_moisture_mineral_sun_cream_onetime",
     image: sunCream,
+    backdrop: bgSun,
     theme: {
-      accent: "32 88 134",
-      deep: "237 233 226",
-      glow: "193 214 231",
+      accent: "26 118 168",
+      deep: "234 233 231",
+      glow: "168 216 236",
       ink: "38 38 45",
     },
   },
@@ -114,10 +123,11 @@ const CHAPTERS: Chapter[] = [
     cta: "Finish with glow",
     priceId: "beauty_of_joseon_glow_serum_propolis_plus_niacinamide_30ml_onetime",
     image: glowSerum,
+    backdrop: bgGlow,
     theme: {
-      accent: "174 92 96",
-      deep: "243 233 226",
-      glow: "240 208 200",
+      accent: "192 108 52",
+      deep: "247 234 222",
+      glow: "246 200 158",
       ink: "48 34 32",
     },
   },
@@ -221,16 +231,27 @@ export function AtmosHero() {
         style={{ backgroundColor: `rgb(var(--act-deep))` }}
       />
 
-      {/* Layer 1 — cinematic backdrop plate */}
-      <motion.img
-        src={stageBackdrop}
-        alt=""
+      {/* Layer 1 — cinematic backdrop plate, regraded per act */}
+      <motion.div
         aria-hidden="true"
-        width={1920}
-        height={1280}
         style={{ x: bgDepth.x, y: camY, scale: camScale, opacity: camFade }}
-        className="pointer-events-none absolute inset-0 h-full w-full scale-105 object-cover opacity-95 mix-blend-multiply will-change-transform"
-      />
+        className="pointer-events-none absolute inset-0 will-change-transform"
+      >
+        <AnimatePresence initial={false}>
+          <motion.img
+            key={act.id}
+            src={act.backdrop}
+            alt=""
+            width={1920}
+            height={1280}
+            initial={{ opacity: 0, scale: 1.16, filter: "blur(12px)" }}
+            animate={{ opacity: 0.95, scale: 1.05, filter: "blur(0px)" }}
+            exit={{ opacity: 0, scale: 1.02, filter: "blur(10px)" }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
+          />
+        </AnimatePresence>
+      </motion.div>
 
       {/* Layer 2 — act colour wash */}
       <div
