@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
-import stageBackdrop from "@/assets/hero-3d-stage.jpg";
+import stageBackdrop from "@/assets/hero-gel-backdrop.jpg";
 import droplet from "@/assets/hero-3d-droplet.png";
 import plumToner from "@/assets/hero-spring-plum.png";
 import cicaAmpoule from "@/assets/hero-spring-cica.png";
@@ -58,10 +58,10 @@ const CHAPTERS: Chapter[] = [
     priceId: "beauty_of_joseon_green_plum_refreshing_toner_150ml_onetime",
     image: plumToner,
     theme: {
-      accent: "168 220 168",
-      deep: "12 30 20",
-      glow: "132 200 142",
-      ink: "238 251 238",
+      accent: "92 116 74",
+      deep: "238 233 221",
+      glow: "206 214 186",
+      ink: "46 40 31",
     },
   },
   {
@@ -77,10 +77,10 @@ const CHAPTERS: Chapter[] = [
     priceId: "beplain_cicaful_ampoule_30ml_onetime",
     image: cicaAmpoule,
     theme: {
-      accent: "198 226 196",
-      deep: "16 32 26",
-      glow: "150 198 160",
-      ink: "241 250 240",
+      accent: "74 112 96",
+      deep: "240 234 224",
+      glow: "200 218 205",
+      ink: "46 40 31",
     },
   },
   {
@@ -96,10 +96,10 @@ const CHAPTERS: Chapter[] = [
     priceId: "aestura_derma_uv365_barrier_moisture_mineral_sun_cream_onetime",
     image: sunCream,
     theme: {
-      accent: "142 205 240",
-      deep: "8 26 42",
-      glow: "96 178 226",
-      ink: "234 247 255",
+      accent: "32 88 134",
+      deep: "237 233 226",
+      glow: "193 214 231",
+      ink: "38 38 45",
     },
   },
   {
@@ -115,10 +115,10 @@ const CHAPTERS: Chapter[] = [
     priceId: "beauty_of_joseon_glow_serum_propolis_plus_niacinamide_30ml_onetime",
     image: glowSerum,
     theme: {
-      accent: "248 186 196",
-      deep: "40 20 26",
-      glow: "244 158 178",
-      ink: "255 240 244",
+      accent: "174 92 96",
+      deep: "243 233 226",
+      glow: "240 208 200",
+      ink: "48 34 32",
     },
   },
 ];
@@ -229,7 +229,7 @@ export function AtmosHero() {
         width={1920}
         height={1280}
         style={{ x: bgDepth.x, y: camY, scale: camScale, opacity: camFade }}
-        className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-40 mix-blend-luminosity will-change-transform"
+        className="pointer-events-none absolute inset-0 h-full w-full scale-105 object-cover opacity-95 mix-blend-multiply will-change-transform"
       />
 
       {/* Layer 2 — act colour wash */}
@@ -237,7 +237,7 @@ export function AtmosHero() {
         aria-hidden="true"
         className="absolute inset-0 transition-[background] duration-1000"
         style={{
-          background: `radial-gradient(85% 65% at 62% 30%, rgb(var(--act-glow) / 0.28) 0%, transparent 62%), linear-gradient(180deg, rgb(var(--act-deep) / 0.35) 0%, transparent 34%, rgb(var(--act-deep) / 0.95) 100%)`,
+          background: `radial-gradient(75% 60% at 68% 32%, rgb(var(--act-glow) / 0.35) 0%, transparent 65%), linear-gradient(100deg, rgb(var(--act-deep) / 0.94) 0%, rgb(var(--act-deep) / 0.7) 42%, transparent 78%), linear-gradient(180deg, transparent 55%, rgb(var(--act-deep) / 0.55) 100%)`,
         }}
       />
 
@@ -246,7 +246,7 @@ export function AtmosHero() {
         aria-hidden="true"
         style={{
           x: coneDepth.x,
-          background: `conic-gradient(from 180deg at 50% 0%, transparent 0deg, rgb(var(--act-accent) / 0.2) 172deg, rgb(var(--act-accent) / 0.2) 188deg, transparent 360deg)`,
+          background: `conic-gradient(from 180deg at 50% 0%, transparent 0deg, rgb(var(--act-accent) / 0.12) 172deg, rgb(var(--act-accent) / 0.12) 188deg, transparent 360deg)`,
         }}
         animate={reduce ? undefined : { opacity: [0.5, 0.95, 0.5], scaleY: [1, 1.05, 1] }}
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
@@ -274,7 +274,7 @@ export function AtmosHero() {
 
           <h1
             id="atmos-heading"
-            className="mt-5 font-masthead text-[clamp(2.4rem,5.6vw,4.6rem)] leading-[0.92] tracking-tight [text-shadow:0_24px_60px_rgba(0,0,0,0.5)]"
+            className="mt-5 font-masthead text-[clamp(2.4rem,5.6vw,4.6rem)] leading-[0.92] tracking-tight [text-shadow:0_18px_44px_rgba(255,255,255,0.55)]"
             style={{ color: `rgb(var(--act-ink))` }}
           >
             <AnimatePresence mode="wait" initial={false}>
