@@ -20,8 +20,8 @@ const SHELF_PRICE_IDS = [
   "wellage_real_hyaluronic_toner_200ml_onetime",
   "beplain_mung_bean_cleansing_oil_200ml_onetime",
   "medicube_collagen_jelly_cream_110ml_onetime",
-  "torriden_dive_in_serum_50ml_onetime",
-  "isntree_hyaluronic_acid_watery_sun_gel_50ml_onetime",
+  "torriden_dive_in_serum_onetime",
+  "isntree_hyaluronic_acid_water_essence_50ml_onetime",
   "biodance_bio_collagen_real_deep_mask_onetime",
 ];
 

@@ -104,6 +104,7 @@ function HomePage() {
   return (
     <div>
       <CampaignHero />
+      <ProductShelf />
       <div id="skin-grocer-promise"><Promise /></div>
       <KoreaRightNow />
       <Reveal><Categories /></Reveal>
