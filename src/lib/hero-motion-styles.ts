@@ -24,6 +24,11 @@ export type HeroMotionStyle = {
   flash: { enabled: boolean; from: number; to: number; duration: number } | null;
   waves: { count: number; scale: number; duration: number; stagger: number } | null;
   shards: { count: number; dist: number; duration: number; gravity: number } | null;
+  /**
+   * When set, the product image itself is sliced into clip-path fragments that
+   * fly apart on exit and slam back together on entry.
+   */
+  fragment: { cols: number; rows: number; dist: number; spin: number; stagger: number } | null;
 };
 
 const OVERSHOOT: Transition = {
@@ -36,6 +41,28 @@ const OVERSHOOT: Transition = {
 };
 
 export const HERO_MOTION_STYLES: HeroMotionStyle[] = [
+  {
+    id: "shatter",
+    label: "Shatter",
+    blurb: "The product itself breaks apart into shards and reassembles with a bang.",
+    product: {
+      initial: { opacity: 1, scale: 1.02, rotate: 0 },
+      animate: { opacity: 1, scale: 1, rotate: 0 },
+      exit: { opacity: 1, scale: 1.04, rotate: 0 },
+      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+    },
+    impact: {
+      x: [0, -26, 18, -9, 0],
+      y: [0, 14, -8, 3, 0],
+      rotate: [0, -1.8, 1.2, 0],
+      scale: [1, 1.06, 0.985, 1],
+      transition: { duration: 0.75, ease: "easeOut" },
+    },
+    flash: { enabled: true, from: 1, to: 2.3, duration: 0.6 },
+    waves: { count: 3, scale: 4.8, duration: 1, stagger: 0.08 },
+    shards: { count: 16, dist: 240, duration: 1, gravity: 90 },
+    fragment: { cols: 4, rows: 5, dist: 300, spin: 90, stagger: 0.012 },
+  },
   {
     id: "smash",
     label: "Smash",
@@ -56,6 +83,7 @@ export const HERO_MOTION_STYLES: HeroMotionStyle[] = [
     flash: { enabled: true, from: 1, to: 2.1, duration: 0.55 },
     waves: { count: 3, scale: 4.6, duration: 0.95, stagger: 0.1 },
     shards: { count: 22, dist: 220, duration: 1.05, gravity: 60 },
+    fragment: null,
   },
   {
     id: "drop",
@@ -84,6 +112,7 @@ export const HERO_MOTION_STYLES: HeroMotionStyle[] = [
     flash: { enabled: true, from: 0.5, to: 1.7, duration: 0.6 },
     waves: { count: 1, scale: 4.2, duration: 1, stagger: 0 },
     shards: { count: 20, dist: 160, duration: 1.1, gravity: 120 },
+    fragment: null,
   },
   {
     id: "warp",
@@ -112,6 +141,7 @@ export const HERO_MOTION_STYLES: HeroMotionStyle[] = [
     flash: { enabled: true, from: 0.8, to: 2.2, duration: 0.75 },
     waves: { count: 3, scale: 4.6, duration: 1.15, stagger: 0.09 },
     shards: null,
+    fragment: null,
   },
   {
     id: "swing",
@@ -140,6 +170,7 @@ export const HERO_MOTION_STYLES: HeroMotionStyle[] = [
     flash: null,
     waves: { count: 1, scale: 3, duration: 0.9, stagger: 0 },
     shards: { count: 8, dist: 190, duration: 1, gravity: 20 },
+    fragment: null,
   },
   {
     id: "bloom",
@@ -161,6 +192,7 @@ export const HERO_MOTION_STYLES: HeroMotionStyle[] = [
     flash: { enabled: true, from: 0.35, to: 1.9, duration: 1.1 },
     waves: { count: 2, scale: 3.8, duration: 1.6, stagger: 0.35 },
     shards: null,
+    fragment: null,
   },
 ];
 
@@ -177,4 +209,49 @@ export function shardsFor(style: HeroMotionStyle) {
     duration: cfg.duration + (i % 4) * 0.1,
     gravity: cfg.gravity,
   }));
+}
+
+export type HeroFragment = {
+  clip: string;
+  dx: number;
+  dy: number;
+  rot: number;
+  delay: number;
+};
+
+/** Slice the product image into triangular shards flying away from centre. */
+export function fragmentsFor(style: HeroMotionStyle): HeroFragment[] {
+  const cfg = style.fragment;
+  if (!cfg) return [];
+  const out: HeroFragment[] = [];
+  const w = 100 / cfg.cols;
+  const h = 100 / cfg.rows;
+  let i = 0;
+  for (let r = 0; r < cfg.rows; r++) {
+    for (let c = 0; c < cfg.cols; c++) {
+      const x0 = c * w;
+      const y0 = r * h;
+      const x1 = x0 + w;
+      const y1 = y0 + h;
+      const halves = [
+        `polygon(${x0}% ${y0}%, ${x1}% ${y0}%, ${x0}% ${y1}%)`,
+        `polygon(${x1}% ${y0}%, ${x1}% ${y1}%, ${x0}% ${y1}%)`,
+      ];
+      for (const clip of halves) {
+        const cx = (x0 + x1) / 2 - 50;
+        const cy = (y0 + y1) / 2 - 50;
+        const len = Math.max(8, Math.hypot(cx, cy));
+        const spread = cfg.dist * (0.45 + (len / 70) * 0.9);
+        out.push({
+          clip,
+          dx: (cx / len) * spread + ((i % 3) - 1) * 14,
+          dy: (cy / len) * spread + ((i % 4) - 1) * 12,
+          rot: ((i % 2 ? 1 : -1) * cfg.spin * (0.4 + (i % 5) / 5)),
+          delay: (i % 7) * cfg.stagger,
+        });
+        i++;
+      }
+    }
+  }
+  return out;
 }
