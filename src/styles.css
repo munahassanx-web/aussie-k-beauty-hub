@@ -74,9 +74,9 @@
 :root {
   --radius: 0.5rem;
   /* Brand palette: clean white base + neutral charcoal/navy accents */
-  --paper: oklch(0.985 0.013 88);
-  --sand: oklch(0.955 0.030 86);
-  --sand-deep: oklch(0.908 0.045 84);
+  --paper: oklch(1 0 0);
+  --sand: oklch(0.975 0.002 265);
+  --sand-deep: oklch(0.94 0.004 265);
   --clay: oklch(0.45 0.012 265);
   --hanbok: oklch(0.36 0.018 265);
   --hanbok-deep: oklch(0.22 0.018 265);
@@ -85,7 +85,7 @@
   --grocer-cream: oklch(0.98 0.002 265);
   --grocer-green: oklch(0.30 0.018 265);
   --grocer-tomato: oklch(0.58 0.17 27);
-  --grocer-butter: oklch(0.88 0.075 88);
+  --grocer-butter: oklch(0.92 0.02 90);
   --grocer-brown: oklch(0.32 0.012 265);
   /* Restrained rose-gold accent — flat on screen, never faux-metallic gradient */
   --rose-gold: oklch(0.74 0.062 38);
