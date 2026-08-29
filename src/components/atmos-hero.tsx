@@ -327,7 +327,7 @@ export function AtmosHero() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.5 }}
-              className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.32em]"
+              className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.34em]"
               style={{ color: `rgb(var(--act-accent))` }}
             >
               <span className="h-px w-8" style={{ backgroundColor: `rgb(var(--act-accent))` }} />
@@ -338,7 +338,7 @@ export function AtmosHero() {
 
           <h1
             id="atmos-heading"
-            className="mt-5 font-masthead text-[clamp(2.4rem,5.6vw,4.6rem)] leading-[0.92] tracking-tight [text-shadow:0_18px_44px_rgba(255,255,255,0.55)]"
+            className="mt-5 font-masthead text-[clamp(2.7rem,6.4vw,5.4rem)] font-black leading-[0.9] tracking-[-0.02em] [text-shadow:0_2px_0_rgba(255,255,255,0.35),0_18px_44px_rgba(255,255,255,0.55)]"
             style={{ color: `rgb(var(--act-ink))` }}
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -378,15 +378,15 @@ export function AtmosHero() {
                 transition={{ duration: 0.55, ease: "easeOut" }}
               >
                 <p
-                  className="text-[15px] font-light leading-relaxed"
-                  style={{ color: `rgb(var(--act-ink) / 0.78)` }}
+                  className="max-w-[46ch] text-[17px] font-medium leading-[1.55]"
+                  style={{ color: `rgb(var(--act-ink) / 0.94)` }}
                 >
                   {act.subtitle}
                 </p>
                 <p
-                  className="mt-3 border-l pl-4 text-[13px] font-light italic leading-relaxed"
+                  className="mt-3 border-l-2 pl-4 text-[14px] font-semibold italic leading-relaxed"
                   style={{
-                    color: `rgb(var(--act-ink) / 0.62)`,
+                    color: `rgb(var(--act-ink) / 0.82)`,
                     borderColor: `rgb(var(--act-accent) / 0.5)`,
                   }}
                 >
@@ -446,7 +446,7 @@ export function AtmosHero() {
                     style={
                       i === index
                         ? { borderColor: `rgb(var(--act-accent))`, color: `rgb(var(--act-accent))` }
-                        : { borderColor: `rgb(var(--act-ink) / 0.22)`, color: `rgb(var(--act-ink) / 0.6)` }
+                        : { borderColor: `rgb(var(--act-ink) / 0.22)`, color: `rgb(var(--act-ink) / 0.8)` }
                     }
                   >
                     {i === index && (
@@ -519,7 +519,7 @@ export function AtmosHero() {
         <div className="relative lg:col-span-6">
           <motion.div
             animate={impact}
-            className="relative mx-auto aspect-square w-full max-w-[31rem] [perspective:1200px]"
+            className="relative mx-auto aspect-square w-full max-w-[42rem] [perspective:1200px]"
           >
             {/* Impact flash */}
             {!reduce && motionStyle.flash && (
@@ -641,7 +641,7 @@ export function AtmosHero() {
                 rotateX: heroTiltX,
                 transformStyle: "preserve-3d",
               }}
-              className="absolute inset-x-0 top-[2%] mx-auto w-[74%] will-change-transform"
+              className="absolute inset-x-0 top-[2%] mx-auto w-[88%] will-change-transform"
             >
               <div className="relative aspect-square">
                 {/* Shockwave burst on each act change */}
@@ -742,7 +742,7 @@ export function AtmosHero() {
               className="absolute inset-x-2 bottom-0 overflow-hidden rounded-2xl border px-5 py-4 backdrop-blur-md"
               style={{
                 borderColor: `rgb(var(--act-ink) / 0.16)`,
-                backgroundColor: `rgb(var(--act-deep) / 0.6)`,
+                backgroundColor: `rgb(var(--act-deep) / 0.74)`,
               }}
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -754,20 +754,20 @@ export function AtmosHero() {
                   transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <p
-                    className="text-[10px] font-semibold uppercase tracking-[0.24em]"
+                    className="text-[11px] font-bold uppercase tracking-[0.24em]"
                     style={{ color: `rgb(var(--act-accent))` }}
                   >
                     {product?.brand ?? "Skin Grocer"} · {product?.price ?? ""}
                   </p>
                   <p
-                    className="mt-1.5 font-display text-sm uppercase tracking-[0.1em]"
+                    className="mt-1.5 font-display text-base font-semibold uppercase tracking-[0.09em]"
                     style={{ color: `rgb(var(--act-ink))` }}
                   >
                     {product?.name ?? act.title[0]}
                   </p>
                   <p
-                    className="mt-1 text-[11px] font-light italic"
-                    style={{ color: `rgb(var(--act-ink) / 0.6)` }}
+                    className="mt-1 text-[12px] font-medium italic"
+                    style={{ color: `rgb(var(--act-ink) / 0.8)` }}
                   >
                     {act.ingredient}
                   </p>

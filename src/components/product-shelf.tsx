@@ -128,7 +128,7 @@ export function ProductShelf() {
                   src={p.image}
                   alt={`${p.brand} ${p.name}`}
                   loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  className="h-full w-full object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                 />
                 <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-paper/90 opacity-0 shadow-sm backdrop-blur transition-opacity duration-300 group-hover:opacity-100">
                   <ArrowUpRight className="h-3.5 w-3.5 text-ink" />

@@ -51,7 +51,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
           params={{ slug }}
           tabIndex={-1}
           aria-hidden="true"
-          className="block aspect-square p-8 sm:p-10"
+          className="block aspect-square p-3 sm:p-4"
         >
           <img
             src={p.image}
