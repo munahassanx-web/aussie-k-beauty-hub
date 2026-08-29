@@ -412,7 +412,7 @@ function BrandMarquee() {
             <div className="relative border border-border/60">
               <img
                 src={cabinetEdit}
-                alt="Editorial still life of unbranded Korean skincare textures: a cream jar, a serum dropper bottle, an ampoule and a hydrogel sheet mask"
+                alt="Editorial still life of five stocked Skin Grocer products: Beauty of Joseon Dynasty Cream, Haruharu Wonder Black Rice Hyaluronic Toner, Torriden Dive-In Serum, Medicube PDRN Pink Peptide Serum and Biodance Bio-Collagen Real Deep Mask"
                 loading="lazy"
                 decoding="async"
                 width={1200}
@@ -421,7 +421,7 @@ function BrandMarquee() {
               />
             </div>
             <figcaption className="mt-3 text-[10px] uppercase tracking-[0.24em] text-ink/45">
-              The Skin Grocer Edit &middot; Cleanse, hydrate, treat, mask
+              The Skin Grocer Edit &middot; Beauty of Joseon, Haruharu Wonder, Torriden, Medicube, Biodance
             </figcaption>
           </figure>
         </header>
