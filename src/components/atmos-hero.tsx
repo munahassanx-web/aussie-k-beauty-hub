@@ -426,6 +426,36 @@ export function AtmosHero() {
             </Link>
           </motion.div>
 
+          {/* Deep links into the act's real product page */}
+          {product && (
+            <motion.div
+              initial={false}
+              animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+              transition={{ ...EASE_OUT, delay: 0.18 }}
+              className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] font-semibold uppercase tracking-[0.2em]"
+              style={{ color: `rgb(var(--act-ink) / 0.6)` }}
+            >
+              {[
+                { label: "Full details", hash: "suits" },
+                { label: "Key ingredients", hash: "ingredients" },
+                { label: "How to use", hash: "how" },
+              ].map((item, i) => (
+                <span key={item.hash} className="flex items-center gap-4">
+                  {i > 0 && <span aria-hidden="true" className="opacity-40">·</span>}
+                  <Link
+                    to="/product/$slug"
+                    params={{ slug: productSlug(product) }}
+                    hash={item.hash}
+                    className="underline-offset-4 transition hover:underline"
+                  >
+                    {item.label}
+                  </Link>
+                </span>
+              ))}
+            </motion.div>
+          )}
+
+
           {/* Act selector — available to staff and inside the private Lovable preview. */}
           {showPreviewTools && (
             <ul
