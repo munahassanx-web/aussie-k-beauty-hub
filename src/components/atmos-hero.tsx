@@ -753,13 +753,32 @@ className="absolute inset-x-0 top-[1%] mx-auto w-[96%] will-change-transform"
                       />
                     )}
 
-                    <img
+<img
                       src={act.image}
                       alt=""
                       aria-hidden="true"
                       loading="lazy"
                       className="absolute inset-x-0 top-full w-full -scale-y-100 opacity-20 blur-[3px] [mask-image:linear-gradient(to_bottom,black_0%,transparent_55%)]"
                     />
+
+                    {/* Sculptural liquid shine sweep across the packshot */}
+                    {!reduce && (
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 z-20 overflow-hidden rounded-[inherit] mix-blend-screen"
+                        style={{
+                          background:
+                            "linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.5) 47%, transparent 60%)",
+                        }}
+                      >
+                        <motion.span
+                          className="absolute inset-y-0 w-1/2 -skew-x-12"
+                          style={{ background: "linear-gradient(90deg, transparent, rgb(255 255 255 / 0.55), transparent)" }}
+                          animate={reduce ? undefined : { x: ["-160%", "420%"] }}
+                          transition={{ duration: 4.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.4 }}
+                        />
+                      </span>
+                    )}
                   </motion.div>
                 </AnimatePresence>
               </div>
