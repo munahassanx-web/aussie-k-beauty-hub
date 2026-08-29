@@ -180,23 +180,35 @@ export function ProductShelf() {
     el.scrollBy({ left: dir * step * visible, behavior: "smooth" });
   };
 
-  const handleAdd = (
-    card: (typeof CARDS)[number],
-    soldOut: boolean,
-  ) => {
-    if (soldOut || pending) return;
+  const handleAdd = (card: (typeof CARDS)[number], soldOut: boolean) => {
+    if (soldOut || pending === card.priceId) return;
     setPending(card.priceId);
     trackUi("homepage_edit_quick_add", { item_id: card.priceId });
-    buy({
-      priceId: card.priceId,
-      name: card.product.name,
-      priceLabel: `${card.product.price} AUD`,
-      brand: card.product.brand,
-      image: card.product.image,
-    });
-    setAnnouncement(`${card.product.brand} ${card.product.name} added to your bag.`);
-    window.setTimeout(() => setPending(null), 600);
+    try {
+      buy({
+        priceId: card.priceId,
+        name: card.product.name,
+        priceLabel: `${card.product.price} AUD`,
+        brand: card.product.brand,
+        image: card.product.image,
+      });
+      setAdded(card.priceId);
+      setAnnouncement(`${card.product.brand} ${card.product.name} added to your bag.`);
+      toast.success("Added to your bag.");
+      timers.current.push(
+        window.setTimeout(() => {
+          setAdded((cur) => (cur === card.priceId ? null : cur));
+        }, 2000),
+      );
+    } catch (err) {
+      console.error("[product-shelf] add to bag failed", card.priceId, err);
+      setAnnouncement("We couldn't add this product. Please try again.");
+      toast.error("We couldn't add this product. Please try again.");
+    } finally {
+      timers.current.push(window.setTimeout(() => setPending(null), 400));
+    }
   };
+
 
   const last = Math.min(firstVisible + perPage, CARDS.length);
 
