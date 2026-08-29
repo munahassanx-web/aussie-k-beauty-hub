@@ -220,12 +220,35 @@ function OptionalCard({ step }: { step: OptionalStep }) {
 function RoutineExamples() {
   const [active, setActive] = useState(EXAMPLES[0]!.id);
   const uid = useId();
+  const tablistRef = useRef<HTMLDivElement>(null);
+
+  const activate = (id: string) => {
+    setActive(id);
+    trackUi("routine_example_select", { example: id });
+  };
+
+  const focusTab = (index: number) => {
+    const buttons = tablistRef.current?.querySelectorAll<HTMLButtonElement>("[role='tab']");
+    buttons?.[index]?.focus();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+    let nextIndex = -1;
+    if (e.key === "ArrowRight") nextIndex = (index + 1) % EXAMPLES.length;
+    else if (e.key === "ArrowLeft") nextIndex = (index - 1 + EXAMPLES.length) % EXAMPLES.length;
+    else if (e.key === "Home") nextIndex = 0;
+    else if (e.key === "End") nextIndex = EXAMPLES.length - 1;
+    if (nextIndex === -1) return;
+    e.preventDefault();
+    activate(EXAMPLES[nextIndex]!.id);
+    focusTab(nextIndex);
+  };
 
   return (
     <div className="mt-16 border-t border-foreground/12 pt-10">
       <h3 className="font-display text-2xl text-ink">What this looks like in practice</h3>
-      <div role="tablist" aria-label="Routine examples" className="mt-5 flex flex-wrap gap-2">
-        {EXAMPLES.map((ex) => {
+      <div ref={tablistRef} role="tablist" aria-label="Routine examples" className="mt-5 flex flex-wrap gap-2">
+        {EXAMPLES.map((ex, index) => {
           const selected = ex.id === active;
           return (
             <button
@@ -236,8 +259,9 @@ function RoutineExamples() {
               aria-selected={selected}
               aria-controls={`${uid}-panel-${ex.id}`}
               tabIndex={selected ? 0 : -1}
-              onClick={() => { console.log("onclick", ex.id); setActive(ex.id); trackUi("routine_example_select", { example: ex.id }); }}
-              className={`rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors ${
+              onClick={() => activate(ex.id)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              className={`rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pop ${
                 selected
                   ? "border-ink bg-ink text-paper"
                   : "border-foreground/25 bg-paper text-ink hover:border-foreground/50"
