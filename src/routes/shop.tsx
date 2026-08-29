@@ -152,8 +152,9 @@ function Shop() {
         ghost="The Edit"
       />
       <div className="mx-auto max-w-7xl px-6 pt-12">
+      <KoreaBestsellers />
 
-      {/* Toolbar */}
+
       <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-y border-border py-4">
         <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground" aria-live="polite">
           {visible.length} {visible.length === 1 ? "product" : "products"}
