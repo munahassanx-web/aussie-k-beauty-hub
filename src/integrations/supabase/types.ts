@@ -1016,6 +1016,48 @@ export type Database = {
         }
         Relationships: []
       }
+      stock_requests: {
+        Row: {
+          confirmation_error: string | null
+          confirmation_status: string
+          confirmed_at: string | null
+          created_at: string
+          email: string
+          id: string
+          name: string | null
+          note: string | null
+          product_brand: string | null
+          product_name: string
+          source: string
+        }
+        Insert: {
+          confirmation_error?: string | null
+          confirmation_status?: string
+          confirmed_at?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          name?: string | null
+          note?: string | null
+          product_brand?: string | null
+          product_name: string
+          source?: string
+        }
+        Update: {
+          confirmation_error?: string | null
+          confirmation_status?: string
+          confirmed_at?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string | null
+          note?: string | null
+          product_brand?: string | null
+          product_name?: string
+          source?: string
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           cancel_at_period_end: boolean | null
