@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import {
   AnimatePresence,
   motion,
@@ -305,6 +305,23 @@ export function AtmosHero() {
         }}
       />
 
+{/* Vertical Hangul accent — sculptural brand note down the left edge */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-6 top-1/2 z-[5] hidden -translate-y-1/2 lg:block"
+      >
+        <motion.span
+          key={act.id}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 0.22, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="font-display text-[15px] font-light tracking-[0.5em]"
+          style={{ color: `rgb(var(--act-ink))`, writingMode: "vertical-rl" }}
+        >
+          서울에서 · 스킨그로서
+        </motion.span>
+      </div>
+
       {/* Layer 3 — volumetric spotlight cone */}
       <motion.div
         aria-hidden="true"
@@ -336,9 +353,9 @@ export function AtmosHero() {
             </motion.p>
           </AnimatePresence>
 
-          <h1
+<h1
             id="atmos-heading"
-            className="mt-5 font-masthead text-[clamp(2.7rem,6.4vw,5.4rem)] font-black leading-[0.9] tracking-[-0.02em] [text-shadow:0_2px_0_rgba(255,255,255,0.35),0_18px_44px_rgba(255,255,255,0.55)]"
+            className="mt-5 font-masthead text-[clamp(3.1rem,7.4vw,6.2rem)] font-black leading-[0.85] tracking-[-0.03em] mix-blend-multiply [text-shadow:0_18px_44px_rgba(255,255,255,0.5)]"
             style={{ color: `rgb(var(--act-ink))` }}
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -396,44 +413,36 @@ export function AtmosHero() {
             </AnimatePresence>
           </div>
 
-          {/* Calls to action */}
+{/* Single dominant coral CTA */}
           <motion.div
             initial={false}
             animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
             transition={{ ...EASE_OUT, delay: 0.12 }}
-            className="mt-7 flex flex-wrap items-center gap-5"
+            className="mt-8"
           >
             {product && (
               <Button
                 asChild
-                className="rounded-full px-8 py-6 text-[11px] font-semibold uppercase tracking-[0.22em] shadow-[0_20px_50px_-18px_rgba(0,0,0,0.85)] transition-transform hover:-translate-y-0.5"
-                style={{ backgroundColor: `rgb(var(--act-accent))`, color: `rgb(var(--act-deep))` }}
+                className="group relative overflow-hidden rounded-full px-10 py-6 text-[12px] font-bold uppercase tracking-[0.2em] shadow-[0_24px_60px_-18px_var(--pop)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-105"
+                style={{ backgroundColor: "var(--pop)", color: "var(--pop-foreground)" }}
               >
                 <Link to="/product/$slug" params={{ slug: productSlug(product) }}>
-                  {act.cta} — {product.price} <ArrowRight />
+                  <span className="relative z-10">{act.cta} — {product.price}</span>
+                  <ArrowRight className="relative z-10 ml-3 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  <span aria-hidden="true" className="absolute inset-0 w-0 bg-white/10 transition-all duration-300 group-hover:w-full" />
                 </Link>
               </Button>
             )}
-            <Link
-              to="/consultation"
-              search={{}}
-              className="group inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] transition"
-              style={{ color: `rgb(var(--act-ink) / 0.75)` }}
-            >
-              <Sparkles className="h-3.5 w-3.5" />
-              Get my free skin report
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-            </Link>
           </motion.div>
 
-          {/* Deep links into the act's real product page */}
+          {/* Quiet utility row into the act's real product page */}
           {product && (
             <motion.div
               initial={false}
               animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
               transition={{ ...EASE_OUT, delay: 0.18 }}
-              className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] font-semibold uppercase tracking-[0.2em]"
-              style={{ color: `rgb(var(--act-ink) / 0.6)` }}
+              className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] font-semibold uppercase tracking-[0.2em]"
+              style={{ color: `rgb(var(--act-ink) / 0.55)` }}
             >
               {[
                 { label: "Full details", hash: "suits" },
@@ -671,9 +680,15 @@ export function AtmosHero() {
                 rotateX: heroTiltX,
                 transformStyle: "preserve-3d",
               }}
-              className="absolute inset-x-0 top-[2%] mx-auto w-[88%] will-change-transform"
+className="absolute inset-x-0 top-[1%] mx-auto w-[96%] will-change-transform"
             >
               <div className="relative aspect-square">
+                {/* Sculptural plinth shadow — soft grounding beneath the packshot */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-[4%] left-1/2 h-10 w-[58%] -translate-x-1/2 rounded-[100%] blur-[26px]"
+                  style={{ backgroundColor: `rgb(var(--act-ink) / 0.28)` }}
+                />
                 {/* Shockwave burst on each act change */}
                 {!reduce && motionStyle.waves && (
                   <AnimatePresence initial={false}>
@@ -755,13 +770,32 @@ export function AtmosHero() {
                       />
                     )}
 
-                    <img
+<img
                       src={act.image}
                       alt=""
                       aria-hidden="true"
                       loading="lazy"
                       className="absolute inset-x-0 top-full w-full -scale-y-100 opacity-20 blur-[3px] [mask-image:linear-gradient(to_bottom,black_0%,transparent_55%)]"
                     />
+
+                    {/* Sculptural liquid shine sweep across the packshot */}
+                    {!reduce && (
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 z-20 overflow-hidden rounded-[inherit] mix-blend-screen"
+                        style={{
+                          background:
+                            "linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.5) 47%, transparent 60%)",
+                        }}
+                      >
+                        <motion.span
+                          className="absolute inset-y-0 w-1/2 -skew-x-12"
+                          style={{ background: "linear-gradient(90deg, transparent, rgb(255 255 255 / 0.55), transparent)" }}
+                          animate={reduce ? undefined : { x: ["-160%", "420%"] }}
+                          transition={{ duration: 4.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.4 }}
+                        />
+                      </span>
+                    )}
                   </motion.div>
                 </AnimatePresence>
               </div>
@@ -806,6 +840,37 @@ export function AtmosHero() {
             </div>
           </motion.div>
         </div>
+      </div>
+
+{/* Shopper-facing scene navigation — act progress */}
+      <div
+        className={`fixed right-6 z-30 hidden items-center gap-5 md:flex ${
+          showPreviewTools ? "bottom-[12.75rem]" : "bottom-6"
+        }`}
+        style={{ color: `rgb(var(--act-ink))` }}
+      >
+        <div className="flex items-center gap-2">
+          {CHAPTERS.map((c, i) => (
+            <button
+              key={c.id}
+              type="button"
+              onClick={() => setIndex(i)}
+              aria-label={`Act ${i + 1}: ${c.title[0]} ${c.title[1]}`}
+              className={`h-[2px] transition-all duration-500 ${
+                i === index ? "w-10" : "w-6"
+              }`}
+              style={{
+                backgroundColor:
+                  i === index
+                    ? `rgb(var(--act-accent))`
+                    : `rgb(var(--act-ink) / 0.18)`,
+              }}
+            />
+          ))}
+        </div>
+        <span className="font-display text-[11px] font-medium italic tracking-[0.18em]">
+          {String(index + 1).padStart(2, "0")} / {String(CHAPTERS.length).padStart(2, "0")}
+        </span>
       </div>
 
       {/* Specular sweep across the bottom edge */}
