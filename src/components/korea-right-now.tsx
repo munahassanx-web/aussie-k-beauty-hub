@@ -24,6 +24,14 @@ const LAST_CHECKED_ISO = "2026-08-28";
 /** Days since the check, evaluated at render — drives the archive label. */
 const ARCHIVE_AFTER_DAYS = 30;
 
+/**
+ * Homepage-section copy for the current feature. Kept local to this section so
+ * the wording reflects only documented, dated sources (Hwahae) and never
+ * attributes signals to other retailers or to repeat-purchase data we do not hold.
+ */
+const FEATURE_STANDFIRST =
+  "This fortnight: a closer look at the quieter barrier creams, hydrating toners and daily formulas appearing in Korean beauty-platform rankings and customer-review conversations—and why they differ from the products receiving the loudest international marketing.";
+
 const SIGNAL_STEPS = [
   {
     n: "01",
@@ -147,7 +155,7 @@ export function KoreaRightNow() {
               {feature.title}
             </h3>
             <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-paper/75">
-              {feature.standfirst}
+              {FEATURE_STANDFIRST}
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
