@@ -519,7 +519,7 @@ export function AtmosHero() {
         <div className="relative lg:col-span-6">
           <motion.div
             animate={impact}
-            className="relative mx-auto aspect-square w-full max-w-[38rem] [perspective:1200px]"
+            className="relative mx-auto aspect-square w-full max-w-[42rem] [perspective:1200px]"
           >
             {/* Impact flash */}
             {!reduce && motionStyle.flash && (
