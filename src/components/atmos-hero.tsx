@@ -305,6 +305,23 @@ export function AtmosHero() {
         }}
       />
 
+{/* Vertical Hangul accent — sculptural brand note down the left edge */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-6 top-1/2 z-[5] hidden -translate-y-1/2 lg:block"
+      >
+        <motion.span
+          key={act.id}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 0.22, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="font-display text-[15px] font-light tracking-[0.5em]"
+          style={{ color: `rgb(var(--act-ink))`, writingMode: "vertical-rl" }}
+        >
+          서울에서 · 스킨그로서
+        </motion.span>
+      </div>
+
       {/* Layer 3 — volumetric spotlight cone */}
       <motion.div
         aria-hidden="true"
