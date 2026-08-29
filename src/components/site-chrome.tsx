@@ -94,10 +94,11 @@ const megaMenus: Record<string, MegaSection[]> = {
 };
 
 const announcements = [
-  "Free AU shipping over $100",
-  "Authenticity guaranteed",
-  "Dispatched from Australia",
+  "Free standard delivery over A$100",
+  "Authenticity verified",
+  "Dispatched from Melbourne",
 ];
+
 
 function AnnouncementBar() {
   const [active, setActive] = useState(0);
