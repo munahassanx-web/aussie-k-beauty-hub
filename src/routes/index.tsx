@@ -4,6 +4,7 @@ import { trackUi } from "@/lib/analytics";
 import { useBuyNow } from "@/hooks/use-buy-now";
 import { FaqSection } from "@/components/faq-section";
 import { HOME_FAQS, faqJsonLd } from "@/lib/faqs";
+import { RoutineEducation } from "@/components/routine-education";
 import { Reveal } from "@/components/reveal";
 
 
@@ -57,28 +58,6 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const categories: {
-  name: string;
-  count: string;
-  img: string;
-  label: string;
-  brand: string;
-  price: string;
-  size: string;
-  benefit: string;
-  ingredient: string;
-  search: { category: "cleanse" | "tone" | "treat" | "moisturise" | "protect" | "masks" };
-}[] = [
-  { name: "Cleansers", count: "Melt & rinse", img: "/products/beplain/mung-bean-cleansing-oil-200ml.webp", label: "beplain Mung Bean Cleansing Oil", brand: "beplain", price: "A$35", size: "200ml", benefit: "Dissolves SPF, makeup and sebum, rinses clean without stripping.", ingredient: "Mung bean extract", search: { category: "cleanse" } },
-  { name: "Toners & Essences", count: "Prep & hydrate", img: "/products/wellage/real-hyaluronic-toner-200ml.webp", label: "WELLAGE Real Hyaluronic Toner", brand: "WELLAGE", price: "A$28", size: "200ml", benefit: "A watery first layer that preps skin so everything after absorbs better.", ingredient: "Hyaluronic acid", search: { category: "tone" } },
-  { name: "Serums", count: "Treat & target", img: "/products/medicube/pdrn-pink-peptide-serum-30ml.webp", label: "MEDICUBE PDRN Pink Peptide Serum", brand: "MEDICUBE", price: "A$40", size: "30ml", benefit: "Concentrated step aimed at firmness and elasticity.", ingredient: "PDRN + peptides", search: { category: "treat" } },
-  { name: "Moisturisers", count: "Seal & protect", img: "/products/aestura/atobarrier365-cream.webp", label: "AESTURA Atobarrier365 Cream", brand: "AESTURA", price: "A$55", size: "Cream", benefit: "Seals in the layers underneath and supports a dry, reactive barrier.", ingredient: "Ceramides", search: { category: "moisturise" } },
-  { name: "SPF", count: "Everyday defence", img: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp", label: "AESTURA Derma UV365 Mineral Sun Cream", brand: "AESTURA", price: "A$10", size: "20ml", benefit: "A mineral daily sunscreen that finishes moisturising, not chalky.", ingredient: "Mineral UV filters", search: { category: "protect" } },
-  { name: "Masks", count: "Sheet & overnight masks", img: "/products/biodance/bio-collagen-real-deep-mask.webp", label: "BIODANCE Bio Collagen Real Deep Mask", brand: "BIODANCE", price: "A$38", size: "Hydrogel mask", benefit: "An overnight hydrogel mask that melts down onto skin as you sleep.", ingredient: "Bio-collagen", search: { category: "masks" } },
-];
-
-
-
 const concerns: { name: string; desc: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier" }[] = [
   { name: "Hydration & Glow", desc: "For skin that feels dry, tight or simply wants more moisture.", slug: "hydration" },
   { name: "Blemish-Prone", desc: "A simpler edit for skin that often looks congested or shiny.", slug: "acne" },
@@ -109,7 +88,7 @@ function HomePage() {
       <ProductShelf />
       <div id="skin-grocer-promise"><Promise /></div>
       <KoreaRightNow />
-      <Reveal><Categories /></Reveal>
+      <Reveal><RoutineEducation /></Reveal>
       <BrandMarquee />
       <Reveal><IngredientStrip /></Reveal>
 
@@ -679,85 +658,6 @@ function Promise() {
             </li>
           ))}
         </ul>
-      </div>
-    </section>
-  );
-}
-
-
-const routineSteps: { num: string; step: string; line: string; cat: string }[] = [
-  { num: "01", step: "Cleanse", line: "Remove the day without stripping your skin.", cat: "Cleansers" },
-  { num: "02", step: "Tone", line: "The first layer of hydration.", cat: "Toners & Essences" },
-  { num: "03", step: "Treat", line: "Target what your skin is asking for.", cat: "Serums" },
-  { num: "04", step: "Moisturise", line: "Seal in hydration. Support the barrier.", cat: "Moisturisers" },
-  { num: "05", step: "Protect", line: "Your final morning step. Every day.", cat: "SPF" },
-  { num: "06", step: "Mask", line: "The extra step when your skin asks for more.", cat: "Masks" },
-];
-
-function CategoryTile({ c, s }: { c: (typeof categories)[number]; s: (typeof routineSteps)[number] }) {
-  return (
-    <Link
-      to="/shop"
-      search={c.search}
-      className="group flex flex-col border border-foreground/12 bg-paper p-6 transition-colors hover:border-foreground/30 md:p-8"
-    >
-      <div className="flex items-baseline gap-3">
-        <span className="font-display text-sm italic leading-none text-ink/60">{s.num}</span>
-        <span className="h-px flex-1 bg-foreground/12" />
-      </div>
-      <div className="flex flex-1 items-center justify-center py-8">
-        <img
-          src={c.img}
-          alt={`${s.step} — ${c.label}`}
-          loading="lazy"
-          className="max-h-[220px] w-full object-contain transition-transform duration-700 motion-reduce:transition-none group-hover:scale-[1.03]"
-        />
-      </div>
-      <h3 className="font-display text-2xl leading-tight text-ink">{s.step}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-ink/65">{s.line}</p>
-      <span className="mt-5 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink">
-        Explore {s.step.toLowerCase()}
-        <span className="transition-transform duration-300 motion-reduce:transition-none group-hover:translate-x-1">
-          →
-        </span>
-      </span>
-    </Link>
-  );
-}
-
-function Categories() {
-  return (
-    <section className="mx-auto max-w-7xl px-6 py-24">
-      <div className="flex flex-wrap items-end justify-between gap-8">
-        <div className="max-w-2xl">
-          <p className="eyebrow eyebrow-rule text-clay">The ritual, step by step</p>
-          <h2 className="display-section mt-4 text-ink">
-            Six steps. Use only what your skin needs.
-          </h2>
-          <p className="mt-5 max-w-xl text-ink/70">
-            Korean skincare doesn’t have to mean ten products. Start with the essentials, then add
-            the steps that earn their place.
-          </p>
-        </div>
-        <Link
-          to="/shop"
-          className="hidden text-[11px] font-semibold uppercase tracking-[0.22em] text-ink underline underline-offset-4 hover:text-clay md:inline"
-        >
-          Browse all →
-        </Link>
-      </div>
-      <div className="mt-12 grid gap-px bg-foreground/10 sm:grid-cols-2 lg:grid-cols-3">
-        {categories.map((c, i) => (
-          <CategoryTile key={c.name} c={c} s={routineSteps[i]!} />
-        ))}
-      </div>
-      <div className="mt-8 md:hidden">
-        <Link
-          to="/shop"
-          className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink underline underline-offset-4"
-        >
-          Browse all →
-        </Link>
       </div>
     </section>
   );
