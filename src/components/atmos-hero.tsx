@@ -396,44 +396,36 @@ export function AtmosHero() {
             </AnimatePresence>
           </div>
 
-          {/* Calls to action */}
+{/* Single dominant coral CTA */}
           <motion.div
             initial={false}
             animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
             transition={{ ...EASE_OUT, delay: 0.12 }}
-            className="mt-7 flex flex-wrap items-center gap-5"
+            className="mt-8"
           >
             {product && (
               <Button
                 asChild
-                className="rounded-full px-8 py-6 text-[11px] font-semibold uppercase tracking-[0.22em] shadow-[0_20px_50px_-18px_rgba(0,0,0,0.85)] transition-transform hover:-translate-y-0.5"
-                style={{ backgroundColor: `rgb(var(--act-accent))`, color: `rgb(var(--act-deep))` }}
+                className="group relative overflow-hidden rounded-full px-10 py-6 text-[12px] font-bold uppercase tracking-[0.2em] shadow-[0_24px_60px_-18px_var(--pop)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-105"
+                style={{ backgroundColor: "var(--pop)", color: "var(--pop-foreground)" }}
               >
                 <Link to="/product/$slug" params={{ slug: productSlug(product) }}>
-                  {act.cta} — {product.price} <ArrowRight />
+                  <span className="relative z-10">{act.cta} — {product.price}</span>
+                  <ArrowRight className="relative z-10 ml-3 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  <span aria-hidden="true" className="absolute inset-0 w-0 bg-white/10 transition-all duration-300 group-hover:w-full" />
                 </Link>
               </Button>
             )}
-            <Link
-              to="/consultation"
-              search={{}}
-              className="group inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] transition"
-              style={{ color: `rgb(var(--act-ink) / 0.75)` }}
-            >
-              <Sparkles className="h-3.5 w-3.5" />
-              Get my free skin report
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-            </Link>
           </motion.div>
 
-          {/* Deep links into the act's real product page */}
+          {/* Quiet utility row into the act's real product page */}
           {product && (
             <motion.div
               initial={false}
               animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
               transition={{ ...EASE_OUT, delay: 0.18 }}
-              className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] font-semibold uppercase tracking-[0.2em]"
-              style={{ color: `rgb(var(--act-ink) / 0.6)` }}
+              className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] font-semibold uppercase tracking-[0.2em]"
+              style={{ color: `rgb(var(--act-ink) / 0.55)` }}
             >
               {[
                 { label: "Full details", hash: "suits" },
