@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 /**
  * Vertically scannable disclosure used for the product detail sections.
@@ -13,12 +13,23 @@ export function ProductAccordion({
     Object.fromEntries(items.map((i) => [i.id, Boolean(i.defaultOpen)])),
   );
 
+  // Deep links such as /product/x#ingredients open and scroll to that section.
+  useEffect(() => {
+    const target = window.location.hash.replace('#', '');
+    if (!target || !items.some((i) => i.id === target)) return;
+    setOpen((p) => ({ ...p, [target]: true }));
+    window.requestAnimationFrame(() => {
+      document.getElementById(`section-${target}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }, [items]);
+
   return (
     <div className="border-t border-border">
       {items.map((item) => {
         const isOpen = Boolean(open[item.id]);
         return (
-          <section key={item.id} className="border-b border-border">
+          <section key={item.id} id={`section-${item.id}`} className="scroll-mt-28 border-b border-border">
+
             <h2>
               <button
                 type="button"
