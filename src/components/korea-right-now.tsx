@@ -24,6 +24,14 @@ const LAST_CHECKED_ISO = "2026-08-28";
 /** Days since the check, evaluated at render — drives the archive label. */
 const ARCHIVE_AFTER_DAYS = 30;
 
+/**
+ * Homepage-section copy for the current feature. Kept local to this section so
+ * the wording reflects only documented, dated sources (Hwahae) and never
+ * attributes signals to other retailers or to repeat-purchase data we do not hold.
+ */
+const FEATURE_STANDFIRST =
+  "This fortnight: a closer look at the quieter barrier creams, hydrating toners and daily formulas appearing in Korean beauty-platform rankings and customer-review conversations—and why they differ from the products receiving the loudest international marketing.";
+
 const SIGNAL_STEPS = [
   {
     n: "01",
@@ -147,7 +155,7 @@ export function KoreaRightNow() {
               {feature.title}
             </h3>
             <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-paper/75">
-              {feature.standfirst}
+              {FEATURE_STANDFIRST}
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
@@ -201,10 +209,32 @@ export function KoreaRightNow() {
                   Signal type
                 </dt>
                 <dd className="mt-1 text-paper/80">
-                  Retail ranking · customer-review aggregate
+                  Beauty-platform ranking · customer-review aggregate
                 </dd>
               </div>
             </dl>
+
+            {/* What this source can and cannot support */}
+            <div className="mt-6 grid gap-x-8 gap-y-5 border-t border-paper/20 pt-6 sm:grid-cols-2">
+              <div>
+                <h4 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/55">
+                  What this signal can tell us
+                </h4>
+                <p className="mt-2 text-[12.5px] leading-relaxed text-paper/80">
+                  Which products are receiving strong ranking and review activity on Hwahae at the
+                  date checked.
+                </p>
+              </div>
+              <div>
+                <h4 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/55">
+                  What this signal cannot tell us
+                </h4>
+                <p className="mt-2 text-[12.5px] leading-relaxed text-paper/80">
+                  It does not independently prove nationwide sales, repeat purchases, clinical
+                  effectiveness or suitability for every customer.
+                </p>
+              </div>
+            </div>
           </article>
 
           {/* 40% — methodology + evidence note */}
