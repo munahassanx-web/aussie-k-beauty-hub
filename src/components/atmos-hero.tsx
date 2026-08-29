@@ -842,6 +842,37 @@ className="absolute inset-x-0 top-[1%] mx-auto w-[96%] will-change-transform"
         </div>
       </div>
 
+{/* Shopper-facing scene navigation — act progress */}
+      <div
+        className={`fixed right-6 z-30 hidden items-center gap-5 md:flex ${
+          showPreviewTools ? "bottom-[12.75rem]" : "bottom-6"
+        }`}
+        style={{ color: `rgb(var(--act-ink))` }}
+      >
+        <div className="flex items-center gap-2">
+          {CHAPTERS.map((c, i) => (
+            <button
+              key={c.id}
+              type="button"
+              onClick={() => setIndex(i)}
+              aria-label={`Act ${i + 1}: ${c.title[0]} ${c.title[1]}`}
+              className={`h-[2px] transition-all duration-500 ${
+                i === index ? "w-10" : "w-6"
+              }`}
+              style={{
+                backgroundColor:
+                  i === index
+                    ? `rgb(var(--act-accent))`
+                    : `rgb(var(--act-ink) / 0.18)`,
+              }}
+            />
+          ))}
+        </div>
+        <span className="font-display text-[11px] font-medium italic tracking-[0.18em]">
+          {String(index + 1).padStart(2, "0")} / {String(CHAPTERS.length).padStart(2, "0")}
+        </span>
+      </div>
+
       {/* Specular sweep across the bottom edge */}
       <div
         aria-hidden="true"
