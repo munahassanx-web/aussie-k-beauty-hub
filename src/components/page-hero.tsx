@@ -71,7 +71,7 @@ export function PageHero({
 
         {/* Content */}
         <div className="relative w-full px-7 py-14 md:px-16 lg:px-20">
-          <div className="max-w-2xl">
+          <div className="max-w-xl">
             <motion.div {...rise(0)} className="flex items-center gap-5">
               <span className="h-px w-12 bg-foreground/60" />
               <p className="text-[10px] font-medium uppercase tracking-[0.4em] text-foreground md:text-[11px]">
@@ -82,7 +82,7 @@ export function PageHero({
 
             <motion.h1
               {...rise(0.08)}
-              className="mt-7 font-masthead text-[clamp(2.9rem,7vw,5.5rem)] leading-[0.9] tracking-tight text-balance text-foreground"
+              className="mt-7 font-masthead text-[clamp(2.3rem,4.6vw,4rem)] leading-[0.9] tracking-tight text-balance text-foreground"
             >
               {title}
               {titleAccent && (
