@@ -334,30 +334,43 @@ export function ProductShelf() {
                   <div className="mt-4 border-t border-border/70 pt-4">
                     <button
                       type="button"
+                      ref={(node) => {
+                        whyButtons.current[p.priceId] = node;
+                      }}
                       aria-expanded={isOpen}
                       aria-controls={`why-${p.priceId}`}
                       onClick={() => {
-                        const next = isOpen ? null : p.priceId;
-                        setOpenWhy(next);
-                        if (next) trackUi("homepage_edit_why_chosen_open", { item_id: p.priceId });
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === "Escape") setOpenWhy(null);
+                        if (isOpen) {
+                          closeWhy(p.priceId);
+                          return;
+                        }
+                        setOpenWhy(p.priceId);
+                        trackUi("homepage_edit_why_chosen_open", { item_id: p.priceId });
                       }}
                       className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
                     >
                       {isOpen ? "Hide why we chose it" : "Why we chose it →"}
                     </button>
 
-                    {isOpen && (
+                    {isOpen && card.why.length > 0 && (
                       <div
                         id={`why-${p.priceId}`}
+                        role="region"
+                        aria-label={`Why we chose ${p.brand} ${p.name}`}
                         onKeyDown={(e) => {
-                          if (e.key === "Escape") setOpenWhy(null);
+                          if (e.key === "Escape") closeWhy(p.priceId);
                         }}
-                        className="mt-3 border border-border/70 bg-secondary/50 p-4"
+                        className="relative mt-3 border border-border/70 bg-secondary/50 p-4"
                       >
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-ink/60">
+                        <button
+                          type="button"
+                          onClick={() => closeWhy(p.priceId)}
+                          aria-label={`Close why we chose ${p.brand} ${p.name}`}
+                          className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center text-ink/60 transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                        <p className="pr-8 text-[10px] font-semibold uppercase tracking-[0.22em] text-ink/60">
                           Why it made the edit
                         </p>
                         <ul className="mt-2 space-y-2 text-[13px] leading-relaxed text-ink/80">
@@ -365,14 +378,23 @@ export function ProductShelf() {
                             <li key={line}>{line}</li>
                           ))}
                         </ul>
-                        <Link
-                          to="/product/$slug"
-                          params={{ slug }}
-                          onClick={() => trackUi("homepage_edit_product_click", { item_id: p.priceId })}
-                          className="mt-3 inline-block text-[11px] font-semibold uppercase tracking-[0.2em] text-ink underline underline-offset-4"
-                        >
-                          View full product →
-                        </Link>
+                        <div className="mt-3 flex flex-wrap items-center gap-4">
+                          <Link
+                            to="/product/$slug"
+                            params={{ slug }}
+                            onClick={() => trackUi("homepage_edit_product_click", { item_id: p.priceId })}
+                            className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink underline underline-offset-4"
+                          >
+                            View full product →
+                          </Link>
+                          <button
+                            type="button"
+                            onClick={() => closeWhy(p.priceId)}
+                            className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink/60 underline underline-offset-4 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
+                          >
+                            Close
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -390,9 +412,14 @@ export function ProductShelf() {
                         aria-label={`Add ${p.brand} ${p.name} to bag`}
                         className="inline-flex min-h-11 flex-1 items-center justify-center bg-ink px-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-paper transition-opacity hover:opacity-90 disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
                       >
-                        {pending === p.priceId ? "Adding…" : "Add to bag"}
+                        {pending === p.priceId
+                          ? "Adding…"
+                          : added === p.priceId
+                            ? "Added ✓"
+                            : "Add to bag"}
                       </button>
                     )}
+
                     <span onClick={() => trackUi("homepage_edit_wishlist", { item_id: p.priceId })}>
                       <WishlistButton
                         productId={p.priceId}
