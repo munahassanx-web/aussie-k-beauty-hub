@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import { toast } from "sonner";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
 import { useBuyNow } from "@/hooks/use-buy-now";
@@ -28,7 +29,7 @@ const EDIT: EditEntry[] = [
   {
     priceId: "beplain_mung_bean_cleansing_oil_200ml_onetime",
     step: "Step 1 · Cleanse",
-    bestFor: "Skin that feels tight after cleansing",
+    bestFor: "Removing makeup, sunscreen and the day's buildup",
     texture: "Light oil · Rinses clean",
     why: [
       "A mung bean-based cleansing oil that dissolves sunscreen and makeup as the first cleanse.",
@@ -83,8 +84,8 @@ const EDIT: EditEntry[] = [
   {
     priceId: "biodance_bio_collagen_real_deep_mask_onetime",
     step: "Optional · Mask",
-    bestFor: "Skin that wants an occasional extra hydration step",
-    texture: "Hydrogel mask · Melts down overnight",
+    bestFor: "An occasional hydration-focused ritual",
+    texture: "Hydrogel mask · Becomes more transparent as it wears",
     why: [
       "A hydrogel mask worn overnight rather than a ten-minute sheet mask.",
       "An occasional addition, not a step that replaces anything in the routine.",
@@ -106,10 +107,26 @@ export function ProductShelf() {
   const [perPage, setPerPage] = useState(3);
   const [openWhy, setOpenWhy] = useState<string | null>(null);
   const [pending, setPending] = useState<string | null>(null);
+  const [added, setAdded] = useState<string | null>(null);
   const [announcement, setAnnouncement] = useState("");
+  const whyButtons = useRef<Record<string, HTMLButtonElement | null>>({});
+  const timers = useRef<number[]>([]);
+
+  useEffect(
+    () => () => {
+      timers.current.forEach((t) => window.clearTimeout(t));
+    },
+    [],
+  );
 
   const { buy } = useBuyNow();
   const { isSoldOut } = useSoldOutSkus();
+
+  const closeWhy = useCallback((priceId: string) => {
+    setOpenWhy(null);
+    whyButtons.current[priceId]?.focus();
+  }, []);
+
 
   const updateState = useCallback(() => {
     const el = trackRef.current;
@@ -163,23 +180,35 @@ export function ProductShelf() {
     el.scrollBy({ left: dir * step * visible, behavior: "smooth" });
   };
 
-  const handleAdd = (
-    card: (typeof CARDS)[number],
-    soldOut: boolean,
-  ) => {
-    if (soldOut || pending) return;
+  const handleAdd = (card: (typeof CARDS)[number], soldOut: boolean) => {
+    if (soldOut || pending === card.priceId) return;
     setPending(card.priceId);
     trackUi("homepage_edit_quick_add", { item_id: card.priceId });
-    buy({
-      priceId: card.priceId,
-      name: card.product.name,
-      priceLabel: `${card.product.price} AUD`,
-      brand: card.product.brand,
-      image: card.product.image,
-    });
-    setAnnouncement(`${card.product.brand} ${card.product.name} added to your bag.`);
-    window.setTimeout(() => setPending(null), 600);
+    try {
+      buy({
+        priceId: card.priceId,
+        name: card.product.name,
+        priceLabel: `${card.product.price} AUD`,
+        brand: card.product.brand,
+        image: card.product.image,
+      });
+      setAdded(card.priceId);
+      setAnnouncement(`${card.product.brand} ${card.product.name} added to your bag.`);
+      toast.success("Added to your bag.");
+      timers.current.push(
+        window.setTimeout(() => {
+          setAdded((cur) => (cur === card.priceId ? null : cur));
+        }, 2000),
+      );
+    } catch (err) {
+      console.error("[product-shelf] add to bag failed", card.priceId, err);
+      setAnnouncement("We couldn't add this product. Please try again.");
+      toast.error("We couldn't add this product. Please try again.");
+    } finally {
+      timers.current.push(window.setTimeout(() => setPending(null), 400));
+    }
   };
+
 
   const last = Math.min(firstVisible + perPage, CARDS.length);
 
@@ -204,9 +233,9 @@ export function ProductShelf() {
                 A considered starting shelf.
               </h2>
               <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-ink/70 md:text-base">
-                Six Korean skincare essentials selected for their formulation, customer
-                relevance and place in a real routine. Start with what your skin needs—not
-                what is making the most noise.
+                Six Korean skincare starting points selected for their formulation, routine
+                role and customer relevance. Start with what your skin needs—not what is
+                making the most noise.
               </p>
               <Link
                 to="/about"
@@ -305,30 +334,43 @@ export function ProductShelf() {
                   <div className="mt-4 border-t border-border/70 pt-4">
                     <button
                       type="button"
+                      ref={(node) => {
+                        whyButtons.current[p.priceId] = node;
+                      }}
                       aria-expanded={isOpen}
                       aria-controls={`why-${p.priceId}`}
                       onClick={() => {
-                        const next = isOpen ? null : p.priceId;
-                        setOpenWhy(next);
-                        if (next) trackUi("homepage_edit_why_chosen_open", { item_id: p.priceId });
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === "Escape") setOpenWhy(null);
+                        if (isOpen) {
+                          closeWhy(p.priceId);
+                          return;
+                        }
+                        setOpenWhy(p.priceId);
+                        trackUi("homepage_edit_why_chosen_open", { item_id: p.priceId });
                       }}
                       className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
                     >
                       {isOpen ? "Hide why we chose it" : "Why we chose it →"}
                     </button>
 
-                    {isOpen && (
+                    {isOpen && card.why.length > 0 && (
                       <div
                         id={`why-${p.priceId}`}
+                        role="region"
+                        aria-label={`Why we chose ${p.brand} ${p.name}`}
                         onKeyDown={(e) => {
-                          if (e.key === "Escape") setOpenWhy(null);
+                          if (e.key === "Escape") closeWhy(p.priceId);
                         }}
-                        className="mt-3 border border-border/70 bg-secondary/50 p-4"
+                        className="relative mt-3 border border-border/70 bg-secondary/50 p-4"
                       >
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-ink/60">
+                        <button
+                          type="button"
+                          onClick={() => closeWhy(p.priceId)}
+                          aria-label={`Close why we chose ${p.brand} ${p.name}`}
+                          className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center text-ink/60 transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                        <p className="pr-8 text-[10px] font-semibold uppercase tracking-[0.22em] text-ink/60">
                           Why it made the edit
                         </p>
                         <ul className="mt-2 space-y-2 text-[13px] leading-relaxed text-ink/80">
@@ -336,14 +378,23 @@ export function ProductShelf() {
                             <li key={line}>{line}</li>
                           ))}
                         </ul>
-                        <Link
-                          to="/product/$slug"
-                          params={{ slug }}
-                          onClick={() => trackUi("homepage_edit_product_click", { item_id: p.priceId })}
-                          className="mt-3 inline-block text-[11px] font-semibold uppercase tracking-[0.2em] text-ink underline underline-offset-4"
-                        >
-                          View full product →
-                        </Link>
+                        <div className="mt-3 flex flex-wrap items-center gap-4">
+                          <Link
+                            to="/product/$slug"
+                            params={{ slug }}
+                            onClick={() => trackUi("homepage_edit_product_click", { item_id: p.priceId })}
+                            className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink underline underline-offset-4"
+                          >
+                            View full product →
+                          </Link>
+                          <button
+                            type="button"
+                            onClick={() => closeWhy(p.priceId)}
+                            className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink/60 underline underline-offset-4 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
+                          >
+                            Close
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -361,9 +412,14 @@ export function ProductShelf() {
                         aria-label={`Add ${p.brand} ${p.name} to bag`}
                         className="inline-flex min-h-11 flex-1 items-center justify-center bg-ink px-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-paper transition-opacity hover:opacity-90 disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
                       >
-                        {pending === p.priceId ? "Adding…" : "Add to bag"}
+                        {pending === p.priceId
+                          ? "Adding…"
+                          : added === p.priceId
+                            ? "Added ✓"
+                            : "Add to bag"}
                       </button>
                     )}
+
                     <span onClick={() => trackUi("homepage_edit_wishlist", { item_id: p.priceId })}>
                       <WishlistButton
                         productId={p.priceId}
