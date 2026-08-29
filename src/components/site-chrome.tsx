@@ -594,7 +594,6 @@ export function SiteFooter() {
           </ul>
           {/* Staff sign-in lives at /admin and is intentionally unlinked publicly. */}
 
-          </div>
         </div>
 
         <div className="md:col-span-2">
