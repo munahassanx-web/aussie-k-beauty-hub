@@ -29,7 +29,7 @@ const EDIT: EditEntry[] = [
   {
     priceId: "beplain_mung_bean_cleansing_oil_200ml_onetime",
     step: "Step 1 · Cleanse",
-    bestFor: "Skin that feels tight after cleansing",
+    bestFor: "Removing makeup, sunscreen and the day's buildup",
     texture: "Light oil · Rinses clean",
     why: [
       "A mung bean-based cleansing oil that dissolves sunscreen and makeup as the first cleanse.",
