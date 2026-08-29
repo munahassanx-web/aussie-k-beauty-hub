@@ -30,6 +30,7 @@ import { Route as ShippingPolicyRouteImport } from './routes/shipping-policy'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SkinConcernsRouteImport } from './routes/skin-concerns'
+import { Route as StockRequestRouteImport } from './routes/stock-request'
 import { Route as TermsAndConditionsRouteImport } from './routes/terms-and-conditions'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as WishlistRouteImport } from './routes/wishlist'
@@ -166,6 +167,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const SkinConcernsRoute = SkinConcernsRouteImport.update({
   id: '/skin-concerns',
   path: '/skin-concerns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StockRequestRoute = StockRequestRouteImport.update({
+  id: '/stock-request',
+  path: '/stock-request',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermsAndConditionsRoute = TermsAndConditionsRouteImport.update({
@@ -353,6 +359,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/stock-request': typeof StockRequestRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
@@ -408,6 +415,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/stock-request': typeof StockRequestRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
@@ -464,6 +472,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skin-concerns': typeof SkinConcernsRoute
+  '/stock-request': typeof StockRequestRoute
   '/terms-and-conditions': typeof TermsAndConditionsRoute
   '/track': typeof TrackRoute
   '/wishlist': typeof WishlistRoute
@@ -521,6 +530,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/stock-request'
     | '/terms-and-conditions'
     | '/track'
     | '/wishlist'
@@ -576,6 +586,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/stock-request'
     | '/terms-and-conditions'
     | '/track'
     | '/wishlist'
@@ -631,6 +642,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sitemap.xml'
     | '/skin-concerns'
+    | '/stock-request'
     | '/terms-and-conditions'
     | '/track'
     | '/wishlist'
@@ -687,6 +699,7 @@ export interface RootRouteChildren {
   ShopRoute: typeof ShopRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkinConcernsRoute: typeof SkinConcernsRoute
+  StockRequestRoute: typeof StockRequestRoute
   TermsAndConditionsRoute: typeof TermsAndConditionsRoute
   TrackRoute: typeof TrackRoute
   WishlistRoute: typeof WishlistRoute
@@ -867,6 +880,13 @@ declare module '@tanstack/react-router' {
       path: '/skin-concerns'
       fullPath: '/skin-concerns'
       preLoaderRoute: typeof SkinConcernsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stock-request': {
+      id: '/stock-request'
+      path: '/stock-request'
+      fullPath: '/stock-request'
+      preLoaderRoute: typeof StockRequestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms-and-conditions': {
@@ -1130,6 +1150,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShopRoute: ShopRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkinConcernsRoute: SkinConcernsRoute,
+  StockRequestRoute: StockRequestRoute,
   TermsAndConditionsRoute: TermsAndConditionsRoute,
   TrackRoute: TrackRoute,
   WishlistRoute: WishlistRoute,
