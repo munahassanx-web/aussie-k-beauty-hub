@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
-import { productSlug, routineStepLabel } from "@/lib/product-detail";
+import { productSlug } from "@/lib/product-detail";
 import { useBuyNow } from "@/hooks/use-buy-now";
 import { useSoldOutSkus } from "@/hooks/use-stock";
 import { WishlistButton } from "@/components/wishlist-button";
@@ -291,7 +291,7 @@ export function ProductShelf() {
                   </h3>
 
                   <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/60">
-                    {card.step} · {routineStepLabel(p)}
+                    {card.step}
                   </p>
                   <p className="mt-2 text-[13px] leading-relaxed text-ink/75">
                     <span className="text-ink/55">Best for:</span> {card.bestFor}
