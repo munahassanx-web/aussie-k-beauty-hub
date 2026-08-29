@@ -17,7 +17,7 @@ type MegaSection = {
 
 const topLevelLinks: Record<string, MegaLink> = {
   Shop: { label: "Shop", to: "/shop" },
-  Concerns: { label: "Concerns", to: "/skin-concerns" },
+  Concerns: { label: "Shop by Concern", to: "/skin-concerns" },
   Brands: { label: "Brands", to: "/brands" },
 };
 
