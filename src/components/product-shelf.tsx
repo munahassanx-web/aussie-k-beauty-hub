@@ -107,10 +107,26 @@ export function ProductShelf() {
   const [perPage, setPerPage] = useState(3);
   const [openWhy, setOpenWhy] = useState<string | null>(null);
   const [pending, setPending] = useState<string | null>(null);
+  const [added, setAdded] = useState<string | null>(null);
   const [announcement, setAnnouncement] = useState("");
+  const whyButtons = useRef<Record<string, HTMLButtonElement | null>>({});
+  const timers = useRef<number[]>([]);
+
+  useEffect(
+    () => () => {
+      timers.current.forEach((t) => window.clearTimeout(t));
+    },
+    [],
+  );
 
   const { buy } = useBuyNow();
   const { isSoldOut } = useSoldOutSkus();
+
+  const closeWhy = useCallback((priceId: string) => {
+    setOpenWhy(null);
+    whyButtons.current[priceId]?.focus();
+  }, []);
+
 
   const updateState = useCallback(() => {
     const el = trackRef.current;
