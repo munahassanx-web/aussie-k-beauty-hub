@@ -1,114 +1,86 @@
 import { Link } from '@tanstack/react-router';
 
-import { ProductCard } from '@/components/product-card';
-import { Reveal } from '@/components/reveal';
+import { productSlug } from '@/lib/product-detail';
 import {
   RANKING_SNAPSHOT_DATE,
   RANKING_SOURCE,
   RANKING_SOURCE_URL,
   STOCKED_RANKING,
-  WATCHLIST_RANKING,
 } from '@/lib/korea-rankings';
 
 const nf = new Intl.NumberFormat('en-AU');
 
+/** How many ranked bestsellers to show in the compact top strip. */
+const STRIP_COUNT = 6;
+
 /**
- * "This week in Korea" — the Hwahae Global Trending Ranking, matched against
- * what we actually hold in Melbourne. Stocked entries get a real packshot and
- * a buy button; entries we haven't landed yet are shown as a typographic
- * watchlist rather than dressed up with stand-in imagery.
+ * Compact "Trending in Korea" strip pinned to the top of the shop — six of
+ * this week's Hwahae-ranked bestsellers we hold in Melbourne, each with its
+ * Korean rank and rating. Deliberately small so the shoppable grid stays
+ * above the fold.
  */
 export function KoreaBestsellers() {
+  const strip = STOCKED_RANKING.slice(0, STRIP_COUNT);
+
   return (
-    <section aria-labelledby="korea-bestsellers" className="border-b border-border pb-16">
-      <div className="flex flex-wrap items-end justify-between gap-6 border-b border-border pb-6">
-        <div className="max-w-2xl">
-          <p className="text-[10px] font-medium uppercase tracking-[0.4em] text-muted-foreground">
-            This week in Korea <span className="ml-3 opacity-50">화해 랭킹</span>
-          </p>
-          <h2 id="korea-bestsellers" className="mt-4 font-masthead text-[clamp(2rem,4.5vw,3.25rem)] leading-[0.95] text-foreground">
-            The bestsellers Seoul is
-            <span className="block font-light italic">actually buying.</span>
-          </h2>
-        </div>
-        <p className="max-w-xs text-xs leading-relaxed text-muted-foreground">
-          Ranked by{' '}
+    <section aria-labelledby="korea-bestsellers" className="border-b border-border pb-8">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+        <h2 id="korea-bestsellers" className="font-masthead text-xl leading-none text-foreground sm:text-2xl">
+          Trending in Korea this week
+          <span className="ml-3 align-middle text-[10px] font-medium uppercase tracking-[0.35em] text-muted-foreground">
+            화해 랭킹
+          </span>
+        </h2>
+        <p className="text-[11px] leading-relaxed text-muted-foreground">
+          {RANKING_SOURCE} ·{' '}
           <a
             href={RANKING_SOURCE_URL}
             target="_blank"
             rel="noreferrer"
             className="underline underline-offset-4 hover:text-foreground"
           >
-            {RANKING_SOURCE}
-          </a>
-          , Korea&rsquo;s largest independent review platform. Snapshot taken {RANKING_SNAPSHOT_DATE}.
+            Hwahae
+          </a>{' '}
+          snapshot {RANKING_SNAPSHOT_DATE} — stocked in Melbourne now.
         </p>
       </div>
 
-      {/* In stock now */}
-      <div className="mt-10 grid gap-x-8 gap-y-14 sm:grid-cols-2 xl:grid-cols-3">
-        {STOCKED_RANKING.map(({ entry, product }, i) => (
-          <Reveal key={product.priceId} delay={(i % 3) * 60}>
-            <div>
-              <div className="mb-3 flex items-baseline gap-3 border-b border-border/70 pb-2">
-                <span className="font-masthead text-2xl leading-none text-foreground tabular-nums">
-                  {String(entry.rank).padStart(2, '0')}
-                </span>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                  {entry.rating.toFixed(2)} ★ · {nf.format(entry.reviews)} reviews
-                </span>
-              </div>
-              <ProductCard product={product} eager={i < 3} />
-              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{entry.note}</p>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-
-      {/* Watchlist — not landed yet */}
-      <div className="mt-16 border-t border-border pt-10">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="text-[10px] font-medium uppercase tracking-[0.4em] text-muted-foreground">
-              On our radar <span className="ml-3 opacity-50">입고 예정</span>
-            </p>
-            <h3 className="mt-3 font-masthead text-2xl text-foreground">
-              Ranking in Korea, not yet on our shelf.
-            </h3>
-          </div>
-          <Link
-            to="/restock"
-            className="group relative inline-flex items-center py-2 text-[11px] font-bold uppercase tracking-[0.3em] text-foreground"
-          >
-            Ask us to stock it
-            <span className="absolute bottom-0 left-0 h-[1.5px] w-full origin-left scale-x-0 bg-foreground transition-transform duration-500 group-hover:scale-x-100" />
-          </Link>
-        </div>
-
-        <ul className="mt-8 grid gap-x-10 md:grid-cols-2">
-          {WATCHLIST_RANKING.map((e) => (
-            <li
-              key={`${e.brand}-${e.name}`}
-              className="flex items-start gap-5 border-b border-border/70 py-5"
+      <ul className="mt-5 grid grid-cols-2 gap-x-5 gap-y-6 sm:grid-cols-3 lg:grid-cols-6">
+        {strip.map(({ entry, product }) => (
+          <li key={product.priceId}>
+            <Link
+              to="/product/$slug"
+              params={{ slug: productSlug(product) }}
+              className="group block"
+              aria-label={`${product.brand} ${product.name}, ranked ${entry.rank} in Korea`}
             >
-              <span className="mt-1 font-masthead text-xl leading-none text-muted-foreground tabular-nums">
-                {String(e.rank).padStart(2, '0')}
-              </span>
-              <div className="min-w-0">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{e.brand}</p>
-                <p className="mt-1 font-display text-[1.02rem] leading-snug text-foreground">{e.name}</p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {e.size} · {e.rating.toFixed(2)} ★ · {nf.format(e.reviews)} reviews
-                </p>
-                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{e.note}</p>
+              <div className="relative aspect-square overflow-hidden bg-secondary p-3">
+                <img
+                  src={product.image}
+                  alt={`${product.brand} ${product.name}`}
+                  loading="lazy"
+                  width={1024}
+                  height={1024}
+                  className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+                />
+                <span className="absolute left-2 top-2 bg-foreground px-1.5 py-0.5 text-[9px] font-bold tabular-nums text-background">
+                  #{entry.rank}
+                </span>
               </div>
-              <span className="ml-auto shrink-0 self-start bg-secondary px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
-                Coming soon
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
+              <p className="mt-2 truncate text-[9px] uppercase tracking-[0.18em] text-muted-foreground">
+                {product.brand}
+              </p>
+              <p className="mt-0.5 line-clamp-2 text-xs font-medium leading-snug text-foreground group-hover:underline group-hover:underline-offset-4">
+                {product.name}
+              </p>
+              <p className="mt-1 text-[10px] tabular-nums text-muted-foreground">
+                {entry.rating.toFixed(2)} ★ · {nf.format(entry.reviews)} reviews
+              </p>
+              <p className="mt-0.5 text-xs tabular-nums text-foreground">{product.price}</p>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
