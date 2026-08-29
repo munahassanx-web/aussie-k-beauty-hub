@@ -248,7 +248,7 @@ export function AtmosHero() {
         }}
       />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-8 md:px-12 md:py-10 lg:grid lg:grid-cols-[52fr_48fr] lg:grid-rows-[auto_auto_auto] lg:gap-x-12 lg:gap-y-0">
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-6 px-6 py-6 md:px-12 md:py-8 lg:grid lg:grid-cols-[52fr_48fr] lg:grid-rows-[auto_auto_auto] lg:gap-x-12 lg:gap-y-0">
         {/* Zone 1 — permanent Skin Grocer positioning (desktop: left, row 1) */}
         <motion.div
           initial={false}
@@ -297,7 +297,7 @@ export function AtmosHero() {
 
         {/* Zone 2 — seasonal product theatre (desktop: right, spanning rows 1–2) */}
         <div className="order-2 lg:col-start-2 lg:row-start-1 lg:row-span-2">
-          <div className="relative mx-auto aspect-square w-full max-w-[24rem] lg:max-w-[27rem]">
+          <div className="relative mx-auto aspect-square w-full max-w-[17rem] sm:max-w-[20rem] lg:max-w-[27rem]">
             <motion.div
               aria-hidden="true"
               className="absolute left-1/2 top-1/2 h-[16rem] w-[16rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[90px]"
@@ -333,7 +333,7 @@ export function AtmosHero() {
 
           {/* Product summary — sits directly beneath the product image */}
           <div
-            className="mx-auto mt-2 max-w-[24rem] rounded-2xl border px-5 py-3.5 backdrop-blur-md lg:max-w-[27rem]"
+            className="mx-auto mt-2 max-w-[17rem] rounded-2xl border px-5 py-3.5 backdrop-blur-md sm:max-w-[20rem] lg:max-w-[27rem]"
             style={{
               borderColor: `rgb(var(--act-ink) / 0.16)`,
               backgroundColor: `rgb(var(--act-deep) / 0.78)`,
