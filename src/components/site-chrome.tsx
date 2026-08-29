@@ -488,30 +488,18 @@ export function SiteHeader() {
                   {user ? "Your account" : "Sign in"}
                   <span className="text-base text-primary">→</span>
                 </Link>
-                {isStaff ? (
-                  <Link to="/admin" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-primary">
-                    Admin dashboard
-                    <span className="text-base text-primary">→</span>
-                  </Link>
-                ) : (
-                  <Link to="/admin" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground/70">
-                    <span>
-                      Admin Login
-                      <span className="block text-sm font-normal normal-case text-foreground/45">Staff accounts only</span>
-                    </span>
-                    <span className="text-base text-primary">→</span>
-                  </Link>
-                )}
+                {/* Admin access is intentionally not exposed in the public menu. */}
                 <Link to="/wishlist" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground">
                   Saved
                   <span className="text-base text-primary">→</span>
                 </Link>
                 <Link
-                  to="/routines"
+                  to="/consultation"
+                  search={{}}
                   onClick={closeMenus}
                   className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
                 >
-                  Routine Kits
+                  Routine Finder
                   <span className="text-base text-primary">→</span>
                 </Link>
                 <Link
@@ -523,21 +511,14 @@ export function SiteHeader() {
                   <span className="text-base text-primary">→</span>
                 </Link>
                 <Link
-                  to="/blog"
+                  to="/about"
                   onClick={closeMenus}
                   className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
                 >
-                  Blog
+                  About
                   <span className="text-base text-primary">→</span>
                 </Link>
-                <Link
-                  to="/faq"
-                  onClick={closeMenus}
-                  className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
-                >
-                  FAQ
-                  <span className="text-base text-primary">→</span>
-                </Link>
+
                 <button
                   type="button"
                   onClick={() => { closeMenus(); setSearchOpen(true); }}
