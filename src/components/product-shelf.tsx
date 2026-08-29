@@ -159,8 +159,8 @@ export function ProductShelf() {
     if (!el) return;
     const card = el.querySelector<HTMLElement>("[data-shelf-card]");
     const step = card ? card.offsetWidth + 24 : 320;
-    const perPage = Math.max(1, Math.round(el.clientWidth / step));
-    el.scrollBy({ left: dir * step * perPage, behavior: "smooth" });
+    const visible = Math.max(1, Math.round(el.clientWidth / step));
+    el.scrollBy({ left: dir * step * visible, behavior: "smooth" });
   };
 
   const handleAdd = (
