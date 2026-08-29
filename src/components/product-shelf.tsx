@@ -98,13 +98,12 @@ const CARDS = EDIT.map((entry) => {
   return product ? { ...entry, product } : null;
 }).filter((c): c is EditEntry & { product: (typeof SHOP_PRODUCTS)[number] } => Boolean(c));
 
-const PAGE_SIZE = 3;
-
 export function ProductShelf() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
   const [firstVisible, setFirstVisible] = useState(0);
+  const [perPage, setPerPage] = useState(3);
   const [openWhy, setOpenWhy] = useState<string | null>(null);
   const [pending, setPending] = useState<string | null>(null);
   const [announcement, setAnnouncement] = useState("");
@@ -119,6 +118,7 @@ export function ProductShelf() {
     setCanNext(el.scrollLeft < el.scrollWidth - el.clientWidth - 8);
     const card = el.querySelector<HTMLElement>("[data-shelf-card]");
     const step = card ? card.offsetWidth + 24 : 320;
+    setPerPage(Math.max(1, Math.round(el.clientWidth / step)));
     setFirstVisible(Math.min(CARDS.length - 1, Math.round(el.scrollLeft / step)));
   }, []);
 
@@ -181,7 +181,7 @@ export function ProductShelf() {
     window.setTimeout(() => setPending(null), 600);
   };
 
-  const last = Math.min(firstVisible + PAGE_SIZE, CARDS.length);
+  const last = Math.min(firstVisible + perPage, CARDS.length);
 
   return (
     <>
@@ -258,7 +258,7 @@ export function ProductShelf() {
                   key={p.priceId}
                   data-shelf-card
                   data-price-id={p.priceId}
-                  className="flex w-[86vw] shrink-0 snap-start flex-col border border-border/70 bg-background p-5 sm:w-[60vw] md:w-[46vw] lg:w-[calc((100%-3rem)/3)]"
+                  className="flex w-[80vw] shrink-0 snap-start flex-col border border-border/70 bg-background p-5 sm:w-[60vw] md:w-[46vw] lg:w-[calc((100%-3rem)/3)]"
                 >
                   <Link
                     to="/product/$slug"
