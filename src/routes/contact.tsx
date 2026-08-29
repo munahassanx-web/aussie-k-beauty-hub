@@ -96,11 +96,7 @@ function Contact() {
       />
       <div className="mx-auto grid max-w-7xl gap-16 px-6 pt-16 md:grid-cols-2">
         <div>
-          <p className="mt-5 max-w-md text-lg text-muted-foreground">
-            Whether you need help building a routine, tracking an order, or
-            hosting a Skin Grocer vending machine — our small Aussie team replies
-            personally, usually within a few hours.
-          </p>
+
 
           <dl className="mt-10 space-y-6 break-words [overflow-wrap:anywhere]">
             <div>
