@@ -315,8 +315,10 @@
   --accent-foreground: var(--ink);
   --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: oklch(0.98 0 0);
-  /* High-energy CTA — bright Seoul coral, used for primary action buttons */
-  --pop: oklch(0.63 0.22 28);
+/* High-energy CTA — bright Seoul rose, used for primary action buttons.
+     Sits in the brand's cool rose-gold family so it pops against navy/cream
+     without the warm orange clash. */
+  --pop: oklch(0.56 0.19 354);
   --pop-foreground: oklch(0.99 0 0);
   --border: var(--sand-deep);
   --input: var(--sand-deep);
