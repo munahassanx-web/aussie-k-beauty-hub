@@ -24,6 +24,8 @@ export type RankedEntry = {
   size: string;
   /** priceId of the matching Skin Grocer SKU, when we stock it. */
   priceId?: string;
+  /** Packshot for watchlist (not-yet-stocked) entries. */
+  image?: string;
   /** Why it's ranking — one factual line drawn from the Hwahae summary. */
   note: string;
 };
@@ -63,6 +65,7 @@ export const KOREA_RANKING: RankedEntry[] = [
     rank: 4,
     brand: 'TONYMOLY',
     name: 'Ceramide Mochi Toner',
+    image: '/products/watchlist/tonymoly-ceramide-mochi-toner.jpg',
     rating: 4.72,
     reviews: 22563,
     size: '500ml',
@@ -82,6 +85,7 @@ export const KOREA_RANKING: RankedEntry[] = [
     rank: 6,
     brand: 'ROUND LAB',
     name: 'Birch Moisture Sun Cream SPF50+ PA++++',
+    image: '/products/watchlist/round-lab-birch-moisture-sun-cream.jpg',
     rating: 4.6,
     reviews: 29902,
     size: '50ml',
@@ -121,6 +125,7 @@ export const KOREA_RANKING: RankedEntry[] = [
     rank: 12,
     brand: 'ILLIYOON',
     name: 'Ceramide Ato 6.0 Top to Toe Wash',
+    image: '/products/watchlist/illiyoon-ceramide-ato-wash.jpg',
     rating: 4.7,
     reviews: 11357,
     size: '500ml',
@@ -130,6 +135,7 @@ export const KOREA_RANKING: RankedEntry[] = [
     rank: 13,
     brand: 'Anua',
     name: 'PDRN Hyaluronic Acid Capsule 100 Serum',
+    image: '/products/watchlist/anua-pdrn-capsule-serum.jpg',
     rating: 4.61,
     reviews: 12468,
     size: '30ml',
@@ -149,6 +155,7 @@ export const KOREA_RANKING: RankedEntry[] = [
     rank: 15,
     brand: 'TORRIDEN',
     name: 'DIVE IN Low Molecular Hyaluronic Acid Toner',
+    image: '/products/watchlist/torriden-dive-in-toner.jpg',
     rating: 4.71,
     reviews: 35843,
     size: '300ml',
@@ -158,6 +165,7 @@ export const KOREA_RANKING: RankedEntry[] = [
     rank: 17,
     brand: 'MEDIHEAL',
     name: 'Madecassoside Essential Mask (Blemish Repair)',
+    image: '/products/watchlist/mediheal-madecassoside-mask.jpg',
     rating: 4.7,
     reviews: 7376,
     size: '10 sheets',
@@ -167,6 +175,7 @@ export const KOREA_RANKING: RankedEntry[] = [
     rank: 18,
     brand: 'make p:rem',
     name: 'Safe Me. Relief Moisture Cleansing Milk',
+    image: '/products/watchlist/makeprem-relief-cleansing-milk.jpg',
     rating: 4.66,
     reviews: 8982,
     size: '200ml',
