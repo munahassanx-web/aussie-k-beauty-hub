@@ -249,207 +249,59 @@ export function AtmosHero() {
         }}
       />
 
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-10 px-6 py-12 md:px-12 md:py-16 lg:grid-cols-12 lg:gap-10">
-        {/* Zone 1 — permanent Skin Grocer positioning + campaign story */}
-        <div className="order-1 lg:col-span-6">
-          <motion.div
-            initial={false}
-            animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-            transition={EASE_OUT}
-            className="max-w-[620px]"
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-8 md:px-12 md:py-10 lg:grid lg:grid-cols-[52fr_48fr] lg:grid-rows-[auto_auto_auto] lg:gap-x-12 lg:gap-y-0">
+        {/* Zone 1 — permanent Skin Grocer positioning (desktop: left, row 1) */}
+        <motion.div
+          initial={false}
+          animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={EASE_OUT}
+          className="order-1 max-w-[600px] lg:col-start-1 lg:row-start-1"
+        >
+          <p
+            className="text-[12px] font-semibold uppercase tracking-[0.22em]"
+            style={{ color: `rgb(var(--act-accent))` }}
           >
-            <p
-              className="text-[12px] font-semibold uppercase tracking-[0.22em]"
-              style={{ color: `rgb(var(--act-accent))` }}
-            >
-              Melbourne · Authentic Korean skincare
-            </p>
-            <h1
-              id="atmos-heading"
-              className="mt-4 font-masthead text-[clamp(2.4rem,5.2vw,4.1rem)] font-black leading-[0.98] tracking-[-0.02em]"
-              style={{ color: `rgb(var(--act-ink))` }}
-            >
-              Korean skincare, chosen with more care.
-            </h1>
-            <p
-              className="mt-5 max-w-[58ch] text-[17px] leading-[1.6]"
-              style={{ color: `rgb(var(--act-ink) / 0.92)` }}
-            >
-              Products Koreans genuinely use—selected for Australian skin, climate
-              and real routines. Stocked in Melbourne and explained without the hype.
-            </p>
+            Melbourne · Authentic Korean skincare
+          </p>
+          <h1
+            id="atmos-heading"
+            className="mt-3 font-masthead text-[clamp(2.1rem,4.2vw,3.4rem)] font-black leading-[0.98] tracking-[-0.02em]"
+            style={{ color: `rgb(var(--act-ink))` }}
+          >
+            Korean skincare, chosen with more care.
+          </h1>
+          <p
+            className="mt-4 max-w-[56ch] text-[16px] leading-[1.55] md:text-[17px]"
+            style={{ color: `rgb(var(--act-ink) / 0.92)` }}
+          >
+            Products Koreans genuinely use—selected with Australian climate and
+            real routines in mind. Stocked in Melbourne and explained without the hype.
+          </p>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-              <Button
-                asChild
-                className="group h-auto min-h-[48px] w-full rounded-full px-8 py-4 text-[13px] font-bold uppercase tracking-[0.16em] shadow-[0_20px_50px_-20px_var(--pop)] transition-transform duration-200 hover:-translate-y-0.5 sm:w-auto"
-                style={{ backgroundColor: "var(--pop)", color: "var(--pop-foreground)" }}
-              >
-                <Link
-                  to="/consultation"
-                  search={{}}
-                  onClick={() => trackUi("hero_routine_finder_click", { slide_id: act.id })}
-                >
-                  Find my routine
-                  <ArrowRight className="ml-2.5 h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-                </Link>
-              </Button>
+          <div className="mt-6">
+            <Button
+              asChild
+              className="group h-auto min-h-[48px] w-full rounded-full px-8 py-4 text-[13px] font-bold uppercase tracking-[0.16em] shadow-[0_20px_50px_-20px_var(--pop)] transition-transform duration-200 hover:-translate-y-0.5 sm:w-auto"
+              style={{ backgroundColor: "var(--pop)", color: "var(--pop-foreground)" }}
+            >
               <Link
-                {...(seasonalTo as { to: "/shop" })}
-                onClick={() =>
-                  trackUi("hero_seasonal_edit_click", {
-                    slide_id: act.id,
-                    destination: product ? "product" : "shop",
-                  })
-                }
-                className="inline-flex min-h-[48px] w-full items-center justify-center rounded-full border px-8 py-4 text-[13px] font-semibold uppercase tracking-[0.16em] transition-colors sm:w-auto"
-                style={{
-                  borderColor: `rgb(var(--act-ink) / 0.35)`,
-                  color: `rgb(var(--act-ink))`,
-                }}
+                to="/consultation"
+                search={{}}
+                onClick={() => trackUi("hero_routine_finder_click", { slide_id: act.id })}
               >
-                Shop the seasonal edit
+                Find my routine
+                <ArrowRight className="ml-2.5 h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
               </Link>
-            </div>
-
-            <p
-              className="mt-4 text-[13px] font-medium"
-              style={{ color: `rgb(var(--act-ink) / 0.75)` }}
-            >
-              Authentic Korean stock · Melbourne dispatch · Guidance with every order
-            </p>
-          </motion.div>
-
-          {/* Campaign story — supporting layer, rotates beneath the brand message */}
-          <div
-            className="mt-9 max-w-[620px] border-t pt-7"
-            style={{ borderColor: `rgb(var(--act-ink) / 0.16)` }}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={act.id}
-                initial={reduce ? false : { opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
-                transition={reduce ? { duration: 0.2 } : { duration: 0.55, ease: "easeOut" }}
-                aria-roledescription="slide"
-                aria-label={`Slide ${index + 1} of ${CHAPTERS.length}`}
-              >
-                <p
-                  className="flex flex-wrap items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em]"
-                  style={{ color: `rgb(var(--act-accent))` }}
-                >
-                  <span className="font-display text-[15px] tracking-normal normal-case">
-                    {act.hangul}
-                  </span>
-                  <span aria-hidden="true">·</span>
-                  {act.hangulEnglish}
-                </p>
-                <h2
-                  className="mt-3 font-display text-[clamp(1.4rem,2.4vw,1.9rem)] font-semibold leading-[1.15]"
-                  style={{ color: `rgb(var(--act-ink))` }}
-                >
-                  {act.headline}
-                </h2>
-                <p
-                  className="mt-3 max-w-[58ch] text-[15px] leading-[1.6]"
-                  style={{ color: `rgb(var(--act-ink) / 0.88)` }}
-                >
-                  {act.copy}
-                </p>
-                {act.note && (
-                  <p
-                    className="mt-2 max-w-[58ch] text-[14px] leading-[1.6]"
-                    style={{ color: `rgb(var(--act-ink) / 0.78)` }}
-                  >
-                    {act.note}
-                  </p>
-                )}
-
-                <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
-                  {product ? (
-                    <Link
-                      to="/product/$slug"
-                      params={{ slug: productSlug(product) }}
-                      onClick={() =>
-                        trackUi("hero_seasonal_edit_click", {
-                          slide_id: act.id,
-                          destination: "product",
-                        })
-                      }
-                      className="inline-flex min-h-[44px] items-center gap-2 rounded-full border px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] transition-colors"
-                      style={{
-                        borderColor: `rgb(var(--act-accent))`,
-                        color: `rgb(var(--act-accent))`,
-                      }}
-                    >
-                      {act.cta}
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                  ) : (
-                    <Link
-                      to={act.educationalTo ?? "/learn/hub"}
-                      onClick={() =>
-                        trackUi("hero_seasonal_edit_click", {
-                          slide_id: act.id,
-                          destination: "learn",
-                        })
-                      }
-                      className="inline-flex min-h-[44px] items-center gap-2 rounded-full border px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] transition-colors"
-                      style={{
-                        borderColor: `rgb(var(--act-accent))`,
-                        color: `rgb(var(--act-accent))`,
-                      }}
-                    >
-                      {act.cta}
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                  )}
-
-                  {product && (
-                    <span
-                      className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] font-semibold"
-                      style={{ color: `rgb(var(--act-ink) / 0.72)` }}
-                    >
-                      {[
-                        { label: "Full details", hash: "suits", event: "hero_full_details_click" },
-                        { label: "Key ingredients", hash: "ingredients", event: "hero_key_ingredients_click" },
-                        { label: "How to use", hash: "how", event: "hero_how_to_use_click" },
-                      ].map((item) => (
-                        <Link
-                          key={item.hash}
-                          to="/product/$slug"
-                          params={{ slug: productSlug(product) }}
-                          hash={item.hash}
-                          onClick={() => trackUi(item.event, { slide_id: act.id })}
-                          className="underline-offset-4 hover:underline"
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
-                    </span>
-                  )}
-                </div>
-
-                {act.caution && (
-                  <p
-                    className="mt-4 max-w-[58ch] text-[13px] leading-[1.55]"
-                    style={{ color: `rgb(var(--act-ink) / 0.8)` }}
-                  >
-                    {act.caution}
-                  </p>
-                )}
-              </motion.div>
-            </AnimatePresence>
+            </Button>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Zone 2 — seasonal product theatre */}
-        <div className="order-2 lg:col-span-6">
-          <div className="relative mx-auto aspect-square w-full max-w-[34rem]">
+        {/* Zone 2 — seasonal product theatre (desktop: right, spanning rows 1–2) */}
+        <div className="order-2 lg:col-start-2 lg:row-start-1 lg:row-span-2">
+          <div className="relative mx-auto aspect-square w-full max-w-[24rem] lg:max-w-[27rem]">
             <motion.div
               aria-hidden="true"
-              className="absolute left-1/2 top-1/2 h-[20rem] w-[20rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[90px]"
+              className="absolute left-1/2 top-1/2 h-[16rem] w-[16rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[90px]"
               style={{ backgroundColor: `rgb(var(--act-glow) / 0.3)` }}
               animate={reduce ? undefined : { scale: [1, 1.06, 1], opacity: [0.75, 1, 0.75] }}
               transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
@@ -480,9 +332,9 @@ export function AtmosHero() {
             </AnimatePresence>
           </div>
 
-          {/* Product summary */}
+          {/* Product summary — sits directly beneath the product image */}
           <div
-            className="mx-auto mt-4 max-w-[34rem] rounded-2xl border px-5 py-4 backdrop-blur-md"
+            className="mx-auto mt-2 max-w-[24rem] rounded-2xl border px-5 py-3.5 backdrop-blur-md lg:max-w-[27rem]"
             style={{
               borderColor: `rgb(var(--act-ink) / 0.16)`,
               backgroundColor: `rgb(var(--act-deep) / 0.78)`,
@@ -495,7 +347,7 @@ export function AtmosHero() {
               {product ? `${product.brand} · ${product.price}` : "Sun protection · Education"}
             </p>
             <p
-              className="mt-1.5 font-display text-base font-semibold"
+              className="mt-1 font-display text-[15px] font-semibold leading-snug"
               style={{ color: `rgb(var(--act-ink))` }}
             >
               {product?.name ?? "How daily sun protection fits a morning routine"}
@@ -504,79 +356,210 @@ export function AtmosHero() {
               {act.ingredient}
             </p>
           </div>
+        </div>
 
-          {/* Slide controls — beneath the product on every viewport */}
-          <div className="mx-auto mt-5 flex max-w-[34rem] items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => goTo(index - 1, "manual")}
-                aria-label="Previous campaign slide"
-                className="flex h-11 w-11 items-center justify-center rounded-full border transition-colors"
-                style={{ borderColor: `rgb(var(--act-ink) / 0.3)`, color: `rgb(var(--act-ink))` }}
+        {/* Campaign story — compact supporting layer (desktop: left, row 2) */}
+        <div
+          className="order-3 max-w-[600px] border-t pt-5 lg:col-start-1 lg:row-start-2 lg:mt-6"
+          style={{ borderColor: `rgb(var(--act-ink) / 0.16)` }}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={act.id}
+              initial={reduce ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
+              transition={reduce ? { duration: 0.2 } : { duration: 0.55, ease: "easeOut" }}
+              aria-roledescription="slide"
+              aria-label={`Slide ${index + 1} of ${CHAPTERS.length}`}
+            >
+              <p
+                className="flex flex-wrap items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em]"
+                style={{ color: `rgb(var(--act-accent))` }}
               >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setUserPaused((p) => {
-                    trackUi("hero_pause_animation", { paused: !p, slide_id: act.id });
-                    return !p;
-                  });
-                }}
-                aria-label={userPaused ? "Play campaign slideshow" : "Pause campaign slideshow"}
-                aria-pressed={userPaused}
-                className="flex h-11 w-11 items-center justify-center rounded-full border transition-colors"
-                style={{ borderColor: `rgb(var(--act-ink) / 0.3)`, color: `rgb(var(--act-ink))` }}
+                <span className="font-display text-[14px] tracking-normal normal-case">
+                  {act.hangul}
+                </span>
+                <span aria-hidden="true">·</span>
+                {act.hangulEnglish}
+              </p>
+              <h2
+                className="mt-2 font-display text-[clamp(1.15rem,2vw,1.6rem)] font-semibold leading-[1.15]"
+                style={{ color: `rgb(var(--act-ink))` }}
               >
-                {userPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
-              </button>
-              <button
-                type="button"
-                onClick={() => goTo(index + 1, "manual")}
-                aria-label="Next campaign slide"
-                className="flex h-11 w-11 items-center justify-center rounded-full border transition-colors"
-                style={{ borderColor: `rgb(var(--act-ink) / 0.3)`, color: `rgb(var(--act-ink))` }}
+                {act.headline}
+              </h2>
+              <p
+                className="mt-2 max-w-[56ch] text-[14px] leading-[1.55]"
+                style={{ color: `rgb(var(--act-ink) / 0.88)` }}
               >
-                <ChevronRight className="h-4 w-4" />
-              </button>
-            </div>
+                {act.copy}
+              </p>
+              {act.note && (
+                <p
+                  className="mt-1.5 max-w-[56ch] text-[13px] leading-[1.55]"
+                  style={{ color: `rgb(var(--act-ink) / 0.78)` }}
+                >
+                  {act.note}
+                </p>
+              )}
 
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2">
-                {CHAPTERS.map((c, i) => (
-                  <button
-                    key={c.id}
-                    type="button"
-                    onClick={() => goTo(i, "manual")}
-                    aria-label={`Show slide ${i + 1}: ${c.hangulEnglish}`}
-                    aria-current={i === index}
-                    className="flex h-11 items-center"
+              <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
+                {product ? (
+                  <Link
+                    to="/product/$slug"
+                    params={{ slug: productSlug(product) }}
+                    onClick={() =>
+                      trackUi("hero_seasonal_edit_click", {
+                        slide_id: act.id,
+                        destination: "product",
+                      })
+                    }
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-full border px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] transition-colors"
+                    style={{
+                      borderColor: `rgb(var(--act-accent))`,
+                      color: `rgb(var(--act-accent))`,
+                    }}
                   >
-                    <span
-                      className={`block h-[3px] rounded-full transition-all duration-500 ${
-                        i === index ? "w-9" : "w-5"
-                      }`}
-                      style={{
-                        backgroundColor:
-                          i === index
-                            ? `rgb(var(--act-accent))`
-                            : `rgb(var(--act-ink) / 0.25)`,
-                      }}
-                    />
-                  </button>
-                ))}
+                    {act.cta}
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                ) : (
+                  <Link
+                    to={act.educationalTo ?? "/learn/hub"}
+                    onClick={() =>
+                      trackUi("hero_seasonal_edit_click", {
+                        slide_id: act.id,
+                        destination: "learn",
+                      })
+                    }
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-full border px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] transition-colors"
+                    style={{
+                      borderColor: `rgb(var(--act-accent))`,
+                      color: `rgb(var(--act-accent))`,
+                    }}
+                  >
+                    {act.cta}
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                )}
+
+                {product && (
+                  <span
+                    className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] font-semibold"
+                    style={{ color: `rgb(var(--act-ink) / 0.72)` }}
+                  >
+                    {[
+                      { label: "Full details", hash: "suits", event: "hero_full_details_click" },
+                      { label: "Key ingredients", hash: "ingredients", event: "hero_key_ingredients_click" },
+                      { label: "How to use", hash: "how", event: "hero_how_to_use_click" },
+                    ].map((item) => (
+                      <Link
+                        key={item.hash}
+                        to="/product/$slug"
+                        params={{ slug: productSlug(product) }}
+                        hash={item.hash}
+                        onClick={() => trackUi(item.event, { slide_id: act.id })}
+                        className="underline-offset-4 hover:underline"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </span>
+                )}
               </div>
-              <span
-                className="font-display text-[12px] font-medium tracking-[0.14em]"
-                style={{ color: `rgb(var(--act-ink) / 0.75)` }}
-              >
-                {String(index + 1).padStart(2, "0")} / {String(CHAPTERS.length).padStart(2, "0")}
-              </span>
+
+              {act.caution && (
+                <p
+                  className="mt-3 max-w-[56ch] text-[13px] leading-[1.55]"
+                  style={{ color: `rgb(var(--act-ink) / 0.8)` }}
+                >
+                  {act.caution}
+                </p>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Slide controls — desktop: right, row 3; mobile: beneath the campaign action */}
+        <div className="order-4 flex items-center justify-between gap-4 lg:col-start-2 lg:row-start-3 lg:mt-4 lg:max-w-[27rem] lg:self-start">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => goTo(index - 1, "manual")}
+              aria-label="Previous campaign slide"
+              className="flex h-11 w-11 items-center justify-center rounded-full border transition-colors"
+              style={{ borderColor: `rgb(var(--act-ink) / 0.3)`, color: `rgb(var(--act-ink))` }}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setUserPaused((p) => {
+                  trackUi("hero_pause_animation", { paused: !p, slide_id: act.id });
+                  return !p;
+                });
+              }}
+              aria-label={userPaused ? "Play campaign slideshow" : "Pause campaign slideshow"}
+              aria-pressed={userPaused}
+              className="flex h-11 w-11 items-center justify-center rounded-full border transition-colors"
+              style={{ borderColor: `rgb(var(--act-ink) / 0.3)`, color: `rgb(var(--act-ink))` }}
+            >
+              {userPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
+            </button>
+            <button
+              type="button"
+              onClick={() => goTo(index + 1, "manual")}
+              aria-label="Next campaign slide"
+              className="flex h-11 w-11 items-center justify-center rounded-full border transition-colors"
+              style={{ borderColor: `rgb(var(--act-ink) / 0.3)`, color: `rgb(var(--act-ink))` }}
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              {CHAPTERS.map((c, i) => (
+                <button
+                  key={c.id}
+                  type="button"
+                  onClick={() => goTo(i, "manual")}
+                  aria-label={`Show slide ${i + 1}: ${c.hangulEnglish}`}
+                  aria-current={i === index}
+                  className="flex h-11 items-center"
+                >
+                  <span
+                    className={`block h-[3px] rounded-full transition-all duration-500 ${
+                      i === index ? "w-9" : "w-5"
+                    }`}
+                    style={{
+                      backgroundColor:
+                        i === index
+                          ? `rgb(var(--act-accent))`
+                          : `rgb(var(--act-ink) / 0.25)`,
+                    }}
+                  />
+                </button>
+              ))}
             </div>
+            <span
+              className="font-display text-[12px] font-medium tracking-[0.14em]"
+              style={{ color: `rgb(var(--act-ink) / 0.75)` }}
+            >
+              {String(index + 1).padStart(2, "0")} / {String(CHAPTERS.length).padStart(2, "0")}
+            </span>
           </div>
         </div>
+
+        {/* Trust reassurance — desktop: left, row 3; mobile: last */}
+        <p
+          className="order-5 text-[13px] font-medium lg:col-start-1 lg:row-start-3 lg:mt-4 lg:self-start"
+          style={{ color: `rgb(var(--act-ink) / 0.75)` }}
+        >
+          Authentic Korean stock · Melbourne dispatch · Guidance with every order
+        </p>
       </div>
     </section>
   );
