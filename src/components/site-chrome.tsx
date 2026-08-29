@@ -364,11 +364,12 @@ export function SiteHeader() {
               </div>
             ))}
             <Link
-              to="/routines"
+              to="/consultation"
+              search={{}}
               onMouseEnter={() => setOpenMenu(null)}
               className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
             >
-              Routines
+              Routine Finder
             </Link>
             <Link
               to="/learn/hub"
@@ -378,19 +379,13 @@ export function SiteHeader() {
               Learn
             </Link>
             <Link
-              to="/blog"
+              to="/about"
               onMouseEnter={() => setOpenMenu(null)}
               className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
             >
-              Blog
+              About
             </Link>
-            <Link
-              to="/faq"
-              onMouseEnter={() => setOpenMenu(null)}
-              className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
-            >
-              FAQ
-            </Link>
+
 
 
           </nav>
