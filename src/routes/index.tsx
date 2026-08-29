@@ -20,7 +20,7 @@ import applyingSerum from "@/assets/applying-serum.webp.asset.json";
 import authenticityCard from "@/assets/authenticity-card.webp.asset.json";
 import ritualScene from "@/assets/ritual-scene.webp";
 import quizBareSkin from "@/assets/quiz-bare-skin.webp";
-import cabinetLineup from "@/assets/brand-lineup.webp.asset.json";
+import cabinetEdit from "@/assets/brand-cabinet-edit.jpg";
 
 const SITE_LOGO_URL =
   "https://skingrocer.com.au/__l5e/assets-v1/e71f3ca2-370b-42a2-bc13-d5609d11ac73/skin-grocer-logo.jpg";
