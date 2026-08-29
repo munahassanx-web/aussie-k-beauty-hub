@@ -24,6 +24,8 @@ import {
 } from "@/lib/collection-filters";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { Reveal } from "@/components/reveal";
+import { KoreaBestsellers } from "@/components/korea-bestsellers";
+
 
 import { FaqSection } from "@/components/faq-section";
 import { SHOP_FAQS, faqJsonLd } from "@/lib/faqs";
