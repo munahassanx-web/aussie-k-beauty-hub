@@ -7,6 +7,7 @@ import {
   RANKING_SOURCE_URL,
   STOCKED_RANKING,
 } from '@/lib/korea-rankings';
+import { koreanReview, REVIEW_SOURCE, REVIEW_SOURCE_URL } from '@/lib/korea-reviews';
 
 const nf = new Intl.NumberFormat('en-AU');
 
@@ -78,9 +79,50 @@ export function KoreaBestsellers() {
               </p>
               <p className="mt-0.5 text-xs tabular-nums text-foreground">{product.price}</p>
             </Link>
+
+            {(() => {
+              const review = koreanReview(product.priceId);
+              if (!review) return null;
+              return (
+                <figure className="mt-2 border-l border-border pl-2.5">
+                  <blockquote
+                    lang="en"
+                    className="line-clamp-4 text-[10px] leading-relaxed text-muted-foreground"
+                  >
+                    “{review.en}”
+                  </blockquote>
+                  <figcaption className="mt-1 text-[9px] leading-relaxed text-muted-foreground">
+                    <span lang="ko">{review.author}</span>
+                    {review.skinType ? ` · ${review.skinType}` : ''} ·{' '}
+                    <a
+                      href={review.url}
+                      target="_blank"
+                      rel="noreferrer nofollow"
+                      className="underline underline-offset-2 hover:text-foreground"
+                    >
+                      {REVIEW_SOURCE}
+                    </a>
+                  </figcaption>
+                </figure>
+              );
+            })()}
           </li>
         ))}
       </ul>
+
+      <p className="mt-5 text-[10px] leading-relaxed text-muted-foreground">
+        Star ratings and review counts are Hwahae&rsquo;s published aggregates. The quotes are verbatim excerpts from
+        real Korean shoppers&rsquo; reviews published on{' '}
+        <a
+          href={REVIEW_SOURCE_URL}
+          target="_blank"
+          rel="noreferrer nofollow"
+          className="underline underline-offset-4 hover:text-foreground"
+        >
+          {REVIEW_SOURCE}
+        </a>
+        , translated into English — each one links back to the original.
+      </p>
     </section>
   );
 }
