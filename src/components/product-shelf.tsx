@@ -233,9 +233,9 @@ export function ProductShelf() {
                 A considered starting shelf.
               </h2>
               <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-ink/70 md:text-base">
-                Six Korean skincare essentials selected for their formulation, customer
-                relevance and place in a real routine. Start with what your skin needs—not
-                what is making the most noise.
+                Six Korean skincare starting points selected for their formulation, routine
+                role and customer relevance. Start with what your skin needs—not what is
+                making the most noise.
               </p>
               <Link
                 to="/about"
