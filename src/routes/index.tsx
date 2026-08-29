@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { trackUi } from "@/lib/analytics";
 import { useBuyNow } from "@/hooks/use-buy-now";
 import { FaqSection } from "@/components/faq-section";
 import { HOME_FAQS, faqJsonLd } from "@/lib/faqs";
@@ -629,29 +630,52 @@ function LearnStrip() {
 
 function Promise() {
   const items = [
-    { num: "01", title: "AUTHENTIC FROM KOREA", line: "Verified by Skin Grocer" },
-    { num: "02", title: "DISPATCHED FROM MELBOURNE", line: "Fast Australian delivery" },
-    { num: "03", title: "PERSONAL GUIDANCE", line: "Skincare made simpler" },
-    { num: "04", title: "CURATED WITH INTENTION", line: "Only what’s worth knowing" },
+    { num: "01", title: "AUTHENTICITY CHECKED", line: "Verified by the Skin Grocer team before dispatch." },
+    { num: "02", title: "STOCKED IN MELBOURNE", line: "Australian-held inventory with truthful stock status." },
+    { num: "03", title: "GUIDANCE INCLUDED", line: "Clear instructions for where each product fits." },
+    { num: "04", title: "CURATED WITH PURPOSE", line: "Selected for formulation, routine fit and customer relevance." },
   ];
+  const ref = useRef<HTMLUListElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const seen = new Set<string>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const id = (e.target as HTMLElement).dataset["trustId"];
+          if (e.isIntersecting && id && !seen.has(id)) {
+            seen.add(id);
+            trackUi("homepage_trust_item_view", { item: id });
+          }
+        }
+      },
+      { threshold: 0.6 },
+    );
+    el.querySelectorAll("[data-trust-id]").forEach((n) => io.observe(n));
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <section className="border-b border-border/60 bg-paper">
+    <section className="border-b border-border/60 bg-paper" aria-label="Skin Grocer promises">
       <div className="mx-auto max-w-7xl px-6">
-        <ul className="grid divide-y divide-border/60 md:grid-cols-4 md:divide-y-0 md:divide-x">
+        <ul
+          ref={ref}
+          className="grid grid-cols-2 gap-x-6 divide-border/60 md:grid-cols-4 md:gap-0 md:divide-x"
+        >
           {items.map((item) => (
             <li
               key={item.num}
-              className="flex flex-col items-center gap-3 py-10 text-center md:items-start md:px-8 md:py-14 md:text-left first:md:pl-0 last:md:pr-0"
+              data-trust-id={item.num}
+              className="flex flex-col gap-2 py-8 md:px-8 md:py-14 first:md:pl-0 last:md:pr-0"
             >
               <span className="font-display text-xs italic leading-none text-ink/60">
                 {item.num}
               </span>
-              <div className="space-y-1">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink">
-                  {item.title}
-                </p>
-                <p className="text-xs text-muted-foreground">{item.line}</p>
-              </div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink">
+                {item.title}
+              </p>
+              <p className="text-xs leading-relaxed text-ink/70">{item.line}</p>
             </li>
           ))}
         </ul>
@@ -659,6 +683,7 @@ function Promise() {
     </section>
   );
 }
+
 
 const routineSteps: { num: string; step: string; line: string; cat: string }[] = [
   { num: "01", step: "Cleanse", line: "Remove the day without stripping your skin.", cat: "Cleansers" },
