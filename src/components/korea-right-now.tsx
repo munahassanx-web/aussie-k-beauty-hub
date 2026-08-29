@@ -129,8 +129,8 @@ export function KoreaRightNow() {
                 className="aspect-[16/10] w-full bg-paper/5 object-cover"
               />
               <figcaption className="mt-3 text-[11.5px] leading-relaxed text-paper/55">
-                {feature.coverAlt}. Photographed for Skin Grocer; products pictured are stocked
-                lines and are not presented as ranked.
+                {feature.coverAlt}. Products pictured are stocked Skin Grocer lines and are not
+                presented as ranked.
               </figcaption>
             </figure>
 
