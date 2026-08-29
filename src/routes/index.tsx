@@ -348,12 +348,10 @@ function SkinQuizSection() {
 
           <Link
             to="/consultation"
-            className="group mt-10 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-ink transition hover:text-hanbok-deep"
+            className="group mt-10 inline-flex items-center gap-3 rounded-full bg-pop px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-pop-foreground shadow-[0_16px_38px_-12px] shadow-pop/60 transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
           >
-            <span className="border-b border-ink/30 pb-0.5 transition-colors group-hover:border-hanbok-deep">
-              Find your routine
-            </span>
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            Take the skin quiz
+            <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
         </div>
       </div>
