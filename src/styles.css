@@ -25,6 +25,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-pop: var(--pop);
+  --color-pop-foreground: var(--pop-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -313,6 +315,9 @@
   --accent-foreground: var(--ink);
   --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: oklch(0.98 0 0);
+  /* High-energy CTA — bright Seoul coral, used for primary action buttons */
+  --pop: oklch(0.63 0.22 28);
+  --pop-foreground: oklch(0.99 0 0);
   --border: var(--sand-deep);
   --input: var(--sand-deep);
   --ring: var(--hanbok);

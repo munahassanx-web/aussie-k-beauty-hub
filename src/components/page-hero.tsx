@@ -127,7 +127,7 @@ export function PageHero({
                 <Link
                   to={cta.to}
                   hash={cta.hash}
-                  className="group inline-flex items-center gap-3 rounded-full bg-foreground px-7 py-3.5 text-[11px] font-bold uppercase tracking-[0.25em] text-background transition-transform duration-300 hover:-translate-y-0.5"
+                  className="group inline-flex items-center gap-3 rounded-full bg-pop px-7 py-3.5 text-[11px] font-bold uppercase tracking-[0.25em] text-pop-foreground shadow-[0_14px_34px_-12px] shadow-pop/60 transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
                 >
                   {cta.label}
                   <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
