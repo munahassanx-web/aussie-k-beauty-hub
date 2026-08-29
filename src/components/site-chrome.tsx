@@ -333,7 +333,8 @@ export function SiteHeader() {
                     openMenu === key ? "text-primary" : "text-foreground/75 hover:text-primary"
                   }`}
                 >
-                  {key}
+                  {topLevelLinks[key].label}
+
                   <span
                     className={`absolute -bottom-0.5 left-0 h-px bg-primary transition-all ${
                       openMenu === key ? "w-full" : "w-0"
