@@ -663,9 +663,15 @@ export function AtmosHero() {
                 rotateX: heroTiltX,
                 transformStyle: "preserve-3d",
               }}
-              className="absolute inset-x-0 top-[2%] mx-auto w-[88%] will-change-transform"
+className="absolute inset-x-0 top-[1%] mx-auto w-[96%] will-change-transform"
             >
               <div className="relative aspect-square">
+                {/* Sculptural plinth shadow — soft grounding beneath the packshot */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-[4%] left-1/2 h-10 w-[58%] -translate-x-1/2 rounded-[100%] blur-[26px]"
+                  style={{ backgroundColor: `rgb(var(--act-ink) / 0.28)` }}
+                />
                 {/* Shockwave burst on each act change */}
                 {!reduce && motionStyle.waves && (
                   <AnimatePresence initial={false}>
