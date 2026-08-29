@@ -336,9 +336,9 @@ export function AtmosHero() {
             </motion.p>
           </AnimatePresence>
 
-          <h1
+<h1
             id="atmos-heading"
-            className="mt-5 font-masthead text-[clamp(2.7rem,6.4vw,5.4rem)] font-black leading-[0.9] tracking-[-0.02em] [text-shadow:0_2px_0_rgba(255,255,255,0.35),0_18px_44px_rgba(255,255,255,0.55)]"
+            className="mt-5 font-masthead text-[clamp(3.1rem,7.4vw,6.2rem)] font-black leading-[0.85] tracking-[-0.03em] mix-blend-multiply [text-shadow:0_18px_44px_rgba(255,255,255,0.5)]"
             style={{ color: `rgb(var(--act-ink))` }}
           >
             <AnimatePresence mode="wait" initial={false}>
