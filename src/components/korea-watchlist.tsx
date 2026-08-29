@@ -30,7 +30,7 @@ export function KoreaWatchlist() {
           </p>
         </div>
         <Link
-          to="/restock"
+          to="/stock-request"
           className="group relative inline-flex items-center py-2 text-[11px] font-bold uppercase tracking-[0.3em] text-foreground"
         >
           Ask us to stock it
@@ -65,6 +65,13 @@ export function KoreaWatchlist() {
               {e.rating.toFixed(2)} ★ · {nf.format(e.reviews)} Korean reviews
             </p>
             <p className="mt-1 line-clamp-2 text-[10px] leading-relaxed text-muted-foreground">{e.note}</p>
+            <Link
+              to="/stock-request"
+              search={{ brand: e.brand, product: e.name }}
+              className="mt-2 inline-flex min-h-9 items-center text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground underline underline-offset-4 hover:text-primary"
+            >
+              Ask us to stock it
+            </Link>
           </li>
         ))}
       </ul>
