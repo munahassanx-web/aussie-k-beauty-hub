@@ -84,8 +84,8 @@ const EDIT: EditEntry[] = [
   {
     priceId: "biodance_bio_collagen_real_deep_mask_onetime",
     step: "Optional · Mask",
-    bestFor: "Skin that wants an occasional extra hydration step",
-    texture: "Hydrogel mask · Melts down overnight",
+    bestFor: "An occasional hydration-focused ritual",
+    texture: "Hydrogel mask · Becomes more transparent as it wears",
     why: [
       "A hydrogel mask worn overnight rather than a ten-minute sheet mask.",
       "An occasional addition, not a step that replaces anything in the routine.",
