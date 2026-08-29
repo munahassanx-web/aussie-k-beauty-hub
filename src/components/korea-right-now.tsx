@@ -209,10 +209,32 @@ export function KoreaRightNow() {
                   Signal type
                 </dt>
                 <dd className="mt-1 text-paper/80">
-                  Retail ranking · customer-review aggregate
+                  Beauty-platform ranking · customer-review aggregate
                 </dd>
               </div>
             </dl>
+
+            {/* What this source can and cannot support */}
+            <div className="mt-6 grid gap-x-8 gap-y-5 border-t border-paper/20 pt-6 sm:grid-cols-2">
+              <div>
+                <h4 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/55">
+                  What this signal can tell us
+                </h4>
+                <p className="mt-2 text-[12.5px] leading-relaxed text-paper/80">
+                  Which products are receiving strong ranking and review activity on Hwahae at the
+                  date checked.
+                </p>
+              </div>
+              <div>
+                <h4 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/55">
+                  What this signal cannot tell us
+                </h4>
+                <p className="mt-2 text-[12.5px] leading-relaxed text-paper/80">
+                  It does not independently prove nationwide sales, repeat purchases, clinical
+                  effectiveness or suitability for every customer.
+                </p>
+              </div>
+            </div>
           </article>
 
           {/* 40% — methodology + evidence note */}
