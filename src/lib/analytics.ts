@@ -158,3 +158,22 @@ export function trackOnce(key: string, event: AnalyticsEvent, payload: Payload =
 export function centsToAud(cents: number): number {
   return Math.round(cents) / 100;
 }
+
+/**
+ * UI interaction events (hero carousel, navigation affordances). Kept separate
+ * from the GA4 ecommerce union so merchandising events stay strictly typed,
+ * while still passing through the same PII scrubbing and transport rules.
+ */
+export function trackUi(event: string, payload: Payload = {}): void {
+  if (typeof window === 'undefined') return;
+  try {
+    const clean = scrub(payload);
+    if (window.gtag) {
+      window.gtag('event', event, clean);
+    } else {
+      bufferOnly({ event, ...clean });
+    }
+  } catch {
+    /* best effort only */
+  }
+}

@@ -2,7 +2,6 @@ import { NewsletterForm } from "@/components/newsletter-form";
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
-import { useStaffAccess } from "@/hooks/use-staff-access";
 import { useCart } from "@/lib/cart";
 import { ProductSearchOverlay } from "@/components/product-search";
 import { BrandWordmark, BrandLine } from "@/components/brand-wordmark";
@@ -17,7 +16,7 @@ type MegaSection = {
 
 const topLevelLinks: Record<string, MegaLink> = {
   Shop: { label: "Shop", to: "/shop" },
-  Concerns: { label: "Concerns", to: "/skin-concerns" },
+  Concerns: { label: "Shop by Concern", to: "/skin-concerns" },
   Brands: { label: "Brands", to: "/brands" },
 };
 
@@ -94,10 +93,11 @@ const megaMenus: Record<string, MegaSection[]> = {
 };
 
 const announcements = [
-  "Free AU shipping over $100",
-  "Authenticity guaranteed",
-  "Dispatched from Australia",
+  "Free standard delivery over A$100",
+  "Authenticity verified",
+  "Dispatched from Melbourne",
 ];
+
 
 function AnnouncementBar() {
   const [active, setActive] = useState(0);
@@ -180,7 +180,6 @@ export function SiteHeader() {
   const navRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
-  const { isStaff } = useStaffAccess();
   const cart = useCart();
 
   const closeMenus = () => {
@@ -290,27 +289,8 @@ export function SiteHeader() {
               <UserIcon />
               {user ? "Account" : "Sign in"}
             </Link>
-            {isStaff ? (
-              <Link
-                to="/admin"
-                onClick={closeMenus}
-                aria-label="Admin dashboard"
-                className="hidden items-center rounded-full border border-primary px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-primary hover:bg-primary hover:text-primary-foreground md:inline-flex"
-              >
-                Admin
-              </Link>
-            ) : (
-              <Link
-                to="/admin"
-                onClick={closeMenus}
-                aria-label="Admin login — staff accounts only"
-                title="Admin login — staff accounts only"
-                className="hidden items-center gap-1.5 rounded-full border border-border/70 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/55 hover:border-foreground/30 hover:text-foreground md:inline-flex"
-              >
-                <LockIcon />
-                Admin Login
-              </Link>
-            )}
+            {/* Admin access is intentionally not exposed in the public header. */}
+
             <button
               type="button"
               onClick={() => { closeMenus(); cart.setOpen(true); }}
@@ -351,7 +331,8 @@ export function SiteHeader() {
                     openMenu === key ? "text-primary" : "text-foreground/75 hover:text-primary"
                   }`}
                 >
-                  {key}
+                  {topLevelLinks[key].label}
+
                   <span
                     className={`absolute -bottom-0.5 left-0 h-px bg-primary transition-all ${
                       openMenu === key ? "w-full" : "w-0"
@@ -381,11 +362,12 @@ export function SiteHeader() {
               </div>
             ))}
             <Link
-              to="/routines"
+              to="/consultation"
+              search={{}}
               onMouseEnter={() => setOpenMenu(null)}
               className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
             >
-              Routines
+              Routine Finder
             </Link>
             <Link
               to="/learn/hub"
@@ -395,19 +377,13 @@ export function SiteHeader() {
               Learn
             </Link>
             <Link
-              to="/blog"
+              to="/about"
               onMouseEnter={() => setOpenMenu(null)}
               className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
             >
-              Blog
+              About
             </Link>
-            <Link
-              to="/faq"
-              onMouseEnter={() => setOpenMenu(null)}
-              className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
-            >
-              FAQ
-            </Link>
+
 
 
           </nav>
@@ -510,30 +486,18 @@ export function SiteHeader() {
                   {user ? "Your account" : "Sign in"}
                   <span className="text-base text-primary">→</span>
                 </Link>
-                {isStaff ? (
-                  <Link to="/admin" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-primary">
-                    Admin dashboard
-                    <span className="text-base text-primary">→</span>
-                  </Link>
-                ) : (
-                  <Link to="/admin" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground/70">
-                    <span>
-                      Admin Login
-                      <span className="block text-sm font-normal normal-case text-foreground/45">Staff accounts only</span>
-                    </span>
-                    <span className="text-base text-primary">→</span>
-                  </Link>
-                )}
+                {/* Admin access is intentionally not exposed in the public menu. */}
                 <Link to="/wishlist" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground">
                   Saved
                   <span className="text-base text-primary">→</span>
                 </Link>
                 <Link
-                  to="/routines"
+                  to="/consultation"
+                  search={{}}
                   onClick={closeMenus}
                   className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
                 >
-                  Routine Kits
+                  Routine Finder
                   <span className="text-base text-primary">→</span>
                 </Link>
                 <Link
@@ -545,21 +509,14 @@ export function SiteHeader() {
                   <span className="text-base text-primary">→</span>
                 </Link>
                 <Link
-                  to="/blog"
+                  to="/about"
                   onClick={closeMenus}
                   className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
                 >
-                  Blog
+                  About
                   <span className="text-base text-primary">→</span>
                 </Link>
-                <Link
-                  to="/faq"
-                  onClick={closeMenus}
-                  className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
-                >
-                  FAQ
-                  <span className="text-base text-primary">→</span>
-                </Link>
+
                 <button
                   type="button"
                   onClick={() => { closeMenus(); setSearchOpen(true); }}
@@ -633,13 +590,8 @@ export function SiteFooter() {
               </button>
             </li>
           </ul>
-          <div className="mt-8 border-t border-paper/15 pt-5">
-            <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">Staff</h4>
-            <p className="mt-3 text-sm text-paper/70">
-              <Link to="/admin" className="hover:text-paper">Admin Login</Link>
-            </p>
-            <p className="mt-1 text-xs text-paper/45">Staff accounts required.</p>
-          </div>
+          {/* Staff sign-in lives at /admin and is intentionally unlinked publicly. */}
+
         </div>
 
         <div className="md:col-span-2">
@@ -708,14 +660,6 @@ function BagIcon() {
   );
 }
 
-function LockIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-      <rect x="5" y="11" width="14" height="10" rx="2" />
-      <path d="M8 11V7a4 4 0 0 1 8 0v4" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 function MenuIcon() {
   return (
