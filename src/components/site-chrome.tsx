@@ -291,27 +291,8 @@ export function SiteHeader() {
               <UserIcon />
               {user ? "Account" : "Sign in"}
             </Link>
-            {isStaff ? (
-              <Link
-                to="/admin"
-                onClick={closeMenus}
-                aria-label="Admin dashboard"
-                className="hidden items-center rounded-full border border-primary px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-primary hover:bg-primary hover:text-primary-foreground md:inline-flex"
-              >
-                Admin
-              </Link>
-            ) : (
-              <Link
-                to="/admin"
-                onClick={closeMenus}
-                aria-label="Admin login — staff accounts only"
-                title="Admin login — staff accounts only"
-                className="hidden items-center gap-1.5 rounded-full border border-border/70 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/55 hover:border-foreground/30 hover:text-foreground md:inline-flex"
-              >
-                <LockIcon />
-                Admin Login
-              </Link>
-            )}
+            {/* Admin access is intentionally not exposed in the public header. */}
+
             <button
               type="button"
               onClick={() => { closeMenus(); cart.setOpen(true); }}
