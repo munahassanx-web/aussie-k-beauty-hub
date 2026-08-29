@@ -32,6 +32,8 @@ function About() {
         lede="Seoul sourced, Melbourne verified. A small Australian team that would rather show you the receipts."
         cta={{ label: "Shop the shelf", to: "/shop" }}
         tone="glow"
+        index="02"
+        ghost="Story"
       />
 
       <section className="mx-auto max-w-6xl px-6 py-24 pt-16">

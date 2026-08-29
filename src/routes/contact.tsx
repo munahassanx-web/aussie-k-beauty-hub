@@ -92,7 +92,10 @@ function Contact() {
         title="Say hello."
         titleAccent="We answer personally."
         lede="Routine help, order tracking or vending partnerships — a real Melbourne team, usually within a few hours."
+        cta={{ label: "Shop the edit", to: "/shop" }}
         tone="plum"
+        index="03"
+        ghost="Hello"
       />
       <div className="mx-auto grid max-w-7xl gap-16 px-6 pt-16 md:grid-cols-2">
         <div>

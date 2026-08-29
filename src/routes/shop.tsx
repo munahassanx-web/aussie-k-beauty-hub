@@ -146,7 +146,10 @@ function Shop() {
         title="Carefully sourced."
         titleAccent="Always authentic."
         lede="Verified brand channels, held in our Melbourne warehouse — filter by routine step, concern or ingredient."
+        cta={{ label: "Take the skin quiz", to: "/", hash: "quiz" }}
         tone="sage"
+        index="01"
+        ghost="The Edit"
       />
       <div className="mx-auto max-w-7xl px-6 pt-12">
 
