@@ -25,6 +25,8 @@ import {
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { Reveal } from "@/components/reveal";
 import { KoreaBestsellers } from "@/components/korea-bestsellers";
+import { KoreaWatchlist } from "@/components/korea-watchlist";
+
 
 
 import { FaqSection } from "@/components/faq-section";
@@ -237,6 +239,8 @@ function Shop() {
         onOpen={() => setCompareOpen(true)}
       />
       <CompareModal items={compare} open={compareOpen} onClose={() => setCompareOpen(false)} />
+
+      <KoreaWatchlist />
 
       <FaqSection
         id="shopping-faq"
