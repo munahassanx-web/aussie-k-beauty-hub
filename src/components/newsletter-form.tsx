@@ -16,9 +16,15 @@ type Status = "idle" | "loading" | "success" | "error";
 export function NewsletterForm({
   source,
   variant = "light",
+  submitLabel = "Join the list",
+  onEvent,
 }: {
   source: "homepage" | "footer";
   variant?: "light" | "dark";
+  /** Optional custom submit button label. */
+  submitLabel?: string;
+  /** Optional lifecycle hook for placement-specific analytics. */
+  onEvent?: (stage: "submit" | "success" | "error") => void;
 }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
@@ -28,9 +34,11 @@ export function NewsletterForm({
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    onEvent?.("submit");
     const parsed = emailSchema.safeParse(email);
     if (!parsed.success) {
       setStatus("error");
+      onEvent?.("error");
       setMessage(parsed.error.issues[0]?.message ?? "Please enter a valid email address.");
       return;
     }
@@ -43,12 +51,14 @@ export function NewsletterForm({
     // 23505 = duplicate email; treat as already subscribed, not a failure.
     if (error && error.code !== "23505") {
       setStatus("error");
+      onEvent?.("error");
       setMessage("Something went wrong. Please try again in a moment.");
       return;
     }
 
     // Signup event carries the placement only — never the email address.
     track("sign_up", { method: "newsletter", placement: source });
+    onEvent?.("success");
     setStatus("success");
     setMessage(
       error?.code === "23505"
@@ -111,7 +121,7 @@ export function NewsletterForm({
               : "border-ink/15 bg-ink text-paper hover:bg-ink/85"
           }`}
         >
-          {status === "loading" ? "…" : "Join the list"}
+          {status === "loading" ? "…" : submitLabel}
         </button>
       </form>
       {status === "error" && (
