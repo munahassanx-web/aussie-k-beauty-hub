@@ -188,9 +188,8 @@ export function AtmosHero() {
     "--act-ink": act.theme.ink,
   } as React.CSSProperties;
 
-  const seasonalTo = product
-    ? { to: "/product/$slug" as const, params: { slug: productSlug(product) } }
-    : { to: "/shop" as const };
+
+
 
   return (
     <section
