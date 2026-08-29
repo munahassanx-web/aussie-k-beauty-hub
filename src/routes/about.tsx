@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { PageHero } from "@/components/page-hero";
 import verifyAsset from "@/assets/verify-batch-code.png.asset.json";
 import packingAsset from "@/assets/packing-wax-seal.png.asset.json";
 import warehouseStockAsset from "@/assets/warehouse-stock.png.asset.json";
@@ -23,14 +24,17 @@ export const Route = createFileRoute("/about")({
 function About() {
   return (
     <>
-      <section className="mx-auto max-w-6xl px-6 py-24">
-        <p className="text-center text-xs uppercase tracking-[0.2em] text-primary">Our Story</p>
-        <h1 className="mt-4 text-center text-5xl text-foreground md:text-7xl">
-          Built on <em className="not-italic text-accent">proof</em>, not promises.
-        </h1>
-        <p className="mt-6 text-center text-[10px] font-medium uppercase tracking-[0.28em] text-muted-foreground">
-          Seoul Sourced. Skin Assured.
-        </p>
+      <PageHero
+        eyebrow="Our story"
+        hangul="우리 이야기"
+        title="Built on proof,"
+        titleAccent="not promises."
+        lede="Seoul sourced, Melbourne verified. A small Australian team that would rather show you the receipts."
+        cta={{ label: "Shop the shelf", to: "/shop" }}
+        tone="glow"
+      />
+
+      <section className="mx-auto max-w-6xl px-6 py-24 pt-16">
 
 
         <div className="mt-16 grid items-center gap-12 md:grid-cols-2">

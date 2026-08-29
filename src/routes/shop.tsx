@@ -1,3 +1,4 @@
+import { PageHero } from "@/components/page-hero";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
@@ -138,17 +139,16 @@ function Shop() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-12">
-      <header className="max-w-2xl">
-        <p className="eyebrow eyebrow-rule">The skin edit</p>
-        <h1 className="display-section mt-4 text-foreground">
-          Carefully sourced. <em className="not-italic text-primary">Always authentic.</em>
-        </h1>
-        <p className="lede mt-5">
-          Every product is sourced through verified brand channels and held in our Melbourne
-          warehouse — filter by routine step, concern or ingredient to narrow the range.
-        </p>
-      </header>
+    <div className="pb-12">
+      <PageHero
+        eyebrow="The skin edit"
+        hangul="컬렉션"
+        title="Carefully sourced."
+        titleAccent="Always authentic."
+        lede="Verified brand channels, held in our Melbourne warehouse — filter by routine step, concern or ingredient."
+        tone="sage"
+      />
+      <div className="mx-auto max-w-7xl px-6 pt-12">
 
       {/* Toolbar */}
       <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-y border-border py-4">
@@ -239,6 +239,7 @@ function Shop() {
         intro="Everything you need to choose between a toner, an essence and an ampoule — and how to layer them safely."
         items={SHOP_FAQS}
       />
+    </div>
     </div>
   );
 }

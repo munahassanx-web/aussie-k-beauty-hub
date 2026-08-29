@@ -1,3 +1,4 @@
+import { PageHero } from "@/components/page-hero";
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
@@ -84,16 +85,18 @@ function Contact() {
 
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-20">
-      <div className="grid gap-16 md:grid-cols-2">
+    <div className="pb-20">
+      <PageHero
+        eyebrow="Contact"
+        hangul="연락하기"
+        title="Say hello."
+        titleAccent="We answer personally."
+        lede="Routine help, order tracking or vending partnerships — a real Melbourne team, usually within a few hours."
+        tone="plum"
+      />
+      <div className="mx-auto grid max-w-7xl gap-16 px-6 pt-16 md:grid-cols-2">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-primary">Contact</p>
-          <h1 className="mt-4 text-5xl text-foreground md:text-6xl">Say hello.</h1>
-          <p className="mt-5 max-w-md text-lg text-muted-foreground">
-            Whether you need help building a routine, tracking an order, or
-            hosting a Skin Grocer vending machine — our small Aussie team replies
-            personally, usually within a few hours.
-          </p>
+
 
           <dl className="mt-10 space-y-6 break-words [overflow-wrap:anywhere]">
             <div>
