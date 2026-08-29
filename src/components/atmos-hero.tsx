@@ -264,20 +264,20 @@ export function AtmosHero() {
           </p>
           <h1
             id="atmos-heading"
-            className="mt-3 font-masthead text-[clamp(2.1rem,4.2vw,3.4rem)] font-black leading-[0.98] tracking-[-0.02em]"
+            className="mt-2.5 font-masthead text-[clamp(2rem,3.9vw,3.1rem)] font-black leading-[0.98] tracking-[-0.02em]"
             style={{ color: `rgb(var(--act-ink))` }}
           >
             Korean skincare, chosen with more care.
           </h1>
           <p
-            className="mt-4 max-w-[56ch] text-[16px] leading-[1.55] md:text-[17px]"
+            className="mt-3 max-w-[56ch] text-[16px] leading-[1.55] md:text-[17px]"
             style={{ color: `rgb(var(--act-ink) / 0.92)` }}
           >
             Products Koreans genuinely use—selected with Australian climate and
             real routines in mind. Stocked in Melbourne and explained without the hype.
           </p>
 
-          <div className="mt-6">
+          <div className="mt-5">
             <Button
               asChild
               className="group h-auto min-h-[48px] w-full rounded-full px-8 py-4 text-[13px] font-bold uppercase tracking-[0.16em] shadow-[0_20px_50px_-20px_var(--pop)] transition-transform duration-200 hover:-translate-y-0.5 sm:w-auto"
@@ -297,7 +297,7 @@ export function AtmosHero() {
 
         {/* Zone 2 — seasonal product theatre (desktop: right, spanning rows 1–2) */}
         <div className="order-2 lg:col-start-2 lg:row-start-1 lg:row-span-2">
-          <div className="relative mx-auto aspect-square w-full max-w-[17rem] sm:max-w-[20rem] lg:max-w-[27rem]">
+          <div className="relative mx-auto aspect-square w-full max-w-[17rem] sm:max-w-[20rem] lg:max-w-[25rem]">
             <motion.div
               aria-hidden="true"
               className="absolute left-1/2 top-1/2 h-[16rem] w-[16rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[90px]"
@@ -333,7 +333,7 @@ export function AtmosHero() {
 
           {/* Product summary — sits directly beneath the product image */}
           <div
-            className="mx-auto mt-2 max-w-[17rem] rounded-2xl border px-5 py-3.5 backdrop-blur-md sm:max-w-[20rem] lg:max-w-[27rem]"
+            className="mx-auto mt-2 max-w-[17rem] rounded-2xl border px-5 py-3.5 backdrop-blur-md sm:max-w-[20rem] lg:max-w-[25rem]"
             style={{
               borderColor: `rgb(var(--act-ink) / 0.16)`,
               backgroundColor: `rgb(var(--act-deep) / 0.78)`,
@@ -359,7 +359,7 @@ export function AtmosHero() {
 
         {/* Campaign story — compact supporting layer (desktop: left, row 2) */}
         <div
-          className="order-3 max-w-[600px] border-t pt-5 lg:col-start-1 lg:row-start-2 lg:mt-6"
+          className="order-3 max-w-[600px] border-t pt-4 lg:col-start-1 lg:row-start-2 lg:mt-5"
           style={{ borderColor: `rgb(var(--act-ink) / 0.16)` }}
         >
           <AnimatePresence mode="wait" initial={false}>
@@ -403,7 +403,7 @@ export function AtmosHero() {
                 </p>
               )}
 
-              <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <div className="mt-3.5 flex flex-wrap items-center gap-x-5 gap-y-3">
                 {product ? (
                   <Link
                     to="/product/$slug"
