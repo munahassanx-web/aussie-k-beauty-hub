@@ -255,14 +255,9 @@ export function DailyRitualSection() {
   return (
     <section className="bg-paper" aria-labelledby="daily-ritual-heading">
       <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-14">
-          {/* Product-led editorial visual — ~45% desktop */}
-          <div className="order-2 lg:order-1 lg:col-span-5">
-            <RoutineShelfVisual />
-          </div>
-
-          {/* Interactive routine guide — ~55% desktop */}
-          <div className="order-1 lg:order-2 lg:col-span-7">
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-x-14 lg:gap-y-0">
+          {/* Heading + introduction */}
+          <div className="order-1 lg:order-none lg:col-start-6 lg:col-span-7 lg:row-start-1">
             <p className="eyebrow eyebrow-rule text-clay">THE DAILY RITUAL</p>
             <h2
               id="daily-ritual-heading"
