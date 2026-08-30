@@ -383,7 +383,7 @@ function RoutineDialog({
                     <label className="mt-2 flex items-center justify-end gap-2 text-xs text-ink/70">
                       <input
                         type="checkbox"
-                        className="h-4 w-4 accent-[hsl(var(--pop,340_70%_50%))]"
+                        className="h-4 w-4"
                         checked={Boolean(selected[slot.priceId]) && ok}
                         disabled={!ok}
                         onChange={(e) =>
