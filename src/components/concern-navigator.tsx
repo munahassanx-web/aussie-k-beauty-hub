@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 
 import imgHydration from "@/assets/concerns/notice-hydration.webp";
 import imgAcne from "@/assets/concerns/notice-acne.webp";
+
 import imgPigmentation from "@/assets/concerns/notice-pigmentation.webp";
 import imgSensitivity from "@/assets/concerns/notice-sensitivity.webp";
 import imgFirmness from "@/assets/concerns/notice-firmness.webp";
