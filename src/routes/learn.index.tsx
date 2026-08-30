@@ -127,10 +127,26 @@ function LearnPage() {
 
       <div className="mt-12">
         {isLoading ? (
-          <p className="text-sm text-muted-foreground">Loading the encyclopedia…</p>
+          <div aria-live="polite" aria-busy="true">
+            <span className="sr-only">Loading ingredient profiles…</span>
+            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {[0, 1, 2, 3, 4, 5].map((i) => (
+                <li
+                  key={i}
+                  className="h-44 animate-pulse rounded-2xl border border-border bg-secondary/40"
+                />
+              ))}
+            </ul>
+          </div>
         ) : isError ? (
           <p className="text-sm text-muted-foreground">
-            Something went wrong loading ingredients. Please refresh.
+            We couldn’t load the ingredient profiles. The introductory guides below are still
+            available.
+          </p>
+        ) : (data ?? []).length === 0 ? (
+          <p className="text-sm text-muted-foreground">
+            Ingredient profiles are being added. Start with the plain-English ingredient questions
+            below.
           </p>
         ) : visible.length === 0 ? (
           <p className="text-sm text-muted-foreground">

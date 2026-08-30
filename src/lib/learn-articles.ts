@@ -208,7 +208,7 @@ const baseArticles: LearnArticle[] = [
     slug: "pdrn-explained",
     pillar: "ingredients",
     meta: "Ingredient · Active",
-    title: "PDRN: What Salmon DNA Actually Does For Your Skin",
+    title: "PDRN in Topical Skincare: What We Know and What Remains Uncertain",
     blurb: "The clinic ingredient that moved onto retail shelves — and where to start with it.",
     read: "6 min read",
     cover: pdrnAmpoule,
@@ -464,13 +464,13 @@ const baseArticles: LearnArticle[] = [
     slug: "prevention-over-repair",
     pillar: "seoul",
     meta: "Seoul Signal · Philosophy",
-    title: "미리 관리: Korea's Prevention-First Skincare Philosophy",
-    blurb: "The idea that reframes everything — fix it before it becomes a problem.",
+    title: "미리 관리: Understanding Korea's Prevention-First Skincare Conversation",
+    blurb: "A closer look at how consistency and prevention-minded care appear in Korean beauty conversations.",
     read: "7 min read",
     cover: preventionFirst,
     coverAlt: "Korean woman smoothing sunscreen along her cheekbone in soft morning light — daily preventative care",
     standfirst:
-      "Ask a Korean shopper what they want from skincare and the answer is rarely 'glass skin'. It's 관리 — management. Skin kept healthy, calm and unbothered, so that nothing ever needs correcting.",
+      "In Korean beauty conversations, 관리—often translated as management or ongoing care—is frequently used to describe consistency and prevention-minded habits. This does not mean every Korean consumer follows the same philosophy or that skincare can prevent every concern.",
     sections: [
       {
         heading: "The mistranslation at the centre of Western K-beauty",
@@ -494,7 +494,7 @@ const baseArticles: LearnArticle[] = [
       },
     ],
     keyPoints: [
-      "The Korean goal is 관리 — management — not glass skin.",
+      "관리 — ongoing management — is a recurring theme in Korean beauty conversations.",
       "Soothing products are bought as insurance, before problems appear.",
       "Low-strength actives maintained for years beat high-strength rescue attempts.",
       "If it stings, it's the wrong product.",
@@ -512,7 +512,7 @@ const baseArticles: LearnArticle[] = [
     cover: seoulSkincareAisle.url,
     coverAlt: "Bright modern Korean skincare store aisle in Seoul, shelves densely stocked with serums, toners and creams, a shopper seen from behind carrying a black shopping basket",
     standfirst:
-      "There is a measurable gap between what Korean women buy and what the internet says Korean women buy. Reading the domestic data instead of the feed is the single most useful thing an Australian shopper can do.",
+      "There is a measurable gap between what sells in the Korean domestic market and what the international feed suggests is popular. Reading the domestic data instead of the feed is the single most useful thing an Australian shopper can do.",
     sections: [
       {
         heading: "The local-versus-global gap is real and documented",
@@ -532,7 +532,7 @@ const baseArticles: LearnArticle[] = [
       },
       {
         heading: "Where Australia sits",
-        body: "Historically we've received the global-marketing version of K-beauty twelve to eighteen months after Korean shelves — filtered through whichever products were easiest to export. Our sourcing brief is the opposite: track the domestic rankings, cross-check Hwahae review volume, then bring in what Korean women are actually repurchasing. Not what's trending in a fifteen-second video.",
+        body: "Historically we've received the global-marketing version of K-beauty twelve to eighteen months after Korean shelves — filtered through whichever products were easiest to export. Our sourcing brief is the opposite: track the domestic rankings, cross-check Hwahae review volume, then bring in what is genuinely repurchased in the Korean domestic market. Not what's trending in a fifteen-second video.",
       },
     ],
     keyPoints: [

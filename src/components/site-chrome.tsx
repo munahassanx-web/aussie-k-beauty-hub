@@ -36,7 +36,7 @@ const megaMenus: Record<string, MegaSection[]> = {
     {
       heading: "By Routine",
       links: [
-        { label: "Routine kits", to: "/routines" },
+        { label: "Routine Edits", to: "/routines" },
         { label: "How a routine layers", to: "/journey" },
         { label: "Find your routine (quiz)", to: "/consultation" },
       ],
@@ -569,7 +569,7 @@ export function SiteFooter() {
             <li><Link to="/shop" className="hover:text-paper">All Products</Link></li>
             <li><Link to="/brands" className="hover:text-paper">Brands</Link></li>
             <li><Link to="/skin-concerns" className="hover:text-paper">By Concern</Link></li>
-            <li><Link to="/routines" className="hover:text-paper">Routine Kits</Link></li>
+            <li><Link to="/routines" className="hover:text-paper">Routine Edits</Link></li>
           </ul>
         </div>
 
