@@ -26,11 +26,12 @@ export const Route = createFileRoute('/routines/')({
 });
 
 function RoutinesIndex() {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['routine-bundles'],
     queryFn: fetchBundles,
     staleTime: 5 * 60_000,
   });
+  const bundles = data ?? [];
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
