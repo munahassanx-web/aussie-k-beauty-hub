@@ -227,18 +227,16 @@ function LearnHubPage() {
         <p className="text-[11px] font-semibold uppercase tracking-[0.34em] text-clay">
           Seoul → Melbourne · The Skin Grocer Learn Hub
         </p>
-        <h1 className="mx-auto mt-7 max-w-5xl font-display text-[42px] uppercase leading-[0.92] tracking-[-0.03em] text-foreground sm:text-6xl md:text-[86px]">
-          Fix it before
-          <br />
-          it breaks.
+        <h1 className="mx-auto mt-7 max-w-4xl font-display text-[38px] leading-[1.02] tracking-[-0.02em] text-foreground sm:text-5xl md:text-[68px]">
+          Clearer skincare decisions start with context.
         </h1>
         <p className="mx-auto mt-8 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-          Korean women aren't chasing glass skin — they're managing skin health so nothing ever
-          needs correcting. We read the Korean-language rankings, reviews and regulation, then write
-          it up for Australian climate, Australian skin tones and Australian rules.
+          We examine Korean-market conversations, ingredient evidence, formulation ideas and
+          Australian cosmetic requirements, then translate what is useful into plain-English
+          guidance.
         </p>
         <p className="mx-auto mt-6 max-w-xl text-[12.5px] uppercase leading-relaxed tracking-[0.14em] text-muted-foreground/70">
-          Sourced from domestic Korean demand data. Never from a fifteen-second video.
+          Korean-market context · Evidence-aware explanations · Australian relevance
         </p>
       </section>
 
