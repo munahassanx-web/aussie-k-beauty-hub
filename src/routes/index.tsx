@@ -17,7 +17,7 @@ import { KoreaRightNow } from "@/components/korea-right-now";
 import { RESTOCK_DISCOUNT_PERCENT, SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { RoutineEdits } from "@/components/routine-edits";
 import { ConcernNavigator } from "@/components/concern-navigator";
-import applyingSerum from "@/assets/applying-serum.webp.asset.json";
+import { DailyRitualSection } from "@/components/daily-ritual";
 import authenticityCardV2 from "@/assets/authenticity-card-v2.webp.asset.json";
 import batchCheckImage from "@/assets/authenticity-batch-check.jpg";
 import ritualScene from "@/assets/ritual-scene.webp";
