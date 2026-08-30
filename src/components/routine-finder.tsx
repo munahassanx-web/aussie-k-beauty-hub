@@ -62,7 +62,15 @@ function QuizPreview() {
         </p>
         <p className="text-[10px] uppercase tracking-[0.2em] text-ink/40">Preview</p>
       </div>
-      <div className="mt-3 h-[3px] w-full overflow-hidden rounded-full bg-foreground/10">
+      <div
+        className="mt-3 h-[3px] w-full overflow-hidden rounded-full bg-foreground/10"
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={14}
+        aria-label="Routine Finder preview: question 1 of 7"
+      >
+        <span className="sr-only">Question 1 of 7 — 14 percent complete.</span>
         <div className="h-full rounded-full bg-pop" style={{ width: "14.2%" }} />
       </div>
 
