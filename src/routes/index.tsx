@@ -69,14 +69,6 @@ const concerns: { name: string; desc: string; slug: "hydration" | "acne" | "pigm
 ];
 
 
-const ingredients = [
-  { name: "Snail Mucin", role: "Repair & glow" },
-  { name: "Centella Asiatica", role: "Soothe redness" },
-  { name: "Niacinamide", role: "Even tone" },
-  { name: "Propolis", role: "Barrier support" },
-  { name: "Beta-Glucan", role: "Deep hydration" },
-  { name: "Madecassoside", role: "Sensitive calm" },
-];
 
 
 
