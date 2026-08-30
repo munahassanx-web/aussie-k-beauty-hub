@@ -105,7 +105,7 @@ function ConcernTile({
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/45 to-black/10 transition-opacity duration-500 group-hover:opacity-95 group-focus-visible:opacity-95 motion-reduce:transition-none"
+        className={`absolute inset-0 -z-10 bg-gradient-to-t transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none ${feature ? "from-black/85 via-black/50 to-black/15 opacity-90" : "from-black/85 via-black/70 to-black/55 opacity-95"}`}
       />
 
       <div className={feature ? "p-8 md:p-10" : "p-6 md:p-7"}>
