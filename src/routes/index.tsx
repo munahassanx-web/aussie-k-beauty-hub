@@ -14,10 +14,8 @@ import { AtmosHero } from "@/components/atmos-hero";
 import { ProductShelf } from "@/components/product-shelf";
 import { SeoulSignalStrip } from "@/components/seoul-signal";
 import { KoreaRightNow } from "@/components/korea-right-now";
-import { bundleMath, BUNDLE_DEFINITIONS, RESTOCK_DISCOUNT_PERCENT, SHOP_PRODUCTS } from "@/lib/shop-catalog";
-import glassSkinStarterExplainer from "@/assets/bundle-explainers/glass-skin-starter.webp.asset.json";
-import completeGlowExplainer from "@/assets/bundle-explainers/complete-glow-edit.webp.asset.json";
-import calmClearExplainer from "@/assets/bundle-explainers/calm-clear-bundle.webp.asset.json";
+import { RESTOCK_DISCOUNT_PERCENT, SHOP_PRODUCTS } from "@/lib/shop-catalog";
+import { RoutineEdits } from "@/components/routine-edits";
 import applyingSerum from "@/assets/applying-serum.webp.asset.json";
 import authenticityCardV2 from "@/assets/authenticity-card-v2.webp.asset.json";
 import batchCheckImage from "@/assets/authenticity-batch-check.jpg";
@@ -88,7 +86,7 @@ function HomePage() {
 
       <Reveal><ProvenanceCard /></Reveal>
       <RoutineFinderSection />
-      <Reveal><BundleOffer /></Reveal>
+      <Reveal><RoutineEdits /></Reveal>
       <Reveal><Concerns /></Reveal>
       <Reveal><WhyPillars /></Reveal>
       <ApplicationMoment />
@@ -669,156 +667,6 @@ function Concerns() {
           ))}
         </div>
       </div>
-    </section>
-  );
-}
-
-
-
-const BUNDLE_EXPLAINERS: Record<string, string> = {
-  bundle_glass_skin_starter_onetime: glassSkinStarterExplainer.url,
-  bundle_complete_glow_onetime: completeGlowExplainer.url,
-  bundle_calm_clear_onetime: calmClearExplainer.url,
-};
-
-function BundleCardMedia({
-  bundle,
-  explainer,
-}: {
-  bundle: { products: { img: string; alt: string }[]; name: string };
-  explainer?: string;
-}) {
-  const [showExplainer, setShowExplainer] = useState(false);
-
-  return (
-    <div className="relative aspect-[5/3] overflow-hidden bg-sand">
-      <div
-        className={`grid h-full w-full transition-opacity duration-300 ${showExplainer ? "opacity-0" : "opacity-100"}`}
-        style={{ gridTemplateColumns: `repeat(${bundle.products.length}, minmax(0, 1fr))` }}
-      >
-        {bundle.products.map((p) => (
-          <div key={p.alt} className="flex items-center justify-center bg-paper p-2">
-            <img
-              src={p.img}
-              alt={p.alt}
-              title={p.alt}
-              loading="lazy"
-              className="h-full w-full object-contain mix-blend-multiply"
-            />
-          </div>
-        ))}
-      </div>
-
-      {explainer && (
-        <img
-          src={explainer}
-          alt={`Routine overview for ${bundle.name}`}
-          loading="lazy"
-          aria-hidden={!showExplainer}
-          className={`pointer-events-none absolute inset-0 h-full w-full bg-paper object-contain transition-opacity duration-300 ${
-            showExplainer ? "opacity-100" : "opacity-0"
-          }`}
-        />
-      )}
-
-      {explainer && (
-        <button
-          type="button"
-          onClick={() => setShowExplainer((v) => !v)}
-          className="absolute bottom-3 right-3 z-10 border border-ink/20 bg-paper/95 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-ink transition hover:bg-paper"
-        >
-          {showExplainer ? "Back to products" : "See the routine"}
-        </button>
-      )}
-    </div>
-  );
-}
-
-function BundleOffer() {
-  const { buy, modal } = useBuyNow();
-
-  // Totals are computed live from the current catalog prices — never hardcoded.
-  const bundles = BUNDLE_DEFINITIONS.map((b) => ({ ...b, ...bundleMath(b.includes, b.price) }));
-
-  return (
-    <section id="bundles" className="scroll-mt-20 bg-secondary">
-      <div className="mx-auto max-w-7xl px-6 py-24">
-        <div className="max-w-2xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
-            THE ROUTINE EDITS
-          </p>
-          <h2 className="mt-4 display-section text-ink">
-            A considered routine,{" "}
-            <span className="italic text-hanbok-deep">already put together.</span>
-          </h2>
-          <p className="mt-5 max-w-xl text-ink/70">
-            A few complete starting points for when you want the products to work together
-            without spending hours comparing every step.
-          </p>
-          <p className="mt-3 max-w-xl text-sm text-ink/60">
-            Choose the edit closest to your skin goals, then adjust as your routine evolves.
-          </p>
-        </div>
-
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {bundles.map((b) => {
-            const explainer = BUNDLE_EXPLAINERS[b.priceId];
-            return (
-              <article
-                key={b.name}
-                className={`flex flex-col overflow-hidden border bg-paper ${
-                  b.featured ? "border-ink/80" : "border-border/70"
-                }`}
-              >
-                {b.featured && (
-                  <div className="border-b border-ink/10 bg-paper px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-ink">
-                    THE COMPLETE EDIT
-                  </div>
-                )}
-                <BundleCardMedia bundle={b} explainer={explainer} />
-                <div className="flex flex-1 flex-col p-6">
-                  <h3 className="font-display text-2xl leading-tight text-ink">{b.name}</h3>
-                  <p className="mt-2 text-sm text-ink/70">{b.desc}</p>
-
-                  <div className="mt-6">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/65">
-                      IN THIS EDIT
-                    </p>
-                    <ul className="mt-3 space-y-2 border-t border-border pt-3 text-sm text-ink/80">
-                      {b.includes.map((item) => (
-                        <li key={item} className="flex items-start gap-2">
-                          <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-hanbok" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="mt-8 flex items-end gap-3 border-t border-border/60 pt-5">
-                    <p className="font-display text-3xl text-ink">A${b.price}</p>
-                    {b.original > b.price && (
-                      <>
-                        <p className="pb-1 text-sm text-muted-foreground line-through">A${b.original}</p>
-                        <p className="ml-auto pb-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-clay">
-                          Save A${b.save}
-                        </p>
-                      </>
-                    )}
-                  </div>
-
-                  <button
-                    onClick={() => buy({ priceId: b.priceId, name: b.name, priceLabel: `A$${b.price}` })}
-                    className="mt-5 w-full border border-ink bg-ink py-3.5 text-xs font-semibold uppercase tracking-[0.22em] text-paper transition hover:bg-paper hover:text-ink"
-                  >
-                    Shop this edit
-                  </button>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      </div>
-      {modal}
     </section>
   );
 }
