@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { RoutineFinderSection } from "@/components/routine-finder";
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { trackUi } from "@/lib/analytics";
 import { useBuyNow } from "@/hooks/use-buy-now";
 import { FaqSection } from "@/components/faq-section";
