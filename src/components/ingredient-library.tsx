@@ -1,6 +1,8 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { trackUi } from "@/lib/analytics";
+import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
+import { ingredientsFor } from "@/lib/collection-filters";
 
 import texSnail from "@/assets/ingredients/tex-snail-mucin.jpg";
 import texCentella from "@/assets/ingredients/tex-centella.jpg";
