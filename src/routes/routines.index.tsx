@@ -1,101 +1,136 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
-import { fetchBundles } from '@/lib/application-guides';
+import {
+  ROUTINE_EDITS,
+  routineMoney,
+  routinePrice,
+  routineProduct,
+  type RoutineEdit,
+} from '@/lib/routine-edits';
 
 export const Route = createFileRoute('/routines/')({
   head: () => ({
     meta: [
-      { title: 'Routine Kits — Skin Grocer' },
+      { title: 'Routine Edits — Skin Grocer' },
       {
         name: 'description',
         content:
-          'Curated K-beauty routine kits for hydration, brightening, sensitivity, pores, firming and sun protection — with step-by-step application guides.',
+          'Three considered Korean skincare starting routines — hydration, tone support and barrier comfort. Three products, three clear roles, current pricing.',
       },
-      { property: 'og:title', content: 'Routine Kits — Skin Grocer' },
+      { property: 'og:title', content: 'Routine Edits — Skin Grocer' },
       {
         property: 'og:description',
-        content: 'Curated K-beauty routines, built step by step.',
+        content: 'Three products. Three clear roles. Considered starting routines from Skin Grocer.',
       },
       { property: 'og:url', content: 'https://skingrocer.com.au/routines' },
       { property: 'og:type', content: 'website' },
-      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:card', content: 'summary' },
     ],
     links: [{ rel: 'canonical', href: 'https://skingrocer.com.au/routines' }],
   }),
   component: RoutinesIndex,
 });
 
-function RoutinesIndex() {
-  const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ['routine-bundles'],
-    queryFn: fetchBundles,
-    staleTime: 5 * 60_000,
-  });
-  const bundles = data ?? [];
+const DESTINATIONS = {
+  'essential-hydration': '/routines/essential-hydration',
+  'tone-glow-support': '/routines/tone-glow-support',
+  'barrier-comfort': '/routines/barrier-comfort',
+} as const;
+
+function RoutineCard({ edit }: { edit: RoutineEdit }) {
+  const total = edit.core.reduce((sum, slot) => sum + routinePrice(slot.priceId), 0);
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16">
-      <p className="text-xs uppercase tracking-[0.2em] text-primary">Routine kits</p>
-      <h1 className="mt-3 max-w-2xl text-5xl text-foreground md:text-6xl">
-        Routines, <em className="not-italic text-primary">built step by step.</em>
-      </h1>
-      <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-        Every kit is grouped by what your skin is actually asking for — and every product comes
-        with its own application guide.
-      </p>
+    <article className="flex flex-col border border-border/70 bg-paper transition duration-300 hover:border-ink/40">
+      <div className={`grid grid-cols-3 gap-px ${edit.field}`}>
+        {edit.core.map((slot) => {
+          const product = routineProduct(slot.priceId);
+          if (!product) return null;
+          return (
+            <div key={slot.priceId} className="flex flex-col items-center justify-end px-2 pb-4 pt-6">
+              <img
+                src={product.image}
+                alt={`${product.brand} ${product.name}`}
+                loading="lazy"
+                width={240}
+                height={300}
+                className="h-24 w-full object-contain mix-blend-multiply md:h-28"
+              />
+              <p className="mt-3 text-center text-[9px] font-semibold uppercase tracking-[0.14em] text-ink/55">
+                {slot.role}
+              </p>
+            </div>
+          );
+        })}
+      </div>
 
-      {isLoading ? (
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true">
-          {[0, 1, 2].map((i) => (
-            <div key={i} className="h-40 animate-pulse rounded-3xl border border-border bg-secondary/40" />
-          ))}
-        </div>
-      ) : isError ? (
-        <div className="mt-12 max-w-md">
-          <p className="text-sm text-muted-foreground">
-            We couldn't load the routine kits just now.
+      <div className="flex flex-1 flex-col p-6">
+        <p className={`text-[11px] font-semibold uppercase tracking-[0.24em] ${edit.accent}`}>
+          Edit {edit.number}
+        </p>
+        <h2 className="mt-2 font-display text-2xl leading-tight text-ink">{edit.name}</h2>
+        <p className="mt-3 text-sm leading-relaxed text-ink/70">
+          <span className="font-semibold uppercase tracking-[0.14em] text-ink/50">Who it may suit:</span>{' '}
+          {edit.purpose}
+        </p>
+
+        <ul className="mt-5 divide-y divide-border border-t border-border text-sm text-ink/80">
+          {edit.core.map((slot) => {
+            const product = routineProduct(slot.priceId);
+            if (!product) return null;
+            return (
+              <li key={slot.priceId} className="py-2.5">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/50">
+                  {slot.role}
+                </p>
+                <p className="mt-0.5">
+                  {product.brand} {product.name}
+                </p>
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="mt-auto pt-6">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/55">
+            Three products, current price
           </p>
-          <button
-            type="button"
-            onClick={() => refetch()}
-            className="mt-4 rounded-full border border-foreground px-5 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-foreground transition-colors hover:bg-foreground hover:text-background"
-          >
-            Try again
-          </button>
-        </div>
-      ) : bundles.length === 0 ? (
-        <div className="mt-12 max-w-md">
-          <p className="text-sm text-muted-foreground">
-            No routine kits are published yet. In the meantime, the Learn Hub covers routine order
-            step by step.
-          </p>
+          <p className="font-display text-3xl text-ink">{routineMoney(total)}</p>
           <Link
-            to="/learn/hub"
-            className="mt-4 inline-block text-xs font-semibold uppercase tracking-[0.16em] text-primary underline underline-offset-4"
+            to={DESTINATIONS[edit.id]}
+            className="mt-4 inline-flex min-h-11 w-full items-center justify-center bg-ink px-5 text-xs font-semibold uppercase tracking-[0.2em] text-paper transition hover:opacity-90"
           >
-            Explore the Learn Hub →
+            Review this routine →
           </Link>
         </div>
-      ) : (
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {bundles.map((b) => (
-            <Link
-              key={b.id}
-              to="/routines/$bundleId"
-              params={{ bundleId: b.id }}
-              className="rounded-3xl border border-border p-7 transition-colors hover:bg-secondary/60"
-            >
-              <h2 className="font-display text-2xl text-foreground">{b.name}</h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {b.product_names.length} products in this routine
-              </p>
-              <p className="mt-5 text-xs font-medium uppercase tracking-wider text-primary">
-                View routine →
-              </p>
-            </Link>
-          ))}
-        </div>
-      )}
+      </div>
+    </article>
+  );
+}
+
+function RoutinesIndex() {
+  return (
+    <div className="mx-auto max-w-7xl px-6 py-16 md:py-24">
+      <header className="max-w-2xl">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Routine edits</p>
+        <h1 className="mt-4 font-display text-4xl leading-[1.05] text-ink md:text-5xl">
+          Three products. <span className="italic text-hanbok-deep">Three clear roles.</span>
+        </h1>
+        <p className="mt-5 text-lg leading-relaxed text-ink/70">
+          Considered starting routines for customers who want fewer decisions. Review each edit, remove
+          products you already own and adjust gradually.
+        </p>
+      </header>
+
+      <div className="mt-14 grid gap-6 md:grid-cols-3">
+        {ROUTINE_EDITS.map((edit) => (
+          <RoutineCard key={edit.id} edit={edit} />
+        ))}
+      </div>
+
+      <p className="mt-10 max-w-2xl text-xs leading-relaxed text-ink/55">
+        Cosmetic products only. Introduce one product at a time and patch-test before full-face use. If
+        irritation persists, stop use and consider speaking with a pharmacist or doctor.
+      </p>
     </div>
   );
 }
