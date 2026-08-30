@@ -443,6 +443,7 @@ function RoutineDialog({
         )}
         {edit.optional && (() => {
           const opt = edit.optional;
+          if (!opt) return null;
           const p = productOf(opt.priceId);
           if (!p) return null;
           const ok = available(opt.priceId);
