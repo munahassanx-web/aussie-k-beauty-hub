@@ -52,6 +52,7 @@ import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as RoutinesIndexRouteImport } from './routes/routines.index'
 import { Route as RoutinesBundleIdRouteImport } from './routes/routines.$bundleId'
 import { Route as VerifyTokenRouteImport } from './routes/verify.$token'
+import { Route as VerifySampleRouteImport } from './routes/verify.sample'
 import { Route as AdminIssuesIdRouteImport } from './routes/admin.issues.$id'
 import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.index'
 import { Route as AdminOrdersIdRouteImport } from './routes/admin.orders.$id'
@@ -279,6 +280,11 @@ const VerifyTokenRoute = VerifyTokenRouteImport.update({
   path: '/verify/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VerifySampleRoute = VerifySampleRouteImport.update({
+  id: '/verify/sample',
+  path: '/verify/sample',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIssuesIdRoute = AdminIssuesIdRouteImport.update({
   id: '/admin/issues/$id',
   path: '/admin/issues/$id',
@@ -376,6 +382,7 @@ export interface FileRoutesByFullPath {
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
   '/verify/$token': typeof VerifyTokenRoute
+  '/verify/sample': typeof VerifySampleRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/grocery-list/': typeof GroceryListIndexRoute
@@ -432,6 +439,7 @@ export interface FileRoutesByTo {
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
   '/verify/$token': typeof VerifyTokenRoute
+  '/verify/sample': typeof VerifySampleRoute
   '/admin': typeof AdminIndexRoute
   '/blog': typeof BlogIndexRoute
   '/grocery-list': typeof GroceryListIndexRoute
@@ -489,6 +497,7 @@ export interface FileRoutesById {
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
   '/verify/$token': typeof VerifyTokenRoute
+  '/verify/sample': typeof VerifySampleRoute
   '/admin/': typeof AdminIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/grocery-list/': typeof GroceryListIndexRoute
@@ -547,6 +556,7 @@ export interface FileRouteTypes {
     | '/product/$slug'
     | '/routines/$bundleId'
     | '/verify/$token'
+    | '/verify/sample'
     | '/admin/'
     | '/blog/'
     | '/grocery-list/'
@@ -603,6 +613,7 @@ export interface FileRouteTypes {
     | '/product/$slug'
     | '/routines/$bundleId'
     | '/verify/$token'
+    | '/verify/sample'
     | '/admin'
     | '/blog'
     | '/grocery-list'
@@ -659,6 +670,7 @@ export interface FileRouteTypes {
     | '/product/$slug'
     | '/routines/$bundleId'
     | '/verify/$token'
+    | '/verify/sample'
     | '/admin/'
     | '/blog/'
     | '/grocery-list/'
@@ -715,6 +727,7 @@ export interface RootRouteChildren {
   ProductSlugRoute: typeof ProductSlugRoute
   RoutinesBundleIdRoute: typeof RoutinesBundleIdRoute
   VerifyTokenRoute: typeof VerifyTokenRoute
+  VerifySampleRoute: typeof VerifySampleRoute
   AdminIndexRoute: typeof AdminIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
   GroceryListIndexRoute: typeof GroceryListIndexRoute
@@ -1036,6 +1049,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VerifyTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/verify/sample': {
+      id: '/verify/sample'
+      path: '/verify/sample'
+      fullPath: '/verify/sample'
+      preLoaderRoute: typeof VerifySampleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/issues/$id': {
       id: '/admin/issues/$id'
       path: '/admin/issues/$id'
@@ -1166,6 +1186,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductSlugRoute: ProductSlugRoute,
   RoutinesBundleIdRoute: RoutinesBundleIdRoute,
   VerifyTokenRoute: VerifyTokenRoute,
+  VerifySampleRoute: VerifySampleRoute,
   AdminIndexRoute: AdminIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
   GroceryListIndexRoute: GroceryListIndexRoute,

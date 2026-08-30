@@ -18,7 +18,8 @@ import glassSkinStarterExplainer from "@/assets/bundle-explainers/glass-skin-sta
 import completeGlowExplainer from "@/assets/bundle-explainers/complete-glow-edit.webp.asset.json";
 import calmClearExplainer from "@/assets/bundle-explainers/calm-clear-bundle.webp.asset.json";
 import applyingSerum from "@/assets/applying-serum.webp.asset.json";
-import authenticityCard from "@/assets/authenticity-card.webp.asset.json";
+import authenticityCardV2 from "@/assets/authenticity-card-v2.webp.asset.json";
+import batchCheckImage from "@/assets/authenticity-batch-check.jpg";
 import ritualScene from "@/assets/ritual-scene.webp";
 import quizBareSkin from "@/assets/quiz-bare-skin.webp";
 import cabinetEdit from "@/assets/brand-cabinet-products.jpg";
@@ -910,27 +911,77 @@ function BundleOffer() {
 
 
 function ProvenanceCard() {
-  const principles = [
-    { t: "ORIGINAL PACKAGING", d: "Products stay in their original branded packaging." },
-    { t: "CLEAR PRODUCT DETAILS", d: "Know the brand, size and product you’re choosing." },
-    { t: "AUSTRALIAN-BASED SHOPPING", d: "A local storefront for discovering Korean skincare." },
-    { t: "QUESTIONS WELCOME", d: "If something doesn’t look right, ask us before you use it." },
+  const stages = [
+    {
+      k: "SOURCE",
+      t: "ESTABLISHED KOREAN WHOLESALE PARTNERS",
+      d: "We purchase through established Korean B2B suppliers and retain the commercial records connected to each order.",
+    },
+    {
+      k: "RECEIVE",
+      t: "STOCK RECEIVED IN MELBOURNE",
+      d: "Stock is received into Skin Grocer’s Melbourne inventory before customer dispatch.",
+    },
+    {
+      k: "VERIFY",
+      t: "DOCUMENTED BATCH CHECK",
+      d: "Each received batch follows Skin Grocer’s documented verification process before it enters the customer-facing inventory: supplier and purchase-record match, product and order match, visible packaging and seal review where the brand supplies a seal, product condition, batch or expiry information where supplied, and quantity reconciliation.",
+    },
+    {
+      k: "CONNECT",
+      t: "QR-LINKED VERIFICATION RECORD",
+      d: "The QR code on your authenticity card opens the Skin Grocer verification record for that parcel: the checks completed, the date verified, the products covered, and any batch information supplied by the brand. It shows no personal, payment or order-value details.",
+    },
   ];
 
   return (
     <section className="bg-ink text-paper">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:items-center md:gap-16">
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:items-start md:gap-16">
         <div className="md:col-span-5">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-ink">
+          <Link
+            to="/verify/sample"
+            onClick={() => trackUi("authenticity_record_open", { from: "image" })}
+            className="group block rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
+          >
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-ink">
+              <img
+                src={authenticityCardV2.url}
+                alt="A Skin Grocer authenticity card with a wax seal and a scannable QR code, resting among Korean skincare in original branded packaging"
+                loading="lazy"
+                width={1024}
+                height={1280}
+                className="h-full w-full object-cover object-left-bottom md:object-center"
+              />
+              <div className="absolute inset-0 bg-ink/10 transition-opacity group-hover:opacity-0" />
+            </div>
+          </Link>
+
+          <Link
+            to="/verify/sample"
+            onClick={() => trackUi("authenticity_record_open", { from: "button" })}
+            className="mt-5 inline-flex items-center gap-2 rounded-full border border-paper/30 px-5 py-3 text-[12px] font-semibold uppercase tracking-[0.2em] text-paper transition hover:border-accent hover:text-accent"
+          >
+            View a verification record
+            <span aria-hidden="true">→</span>
+          </Link>
+          <p className="mt-3 text-xs leading-relaxed text-paper/50">
+            On your phone? Tap the link instead of scanning — it opens the same record.
+          </p>
+
+          <figure className="mt-8 overflow-hidden rounded-2xl">
             <img
-              src={authenticityCard.url}
-              alt="A Skin Grocer authenticity card with a wax seal, resting among Korean skincare in original branded packaging from Haruharu Wonder, SKIN1004, Anua, mixsoon and Beauty of Joseon"
+              src={batchCheckImage}
+              alt="Close-up of Korean skincare cartons showing printed batch and expiry markings beside a Skin Grocer receiving checklist card"
               loading="lazy"
+              width={1408}
+              height={1056}
               className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-ink/10" />
-          </div>
-
+            <figcaption className="mt-3 text-xs leading-relaxed text-paper/50">
+              Batch and expiry markings are checked against the purchase record before stock is
+              released for dispatch.
+            </figcaption>
+          </figure>
         </div>
 
         <div className="md:col-span-7">
@@ -938,34 +989,35 @@ function ProvenanceCard() {
             AUTHENTICITY, WITHOUT THE GUESSWORK
           </p>
           <h2 className="mt-4 font-display text-4xl leading-tight text-paper md:text-[2.75rem]">
-            Know what’s touching your skin.
+            Every batch verified in Melbourne.
           </h2>
           <p className="mt-5 max-w-xl text-paper/70">
-            K-beauty should feel exciting, not uncertain. Skin Grocer is built around a simple
-            standard: genuine products, clear product information and a more considered way to shop
-            Korean skincare in Australia.
+            Sourced from Korea. Verified in Melbourne. Dispatched to you. Here is exactly what that
+            means, stage by stage.
           </p>
 
-          <ul className="mt-10 grid border-l border-t border-paper/10 md:grid-cols-2">
-            {principles.map((p, i) => (
-              <li
-                key={p.t}
-                className="border-b border-r border-paper/10 px-5 py-6 md:px-6 md:py-7"
-              >
+          <ol className="mt-10 grid border-l border-t border-paper/10 md:grid-cols-2">
+            {stages.map((s, i) => (
+              <li key={s.k} className="border-b border-r border-paper/10 px-5 py-6 md:px-6 md:py-7">
                 <span className="font-display text-xs italic text-paper/65">
-                  {String(i + 1).padStart(2, "0")}
+                  {String(i + 1).padStart(2, "0")} — {s.k}
                 </span>
                 <p className="mt-2 font-display text-sm uppercase tracking-[0.14em] text-paper">
-                  {p.t}
+                  {s.t}
                 </p>
-                <p className="mt-1.5 text-sm leading-relaxed text-paper/60">{p.d}</p>
+                <p className="mt-1.5 text-sm leading-relaxed text-paper/60">{s.d}</p>
               </li>
             ))}
-          </ul>
+          </ol>
+
+          <p className="mt-6 max-w-xl text-xs leading-relaxed text-paper/45">
+            A verification record documents the checks Skin Grocer completed on that batch. It is
+            not a manufacturer certificate and does not replace brand or regulatory testing.
+          </p>
 
           <Link
             to="/about"
-            className="group mt-10 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-paper transition hover:text-accent"
+            className="group mt-8 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-paper transition hover:text-accent"
           >
             <span className="border-b border-paper/30 pb-0.5 transition-colors group-hover:border-accent">
               Read our sourcing approach
@@ -977,6 +1029,7 @@ function ProvenanceCard() {
     </section>
   );
 }
+
 
 function ApplicationMoment() {
   return (
