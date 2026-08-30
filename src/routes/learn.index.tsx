@@ -85,12 +85,12 @@ function LearnPage() {
       <header className="max-w-2xl">
         <p className="text-xs uppercase tracking-[0.24em] text-primary">The encyclopedia</p>
         <h1 className="mt-4 font-display text-5xl leading-tight text-foreground md:text-6xl">
-          Every ingredient, <em className="not-italic text-primary">in plain English.</em>
+          A growing ingredient guide,{" "}
+          <em className="not-italic text-primary">in plain English.</em>
         </h1>
         <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-          No jargon. No chemistry degree required. Search any ingredient on your
-          shelf — we'll tell you what it actually does, who it suits, and which
-          products in our catalog contain it.
+          Explore commonly discussed skincare ingredients, what available evidence suggests, where
+          uncertainty remains and which Skin Grocer products contain them.
         </p>
       </header>
 

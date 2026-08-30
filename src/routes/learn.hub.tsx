@@ -19,20 +19,20 @@ export const Route = createFileRoute("/learn/hub")({
   search: { middlewares: [stripSearchParams({ q: "", tag: "" })] },
   head: () => ({
     meta: [
-      { title: "Learn Hub — Seoul Skincare Logic, Written For Australia | Skin Grocer" },
+      { title: "Learn Hub — Korean Skincare, Explained For Australia | Skin Grocer" },
       {
         name: "description",
         content:
-          "Prevention-first Korean skincare, decoded for Australian climate and skin. What Korean women actually buy — sourced from Hwahae and Olive Young data, not TikTok.",
+          "Korean-market context, evidence-aware ingredient explanations and Australian relevance — plain-English skincare guidance from the Skin Grocer editorial team.",
       },
       {
         property: "og:title",
-        content: "Learn Hub — Seoul Skincare Logic, Written For Australia",
+        content: "Learn Hub — Korean Skincare, Explained For Australia",
       },
       {
         property: "og:description",
         content:
-          "Prevention over repair. Domestic Korean data over social trends. Ingredients, concerns and routines explained for Australian conditions.",
+          "Clearer skincare decisions start with context: Korean-market conversations, ingredient evidence and Australian cosmetic requirements in plain English.",
       },
       { property: "og:url", content: "https://skingrocer.com.au/learn/hub" },
       { property: "og:type", content: "website" },
@@ -45,9 +45,9 @@ export const Route = createFileRoute("/learn/hub")({
 });
 
 const stats = [
-  { big: "10M+", cap: "Korean-language reviews we read rankings from, not feeds" },
-  { big: "85%", cap: "of Korea's domestic beauty retail we track for real demand" },
-  { big: "12–18", cap: "months Australia usually lags Korean shelves. We close it" },
+  { big: "Hwahae", cap: "the Korean review platform we cite ranking context from" },
+  { big: "Plain", cap: "English explanations, with limitations stated where they exist" },
+  { big: "AU", cap: "Australian climate and cosmetic requirements considered" },
   { big: "0", cap: "products stocked on social virality alone" },
 ];
 
@@ -227,18 +227,16 @@ function LearnHubPage() {
         <p className="text-[11px] font-semibold uppercase tracking-[0.34em] text-clay">
           Seoul → Melbourne · The Skin Grocer Learn Hub
         </p>
-        <h1 className="mx-auto mt-7 max-w-5xl font-display text-[42px] uppercase leading-[0.92] tracking-[-0.03em] text-foreground sm:text-6xl md:text-[86px]">
-          Fix it before
-          <br />
-          it breaks.
+        <h1 className="mx-auto mt-7 max-w-4xl font-display text-[38px] leading-[1.02] tracking-[-0.02em] text-foreground sm:text-5xl md:text-[68px]">
+          Clearer skincare decisions start with context.
         </h1>
         <p className="mx-auto mt-8 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-          Korean women aren't chasing glass skin — they're managing skin health so nothing ever
-          needs correcting. We read the Korean-language rankings, reviews and regulation, then write
-          it up for Australian climate, Australian skin tones and Australian rules.
+          We examine Korean-market conversations, ingredient evidence, formulation ideas and
+          Australian cosmetic requirements, then translate what is useful into plain-English
+          guidance.
         </p>
         <p className="mx-auto mt-6 max-w-xl text-[12.5px] uppercase leading-relaxed tracking-[0.14em] text-muted-foreground/70">
-          Sourced from domestic Korean demand data. Never from a fifteen-second video.
+          Korean-market context · Evidence-aware explanations · Australian relevance
         </p>
       </section>
 
@@ -319,12 +317,13 @@ function LearnHubPage() {
             The Seoul Signal
           </p>
           <h2 className="mx-auto mt-6 max-w-3xl font-display text-[30px] leading-[1.05] text-background md:text-[46px]">
-            We don't report what's trending. We report what Korean women repurchase.
+            We report what the Korean market is talking about — and what the evidence does and
+            doesn't show.
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-[13.5px] leading-relaxed text-background/70">
-            Every piece here starts with domestic Korean signals — Hwahae review volume, Olive Young
-            Korea category rankings, real shelf space in Seoul — then gets cross-checked against
-            Australian UV, humidity, water hardness and TGA rules before we publish or stock a thing.
+            Where we cite Korean-market context, the source is named — most often Hwahae review
+            volume and category rankings. We then consider Australian conditions and cosmetic
+            requirements before we publish or stock anything.
           </p>
         </div>
         <div className="mx-auto mt-12 grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -441,8 +440,8 @@ function LearnHubPage() {
               What Seoul is buying, before Australia hears about it.
             </h2>
             <p className="mt-5 max-w-md text-[15px] leading-relaxed text-foreground/70">
-              Every two weeks: what's climbing the Korean domestic rankings, what Korean women are
-              actually repurchasing, and which of it is worth your money in an Australian climate.
+              Every two weeks: what's climbing the Hwahae rankings, what the evidence does and
+              doesn't support, and which of it is worth your money in an Australian climate.
             </p>
           </div>
           <div className="md:justify-self-end">
