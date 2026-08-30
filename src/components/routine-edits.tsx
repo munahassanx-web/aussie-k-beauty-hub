@@ -448,7 +448,10 @@ function RoutineDialog({
           return (
             <div className="mt-6 border border-dashed border-border bg-secondary/60 p-4">
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/60">
-                {edit.optional.label}
+                {opt.label}
+              </p>
+              <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/50">
+                Optional — not included in the routine total
               </p>
               <div className="mt-3 flex items-start gap-4">
                 <img
@@ -467,11 +470,11 @@ function RoutineDialog({
                     <span className="font-semibold uppercase tracking-[0.12em] text-ink/50">
                       Why it’s optional:
                     </span>{" "}
-                    {edit.optional.why}
+                    {opt.why}
                   </p>
-                  {edit.optional.caution && (
+                  {opt.caution && (
                     <p className="mt-2 border-l-2 border-clay/50 pl-3 text-xs text-ink/70">
-                      {edit.optional.caution}
+                      {opt.caution}
                     </p>
                   )}
                   {!ok && (
@@ -481,15 +484,16 @@ function RoutineDialog({
                   )}
                 </div>
                 <div className="shrink-0 text-right">
-                  <p className="text-sm text-ink">{money(priceOf(edit.optional.priceId))}</p>
+                  <p className="text-sm text-ink">{money(priceOf(opt.priceId))}</p>
                   <label className="mt-2 flex items-center justify-end gap-2 text-xs text-ink/70">
                     <input
                       type="checkbox"
                       className="h-4 w-4"
-                      checked={Boolean(selected[edit.optional.priceId]) && ok}
+                      aria-label={`Add optional ${p.brand} ${p.name}`}
+                      checked={Boolean(selected[opt.priceId]) && ok}
                       disabled={!ok}
                       onChange={(e) =>
-                        setSelected((s) => ({ ...s, [edit.optional.priceId]: e.target.checked }))
+                        setSelected((s) => ({ ...s, [opt.priceId]: e.target.checked }))
                       }
                     />
                     Add
