@@ -357,8 +357,11 @@ export function DailyRitualSection() {
                 </p>
               </div>
             </div>
+          </div>
 
-            <div className="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8">
+          {/* Calls to action */}
+          <div className="order-4 lg:order-none lg:col-start-6 lg:col-span-7 lg:row-start-3">
+            <div className="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8 lg:mt-12">
               <Link
                 to="/consultation"
                 onClick={() => trackUi("daily_ritual_consultation_click", {})}
