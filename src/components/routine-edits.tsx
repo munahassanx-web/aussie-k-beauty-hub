@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { SHOP_PRODUCTS, isPurchasable } from "@/lib/shop-catalog";
@@ -218,7 +218,7 @@ function CoreShelf({ edit }: { edit: Edit }) {
 
 /* ------------------------------ detail dialog ---------------------------- */
 
-function RoutineDialog({
+export function RoutineReviewDialog({
   edit,
   onClose,
   returnFocusTo,
@@ -578,10 +578,7 @@ function RoutineDialog({
 
 /* --------------------------------- card ---------------------------------- */
 
-function EditCard({ edit }: { edit: Edit }) {
-  const [open, setOpen] = useState(false);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-
+function EditCard({ edit, onReview }: { edit: Edit; onReview: (edit: Edit, trigger: HTMLButtonElement) => void }) {
   const total = edit.core.reduce((sum, s) => sum + priceOf(s.priceId), 0);
 
   return (
@@ -666,12 +663,10 @@ function EditCard({ edit }: { edit: Edit }) {
           <p className="font-display text-3xl text-ink">{money(total)}</p>
 
           <button
-            ref={triggerRef}
             type="button"
-            aria-expanded={open}
             aria-haspopup="dialog"
-            onClick={() => {
-              setOpen(true);
+            onClick={(event) => {
+              onReview(edit, event.currentTarget);
               trackUi("routine_edit_review", { edit: edit.id });
             }}
             className="mt-4 min-h-11 w-full bg-ink px-5 text-xs font-semibold uppercase tracking-[0.2em] text-paper transition hover:opacity-90"
@@ -687,18 +682,23 @@ function EditCard({ edit }: { edit: Edit }) {
         </div>
       </div>
 
-      {open && (
-        <RoutineDialog
-          edit={edit}
-          onClose={() => setOpen(false)}
-          returnFocusTo={triggerRef.current}
-        />
-      )}
     </article>
   );
 }
 
 export function RoutineEdits() {
+  const [selectedEdit, setSelectedEdit] = useState<Edit | null>(null);
+  const [reviewTrigger, setReviewTrigger] = useState<HTMLButtonElement | null>(null);
+
+  const openReview = useCallback((edit: Edit, trigger: HTMLButtonElement) => {
+    setReviewTrigger(trigger);
+    setSelectedEdit(edit);
+  }, []);
+
+  const closeReview = useCallback(() => {
+    setSelectedEdit(null);
+  }, []);
+
   return (
     <section id="bundles" className="scroll-mt-20 bg-secondary">
       <div className="mx-auto max-w-7xl px-6 py-24">
@@ -721,10 +721,17 @@ export function RoutineEdits() {
 
         <div className="mt-14 grid gap-6 md:grid-cols-3">
           {EDITS.map((e) => (
-            <EditCard key={e.id} edit={e} />
+            <EditCard key={e.id} edit={e} onReview={openReview} />
           ))}
         </div>
       </div>
+      {selectedEdit && (
+        <RoutineReviewDialog
+          edit={selectedEdit}
+          onClose={closeReview}
+          returnFocusTo={reviewTrigger}
+        />
+      )}
     </section>
   );
 }
