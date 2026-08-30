@@ -297,7 +297,9 @@ function RoutineDialog({
   const coreComplete = unavailableCore.length === 0;
 
   function addSelected() {
-    if (chosen.length === 0) return;
+    if (addingRef.current || chosen.length === 0) return;
+    addingRef.current = true;
+    setAdding(true);
     let added = 0;
     chosen.forEach((id) => {
       const p = productOf(id);
@@ -315,6 +317,9 @@ function RoutineDialog({
       trackUi("routine_edit_add_selected", { edit: edit.id, items: added });
       toast.success(`${added} product${added > 1 ? "s" : ""} added to your bag.`);
       onClose();
+    } else {
+      addingRef.current = false;
+      setAdding(false);
     }
   }
 
