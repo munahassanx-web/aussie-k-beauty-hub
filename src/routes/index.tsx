@@ -16,6 +16,7 @@ import { SeoulSignalStrip } from "@/components/seoul-signal";
 import { KoreaRightNow } from "@/components/korea-right-now";
 import { RESTOCK_DISCOUNT_PERCENT, SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { RoutineEdits } from "@/components/routine-edits";
+import { ConcernNavigator } from "@/components/concern-navigator";
 import applyingSerum from "@/assets/applying-serum.webp.asset.json";
 import authenticityCardV2 from "@/assets/authenticity-card-v2.webp.asset.json";
 import batchCheckImage from "@/assets/authenticity-batch-check.jpg";
@@ -58,14 +59,6 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const concerns: { name: string; desc: string; slug: "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier" }[] = [
-  { name: "Hydration & Glow", desc: "For skin that feels dry, tight or simply wants more moisture.", slug: "hydration" },
-  { name: "Blemish-Prone", desc: "A simpler edit for skin that often looks congested or shiny.", slug: "acne" },
-  { name: "Uneven-Looking Tone", desc: "For a routine focused on a brighter, more even-looking finish.", slug: "pigmentation" },
-  { name: "Easily Unsettled", desc: "Gentle-feeling choices for skin that prefers a quieter routine.", slug: "sensitivity" },
-  { name: "Firmness & Fine Lines", desc: "For routines centred on hydration and a smoother-looking finish.", slug: "anti-aging" },
-  { name: "Barrier-Focused", desc: "Comforting, moisture-first choices for skin that feels dry or overworked.", slug: "barrier" },
-];
 
 
 
@@ -87,7 +80,7 @@ function HomePage() {
       <Reveal><ProvenanceCard /></Reveal>
       <RoutineFinderSection />
       <Reveal><RoutineEdits /></Reveal>
-      <Reveal><Concerns /></Reveal>
+      <Reveal><ConcernNavigator /></Reveal>
       <Reveal><WhyPillars /></Reveal>
       <ApplicationMoment />
       <RitualCTA />
@@ -624,53 +617,6 @@ function Promise() {
     </section>
   );
 }
-
-
-function Concerns() {
-  return (
-    <section className="bg-paper">
-      <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
-        <div className="max-w-3xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
-            SHOP BY WHAT YOU NOTICE
-          </p>
-          <h2 className="display-section mt-4 text-ink">
-            Start with what your skin is asking for.
-          </h2>
-          <p className="mt-5 max-w-2xl text-ink/70">
-            You don't need to know every ingredient or trend. Begin with what you notice day to day, then explore a more considered edit.
-          </p>
-        </div>
-
-        <div className="mt-16 grid border-l border-t border-border md:grid-cols-2 lg:grid-cols-3">
-          {concerns.map((c, i) => (
-            <Link
-              key={c.slug}
-              to="/shop"
-              search={{ concern: c.slug }}
-              className="group flex flex-col border-b border-r border-border p-6 md:p-8 transition-colors hover:bg-sand/50"
-            >
-              <span className="font-display text-xs italic text-ink/60">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 className="mt-4 font-display text-xl text-ink md:text-2xl">
-                {c.name}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink/60">
-                {c.desc}
-              </p>
-              <span className="mt-auto pt-6 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink transition-colors group-hover:text-hanbok-deep">
-                Explore the edit
-                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </span>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 
 
 function ProvenanceCard() {
