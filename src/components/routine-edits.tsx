@@ -631,21 +631,31 @@ function EditCard({ edit }: { edit: Edit }) {
           </p>
         </div>
 
-        {(() => {
-          const p = productOf(edit.optional.priceId);
-          if (!p) return null;
-          return (
-            <div className="mt-5 border border-dashed border-border p-3">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/55">
-                {edit.optional.label}
-              </p>
-              <p className="mt-1 text-sm text-ink/80">
-                {p.brand} {p.name} — {money(priceOf(edit.optional.priceId))}
-              </p>
-              <p className="mt-1 text-xs text-ink/55">Not included in the three-product core.</p>
-            </div>
-          );
-        })()}
+        {edit.optional ? (
+          (() => {
+            const opt = edit.optional;
+            const p = productOf(opt.priceId);
+            if (!p) return null;
+            return (
+              <div className="mt-5 border border-dashed border-border p-3">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/55">
+                  {opt.label}
+                </p>
+                <p className="mt-1 text-sm text-ink/80">
+                  {p.brand} {p.name} — {money(priceOf(opt.priceId))}
+                </p>
+                <p className="mt-1 text-xs text-ink/55">Not included in the three-product core.</p>
+              </div>
+            );
+          })()
+        ) : (
+          <div className="mt-5 border border-dashed border-border p-3">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/55">
+              {BUILD_LATER.heading}
+            </p>
+            <p className="mt-1 text-xs text-ink/60">{BUILD_LATER.body}</p>
+          </div>
+        )}
 
         <div className="mt-auto pt-6">
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/55">
