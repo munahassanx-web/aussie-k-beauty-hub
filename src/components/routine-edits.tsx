@@ -26,7 +26,7 @@ type Edit = {
   field: string; // ingredient-inspired colour field
   accent: string;
   core: Slot[];
-  optional: {
+  optional?: {
     priceId: string;
     label: string;
     role: string;
@@ -37,6 +37,12 @@ type Edit = {
   evening: string[];
   whyThree: string;
   cautions: string[];
+};
+
+/** Shown in place of an optional product when a routine deliberately has none. */
+const BUILD_LATER = {
+  heading: "Build later, if needed",
+  body: "Start with the three-product core. Introduce additional products only after your skin has had time to adjust.",
 };
 
 const EDITS: Edit[] = [
@@ -151,14 +157,8 @@ const EDITS: Edit[] = [
         why: "Helps reduce water loss and keeps the routine comfortable.",
       },
     ],
-    optional: {
-      priceId: "isntree_chestnut_bha_2_percent_clear_liquid_100ml_onetime",
-      label: "Optional targeted exfoliant",
-      role: "Targeted exfoliant — kept outside the core routine",
-      why: "Exfoliation is a choice, not a requirement. The core routine is deliberately active-free.",
-      caution:
-        "Introduce gradually. Do not use on visibly irritated or compromised skin. Avoid combining with other strong exfoliants or retinoids in the same routine. Stop if persistent irritation occurs.",
-    },
+    // No optional addition: the barrier-comfort core is deliberately active-free,
+    // so no exfoliant is recommended beside it.
     morning: ["Ampoule if wanted", "Moisturiser", "Appropriate sun protection"],
     evening: ["Cleanser", "Ampoule", "Moisturiser"],
     whyThree:
