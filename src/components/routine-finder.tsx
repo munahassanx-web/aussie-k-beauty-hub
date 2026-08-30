@@ -145,33 +145,6 @@ function ResultPreview() {
 }
 
 export function RoutineFinderSection() {
-  const [advanced, setAdvanced] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setAdvanced(true);
-      return;
-    }
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          timer = setTimeout(() => setAdvanced(true), 900);
-          io.disconnect();
-        }
-      },
-      { threshold: 0.35 },
-    );
-    io.observe(node);
-    return () => {
-      io.disconnect();
-      if (timer) clearTimeout(timer);
-    };
-  }, []);
-
   return (
     <section className="bg-paper" aria-labelledby="skin-quiz-heading">
       <div className="mx-auto max-w-7xl px-6 py-24">
