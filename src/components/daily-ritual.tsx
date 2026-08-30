@@ -26,97 +26,126 @@ const SHELF_PM = [
   { src: creamCutout, name: "AESTURA Atobarrier365 Cream", role: "Moisturise" },
 ];
 
+/**
+ * One cohesive editorial still life: the three genuine catalogue cutouts
+ * grounded on a shared plinth against a warm ivory field, with a single
+ * navy architectural shape and one gold accent line. Not a comparison
+ * chart — no compartments, arrows, or AM/PM labels.
+ */
 function RoutineShelfVisual() {
   return (
     <figure>
       <div
         role="img"
-        aria-label="Example three-product base routine showing a ROUND LAB cleanser, TORRIDEN hydrating serum and AESTURA moisturiser arranged from morning to evening."
-        className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-foreground/10"
+        aria-label="Editorial still life of three products arranged on one stepped plinth: a ROUND LAB 1025 Dokdo Cleanser, a TORRIDEN Dive In Serum and an AESTURA Atobarrier365 Cream, captioned 'Your three, not ten.'"
+        className="relative overflow-hidden rounded-2xl border border-foreground/10 bg-sand"
+        style={{
+          backgroundImage:
+            "linear-gradient(160deg, rgba(255,252,244,0.95), rgba(243,234,216,0.55) 55%, rgba(228,214,188,0.65)), radial-gradient(ellipse at 18% 0%, rgba(255,248,228,0.9), transparent 60%)",
+        }}
       >
-        {/* Morning — warm ivory, pale golden light */}
+        {/* Soft natural window shadow */}
         <div
           aria-hidden="true"
-          className="relative flex min-h-[320px] flex-col bg-sand p-5 pb-0 md:min-h-[460px] md:p-6 md:pb-0"
+          className="pointer-events-none absolute inset-0"
           style={{
             backgroundImage:
-              "linear-gradient(155deg, rgba(255,251,240,0.92), rgba(232,215,180,0.5) 70%, rgba(214,190,150,0.6)), radial-gradient(ellipse at 20% 0%, rgba(255,244,214,0.85), transparent 60%)",
+              "linear-gradient(105deg, transparent 58%, rgba(120,95,60,0.10) 62%, rgba(120,95,60,0.10) 66%, transparent 70%), linear-gradient(105deg, transparent 74%, rgba(120,95,60,0.07) 78%, rgba(120,95,60,0.07) 81%, transparent 85%)",
           }}
-        >
-          <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-ink/60">AM</span>
-          <div className="flex flex-1 items-end justify-center">
-            <img
-              src={SHELF_AM.src}
-              alt=""
-              width={310}
-              height={658}
-              loading="lazy"
-              decoding="async"
-              className="h-52 object-contain drop-shadow-[0_20px_22px_rgba(60,45,20,0.16)] md:h-72"
-            />
-          </div>
-          <div className="border-t border-clay/60 py-3 text-center">
-            <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-ink/70">
-              {SHELF_AM.role}
-            </p>
-          </div>
+        />
+
+        {/* Editorial text — headline above the products */}
+        <div className="relative px-7 pt-8 md:px-10 md:pt-10">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-clay">
+            A simple starting point
+          </p>
+          <p className="display-section mt-3 text-3xl text-ink md:text-4xl">
+            Your three, not ten.
+          </p>
+          {/* One thin gold accent line */}
+          <span aria-hidden="true" className="mt-4 block h-px w-14 bg-clay" />
+          <p className="mt-3 text-xs leading-relaxed text-ink/65">
+            Cleanse · Optional hydration · Moisturise
+          </p>
         </div>
 
-        {/* Evening — deeper navy, restrained warm highlight */}
-        <div
-          aria-hidden="true"
-          className="relative flex min-h-[320px] flex-col bg-ink p-5 pb-0 md:min-h-[460px] md:p-6 md:pb-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(205deg, rgba(20,26,44,0.35), rgba(10,14,26,0.85) 75%), radial-gradient(ellipse at 85% 8%, rgba(214,178,110,0.2), transparent 55%)",
-          }}
-        >
-          <span className="self-end text-[10px] font-semibold uppercase tracking-[0.28em] text-paper/60">PM</span>
-          <div className="flex flex-1 items-end justify-center gap-4">
-            {SHELF_PM.map((p) => (
+        {/* Still life: one shared surface */}
+        <div className="relative mt-6 md:mt-8">
+          {/* Navy architectural shape behind the group */}
+          <div
+            aria-hidden="true"
+            className="absolute left-1/2 top-0 h-[82%] w-[78%] -translate-x-1/2 rounded-t-[10rem] bg-ink"
+            style={{
+              backgroundImage:
+                "linear-gradient(180deg, rgba(28,36,58,1), rgba(14,19,34,1))",
+            }}
+          />
+          {/* Stepped plinth — the shared surface */}
+          <div aria-hidden="true" className="absolute inset-x-[10%] bottom-0">
+            <div className="h-3 rounded-t-sm bg-[rgba(214,196,168,0.9)]" />
+            <div className="h-4 bg-[rgba(198,178,148,0.9)]" />
+          </div>
+
+          {/* Products: triangular grouping, believable relative scale */}
+          <div className="relative flex items-end justify-center px-6 pb-7 pt-10 md:px-10 md:pt-14">
+            {/* 01 — ROUND LAB cleanser: tallest, slightly left and behind */}
+            <div className="relative -mr-4 md:-mr-6">
               <img
-                key={p.src}
-                src={p.src}
+                src={SHELF_AM.src}
                 alt=""
-                width={300}
-                height={658}
+                width={620}
+                height={1316}
                 loading="lazy"
                 decoding="async"
-                className="h-44 object-contain drop-shadow-[0_20px_22px_rgba(0,0,0,0.45)] md:h-60"
+                className="h-44 w-auto md:h-60"
               />
-            ))}
+              <span
+                aria-hidden="true"
+                className="absolute -bottom-2 left-1/2 h-2.5 w-[85%] -translate-x-1/2 rounded-full bg-[rgba(30,22,12,0.35)] blur-[5px]"
+              />
+            </div>
+            {/* 02 — TORRIDEN serum: smallest, centred and slightly forward */}
+            <div className="relative z-10">
+              <img
+                src={SHELF_PM[0]!.src}
+                alt=""
+                width={373}
+                height={960}
+                loading="lazy"
+                decoding="async"
+                className="h-32 w-auto md:h-44"
+              />
+              <span
+                aria-hidden="true"
+                className="absolute -bottom-1.5 left-1/2 h-2 w-[90%] -translate-x-1/2 rounded-full bg-[rgba(30,22,12,0.4)] blur-[4px]"
+              />
+            </div>
+            {/* 03 — AESTURA cream: slightly shorter than cleanser, right and behind */}
+            <div className="relative -ml-4 md:-ml-6">
+              <img
+                src={SHELF_PM[1]!.src}
+                alt=""
+                width={603}
+                height={1316}
+                loading="lazy"
+                decoding="async"
+                className="h-40 w-auto md:h-56"
+              />
+              <span
+                aria-hidden="true"
+                className="absolute -bottom-2 left-1/2 h-2.5 w-[85%] -translate-x-1/2 rounded-full bg-[rgba(30,22,12,0.35)] blur-[5px]"
+              />
+            </div>
           </div>
-          <div className="grid grid-cols-2 gap-4 border-t border-clay/50 py-3 text-center">
-            {SHELF_PM.map((p) => (
-              <p key={p.role} className="text-[9px] font-semibold uppercase tracking-[0.18em] text-paper/70">
-                {p.role}
-              </p>
-            ))}
-          </div>
-        </div>
-
-        {/* Warm-gold connecting line: Cleanse → Hydrate — Optional → Moisturise */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-6 bottom-[52px] flex items-center"
-        >
-          <span className="text-[10px] text-clay">→</span>
-          <span className="mx-1.5 h-px flex-1 bg-clay/70" />
-          <span className="text-[10px] text-clay">→</span>
-          <span className="mx-1.5 h-px flex-1 bg-clay/60" />
-          <span className="text-[10px] text-clay">→</span>
         </div>
       </div>
 
       <figcaption className="mt-4">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-ink/70">
-          A simple base routine
-        </p>
-        <p className="mt-1.5 text-xs italic text-ink/60">
-          Three clear roles. Add only what your skin needs.
-        </p>
-        <p className="mt-2 text-xs leading-relaxed text-ink/55">
-          Example routine only. Product suitability varies by individual.
+        <p className="text-xs leading-relaxed text-ink/55">
+          Example routine only. Product suitability varies by individual. The
+          visual represents a simple base routine—not a complete morning
+          routine; appropriate sun protection is explained in the Morning
+          guide.
         </p>
       </figcaption>
     </figure>
