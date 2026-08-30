@@ -92,7 +92,7 @@ function RoutineShelfVisual() {
             <div className="relative -mr-4 md:-mr-6">
               <img
                 src={SHELF_AM.src}
-                alt=""
+                alt="ROUND LAB 1025 Dokdo Cleanser shown as the cleanse step in an example base routine."
                 width={620}
                 height={1316}
                 loading="lazy"
@@ -108,7 +108,7 @@ function RoutineShelfVisual() {
             <div className="relative z-10">
               <img
                 src={SHELF_PM[0]!.src}
-                alt=""
+                alt="TORRIDEN Dive In Serum shown as an optional hydration step in an example base routine."
                 width={373}
                 height={960}
                 loading="lazy"
@@ -124,7 +124,7 @@ function RoutineShelfVisual() {
             <div className="relative -ml-4 md:-ml-6">
               <img
                 src={SHELF_PM[1]!.src}
-                alt=""
+                alt="AESTURA Atobarrier365 Cream shown as the moisturising step in an example base routine."
                 width={603}
                 height={1316}
                 loading="lazy"
