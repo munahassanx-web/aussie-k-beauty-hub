@@ -317,12 +317,13 @@ function LearnHubPage() {
             The Seoul Signal
           </p>
           <h2 className="mx-auto mt-6 max-w-3xl font-display text-[30px] leading-[1.05] text-background md:text-[46px]">
-            We don't report what's trending. We report what Korean women repurchase.
+            We report what the Korean market is talking about — and what the evidence does and
+            doesn't show.
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-[13.5px] leading-relaxed text-background/70">
-            Every piece here starts with domestic Korean signals — Hwahae review volume, Olive Young
-            Korea category rankings, real shelf space in Seoul — then gets cross-checked against
-            Australian UV, humidity, water hardness and TGA rules before we publish or stock a thing.
+            Where we cite Korean-market context, the source is named — most often Hwahae review
+            volume and category rankings. We then consider Australian conditions and cosmetic
+            requirements before we publish or stock anything.
           </p>
         </div>
         <div className="mx-auto mt-12 grid max-w-5xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
