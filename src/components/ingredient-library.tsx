@@ -42,7 +42,7 @@ const CHAPTERS: Chapter[] = [
     may: "Supporting hydration, softness and a temporarily plumper appearance.",
     mind: "Independent clinical evidence for major skin transformation remains limited. Patch test, particularly if your skin is reactive.",
     image: texSnail,
-    alt: "Macro study of a translucent pearl-toned skincare gel with soft blue highlights.",
+    alt: "Macro photograph of a clear, viscous cosmetic essence representing the texture of a snail secretion filtrate formula.",
     tint: "#e8eef4",
     shopIngredient: "Snail Secretion Filtrate",
   },
@@ -56,7 +56,7 @@ const CHAPTERS: Chapter[] = [
     may: "Reducing the feeling of discomfort and supporting skin that looks temporarily unsettled.",
     mind: "Benefits depend on the extract, concentration and complete formula. It is not a treatment for rosacea, eczema or dermatitis.",
     image: texCentella,
-    alt: "Macro photograph of green botanical leaves holding clear water droplets.",
+    alt: "Botanically accurate Centella asiatica leaves with rounded, scalloped edges beside a clear cosmetic gel.",
     tint: "#e4ece1",
     shopIngredient: "Centella Asiatica (Cica)",
     learn: { slug: "centella-everywhere", label: "Read the centella article" },
@@ -71,7 +71,7 @@ const CHAPTERS: Chapter[] = [
     may: "Supporting the skin barrier, improving the appearance of uneven tone and helping regulate the look of excess oil.",
     mind: "Higher percentages are not automatically better and may irritate some customers.",
     image: texNiacinamide,
-    alt: "Macro study of an ivory cream swirl with a single raspberry-toned ribbon folded through it.",
+    alt: "Fine white niacinamide powder beside a clear water-based cosmetic serum.",
     tint: "#f5eee6",
     shopIngredient: "Niacinamide",
     learn: { slug: "pigmentation-language", label: "Read about tone and pigment language" },
@@ -86,7 +86,7 @@ const CHAPTERS: Chapter[] = [
     may: "Supporting hydration and helping skin feel more comfortable.",
     mind: "Avoid if you have a known allergy to bee-related products. Cosmetic evidence is less established than the popularity of the ingredient may suggest.",
     image: texPropolis,
-    alt: "Macro study of warm amber, honey-gold translucent resin.",
+    alt: "Golden-brown propolis resin beside a translucent amber cosmetic serum.",
     tint: "#f7ecd8",
     shopIngredient: "Propolis Extract",
   },
@@ -100,7 +100,7 @@ const CHAPTERS: Chapter[] = [
     may: "Water retention, softness and supporting a comfortable moisturising routine.",
     mind: "Its performance depends on ingredient source, formulation and the other moisturising components around it.",
     image: texBetaGlucan,
-    alt: "Macro study of oat-toned milky liquid swirling with soft cloud-blue shadows.",
+    alt: "White cosmetic-grade beta-glucan material beside a clear-to-milky hydrated gel texture.",
     tint: "#f2ece0",
     shopIngredient: "Beta-Glucan",
   },
@@ -114,7 +114,7 @@ const CHAPTERS: Chapter[] = [
     may: "Supporting skin comfort and reducing the appearance of temporary irritation.",
     mind: "It should not be presented as a medical treatment. Results depend on the complete product and the reason the skin appears irritated.",
     image: texMadecassoside,
-    alt: "Macro study of pale sage-green water rippling over mineral white.",
+    alt: "White cosmetic material and clear serum with botanically accurate Centella asiatica leaves in the background, representing madecassoside.",
     tint: "#e7edea",
     shopIngredient: "Madecassoside",
     learn: { slug: "centella-everywhere", label: "Read the centella article" },
@@ -238,8 +238,8 @@ function ChapterPanel({
             <img
               src={chapter.image}
               alt={chapter.alt}
-              width={1024}
-              height={1024}
+              width={1600}
+              height={1200}
               loading="lazy"
               decoding="async"
               className="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-out hover:scale-[1.02] motion-reduce:transition-none motion-reduce:hover:scale-100"
