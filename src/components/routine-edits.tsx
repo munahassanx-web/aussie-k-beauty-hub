@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { SHOP_PRODUCTS, isPurchasable } from "@/lib/shop-catalog";
@@ -323,7 +324,7 @@ export function RoutineReviewDialog({
     }
   }
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-ink/80 p-4 backdrop-blur">
       <div
         ref={panelRef}
@@ -572,7 +573,8 @@ export function RoutineReviewDialog({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
@@ -687,16 +689,19 @@ function EditCard({ edit, onReview }: { edit: Edit; onReview: (edit: Edit, trigg
 }
 
 export function RoutineEdits() {
-  const [selectedEdit, setSelectedEdit] = useState<Edit | null>(null);
+  const [selectedRoutine, setSelectedRoutine] = useState<Edit | null>(null);
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
   const [reviewTrigger, setReviewTrigger] = useState<HTMLButtonElement | null>(null);
 
-  const openReview = useCallback((edit: Edit, trigger: HTMLButtonElement) => {
+  const openReview = useCallback((routine: Edit, trigger: HTMLButtonElement) => {
     setReviewTrigger(trigger);
-    setSelectedEdit(edit);
+    setSelectedRoutine(routine);
+    setIsReviewOpen(true);
   }, []);
 
   const closeReview = useCallback(() => {
-    setSelectedEdit(null);
+    setIsReviewOpen(false);
+    setSelectedRoutine(null);
   }, []);
 
   return (
@@ -725,9 +730,9 @@ export function RoutineEdits() {
           ))}
         </div>
       </div>
-      {selectedEdit && (
+      {isReviewOpen && selectedRoutine && (
         <RoutineReviewDialog
-          edit={selectedEdit}
+          edit={selectedRoutine}
           onClose={closeReview}
           returnFocusTo={reviewTrigger}
         />
