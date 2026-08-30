@@ -41,7 +41,7 @@ const CONCERN_CARDS: ConcernCard[] = [
     desc: "For skin that frequently looks congested, shiny or blemish-prone.",
     cue: "Explore simpler routines and carefully selected exfoliating options.",
     img: imgAcne,
-    alt: "Natural, unretouched skin texture photographed in daylight alongside a lightweight clear gel texture on pale stone.",
+    alt: "Natural skin with visible texture and mild blemishes beside a lightweight clear gel texture.",
   },
   {
     slug: "pigmentation",
