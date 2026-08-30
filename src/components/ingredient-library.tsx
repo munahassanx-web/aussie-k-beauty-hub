@@ -355,6 +355,7 @@ export function IngredientLibrary() {
             <ChapterPanel
               key={c.name}
               chapter={c}
+              hasProducts={PRODUCT_COUNTS.get(c.shopIngredient) ? true : false}
               open={openIndex === i}
               onToggle={() => {
                 setOpenIndex((prev) => (prev === i ? -1 : i));
