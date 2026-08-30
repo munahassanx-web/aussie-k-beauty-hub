@@ -18,7 +18,8 @@ import glassSkinStarterExplainer from "@/assets/bundle-explainers/glass-skin-sta
 import completeGlowExplainer from "@/assets/bundle-explainers/complete-glow-edit.webp.asset.json";
 import calmClearExplainer from "@/assets/bundle-explainers/calm-clear-bundle.webp.asset.json";
 import applyingSerum from "@/assets/applying-serum.webp.asset.json";
-import authenticityCard from "@/assets/authenticity-card.webp.asset.json";
+import authenticityCardV2 from "@/assets/authenticity-card-v2.webp.asset.json";
+import batchCheckImage from "@/assets/authenticity-batch-check.jpg";
 import ritualScene from "@/assets/ritual-scene.webp";
 import quizBareSkin from "@/assets/quiz-bare-skin.webp";
 import cabinetEdit from "@/assets/brand-cabinet-products.jpg";
