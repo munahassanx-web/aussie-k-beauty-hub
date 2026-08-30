@@ -971,10 +971,10 @@ function ProvenanceCard() {
           <figure className="mt-8 overflow-hidden rounded-2xl">
             <img
               src={batchCheckImage}
-              alt="Close-up of Korean skincare cartons showing printed batch and expiry markings beside a Skin Grocer receiving checklist card"
+              alt="Close-up of batch and expiry markings printed on original Korean skincare packaging."
               loading="lazy"
-              width={1408}
-              height={1056}
+              width={1200}
+              height={896}
               className="h-full w-full object-cover"
             />
             <figcaption className="mt-3 text-xs leading-relaxed text-paper/50">
