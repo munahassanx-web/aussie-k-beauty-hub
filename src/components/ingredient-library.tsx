@@ -1,6 +1,8 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { trackUi } from "@/lib/analytics";
+import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
+import { ingredientsFor } from "@/lib/collection-filters";
 
 import texSnail from "@/assets/ingredients/tex-snail-mucin.jpg";
 import texCentella from "@/assets/ingredients/tex-centella.jpg";
@@ -119,6 +121,15 @@ const CHAPTERS: Chapter[] = [
   },
 ];
 
+/** Real catalogue counts — a link is only shown when the filter has stock. */
+const PRODUCT_COUNTS = new Map<string, number>(
+  CHAPTERS.map((c) => [
+    c.shopIngredient,
+    SHOP_PRODUCTS.filter((p) => ingredientsFor(p).includes(c.shopIngredient)).length,
+  ]),
+);
+
+
 const PRINCIPLES = [
   { n: "01", title: "COMPLETE FORMULA", line: "Not one hero ingredient in isolation." },
   { n: "02", title: "CLEAR ROUTINE ROLE", line: "The product must have a reason to exist." },
@@ -159,8 +170,10 @@ function EvidenceBadge({ level }: { level: Evidence }) {
 function Field({ label, children }: { label: string; children: string }) {
   return (
     <div className="grid gap-1 md:grid-cols-[10.5rem_1fr] md:gap-6">
-      <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/50">{label}</dt>
-      <dd className="text-[14px] leading-relaxed text-ink/80">{children}</dd>
+      <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/60">{label}</dt>
+      <dd className="max-w-[62ch] text-[15px] leading-[1.62] text-ink/85 md:text-[16px]">
+        {children}
+      </dd>
     </div>
   );
 }
@@ -169,10 +182,12 @@ function ChapterPanel({
   chapter,
   open,
   onToggle,
+  hasProducts,
 }: {
   chapter: Chapter;
   open: boolean;
   onToggle: () => void;
+  hasProducts: boolean;
 }) {
   const uid = useId();
   const panelId = `ing-panel-${uid}`;
@@ -189,16 +204,17 @@ function ChapterPanel({
           id={buttonId}
           aria-expanded={open}
           aria-controls={panelId}
+          aria-label={`${open ? "Collapse" : "Expand"} information about ${chapter.name}`}
           onClick={onToggle}
-          className="flex w-full items-baseline gap-5 px-4 py-7 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink md:gap-8 md:px-8 md:py-9"
+          className="flex min-h-[44px] w-full items-center gap-5 px-4 py-6 text-left transition-colors hover:bg-ink/[0.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink md:min-h-[128px] md:gap-8 md:px-8 md:py-7"
         >
           <span className="font-display text-xs italic text-ink/50 tabular-nums">{chapter.n}</span>
-          <span className="flex-1">
-            <span className="block font-display text-[clamp(1.7rem,4.4vw,3.1rem)] leading-[1.05] text-ink">
+          <span className="min-w-0 flex-1">
+            <span className="block font-display text-[clamp(1.6rem,4vw,2.75rem)] leading-[1.06] text-ink">
               {chapter.name}
             </span>
             <span className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/55">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/60">
                 {chapter.category}
               </span>
               <EvidenceBadge level={chapter.evidence} />
@@ -206,51 +222,54 @@ function ChapterPanel({
           </span>
           <span
             aria-hidden="true"
-            className={`shrink-0 text-ink/50 transition-transform duration-300 ${open ? "rotate-45" : ""}`}
+            className="shrink-0 text-2xl font-light leading-none text-ink/50 transition-colors group-hover:text-ink"
           >
-            +
+            {open ? "−" : "+"}
           </span>
         </button>
       </h3>
 
       <div id={panelId} role="region" aria-labelledby={buttonId} hidden={!open}>
-        <div className="grid gap-8 px-4 pb-10 md:grid-cols-12 md:gap-10 md:px-8 md:pb-14">
-          <div className="md:col-span-5 lg:col-span-4">
-            <div className="relative overflow-hidden rounded-[1.75rem] md:-mt-16">
-              <img
-                src={chapter.image}
-                alt={chapter.alt}
-                width={1024}
-                height={1280}
-                loading="lazy"
-                decoding="async"
-                className="aspect-[4/5] w-full object-cover"
-              />
-            </div>
+        <div className="grid items-start gap-8 px-4 pb-10 md:grid-cols-[40%_1fr] md:gap-12 md:px-12 md:pb-14 md:pt-2">
+          <div
+            className="overflow-hidden rounded-[1.5rem]"
+            style={{ backgroundColor: chapter.tint }}
+          >
+            <img
+              src={chapter.image}
+              alt={chapter.alt}
+              width={1024}
+              height={1024}
+              loading="lazy"
+              decoding="async"
+              className="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-out hover:scale-[1.02] motion-reduce:transition-none motion-reduce:hover:scale-100"
+            />
           </div>
 
-          <dl className="space-y-5 md:col-span-7 lg:col-span-8">
+          <dl className="space-y-6">
             <Field label="What it is">{chapter.what}</Field>
             <Field label="Why it’s in K-beauty">{chapter.why}</Field>
             <Field label="What it may help with">{chapter.may}</Field>
             <Field label="Keep in mind">{chapter.mind}</Field>
 
             <div className="flex flex-wrap items-center gap-x-8 gap-y-3 pt-2">
-              <Link
-                to="/shop"
-                search={{ ingredient: chapter.shopIngredient }}
-                onClick={() =>
-                  trackUi("ingredient_library_products", { ingredient: chapter.name })
-                }
-                className="group/link inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink"
-              >
-                <span className="border-b border-ink/30 pb-0.5 transition-colors group-hover/link:border-ink">
-                  View products with this ingredient
-                </span>
-                <span className="transition-transform duration-300 group-hover/link:translate-x-1">
-                  →
-                </span>
-              </Link>
+              {hasProducts && (
+                <Link
+                  to="/shop"
+                  search={{ ingredient: chapter.shopIngredient }}
+                  onClick={() =>
+                    trackUi("ingredient_library_products", { ingredient: chapter.name })
+                  }
+                  className="group/link inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink"
+                >
+                  <span className="border-b border-ink/30 pb-0.5 transition-colors group-hover/link:border-ink">
+                    View products with this ingredient
+                  </span>
+                  <span className="transition-transform duration-300 group-hover/link:translate-x-1 motion-reduce:transition-none">
+                    →
+                  </span>
+                </Link>
+              )}
               {chapter.learn && (
                 <Link
                   to="/learn/article/$slug"
@@ -347,6 +366,7 @@ export function IngredientLibrary() {
             <ChapterPanel
               key={c.name}
               chapter={c}
+              hasProducts={PRODUCT_COUNTS.get(c.shopIngredient) ? true : false}
               open={openIndex === i}
               onToggle={() => {
                 setOpenIndex((prev) => (prev === i ? -1 : i));
