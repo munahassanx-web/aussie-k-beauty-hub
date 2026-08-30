@@ -90,7 +90,11 @@ function HomePage() {
       <Reveal><ConcernNavigator /></Reveal>
       <Reveal><WhyPillars /></Reveal>
       <DailyRitualSection />
-      <RitualCTA />
+      {RESTOCK_FEATURE_ENABLED && (
+        <Suspense fallback={null}>
+          <RestockCta />
+        </Suspense>
+      )}
       <Reveal><LearnStrip /></Reveal>
       <SeoulSignalStrip />
       <Reveal><CustomerNotes /></Reveal>
