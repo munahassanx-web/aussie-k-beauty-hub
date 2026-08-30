@@ -1,13 +1,127 @@
 import { useId, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { trackUi } from "@/lib/analytics";
-import dailyRitualImage from "@/assets/daily-ritual-routine.webp";
 
 /**
  * Homepage "The Daily Ritual" section: educates beginners that a useful
  * routine is simple and flexible, with an accessible AM/PM tab guide.
  * Guidance-first — no product sales actions in this section.
+ *
+ * The editorial visual is a code-native "day-to-night routine shelf" built
+ * from three genuine catalogue packshots (transparent cutouts, unaltered).
+ * It is an example base routine — not a personalised recommendation.
  */
+
+import cleanserCutout from "@/assets/daily-ritual/roundlab-dokdo-cleanser.webp";
+import serumCutout from "@/assets/daily-ritual/torriden-dive-in-serum.webp";
+import creamCutout from "@/assets/daily-ritual/aestura-atobarrier365-cream.webp";
+
+/**
+ * Genuine catalogue packshots (alpha-trimmed presentation crops only —
+ * packaging, labels and colours are untouched).
+ */
+const SHELF_AM = { src: cleanserCutout, name: "ROUND LAB 1025 Dokdo Cleanser", role: "Cleanse" };
+const SHELF_PM = [
+  { src: serumCutout, name: "TORRIDEN Dive In Serum", role: "Hydrate — Optional" },
+  { src: creamCutout, name: "AESTURA Atobarrier365 Cream", role: "Moisturise" },
+];
+
+function RoutineShelfVisual() {
+  return (
+    <figure>
+      <div
+        role="img"
+        aria-label="Example three-product base routine showing a ROUND LAB cleanser, TORRIDEN hydrating serum and AESTURA moisturiser arranged from morning to evening."
+        className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-foreground/10"
+      >
+        {/* Morning — warm ivory, pale golden light */}
+        <div
+          aria-hidden="true"
+          className="relative flex min-h-[320px] flex-col bg-sand p-5 pb-0 md:min-h-[460px] md:p-6 md:pb-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(155deg, rgba(255,251,240,0.92), rgba(232,215,180,0.5) 70%, rgba(214,190,150,0.6)), radial-gradient(ellipse at 20% 0%, rgba(255,244,214,0.85), transparent 60%)",
+          }}
+        >
+          <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-ink/60">AM</span>
+          <div className="flex flex-1 items-end justify-center">
+            <img
+              src={SHELF_AM.src}
+              alt=""
+              width={310}
+              height={658}
+              loading="lazy"
+              decoding="async"
+              className="h-52 object-contain drop-shadow-[0_20px_22px_rgba(60,45,20,0.16)] md:h-72"
+            />
+          </div>
+          <div className="border-t border-clay/60 py-3 text-center">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-ink/70">
+              {SHELF_AM.role}
+            </p>
+          </div>
+        </div>
+
+        {/* Evening — deeper navy, restrained warm highlight */}
+        <div
+          aria-hidden="true"
+          className="relative flex min-h-[320px] flex-col bg-ink p-5 pb-0 md:min-h-[460px] md:p-6 md:pb-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(205deg, rgba(20,26,44,0.35), rgba(10,14,26,0.85) 75%), radial-gradient(ellipse at 85% 8%, rgba(214,178,110,0.2), transparent 55%)",
+          }}
+        >
+          <span className="self-end text-[10px] font-semibold uppercase tracking-[0.28em] text-paper/60">PM</span>
+          <div className="flex flex-1 items-end justify-center gap-4">
+            {SHELF_PM.map((p) => (
+              <img
+                key={p.src}
+                src={p.src}
+                alt=""
+                width={300}
+                height={658}
+                loading="lazy"
+                decoding="async"
+                className="h-44 object-contain drop-shadow-[0_20px_22px_rgba(0,0,0,0.45)] md:h-60"
+              />
+            ))}
+          </div>
+          <div className="grid grid-cols-2 gap-4 border-t border-clay/50 py-3 text-center">
+            {SHELF_PM.map((p) => (
+              <p key={p.role} className="text-[9px] font-semibold uppercase tracking-[0.18em] text-paper/70">
+                {p.role}
+              </p>
+            ))}
+          </div>
+        </div>
+
+        {/* Warm-gold connecting line: Cleanse → Hydrate — Optional → Moisturise */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-6 bottom-[52px] flex items-center"
+        >
+          <span className="text-[10px] text-clay">→</span>
+          <span className="mx-1.5 h-px flex-1 bg-clay/70" />
+          <span className="text-[10px] text-clay">→</span>
+          <span className="mx-1.5 h-px flex-1 bg-clay/60" />
+          <span className="text-[10px] text-clay">→</span>
+        </div>
+      </div>
+
+      <figcaption className="mt-4">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-ink/70">
+          A simple base routine
+        </p>
+        <p className="mt-1.5 text-xs italic text-ink/60">
+          Three clear roles. Add only what your skin needs.
+        </p>
+        <p className="mt-2 text-xs leading-relaxed text-ink/55">
+          Example routine only. Product suitability varies by individual.
+        </p>
+      </figcaption>
+    </figure>
+  );
+}
 
 type RoutineStep = {
   num: string;
@@ -141,27 +255,9 @@ export function DailyRitualSection() {
   return (
     <section className="bg-paper" aria-labelledby="daily-ritual-heading">
       <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-14">
-          {/* Editorial image — ~45% desktop */}
-          <div className="order-2 lg:order-1 lg:col-span-5">
-            <div className="overflow-hidden rounded-2xl border border-foreground/10">
-              <img
-                src={dailyRitualImage}
-                alt="Woman gently pressing a lightweight skincare layer into naturally textured skin during a simple daily routine."
-                width={1600}
-                height={1200}
-                loading="lazy"
-                decoding="async"
-                className="aspect-[4/3] h-full w-full object-cover lg:aspect-auto lg:h-full lg:min-h-[560px]"
-              />
-            </div>
-            <p className="mt-3 text-xs italic text-ink/55">
-              A routine that fits into real life.
-            </p>
-          </div>
-
-          {/* Interactive routine guide — ~55% desktop */}
-          <div className="order-1 lg:order-2 lg:col-span-7">
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-x-14 lg:gap-y-0">
+          {/* Heading + introduction */}
+          <div className="order-1 lg:order-none lg:col-start-6 lg:col-span-7 lg:row-start-1">
             <p className="eyebrow eyebrow-rule text-clay">THE DAILY RITUAL</p>
             <h2
               id="daily-ritual-heading"
@@ -191,9 +287,16 @@ export function DailyRitualSection() {
                 ),
               )}
             </ul>
+          </div>
 
-            {/* AM/PM tabs */}
-            <div className="mt-10">
+          {/* Product-led editorial visual — ~45% desktop */}
+          <div className="order-2 lg:order-none lg:col-start-1 lg:col-span-5 lg:row-start-1 lg:row-span-3">
+            <RoutineShelfVisual />
+          </div>
+
+          {/* AM/PM interactive guide */}
+          <div className="order-3 lg:order-none lg:col-start-6 lg:col-span-7 lg:row-start-2 lg:mt-12">
+            <div>
               <div
                 ref={tablistRef}
                 role="tablist"
@@ -254,8 +357,11 @@ export function DailyRitualSection() {
                 </p>
               </div>
             </div>
+          </div>
 
-            <div className="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8">
+          {/* Calls to action */}
+          <div className="order-4 lg:order-none lg:col-start-6 lg:col-span-7 lg:row-start-3">
+            <div className="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8 lg:mt-12">
               <Link
                 to="/consultation"
                 onClick={() => trackUi("daily_ritual_consultation_click", {})}
