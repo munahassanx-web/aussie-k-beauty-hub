@@ -287,9 +287,16 @@ export function DailyRitualSection() {
                 ),
               )}
             </ul>
+          </div>
 
-            {/* AM/PM tabs */}
-            <div className="mt-10">
+          {/* Product-led editorial visual — ~45% desktop */}
+          <div className="order-2 lg:order-none lg:col-start-1 lg:col-span-5 lg:row-start-1 lg:row-span-3">
+            <RoutineShelfVisual />
+          </div>
+
+          {/* AM/PM interactive guide */}
+          <div className="order-3 lg:order-none lg:col-start-6 lg:col-span-7 lg:row-start-2 lg:mt-12">
+            <div>
               <div
                 ref={tablistRef}
                 role="tablist"
