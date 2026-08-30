@@ -554,13 +554,13 @@ function EditCard({ edit }: { edit: Edit }) {
             const p = productOf(slot.priceId);
             if (!p) return null;
             return (
-              <li key={slot.priceId} className="flex items-baseline justify-between gap-3 py-2.5">
-                <span className="min-w-0">
-                  {p.brand} {p.name}
-                </span>
-                <span className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/50">
+              <li key={slot.priceId} className="py-2.5">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/50">
                   {slot.role}
-                </span>
+                </p>
+                <p className="mt-0.5">
+                  {p.brand} {p.name}
+                </p>
               </li>
             );
           })}
