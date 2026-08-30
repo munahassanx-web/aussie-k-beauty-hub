@@ -121,6 +121,15 @@ const CHAPTERS: Chapter[] = [
   },
 ];
 
+/** Real catalogue counts — a link is only shown when the filter has stock. */
+const PRODUCT_COUNTS = new Map<string, number>(
+  CHAPTERS.map((c) => [
+    c.shopIngredient,
+    SHOP_PRODUCTS.filter((p) => ingredientsFor(p).includes(c.shopIngredient)).length,
+  ]),
+);
+
+
 const PRINCIPLES = [
   { n: "01", title: "COMPLETE FORMULA", line: "Not one hero ingredient in isolation." },
   { n: "02", title: "CLEAR ROUTINE ROLE", line: "The product must have a reason to exist." },
