@@ -440,8 +440,8 @@ function LearnHubPage() {
               What Seoul is buying, before Australia hears about it.
             </h2>
             <p className="mt-5 max-w-md text-[15px] leading-relaxed text-foreground/70">
-              Every two weeks: what's climbing the Korean domestic rankings, what Korean women are
-              actually repurchasing, and which of it is worth your money in an Australian climate.
+              Every two weeks: what's climbing the Hwahae rankings, what the evidence does and
+              doesn't support, and which of it is worth your money in an Australian climate.
             </p>
           </div>
           <div className="md:justify-self-end">
