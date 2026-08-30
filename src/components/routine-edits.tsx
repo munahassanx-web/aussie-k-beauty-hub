@@ -233,20 +233,46 @@ function RoutineDialog({
 
   const available = (priceId: string) => isPurchasable(priceId) && !isSoldOut(priceId);
 
+  const optionalId = edit.optional?.priceId;
   const [selected, setSelected] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
     edit.core.forEach((s) => {
       initial[s.priceId] = available(s.priceId);
     });
-    initial[edit.optional.priceId] = false;
+    if (optionalId) initial[optionalId] = false;
     return initial;
   });
+  // Guards against duplicate additions from rapid repeated clicking.
+  const addingRef = useRef(false);
+  const [adding, setAdding] = useState(false);
 
   useEffect(() => {
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key === "Tab") {
+        // Simple focus trap: keep Tab / Shift+Tab inside the dialog panel.
+        const panel = panelRef.current;
+        if (!panel) return;
+        const focusables = panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        const active = document.activeElement as HTMLElement | null;
+        if (e.shiftKey && (active === first || !panel.contains(active))) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && (active === last || !panel.contains(active))) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     window.addEventListener("keydown", onKey);
     panelRef.current?.focus();
@@ -259,7 +285,7 @@ function RoutineDialog({
 
   const chosen = useMemo(
     () =>
-      [...edit.core.map((s) => s.priceId), edit.optional.priceId].filter(
+      [...edit.core.map((s) => s.priceId), ...(optionalId ? [optionalId] : [])].filter(
         (id) => selected[id] && available(id),
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
