@@ -174,14 +174,14 @@ export function RoutineFinderSection() {
           </ul>
         </div>
 
-        <div ref={ref} className="mt-12 grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-10 lg:items-start">
+        <div className="mt-12 grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-10 lg:items-start">
           <Link
             to="/consultation"
             onClick={() => trackUi("routine_finder_preview_click", {})}
             aria-label="Open the Routine Finder"
             className="block rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pop"
           >
-            <QuizPreview advanced={advanced} />
+            <QuizPreview />
           </Link>
           <ResultPreview />
         </div>
