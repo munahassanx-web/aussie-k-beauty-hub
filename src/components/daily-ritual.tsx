@@ -264,22 +264,9 @@ export function DailyRitualSection() {
     <section className="bg-paper" aria-labelledby="daily-ritual-heading">
       <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-14">
-          {/* Editorial image — ~45% desktop */}
+          {/* Product-led editorial visual — ~45% desktop */}
           <div className="order-2 lg:order-1 lg:col-span-5">
-            <div className="overflow-hidden rounded-2xl border border-foreground/10">
-              <img
-                src={dailyRitualImage}
-                alt="Woman gently pressing a lightweight skincare layer into naturally textured skin during a simple daily routine."
-                width={1600}
-                height={1200}
-                loading="lazy"
-                decoding="async"
-                className="aspect-[4/3] h-full w-full object-cover lg:aspect-auto lg:h-full lg:min-h-[560px]"
-              />
-            </div>
-            <p className="mt-3 text-xs italic text-ink/55">
-              A routine that fits into real life.
-            </p>
+            <RoutineShelfVisual />
           </div>
 
           {/* Interactive routine guide — ~55% desktop */}
