@@ -6,6 +6,7 @@ import { FaqSection } from "@/components/faq-section";
 import { HOME_FAQS, faqJsonLd } from "@/lib/faqs";
 import { RoutineEducation } from "@/components/routine-education";
 import { Reveal } from "@/components/reveal";
+import { IngredientLibrary } from "@/components/ingredient-library";
 
 
 import { AtmosHero } from "@/components/atmos-hero";
@@ -68,14 +69,6 @@ const concerns: { name: string; desc: string; slug: "hydration" | "acne" | "pigm
 ];
 
 
-const ingredients = [
-  { name: "Snail Mucin", role: "Repair & glow" },
-  { name: "Centella Asiatica", role: "Soothe redness" },
-  { name: "Niacinamide", role: "Even tone" },
-  { name: "Propolis", role: "Barrier support" },
-  { name: "Beta-Glucan", role: "Deep hydration" },
-  { name: "Madecassoside", role: "Sensitive calm" },
-];
 
 
 
@@ -90,7 +83,7 @@ function HomePage() {
       <KoreaRightNow />
       <Reveal><RoutineEducation /></Reveal>
       <BrandMarquee />
-      <Reveal><IngredientStrip /></Reveal>
+      <IngredientLibrary />
 
       <Reveal><ProvenanceCard /></Reveal>
       <SkinQuizSection />
@@ -1061,56 +1054,6 @@ function ApplicationMoment() {
   );
 }
 
-
-function IngredientStrip() {
-  return (
-    <section className="border-b border-border bg-paper py-20 md:py-28">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-2xl">
-            <p className="eyebrow eyebrow-rule text-clay">THE INGREDIENT LIBRARY</p>
-            <h2 className="mt-4 font-display text-3xl leading-tight text-ink md:text-4xl">
-              Know what earns a place on your skin.
-            </h2>
-            <p className="mt-4 max-w-xl text-sm text-ink/70">
-              Six ingredients you’ll see often in Korean skincare — and the simple reason each one matters.
-            </p>
-          </div>
-          <Link
-            to="/learn"
-            className="group inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink transition hover:text-hanbok-deep"
-          >
-            Explore ingredients
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </Link>
-        </div>
-
-        <ul className="grid border-l border-t border-border md:grid-cols-2 lg:grid-cols-3">
-          {ingredients.map((ing, i) => (
-            <li
-              key={ing.name}
-              className="group border-b border-r border-border px-5 py-6 md:px-6 md:py-7"
-            >
-              <div className="flex items-baseline gap-4">
-                <span className="font-display text-xs italic text-ink/60">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div className="flex flex-col">
-                  <span className="font-display text-xl text-ink transition-colors group-hover:text-hanbok-deep">
-                    {ing.name}
-                  </span>
-                  <span className="mt-1 text-[12px] uppercase tracking-[0.14em] text-ink/60">
-                    {ing.role}
-                  </span>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
 
 function RitualCTA() {
   const steps = [
