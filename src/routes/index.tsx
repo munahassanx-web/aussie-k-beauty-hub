@@ -17,7 +17,7 @@ import { KoreaRightNow } from "@/components/korea-right-now";
 import { RESTOCK_DISCOUNT_PERCENT, SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { RoutineEdits } from "@/components/routine-edits";
 import { ConcernNavigator } from "@/components/concern-navigator";
-import applyingSerum from "@/assets/applying-serum.webp.asset.json";
+import { DailyRitualSection } from "@/components/daily-ritual";
 import authenticityCardV2 from "@/assets/authenticity-card-v2.webp.asset.json";
 import batchCheckImage from "@/assets/authenticity-batch-check.jpg";
 import ritualScene from "@/assets/ritual-scene.webp";
@@ -82,7 +82,7 @@ function HomePage() {
       <Reveal><RoutineEdits /></Reveal>
       <Reveal><ConcernNavigator /></Reveal>
       <Reveal><WhyPillars /></Reveal>
-      <ApplicationMoment />
+      <DailyRitualSection />
       <RitualCTA />
       <Reveal><LearnStrip /></Reveal>
       <SeoulSignalStrip />
@@ -838,81 +838,6 @@ function ProvenanceCard() {
 }
 
 
-function ApplicationMoment() {
-  return (
-    <section className="relative overflow-hidden bg-ink" aria-labelledby="ritual-heading">
-      <div className="absolute inset-0">
-        <img
-          src={applyingSerum.url}
-          alt="Woman applying a lightweight Korean serum to her face in soft natural light"
-          loading="lazy"
-          className="h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/60 via-ink/30 to-ink/10" />
-      </div>
-      <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
-        <div className="grid md:grid-cols-12 md:items-center md:gap-12">
-          <div className="md:col-span-6 lg:col-span-5">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sand/80">
-              THE DAILY RITUAL
-            </p>
-            <h2
-              id="ritual-heading"
-              className="mt-4 font-display text-4xl leading-tight text-paper md:text-5xl"
-            >
-              Good skincare should fit the life you actually live.
-            </h2>
-            <p className="mt-5 max-w-md text-[15px] leading-relaxed text-paper/80">
-              A considered routine doesn’t need to take over your bathroom shelf — or your morning.
-              Start with what matters, layer with intention, and build only when your skin asks for more.
-            </p>
-
-            <div className="mt-8 border-t border-paper/20 pt-6">
-              <div className="space-y-3">
-                <div className="grid grid-cols-[auto_1fr] items-baseline gap-x-4 gap-y-1">
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-paper/60">
-                    AM
-                  </span>
-                  <span className="text-sm text-paper/90">Cleanse · Treat · Moisturise · Protect</span>
-                </div>
-                <div className="grid grid-cols-[auto_1fr] items-baseline gap-x-4 gap-y-1">
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-paper/60">
-                    PM
-                  </span>
-                  <span className="text-sm text-paper/90">Cleanse · Treat · Moisturise</span>
-                </div>
-              </div>
-              <p className="mt-4 text-xs italic text-paper/70">
-                A simple starting point — adjust for your skin.
-              </p>
-            </div>
-
-            <div className="mt-10 flex flex-col items-start gap-5 md:flex-row md:gap-8">
-              <Link
-                to="/consultation"
-                className="group inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-paper transition hover:text-sand"
-              >
-                <span className="border-b border-paper/40 pb-0.5 transition-colors group-hover:border-sand">
-                  Find your routine
-                </span>
-                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </Link>
-              <Link
-                to="/shop"
-                className="group inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-paper transition hover:text-sand"
-              >
-                <span className="border-b border-paper/40 pb-0.5 transition-colors group-hover:border-sand">
-                  Explore the ritual
-                </span>
-                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 
 function RitualCTA() {
