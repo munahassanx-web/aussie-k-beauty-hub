@@ -45,9 +45,9 @@ export const Route = createFileRoute("/learn/hub")({
 });
 
 const stats = [
-  { big: "10M+", cap: "Korean-language reviews we read rankings from, not feeds" },
-  { big: "85%", cap: "of Korea's domestic beauty retail we track for real demand" },
-  { big: "12–18", cap: "months Australia usually lags Korean shelves. We close it" },
+  { big: "Hwahae", cap: "the Korean review platform we cite ranking context from" },
+  { big: "Plain", cap: "English explanations, with limitations stated where they exist" },
+  { big: "AU", cap: "Australian climate and cosmetic requirements considered" },
   { big: "0", cap: "products stocked on social virality alone" },
 ];
 
