@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { RoutineFinderSection } from "@/components/routine-finder";
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { trackUi } from "@/lib/analytics";
 import { useBuyNow } from "@/hooks/use-buy-now";
 import { FaqSection } from "@/components/faq-section";
@@ -14,14 +14,21 @@ import { AtmosHero } from "@/components/atmos-hero";
 import { ProductShelf } from "@/components/product-shelf";
 import { SeoulSignalStrip } from "@/components/seoul-signal";
 import { KoreaRightNow } from "@/components/korea-right-now";
-import { RESTOCK_DISCOUNT_PERCENT, SHOP_PRODUCTS } from "@/lib/shop-catalog";
+import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { RoutineEdits } from "@/components/routine-edits";
 import { ConcernNavigator } from "@/components/concern-navigator";
 import { DailyRitualSection } from "@/components/daily-ritual";
 import authenticityCardV2 from "@/assets/authenticity-card-v2.webp.asset.json";
 import batchCheckImage from "@/assets/authenticity-batch-check.jpg";
-import ritualScene from "@/assets/ritual-scene.webp";
 import cabinetEdit from "@/assets/brand-cabinet-products.jpg";
+
+/**
+ * Recurring-purchase "Restock" programme is not yet operational — keep the
+ * section in the codebase but out of the public homepage bundle until it is
+ * fully launched (see src/components/restock-cta.tsx for the launch checklist).
+ */
+const RESTOCK_FEATURE_ENABLED = false;
+const RestockCta = lazy(() => import("@/components/restock-cta"));
 
 const SITE_LOGO_URL =
   "https://skingrocer.com.au/__l5e/assets-v1/e71f3ca2-370b-42a2-bc13-d5609d11ac73/skin-grocer-logo.jpg";
@@ -83,7 +90,11 @@ function HomePage() {
       <Reveal><ConcernNavigator /></Reveal>
       <Reveal><WhyPillars /></Reveal>
       <DailyRitualSection />
-      <RitualCTA />
+      {RESTOCK_FEATURE_ENABLED && (
+        <Suspense fallback={null}>
+          <RestockCta />
+        </Suspense>
+      )}
       <Reveal><LearnStrip /></Reveal>
       <SeoulSignalStrip />
       <Reveal><CustomerNotes /></Reveal>
@@ -838,79 +849,6 @@ function ProvenanceCard() {
 }
 
 
-
-
-function RitualCTA() {
-  const steps = [
-    {
-      n: "01",
-      title: "Choose an eligible essential",
-      copy: "A small set of routine staples can be ordered as a monthly Restock — look for the Restock option on the product.",
-    },
-    {
-      n: "02",
-      title: "Set it up with an account",
-      copy: `Restock orders repeat monthly at ${RESTOCK_DISCOUNT_PERCENT}% off the one-time price, and are kept with your account.`,
-    },
-    {
-      n: "03",
-      title: "Change your mind any time",
-      copy: "Cancel a Restock from your account and it simply stops at the end of the current period.",
-    },
-  ];
-
-  return (
-    <section className="relative overflow-hidden" aria-labelledby="restock-heading">
-      <div className="absolute inset-0">
-        <img src={ritualScene} alt="" loading="lazy" className="h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-hanbok-deep/55 md:bg-gradient-to-r md:from-hanbok-deep/80 md:via-hanbok-deep/55 md:to-hanbok-deep/15" />
-      </div>
-
-      <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
-        <div className="max-w-xl text-paper">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-paper/70">
-            Replenishment, made simple
-          </p>
-          <h2 id="restock-heading" className="display-section mt-4">
-            The products you finish.{" "}
-            <span className="italic">Before you run out.</span>
-          </h2>
-          <p className="lede mt-5 text-paper/80">
-            For the essentials that earn a permanent place in your routine, make
-            restocking one less thing to remember.
-          </p>
-        </div>
-
-        <div className="mt-14 max-w-3xl border-t border-paper/25">
-          {steps.map((s) => (
-            <div
-              key={s.n}
-              className="grid gap-2 border-b border-paper/20 py-6 md:grid-cols-[4rem_1fr] md:gap-8"
-            >
-              <span className="font-display text-sm italic text-paper/60">{s.n}</span>
-              <div>
-                <h3 className="text-[12px] font-semibold uppercase tracking-[0.18em] text-paper">
-                  {s.title}
-                </h3>
-                <p className="mt-2 max-w-xl text-sm leading-relaxed text-paper/75">{s.copy}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <Link
-          to="/shop"
-          className="group mt-10 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.18em] text-paper"
-        >
-          <span className="border-b border-paper/40 pb-1 transition-colors group-hover:border-paper">
-            Browse restockable essentials
-          </span>
-          <span className="transition-transform group-hover:translate-x-1">→</span>
-        </Link>
-      </div>
-    </section>
-  );
-}
 
 
 function CustomerNotes() {
