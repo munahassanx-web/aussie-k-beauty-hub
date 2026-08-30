@@ -1,13 +1,135 @@
 import { useId, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { trackUi } from "@/lib/analytics";
-import dailyRitualImage from "@/assets/daily-ritual-routine.webp";
 
 /**
  * Homepage "The Daily Ritual" section: educates beginners that a useful
  * routine is simple and flexible, with an accessible AM/PM tab guide.
  * Guidance-first — no product sales actions in this section.
+ *
+ * The editorial visual is a code-native "day-to-night routine shelf" built
+ * from three genuine catalogue packshots (transparent cutouts, unaltered).
+ * It is an example base routine — not a personalised recommendation.
  */
+
+type ShelfProduct = {
+  src: string;
+  name: string;
+  role: string;
+  side: "am" | "pm";
+};
+
+const SHELF_PRODUCTS: ShelfProduct[] = [
+  {
+    src: "/products/round-lab/1025-dokdo-cleanser-150ml.webp",
+    name: "ROUND LAB 1025 Dokdo Cleanser",
+    role: "Cleanse",
+    side: "am",
+  },
+  {
+    src: "/products/torriden/dive-in-serum.webp",
+    name: "TORRIDEN Dive In Serum",
+    role: "Hydrate — Optional",
+    side: "pm",
+  },
+  {
+    src: "/products/aestura/atobarrier365-cream.webp",
+    name: "AESTURA Atobarrier365 Cream",
+    role: "Moisturise",
+    side: "pm",
+  },
+];
+
+function RoutineShelfVisual() {
+  return (
+    <figure>
+      <div
+        role="img"
+        aria-label="Example three-product base routine showing a ROUND LAB cleanser, TORRIDEN hydrating serum and AESTURA moisturiser arranged from morning to evening."
+        className="relative grid grid-cols-2 overflow-hidden rounded-2xl border border-foreground/10"
+      >
+        {/* Morning — warm ivory, pale golden light */}
+        <div
+          aria-hidden="true"
+          className="relative flex min-h-[300px] flex-col justify-between bg-sand p-6 md:min-h-[420px]"
+          style={{
+            backgroundImage:
+              "linear-gradient(155deg, rgba(255,251,240,0.9), rgba(232,215,180,0.55) 70%, rgba(214,190,150,0.65)), radial-gradient(ellipse at 20% 0%, rgba(255,244,214,0.8), transparent 60%)",
+          }}
+        >
+          <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-ink/60">AM</span>
+          <div className="flex items-end justify-center pb-2">
+            <img
+              src={SHELF_PRODUCTS[0]!.src}
+              alt=""
+              width={280}
+              height={280}
+              loading="lazy"
+              decoding="async"
+              className="w-[62%] max-w-[220px] object-contain drop-shadow-[0_18px_24px_rgba(60,45,20,0.18)]"
+            />
+          </div>
+          <p className="text-center text-[9px] font-semibold uppercase tracking-[0.22em] text-ink/65">
+            {SHELF_PRODUCTS[0]!.role}
+          </p>
+        </div>
+
+        {/* Evening — deeper navy, restrained warm highlight */}
+        <div
+          aria-hidden="true"
+          className="relative flex min-h-[300px] flex-col justify-between bg-ink p-6 md:min-h-[420px]"
+          style={{
+            backgroundImage:
+              "linear-gradient(205deg, rgba(20,26,44,0.4), rgba(10,14,26,0.85) 75%), radial-gradient(ellipse at 85% 10%, rgba(214,178,110,0.22), transparent 55%)",
+          }}
+        >
+          <span className="self-end text-[10px] font-semibold uppercase tracking-[0.28em] text-paper/60">PM</span>
+          <div className="flex items-end justify-center gap-3 pb-2">
+            {SHELF_PRODUCTS.slice(1).map((p) => (
+              <img
+                key={p.src}
+                src={p.src}
+                alt=""
+                width={280}
+                height={280}
+                loading="lazy"
+                decoding="async"
+                className="w-[46%] max-w-[150px] object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,0.45)]"
+              />
+            ))}
+          </div>
+          <p className="text-center text-[9px] font-semibold uppercase tracking-[0.22em] text-paper/65">
+            Hydrate — Optional · Moisturise
+          </p>
+        </div>
+
+        {/* Warm-gold connecting line: Cleanse → Hydrate → Moisturise */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-8 top-1/2 hidden items-center md:flex"
+        >
+          <span className="h-px flex-1 bg-clay/70" />
+          <span className="mx-2 text-[10px] text-clay">→</span>
+          <span className="h-px flex-1 bg-clay/70" />
+          <span className="mx-2 text-[10px] text-clay">→</span>
+          <span className="h-px flex-1 bg-clay/70" />
+        </div>
+      </div>
+
+      <figcaption className="mt-4">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-ink/70">
+          A simple base routine
+        </p>
+        <p className="mt-1.5 text-xs italic text-ink/60">
+          Three clear roles. Add only what your skin needs.
+        </p>
+        <p className="mt-2 text-xs leading-relaxed text-ink/55">
+          Example routine only. Product suitability varies by individual.
+        </p>
+      </figcaption>
+    </figure>
+  );
+}
 
 type RoutineStep = {
   num: string;
