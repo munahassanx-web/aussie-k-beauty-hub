@@ -634,6 +634,7 @@ function EditCard({ edit }: { edit: Edit }) {
         {edit.optional ? (
           (() => {
             const opt = edit.optional;
+            if (!opt) return null;
             const p = productOf(opt.priceId);
             if (!p) return null;
             return (
