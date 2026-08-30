@@ -45,10 +45,40 @@ function RoutinesIndex() {
       </p>
 
       {isLoading ? (
-        <p className="mt-12 text-sm text-muted-foreground">Loading routines…</p>
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="h-40 animate-pulse rounded-3xl border border-border bg-secondary/40" />
+          ))}
+        </div>
+      ) : isError ? (
+        <div className="mt-12 max-w-md">
+          <p className="text-sm text-muted-foreground">
+            We couldn't load the routine kits just now.
+          </p>
+          <button
+            type="button"
+            onClick={() => refetch()}
+            className="mt-4 rounded-full border border-foreground px-5 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-foreground transition-colors hover:bg-foreground hover:text-background"
+          >
+            Try again
+          </button>
+        </div>
+      ) : bundles.length === 0 ? (
+        <div className="mt-12 max-w-md">
+          <p className="text-sm text-muted-foreground">
+            No routine kits are published yet. In the meantime, the Learn Hub covers routine order
+            step by step.
+          </p>
+          <Link
+            to="/learn/hub"
+            className="mt-4 inline-block text-xs font-semibold uppercase tracking-[0.16em] text-primary underline underline-offset-4"
+          >
+            Explore the Learn Hub →
+          </Link>
+        </div>
       ) : (
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {(data ?? []).map((b) => (
+          {bundles.map((b) => (
             <Link
               key={b.id}
               to="/routines/$bundleId"
