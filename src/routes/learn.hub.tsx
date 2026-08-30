@@ -19,20 +19,20 @@ export const Route = createFileRoute("/learn/hub")({
   search: { middlewares: [stripSearchParams({ q: "", tag: "" })] },
   head: () => ({
     meta: [
-      { title: "Learn Hub — Seoul Skincare Logic, Written For Australia | Skin Grocer" },
+      { title: "Learn Hub — Korean Skincare, Explained For Australia | Skin Grocer" },
       {
         name: "description",
         content:
-          "Prevention-first Korean skincare, decoded for Australian climate and skin. What Korean women actually buy — sourced from Hwahae and Olive Young data, not TikTok.",
+          "Korean-market context, evidence-aware ingredient explanations and Australian relevance — plain-English skincare guidance from the Skin Grocer editorial team.",
       },
       {
         property: "og:title",
-        content: "Learn Hub — Seoul Skincare Logic, Written For Australia",
+        content: "Learn Hub — Korean Skincare, Explained For Australia",
       },
       {
         property: "og:description",
         content:
-          "Prevention over repair. Domestic Korean data over social trends. Ingredients, concerns and routines explained for Australian conditions.",
+          "Clearer skincare decisions start with context: Korean-market conversations, ingredient evidence and Australian cosmetic requirements in plain English.",
       },
       { property: "og:url", content: "https://skingrocer.com.au/learn/hub" },
       { property: "og:type", content: "website" },
