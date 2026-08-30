@@ -230,7 +230,7 @@ function ChapterPanel({
       </h3>
 
       <div id={panelId} role="region" aria-labelledby={buttonId} hidden={!open}>
-        <div className="grid items-start gap-8 px-4 pb-10 md:min-h-[480px] md:grid-cols-[40%_1fr] md:gap-12 md:px-12 md:pb-14 md:pt-2">
+        <div className="grid items-start gap-8 px-4 pb-10 md:grid-cols-[40%_1fr] md:gap-12 md:px-12 md:pb-14 md:pt-2">
           <div
             className="overflow-hidden rounded-[1.5rem]"
             style={{ backgroundColor: chapter.tint }}
