@@ -126,12 +126,13 @@ export const SHOP_FAQS: Faq[] = [
 export const INGREDIENT_FAQS: Faq[] = [
   {
     q: 'What is PDRN in Korean skincare and what does it do?',
-    a: 'PDRN (polydeoxyribonucleotide) is a repair ingredient made from purified DNA fragments, most often from salmon. Topically it is used to support skin recovery, elasticity and barrier resilience, which is why it appears in Korean "repair" serums rather than in exfoliating or brightening products.',
+    a: 'PDRN stands for polydeoxyribonucleotide. In skincare, the name generally refers to DNA-derived fragments used in cosmetic formulations. Some early research and manufacturer testing explore appearance-related hydration and elasticity outcomes, but independent evidence for topical skincare remains limited.',
     points: [
-      'Best for: stressed, post-treatment, sun-exposed or ageing skin.',
-      'Use it: evening, after toner, before moisturiser.',
-      'Pairs with: peptides, niacinamide, hyaluronic acid, ceramides.',
-      'Topical PDRN is a cosmetic ingredient and is not the same as an injectable clinic treatment.',
+      'Evidence strength: EMERGING — limited independent topical evidence.',
+      'Topical cosmetic products are not equivalent to injectable medical treatments.',
+      'Product performance depends on the complete formula — not the hero ingredient alone.',
+      'Results should not be guaranteed.',
+      'Customers receiving procedures should follow their treating professional’s aftercare advice.',
     ],
   },
   {
