@@ -50,7 +50,7 @@ const ROUTINE = {
   ],
 };
 
-function QuizPreview({ advanced }: { advanced: boolean }) {
+function QuizPreview() {
   return (
     <div
       aria-hidden="true"
@@ -58,15 +58,12 @@ function QuizPreview({ advanced }: { advanced: boolean }) {
     >
       <div className="flex items-center justify-between">
         <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-ink/55">
-          Question {advanced ? 2 : 1} of 7
+          Question 1 of 7
         </p>
         <p className="text-[10px] uppercase tracking-[0.2em] text-ink/40">Preview</p>
       </div>
       <div className="mt-3 h-[3px] w-full overflow-hidden rounded-full bg-foreground/10">
-        <div
-          className="h-full rounded-full bg-pop transition-[width] duration-700 ease-out motion-reduce:transition-none"
-          style={{ width: advanced ? "28.5%" : "14.2%" }}
-        />
+        <div className="h-full rounded-full bg-pop" style={{ width: "14.2%" }} />
       </div>
 
       <p className="mt-5 font-display text-xl leading-snug text-ink">
@@ -74,29 +71,18 @@ function QuizPreview({ advanced }: { advanced: boolean }) {
       </p>
 
       <ul className="mt-4 space-y-2">
-        {ANSWERS.map((a, i) => {
-          const selected = advanced && i === 0;
-          return (
-            <li
-              key={a.title}
-              className={`rounded-xl border px-4 py-3 transition-colors duration-500 motion-reduce:transition-none ${
-                selected
-                  ? "border-pop bg-pop/8"
-                  : "border-foreground/15 bg-background/60"
-              }`}
-            >
-              <p className="text-sm font-medium text-ink">{a.title}</p>
-              <p className="mt-0.5 text-xs text-ink/55">{a.hint}</p>
-            </li>
-          );
-        })}
+        {ANSWERS.map((a) => (
+          <li
+            key={a.title}
+            className="rounded-xl border border-foreground/15 bg-background/60 px-4 py-3"
+          >
+            <p className="text-sm font-medium text-ink">{a.title}</p>
+            <p className="mt-0.5 text-xs text-ink/55">{a.hint}</p>
+          </li>
+        ))}
       </ul>
 
-      <div
-        className={`mt-5 rounded-xl border border-dashed border-foreground/20 bg-sand/40 p-4 transition-all duration-700 motion-reduce:transition-none ${
-          advanced ? "translate-y-0 opacity-100" : "translate-y-2 opacity-60"
-        }`}
-      >
+      <div className="mt-5 rounded-xl border border-dashed border-foreground/20 bg-sand/40 p-4">
         <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/55">
           Where this leads
         </p>
