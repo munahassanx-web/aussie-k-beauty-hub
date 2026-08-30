@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { RoutineFinderSection } from "@/components/routine-finder";
 import { useEffect, useRef, useState } from "react";
 import { trackUi } from "@/lib/analytics";
 import { useBuyNow } from "@/hooks/use-buy-now";
@@ -21,7 +22,6 @@ import applyingSerum from "@/assets/applying-serum.webp.asset.json";
 import authenticityCardV2 from "@/assets/authenticity-card-v2.webp.asset.json";
 import batchCheckImage from "@/assets/authenticity-batch-check.jpg";
 import ritualScene from "@/assets/ritual-scene.webp";
-import quizBareSkin from "@/assets/quiz-bare-skin.webp";
 import cabinetEdit from "@/assets/brand-cabinet-products.jpg";
 
 const SITE_LOGO_URL =
@@ -87,7 +87,7 @@ function HomePage() {
       <IngredientLibrary />
 
       <Reveal><ProvenanceCard /></Reveal>
-      <SkinQuizSection />
+      <RoutineFinderSection />
       <Reveal><BundleOffer /></Reveal>
       <Reveal><Concerns /></Reveal>
       <Reveal><WhyPillars /></Reveal>
