@@ -415,6 +415,7 @@ function RoutineDialog({
                       <input
                         type="checkbox"
                         className="h-4 w-4"
+                        aria-label={`Include ${p.brand} ${p.name} in this routine`}
                         checked={Boolean(selected[slot.priceId]) && ok}
                         disabled={!ok}
                         onChange={(e) =>
@@ -552,19 +553,20 @@ function RoutineDialog({
             <p className="font-display text-2xl text-ink">{money(total)}</p>
           </div>
           <div className="ml-auto flex flex-wrap gap-3">
-            <Link
-              to="/consultation"
-              className="inline-flex min-h-11 items-center border border-ink px-5 text-xs font-semibold uppercase tracking-[0.18em] text-ink transition hover:bg-secondary"
+            <button
+              type="button"
+              onClick={onClose}
+              className="inline-flex min-h-11 items-center border border-ink/30 px-5 text-xs font-semibold uppercase tracking-[0.18em] text-ink transition hover:bg-secondary"
             >
-              Build my own routine →
-            </Link>
+              Continue browsing
+            </button>
             <button
               type="button"
               onClick={addSelected}
-              disabled={chosen.length === 0}
+              disabled={adding || chosen.length === 0}
               className="inline-flex min-h-11 items-center bg-ink px-5 text-xs font-semibold uppercase tracking-[0.18em] text-paper transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
             >
-              Add selected products
+              Add selected products to bag — {money(total)}
             </button>
           </div>
         </div>
