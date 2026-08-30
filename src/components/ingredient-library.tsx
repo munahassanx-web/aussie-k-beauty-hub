@@ -242,7 +242,7 @@ function ChapterPanel({
               height={1024}
               loading="lazy"
               decoding="async"
-              className="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-out hover:scale-[1.02] motion-reduce:transition-none motion-reduce:hover:scale-100 md:aspect-[4/5]"
+              className="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-out hover:scale-[1.02] motion-reduce:transition-none motion-reduce:hover:scale-100"
             />
           </div>
 
