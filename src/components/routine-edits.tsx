@@ -26,7 +26,7 @@ type Edit = {
   field: string; // ingredient-inspired colour field
   accent: string;
   core: Slot[];
-  optional: {
+  optional?: {
     priceId: string;
     label: string;
     role: string;
@@ -37,6 +37,12 @@ type Edit = {
   evening: string[];
   whyThree: string;
   cautions: string[];
+};
+
+/** Shown in place of an optional product when a routine deliberately has none. */
+const BUILD_LATER = {
+  heading: "Build later, if needed",
+  body: "Start with the three-product core. Introduce additional products only after your skin has had time to adjust.",
 };
 
 const EDITS: Edit[] = [
@@ -151,14 +157,8 @@ const EDITS: Edit[] = [
         why: "Helps reduce water loss and keeps the routine comfortable.",
       },
     ],
-    optional: {
-      priceId: "isntree_chestnut_bha_2_percent_clear_liquid_100ml_onetime",
-      label: "Optional targeted exfoliant",
-      role: "Targeted exfoliant — kept outside the core routine",
-      why: "Exfoliation is a choice, not a requirement. The core routine is deliberately active-free.",
-      caution:
-        "Introduce gradually. Do not use on visibly irritated or compromised skin. Avoid combining with other strong exfoliants or retinoids in the same routine. Stop if persistent irritation occurs.",
-    },
+    // No optional addition: the barrier-comfort core is deliberately active-free,
+    // so no exfoliant is recommended beside it.
     morning: ["Ampoule if wanted", "Moisturiser", "Appropriate sun protection"],
     evening: ["Cleanser", "Ampoule", "Moisturiser"],
     whyThree:
@@ -233,20 +233,46 @@ function RoutineDialog({
 
   const available = (priceId: string) => isPurchasable(priceId) && !isSoldOut(priceId);
 
+  const optionalId = edit.optional?.priceId;
   const [selected, setSelected] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
     edit.core.forEach((s) => {
       initial[s.priceId] = available(s.priceId);
     });
-    initial[edit.optional.priceId] = false;
+    if (optionalId) initial[optionalId] = false;
     return initial;
   });
+  // Guards against duplicate additions from rapid repeated clicking.
+  const addingRef = useRef(false);
+  const [adding, setAdding] = useState(false);
 
   useEffect(() => {
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key === "Tab") {
+        // Simple focus trap: keep Tab / Shift+Tab inside the dialog panel.
+        const panel = panelRef.current;
+        if (!panel) return;
+        const focusables = panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        const active = document.activeElement as HTMLElement | null;
+        if (e.shiftKey && (active === first || !panel.contains(active))) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && (active === last || !panel.contains(active))) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     window.addEventListener("keydown", onKey);
     panelRef.current?.focus();
@@ -259,7 +285,7 @@ function RoutineDialog({
 
   const chosen = useMemo(
     () =>
-      [...edit.core.map((s) => s.priceId), edit.optional.priceId].filter(
+      [...edit.core.map((s) => s.priceId), ...(optionalId ? [optionalId] : [])].filter(
         (id) => selected[id] && available(id),
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -271,7 +297,9 @@ function RoutineDialog({
   const coreComplete = unavailableCore.length === 0;
 
   function addSelected() {
-    if (chosen.length === 0) return;
+    if (addingRef.current || chosen.length === 0) return;
+    addingRef.current = true;
+    setAdding(true);
     let added = 0;
     chosen.forEach((id) => {
       const p = productOf(id);
@@ -289,6 +317,9 @@ function RoutineDialog({
       trackUi("routine_edit_add_selected", { edit: edit.id, items: added });
       toast.success(`${added} product${added > 1 ? "s" : ""} added to your bag.`);
       onClose();
+    } else {
+      addingRef.current = false;
+      setAdding(false);
     }
   }
 
@@ -384,6 +415,7 @@ function RoutineDialog({
                       <input
                         type="checkbox"
                         className="h-4 w-4"
+                        aria-label={`Include ${p.brand} ${p.name} in this routine`}
                         checked={Boolean(selected[slot.priceId]) && ok}
                         disabled={!ok}
                         onChange={(e) =>
@@ -399,15 +431,29 @@ function RoutineDialog({
           </ul>
         </div>
 
-        {/* Optional addition */}
-        {(() => {
-          const p = productOf(edit.optional.priceId);
+        {/* Optional addition — or an explicit "build later" note when the
+            routine deliberately has none. */}
+        {!edit.optional && (
+          <div className="mt-6 border border-dashed border-border bg-secondary/60 p-4">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/60">
+              {BUILD_LATER.heading}
+            </p>
+            <p className="mt-2 text-sm text-ink/70">{BUILD_LATER.body}</p>
+          </div>
+        )}
+        {edit.optional && (() => {
+          const opt = edit.optional;
+          if (!opt) return null;
+          const p = productOf(opt.priceId);
           if (!p) return null;
-          const ok = available(edit.optional.priceId);
+          const ok = available(opt.priceId);
           return (
             <div className="mt-6 border border-dashed border-border bg-secondary/60 p-4">
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/60">
-                {edit.optional.label}
+                {opt.label}
+              </p>
+              <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/50">
+                Optional — not included in the routine total
               </p>
               <div className="mt-3 flex items-start gap-4">
                 <img
@@ -426,11 +472,11 @@ function RoutineDialog({
                     <span className="font-semibold uppercase tracking-[0.12em] text-ink/50">
                       Why it’s optional:
                     </span>{" "}
-                    {edit.optional.why}
+                    {opt.why}
                   </p>
-                  {edit.optional.caution && (
+                  {opt.caution && (
                     <p className="mt-2 border-l-2 border-clay/50 pl-3 text-xs text-ink/70">
-                      {edit.optional.caution}
+                      {opt.caution}
                     </p>
                   )}
                   {!ok && (
@@ -440,15 +486,16 @@ function RoutineDialog({
                   )}
                 </div>
                 <div className="shrink-0 text-right">
-                  <p className="text-sm text-ink">{money(priceOf(edit.optional.priceId))}</p>
+                  <p className="text-sm text-ink">{money(priceOf(opt.priceId))}</p>
                   <label className="mt-2 flex items-center justify-end gap-2 text-xs text-ink/70">
                     <input
                       type="checkbox"
                       className="h-4 w-4"
-                      checked={Boolean(selected[edit.optional.priceId]) && ok}
+                      aria-label={`Add optional ${p.brand} ${p.name}`}
+                      checked={Boolean(selected[opt.priceId]) && ok}
                       disabled={!ok}
                       onChange={(e) =>
-                        setSelected((s) => ({ ...s, [edit.optional.priceId]: e.target.checked }))
+                        setSelected((s) => ({ ...s, [opt.priceId]: e.target.checked }))
                       }
                     />
                     Add
@@ -507,19 +554,20 @@ function RoutineDialog({
             <p className="font-display text-2xl text-ink">{money(total)}</p>
           </div>
           <div className="ml-auto flex flex-wrap gap-3">
-            <Link
-              to="/consultation"
-              className="inline-flex min-h-11 items-center border border-ink px-5 text-xs font-semibold uppercase tracking-[0.18em] text-ink transition hover:bg-secondary"
+            <button
+              type="button"
+              onClick={onClose}
+              className="inline-flex min-h-11 items-center border border-ink/30 px-5 text-xs font-semibold uppercase tracking-[0.18em] text-ink transition hover:bg-secondary"
             >
-              Build my own routine →
-            </Link>
+              Continue browsing
+            </button>
             <button
               type="button"
               onClick={addSelected}
-              disabled={chosen.length === 0}
+              disabled={adding || chosen.length === 0}
               className="inline-flex min-h-11 items-center bg-ink px-5 text-xs font-semibold uppercase tracking-[0.18em] text-paper transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
             >
-              Add selected products
+              Add selected products to bag — {money(total)}
             </button>
           </div>
         </div>
@@ -584,21 +632,32 @@ function EditCard({ edit }: { edit: Edit }) {
           </p>
         </div>
 
-        {(() => {
-          const p = productOf(edit.optional.priceId);
-          if (!p) return null;
-          return (
-            <div className="mt-5 border border-dashed border-border p-3">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/55">
-                {edit.optional.label}
-              </p>
-              <p className="mt-1 text-sm text-ink/80">
-                {p.brand} {p.name} — {money(priceOf(edit.optional.priceId))}
-              </p>
-              <p className="mt-1 text-xs text-ink/55">Not included in the three-product core.</p>
-            </div>
-          );
-        })()}
+        {edit.optional ? (
+          (() => {
+            const opt = edit.optional;
+            if (!opt) return null;
+            const p = productOf(opt.priceId);
+            if (!p) return null;
+            return (
+              <div className="mt-5 border border-dashed border-border p-3">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/55">
+                  {opt.label}
+                </p>
+                <p className="mt-1 text-sm text-ink/80">
+                  {p.brand} {p.name} — {money(priceOf(opt.priceId))}
+                </p>
+                <p className="mt-1 text-xs text-ink/55">Not included in the three-product core.</p>
+              </div>
+            );
+          })()
+        ) : (
+          <div className="mt-5 border border-dashed border-border p-3">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/55">
+              {BUILD_LATER.heading}
+            </p>
+            <p className="mt-1 text-xs text-ink/60">{BUILD_LATER.body}</p>
+          </div>
+        )}
 
         <div className="mt-auto pt-6">
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/55">
