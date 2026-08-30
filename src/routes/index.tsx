@@ -14,14 +14,21 @@ import { AtmosHero } from "@/components/atmos-hero";
 import { ProductShelf } from "@/components/product-shelf";
 import { SeoulSignalStrip } from "@/components/seoul-signal";
 import { KoreaRightNow } from "@/components/korea-right-now";
-import { RESTOCK_DISCOUNT_PERCENT, SHOP_PRODUCTS } from "@/lib/shop-catalog";
+import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { RoutineEdits } from "@/components/routine-edits";
 import { ConcernNavigator } from "@/components/concern-navigator";
 import { DailyRitualSection } from "@/components/daily-ritual";
 import authenticityCardV2 from "@/assets/authenticity-card-v2.webp.asset.json";
 import batchCheckImage from "@/assets/authenticity-batch-check.jpg";
-import ritualScene from "@/assets/ritual-scene.webp";
 import cabinetEdit from "@/assets/brand-cabinet-products.jpg";
+
+/**
+ * Recurring-purchase "Restock" programme is not yet operational — keep the
+ * section in the codebase but out of the public homepage bundle until it is
+ * fully launched (see src/components/restock-cta.tsx for the launch checklist).
+ */
+const RESTOCK_FEATURE_ENABLED = false;
+const RestockCta = lazy(() => import("@/components/restock-cta"));
 
 const SITE_LOGO_URL =
   "https://skingrocer.com.au/__l5e/assets-v1/e71f3ca2-370b-42a2-bc13-d5609d11ac73/skin-grocer-logo.jpg";
