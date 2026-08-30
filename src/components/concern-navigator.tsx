@@ -160,34 +160,26 @@ export function ConcernNavigator() {
           </p>
         </div>
 
-        {/* Desktop: editorial feature tile + asymmetrical grid */}
-        <div className="mt-14 hidden gap-5 lg:grid lg:grid-cols-3 lg:grid-rows-[minmax(260px,1fr)_minmax(260px,1fr)_minmax(240px,1fr)]">
-          <ConcernTile card={feature} feature eager className="lg:row-span-2" />
-          <ConcernTile card={rest[0]} />
-          <ConcernTile card={rest[1]} />
-          <ConcernTile card={rest[2]} />
-          <ConcernTile card={rest[3]} />
-          <ConcernTile card={rest[4]} className="lg:col-span-3" />
-        </div>
-
-        {/* Mobile / tablet: feature card, then a swipeable rail */}
-        <div className="mt-12 lg:hidden">
-          <ConcernTile card={feature} feature eager className="min-h-[380px]" />
-
-          <ul
-            className="-mx-6 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            aria-label="More skin concerns"
-          >
-            {rest.map((c) => (
-              <li key={c.slug} className="w-[78vw] max-w-[340px] shrink-0 snap-start">
-                <ConcernTile card={c} className="min-h-[300px]" />
-              </li>
-            ))}
-          </ul>
-          <p className="mt-3 text-[11px] uppercase tracking-[0.18em] text-ink/45">
-            Swipe for more →
-          </p>
-        </div>
+        {/* One card tree: swipeable snap rail on mobile, asymmetrical grid on desktop */}
+        <ul
+          className="-mx-6 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:mt-14 lg:grid lg:snap-none lg:grid-cols-3 lg:grid-rows-[minmax(260px,1fr)_minmax(260px,1fr)_minmax(240px,1fr)] lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0"
+          aria-label="Shop by skin concern"
+        >
+          <li className="w-[86vw] max-w-[420px] shrink-0 snap-start lg:row-span-2 lg:w-auto lg:max-w-none">
+            <ConcernTile card={feature} feature eager className="min-h-[380px] lg:min-h-0" />
+          </li>
+          {rest.map((c, i) => (
+            <li
+              key={c.slug}
+              className={`w-[78vw] max-w-[340px] shrink-0 snap-start lg:w-auto lg:max-w-none ${i === rest.length - 1 ? "lg:col-span-3" : ""}`}
+            >
+              <ConcernTile card={c} className="min-h-[300px] lg:min-h-0" />
+            </li>
+          ))}
+        </ul>
+        <p className="mt-3 text-[11px] uppercase tracking-[0.18em] text-ink/45 lg:hidden">
+          Swipe for more →
+        </p>
       </div>
     </section>
   );
