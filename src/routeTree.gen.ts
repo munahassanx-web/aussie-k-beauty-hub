@@ -51,6 +51,9 @@ import { Route as LearnHubRouteImport } from './routes/learn.hub'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as RoutinesIndexRouteImport } from './routes/routines.index'
 import { Route as RoutinesBundleIdRouteImport } from './routes/routines.$bundleId'
+import { Route as RoutinesBarrierComfortRouteImport } from './routes/routines.barrier-comfort'
+import { Route as RoutinesEssentialHydrationRouteImport } from './routes/routines.essential-hydration'
+import { Route as RoutinesToneGlowSupportRouteImport } from './routes/routines.tone-glow-support'
 import { Route as VerifyTokenRouteImport } from './routes/verify.$token'
 import { Route as VerifySampleRouteImport } from './routes/verify.sample'
 import { Route as AdminIssuesIdRouteImport } from './routes/admin.issues.$id'
@@ -275,6 +278,22 @@ const RoutinesBundleIdRoute = RoutinesBundleIdRouteImport.update({
   path: '/routines/$bundleId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RoutinesBarrierComfortRoute = RoutinesBarrierComfortRouteImport.update({
+  id: '/routines/barrier-comfort',
+  path: '/routines/barrier-comfort',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoutinesEssentialHydrationRoute =
+  RoutinesEssentialHydrationRouteImport.update({
+    id: '/routines/essential-hydration',
+    path: '/routines/essential-hydration',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const RoutinesToneGlowSupportRoute = RoutinesToneGlowSupportRouteImport.update({
+  id: '/routines/tone-glow-support',
+  path: '/routines/tone-glow-support',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VerifyTokenRoute = VerifyTokenRouteImport.update({
   id: '/verify/$token',
   path: '/verify/$token',
@@ -381,6 +400,9 @@ export interface FileRoutesByFullPath {
   '/learn/hub': typeof LearnHubRoute
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
+  '/routines/barrier-comfort': typeof RoutinesBarrierComfortRoute
+  '/routines/essential-hydration': typeof RoutinesEssentialHydrationRoute
+  '/routines/tone-glow-support': typeof RoutinesToneGlowSupportRoute
   '/verify/$token': typeof VerifyTokenRoute
   '/verify/sample': typeof VerifySampleRoute
   '/admin/': typeof AdminIndexRoute
@@ -438,6 +460,9 @@ export interface FileRoutesByTo {
   '/learn/hub': typeof LearnHubRoute
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
+  '/routines/barrier-comfort': typeof RoutinesBarrierComfortRoute
+  '/routines/essential-hydration': typeof RoutinesEssentialHydrationRoute
+  '/routines/tone-glow-support': typeof RoutinesToneGlowSupportRoute
   '/verify/$token': typeof VerifyTokenRoute
   '/verify/sample': typeof VerifySampleRoute
   '/admin': typeof AdminIndexRoute
@@ -496,6 +521,9 @@ export interface FileRoutesById {
   '/learn/hub': typeof LearnHubRoute
   '/product/$slug': typeof ProductSlugRoute
   '/routines/$bundleId': typeof RoutinesBundleIdRoute
+  '/routines/barrier-comfort': typeof RoutinesBarrierComfortRoute
+  '/routines/essential-hydration': typeof RoutinesEssentialHydrationRoute
+  '/routines/tone-glow-support': typeof RoutinesToneGlowSupportRoute
   '/verify/$token': typeof VerifyTokenRoute
   '/verify/sample': typeof VerifySampleRoute
   '/admin/': typeof AdminIndexRoute
@@ -555,6 +583,9 @@ export interface FileRouteTypes {
     | '/learn/hub'
     | '/product/$slug'
     | '/routines/$bundleId'
+    | '/routines/barrier-comfort'
+    | '/routines/essential-hydration'
+    | '/routines/tone-glow-support'
     | '/verify/$token'
     | '/verify/sample'
     | '/admin/'
@@ -612,6 +643,9 @@ export interface FileRouteTypes {
     | '/learn/hub'
     | '/product/$slug'
     | '/routines/$bundleId'
+    | '/routines/barrier-comfort'
+    | '/routines/essential-hydration'
+    | '/routines/tone-glow-support'
     | '/verify/$token'
     | '/verify/sample'
     | '/admin'
@@ -669,6 +703,9 @@ export interface FileRouteTypes {
     | '/learn/hub'
     | '/product/$slug'
     | '/routines/$bundleId'
+    | '/routines/barrier-comfort'
+    | '/routines/essential-hydration'
+    | '/routines/tone-glow-support'
     | '/verify/$token'
     | '/verify/sample'
     | '/admin/'
@@ -726,6 +763,9 @@ export interface RootRouteChildren {
   LearnHubRoute: typeof LearnHubRoute
   ProductSlugRoute: typeof ProductSlugRoute
   RoutinesBundleIdRoute: typeof RoutinesBundleIdRoute
+  RoutinesBarrierComfortRoute: typeof RoutinesBarrierComfortRoute
+  RoutinesEssentialHydrationRoute: typeof RoutinesEssentialHydrationRoute
+  RoutinesToneGlowSupportRoute: typeof RoutinesToneGlowSupportRoute
   VerifyTokenRoute: typeof VerifyTokenRoute
   VerifySampleRoute: typeof VerifySampleRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -1042,6 +1082,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoutinesBundleIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/routines/barrier-comfort': {
+      id: '/routines/barrier-comfort'
+      path: '/routines/barrier-comfort'
+      fullPath: '/routines/barrier-comfort'
+      preLoaderRoute: typeof RoutinesBarrierComfortRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/routines/essential-hydration': {
+      id: '/routines/essential-hydration'
+      path: '/routines/essential-hydration'
+      fullPath: '/routines/essential-hydration'
+      preLoaderRoute: typeof RoutinesEssentialHydrationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/routines/tone-glow-support': {
+      id: '/routines/tone-glow-support'
+      path: '/routines/tone-glow-support'
+      fullPath: '/routines/tone-glow-support'
+      preLoaderRoute: typeof RoutinesToneGlowSupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/verify/$token': {
       id: '/verify/$token'
       path: '/verify/$token'
@@ -1185,6 +1246,9 @@ const rootRouteChildren: RootRouteChildren = {
   LearnHubRoute: LearnHubRoute,
   ProductSlugRoute: ProductSlugRoute,
   RoutinesBundleIdRoute: RoutinesBundleIdRoute,
+  RoutinesBarrierComfortRoute: RoutinesBarrierComfortRoute,
+  RoutinesEssentialHydrationRoute: RoutinesEssentialHydrationRoute,
+  RoutinesToneGlowSupportRoute: RoutinesToneGlowSupportRoute,
   VerifyTokenRoute: VerifyTokenRoute,
   VerifySampleRoute: VerifySampleRoute,
   AdminIndexRoute: AdminIndexRoute,
