@@ -166,14 +166,14 @@ export function ConcernNavigator() {
           aria-label="Shop by skin concern"
         >
           <li className="w-[86vw] max-w-[420px] shrink-0 snap-start lg:row-span-2 lg:w-auto lg:max-w-none">
-            <ConcernTile card={feature} feature eager className="min-h-[380px] lg:min-h-0" />
+            <ConcernTile card={feature} feature eager className="h-full min-h-[380px] lg:min-h-0" />
           </li>
           {rest.map((c, i) => (
             <li
               key={c.slug}
               className={`w-[78vw] max-w-[340px] shrink-0 snap-start lg:w-auto lg:max-w-none ${i === rest.length - 1 ? "lg:col-span-3" : ""}`}
             >
-              <ConcernTile card={c} className="min-h-[300px] lg:min-h-0" />
+              <ConcernTile card={c} className="h-full min-h-[300px] lg:min-h-0" />
             </li>
           ))}
         </ul>
