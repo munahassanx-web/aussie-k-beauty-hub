@@ -607,7 +607,7 @@ export function SiteFooter() {
         <div className="md:col-span-4">
           <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">The Drop</h4>
           <p className="mt-5 text-sm text-paper/70">
-            Restocks, new arrivals and ritual notes.
+            Fresh arrivals, returning favourites and ritual notes.
           </p>
           <NewsletterForm source="footer" variant="dark" />
         </div>
