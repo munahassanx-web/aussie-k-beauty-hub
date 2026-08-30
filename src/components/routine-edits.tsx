@@ -430,11 +430,21 @@ function RoutineDialog({
           </ul>
         </div>
 
-        {/* Optional addition */}
-        {(() => {
-          const p = productOf(edit.optional.priceId);
+        {/* Optional addition — or an explicit "build later" note when the
+            routine deliberately has none. */}
+        {!edit.optional && (
+          <div className="mt-6 border border-dashed border-border bg-secondary/60 p-4">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/60">
+              {BUILD_LATER.heading}
+            </p>
+            <p className="mt-2 text-sm text-ink/70">{BUILD_LATER.body}</p>
+          </div>
+        )}
+        {edit.optional && (() => {
+          const opt = edit.optional;
+          const p = productOf(opt.priceId);
           if (!p) return null;
-          const ok = available(edit.optional.priceId);
+          const ok = available(opt.priceId);
           return (
             <div className="mt-6 border border-dashed border-border bg-secondary/60 p-4">
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/60">
