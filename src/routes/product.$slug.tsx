@@ -20,6 +20,7 @@ import {
   findProductBySlug,
   galleryFor,
   heroIngredients,
+  inciRecord,
   howToUse,
   productBenefits,
   productDescription,
@@ -301,6 +302,7 @@ function ProductPage() {
 
 
   const ingredients = heroIngredients(product);
+  const inci = inciRecord(product);
   const related = relatedProducts(product);
   const size = productSize(product);
 
@@ -639,7 +641,24 @@ function ProductPage() {
               content: (
                 <div>
                   <IngredientPanel ingredients={ingredients} />
-                  {productInci(product) ? (
+                  {inci ? (
+                    <details className="group mt-6 rounded-3xl border border-border bg-card p-5">
+                      <summary className="cursor-pointer list-none text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground">
+                        Full ingredient list
+                        <span className="ml-2 text-muted-foreground group-open:hidden">+</span>
+                        <span className="ml-2 hidden text-muted-foreground group-open:inline">−</span>
+                      </summary>
+                      <p className="mt-4 text-xs leading-relaxed text-muted-foreground">{inci.text}</p>
+                      <p className="mt-4 text-[11px] leading-relaxed text-muted-foreground">
+                        Ingredient lists may change when a product is reformulated. Check the
+                        packaging received before use, particularly if you have known sensitivities.
+                      </p>
+                      <p className="mt-3 text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                        {inci.checkedOn ? `Formula checked: ${inci.checkedOn} · ` : ''}
+                        Source: {inci.source}
+                      </p>
+                    </details>
+                  ) : productInci(product) ? (
                     <div className="mt-6 border-t border-border pt-5">
                       <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
                         Full ingredient list (INCI)
@@ -648,7 +667,8 @@ function ProductPage() {
                         {productInci(product)}
                       </p>
                       <p className="mt-3 text-[11px] text-muted-foreground">
-                        Formulas can change without notice — always check the carton before use.
+                        Ingredient lists may change when a product is reformulated. Check the
+                        packaging received before use, particularly if you have known sensitivities.
                       </p>
                     </div>
                   ) : (
