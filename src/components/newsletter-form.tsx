@@ -88,17 +88,23 @@ export function NewsletterForm({
 
   return (
     <div className={dark ? "mt-4 w-full" : "mt-3 w-full max-w-md"}>
+      <label
+        className={`mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] ${
+          dark ? "text-paper/80" : "text-ink/80"
+        }`}
+        htmlFor={`newsletter-email-${source}`}
+      >
+        Email address
+      </label>
       <form
         onSubmit={onSubmit}
         noValidate
         className="flex flex-col sm:flex-row"
       >
-        <label className="sr-only" htmlFor={`newsletter-email-${source}`}>
-          Email address
-        </label>
         <input
           id={`newsletter-email-${source}`}
           type="email"
+          required
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);
@@ -106,26 +112,30 @@ export function NewsletterForm({
           }}
           maxLength={255}
           placeholder="your@email.com"
-          className={`flex-1 border px-4 py-3 text-sm transition focus:outline-none focus:ring-1 focus:ring-offset-0 sm:rounded-none ${
+          aria-invalid={status === "error" || undefined}
+          aria-describedby={status === "error" ? `newsletter-error-${source}` : undefined}
+          className={`flex-1 border px-4 py-3 text-sm transition focus:outline-none focus:ring-2 focus:ring-offset-0 sm:rounded-none ${
             dark
-              ? "border-paper/25 bg-transparent text-paper placeholder:text-paper/40 focus:ring-paper/40"
-              : "border-ink/15 bg-paper text-ink placeholder:text-ink/40 focus:ring-ink/30"
+              ? "border-paper/25 bg-transparent text-paper placeholder:text-paper/40 focus:ring-paper/60"
+              : "border-ink/15 bg-paper text-ink placeholder:text-ink/40 focus:ring-ink/40"
           }`}
         />
         <button
           type="submit"
           disabled={status === "loading"}
-          className={`whitespace-nowrap border px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition disabled:opacity-60 sm:rounded-none sm:border-l-0 ${
+          aria-label="Join the Skin Grocer email list"
+          className={`whitespace-nowrap border px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition focus:outline-none focus:ring-2 focus:ring-offset-0 disabled:opacity-60 sm:rounded-none sm:border-l-0 ${
             dark
-              ? "border-paper/25 bg-paper text-ink hover:bg-paper/90"
-              : "border-ink/15 bg-ink text-paper hover:bg-ink/85"
+              ? "border-paper/25 bg-paper text-ink hover:bg-paper/90 focus:ring-paper/60"
+              : "border-ink/15 bg-ink text-paper hover:bg-ink/85 focus:ring-ink/40"
           }`}
         >
-          {status === "loading" ? "…" : submitLabel}
+          {status === "loading" ? "Joining…" : submitLabel}
         </button>
       </form>
       {status === "error" && (
         <p
+          id={`newsletter-error-${source}`}
           className={`mt-2 text-xs ${dark ? "text-accent" : "text-clay"}`}
           role="alert"
         >

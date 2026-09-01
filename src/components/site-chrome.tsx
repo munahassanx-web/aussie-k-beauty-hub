@@ -545,20 +545,19 @@ export function SiteFooter() {
           <BrandWordmark as="p" size="xl" sub className="text-paper" />
           <BrandLine className="mt-4 text-rose-gold" />
           <p className="mt-5 max-w-sm text-sm text-paper/65">
-
-            Melbourne-based curators of authentic K-beauty and premium imports.
-            Locally stocked in Australia, chosen with intention and explained
-            plainly.
+            Premium Korean skincare sourced through established Korean wholesale
+            supply partners, carefully selected and locally stocked by our
+            Melbourne team.
           </p>
           <p className="mt-6 border-t border-paper/15 pt-4 text-xs uppercase tracking-[0.2em] text-paper/70">
             Locally stocked in Australia
           </p>
           <p className="mt-3 max-w-sm text-xs text-paper/70">
-            Dispatched from our Epping, Victoria warehouse. See our{" "}
+            Orders are dispatched from our Epping, Victoria warehouse. See our{" "}
             <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-paper">
-              shipping policy
+              Shipping Policy
             </Link>{" "}
-            for current dispatch and delivery timeframes.
+            for current dispatch estimates, delivery options and charges.
           </p>
 
         </div>
@@ -607,7 +606,8 @@ export function SiteFooter() {
         <div className="md:col-span-4">
           <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">The Drop</h4>
           <p className="mt-5 text-sm text-paper/70">
-            Fresh arrivals, returning favourites and ritual notes.
+            New arrivals, thoughtful skincare guidance and products worth
+            knowing about—sent occasionally.
           </p>
           <NewsletterForm source="footer" variant="dark" />
         </div>
