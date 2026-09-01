@@ -257,18 +257,32 @@ export function productFaqs(
     ? `This is a ${p.category.toLowerCase() === 'tone' ? 'hydrating toner' : p.category.toLowerCase() + ' step product'} rather than a strong exfoliating or retinoid treatment. It may fit alongside many routine types, but suitability depends on the complete formula and the other products you use. Introduce one new product at a time and follow the labelled directions for every product.`
     : `It generally sits well alongside hydrating and barrier-focused ingredients such as hyaluronic acid, niacinamide, panthenol, ceramides and centella. Introduce one new product at a time, and avoid using it in the same session as a strong exfoliating acid or retinal — alternate those on separate nights.`;
 
+  const goodForAnswer: Faq = p.goodFor
+    ? { q: `What is ${p.brand} ${p.name} good for?`, a: p.goodFor }
+    : {
+        q: `What is ${p.brand} ${p.name} good for?`,
+        a: `${p.brand} ${p.name} is used as the ${p.category.toLowerCase()} step in a Korean skincare routine.${concernText} ${opts?.description ?? ''}`.trim(),
+      };
+
   return [
     {
       q: `How do I use ${p.brand} ${p.name}?`,
       a: stepText,
     },
-    {
-      q: `What is ${p.brand} ${p.name} good for?`,
-      a: `${p.brand} ${p.name} is the ${p.category.toLowerCase()} step in a Korean skincare routine.${concernText} ${opts?.description ?? ''}`.trim(),
-    },
+    goodForAnswer,
     {
       q: `Is ${p.brand} ${p.name} authentic, and where does it ship from?`,
-      a: `Yes. It is sourced through established Korean wholesale supply partners, documented by our Melbourne team and locally stocked in Australia. Orders are dispatched from our Melbourne warehouse, and delivery times follow the current estimates in our shipping policy. You can view a sample verification record on this site under Verify.`,
+      a: (
+        <>
+          Yes. Skin Grocer sources this product through established Korean wholesale supply partners and locally stocks it in Melbourne. Incoming stock is documented through our batch-verification process, and customer orders include a QR code linking to their verification record.{' '}
+          <Link to="/verify/sample" className="text-primary underline underline-offset-4 hover:no-underline">
+            View the sample record
+          </Link>{' '}
+          to see how the system works.
+        </>
+      ),
+      plainText:
+        'Yes. Skin Grocer sources this product through established Korean wholesale supply partners and locally stocks it in Melbourne. Incoming stock is documented through our batch-verification process, and customer orders include a QR code linking to their verification record. View the sample record to see how the system works.',
     },
     {
       q: `What can I use ${p.brand} ${p.name} with?`,
