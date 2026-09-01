@@ -163,7 +163,7 @@ function usePrefersReducedMotion() {
 function ProductPage() {
   const { slug } = Route.useParams();
   const product = findProductBySlug(slug);
-  const { buy } = useBuyNow();
+  
   const [active, setActive] = useState(0);
   const prefersReducedMotion = usePrefersReducedMotion();
   const [lightboxOpen, setLightboxOpen] = useState(false);
