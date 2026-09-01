@@ -1184,12 +1184,15 @@ export function hasProductSpecificHowTo(p: ShopProduct): boolean {
 export function productDescription(p: ShopProduct): string {
   const override = COPY[p.priceId]?.description;
   if (override) return override;
-  const concerns = p.concerns.map((c) => CONCERN_LABEL[c]);
-  const list =
-    concerns.length > 1
-      ? `${concerns.slice(0, -1).join(', ')} and ${concerns[concerns.length - 1]}`
-      : concerns[0] ?? 'everyday skin health';
-  return `${p.brand}'s ${p.name} is a ${p.category.toLowerCase()} step formulated for ${list}. We stock it because it earns its place in a real Australian routine — a climate of hard water, air-conditioning and high UV. Sourced directly through verified brand channels and held in our Melbourne warehouse, so what lands on your doorstep is the same batch you'd buy in Seoul.`;
+  const type = p.category.toLowerCase();
+  const texture = COPY[p.priceId]?.texture;
+  // One concise, verified introduction. Never auto-joins concern tags, never
+  // adds climate or sourcing claims — only the product's role and, when we
+  // have verified data, its texture.
+  if (texture) {
+    return `${p.name} is a ${type} from ${p.brand}. It has a ${texture} texture.`;
+  }
+  return `A ${type} from ${p.brand}, selected for a clear role within a considered skincare routine. Review the product details and usage guidance below before introducing it.`;
 }
 
 export function productBenefits(p: ShopProduct): string[] {

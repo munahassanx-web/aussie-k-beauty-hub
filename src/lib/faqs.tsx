@@ -245,7 +245,7 @@ export function productFaqs(
 ): Faq[] {
   const stepText = opts?.steps?.length
     ? opts.steps.join(' ')
-    : `Apply ${p.name} to clean skin as part of your routine, then follow with moisturiser and, in the morning, sunscreen.`;
+    : `The brand's directions for ${p.name} are printed on the carton. As general guidance for this routine step, apply it to clean skin in the order shown in the How to use section above, then follow with moisturiser and, in the morning, sunscreen.`;
 
   const concernText = p.concerns.length
     ? ` It is most often chosen for ${p.concerns.map(concernLabel).join(', ')}.`
@@ -262,15 +262,15 @@ export function productFaqs(
     },
     {
       q: `Is ${p.brand} ${p.name} authentic, and where does it ship from?`,
-      a: `Yes. This stock is sourced from ${p.brand} or its authorised distributor and held in our Melbourne warehouse in Epping, Victoria. Order before 12pm on a business day and it is dispatched the same day with Australia Post. Estimated transit after dispatch is typically 1–2 business days to metro areas and 2–5 business days regionally — these are Australia Post estimates, not guarantees.`,
+      a: `Yes. It is sourced through established Korean wholesale supply partners, documented by our Melbourne team and locally stocked in Australia. Orders are dispatched from our Melbourne warehouse, and delivery times follow the current estimates in our shipping policy. You can view a sample verification record on this site under Verify.`,
     },
     {
       q: `What can I use ${p.brand} ${p.name} with?`,
-      a: `It layers safely with hydrating and barrier ingredients such as hyaluronic acid, niacinamide, panthenol, ceramides and centella. Avoid using it in the same session as a strong exfoliating acid or retinal — alternate those on separate nights.`,
+      a: `It generally sits well alongside hydrating and barrier-focused ingredients such as hyaluronic acid, niacinamide, panthenol, ceramides and centella. Introduce one new product at a time, and avoid using it in the same session as a strong exfoliating acid or retinal — alternate those on separate nights.`,
     },
     {
       q: `How much does ${p.brand} ${p.name} cost in Australia?`,
-      a: `${p.brand} ${p.name} is ${p.price} AUD at Skin Grocer, priced in Australian dollars with no import surcharge at checkout. Subscribe & Save takes 15% off eligible repeat deliveries.`,
+      a: `${p.brand} ${p.name} is ${p.price} AUD at Skin Grocer, priced in Australian dollars including GST with no import surcharge at checkout.`,
     },
   ];
 }
@@ -278,11 +278,11 @@ export function productFaqs(
 function concernLabel(c: ShopProduct['concerns'][number]): string {
   const map: Record<string, string> = {
     hydration: 'hydration and glow',
-    acne: 'breakouts and congestion',
-    pigmentation: 'pigmentation and uneven tone',
-    sensitivity: 'sensitivity and redness',
-    'anti-aging': 'firmness and fine lines',
-    barrier: 'barrier repair',
+    acne: 'congestion and excess oil',
+    pigmentation: 'the look of uneven tone',
+    sensitivity: 'comfort for reactive skin',
+    'anti-aging': 'firmness and the look of fine lines',
+    barrier: 'barrier comfort',
   };
   return map[c] ?? c;
 }
