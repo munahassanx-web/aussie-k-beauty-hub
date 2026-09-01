@@ -33,6 +33,8 @@ export type ShopProduct = {
   cosmeticRole?: string[];
   /** Where `cosmeticRole` came from. */
   cosmeticRoleSource?: string;
+  /** Product-specific answer to "What is this good for?" — overrides generated copy. */
+  goodFor?: string;
   /** ISO date the sourced fields above were last checked. */
   lastReviewed?: string;
   /**
