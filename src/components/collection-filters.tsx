@@ -32,6 +32,7 @@ type Props = {
   total: number;
   /** Count for a candidate filter state — used by the staged mobile sheet. */
   countFor?: (filters: Filters) => number;
+  onToggle: (group: keyof Filters, value: string) => void;
   onChange: (next: Filters) => void;
   onSort: (sort: SortValue) => void;
   onClear: () => void;
@@ -85,11 +86,11 @@ function FacetList({
 function FilterGroups({
   facets,
   filters,
-  onChange,
+  onToggle,
 }: {
   facets: FacetGroups;
   filters: Filters;
-  onChange: (next: Filters) => void;
+  onToggle: (group: keyof Filters, value: string) => void;
 }) {
   return (
     <div className="divide-y divide-border">
@@ -103,9 +104,7 @@ function FilterGroups({
               <FacetList
                 options={options}
                 active={filters[key]}
-                onToggle={(value) =>
-                  onChange({ ...filters, [key]: toggleValue(filters[key], value) })
-                }
+                onToggle={(value) => onToggle(key, value)}
               />
             </div>
           </section>
@@ -183,7 +182,7 @@ export function SortSelect({ sort, onSort }: Pick<Props, 'sort' | 'onSort'>) {
 export function FilterSidebar(props: Props) {
   return (
     <aside aria-label="Filter products" className="hidden lg:block lg:sticky lg:top-24 lg:self-start">
-      <FilterGroups facets={props.facets} filters={props.filters} onChange={props.onChange} />
+      <FilterGroups facets={props.facets} filters={props.filters} onToggle={props.onToggle} />
     </aside>
   );
 }
@@ -283,7 +282,16 @@ export function FilterSheet(props: Props) {
                 <SortSelect sort={props.sort} onSort={props.onSort} />
               </div>
               <div className="border-t border-border pt-5">
-                <FilterGroups facets={props.facets} filters={draft} onChange={setDraft} />
+                <FilterGroups
+                  facets={props.facets}
+                  filters={draft}
+                  onToggle={(group, value) =>
+                    setDraft((current) => ({
+                      ...current,
+                      [group]: toggleValue(current[group], value),
+                    }))
+                  }
+                />
               </div>
             </div>
 

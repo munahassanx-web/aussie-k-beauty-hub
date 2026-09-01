@@ -37,6 +37,8 @@ import { SHOP_FAQS, faqJsonLd } from "@/lib/faqs";
 import { breadcrumbJsonLd } from "@/lib/breadcrumbs";
 
 const searchSchema = z.object({
+  step: z.string().optional(),
+  // Keep accepting previously shared URLs while writing the canonical `step` key.
   category: z.string().optional(),
   brand: z.string().optional(),
   concern: z.string().optional(),
@@ -76,10 +78,10 @@ function Shop() {
   const [compareOpen, setCompareOpen] = useState(false);
 
   // Only accept values the catalog actually supports; anything else is ignored.
-  const filters: Filters = useMemo(() => {
+  const activeFilters: Filters = useMemo(() => {
     const brands = new Set(SHOP_PRODUCTS.map((p) => p.brand.toLowerCase()));
     return {
-      category: parseParam(search.category).filter((v) =>
+      category: parseParam(search.step ?? search.category).filter((v) =>
         CATEGORY_VALUES.includes(v as never),
       ) as Filters["category"],
       brand: parseParam(search.brand).filter((v) => brands.has(v.toLowerCase())),
@@ -91,25 +93,29 @@ function Shop() {
         PRICE_BANDS.some((b) => b.value === v),
       ) as Filters["price"],
     };
-  }, [search.category, search.brand, search.concern, search.ingredient, search.price]);
+  }, [search.step, search.category, search.brand, search.concern, search.ingredient, search.price]);
 
   const sort: SortValue = SORT_OPTIONS.some((o) => o.value === search.sort)
     ? (search.sort as SortValue)
     : "featured";
 
-  const facets = useMemo(() => buildFacets(SHOP_PRODUCTS, filters), [filters]);
-  const visible = useMemo(
-    () => sortProducts(SHOP_PRODUCTS.filter((p) => matchesFilters(p, filters)), sort),
-    [filters, sort],
+  const facets = useMemo(() => buildFacets(SHOP_PRODUCTS, activeFilters), [activeFilters]);
+  const filteredProducts = useMemo(
+    () => SHOP_PRODUCTS.filter((product) => matchesFilters(product, activeFilters)),
+    [activeFilters],
+  );
+  const visibleProducts = useMemo(
+    () => sortProducts(filteredProducts, sort),
+    [filteredProducts, sort],
   );
 
   // view_item_list — catalogue attributes only, capped to the first screenful.
   useEffect(() => {
-    if (visible.length === 0) return;
+    if (visibleProducts.length === 0) return;
     track("view_item_list", {
       item_list_name: "Shop",
       currency: "AUD",
-      items: visible.slice(0, 24).map((p, index) => ({
+      items: visibleProducts.slice(0, 24).map((p, index) => ({
         item_id: p.priceId,
         item_name: p.name,
         item_brand: p.brand,
@@ -119,20 +125,40 @@ function Shop() {
         index,
       })),
     });
-  }, [visible]);
+  }, [visibleProducts]);
 
   const applyFilters = (next: Filters) =>
     navigate({
       search: (prev) => ({
         ...prev,
-        category: serialiseParam(next.category),
+        step: serialiseParam(next.category),
+        category: undefined,
         brand: serialiseParam(next.brand),
         concern: serialiseParam(next.concern),
         ingredient: serialiseParam(next.ingredient),
         price: serialiseParam(next.price),
       }),
     });
-  const clearAll = () => navigate({ search: (prev) => ({ sort: prev.sort }) });
+  const toggleFilter = (group: keyof Filters, value: string) => {
+    applyFilters({
+      ...activeFilters,
+      [group]: activeFilters[group].includes(value)
+        ? activeFilters[group].filter((current) => current !== value)
+        : [...activeFilters[group], value],
+    });
+  };
+  const clearAll = () =>
+    navigate({
+      search: (prev) => ({
+        step: undefined,
+        category: undefined,
+        brand: undefined,
+        concern: undefined,
+        ingredient: undefined,
+        price: undefined,
+        sort: prev.sort,
+      }),
+    });
   const countFor = (f: Filters) => SHOP_PRODUCTS.filter((p) => matchesFilters(p, f)).length;
 
   const toggleCompare = (p: (typeof SHOP_PRODUCTS)[number]) => {
@@ -145,10 +171,11 @@ function Shop() {
 
   const filterProps = {
     facets,
-    filters,
+    filters: activeFilters,
     sort,
-    total: visible.length,
+    total: filteredProducts.length,
     countFor,
+    onToggle: toggleFilter,
     onChange: applyFilters,
     onSort: (s: SortValue) => navigate({ search: (prev) => ({ ...prev, sort: s === "featured" ? undefined : s }) }),
     onClear: clearAll,
@@ -174,7 +201,7 @@ function Shop() {
 
       <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-y border-border py-4">
         <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground" aria-live="polite">
-          {visible.length} {visible.length === 1 ? "product" : "products"}
+          {filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"}
         </p>
         <div className="flex items-center gap-6">
           <FilterSheet {...filterProps} />
@@ -185,14 +212,14 @@ function Shop() {
       </div>
 
       <div className="mt-6">
-        <AppliedFilters facets={facets} filters={filters} onChange={applyFilters} onClear={clearAll} />
+        <AppliedFilters facets={facets} filters={activeFilters} onChange={applyFilters} onClear={clearAll} />
       </div>
 
       <div className="mt-8 grid gap-x-12 lg:grid-cols-[220px_1fr]">
         <FilterSidebar {...filterProps} />
 
         <div>
-          {visible.length === 0 ? (
+          {filteredProducts.length === 0 ? (
             <div className="border border-border px-8 py-16 text-center">
               <h2 className="font-display text-2xl text-foreground">No products match those filters.</h2>
               <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
@@ -217,7 +244,7 @@ function Shop() {
             </div>
           ) : (
             <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 xl:grid-cols-3">
-              {visible.map((p, i) => {
+              {visibleProducts.map((p, i) => {
                 const isSelected = compare.some((x) => x.priceId === p.priceId);
                 const disabled = !isSelected && compare.length >= 3;
                 return (
