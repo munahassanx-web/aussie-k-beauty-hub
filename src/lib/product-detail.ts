@@ -1159,7 +1159,25 @@ export function productTexture(p: ShopProduct): string | undefined {
 }
 
 export function productInci(p: ShopProduct): string | undefined {
+  if (p.inci?.length) return p.inci.join(', ');
   return COPY[p.priceId]?.fullInci;
+}
+
+export const INCI_SOURCE_LABEL: Record<NonNullable<ShopProduct['inciSource']>, string> = {
+  packaging: 'Product packaging',
+  'brand-listing': 'Official brand listing',
+  'supplier-listing': 'Supplier listing (pending packaging check)',
+};
+
+/** Verified INCI record for a SKU, with its provenance — undefined when unverified. */
+export function inciRecord(p: ShopProduct) {
+  if (!p.inci?.length) return undefined;
+  return {
+    list: p.inci,
+    text: p.inci.join(', '),
+    source: INCI_SOURCE_LABEL[p.inciSource ?? 'supplier-listing'],
+    checkedOn: p.inciCheckedOn,
+  };
 }
 
 export function howToUse(p: ShopProduct): string[] {
@@ -1239,7 +1257,63 @@ export function productBenefits(p: ShopProduct): string[] {
 
 // --- hero ingredients -------------------------------------------------------
 
-export type HeroIngredient = { name: string; korean?: string; what: string; goodFor: string[] };
+export type HeroIngredient = {
+  name: string;
+  korean?: string;
+  what: string;
+  goodFor: string[];
+  /**
+   * Exact INCI component(s) this card is built from. Used to validate the card
+   * against the product's verified full INCI list — a "complex" card must name
+   * every component it claims.
+   */
+  components?: string[];
+};
+
+/** Common INCI spelling variants, normalised before matching. */
+const INCI_SYNONYMS: Record<string, string> = {
+  'hydrolysed hyaluronic acid': 'hydrolyzed hyaluronic acid',
+  'hydrolysed sodium hyaluronate': 'hydrolyzed sodium hyaluronate',
+  'hydrolysed glycosaminoglycans': 'hydrolyzed glycosaminoglycans',
+  aqua: 'water',
+  'aqua/water': 'water',
+  'water/aqua': 'water',
+  glycerine: 'glycerin',
+  'vitamin e': 'tocopherol',
+  'sodium pca (pyrrolidone carboxylic acid)': 'sodium pca',
+};
+
+function normaliseInci(name: string): string {
+  const n = name
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, ' ')
+    .replace(/[^a-z0-9/,]+/g, ' ')
+    .trim();
+  return INCI_SYNONYMS[n] ?? n;
+}
+
+/**
+ * A key-ingredient card may only render when every component it names appears
+ * in the SKU's verified INCI list. Products without a verified list are left
+ * as-is (nothing to validate against).
+ */
+function validateAgainstInci(p: ShopProduct, cards: HeroIngredient[]): HeroIngredient[] {
+  if (!p.inci?.length) return cards;
+  const listed = new Set(p.inci.map(normaliseInci));
+  return cards.filter((card) => {
+    const components = card.components ?? [card.name];
+    const missing = components.filter((c) => !listed.has(normaliseInci(c)));
+    if (missing.length > 0) {
+      if (import.meta.env.DEV) {
+        console.error(
+          `[catalogue] Key ingredient not found in verified INCI — product "${p.name}" (SKU ${p.priceId}): ${missing.join(', ')}`,
+        );
+      }
+      return false;
+    }
+    return true;
+  });
+}
 
 const INGREDIENT_RULES: { match: RegExp; ing: HeroIngredient }[] = [
   {
@@ -1369,9 +1443,13 @@ const CONCERN_FALLBACK: Record<Concern, HeroIngredient> = {
 
 export function heroIngredients(p: ShopProduct): HeroIngredient[] {
   const override = COPY[p.priceId]?.ingredients;
-  if (override) return override;
+  if (override) return validateAgainstInci(p, override);
   const bespoke = bespokeHeroIngredients(p.priceId);
-  if (bespoke) return bespoke;
+  if (bespoke) return validateAgainstInci(p, bespoke);
+  // Keyword/concern inference is never allowed once we hold a verified INCI
+  // list — guessing from the product name or concern tags is how wrong
+  // ingredients get published.
+  if (p.inci?.length) return [];
 
   const haystack = `${p.brand} ${p.name}`;
   const found: HeroIngredient[] = [];
