@@ -13,9 +13,9 @@ type Props = {
 /**
  * Semantic, crawler-friendly FAQ block.
  *
- * Every question is a real heading and every answer is plain text in the DOM
- * (details elements stay expanded for assistive tech and machine readers via
- * the `open` attribute on the first item and no JS-gated content).
+ * Every question is a real heading and every answer is rendered in the DOM.
+ * Details share a `name` so only one accordion is open at a time, while the
+ * first item is expanded by default for assistive tech and machine readers.
  */
 export function FaqSection({ id = 'faq', eyebrow = 'FAQ', title, intro, items, tone = 'light' }: Props) {
   if (items.length === 0) return null;
