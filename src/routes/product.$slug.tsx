@@ -746,7 +746,9 @@ function ProductPage() {
         items={productFaqs(product, {
           steps: howToUse(product),
           description: productDescription(product),
+          usageNote: hasSourcedCosmeticRole(product) ? USAGE_CAUTION : undefined,
         })}
+
       />
 
       <ProductReviews productId={product.priceId} productName={product.name} brand={product.brand} />
