@@ -178,9 +178,8 @@ function GuidePage() {
         )}
         {(before || after) && (
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            {before ? `Comes after your ${before.label.toLowerCase()} step` : 'First step'}
-            {after ? `, and before ${after.label.toLowerCase()}.` : '.'} This is the usual order for
-            this type of product, not a claim about what else you own.
+            Use this toner after cleansing and before serums, treatments and moisturiser. In the
+            morning, finish your routine with an appropriate sunscreen.
           </p>
         )}
       </section>
