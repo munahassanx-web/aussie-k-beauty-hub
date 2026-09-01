@@ -1482,6 +1482,29 @@ export function heroIngredients(p: ShopProduct): HeroIngredient[] {
   return found.slice(0, 3);
 }
 
+export type RoutineGroup = { stepLabel: string; products: ShopProduct[] };
+
+/**
+ * Routine-order companions: groups of products from LATER routine steps than
+ * the current product, so customers choose one option per following step —
+ * never another product performing the same step. Compatibility is limited to
+ * steps that follow in a standard routine (no same-step duplicates).
+ */
+export function routineCompanions(p: ShopProduct): RoutineGroup[] {
+  const order: Array<ShopProduct['category']> = ['Cleanse', 'Tone', 'Treat', 'Moisturise', 'Protect'];
+  const current = order.indexOf(p.category);
+  if (current === -1) return [];
+  const groups: RoutineGroup[] = [];
+  for (const cat of order.slice(current + 1)) {
+    const products = SHOP_PRODUCTS.filter((x) => x.category === cat).slice(0, 2);
+    if (products.length > 0) {
+      groups.push({ stepLabel: cat, products });
+    }
+    if (groups.length === 2) break;
+  }
+  return groups;
+}
+
 /** Other products from the same brand or targeting the same concern. */
 export function relatedProducts(p: ShopProduct, limit = 4): ShopProduct[] {
   const sameBrand = SHOP_PRODUCTS.filter((x) => x.brand === p.brand && x.priceId !== p.priceId);
