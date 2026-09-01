@@ -1496,7 +1496,13 @@ export function routineCompanions(p: ShopProduct): RoutineGroup[] {
   if (current === -1) return [];
   const groups: RoutineGroup[] = [];
   for (const cat of order.slice(current + 1)) {
-    const products = SHOP_PRODUCTS.filter((x) => x.category === cat).slice(0, 2);
+    // Prefer products from the same product line/brand (documented to be used
+    // together), then fill from the rest of the catalogue.
+    const inStep = SHOP_PRODUCTS.filter((x) => x.category === cat && x.priceId !== p.priceId);
+    const products = [
+      ...inStep.filter((x) => x.brand === p.brand),
+      ...inStep.filter((x) => x.brand !== p.brand),
+    ].slice(0, 2);
     if (products.length > 0) {
       groups.push({ stepLabel: cat, products });
     }
