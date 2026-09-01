@@ -13,7 +13,7 @@ import { FaqSection } from '@/components/faq-section';
 import { productFaqs, faqJsonLd } from '@/lib/faqs';
 import { track } from '@/lib/analytics';
 
-import { restockPriceIdFor, productPrice, type ShopProduct } from '@/lib/shop-catalog';
+import { productPrice, type ShopProduct } from '@/lib/shop-catalog';
 import { breadcrumbJsonLd } from '@/lib/breadcrumbs';
 import { listSoldOutSkus } from '@/lib/inventory.functions';
 import {
@@ -290,7 +290,6 @@ function ProductPage() {
 
 
   const ingredients = heroIngredients(product);
-  const restockId = restockPriceIdFor(product.priceId);
   const related = relatedProducts(product);
   const size = productSize(product);
 
@@ -542,16 +541,6 @@ function ProductPage() {
                   Add to bag
                 </button>
               )}
-              {!product.comingSoon && restockId && (
-                <button
-                  onClick={() =>
-                    buy({ priceId: restockId, name: product.name, priceLabel: `${product.price} AUD` })
-                  }
-                  className="min-h-12 w-full rounded-[2px] border border-border px-7 text-[10px] uppercase tracking-[0.2em] text-foreground transition-colors hover:border-foreground"
-                >
-                  Restock monthly · save 15%
-                </button>
-              )}
               <WishlistButton
                 variant="inline"
                 productId={product.priceId}
@@ -562,9 +551,15 @@ function ProductPage() {
             <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
               Dispatched from our Melbourne warehouse · Free standard shipping over A$100 ·{' '}
               <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-foreground">
-                Shipping &amp; returns
+                View shipping and returns
               </Link>
             </p>
+            <Link
+              to="/verify/sample"
+              className="mt-3 inline-block text-[10px] uppercase tracking-[0.2em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
+            >
+              View how Skin Grocer verifies stock
+            </Link>
           </div>
         </div>
 
@@ -682,14 +677,19 @@ function ProductPage() {
               content: (
                 <div className="space-y-3 text-sm text-foreground/85">
                   <p>
-                    Sourced through approved supply channels in Korea and held in our Melbourne
-                    warehouse — the same product you'd buy in Seoul.
+                    Sourced through established Korean wholesale supply partners, documented by our
+                    Melbourne team and locally stocked in Australia.
                   </p>
                   <p className="text-muted-foreground">
-                    Every product has its own “How to apply” page, open to anyone — no login, no
-                    purchase needed.
+                    See the process and a sample verification record:{' '}
+                    <Link
+                      to="/verify/sample"
+                      className="underline underline-offset-4 hover:text-foreground"
+                    >
+                      how Skin Grocer verifies stock
+                    </Link>
+                    .
                   </p>
-
                 </div>
               ),
             },
