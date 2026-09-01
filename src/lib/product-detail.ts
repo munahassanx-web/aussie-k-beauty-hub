@@ -1212,8 +1212,12 @@ export function productDescription(p: ShopProduct): string {
 }
 
 export function productBenefits(p: ShopProduct): string[] {
+  // Sourced, neutral cosmetic-role statements take priority; never mixed with
+  // generated benefit claims.
+  if (p.cosmeticRole?.length) return p.cosmeticRole;
   const override = COPY[p.priceId]?.benefits;
   if (override) return override;
+
   const base = p.concerns.map((c) => {
     switch (c) {
       case 'hydration':
