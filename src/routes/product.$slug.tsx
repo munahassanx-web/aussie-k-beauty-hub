@@ -28,7 +28,11 @@ import {
   productTexture,
   relatedProducts,
   routineStepLabel,
+  hasSourcedCosmeticRole,
+  USAGE_CAUTION,
+  SUITABILITY_CAUTION,
 } from '@/lib/product-detail';
+
 
 function absoluteProductImage(src: string): string {
   if (/^https?:\/\//i.test(src)) return src;
