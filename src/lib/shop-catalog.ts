@@ -269,6 +269,7 @@ export function catalogEntryFor(priceId: string): CatalogEntry | null {
       brand: product.brand,
       image: product.image,
       unitCents: priceToCents(product.price),
+      size: productSizeFor(product),
     };
   }
   const bundle = BUNDLE_DEFINITIONS.find((b) => b.priceId === priceId);
@@ -291,6 +292,7 @@ export function catalogEntryFor(priceId: string): CatalogEntry | null {
         brand: base.brand,
         image: base.image,
         unitCents: restockCentsFor(priceToCents(base.price)),
+        size: productSizeFor(base),
       };
     }
   }
