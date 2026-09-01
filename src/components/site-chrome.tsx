@@ -169,229 +169,224 @@ function AnnouncementBar() {
   );
 }
 
+/** Scroll distance (px) after which the compact sticky header takes over. */
+const COMPACT_AFTER = 180;
+
 export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [dismissed, setDismissed] = useState<string | null>(null);
   const [pinned, setPinned] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileSection, setMobileSection] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [isSticky, setIsSticky] = useState(false);
-  const navRef = useRef<HTMLDivElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [compact, setCompact] = useState(false);
   const { user } = useAuth();
   const cart = useCart();
+
+  // Remember which control opened a modal-style panel so focus can return to it.
+  const lastTrigger = useRef<HTMLElement | null>(null);
+  const searchTrigger = useRef<HTMLElement | null>(null);
 
   const closeMenus = () => {
     setOpenMenu(null);
     setMobileOpen(false);
-    setMobileSection(null);
   };
 
-  // Pin the brand + navigation row once the user scrolls past the announcement bar
-  // so the page links stay accessible while the trust messages scroll away.
+  const openMobile = (e: React.MouseEvent<HTMLButtonElement>) => {
+    lastTrigger.current = e.currentTarget;
+    setOpenMenu(null);
+    setMobileOpen(true);
+  };
+  const closeMobile = () => {
+    setMobileOpen(false);
+    lastTrigger.current?.focus();
+  };
+
+  const openSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
+    searchTrigger.current = e.currentTarget;
+    closeMenus();
+    setSearchOpen(true);
+  };
+  const closeSearch = () => {
+    setSearchOpen(false);
+    searchTrigger.current?.focus();
+  };
+
+  // Swap in the compact header once the customer has scrolled past the
+  // full masthead. The full header keeps its layout space, so nothing shifts.
   useEffect(() => {
-    const nav = navRef.current;
-    const wrapper = wrapperRef.current;
-    if (!nav || !wrapper) return;
-
-    const update = () => {
-      const rect = nav.getBoundingClientRect();
-      const nextSticky = rect.top <= 0 && window.scrollY > 0;
-      setIsSticky(nextSticky);
-      // Preserve the nav's original layout space so the page does not jump
-      // when the nav becomes fixed-positioned.
-      wrapper.style.height = nextSticky ? `${rect.height}px` : "auto";
-    };
-
+    const update = () => setCompact(window.scrollY > COMPACT_AFTER);
     update();
     window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-    };
+    return () => window.removeEventListener("scroll", update);
   }, []);
 
   // Escape closes any open navigation surface, per WCAG 2.2 keyboard expectations.
   useEffect(() => {
-    if (!mobileOpen && !openMenu) return;
+    if (!openMenu) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setOpenMenu(null);
         setPinned(null);
-        setMobileOpen(false);
-        setMobileSection(null);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [mobileOpen, openMenu]);
+  }, [openMenu]);
+
+  const iconRow = (
+    <>
+      <button
+        type="button"
+        aria-label="Search products"
+        onClick={openSearch}
+        className="hidden h-11 w-11 md:flex items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
+      >
+        <SearchIcon />
+      </button>
+      <Link
+        to="/wishlist"
+        onClick={closeMenus}
+        aria-label="Your saved products"
+        className="hidden h-11 w-11 md:flex items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
+      >
+        <HeartIcon />
+      </Link>
+      <Link
+        to={user ? "/account" : "/auth"}
+        onClick={closeMenus}
+        aria-label={user ? "Your account" : "Sign in"}
+        className="hidden items-center gap-2 rounded-full border border-border px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/80 hover:border-primary hover:text-primary md:inline-flex"
+      >
+        <UserIcon />
+        {user ? "Account" : "Sign in"}
+      </Link>
+      {/* Admin access is intentionally not exposed in the public header. */}
+      <button
+        type="button"
+        onClick={() => { closeMenus(); cart.setOpen(true); }}
+        aria-label={`Open bag (${cart.count} items)`}
+        className="relative flex h-11 w-11 items-center justify-center rounded-full text-foreground/80 hover:bg-secondary hover:text-primary"
+      >
+        <BagIcon />
+        {cart.count > 0 && (
+          <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground">{cart.count}</span>
+        )}
+      </button>
+      <button
+        type="button"
+        aria-label="Open menu"
+        aria-expanded={mobileOpen}
+        aria-controls="site-mobile-menu"
+        onClick={openMobile}
+        className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground/80 hover:border-primary hover:text-primary lg:hidden"
+      >
+        <MenuIcon />
+      </button>
+    </>
+  );
 
   return (
     <header>
       {/* The Grocer Stripe — signature brand band, fixed height (no CLS) */}
       <BrandBand variant="rule" />
-      {/* Main nav wrapper preserves layout when the pinned header is fixed */}
-      <div ref={wrapperRef} className="relative">
-        {/* Pinned header — brand, navigation, and trust messages stay visible while scrolling */}
-        <div
-          ref={navRef}
-          className={`z-50 transition-[background-color,box-shadow] duration-500 ${
-            isSticky
-              ? "fixed left-0 right-0 top-0 bg-background/92 shadow-[0_1px_0_rgba(0,0,0,0.06)] backdrop-blur-2xl"
-              : "relative bg-background/60 backdrop-blur-2xl"
-          }`}
-          onMouseLeave={() => setOpenMenu(null)}
-        >
+      <div className="relative">
+        <div className="bg-background/60 backdrop-blur-2xl" onMouseLeave={() => setOpenMenu(null)}>
+          {/* Trust messages sit at the top of the page and scroll away with it. */}
           <AnnouncementBar />
           <div className="mx-auto max-w-7xl px-6 border-b border-foreground/5">
-            {/* Brand row — large centered wordmark, Concept 1 */}
-            <div
-              className={`relative flex items-center justify-center px-4 pt-10 pb-4 transition-all duration-500 md:px-0 md:pt-0 md:pb-0 ${
-                isSticky ? "md:min-h-[62px] md:scale-[0.82]" : "md:min-h-[84px]"
-              }`}
-            >
-
-            <Link
-              to="/"
-              aria-label="Skin Grocer — home"
-              className="block text-center"
-              onClick={closeMenus}
-              onMouseEnter={() => setOpenMenu(null)}
-            >
-              <BrandWordmark size="display" sub className="text-foreground" />
-            </Link>
-
-            <div className="absolute right-0 top-1 flex items-center gap-1 sm:gap-3 md:top-1/2 md:-translate-y-1/2">
-            <button
-              type="button"
-              aria-label="Search products"
-              onClick={() => { closeMenus(); setSearchOpen(true); }}
-              className="hidden h-11 w-11 md:flex items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
-            >
-              <SearchIcon />
-            </button>
-            <Link
-              to="/wishlist"
-              onClick={closeMenus}
-              aria-label="Your saved products"
-              className="hidden h-11 w-11 md:flex items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
-            >
-              <HeartIcon />
-            </Link>
-            <Link
-              to={user ? "/account" : "/auth"}
-              onClick={closeMenus}
-              aria-label={user ? "Your account" : "Sign in"}
-              className="hidden items-center gap-2 rounded-full border border-border px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/80 hover:border-primary hover:text-primary md:inline-flex"
-            >
-              <UserIcon />
-              {user ? "Account" : "Sign in"}
-            </Link>
-            {/* Admin access is intentionally not exposed in the public header. */}
-
-            <button
-              type="button"
-              onClick={() => { closeMenus(); cart.setOpen(true); }}
-              aria-label={`Open bag (${cart.count} items)`}
-              className="relative flex h-11 w-11 items-center justify-center rounded-full text-foreground/80 hover:bg-secondary hover:text-primary"
-            >
-              <BagIcon />
-              {cart.count > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground">{cart.count}</span>
-              )}
-            </button>
-            <button
-              type="button"
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              aria-expanded={mobileOpen}
-              onClick={() => { setOpenMenu(null); setMobileOpen((open) => !open); }}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground/80 hover:border-primary hover:text-primary lg:hidden"
-            >
-              {mobileOpen ? <CloseIcon /> : <MenuIcon />}
-            </button>
-            </div>
-          </div>
-
-          <nav className="hidden items-center justify-center gap-8 pb-2 lg:flex">
-
-            {Object.keys(megaMenus).map((key) => (
-              <div
-                key={key}
-                className="relative flex items-center gap-1"
-                onMouseEnter={() => { if (dismissed !== key) setOpenMenu(key); }}
-                onMouseLeave={() => { setDismissed(null); setPinned(null); }}
-                onFocus={() => { if (dismissed !== key) setOpenMenu(key); }}
+            {/* Brand row — large centered wordmark */}
+            <div className="relative flex items-center justify-center px-4 pt-10 pb-4 md:min-h-[84px] md:px-0 md:pt-0 md:pb-0">
+              <Link
+                to="/"
+                aria-label="Skin Grocer — home"
+                className="block text-center"
+                onClick={closeMenus}
+                onMouseEnter={() => setOpenMenu(null)}
               >
-                <Link
-                  to={topLevelLinks[key].to}
-                  onClick={closeMenus}
-                  className={`relative py-2 text-[13px] font-medium uppercase tracking-[0.16em] transition-colors ${
-                    openMenu === key ? "text-primary" : "text-foreground/75 hover:text-primary"
-                  }`}
-                >
-                  {topLevelLinks[key].label}
+                <BrandWordmark size="display" sub className="text-foreground" />
+              </Link>
 
-                  <span
-                    className={`absolute -bottom-0.5 left-0 h-px bg-primary transition-all ${
-                      openMenu === key ? "w-full" : "w-0"
-                    }`}
-                  />
-                </Link>
-                <button
-                  type="button"
-                  aria-label={openMenu === key ? `Close ${key} menu` : `Open ${key} menu`}
-                  aria-expanded={openMenu === key}
-                  onFocus={() => { if (dismissed !== key) setOpenMenu(key); }}
-                  onClick={() => {
-                    if (pinned === key) {
-                      setOpenMenu(null);
-                      setPinned(null);
-                      setDismissed(key);
-                    } else {
-                      setOpenMenu(key);
-                      setPinned(key);
-                      setDismissed(null);
-                    }
-                  }}
-                  className="flex h-6 w-6 items-center justify-center rounded-full text-foreground/45 hover:bg-secondary hover:text-primary"
-                >
-                  <span className={`text-[10px] leading-none transition-transform ${openMenu === key ? "rotate-180" : ""}`}>⌄</span>
-                </button>
+              <div className="absolute right-0 top-1 flex items-center gap-1 sm:gap-3 md:top-1/2 md:-translate-y-1/2">
+                {iconRow}
               </div>
-            ))}
-            <Link
-              to="/consultation"
-              search={{}}
-              onMouseEnter={() => setOpenMenu(null)}
-              className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
-            >
-              Routine Finder
-            </Link>
-            <Link
-              to="/learn/hub"
-              onMouseEnter={() => setOpenMenu(null)}
-              className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
-            >
-              Learn
-            </Link>
-            <Link
-              to="/about"
-              onMouseEnter={() => setOpenMenu(null)}
-              className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
-            >
-              About
-            </Link>
+            </div>
 
-
-
-          </nav>
-
+            <nav className="hidden items-center justify-center gap-8 pb-2 lg:flex">
+              {Object.keys(megaMenus).map((key) => (
+                <div
+                  key={key}
+                  className="relative flex items-center gap-1"
+                  onMouseEnter={() => { if (dismissed !== key) setOpenMenu(key); }}
+                  onMouseLeave={() => { setDismissed(null); setPinned(null); }}
+                  onFocus={() => { if (dismissed !== key) setOpenMenu(key); }}
+                >
+                  <Link
+                    to={topLevelLinks[key].to}
+                    onClick={closeMenus}
+                    className={`relative py-2 text-[13px] font-medium uppercase tracking-[0.16em] transition-colors ${
+                      openMenu === key ? "text-primary" : "text-foreground/75 hover:text-primary"
+                    }`}
+                  >
+                    {topLevelLinks[key].label}
+                    <span
+                      className={`absolute -bottom-0.5 left-0 h-px bg-primary transition-all ${
+                        openMenu === key ? "w-full" : "w-0"
+                      }`}
+                    />
+                  </Link>
+                  <button
+                    type="button"
+                    aria-label={openMenu === key ? `Close ${key} menu` : `Open ${key} menu`}
+                    aria-expanded={openMenu === key}
+                    onFocus={() => { if (dismissed !== key) setOpenMenu(key); }}
+                    onClick={() => {
+                      if (pinned === key) {
+                        setOpenMenu(null);
+                        setPinned(null);
+                        setDismissed(key);
+                      } else {
+                        setOpenMenu(key);
+                        setPinned(key);
+                        setDismissed(null);
+                      }
+                    }}
+                    className="flex h-6 w-6 items-center justify-center rounded-full text-foreground/45 hover:bg-secondary hover:text-primary"
+                  >
+                    <span className={`text-[10px] leading-none transition-transform ${openMenu === key ? "rotate-180" : ""}`}>⌄</span>
+                  </button>
+                </div>
+              ))}
+              <Link
+                to="/consultation"
+                search={{}}
+                onMouseEnter={() => setOpenMenu(null)}
+                className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
+              >
+                Routine Finder
+              </Link>
+              <Link
+                to="/learn/hub"
+                onMouseEnter={() => setOpenMenu(null)}
+                className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
+              >
+                Learn
+              </Link>
+              <Link
+                to="/about"
+                onMouseEnter={() => setOpenMenu(null)}
+                className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
+              >
+                About
+              </Link>
+            </nav>
+          </div>
         </div>
 
         {openMenu && megaMenus[openMenu] && (
-          <div className="hidden border-t border-border/60 bg-background shadow-[0_30px_60px_-30px_rgba(0,0,0,0.18)] lg:block">
+          <div
+            className="hidden border-t border-border/60 bg-background shadow-[0_30px_60px_-30px_rgba(0,0,0,0.18)] lg:block"
+            onMouseLeave={() => setOpenMenu(null)}
+          >
             <div className="mx-auto grid max-w-7xl gap-12 px-6 py-8 md:grid-cols-4">
               {megaMenus[openMenu].map((section) => (
                 <div key={section.heading}>
@@ -428,111 +423,323 @@ export function SiteHeader() {
             </div>
           </div>
         )}
-
-        {mobileOpen && (
-          <div className="border-t border-border/60 bg-background lg:hidden">
-            <div className="max-h-[calc(100dvh-7rem)] overflow-y-auto px-6 py-5">
-              <div className="grid gap-1 border-b border-border/60 pb-5">
-                {Object.entries(topLevelLinks).map(([key, link]) => {
-                  const expanded = mobileSection === key;
-                  return (
-                    <div key={key} className="border-b border-border/40 last:border-b-0">
-                      <div className="flex items-center justify-between">
-                        <Link
-                          to={link.to}
-                          onClick={closeMenus}
-                          className="flex-1 py-3 font-display text-2xl text-foreground"
-                        >
-                          {link.label}
-                        </Link>
-                        <button
-                          type="button"
-                          aria-label={expanded ? `Collapse ${link.label} menu` : `Expand ${link.label} menu`}
-                          aria-expanded={expanded}
-                          onClick={() => setMobileSection((cur) => (cur === key ? null : key))}
-                          className="flex h-11 w-11 items-center justify-center text-foreground/60 hover:text-primary"
-                        >
-                          <span className={`text-sm leading-none transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}>⌄</span>
-                        </button>
-                      </div>
-                      {expanded && (
-                        <div className="pb-4 pl-1">
-                          {megaMenus[key]?.map((section) => (
-                            <div key={section.heading} className="mt-3">
-                              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">{section.heading}</p>
-                              <ul className="mt-2">
-                                {section.links.map((l) => (
-                                  <li key={l.label}>
-                                    <Link
-                                      to={l.to}
-                                      search={l.search as never}
-                                      hash={l.hash}
-                                      onClick={closeMenus}
-                                      className="block py-2 text-sm text-foreground/80 hover:text-primary"
-                                    >
-                                      {l.label}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-                <Link to={user ? "/account" : "/auth"} onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground">
-                  {user ? "Your account" : "Sign in"}
-                  <span className="text-base text-primary">→</span>
-                </Link>
-                {/* Admin access is intentionally not exposed in the public menu. */}
-                <Link to="/wishlist" onClick={closeMenus} className="flex items-center justify-between py-3 font-display text-2xl text-foreground">
-                  Saved
-                  <span className="text-base text-primary">→</span>
-                </Link>
-                <Link
-                  to="/consultation"
-                  search={{}}
-                  onClick={closeMenus}
-                  className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
-                >
-                  Routine Finder
-                  <span className="text-base text-primary">→</span>
-                </Link>
-                <Link
-                  to="/learn/hub"
-                  onClick={closeMenus}
-                  className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
-                >
-                  Learn
-                  <span className="text-base text-primary">→</span>
-                </Link>
-                <Link
-                  to="/about"
-                  onClick={closeMenus}
-                  className="flex items-center justify-between py-3 font-display text-2xl text-foreground"
-                >
-                  About
-                  <span className="text-base text-primary">→</span>
-                </Link>
-
-                <button
-                  type="button"
-                  onClick={() => { closeMenus(); setSearchOpen(true); }}
-                  className="flex items-center justify-between py-3 text-left font-display text-2xl text-foreground"
-                >
-                  Search
-                  <span className="text-base text-primary">→</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
-      </div>
-      <ProductSearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+
+      <CompactHeader
+        visible={compact}
+        cartCount={cart.count}
+        signedIn={Boolean(user)}
+        onOpenSearch={openSearch}
+        onOpenBag={() => { closeMenus(); cart.setOpen(true); }}
+        onOpenMenu={openMobile}
+        mobileOpen={mobileOpen}
+      />
+
+      <MobileMenu open={mobileOpen} onClose={closeMobile} signedIn={Boolean(user)} />
+
+      <ProductSearchOverlay open={searchOpen} onClose={closeSearch} />
     </header>
+  );
+}
+
+/**
+ * Compact sticky header. Appears after the masthead scrolls away, carrying the
+ * essential navigation only — no currency/help row and no promotional strip.
+ */
+function CompactHeader({
+  visible,
+  cartCount,
+  signedIn,
+  onOpenSearch,
+  onOpenBag,
+  onOpenMenu,
+  mobileOpen,
+}: {
+  visible: boolean;
+  cartCount: number;
+  signedIn: boolean;
+  onOpenSearch: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onOpenBag: () => void;
+  onOpenMenu: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  mobileOpen: boolean;
+}) {
+  const count = (
+    cartCount > 0 ? (
+      <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-semibold text-accent-foreground">
+        {cartCount}
+      </span>
+    ) : null
+  );
+
+  return (
+    <div
+      aria-hidden={!visible}
+      className={`fixed inset-x-0 top-0 z-50 border-b border-border bg-background transition-opacity duration-200 motion-reduce:transition-none ${
+        visible ? "opacity-100" : "pointer-events-none opacity-0"
+      }`}
+    >
+      {/* Desktop */}
+      <div className="mx-auto hidden h-[68px] max-w-7xl items-center gap-6 px-6 lg:flex">
+        <Link to="/" aria-label="Skin Grocer — home" className="shrink-0 text-foreground" tabIndex={visible ? 0 : -1}>
+          <BrandWordmark size="sm" className="text-foreground" />
+        </Link>
+        <nav aria-label="Compact" className="flex flex-1 items-center justify-center gap-7">
+          {[
+            { label: "Shop", to: "/shop" },
+            { label: "Shop by Concern", to: "/skin-concerns" },
+            { label: "Brands", to: "/brands" },
+          ].map((l) => (
+            <Link
+              key={l.label}
+              to={l.to}
+              tabIndex={visible ? 0 : -1}
+              className="text-[12px] font-medium uppercase tracking-[0.16em] text-foreground/75 hover:text-primary"
+            >
+              {l.label}
+            </Link>
+          ))}
+          <Link
+            to="/consultation"
+            search={{}}
+            tabIndex={visible ? 0 : -1}
+            className="text-[12px] font-medium uppercase tracking-[0.16em] text-foreground/75 hover:text-primary"
+          >
+            Routine Finder
+          </Link>
+        </nav>
+        <div className="flex shrink-0 items-center gap-1">
+          <button
+            type="button"
+            aria-label="Search products"
+            onClick={onOpenSearch}
+            tabIndex={visible ? 0 : -1}
+            className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
+          >
+            <SearchIcon />
+          </button>
+          <Link
+            to="/wishlist"
+            aria-label="Your saved products"
+            tabIndex={visible ? 0 : -1}
+            className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/70 hover:bg-secondary hover:text-primary"
+          >
+            <HeartIcon />
+          </Link>
+          <Link
+            to={signedIn ? "/account" : "/auth"}
+            aria-label={signedIn ? "Your account" : "Sign in"}
+            tabIndex={visible ? 0 : -1}
+            className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground/80 hover:border-primary hover:text-primary"
+          >
+            <UserIcon />
+            {signedIn ? "Account" : "Sign in"}
+          </Link>
+          <button
+            type="button"
+            onClick={onOpenBag}
+            aria-label={`Open bag (${cartCount} items)`}
+            tabIndex={visible ? 0 : -1}
+            className="relative flex h-11 w-11 items-center justify-center rounded-full text-foreground/80 hover:bg-secondary hover:text-primary"
+          >
+            <BagIcon />
+            {count}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile */}
+      <div className="flex h-[62px] items-center justify-between px-4 lg:hidden">
+        <button
+          type="button"
+          aria-label="Open menu"
+          aria-expanded={mobileOpen}
+          aria-controls="site-mobile-menu"
+          onClick={onOpenMenu}
+          tabIndex={visible ? 0 : -1}
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-foreground/80"
+        >
+          <MenuIcon />
+        </button>
+        <Link to="/" aria-label="Skin Grocer — home" tabIndex={visible ? 0 : -1} className="text-foreground">
+          <BrandWordmark size="sm" className="text-foreground" />
+        </Link>
+        <div className="flex items-center">
+          <button
+            type="button"
+            aria-label="Search products"
+            onClick={onOpenSearch}
+            tabIndex={visible ? 0 : -1}
+            className="flex h-11 w-11 items-center justify-center rounded-full text-foreground/70"
+          >
+            <SearchIcon />
+          </button>
+          <button
+            type="button"
+            onClick={onOpenBag}
+            aria-label={`Open bag (${cartCount} items)`}
+            tabIndex={visible ? 0 : -1}
+            className="relative flex h-11 w-11 items-center justify-center rounded-full text-foreground/80"
+          >
+            <BagIcon />
+            {count}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Flat, clearly labelled mobile navigation shown in a modal-style drawer. */
+const mobileGroups: Array<{ heading: string; links: MegaLink[] }> = [
+  {
+    heading: "Shop by Step",
+    links: megaMenus.Shop[0].links,
+  },
+  {
+    heading: "Shop by Concern",
+    links: megaMenus.Concerns[0].links,
+  },
+];
+
+function MobileMenu({
+  open,
+  onClose,
+  signedIn,
+}: {
+  open: boolean;
+  onClose: () => void;
+  signedIn: boolean;
+}) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const t = setTimeout(() => closeRef.current?.focus(), 20);
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab" || !panelRef.current) return;
+      const items = panelRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled])',
+      );
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+
+    const { overflow, paddingRight } = document.body.style;
+    const gutter = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = "hidden";
+    if (gutter > 0) document.body.style.paddingRight = `${gutter}px`;
+
+    return () => {
+      clearTimeout(t);
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = overflow;
+      document.body.style.paddingRight = paddingRight;
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  const item =
+    "flex min-h-[44px] items-center justify-between border-b border-border/40 py-3 text-base text-foreground hover:text-primary";
+
+  return (
+    <div className="fixed inset-0 z-[90] lg:hidden" role="dialog" aria-modal="true" aria-label="Site menu">
+      <button
+        type="button"
+        aria-label="Close menu"
+        onClick={onClose}
+        className="absolute inset-0 h-full w-full cursor-default bg-ink/50"
+      />
+      <div
+        ref={panelRef}
+        id="site-mobile-menu"
+        className="absolute inset-y-0 left-0 flex w-[88vw] max-w-sm flex-col bg-background"
+      >
+        <div className="flex items-center justify-between border-b border-border px-5 py-3">
+          <BrandWordmark size="sm" className="text-foreground" />
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={onClose}
+            className="flex h-11 min-w-11 items-center justify-center rounded-full border border-border px-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground/80 hover:border-primary hover:text-primary"
+          >
+            Close
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto overscroll-contain px-5 py-4">
+          <Link to="/shop" onClick={onClose} className={item}>
+            Shop All <span className="text-primary">→</span>
+          </Link>
+
+          {mobileGroups.map((group) => (
+            <div key={group.heading} className="border-b border-border/40 py-3">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                {group.heading}
+              </p>
+              <ul className="mt-1">
+                {group.links.map((l) => (
+                  <li key={l.label}>
+                    <Link
+                      to={l.to}
+                      search={l.search as never}
+                      hash={l.hash}
+                      onClick={onClose}
+                      className="flex min-h-[44px] items-center text-sm text-foreground/80 hover:text-primary"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          <Link to="/brands" onClick={onClose} className={item}>
+            Brands <span className="text-primary">→</span>
+          </Link>
+          <Link to="/routines" onClick={onClose} className={item}>
+            Routine Edits <span className="text-primary">→</span>
+          </Link>
+          <Link to="/consultation" search={{}} onClick={onClose} className={item}>
+            Routine Finder <span className="text-primary">→</span>
+          </Link>
+          <Link to="/learn/hub" onClick={onClose} className={item}>
+            Learn <span className="text-primary">→</span>
+          </Link>
+          <Link to="/about" onClick={onClose} className={item}>
+            About <span className="text-primary">→</span>
+          </Link>
+          <Link to="/track" onClick={onClose} className={item}>
+            Track Order <span className="text-primary">→</span>
+          </Link>
+          <Link to="/contact" onClick={onClose} className={item}>
+            Help <span className="text-primary">→</span>
+          </Link>
+          <Link to={signedIn ? "/account" : "/auth"} onClick={onClose} className={item}>
+            {signedIn ? "Account" : "Sign In"} <span className="text-primary">→</span>
+          </Link>
+          <Link to="/wishlist" onClick={onClose} className={item}>
+            Wishlist <span className="text-primary">→</span>
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
 
