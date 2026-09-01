@@ -45,6 +45,13 @@ export type ShopProduct = {
   inciSource?: 'packaging' | 'brand-listing' | 'supplier-listing';
   /** ISO date the INCI list above was checked against its source. */
   inciCheckedOn?: string;
+  /**
+   * ISO date the online INCI list was verified against the physical product
+   * packaging in hand. Set ONLY after the Melbourne team has compared it with
+   * actual stock — while absent, the ingredient panel shows the list as
+   * pending packaging verification.
+   */
+  inciPackagingVerifiedOn?: string;
 };
 
 
