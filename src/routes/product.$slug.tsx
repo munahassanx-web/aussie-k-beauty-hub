@@ -798,16 +798,32 @@ function ProductPage() {
 
       <ProductReviews productId={product.priceId} productName={product.name} brand={product.brand} />
 
-      {/* Related */}
-      {related.length > 0 && (
+      {/* Complete your routine — grouped by the routine steps that follow this product. */}
+      {routineGroups.length > 0 && (
         <section className="mt-14 border-t border-border pt-10">
-          <h2 className="font-display text-2xl text-foreground">Pairs well with</h2>
+          <h2 className="font-display text-2xl text-foreground">Complete your routine</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Same brand or built for the same concern.
+            This toner is your Step 2. If your routine needs more, choose one treatment and one
+            moisturiser after reviewing which product suits you.
           </p>
-          <div className="mt-8 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-            {related.map((r) => (
-              <ProductCard key={r.priceId} product={r} compact />
+          <p className="mt-3 text-xs text-muted-foreground">
+            You do not need every product shown. Choose according to your skin, current routine and
+            ingredient suitability.
+          </p>
+          <div className="mt-10 space-y-12">
+            {routineGroups.map((group) => (
+              <div key={group.stepLabel}>
+                <h3 className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+                  {group.stepLabel} — choose {group.stepLabel === 'Protect' ? 'a sunscreen' : group.stepLabel === 'Treat' ? 'a treatment' : group.stepLabel === 'Moisturise' ? 'a moisturiser' : 'one'}
+                </h3>
+                <div className="mt-6 flex gap-8 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible lg:gap-x-8">
+                  {group.products.map((r) => (
+                    <div key={r.priceId} className="w-64 shrink-0 sm:w-auto">
+                      <ProductCard product={r} compact />
+                    </div>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </section>
