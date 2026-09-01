@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -153,14 +154,14 @@ function RootComponent() {
           >
             Skip to main content
           </a>
-          <SiteHeader />
+          {isCheckout ? <CheckoutHeader /> : <SiteHeader />}
           <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
             <Outlet />
           </main>
-          <SiteFooter />
+          {isCheckout ? <CheckoutFooter /> : <SiteFooter />}
         </div>
         <CartDrawer />
-        <ChatWidget />
+        {!isCheckout && <ChatWidget />}
         <PreviewRefreshButton />
         <ThemePalettePicker />
         <Toaster position="bottom-right" richColors closeButton />
