@@ -1163,10 +1163,26 @@ export function productInci(p: ShopProduct): string | undefined {
 }
 
 export function howToUse(p: ShopProduct): string[] {
+  // Brand-sourced directions recorded on the product record win over everything.
+  if (p.usageDirections?.length) return p.usageDirections;
   const verified = applicationForSlug(productSlug(p));
   if (verified && verified.steps.length > 0) return verified.steps;
   return COPY[p.priceId]?.howToUse ?? CATEGORY_HOW_TO[p.category];
 }
+
+/** Neutral safety note shown under the directions and reused in the FAQ schema. */
+export const USAGE_CAUTION =
+  'Follow the directions on the product packaging. Patch-test where appropriate and stop using the product if significant irritation develops.';
+
+/** Neutral note shown under the suitability bullets. */
+export const SUITABILITY_CAUTION =
+  'Product suitability varies by individual. Introduce gradually and stop using it if significant irritation develops.';
+
+/** True when the suitability bullets come from a sourced cosmetic-role record. */
+export function hasSourcedCosmeticRole(p: ShopProduct): boolean {
+  return Boolean(p.cosmeticRole?.length);
+}
+
 
 /**
  * True only when this SKU has its own written directions in the project data.
