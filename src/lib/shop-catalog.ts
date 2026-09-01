@@ -344,3 +344,8 @@ if (import.meta.env?.DEV) {
     );
   }
 }
+
+/** Central size lookup by price/SKU id — used by the bag, checkout and order records. */
+export function sizeForPriceId(priceId: string): string | null {
+  return catalogEntryFor(priceId)?.size ?? null;
+}
