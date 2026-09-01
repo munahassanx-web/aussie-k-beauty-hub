@@ -35,6 +35,16 @@ export type ShopProduct = {
   cosmeticRoleSource?: string;
   /** ISO date the sourced fields above were last checked. */
   lastReviewed?: string;
+  /**
+   * Complete INCI list for THIS exact SKU, transcribed in printed order.
+   * Never merged from another size, another product in the line, or an older
+   * formula. Key-ingredient cards are validated against this list.
+   */
+  inci?: string[];
+  /** Where `inci` was transcribed from. */
+  inciSource?: 'packaging' | 'brand-listing' | 'supplier-listing';
+  /** ISO date the INCI list above was checked against its source. */
+  inciCheckedOn?: string;
 };
 
 
