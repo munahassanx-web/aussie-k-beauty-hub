@@ -340,8 +340,9 @@ function Checkout() {
               <div className="border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground">
                 <p className="text-foreground">What happens next</p>
                 <p className="mt-2">
-                  On the next screen you’ll enter your Australian delivery address and pay with card, Apple Pay or
-                  Google Pay. Your total, including shipping and GST, is shown before you confirm payment.
+                  On the next screen you’ll enter your Australian delivery address and view the payment methods
+                  available to you. Your final total, including shipping, GST and any valid promotion code, is shown
+                  before you confirm payment.
                 </p>
               </div>
 
@@ -397,20 +398,24 @@ function Checkout() {
           <ul className="mt-10 grid gap-3 border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground sm:grid-cols-3">
             <li>Secure payment handled by Stripe.</li>
             <li>
-              Dispatched from Melbourne.{' '}
               <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-foreground">
-                Shipping &amp; returns
+                Dispatched from our Melbourne warehouse.
               </Link>
-              .
             </li>
             <li>
-              Your details are used to fulfil your order only.{' '}
-              <Link to="/privacy-policy" className="underline underline-offset-4 hover:text-foreground">
-                Privacy
+              <Link to="/verify/sample" className="underline underline-offset-4 hover:text-foreground">
+                Batch-verification record included with your order via QR.
               </Link>
-              .
             </li>
           </ul>
+          <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+            Your details are used to process and fulfil your order, provide order updates and meet our legal
+            obligations.{' '}
+            <Link to="/privacy-policy" className="underline underline-offset-4 hover:text-foreground">
+              See our Privacy Policy
+            </Link>
+            .
+          </p>
         </div>
 
         <aside className="hidden h-fit border border-border p-6 lg:sticky lg:top-24 lg:block">
