@@ -2,12 +2,16 @@
 // Answers are self-contained: each one restates the question's subject so it
 // can be lifted out of the page and still make sense on its own.
 
+import type { ReactNode } from 'react';
+import { Link } from '@tanstack/react-router';
 import type { ShopProduct } from '@/lib/shop-catalog';
 
 export type Faq = {
   q: string;
   /** Short, direct answer. Kept self-contained for clean extraction. */
-  a: string;
+  a: ReactNode;
+  /** Plain-text fallback for structured data and non-React consumers. */
+  plainText?: string;
   /** Optional supporting points, rendered as a bullet list. */
   points?: string[];
 };
@@ -24,7 +28,7 @@ export function faqJsonLd(items: Faq[]) {
         name: f.q,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: [f.a, ...(f.points ?? [])].join(' '),
+          text: f.plainText ?? (typeof f.a === 'string' ? f.a : ''),
         },
       })),
     }),
@@ -40,28 +44,71 @@ export const HOME_FAQS: Faq[] = [
   },
   {
     q: 'I am new to K-beauty — where should I start?',
-    a: 'Start small. Choose a gentle cleanser, a moisturiser that suits how your skin feels, and a daytime sun protection product, then add one more step only when you know why you want it. If you would rather be guided, our skin consultation asks a short series of questions and returns a routine built from products we stock.',
+    a: (
+      <>
+        Start with the essentials rather than a complicated routine. Choose a gentle cleanser and a moisturiser suited to how your skin feels, then introduce one additional product only when it has a clear purpose. During the day, use appropriate sun protection supplied lawfully for Australia and follow its labelled directions. If you would like guidance, use our{' '}
+        <Link to="/consultation" className="text-primary underline underline-offset-4 hover:no-underline">
+          Routine Finder
+        </Link>{' '}
+        to create a simple starting point from products available at Skin Grocer.
+      </>
+    ),
+    plainText:
+      'Start with the essentials rather than a complicated routine. Choose a gentle cleanser and a moisturiser suited to how your skin feels, then introduce one additional product only when it has a clear purpose. During the day, use appropriate sun protection supplied lawfully for Australia and follow its labelled directions. If you would like guidance, use our Routine Finder to create a simple starting point from products available at Skin Grocer.',
   },
   {
     q: 'Do I need a 10-step Korean skincare routine?',
-    a: 'No. Long routines are a style of shopping, not a requirement. A simple core — cleanse, moisturise, and sun protection during the day — works for most people, with hydration or treatment steps added according to what your own skin is asking for.',
+    a: 'No. Korean skincare is not defined by the number of steps you use. A simple routine may be all you need: cleanse when needed, moisturise according to how your skin feels and use appropriate sun protection during the day. Optional hydration or targeted products can be introduced gradually when they have a clear role.',
   },
   {
     q: 'How will I know how to use the products I buy?',
-    a: 'Every order includes a QR code that links to How to Apply guidance for the products you bought — where each one sits in your routine, how much to use and what to pair it with. You can also read the same guidance on each product page before you buy.',
+    a: (
+      <>
+        Each product page explains where the product may fit within a routine, how to apply it and any important usage guidance. Our{' '}
+        <Link to="/learn/hub" className="text-primary underline underline-offset-4 hover:no-underline">
+          Learn Hub
+        </Link>{' '}
+        also provides plain-English guides to routine order, commonly discussed ingredients, patch testing and introducing new products gradually. The QR authenticity card included with your order opens its Skin Grocer verification record.
+      </>
+    ),
+    plainText:
+      'Each product page explains where the product may fit within a routine, how to apply it and any important usage guidance. Our Learn Hub also provides plain-English guides to routine order, commonly discussed ingredients, patch testing and introducing new products gradually. The QR authenticity card included with your order opens its Skin Grocer verification record.',
   },
   {
     q: 'How do I choose products for what I notice about my skin?',
-    a: 'Shop by what you notice rather than by category. Dryness and dullness point to hydration and barrier-focused care; congestion and visible pores to lighter textures and gentle exfoliation; sensitivity and easily unsettled skin to calming, fragrance-free formulas; uneven-looking tone and fine lines to targeted serums used consistently.',
-    points: [
-      'Add one new product at a time so you can tell what suits you.',
-      'Keep strong exfoliants and retinal on separate nights.',
-      'If something stings or unsettles your skin, pause it and go back to the basics.',
-    ],
+    a: (
+      <>
+        Begin with what you notice—such as dryness, tightness, excess oil, dullness or easily unsettled skin—then consider texture preferences, your current routine and the product’s intended cosmetic role. Our{' '}
+        <Link to="/" hash="shop-by-what-you-notice" className="text-primary underline underline-offset-4 hover:no-underline">
+          Shop by What You Notice
+        </Link>{' '}
+        and{' '}
+        <Link to="/consultation" className="text-primary underline underline-offset-4 hover:no-underline">
+          Routine Finder
+        </Link>{' '}
+        tools can help narrow the options. Introduce one new product at a time and stop using it if significant irritation develops. Persistent or concerning skin problems should be discussed with a qualified health professional.
+      </>
+    ),
+    plainText:
+      'Begin with what you notice—such as dryness, tightness, excess oil, dullness or easily unsettled skin—then consider texture preferences, your current routine and the product’s intended cosmetic role. Our Shop by What You Notice and Routine Finder tools can help narrow the options. Introduce one new product at a time and stop using it if significant irritation develops. Persistent or concerning skin problems should be discussed with a qualified health professional.',
   },
   {
-    q: 'How does shipping and returns work?',
-    a: 'Orders are dispatched from our Melbourne warehouse in Epping, Victoria. Orders placed before 12pm on a business day are dispatched the same day, shipped with Australia Post — free standard delivery on orders A$100 and over, and free Express Post for Circle members. Unopened products can be returned within 30 days of delivery, and nothing in our policy limits your rights under Australian Consumer Law.',
+    q: 'How do shipping and returns work?',
+    a: (
+      <>
+        Orders are dispatched from our Epping, Victoria warehouse. Free standard shipping is available on Australian orders of A$100 or more. Current dispatch estimates, delivery options and charges are shown in our{' '}
+        <Link to="/shipping-policy" className="text-primary underline underline-offset-4 hover:no-underline">
+          Shipping Policy
+        </Link>{' '}
+        and at checkout. Return eligibility and instructions are explained in our{' '}
+        <Link to="/returns-policy" className="text-primary underline underline-offset-4 hover:no-underline">
+          Returns &amp; Refund Policy
+        </Link>
+        . Your rights under Australian Consumer Law are not limited by our store policies.
+      </>
+    ),
+    plainText:
+      'Orders are dispatched from our Epping, Victoria warehouse. Free standard shipping is available on Australian orders of A$100 or more. Current dispatch estimates, delivery options and charges are shown in our Shipping Policy and at checkout. Return eligibility and instructions are explained in our Returns & Refund Policy. Your rights under Australian Consumer Law are not limited by our store policies.',
   },
 ];
 
