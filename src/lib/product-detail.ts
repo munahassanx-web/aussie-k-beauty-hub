@@ -318,11 +318,11 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   wellage_real_hyaluronic_toner_200ml_onetime: [
     {
       src: '/products/editorial/wellage/real-hyaluronic-toner-200ml-hero.webp',
-      alt: 'WELLAGE Real Hyaluronic Toner 200ml bottle on a cool blue-white studio backdrop',
+      alt: 'WELLAGE Real Hyaluronic 100 Toner 200ml bottle on a cool blue-white studio backdrop',
     },
     {
       src: '/products/editorial/wellage/real-hyaluronic-toner-200ml-info.webp',
-      alt: 'Key ingredients panel for WELLAGE Real Hyaluronic Toner: Real HA, HA Water 100 and panthenol in a mild 200ml formula',
+      alt: 'Key ingredients panel for WELLAGE Real Hyaluronic 100 Toner: Real HA, HA Water 100 and panthenol in a mild 200ml formula',
     },
     {
       src: '/products/editorial/wellage/real-hyaluronic-toner-200ml-apply.webp',
@@ -1163,10 +1163,26 @@ export function productInci(p: ShopProduct): string | undefined {
 }
 
 export function howToUse(p: ShopProduct): string[] {
+  // Brand-sourced directions recorded on the product record win over everything.
+  if (p.usageDirections?.length) return p.usageDirections;
   const verified = applicationForSlug(productSlug(p));
   if (verified && verified.steps.length > 0) return verified.steps;
   return COPY[p.priceId]?.howToUse ?? CATEGORY_HOW_TO[p.category];
 }
+
+/** Neutral safety note shown under the directions and reused in the FAQ schema. */
+export const USAGE_CAUTION =
+  'Follow the directions on the product packaging. Patch-test where appropriate and stop using the product if significant irritation develops.';
+
+/** Neutral note shown under the suitability bullets. */
+export const SUITABILITY_CAUTION =
+  'Product suitability varies by individual. Introduce gradually and stop using it if significant irritation develops.';
+
+/** True when the suitability bullets come from a sourced cosmetic-role record. */
+export function hasSourcedCosmeticRole(p: ShopProduct): boolean {
+  return Boolean(p.cosmeticRole?.length);
+}
+
 
 /**
  * True only when this SKU has its own written directions in the project data.
@@ -1196,8 +1212,12 @@ export function productDescription(p: ShopProduct): string {
 }
 
 export function productBenefits(p: ShopProduct): string[] {
+  // Sourced, neutral cosmetic-role statements take priority; never mixed with
+  // generated benefit claims.
+  if (p.cosmeticRole?.length) return p.cosmeticRole;
   const override = COPY[p.priceId]?.benefits;
   if (override) return override;
+
   const base = p.concerns.map((c) => {
     switch (c) {
       case 'hydration':

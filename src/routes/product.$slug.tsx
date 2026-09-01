@@ -28,7 +28,11 @@ import {
   productTexture,
   relatedProducts,
   routineStepLabel,
+  hasSourcedCosmeticRole,
+  USAGE_CAUTION,
+  SUITABILITY_CAUTION,
 } from '@/lib/product-detail';
+
 
 function absoluteProductImage(src: string): string {
   if (/^https?:\/\//i.test(src)) return src;
@@ -90,7 +94,14 @@ export const Route = createFileRoute('/product/$slug')({
       links: [{ rel: 'canonical', href: `https://skingrocer.com.au/product/${params.slug}` }],
       scripts: p
         ? [
-            faqJsonLd(productFaqs(p, { steps: howToUse(p), description: productDescription(p) })),
+            faqJsonLd(
+              productFaqs(p, {
+                steps: howToUse(p),
+                description: productDescription(p),
+                usageNote: hasSourcedCosmeticRole(p) ? USAGE_CAUTION : undefined,
+              }),
+            ),
+
             productJsonLd(p, Boolean(loaderData?.soldOut?.includes(p.priceId))),
             // Home > Shop > [Brand] > [Product]. The brand step resolves to the
             // real /shop?brand=… filtered URL — there is no per-brand page.
@@ -586,8 +597,9 @@ function ProductPage() {
                     ))}
                   </ul>
                   <p className="text-xs text-muted-foreground">
-                    Guidance only, based on the brand's stated formulation — not medical advice or a
-                    guaranteed outcome.
+                    {hasSourcedCosmeticRole(product)
+                      ? SUITABILITY_CAUTION
+                      : "Guidance only, based on the brand's stated formulation — not medical advice or a guaranteed outcome."}
                   </p>
                 </div>
               ),
@@ -606,6 +618,10 @@ function ProductPage() {
                       </li>
                     ))}
                   </ol>
+                  {hasSourcedCosmeticRole(product) && (
+                    <p className="mt-4 text-xs text-muted-foreground">{USAGE_CAUTION}</p>
+                  )}
+
                   <Link
                     to="/guide/$productId"
                     params={{ productId: productSlug(product) }}
@@ -730,7 +746,9 @@ function ProductPage() {
         items={productFaqs(product, {
           steps: howToUse(product),
           description: productDescription(product),
+          usageNote: hasSourcedCosmeticRole(product) ? USAGE_CAUTION : undefined,
         })}
+
       />
 
       <ProductReviews productId={product.priceId} productName={product.name} brand={product.brand} />
