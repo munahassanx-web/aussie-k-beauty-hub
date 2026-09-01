@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader, SiteFooter } from "../components/site-chrome";
+import { CheckoutHeader, CheckoutFooter } from "../components/checkout-chrome";
 import { ChatWidget } from "../components/chat-widget";
 import { CartProvider } from "../lib/cart";
 import { WishlistProvider } from "../lib/wishlist";
