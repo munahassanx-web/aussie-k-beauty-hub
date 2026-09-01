@@ -12,7 +12,6 @@ import { IngredientLibrary } from "@/components/ingredient-library";
 
 import { AtmosHero } from "@/components/atmos-hero";
 import { ProductShelf } from "@/components/product-shelf";
-import { SeoulSignalStrip } from "@/components/seoul-signal";
 import { KoreaRightNow } from "@/components/korea-right-now";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { RoutineEdits } from "@/components/routine-edits";
@@ -96,7 +95,6 @@ function HomePage() {
         </Suspense>
       )}
       <Reveal><LearnStrip /></Reveal>
-      <SeoulSignalStrip />
       <Reveal><CustomerNotes /></Reveal>
 
       <FaqSection
