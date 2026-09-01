@@ -241,15 +241,21 @@ export const TREND_FAQS: Faq[] = [
 /** Generates factual, product-specific questions from catalog data. */
 export function productFaqs(
   p: ShopProduct,
-  opts?: { steps?: string[]; description?: string },
+  opts?: { steps?: string[]; description?: string; usageNote?: string },
 ): Faq[] {
   const stepText = opts?.steps?.length
-    ? opts.steps.join(' ')
+    ? [opts.steps.join(' '), opts.usageNote].filter(Boolean).join(' ')
     : `The brand's directions for ${p.name} are printed on the carton. As general guidance for this routine step, apply it to clean skin in the order shown in the How to use section above, then follow with moisturiser and, in the morning, sunscreen.`;
 
   const concernText = p.concerns.length
     ? ` It is most often chosen for ${p.concerns.map(concernLabel).join(', ')}.`
     : '';
+
+  // Products with a sourced, neutral cosmetic role get a compatibility answer
+  // that does not invent interaction rules we cannot support.
+  const compatibility = p.cosmeticRole?.length
+    ? `This is a ${p.category.toLowerCase() === 'tone' ? 'hydrating toner' : p.category.toLowerCase() + ' step product'} rather than a strong exfoliating or retinoid treatment. It may fit alongside many routine types, but suitability depends on the complete formula and the other products you use. Introduce one new product at a time and follow the labelled directions for every product.`
+    : `It generally sits well alongside hydrating and barrier-focused ingredients such as hyaluronic acid, niacinamide, panthenol, ceramides and centella. Introduce one new product at a time, and avoid using it in the same session as a strong exfoliating acid or retinal — alternate those on separate nights.`;
 
   return [
     {
@@ -266,8 +272,9 @@ export function productFaqs(
     },
     {
       q: `What can I use ${p.brand} ${p.name} with?`,
-      a: `It generally sits well alongside hydrating and barrier-focused ingredients such as hyaluronic acid, niacinamide, panthenol, ceramides and centella. Introduce one new product at a time, and avoid using it in the same session as a strong exfoliating acid or retinal — alternate those on separate nights.`,
+      a: compatibility,
     },
+
     {
       q: `How much does ${p.brand} ${p.name} cost in Australia?`,
       a: `${p.brand} ${p.name} is ${p.price} AUD at Skin Grocer, priced in Australian dollars including GST with no import surcharge at checkout.`,
