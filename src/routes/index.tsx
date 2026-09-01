@@ -95,7 +95,6 @@ function HomePage() {
         </Suspense>
       )}
       <Reveal><LearnStrip /></Reveal>
-      <SeoulSignalStrip />
       <Reveal><CustomerNotes /></Reveal>
 
       <FaqSection
