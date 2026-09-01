@@ -186,18 +186,7 @@ function GuidePage() {
 
       {/* Directions */}
       <section className="mt-10 border-t border-border pt-8">
-        <Label>{guide.stepsAreProductSpecific ? 'Directions' : 'General guidance'}</Label>
-        {!guide.stepsAreProductSpecific && (
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            We don’t yet have this product’s own written directions on file, so the steps below are
-            general guidance for a {product.category.toLowerCase()} step. Always follow the
-            directions printed on the carton, or{' '}
-            <Link to="/contact" className="underline underline-offset-4 hover:text-foreground">
-              ask us
-            </Link>
-            .
-          </p>
-        )}
+        <Label>Application guide</Label>
         <ol className="mt-5 space-y-5">
           {guide.steps.map((step, i) => (
             <li key={step} className="flex gap-4">
@@ -208,6 +197,40 @@ function GuidePage() {
             </li>
           ))}
         </ol>
+
+        {product.category === 'Tone' && (
+          <div className="mt-8">
+            <h3 className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+              Hands or cotton pad?
+            </h3>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl border border-border p-5">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
+                  Clean hands
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/85">
+                  Press and pat the toner gently across the skin.
+                </p>
+              </div>
+              <div className="rounded-2xl border border-border p-5">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
+                  Cotton pad
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/85">
+                  Saturate the pad sufficiently and sweep it gently across the skin without
+                  scrubbing.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <p className="mt-8 text-sm leading-relaxed text-muted-foreground">
+          This guide provides general cosmetic-use guidance based on the product type and currently
+          available product information. Always follow the directions and warnings printed on the
+          product packaging received. Introduce new products gradually and stop use if significant
+          irritation develops.
+        </p>
 
         {(guide.amountToUse || guide.frequency) && (
           <dl className="mt-8 border-t border-border">
