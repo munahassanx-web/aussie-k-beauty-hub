@@ -58,10 +58,10 @@ const TONES: Record<
 };
 
 const TRUST = [
-  'Free express delivery over A$100',
-  'Next-day dispatch from Melbourne',
-  '100% authentic Korean stock',
-  'QR authenticity card in every order',
+  'Free standard delivery over A$100',
+  'Dispatched from Melbourne',
+  'Documented batch verification',
+  'QR verification card in every order',
 ];
 
 export function PageHero({
@@ -135,7 +135,7 @@ export function PageHero({
                 </Link>
               )}
               <span className={`rounded-full px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.25em] ${chip}`}>
-                Seoul sourced · Skin assured
+                Korean skincare · Melbourne curated
               </span>
             </motion.div>
 

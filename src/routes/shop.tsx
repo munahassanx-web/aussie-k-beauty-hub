@@ -148,9 +148,9 @@ function Shop() {
         eyebrow="The skin edit"
         hangul="컬렉션"
         title="Carefully sourced."
-        titleAccent="Always authentic."
-        lede="Verified brand channels, held in our Melbourne warehouse — filter by routine step, concern or ingredient."
-        cta={{ label: "Take the skin quiz", to: "/", hash: "quiz" }}
+        titleAccent="Clearly verified."
+        lede="Premium Korean skincare sourced through established Korean wholesale supply partners, documented by our Melbourne team and made easier to explore by routine step, concern or ingredient."
+        cta={{ label: "Find my routine", to: "/consultation" }}
         tone="sage"
         index="01"
         ghost="The Edit"
