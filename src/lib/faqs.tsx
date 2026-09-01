@@ -79,7 +79,7 @@ export const HOME_FAQS: Faq[] = [
     a: (
       <>
         Begin with what you notice—such as dryness, tightness, excess oil, dullness or easily unsettled skin—then consider texture preferences, your current routine and the product’s intended cosmetic role. Our{' '}
-        <Link to="/#shop-by-what-you-notice" className="text-primary underline underline-offset-4 hover:no-underline">
+        <Link to="/" hash="shop-by-what-you-notice" className="text-primary underline underline-offset-4 hover:no-underline">
           Shop by What You Notice
         </Link>{' '}
         and{' '}
