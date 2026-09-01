@@ -15,10 +15,9 @@ export function productSize(p: ShopProduct): string | null {
 
 /** Product name with the trailing size stripped, so the card can show it separately. */
 function displayName(p: ShopProduct): string {
-  const size = productSize(p);
-  if (!size) return p.name;
-  return p.name.replace(new RegExp(`\\s*${size.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')}\\s*$`, 'i'), '').trim() || p.name;
+  return p.name.replace(/\s*\b\d+(?:\.\d+)?\s?(?:ml|g|pcs?|pads?|sheets?)\b\s*$/i, '').trim() || p.name;
 }
+
 
 type Props = {
   product: ShopProduct;
