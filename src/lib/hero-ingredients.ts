@@ -111,9 +111,36 @@ const YAM_ROOT: HeroIngredient = {
   goodFor: ['Dryness', 'Sensitivity', 'Comfort'],
 };
 
+const WELLAGE_TONER_HA: HeroIngredient = {
+  name: 'Hyaluronic-acid derivatives',
+  korean: '히알루론산',
+  what: 'The formula lists hydrolysed hyaluronic acid and several additional hyaluronic-acid derivatives. These ingredients primarily function as humectants within a cosmetic formula.',
+  goodFor: ['Humectant', 'Surface hydration'],
+  components: ['Hydrolyzed Hyaluronic Acid', 'Sodium Hyaluronate', 'Hyaluronic Acid'],
+};
+
+const WELLAGE_TONER_GLYCERIN: HeroIngredient = {
+  name: 'Glycerin',
+  korean: '글리세린',
+  what: 'A widely used humectant that helps a cosmetic formula support surface hydration.',
+  goodFor: ['Humectant'],
+  components: ['Glycerin'],
+};
+
+const WELLAGE_TONER_BETAINE_PCA: HeroIngredient = {
+  name: 'Betaine and Sodium PCA',
+  what: 'Humectant ingredients commonly used to support moisture retention and a comfortable skin feel.',
+  goodFor: ['Humectant', 'Moisture retention'],
+  components: ['Betaine', 'Sodium PCA'],
+};
+
 const HERO_INGREDIENTS: Record<string, HeroIngredient[]> = {
   // ---------------------------------------------------------------- WELLAGE
-  wellage_real_hyaluronic_toner_200ml_onetime: [HA_COMPLEX, PANTHENOL, CENTELLA],
+  wellage_real_hyaluronic_toner_200ml_onetime: [
+    WELLAGE_TONER_HA,
+    WELLAGE_TONER_GLYCERIN,
+    WELLAGE_TONER_BETAINE_PCA,
+  ],
   wellage_real_hyaluronic_blue_100_ampoule_60ml_onetime: [
     {
       name: 'Hyaluronic Acid (Blue Solution)',

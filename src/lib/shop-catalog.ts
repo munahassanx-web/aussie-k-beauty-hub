@@ -35,6 +35,16 @@ export type ShopProduct = {
   cosmeticRoleSource?: string;
   /** ISO date the sourced fields above were last checked. */
   lastReviewed?: string;
+  /**
+   * Complete INCI list for THIS exact SKU, transcribed in printed order.
+   * Never merged from another size, another product in the line, or an older
+   * formula. Key-ingredient cards are validated against this list.
+   */
+  inci?: string[];
+  /** Where `inci` was transcribed from. */
+  inciSource?: 'packaging' | 'brand-listing' | 'supplier-listing';
+  /** ISO date the INCI list above was checked against its source. */
+  inciCheckedOn?: string;
 };
 
 
@@ -64,6 +74,47 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     usageSource:
       "WELLAGE official brand product page for Real Hyaluronic 100 Toner (wellage.co.kr), directions verified 1 September 2026.",
     lastReviewed: "2026-09-01",
+    // Transcribed in printed order from the WELLAGE Real Hyaluronic 100 Toner
+    // 200ml listing supplied by our Korean wholesale supply partner. Nothing
+    // here is merged from the ampoule, cream or any other size.
+    inci: [
+      "Hydrolyzed Hyaluronic Acid",
+      "Glycerin",
+      "Propanediol",
+      "Hydrogenated Lecithin",
+      "Sodium Hyaluronate",
+      "1,2-Hexanediol",
+      "Arginine",
+      "Benzyl Glycol",
+      "Betaine",
+      "Butylene Glycol",
+      "Caprylic/Capric Triglyceride",
+      "Citric Acid",
+      "Dimethylsilanol Hyaluronate",
+      "Disodium EDTA",
+      "Ethylhexylglycerin",
+      "Glycine",
+      "Histidine",
+      "Hyaluronic Acid",
+      "Hydrolyzed Glycosaminoglycans",
+      "Hydrolyzed Sodium Hyaluronate",
+      "Hydroxypropyltrimonium Hyaluronate",
+      "Lysolecithin",
+      "Potassium Hyaluronate",
+      "Serine",
+      "Sodium Acetylated Hyaluronate",
+      "Sodium Citrate",
+      "Sodium Hyaluronate Crosspolymer",
+      "Sodium Hyaluronate Dimethylsilanol",
+      "Sodium PCA",
+      "Sodium Stearoyl Glutamate",
+      "Sucrose Laurate",
+      "Tocopherol",
+      "Water",
+      "Xanthan Gum",
+    ],
+    inciSource: "supplier-listing",
+    inciCheckedOn: "2026-09-01",
   },
 
   { name: "Red Blemish Clear Soothing Foam 150ml", brand: "Dr.G", price: "$32", priceId: "dr_g_red_blemish_clear_soothing_foam_150ml_onetime", tag: null, category: "Cleanse", image: "/products/dr-g/red-blemish-clear-soothing-foam-150ml.webp", concerns: ["acne","sensitivity"] },
