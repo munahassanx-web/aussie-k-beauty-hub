@@ -29,12 +29,6 @@ import cabinetEdit from "@/assets/brand-cabinet-products.jpg";
 const RESTOCK_FEATURE_ENABLED = false;
 const RestockCta = lazy(() => import("@/components/restock-cta"));
 
-/**
- * Customer Notes is hidden until at least three genuine, verified, published
- * customer reviews have been collected from fulfilled Skin Grocer orders.
- * Do not render placeholders, sample quotes or invented ratings.
- */
-const VERIFIED_CUSTOMER_NOTES_ENABLED = false;
 
 const SITE_LOGO_URL =
   "https://skingrocer.com.au/__l5e/assets-v1/e71f3ca2-370b-42a2-bc13-d5609d11ac73/skin-grocer-logo.jpg";
@@ -102,9 +96,6 @@ function HomePage() {
         </Suspense>
       )}
       <Reveal><LearnStrip /></Reveal>
-      {VERIFIED_CUSTOMER_NOTES_ENABLED && (
-        <Reveal><CustomerNotes /></Reveal>
-      )}
 
       <FaqSection
         id="k-beauty-faq"
@@ -835,83 +826,6 @@ function ProvenanceCard() {
             </span>
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-
-
-
-function CustomerNotes() {
-  // Future data source: verified, published reviews from fulfilled orders.
-  const verifiedPublishedReviews: unknown[] = [];
-
-  if (!VERIFIED_CUSTOMER_NOTES_ENABLED || verifiedPublishedReviews.length < 3) {
-    return null;
-  }
-
-  const prompts = [
-    {
-      n: "01",
-      title: "WHAT THEY BOUGHT",
-      line: "The exact product or routine they used.",
-    },
-    {
-      n: "02",
-      title: "THEIR SKIN CONTEXT",
-      line: "Useful details such as skin type or the concern they were shopping for — when the reviewer chooses to share them.",
-    },
-    {
-      n: "03",
-      title: "THEIR EXPERIENCE",
-      line: "What worked for them, what didn’t, and how the product fitted into real life.",
-    },
-  ];
-
-  return (
-    <section className="bg-sand" aria-labelledby="customer-notes-heading">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:items-start md:gap-16">
-        <div className="md:col-span-5">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
-            CUSTOMER NOTES
-          </p>
-          <h2
-            id="customer-notes-heading"
-            className="mt-4 max-w-2xl font-display text-4xl leading-tight text-ink md:text-[2.75rem]"
-          >
-            The details that help someone else decide.
-          </h2>
-          <p className="mt-5 max-w-xl text-ink/70">
-            The most useful skincare reviews are specific — what someone bought, how it fitted into their routine and what their skin was like before they tried it.
-          </p>
-        </div>
-
-        <div className="md:col-span-7">
-          <ul className="border-t border-border">
-            {prompts.map((p) => (
-              <li
-                key={p.title}
-                className="border-b border-border py-6 md:py-7"
-              >
-                <div className="flex items-baseline gap-4 md:gap-5">
-                  <span className="font-display text-xs italic text-ink/60">
-                    {p.n}
-                  </span>
-                  <div>
-                    <p className="font-display text-sm uppercase tracking-[0.14em] text-ink">
-                      {p.title}
-                    </p>
-                    <p className="mt-1 text-sm text-ink/60">{p.line}</p>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-6 text-[11px] uppercase tracking-[0.16em] text-ink/65">
-            Verified customer feedback will appear here as it is collected.
-          </p>
         </div>
       </div>
     </section>
