@@ -27,7 +27,7 @@ import {
   productInci,
   productSlug,
   productTexture,
-  relatedProducts,
+  routineCompanions,
   routineStepLabel,
   hasSourcedCosmeticRole,
   USAGE_CAUTION,
