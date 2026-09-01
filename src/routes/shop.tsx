@@ -71,29 +71,55 @@ export const Route = createFileRoute("/shop")({
 
 const CONCERN_KEYS = ["hydration", "acne", "pigmentation", "sensitivity", "anti-aging", "barrier"];
 
+type ShopSearch = {
+  step?: string;
+  category?: string;
+  brand?: string;
+  concern?: string;
+  ingredient?: string;
+  price?: string;
+};
+
+const CATALOGUE_BRANDS = new Set(SHOP_PRODUCTS.map((product) => product.brand.toLowerCase()));
+
+function filtersFromSearch(search: ShopSearch): Filters {
+  return {
+    category: parseParam(search.step ?? search.category).filter((value) =>
+      CATEGORY_VALUES.includes(value as never),
+    ) as Filters["category"],
+    brand: parseParam(search.brand).filter((value) => CATALOGUE_BRANDS.has(value.toLowerCase())),
+    concern: parseParam(search.concern).filter((value) =>
+      CONCERN_KEYS.includes(value),
+    ) as Filters["concern"],
+    ingredient: parseParam(search.ingredient),
+    price: parseParam(search.price).filter((value) =>
+      PRICE_BANDS.some((band) => band.value === value),
+    ) as Filters["price"],
+  };
+}
+
+function sameFilters(left: Filters, right: Filters) {
+  return Object.keys(left).every((key) => {
+    const filterKey = key as keyof Filters;
+    return left[filterKey].join(",") === right[filterKey].join(",");
+  });
+}
+
 function Shop() {
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
   const [compare, setCompare] = useState<CompareItem[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
+  const searchFilters = useMemo(
+    () => filtersFromSearch(search),
+    [search.step, search.category, search.brand, search.concern, search.ingredient, search.price],
+  );
+  const [activeFilters, setActiveFilters] = useState<Filters>(() => searchFilters);
 
-  // Only accept values the catalog actually supports; anything else is ignored.
-  const activeFilters: Filters = useMemo(() => {
-    const brands = new Set(SHOP_PRODUCTS.map((p) => p.brand.toLowerCase()));
-    return {
-      category: parseParam(search.step ?? search.category).filter((v) =>
-        CATEGORY_VALUES.includes(v as never),
-      ) as Filters["category"],
-      brand: parseParam(search.brand).filter((v) => brands.has(v.toLowerCase())),
-      concern: parseParam(search.concern).filter((v) =>
-        CONCERN_KEYS.includes(v),
-      ) as Filters["concern"],
-      ingredient: parseParam(search.ingredient),
-      price: parseParam(search.price).filter((v) =>
-        PRICE_BANDS.some((b) => b.value === v),
-      ) as Filters["price"],
-    };
-  }, [search.step, search.category, search.brand, search.concern, search.ingredient, search.price]);
+  // Back/forward navigation and refreshed query strings remain authoritative.
+  useEffect(() => {
+    setActiveFilters((current) => (sameFilters(current, searchFilters) ? current : searchFilters));
+  }, [searchFilters]);
 
   const sort: SortValue = SORT_OPTIONS.some((o) => o.value === search.sort)
     ? (search.sort as SortValue)
@@ -127,7 +153,7 @@ function Shop() {
     });
   }, [visibleProducts]);
 
-  const applyFilters = (next: Filters) =>
+  const writeFiltersToUrl = (next: Filters) =>
     navigate({
       search: (prev) => ({
         ...prev,
@@ -139,18 +165,25 @@ function Shop() {
         price: serialiseParam(next.price),
       }),
     });
-  const toggleFilter = (group: keyof Filters, value: string) => {
-    const currentValues: readonly string[] = activeFilters[group];
-    const nextValues = currentValues.includes(value)
-      ? currentValues.filter((current) => current !== value)
-      : [...currentValues, value];
-    applyFilters({
-      ...activeFilters,
-      [group]: nextValues,
-    } as Filters);
+  const applyFilters = (next: Filters) => {
+    setActiveFilters(next);
+    void writeFiltersToUrl(next);
   };
-  const clearAll = () =>
-    navigate({
+  const toggleFilter = (group: keyof Filters, value: string) => {
+    setActiveFilters((current) => {
+      const currentValues: readonly string[] = current[group];
+      const nextValues = currentValues.includes(value)
+        ? currentValues.filter((currentValue) => currentValue !== value)
+        : [...currentValues, value];
+      const next = { ...current, [group]: nextValues } as Filters;
+      void writeFiltersToUrl(next);
+      return next;
+    });
+  };
+  const clearAll = () => {
+    const emptyFilters = filtersFromSearch({});
+    setActiveFilters(emptyFilters);
+    void navigate({
       search: (prev) => ({
         step: undefined,
         category: undefined,
@@ -161,6 +194,7 @@ function Shop() {
         sort: prev.sort,
       }),
     });
+  };
   const countFor = (f: Filters) => SHOP_PRODUCTS.filter((p) => matchesFilters(p, f)).length;
 
   const toggleCompare = (p: (typeof SHOP_PRODUCTS)[number]) => {
