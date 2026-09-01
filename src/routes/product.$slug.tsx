@@ -90,7 +90,14 @@ export const Route = createFileRoute('/product/$slug')({
       links: [{ rel: 'canonical', href: `https://skingrocer.com.au/product/${params.slug}` }],
       scripts: p
         ? [
-            faqJsonLd(productFaqs(p, { steps: howToUse(p), description: productDescription(p) })),
+            faqJsonLd(
+              productFaqs(p, {
+                steps: howToUse(p),
+                description: productDescription(p),
+                usageNote: hasSourcedCosmeticRole(p) ? USAGE_CAUTION : undefined,
+              }),
+            ),
+
             productJsonLd(p, Boolean(loaderData?.soldOut?.includes(p.priceId))),
             // Home > Shop > [Brand] > [Product]. The brand step resolves to the
             // real /shop?brand=… filtered URL — there is no per-brand page.
