@@ -1,5 +1,5 @@
 import { PageHero } from "@/components/page-hero";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { CompareDrawer, CompareModal, type CompareItem } from "@/components/product-compare";
@@ -16,6 +16,8 @@ import {
   buildFacets,
   matchesFilters,
   sortProducts,
+  parseParam,
+  serialiseParam,
   CATEGORY_VALUES,
   PRICE_BANDS,
   SORT_OPTIONS,
@@ -23,6 +25,7 @@ import {
   type SortValue,
 } from "@/lib/collection-filters";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
+
 import { Reveal } from "@/components/reveal";
 import { KoreaBestsellers } from "@/components/korea-bestsellers";
 import { KoreaWatchlist } from "@/components/korea-watchlist";
@@ -73,24 +76,22 @@ function Shop() {
   const [compareOpen, setCompareOpen] = useState(false);
 
   // Only accept values the catalog actually supports; anything else is ignored.
-  const filters: Filters = useMemo(
-    () => ({
-      category: CATEGORY_VALUES.includes(search.category as never)
-        ? (search.category as Filters["category"])
-        : undefined,
-      brand: SHOP_PRODUCTS.some((p) => p.brand.toLowerCase() === search.brand?.toLowerCase())
-        ? search.brand
-        : undefined,
-      concern: CONCERN_KEYS.includes(search.concern ?? "")
-        ? (search.concern as Filters["concern"])
-        : undefined,
-      ingredient: search.ingredient,
-      price: PRICE_BANDS.some((b) => b.value === search.price)
-        ? (search.price as Filters["price"])
-        : undefined,
-    }),
-    [search.category, search.brand, search.concern, search.ingredient, search.price],
-  );
+  const filters: Filters = useMemo(() => {
+    const brands = new Set(SHOP_PRODUCTS.map((p) => p.brand.toLowerCase()));
+    return {
+      category: parseParam(search.category).filter((v) =>
+        CATEGORY_VALUES.includes(v as never),
+      ) as Filters["category"],
+      brand: parseParam(search.brand).filter((v) => brands.has(v.toLowerCase())),
+      concern: parseParam(search.concern).filter((v) =>
+        CONCERN_KEYS.includes(v),
+      ) as Filters["concern"],
+      ingredient: parseParam(search.ingredient),
+      price: parseParam(search.price).filter((v) =>
+        PRICE_BANDS.some((b) => b.value === v),
+      ) as Filters["price"],
+    };
+  }, [search.category, search.brand, search.concern, search.ingredient, search.price]);
 
   const sort: SortValue = SORT_OPTIONS.some((o) => o.value === search.sort)
     ? (search.sort as SortValue)
@@ -120,9 +121,19 @@ function Shop() {
     });
   }, [visible]);
 
-  const patch = (next: Partial<Record<keyof Filters, string | undefined>>) =>
-    navigate({ search: (prev) => ({ ...prev, ...next }) });
+  const applyFilters = (next: Filters) =>
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        category: serialiseParam(next.category),
+        brand: serialiseParam(next.brand),
+        concern: serialiseParam(next.concern),
+        ingredient: serialiseParam(next.ingredient),
+        price: serialiseParam(next.price),
+      }),
+    });
   const clearAll = () => navigate({ search: (prev) => ({ sort: prev.sort }) });
+  const countFor = (f: Filters) => SHOP_PRODUCTS.filter((p) => matchesFilters(p, f)).length;
 
   const toggleCompare = (p: (typeof SHOP_PRODUCTS)[number]) => {
     setCompare((prev) => {
@@ -137,10 +148,12 @@ function Shop() {
     filters,
     sort,
     total: visible.length,
-    onChange: patch,
+    countFor,
+    onChange: applyFilters,
     onSort: (s: SortValue) => navigate({ search: (prev) => ({ ...prev, sort: s === "featured" ? undefined : s }) }),
     onClear: clearAll,
   };
+
 
   return (
     <div className="pb-12">
@@ -172,7 +185,7 @@ function Shop() {
       </div>
 
       <div className="mt-6">
-        <AppliedFilters facets={facets} filters={filters} onChange={patch} onClear={clearAll} />
+        <AppliedFilters facets={facets} filters={filters} onChange={applyFilters} onClear={clearAll} />
       </div>
 
       <div className="mt-8 grid gap-x-12 lg:grid-cols-[220px_1fr]">
@@ -181,20 +194,26 @@ function Shop() {
         <div>
           {visible.length === 0 ? (
             <div className="border border-border px-8 py-16 text-center">
-              <h2 className="font-display text-2xl text-foreground">Nothing matches that combination</h2>
+              <h2 className="font-display text-2xl text-foreground">No products match those filters.</h2>
               <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
-                Try removing one of your filters — the range is small and deliberately curated.
+                Remove one or more filters, or use the Routine Finder for a simpler starting point.
               </p>
               <div className="mt-6 flex flex-wrap justify-center gap-4">
-                <AppliedFilters facets={facets} filters={filters} onChange={patch} onClear={clearAll} />
+                <button
+                  type="button"
+                  onClick={clearAll}
+                  className="inline-flex min-h-11 items-center border border-foreground px-6 text-xs uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-secondary"
+                >
+                  Clear all filters
+                </button>
+                <Link
+                  to="/consultation"
+                  className="inline-flex min-h-11 items-center bg-primary px-6 text-xs uppercase tracking-[0.18em] text-primary-foreground"
+                >
+                  Use the Routine Finder
+                </Link>
               </div>
-              <button
-                type="button"
-                onClick={clearAll}
-                className="mt-6 inline-flex min-h-11 items-center border border-foreground px-6 text-xs uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-secondary"
-              >
-                Clear all filters
-              </button>
+
             </div>
           ) : (
             <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 xl:grid-cols-3">
