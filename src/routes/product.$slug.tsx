@@ -303,7 +303,8 @@ function ProductPage() {
 
   const ingredients = heroIngredients(product);
   const inci = inciRecord(product);
-  const related = relatedProducts(product);
+  const routineGroups = routineCompanions(product);
+  const STEP_NUMBER: Record<string, number> = { Cleanse: 1, Tone: 2, Treat: 3, Moisturise: 4, Protect: 5 };
   const size = productSize(product);
 
   return (
