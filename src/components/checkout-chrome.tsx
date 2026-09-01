@@ -50,7 +50,7 @@ export function CheckoutFooter() {
           <Link to="/privacy-policy" className="underline-offset-4 transition hover:text-foreground hover:underline">
             Privacy
           </Link>
-          <Link to="/faq" className="underline-offset-4 transition hover:text-foreground hover:underline">
+          <Link to="/terms-and-conditions" className="underline-offset-4 transition hover:text-foreground hover:underline">
             Terms
           </Link>
           <Link to="/shipping-policy" className="underline-offset-4 transition hover:text-foreground hover:underline">
