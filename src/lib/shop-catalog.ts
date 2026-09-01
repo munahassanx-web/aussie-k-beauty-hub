@@ -22,11 +22,50 @@ export type ShopProduct = {
   size?: string;
   /** Landed stock not yet in the Epping warehouse — shown but not purchasable. */
   comingSoon?: boolean;
+  // --- content governance -------------------------------------------------
+  /** Official brand product name, exactly as published by the brand. */
+  officialProductName?: string;
+  /** Directions transcribed from the brand's own published instructions. */
+  usageDirections?: string[];
+  /** Where `usageDirections` came from (brand site, packaging, etc.). */
+  usageSource?: string;
+  /** Neutral, non-therapeutic description of what the product does. */
+  cosmeticRole?: string[];
+  /** Where `cosmeticRole` came from. */
+  cosmeticRoleSource?: string;
+  /** ISO date the sourced fields above were last checked. */
+  lastReviewed?: string;
 };
 
 
 export const SHOP_PRODUCTS: ShopProduct[] = [
-  { name: "Real Hyaluronic Toner 200ml", brand: "WELLAGE", price: "$28", priceId: "wellage_real_hyaluronic_toner_200ml_onetime", tag: null, category: "Tone", image: "/products/wellage/real-hyaluronic-toner-200ml.webp", concerns: ["hydration","pigmentation"] },
+  {
+    name: "Real Hyaluronic 100 Toner 200ml",
+    officialProductName: "Real Hyaluronic 100 Toner 200ml",
+    brand: "WELLAGE",
+    price: "$28",
+    priceId: "wellage_real_hyaluronic_toner_200ml_onetime",
+    tag: null,
+    category: "Tone",
+    image: "/products/wellage/real-hyaluronic-toner-200ml.webp",
+    concerns: ["hydration"],
+    cosmeticRole: [
+      "A hydrating toner designed to add a light water-based layer after cleansing.",
+      "The formula contains hyaluronic-acid derivatives and other humectant ingredients that support cosmetic surface hydration.",
+      "It can be applied with clean hands or a cotton pad according to your routine preference.",
+    ],
+    cosmeticRoleSource:
+      "WELLAGE official brand product page for Real Hyaluronic 100 Toner (wellage.co.kr), product name and cosmetic role verified 1 September 2026.",
+    usageDirections: [
+      "After cleansing, dispense an appropriate amount into clean hands or onto a cotton pad.",
+      "Apply gently across the face and neck, avoiding direct contact with the eyes.",
+      "Pat lightly until absorbed, then continue with the next steps in your routine.",
+    ],
+    usageSource:
+      "WELLAGE official brand product page for Real Hyaluronic 100 Toner (wellage.co.kr), directions verified 1 September 2026.",
+    lastReviewed: "2026-09-01",
+  },
+
   { name: "Red Blemish Clear Soothing Foam 150ml", brand: "Dr.G", price: "$32", priceId: "dr_g_red_blemish_clear_soothing_foam_150ml_onetime", tag: null, category: "Cleanse", image: "/products/dr-g/red-blemish-clear-soothing-foam-150ml.webp", concerns: ["acne","sensitivity"] },
   { name: "Hyper PDRN Repair Ampoule 30ml", brand: "WELLAGE", price: "$40", priceId: "wellage_hyper_pdrn_repair_ampoule_30ml_onetime", tag: null, category: "Treat", image: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.webp", concerns: ["anti-aging"] },
   { name: "Real Hyaluronic Blue 100 Ampoule 60ml", brand: "WELLAGE", price: "$34", priceId: "wellage_real_hyaluronic_blue_100_ampoule_60ml_onetime", tag: null, category: "Treat", image: "/products/wellage/real-hyaluronic-blue-100-ampoule-60ml.webp", concerns: ["hydration"] },
