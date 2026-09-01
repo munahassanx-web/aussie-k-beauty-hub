@@ -3,14 +3,15 @@ import { useBuyNow } from '@/hooks/use-buy-now';
 import { useSoldOutSkus } from '@/hooks/use-stock';
 import { WishlistButton } from '@/components/wishlist-button';
 import { productSlug, routineStepLabel } from '@/lib/product-detail';
-import { productPrice } from '@/lib/shop-catalog';
+import { productPrice, productSizeFor } from '@/lib/shop-catalog';
 import type { ShopProduct } from '@/lib/shop-catalog';
 import { track } from '@/lib/analytics';
 
-/** Pack size printed in the product name, when the brand states one. */
+/** Verified pack size for the SKU — resolved from the central catalogue. */
 export function productSize(p: ShopProduct): string | null {
-  return p.name.match(/\b\d+(?:\.\d+)?\s?(?:ml|g|pcs?|pads?)\b/i)?.[0] ?? null;
+  return productSizeFor(p);
 }
+
 
 /** Product name with the trailing size stripped, so the card can show it separately. */
 function displayName(p: ShopProduct): string {
