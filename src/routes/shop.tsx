@@ -140,12 +140,14 @@ function Shop() {
       }),
     });
   const toggleFilter = (group: keyof Filters, value: string) => {
+    const currentValues: readonly string[] = activeFilters[group];
+    const nextValues = currentValues.includes(value)
+      ? currentValues.filter((current) => current !== value)
+      : [...currentValues, value];
     applyFilters({
       ...activeFilters,
-      [group]: activeFilters[group].includes(value)
-        ? activeFilters[group].filter((current) => current !== value)
-        : [...activeFilters[group], value],
-    });
+      [group]: nextValues,
+    } as Filters);
   };
   const clearAll = () =>
     navigate({
