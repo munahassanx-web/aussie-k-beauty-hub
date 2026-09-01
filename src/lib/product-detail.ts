@@ -322,7 +322,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/wellage/real-hyaluronic-toner-200ml-info.webp',
-      alt: 'Key ingredients panel for WELLAGE Real Hyaluronic 100 Toner: Real HA, HA Water 100 and panthenol in a mild 200ml formula',
+      alt: 'Key ingredients panel for WELLAGE Real Hyaluronic 100 Toner 200ml: hyaluronic-acid derivatives, glycerin, betaine and sodium PCA',
     },
     {
       src: '/products/editorial/wellage/real-hyaluronic-toner-200ml-apply.webp',
