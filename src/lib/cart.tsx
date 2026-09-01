@@ -42,6 +42,8 @@ const STORAGE_KEY = 'sg-cart-v1';
 
 type CartContextValue = {
   lines: CartLine[];
+  /** True once stored cart state has been read and mutations are safe. */
+  ready: boolean;
   count: number;
   subtotalCents: number;
   shippingCents: number;
@@ -114,6 +116,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     return {
       lines,
+      ready: hydrated,
       count: lines.reduce((sum, l) => sum + l.quantity, 0),
       subtotalCents,
       shippingCents,
@@ -166,7 +169,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         }),
       clear: () => setLines([]),
     };
-  }, [lines, open]);
+  }, [lines, open, hydrated]);
 
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
