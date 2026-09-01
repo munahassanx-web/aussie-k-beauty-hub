@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Link } from '@tanstack/react-router';
 import { FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS, formatAud, useCart } from '@/lib/cart';
 import { useCircle } from '@/hooks/use-circle';
+import { sizeForPriceId } from '@/lib/shop-catalog';
 
 export function CartDrawer() {
   const cart = useCart();
@@ -140,6 +141,9 @@ export function CartDrawer() {
                   <div className="min-w-0 flex-1">
                     <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{line.brand}</p>
                     <p className="mt-1.5 text-sm leading-snug text-foreground">{line.name}</p>
+                    {sizeForPriceId(line.priceId) && (
+                      <p className="mt-1 text-xs text-muted-foreground">{sizeForPriceId(line.priceId)}</p>
+                    )}
                     <p className="mt-1.5 text-xs text-muted-foreground">
                       {formatAud(line.unitCents)} each
                       {line.recurring && <span> · monthly</span>}
