@@ -12,6 +12,7 @@ import {
 } from '@/lib/guide-content';
 
 import { productSlug } from '@/lib/product-detail';
+import { productPrice } from '@/lib/shop-catalog';
 import { productSize } from '@/components/product-card';
 
 export const Route = createFileRoute('/guide/$productId')({
