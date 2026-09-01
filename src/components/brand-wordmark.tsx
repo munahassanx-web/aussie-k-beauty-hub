@@ -91,7 +91,7 @@ export function BrandLine({ className = "" }: { className?: string }) {
     <span
       className={`inline-block text-[10px] font-medium uppercase tracking-[0.28em] ${className}`}
     >
-      Seoul Sourced. Skin Assured.
+      Korean Skincare. Melbourne Curated.
     </span>
   );
 }
