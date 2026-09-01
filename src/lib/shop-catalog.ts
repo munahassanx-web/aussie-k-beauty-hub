@@ -79,8 +79,8 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "WELLAGE official brand product page for Real Hyaluronic 100 Toner (wellage.co.kr), product name and cosmetic role verified 1 September 2026.",
     usageDirections: [
       "After cleansing, dispense an appropriate amount into clean hands or onto a cotton pad.",
-      "Apply gently across the face and neck, avoiding direct contact with the eyes.",
-      "Pat lightly until absorbed, then continue with the next steps in your routine.",
+      "Gently apply across the face and neck, avoiding direct contact with the eyes. Do not scrub or drag the skin.",
+      "Pat lightly until absorbed, then continue with your serum, treatment or moisturiser.",
     ],
     usageSource:
       "WELLAGE official brand product page for Real Hyaluronic 100 Toner (wellage.co.kr), directions verified 1 September 2026.",

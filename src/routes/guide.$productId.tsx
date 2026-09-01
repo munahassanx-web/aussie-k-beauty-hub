@@ -12,6 +12,7 @@ import {
 } from '@/lib/guide-content';
 
 import { productSlug } from '@/lib/product-detail';
+import { productPrice } from '@/lib/shop-catalog';
 import { productSize } from '@/components/product-card';
 
 export const Route = createFileRoute('/guide/$productId')({
@@ -177,27 +178,15 @@ function GuidePage() {
         )}
         {(before || after) && (
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            {before ? `Comes after your ${before.label.toLowerCase()} step` : 'First step'}
-            {after ? `, and before ${after.label.toLowerCase()}.` : '.'} This is the usual order for
-            this type of product, not a claim about what else you own.
+            Use this toner after cleansing and before serums, treatments and moisturiser. In the
+            morning, finish your routine with an appropriate sunscreen.
           </p>
         )}
       </section>
 
       {/* Directions */}
       <section className="mt-10 border-t border-border pt-8">
-        <Label>{guide.stepsAreProductSpecific ? 'Directions' : 'General guidance'}</Label>
-        {!guide.stepsAreProductSpecific && (
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            We don’t yet have this product’s own written directions on file, so the steps below are
-            general guidance for a {product.category.toLowerCase()} step. Always follow the
-            directions printed on the carton, or{' '}
-            <Link to="/contact" className="underline underline-offset-4 hover:text-foreground">
-              ask us
-            </Link>
-            .
-          </p>
-        )}
+        <Label>Application guide</Label>
         <ol className="mt-5 space-y-5">
           {guide.steps.map((step, i) => (
             <li key={step} className="flex gap-4">
@@ -208,6 +197,40 @@ function GuidePage() {
             </li>
           ))}
         </ol>
+
+        {product.category === 'Tone' && (
+          <div className="mt-8">
+            <h3 className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+              Hands or cotton pad?
+            </h3>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl border border-border p-5">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
+                  Clean hands
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/85">
+                  Press and pat the toner gently across the skin.
+                </p>
+              </div>
+              <div className="rounded-2xl border border-border p-5">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
+                  Cotton pad
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/85">
+                  Saturate the pad sufficiently and sweep it gently across the skin without
+                  scrubbing.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <p className="mt-8 text-sm leading-relaxed text-muted-foreground">
+          This guide provides general cosmetic-use guidance based on the product type and currently
+          available product information. Always follow the directions and warnings printed on the
+          product packaging received. Introduce new products gradually and stop use if significant
+          irritation develops.
+        </p>
 
         {(guide.amountToUse || guide.frequency) && (
           <dl className="mt-8 border-t border-border">
@@ -242,15 +265,15 @@ function GuidePage() {
       <section className="mt-10 border-t border-border pt-8">
         <Label>Full product details</Label>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          Ingredients, texture notes and everything else about this product live on its product
-          page.
+          For the full ingredient list, formula explanation, suitability guidance, price and
+          purchasing information, return to the product page.
         </p>
         <Link
           to="/product/$slug"
           params={{ slug: guide.slug }}
           className="mt-5 inline-flex border border-border px-6 py-3 text-xs uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
         >
-          View {product.brand} {product.name}
+          {`View product — A$${productPrice(product)}`}
         </Link>
       </section>
 
@@ -258,12 +281,16 @@ function GuidePage() {
       <section className="mt-10 border-t border-border pt-8">
         <Label>Sourcing</Label>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          Skin Grocer sources through verified brand channels in Korea and holds stock in Melbourne.{' '}
-          <Link to="/about" className="underline underline-offset-4 hover:text-foreground">
-            How we source
-          </Link>
-          .
+          Skin Grocer sources through established Korean wholesale supply partners and locally stocks
+          products in Melbourne. Incoming stock is documented through our batch-verification
+          process.
         </p>
+        <Link
+          to="/verify/sample"
+          className="mt-4 inline-flex text-xs font-medium uppercase tracking-wider text-primary hover:underline"
+        >
+          View a sample verification record →
+        </Link>
       </section>
     </article>
   );
