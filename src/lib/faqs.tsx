@@ -245,7 +245,7 @@ export function productFaqs(
 ): Faq[] {
   const stepText = opts?.steps?.length
     ? opts.steps.join(' ')
-    : `Apply ${p.name} to clean skin as part of your routine, then follow with moisturiser and, in the morning, sunscreen.`;
+    : `The brand's directions for ${p.name} are printed on the carton. As general guidance for this routine step, apply it to clean skin in the order shown in the How to use section above, then follow with moisturiser and, in the morning, sunscreen.`;
 
   const concernText = p.concerns.length
     ? ` It is most often chosen for ${p.concerns.map(concernLabel).join(', ')}.`
