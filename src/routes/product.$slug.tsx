@@ -709,10 +709,11 @@ function ProductPage() {
               title: 'Where it sits in a routine',
               content: (
                 <div className="space-y-3 text-sm text-foreground/85">
-                  <p>
-                    {routineStepLabel(product)} — layer it in that order with the rest of your
-                    routine.
-                  </p>
+                <p>
+                  Use after cleansing and before serums, treatments and moisturiser. Apply with
+                  clean hands or a cotton pad, then allow it to settle before continuing your
+                  routine.
+                </p>
                   <p className="text-muted-foreground">
                     Not sure how the steps stack up?{' '}
                     <Link to="/journey" className="underline underline-offset-4 hover:text-foreground">
@@ -734,18 +735,19 @@ function ProductPage() {
               id: 'authenticity',
               title: 'Authenticity & sourcing',
               content: (
-                <div className="space-y-3 text-sm text-foreground/85">
+              <div className="space-y-3 text-sm text-foreground/85">
                   <p>
-                    Sourced through established Korean wholesale supply partners, documented by our
-                    Melbourne team and locally stocked in Australia.
+                    Sourced through established Korean wholesale supply partners and locally stocked
+                    by Skin Grocer in Melbourne. We document incoming stock through our
+                    batch-verification process, and customer orders include a QR code linking to
+                    their genuine verification record.
                   </p>
                   <p className="text-muted-foreground">
-                    See the process and a sample verification record:{' '}
                     <Link
                       to="/verify/sample"
                       className="underline underline-offset-4 hover:text-foreground"
                     >
-                      how Skin Grocer verifies stock
+                      See how verification works and view a sample record
                     </Link>
                     .
                   </p>
