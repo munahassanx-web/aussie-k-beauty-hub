@@ -178,13 +178,13 @@ export const BUNDLE_DEFINITIONS: BundleDefinition[] = [
     desc: "A 4-step intro to Korean skincare — cleanse, tone, treat, moisturise.",
     includes: [
       "ROUND LAB 1025 Dokdo Cleanser 150ml",
-      "WELLAGE Real Hyaluronic Toner 200ml",
+      "WELLAGE Real Hyaluronic 100 Toner 200ml",
       "TORRIDEN Dive In Serum",
       "TORRIDEN Dive In Soothing Cream",
     ],
     products: [
       { img: "/products/round-lab/1025-dokdo-cleanser-150ml.webp", alt: "ROUND LAB 1025 Dokdo Cleanser 150ml" },
-      { img: "/products/wellage/real-hyaluronic-toner-200ml.webp", alt: "WELLAGE Real Hyaluronic Toner 200ml" },
+      { img: "/products/wellage/real-hyaluronic-toner-200ml.webp", alt: "WELLAGE Real Hyaluronic 100 Toner 200ml" },
       { img: "/products/torriden/dive-in-serum.webp", alt: "TORRIDEN Dive In Serum" },
       { img: "/products/torriden/dive-in-soothing-cream.webp", alt: "TORRIDEN Dive In Soothing Cream" },
     ],

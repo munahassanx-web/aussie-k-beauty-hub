@@ -318,11 +318,11 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   wellage_real_hyaluronic_toner_200ml_onetime: [
     {
       src: '/products/editorial/wellage/real-hyaluronic-toner-200ml-hero.webp',
-      alt: 'WELLAGE Real Hyaluronic Toner 200ml bottle on a cool blue-white studio backdrop',
+      alt: 'WELLAGE Real Hyaluronic 100 Toner 200ml bottle on a cool blue-white studio backdrop',
     },
     {
       src: '/products/editorial/wellage/real-hyaluronic-toner-200ml-info.webp',
-      alt: 'Key ingredients panel for WELLAGE Real Hyaluronic Toner: Real HA, HA Water 100 and panthenol in a mild 200ml formula',
+      alt: 'Key ingredients panel for WELLAGE Real Hyaluronic 100 Toner: Real HA, HA Water 100 and panthenol in a mild 200ml formula',
     },
     {
       src: '/products/editorial/wellage/real-hyaluronic-toner-200ml-apply.webp',

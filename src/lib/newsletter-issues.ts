@@ -610,7 +610,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         "The repair routine. Deliberately boring — three products, no actives, for at least two weeks before you reintroduce anything.",
       steps: [
         { step: "01 · Cleanse", what: "Oil cleanse at night only if you wore SPF or makeup. Water in the morning.", pick: "Mung Bean Cleansing Oil 200ml", brand: "beplain", image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp" },
-        { step: "02 · Hydrate", what: "One hydrating layer on damp skin. No acids, no vitamin C, no exceptions.", pick: "Real Hyaluronic Toner 200ml", brand: "WELLAGE", image: "/products/wellage/real-hyaluronic-toner-200ml.webp" },
+        { step: "02 · Hydrate", what: "One hydrating layer on damp skin. No acids, no vitamin C, no exceptions.", pick: "Real Hyaluronic 100 Toner 200ml", brand: "WELLAGE", image: "/products/wellage/real-hyaluronic-toner-200ml.webp" },
         { step: "03 · Repair", what: "Ceramide cream, morning and night, generously. This is the treatment.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.webp" },
         { step: "04 · Protect", what: "SPF every morning. Damaged skin burns faster and heals slower.", pick: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp" },
       ],
@@ -646,7 +646,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       forWho: "For a compromised barrier",
       items: [
         { name: "Mung Bean Cleansing Oil 200ml", brand: "beplain", price: "A$35", image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp", note: "Gentle removal." },
-        { name: "Real Hyaluronic Toner 200ml", brand: "WELLAGE", price: "A$28", image: "/products/wellage/real-hyaluronic-toner-200ml.webp", note: "Water in." },
+        { name: "Real Hyaluronic 100 Toner 200ml", brand: "WELLAGE", price: "A$28", image: "/products/wellage/real-hyaluronic-toner-200ml.webp", note: "Water in." },
         { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.webp", note: "The repair step." },
         { name: "Cicaful Ampoule 30ml", brand: "beplain", price: "A$38", image: "/products/beplain/cicaful-ampoule-30ml.webp", note: "For the reactive days." },
       ],

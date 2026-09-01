@@ -51,7 +51,7 @@ const TONES: Record<
     chip: 'bg-accent/15 text-accent-foreground',
     shots: [
       { src: '/products/beauty-of-joseon/ginseng-cleansing-oil-210ml.webp', brand: 'Beauty of Joseon', label: 'Ginseng Cleansing Oil' },
-      { src: '/products/wellage/real-hyaluronic-toner-200ml.webp', brand: 'WELLAGE', label: 'Real Hyaluronic Toner' },
+      { src: '/products/wellage/real-hyaluronic-toner-200ml.webp', brand: 'WELLAGE', label: 'Real Hyaluronic 100 Toner' },
       { src: '/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.webp', brand: 'Beauty of Joseon', label: 'Revive Eye Serum' },
     ],
   },
