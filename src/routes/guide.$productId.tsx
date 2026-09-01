@@ -273,7 +273,7 @@ function GuidePage() {
           params={{ slug: guide.slug }}
           className="mt-5 inline-flex border border-border px-6 py-3 text-xs uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
         >
-          View product — A${productPrice(product)}
+          {`View product — A$${productPrice(product)}`}
         </Link>
       </section>
 
