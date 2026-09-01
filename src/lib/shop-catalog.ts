@@ -242,7 +242,10 @@ export type CatalogEntry = {
   brand: string;
   image: string;
   unitCents: number;
+  /** Same central size value shown on cards and product pages. */
+  size?: string | null;
 };
+
 
 /** True when a price id can actually be charged (exists in the catalog and is in stock). */
 export function isPurchasable(priceId: string): boolean {
