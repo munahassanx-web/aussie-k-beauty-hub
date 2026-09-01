@@ -112,8 +112,11 @@ function WriteReview({
   if (loading) return null;
   if (!user) {
     return (
-      <p className="mt-5 text-sm text-muted-foreground">
-        Bought this? <a href="/auth" className="underline">Sign in</a> to write a review.
+      <p className="mt-4 text-sm text-muted-foreground">
+        Already purchased this product?{' '}
+        <a href="/auth" className="font-medium text-foreground underline">
+          Sign in to leave a review
+        </a>
       </p>
     );
   }
