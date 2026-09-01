@@ -265,15 +265,15 @@ function GuidePage() {
       <section className="mt-10 border-t border-border pt-8">
         <Label>Full product details</Label>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          Ingredients, texture notes and everything else about this product live on its product
-          page.
+          For the full ingredient list, formula explanation, suitability guidance, price and
+          purchasing information, return to the product page.
         </p>
         <Link
           to="/product/$slug"
           params={{ slug: guide.slug }}
           className="mt-5 inline-flex border border-border px-6 py-3 text-xs uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
         >
-          View {product.brand} {product.name}
+          View product — A${productPrice(product)}
         </Link>
       </section>
 
@@ -281,12 +281,16 @@ function GuidePage() {
       <section className="mt-10 border-t border-border pt-8">
         <Label>Sourcing</Label>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          Skin Grocer sources through verified brand channels in Korea and holds stock in Melbourne.{' '}
-          <Link to="/about" className="underline underline-offset-4 hover:text-foreground">
-            How we source
-          </Link>
-          .
+          Skin Grocer sources through established Korean wholesale supply partners and locally stocks
+          products in Melbourne. Incoming stock is documented through our batch-verification
+          process.
         </p>
+        <Link
+          to="/verify/sample"
+          className="mt-4 inline-flex text-xs font-medium uppercase tracking-wider text-primary hover:underline"
+        >
+          View a sample verification record →
+        </Link>
       </section>
     </article>
   );
