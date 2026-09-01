@@ -13,9 +13,17 @@ export type ShopProduct = {
   category: Category;
   image: string;
   concerns: Concern[];
+  /**
+   * Verified pack size / quantity for the exact SKU we buy, e.g. "50ml",
+   * "4 sheets", or a full trial-kit breakdown. Omitted only when the size is
+   * already stated at the end of `name` — `productSizeFor()` is the single
+   * source of truth for display everywhere.
+   */
+  size?: string;
   /** Landed stock not yet in the Epping warehouse — shown but not purchasable. */
   comingSoon?: boolean;
 };
+
 
 export const SHOP_PRODUCTS: ShopProduct[] = [
   { name: "Real Hyaluronic Toner 200ml", brand: "WELLAGE", price: "$28", priceId: "wellage_real_hyaluronic_toner_200ml_onetime", tag: null, category: "Tone", image: "/products/wellage/real-hyaluronic-toner-200ml.webp", concerns: ["hydration","pigmentation"] },
