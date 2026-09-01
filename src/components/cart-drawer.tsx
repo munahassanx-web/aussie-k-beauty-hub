@@ -151,9 +151,10 @@ export function CartDrawer() {
                     <div className="mt-4 flex items-end justify-between gap-3">
                       <div className="inline-flex items-center rounded-[2px] border border-border">
                         <button
-                          aria-label={`Decrease quantity of ${line.name}`}
+                          aria-label={`Decrease quantity of ${line.brand} ${line.name}`}
+                          disabled={line.quantity <= 1}
                           onClick={() => cart.setQuantity(line.priceId, line.quantity - 1)}
-                          className="h-11 w-11 text-base text-foreground transition-colors hover:bg-secondary"
+                          className="h-11 w-11 text-base text-foreground transition-colors hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-30"
                         >
                           −
                         </button>
@@ -164,7 +165,7 @@ export function CartDrawer() {
                           {line.quantity}
                         </span>
                         <button
-                          aria-label={`Increase quantity of ${line.name}`}
+                          aria-label={`Increase quantity of ${line.brand} ${line.name}`}
                           disabled={line.quantity >= 10}
                           onClick={() => cart.setQuantity(line.priceId, line.quantity + 1)}
                           className="h-11 w-11 text-base text-foreground transition-colors hover:bg-secondary disabled:opacity-30"
@@ -176,7 +177,7 @@ export function CartDrawer() {
                         <p className="text-sm text-foreground">{formatAud(line.unitCents * line.quantity)}</p>
                         <button
                           onClick={() => cart.remove(line.priceId)}
-                          aria-label={`Remove ${line.name} from bag`}
+                          aria-label={`Remove ${line.brand} ${line.name} from bag`}
                           className="mt-1 min-h-9 text-[10px] uppercase tracking-[0.16em] text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
                         >
                           Remove
@@ -221,6 +222,17 @@ export function CartDrawer() {
               <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
                 Includes GST. Shipped with Australia Post from our Melbourne warehouse — transit times are estimates and
                 depend on your postcode and the service available there.
+              </p>
+              <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
+                Locally stocked in Melbourne ·{' '}
+                <Link
+                  to="/verify/sample"
+                  onClick={() => cart.setOpen(false)}
+                  className="underline underline-offset-4 transition-colors hover:text-foreground"
+                >
+                  Batch-verification record
+                </Link>{' '}
+                included via QR
               </p>
               <Link
                 to="/checkout"

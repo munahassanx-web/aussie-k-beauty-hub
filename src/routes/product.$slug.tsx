@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
-import { useBuyNow } from '@/hooks/use-buy-now';
+import { AddToBagButton } from '@/components/add-to-bag-button';
 import { WishlistButton } from '@/components/wishlist-button';
 import { Maximize2 as ExpandIcon } from 'lucide-react';
 import { ImageLightbox } from '@/components/image-lightbox';
@@ -163,7 +163,7 @@ function usePrefersReducedMotion() {
 function ProductPage() {
   const { slug } = Route.useParams();
   const product = findProductBySlug(slug);
-  const { buy } = useBuyNow();
+  
   const [active, setActive] = useState(0);
   const prefersReducedMotion = usePrefersReducedMotion();
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -542,18 +542,12 @@ function ProductPage() {
                   </p>
                 </div>
               ) : (
-                <button
-                  onClick={() =>
-                    buy({
-                      priceId: product.priceId,
-                      name: product.name,
-                      priceLabel: `${product.price} AUD`,
-                    })
-                  }
-                  className="min-h-14 w-full rounded-[2px] bg-foreground px-7 text-[11px] font-medium uppercase tracking-[0.24em] text-background transition-opacity hover:opacity-90"
-                >
-                  Add to bag
-                </button>
+                <AddToBagButton
+                  priceId={product.priceId}
+                  name={product.name}
+                  priceLabel={`${product.price} AUD`}
+                  className="min-h-14 w-full rounded-[2px] bg-foreground px-7 text-[11px] font-medium uppercase tracking-[0.24em] text-background transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                />
               )}
               <WishlistButton
                 variant="inline"
@@ -842,18 +836,12 @@ function ProductPage() {
                 </p>
                 <p className="text-sm tabular-nums text-foreground">{product.price}</p>
               </div>
-              <button
-                onClick={() =>
-                  buy({
-                    priceId: product.priceId,
-                    name: product.name,
-                    priceLabel: `${product.price} AUD`,
-                  })
-                }
-                className="ml-auto min-h-12 flex-1 rounded-[2px] bg-foreground px-5 text-[11px] font-medium uppercase tracking-[0.22em] text-background"
-              >
-                Add to bag
-              </button>
+              <AddToBagButton
+                priceId={product.priceId}
+                name={product.name}
+                priceLabel={`${product.price} AUD`}
+                className="ml-auto min-h-12 flex-1 rounded-[2px] bg-foreground px-5 text-[11px] font-medium uppercase tracking-[0.22em] text-background disabled:cursor-not-allowed disabled:opacity-60"
+              />
             </div>
           </div>
         </>
