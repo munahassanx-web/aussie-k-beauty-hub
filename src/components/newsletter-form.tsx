@@ -103,6 +103,7 @@ export function NewsletterForm({
       >
         <input
           id={`newsletter-email-${source}`}
+          name="email"
           type="email"
           required
           value={email}
