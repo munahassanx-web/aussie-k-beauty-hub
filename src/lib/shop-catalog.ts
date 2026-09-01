@@ -68,6 +68,8 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     category: "Tone",
     image: "/products/wellage/real-hyaluronic-toner-200ml.webp",
     concerns: ["hydration"],
+    goodFor:
+      "This is a lightweight hydrating toner used after cleansing. Its humectant-rich formula is designed to add surface hydration and prepare the skin for the products that follow. Individual suitability and results vary; review the full ingredient list and introduce one new product at a time.",
     cosmeticRole: [
       "A hydrating toner designed to add a light water-based layer after cleansing.",
       "The formula contains hyaluronic-acid derivatives and other humectant ingredients that support cosmetic surface hydration.",
