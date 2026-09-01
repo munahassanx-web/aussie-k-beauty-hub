@@ -597,8 +597,9 @@ function ProductPage() {
                     ))}
                   </ul>
                   <p className="text-xs text-muted-foreground">
-                    Guidance only, based on the brand's stated formulation — not medical advice or a
-                    guaranteed outcome.
+                    {hasSourcedCosmeticRole(product)
+                      ? SUITABILITY_CAUTION
+                      : "Guidance only, based on the brand's stated formulation — not medical advice or a guaranteed outcome."}
                   </p>
                 </div>
               ),
@@ -617,6 +618,10 @@ function ProductPage() {
                       </li>
                     ))}
                   </ol>
+                  {hasSourcedCosmeticRole(product) && (
+                    <p className="mt-4 text-xs text-muted-foreground">{USAGE_CAUTION}</p>
+                  )}
+
                   <Link
                     to="/guide/$productId"
                     params={{ productId: productSlug(product) }}
