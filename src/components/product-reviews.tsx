@@ -276,9 +276,9 @@ export function ProductReviews({
       {isLoading ? (
         <p className="mt-5 text-sm text-muted-foreground">Loading reviews…</p>
       ) : reviews.length === 0 ? (
-        <p className="mt-5 text-sm text-muted-foreground">
-          No Skin Grocer reviews for this product yet — reviews appear here once customers who bought
-          it leave one.
+        <p className="mt-4 max-w-md text-sm text-muted-foreground">
+          Customer reviews will appear here after verified Skin Grocer purchasers share their
+          experience.
         </p>
       ) : (
         <div className="mt-6 grid gap-4 md:grid-cols-2">
