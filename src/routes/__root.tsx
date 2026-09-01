@@ -127,6 +127,11 @@ const SITE_VERIFICATION = (import.meta.env as Record<string, string | undefined>
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
+  // Checkout runs on distraction-free chrome: no catalogue nav, no promo strip,
+  // no floating chat that could cover payment fields on mobile.
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isCheckout = pathname === "/checkout" || pathname.startsWith("/checkout/");
+
 
   // GA4 loads only when a Measurement ID is configured for the production
   // domain; otherwise events stay in the local debug buffer.
