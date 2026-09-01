@@ -293,3 +293,49 @@ export function catalogEntryFor(priceId: string): CatalogEntry | null {
   }
   return null;
 }
+
+// ---------------------------------------------------------------------------
+// Size / quantity — single source of truth for cards, product pages, bag,
+// checkout and order records.
+// ---------------------------------------------------------------------------
+
+/** Size printed at the end of the product name, when the brand states one there. */
+function sizeFromName(name: string): string | null {
+  return name.match(/\b\d+(?:\.\d+)?\s?(?:ml|g|pcs?|pads?|sheets?)\b\s*$/i)?.[0]?.trim() ?? null;
+}
+
+/**
+ * The verified pack size for a catalogue product. Explicit `size` wins; the
+ * fallback only reads a size the brand already states in the product name.
+ * Never returns a guess — missing data returns null and fails validation.
+ */
+export function productSizeFor(p: ShopProduct): string | null {
+  const explicit = p.size?.trim();
+  if (explicit) return explicit;
+  return sizeFromName(p.name);
+}
+
+export type CatalogSizeIssue = { name: string; brand: string; sku: string };
+
+/** Active sellable products with no verified size/quantity. */
+export function catalogSizeIssues(): CatalogSizeIssue[] {
+  return SHOP_PRODUCTS.filter((p) => !p.comingSoon && !productSizeFor(p)).map((p) => ({
+    name: p.name,
+    brand: p.brand,
+    sku: p.priceId,
+  }));
+}
+
+/** A sellable product cannot be active without a size/quantity. */
+export function isSellableActive(p: ShopProduct): boolean {
+  return !p.comingSoon && Boolean(productSizeFor(p));
+}
+
+if (import.meta.env?.DEV) {
+  for (const issue of catalogSizeIssues()) {
+    console.error(
+      `[catalog] Missing size/quantity — "${issue.brand} ${issue.name}" (SKU: ${issue.sku}). ` +
+        'A sellable product cannot be active without a verified size.',
+    );
+  }
+}
