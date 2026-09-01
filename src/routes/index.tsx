@@ -29,6 +29,13 @@ import cabinetEdit from "@/assets/brand-cabinet-products.jpg";
 const RESTOCK_FEATURE_ENABLED = false;
 const RestockCta = lazy(() => import("@/components/restock-cta"));
 
+/**
+ * Customer Notes is hidden until at least three genuine, verified, published
+ * customer reviews have been collected from fulfilled Skin Grocer orders.
+ * Do not render placeholders, sample quotes or invented ratings.
+ */
+const VERIFIED_CUSTOMER_NOTES_ENABLED = false;
+
 const SITE_LOGO_URL =
   "https://skingrocer.com.au/__l5e/assets-v1/e71f3ca2-370b-42a2-bc13-d5609d11ac73/skin-grocer-logo.jpg";
 
@@ -95,7 +102,9 @@ function HomePage() {
         </Suspense>
       )}
       <Reveal><LearnStrip /></Reveal>
-      <Reveal><CustomerNotes /></Reveal>
+      {VERIFIED_CUSTOMER_NOTES_ENABLED && (
+        <Reveal><CustomerNotes /></Reveal>
+      )}
 
       <FaqSection
         id="k-beauty-faq"
@@ -836,6 +845,13 @@ function ProvenanceCard() {
 
 
 function CustomerNotes() {
+  // Future data source: verified, published reviews from fulfilled orders.
+  const verifiedPublishedReviews: unknown[] = [];
+
+  if (!VERIFIED_CUSTOMER_NOTES_ENABLED || verifiedPublishedReviews.length < 3) {
+    return null;
+  }
+
   const prompts = [
     {
       n: "01",
