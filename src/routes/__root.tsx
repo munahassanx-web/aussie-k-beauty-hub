@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -12,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader, SiteFooter } from "../components/site-chrome";
+import { CheckoutHeader, CheckoutFooter } from "../components/checkout-chrome";
 import { ChatWidget } from "../components/chat-widget";
 import { CartProvider } from "../lib/cart";
 import { WishlistProvider } from "../lib/wishlist";
@@ -126,6 +128,11 @@ const SITE_VERIFICATION = (import.meta.env as Record<string, string | undefined>
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
+  // Checkout runs on distraction-free chrome: no catalogue nav, no promo strip,
+  // no floating chat that could cover payment fields on mobile.
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isCheckout = pathname === "/checkout" || pathname.startsWith("/checkout/");
+
 
   // GA4 loads only when a Measurement ID is configured for the production
   // domain; otherwise events stay in the local debug buffer.
@@ -147,14 +154,14 @@ function RootComponent() {
           >
             Skip to main content
           </a>
-          <SiteHeader />
+          {isCheckout ? <CheckoutHeader /> : <SiteHeader />}
           <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
             <Outlet />
           </main>
-          <SiteFooter />
+          {isCheckout ? <CheckoutFooter /> : <SiteFooter />}
         </div>
         <CartDrawer />
-        <ChatWidget />
+        {!isCheckout && <ChatWidget />}
         <PreviewRefreshButton />
         <ThemePalettePicker />
         <Toaster position="bottom-right" richColors closeButton />
