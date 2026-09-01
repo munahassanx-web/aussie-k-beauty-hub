@@ -640,7 +640,14 @@ function ProductPage() {
               title: 'Key ingredients',
               content: (
                 <div>
-                  <IngredientPanel ingredients={ingredients} />
+                  <IngredientPanel
+                    ingredients={ingredients}
+                    eyebrow={
+                      product.priceId === 'wellage_real_hyaluronic_toner_200ml_onetime'
+                        ? 'Formula, explained'
+                        : undefined
+                    }
+                  />
                   {inci ? (
                     <details className="group mt-6 rounded-3xl border border-border bg-card p-5">
                       <summary className="cursor-pointer list-none text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground">
@@ -654,9 +661,25 @@ function ProductPage() {
                         packaging received before use, particularly if you have known sensitivities.
                       </p>
                       <p className="mt-3 text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                        {inci.checkedOn ? `Formula checked: ${inci.checkedOn} · ` : ''}
-                        Source: {inci.source}
+                        Source reviewed: {inci.checkedOnLong ?? inci.checkedOn} · {inci.source}
+                        {' · '}
+                        {inci.packagingVerifiedOnLong ? (
+                          <span className="inline-block rounded-full border border-foreground/25 px-2.5 py-0.5 text-[9px] font-semibold tracking-[0.18em] text-foreground/75">
+                            Verified against product packaging: {inci.packagingVerifiedOnLong}
+                          </span>
+                        ) : (
+                          <span className="inline-block rounded-full border border-border px-2.5 py-0.5 text-[9px] font-medium tracking-[0.18em] text-muted-foreground">
+                            Packaging verification pending
+                          </span>
+                        )}
                       </p>
+                      {!inci.packagingVerifiedOnLong && (
+                        <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
+                          This online ingredient list must be checked against Skin Grocer's physical
+                          stock before launch. The ingredient list printed on the product received is
+                          the final reference for customers.
+                        </p>
+                      )}
                     </details>
                   ) : productInci(product) ? (
                     <div className="mt-6 border-t border-border pt-5">

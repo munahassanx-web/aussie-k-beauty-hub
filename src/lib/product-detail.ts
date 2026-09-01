@@ -1166,8 +1166,21 @@ export function productInci(p: ShopProduct): string | undefined {
 export const INCI_SOURCE_LABEL: Record<NonNullable<ShopProduct['inciSource']>, string> = {
   packaging: 'Product packaging',
   'brand-listing': 'Official brand listing',
-  'supplier-listing': 'Supplier listing (pending packaging check)',
+  'supplier-listing': 'Supplier listing',
 };
+
+const INCI_MONTHS = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+
+/** '2026-09-01' -> '1 September 2026' (UTC-safe, no locale variance). */
+export function inciDateLong(iso?: string): string | undefined {
+  if (!iso) return undefined;
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  if (!m) return iso;
+  return `${Number(m[3])} ${INCI_MONTHS[Number(m[2]) - 1]} ${m[1]}`;
+}
 
 /** Verified INCI record for a SKU, with its provenance — undefined when unverified. */
 export function inciRecord(p: ShopProduct) {
@@ -1177,6 +1190,9 @@ export function inciRecord(p: ShopProduct) {
     text: p.inci.join(', '),
     source: INCI_SOURCE_LABEL[p.inciSource ?? 'supplier-listing'],
     checkedOn: p.inciCheckedOn,
+    checkedOnLong: inciDateLong(p.inciCheckedOn),
+    /** Long-form date only once physical packaging has been checked. */
+    packagingVerifiedOnLong: inciDateLong(p.inciPackagingVerifiedOn),
   };
 }
 
