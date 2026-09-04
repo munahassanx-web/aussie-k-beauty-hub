@@ -21,17 +21,17 @@ import { askConsultantFollowUp, saveConsultationLead } from "@/lib/consultation.
 export const Route = createFileRoute("/consultation")({
   head: () => ({
     meta: [
-      { title: "Skin Consultation — Build Your Routine | Skin Grocer" },
+      { title: "Skin Consultation — Suggested Routine | Skin Grocer" },
       {
         name: "description",
         content:
-          "Seven short questions and we'll build a personalised Korean skincare routine from the products we actually stock in Melbourne — with the reasoning behind every step.",
+          "Answer seven short questions and receive a suggested Korean skincare routine from the products we currently stock in Melbourne — shown in application order, with a clear reason for each suggested step.",
       },
-      { property: "og:title", content: "Skin Consultation — Build Your Routine | Skin Grocer" },
+      { property: "og:title", content: "Skin Consultation — Suggested Routine | Skin Grocer" },
       {
         property: "og:description",
         content:
-          "Tell us how your skin behaves and we'll build an AM and PM routine from the Skin Grocer range — no jargon, no guesswork, no invented claims.",
+          "Tell us how your skin behaves and receive suggested AM and PM product suggestions from the Skin Grocer range — no jargon, no guesswork, no invented claims.",
       },
       { property: "og:url", content: "https://skingrocer.com.au/consultation" },
       { property: "og:type", content: "website" },
@@ -47,11 +47,11 @@ export const Route = createFileRoute("/consultation")({
 type Option<T extends string> = { value: T; title: string; hint?: string };
 
 const SKIN_FEEL: Option<SkinFeel>[] = [
-  { value: "dry", title: "Tight or dry", hint: "Feels tight after cleansing, sometimes flaky" },
-  { value: "oily", title: "Shiny by midday", hint: "Shine comes back not long after washing" },
-  { value: "combination", title: "A bit of both", hint: "Oily through the nose and forehead, drier at the cheeks" },
-  { value: "balanced", title: "Mostly comfortable", hint: "Nothing dramatic either way" },
-  { value: "unsure", title: "Not sure", hint: "Completely fine — the rest of the answers will tell us" },
+  { value: "dry", title: "Tight or dry", hint: "Feels tight after cleansing and may sometimes look or feel flaky." },
+  { value: "oily", title: "Shiny by midday", hint: "Shine returns not long after cleansing." },
+  { value: "combination", title: "A bit of both", hint: "Oilier around the nose and forehead, but drier or more comfortable elsewhere." },
+  { value: "balanced", title: "Mostly comfortable", hint: "Usually feels balanced, without persistent tightness or excess shine." },
+  { value: "unsure", title: "Not sure", hint: "That’s okay—the next questions will help narrow down your suggestions." },
 ];
 
 const CONCERN_OPTIONS: Option<Concern>[] = [
@@ -356,12 +356,13 @@ function Intro({ onStart }: { onStart: () => void }) {
         What does your skin actually need?
       </h1>
       <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
-        Seven short questions, then a routine built from the products sitting in our Melbourne
-        warehouse — in the order you'd use them, with the reasoning behind every step.
+        Answer seven short questions and receive a suggested routine using products currently stocked
+        in our Melbourne warehouse—shown in application order, with a clear reason for each suggested
+        step.
       </p>
       <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
-        We only recommend what we stock, and we only say what we can back up. If a step isn't right
-        for you, we leave it out.
+        We keep suggestions focused and explain why each product appears. When a step is not
+        necessary, we leave it out.
       </p>
       <div className="mt-8 grid grid-cols-3 gap-4 border-y border-border py-5 text-[11px] uppercase tracking-[0.08em] text-muted-foreground">
         <div>
@@ -388,17 +389,19 @@ function Intro({ onStart }: { onStart: () => void }) {
 }
 
 function ProgressBar({ value, label }: { value: number; label: string }) {
+  const percent = Math.round(value * 100);
+  const isQuestion = label.startsWith("Question ");
   return (
     <div className="mt-4">
       <div className="flex items-baseline justify-between">
         <span className="text-[10px] uppercase tracking-[0.22em] text-paper/60">{label}</span>
-        <span className="font-display text-sm italic text-paper/90">{Math.round(value * 100)}%</span>
+        <span className="font-display text-sm italic text-paper/90">{percent}%</span>
       </div>
       <div
         className="mt-2.5 h-[7px] w-full overflow-hidden rounded-full bg-paper/12 shadow-[inset_0_1px_3px_rgba(0,0,0,0.45)]"
         role="progressbar"
-        aria-label="Consultation progress"
-        aria-valuenow={Math.round(value * 100)}
+        aria-label={isQuestion ? `${label} — ${percent} percent complete.` : "Consultation progress"}
+        aria-valuenow={percent}
         aria-valuemin={0}
         aria-valuemax={100}
       >
