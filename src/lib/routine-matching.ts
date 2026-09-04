@@ -135,9 +135,18 @@ function scoreProduct(p: ShopProduct, a: QuizAnswers): Scored | null {
     score += 2;
     reasons.push('it\u2019s a gentle, straightforward choice that suits keeping things simple');
   }
+  // Secondary preference always weighs less than the primary (5 vs 3) and
+  // can never double-count it — the quiz never offers the same concern twice.
+  // 'none' ("No second priority" / "Still not sure—keep it simple") scores 0.
   if (a.secondaryConcern !== 'none' && p.concerns.includes(a.secondaryConcern)) {
     score += 3;
     reasons.push(`it also covers ${CONCERN_COPY[a.secondaryConcern].phrase}`);
+  }
+  // "Skin that feels overworked" as the second priority: lean gentle and
+  // stay away from stacking stronger actives.
+  if (a.secondaryConcern === 'barrier') {
+    if (isGentle(p)) score += 2;
+    if (active) score -= 2;
   }
 
   const gentle = isGentle(p);
