@@ -112,7 +112,7 @@ type Phase = "intro" | (typeof STEPS)[number] | "result";
 
 type Draft = {
   skinFeel: SkinFeel | null;
-  primaryConcern: Concern | null;
+  primaryConcern: PrimaryConcern | null;
   secondaryConcern: Concern | "none" | null;
   reactivity: Reactivity | null;
   experience: Experience | null;
@@ -139,7 +139,7 @@ function isComplete(d: Draft): d is Required<{ [K in keyof Draft]: NonNullable<D
 function toAnswers(d: Draft): QuizAnswers {
   return {
     skinFeel: d.skinFeel ?? "unsure",
-    primaryConcern: d.primaryConcern ?? "hydration",
+    primaryConcern: d.primaryConcern ?? "unsure",
     secondaryConcern: d.secondaryConcern ?? "none",
     reactivity: d.reactivity ?? "sometimes",
     experience: d.experience ?? "some",
@@ -251,16 +251,21 @@ function ConsultationPage() {
             {phase === "primary" && (
               <Question
                 index={1}
-                prompt="What would you most like to change?"
-                aside="This is the concern your routine will be built around."
+                prompt="What would you most like to focus on?"
+                aside="We’ll use this to prioritise your product suggestions. Choose the option closest to what you currently notice."
                 onBack={back}
                 onNext={draft.primaryConcern ? next : null}
               >
                 <Choices
-                  options={CONCERN_OPTIONS}
+                  options={PRIMARY_CONCERN_OPTIONS}
                   value={draft.primaryConcern}
                   onChange={(v) => choose("primaryConcern", v)}
                 />
+                <p className="mt-5 text-[12px] leading-relaxed text-muted-foreground">
+                  If your skin is persistently painful, swollen, cracked, intensely itchy or stings
+                  with most products, pause new skincare and speak with a qualified healthcare
+                  professional.
+                </p>
               </Question>
             )}
 
