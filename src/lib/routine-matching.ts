@@ -337,9 +337,11 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
 
   const profile: string[] = [
     `Your skin ${FEEL_PHRASE[a.skinFeel]}.`,
-    `Your main focus is ${CONCERN_COPY[a.primaryConcern].phrase}${
-      a.secondaryConcern !== 'none' ? `, with ${CONCERN_COPY[a.secondaryConcern].phrase} close behind` : ''
-    }.`,
+    a.primaryConcern === 'unsure'
+      ? 'You\u2019d rather not target one concern, so we\u2019ve built a simple, gentle core routine.'
+      : `Your main focus is ${CONCERN_COPY[a.primaryConcern].phrase}${
+          a.secondaryConcern !== 'none' ? `, with ${CONCERN_COPY[a.secondaryConcern].phrase} close behind` : ''
+        }.`,
     a.reactivity === 'often'
       ? 'You react easily, so we\u2019ve left every exfoliating acid and retinal out of this routine.'
       : a.reactivity === 'sometimes'
