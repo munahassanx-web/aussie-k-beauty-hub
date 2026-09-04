@@ -55,12 +55,24 @@ const SKIN_FEEL: Option<SkinFeel>[] = [
 ];
 
 const CONCERN_OPTIONS: Option<Concern>[] = [
-  { value: "hydration", title: "Dryness & dehydration", hint: "Tightness, flaking, skin drinking product" },
-  { value: "acne", title: "Breakouts & congestion", hint: "Spots, blocked pores, bumpy texture" },
-  { value: "pigmentation", title: "Uneven tone & marks", hint: "Dark marks, patchiness, dullness" },
-  { value: "sensitivity", title: "Redness & reactivity", hint: "Flushes or stings with new products" },
-  { value: "anti-aging", title: "Firmness & fine lines", hint: "Early lines, skin losing bounce" },
-  { value: "barrier", title: "A stressed barrier", hint: "Everything stings, skin feels worn out" },
+  { value: "hydration", title: "Dryness or dehydration", hint: "Tightness, flaking or skin that quickly feels dry again." },
+  { value: "acne", title: "Breakouts or congestion", hint: "Spots, blocked pores or uneven-feeling texture." },
+  { value: "pigmentation", title: "Uneven-looking tone or marks", hint: "Visible marks, patchiness or a dull-looking complexion." },
+  { value: "sensitivity", title: "Redness or reactivity", hint: "Skin that flushes easily or often reacts to new products." },
+  { value: "anti-aging", title: "Fine lines or loss of firmness", hint: "Visible fine lines or skin that feels less firm than before." },
+  { value: "barrier", title: "Skin that feels overworked", hint: "Several products sting, or your skin feels unusually uncomfortable." },
+];
+
+/** Question 2 answer set: the six concerns plus a valid "keep it simple" path. */
+type PrimaryConcern = Concern | "unsure";
+
+const PRIMARY_CONCERN_OPTIONS: Option<PrimaryConcern>[] = [
+  ...CONCERN_OPTIONS,
+  {
+    value: "unsure",
+    title: "Not sure—keep it simple",
+    hint: "I’d prefer a basic, gentle routine without targeting one main concern.",
+  },
 ];
 
 const REACTIVITY: Option<Reactivity>[] = [
@@ -100,7 +112,7 @@ type Phase = "intro" | (typeof STEPS)[number] | "result";
 
 type Draft = {
   skinFeel: SkinFeel | null;
-  primaryConcern: Concern | null;
+  primaryConcern: PrimaryConcern | null;
   secondaryConcern: Concern | "none" | null;
   reactivity: Reactivity | null;
   experience: Experience | null;
@@ -127,7 +139,7 @@ function isComplete(d: Draft): d is Required<{ [K in keyof Draft]: NonNullable<D
 function toAnswers(d: Draft): QuizAnswers {
   return {
     skinFeel: d.skinFeel ?? "unsure",
-    primaryConcern: d.primaryConcern ?? "hydration",
+    primaryConcern: d.primaryConcern ?? "unsure",
     secondaryConcern: d.secondaryConcern ?? "none",
     reactivity: d.reactivity ?? "sometimes",
     experience: d.experience ?? "some",
@@ -239,16 +251,21 @@ function ConsultationPage() {
             {phase === "primary" && (
               <Question
                 index={1}
-                prompt="What would you most like to change?"
-                aside="This is the concern your routine will be built around."
+                prompt="What would you most like to focus on?"
+                aside="We’ll use this to prioritise your product suggestions. Choose the option closest to what you currently notice."
                 onBack={back}
                 onNext={draft.primaryConcern ? next : null}
               >
                 <Choices
-                  options={CONCERN_OPTIONS}
+                  options={PRIMARY_CONCERN_OPTIONS}
                   value={draft.primaryConcern}
                   onChange={(v) => choose("primaryConcern", v)}
                 />
+                <p className="mt-5 text-[12px] leading-relaxed text-muted-foreground">
+                  If your skin is persistently painful, swollen, cracked, intensely itchy or stings
+                  with most products, pause new skincare and speak with a qualified healthcare
+                  professional.
+                </p>
               </Question>
             )}
 
@@ -554,7 +571,9 @@ function Results({
 
       <div className="mt-6 flex flex-wrap gap-1.5">
         {[
-          CONCERN_COPY[outcome.answers.primaryConcern].label,
+          outcome.answers.primaryConcern === "unsure"
+            ? "Simple, gentle routine"
+            : CONCERN_COPY[outcome.answers.primaryConcern].label,
           outcome.answers.secondaryConcern !== "none"
             ? CONCERN_COPY[outcome.answers.secondaryConcern].label
             : null,

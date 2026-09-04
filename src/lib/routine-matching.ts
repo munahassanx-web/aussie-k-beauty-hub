@@ -40,7 +40,8 @@ export type TexturePref = 'light' | 'rich' | 'either';
 
 export type QuizAnswers = {
   skinFeel: SkinFeel;
-  primaryConcern: Concern;
+  /** 'unsure' = "Not sure—keep it simple": favours a minimal, gentle routine. */
+  primaryConcern: Concern | 'unsure';
   secondaryConcern: Concern | 'none';
   reactivity: Reactivity;
   experience: Experience;
@@ -49,12 +50,12 @@ export type QuizAnswers = {
 };
 
 export const CONCERN_COPY: Record<Concern, { label: string; phrase: string }> = {
-  hydration: { label: 'Dryness & dehydration', phrase: 'dryness and dehydration' },
-  acne: { label: 'Breakouts & congestion', phrase: 'breakouts and congestion' },
-  pigmentation: { label: 'Uneven tone & marks', phrase: 'uneven tone' },
-  sensitivity: { label: 'Redness & reactivity', phrase: 'redness and reactivity' },
-  'anti-aging': { label: 'Firmness & fine lines', phrase: 'firmness and fine lines' },
-  barrier: { label: 'A stressed barrier', phrase: 'a stressed skin barrier' },
+  hydration: { label: 'Dryness or dehydration', phrase: 'dryness and dehydration' },
+  acne: { label: 'Breakouts or congestion', phrase: 'breakouts and congestion' },
+  pigmentation: { label: 'Uneven-looking tone or marks', phrase: 'uneven-looking tone' },
+  sensitivity: { label: 'Redness or reactivity', phrase: 'redness and reactivity' },
+  'anti-aging': { label: 'Fine lines or loss of firmness', phrase: 'firmness and fine lines' },
+  barrier: { label: 'Skin that feels overworked', phrase: 'skin that feels overworked' },
 };
 
 const FEEL_PHRASE: Record<SkinFeel, string> = {
@@ -124,9 +125,15 @@ function scoreProduct(p: ShopProduct, a: QuizAnswers): Scored | null {
   const reasons: string[] = [];
   let score = 0;
 
-  if (p.concerns.includes(a.primaryConcern)) {
+  if (a.primaryConcern !== 'unsure' && p.concerns.includes(a.primaryConcern)) {
     score += 5;
     reasons.push(`it's one of the products we tag for ${CONCERN_COPY[a.primaryConcern].phrase}`);
+  }
+  // "Not sure—keep it simple": no concern is targeted, so lean gentle and
+  // let routine depth (capped to minimal in buildRoutine) do the shaping.
+  if (a.primaryConcern === 'unsure' && isGentle(p)) {
+    score += 2;
+    reasons.push('it\u2019s a gentle, straightforward choice that suits keeping things simple');
   }
   if (a.secondaryConcern !== 'none' && p.concerns.includes(a.secondaryConcern)) {
     score += 3;
@@ -275,8 +282,10 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
     items.push(toItem(found, step, use, fallbackWhen, a));
   };
 
-  const wantsTone = a.depth !== 'minimal';
-  const wantsTreat = a.depth !== 'minimal';
+  // "Not sure—keep it simple" always resolves to a minimal routine.
+  const minimal = a.depth === 'minimal' || a.primaryConcern === 'unsure';
+  const wantsTone = !minimal;
+  const wantsTreat = !minimal;
   const wantsSecondTreat = a.depth === 'full';
   const wantsMask = a.depth === 'full';
 
@@ -328,15 +337,17 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
 
   const profile: string[] = [
     `Your skin ${FEEL_PHRASE[a.skinFeel]}.`,
-    `Your main focus is ${CONCERN_COPY[a.primaryConcern].phrase}${
-      a.secondaryConcern !== 'none' ? `, with ${CONCERN_COPY[a.secondaryConcern].phrase} close behind` : ''
-    }.`,
+    a.primaryConcern === 'unsure'
+      ? 'You\u2019d rather not target one concern, so we\u2019ve built a simple, gentle core routine.'
+      : `Your main focus is ${CONCERN_COPY[a.primaryConcern].phrase}${
+          a.secondaryConcern !== 'none' ? `, with ${CONCERN_COPY[a.secondaryConcern].phrase} close behind` : ''
+        }.`,
     a.reactivity === 'often'
       ? 'You react easily, so we\u2019ve left every exfoliating acid and retinal out of this routine.'
       : a.reactivity === 'sometimes'
         ? 'You can flare occasionally, so we\u2019ve leaned gentle where it made no difference to the result.'
         : 'Your skin tolerates most things, which gave us room to be a little more direct.',
-    a.depth === 'minimal'
+    minimal
       ? 'You wanted something short you\u2019ll actually keep up.'
       : a.depth === 'full'
         ? 'You\u2019re happy with a fuller routine, so we\u2019ve used the extra steps.'
@@ -344,7 +355,7 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
   ];
 
   const strategy =
-    a.depth === 'minimal'
+    minimal
       ? 'We\u2019ve kept this to the steps that do the most work: clean skin, one thing that holds moisture in, and daily sun protection. Everything else can come later.'
       : a.depth === 'full'
         ? 'The order matters more than the number of products: cleanse, prep, treat, seal, protect. Morning is about protection, evening is about repair.'
