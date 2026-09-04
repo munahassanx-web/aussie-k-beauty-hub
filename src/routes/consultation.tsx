@@ -571,7 +571,9 @@ function Results({
 
       <div className="mt-6 flex flex-wrap gap-1.5">
         {[
-          CONCERN_COPY[outcome.answers.primaryConcern].label,
+          outcome.answers.primaryConcern === "unsure"
+            ? "Simple, gentle routine"
+            : CONCERN_COPY[outcome.answers.primaryConcern].label,
           outcome.answers.secondaryConcern !== "none"
             ? CONCERN_COPY[outcome.answers.secondaryConcern].label
             : null,
