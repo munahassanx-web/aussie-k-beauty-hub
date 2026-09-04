@@ -5,7 +5,6 @@ import { getStripe, getStripeEnvironment } from '@/lib/stripe';
 import { useAuth } from '@/hooks/use-auth';
 import { useCart, formatAud, FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS } from '@/lib/cart';
 import { createCartCheckout, createGuestCartCheckout } from '@/lib/commerce.functions';
-import { supabase } from '@/integrations/supabase/client';
 import { useCircle } from '@/hooks/use-circle';
 import { track, centsToAud } from '@/lib/analytics';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
@@ -14,7 +13,7 @@ export const Route = createFileRoute('/checkout')({
   head: () => ({
     meta: [
       { title: 'Checkout — Skin Grocer' },
-      { name: 'description', content: 'Securely complete your Skin Grocer order. Australian delivery, GST included, points redeemable at checkout.' },
+      { name: 'description', content: 'Securely complete your Skin Grocer order. Australian delivery, GST included.' },
       { property: 'og:title', content: 'Checkout — Skin Grocer' },
       { property: 'og:description', content: 'Securely complete your Skin Grocer order.' },
       { name: 'robots', content: 'noindex' },
@@ -30,22 +29,11 @@ function Checkout() {
   const { user, loading } = useAuth();
   const { isCircle } = useCircle();
   const navigate = useNavigate();
-  const [redeem, setRedeem] = useState(0);
-  const [points, setPoints] = useState<number | null>(null);
   const [started, setStarted] = useState(false);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [guestMode, setGuestMode] = useState(false);
   const [guestEmail, setGuestEmail] = useState('');
   const [summaryOpen, setSummaryOpen] = useState(false);
-
-  useEffect(() => {
-    if (!user) {
-      setPoints(null);
-      return;
-    }
-    setGuestMode(false);
-    supabase.rpc('my_points_balance').then(({ data }) => setPoints(typeof data === 'number' ? data : 0));
-  }, [user]);
 
   // Restore a previously typed guest email if the customer bounced back.
   useEffect(() => {
@@ -57,17 +45,11 @@ function Checkout() {
     if (guestEmail) window.sessionStorage.setItem('sg-guest-email', guestEmail);
   }, [guestEmail]);
 
-  const maxRedeem = Math.min(
-    Math.floor((points ?? 0) / 100) * 100,
-    Math.floor(cart.subtotalCents / 500) * 100,
-  );
-  const canRedeem = Boolean(user) && maxRedeem >= 100;
   const hasSubscription = cart.lines.some((l) => l.recurring);
-  const discountCents = (redeem / 100) * 500;
   // Circle members ship free on Express Post — the server applies the same rule.
   const circleExpress = isCircle && !hasSubscription;
   const shippingCents = circleExpress ? 0 : cart.shippingCents;
-  const grandTotal = Math.max(0, cart.subtotalCents + shippingCents - discountCents);
+  const grandTotal = Math.max(0, cart.subtotalCents + shippingCents);
 
   const fetchClientSecret = async (): Promise<string> => {
     const returnUrl = `${window.location.origin}/checkout/return?session_id={CHECKOUT_SESSION_ID}`;
@@ -83,13 +65,13 @@ function Checkout() {
           subtotalCents: cart.subtotalCents,
           shippingCents: cart.shippingCents,
           totalCents: cart.totalCents,
-          redeemPoints: user ? redeem : 0,
+          redeemPoints: 0,
           environment: getStripeEnvironment(),
         }),
     );
     const result = user
       ? await createCartCheckout({
-          data: { items, redeemPoints: redeem, environment: getStripeEnvironment(), returnUrl },
+          data: { items, redeemPoints: 0, environment: getStripeEnvironment(), returnUrl },
         })
       : await createGuestCartCheckout({
           data: { items, email: guestEmail.trim(), environment: getStripeEnvironment(), returnUrl },
@@ -150,8 +132,14 @@ function Checkout() {
           </button>
         </div>
         <p className="mt-6 text-xs leading-relaxed text-muted-foreground">
-          Members earn points and can redeem rewards. Guest orders are linked to your account automatically if you sign
-          up later with the same email.
+          Already have a Skin Grocer account?{' '}
+          <button
+            onClick={() => navigate({ to: '/auth' })}
+            className="underline underline-offset-4 transition hover:text-foreground"
+          >
+            Sign in
+          </button>{' '}
+          to continue and view your orders.
         </p>
       </div>
     );
@@ -186,18 +174,12 @@ function Checkout() {
             {cart.hasSubscription ? 'Included' : shippingCents === 0 ? 'Free' : formatAud(FLAT_SHIPPING_CENTS)}
           </span>
         </div>
-        {redeem > 0 && (
-          <div className="flex justify-between text-muted-foreground">
-            <span>Points reward ({redeem} pts)</span>
-            <span>−{formatAud(discountCents)}</span>
-          </div>
-        )}
         <div className="flex items-baseline justify-between border-t border-border pt-3">
           <span className="text-sm uppercase tracking-[0.16em] text-muted-foreground">Total</span>
           <span className="font-display text-2xl text-foreground">{formatAud(grandTotal)}</span>
         </div>
         <p className="text-[11px] leading-relaxed text-muted-foreground">
-          Includes GST. Any promotion code you enter on the payment step is applied by Stripe before you pay.
+          Includes GST. Your final total is confirmed before you pay.
         </p>
       </div>
       {!cart.hasSubscription && !circleExpress && cart.subtotalCents < FREE_SHIPPING_THRESHOLD_CENTS && (
@@ -297,52 +279,11 @@ function Checkout() {
                 </div>
               )}
 
-              {canRedeem && (
-                <div className="border border-border p-6">
-                  <p className="text-sm font-medium text-foreground">Redeem points</p>
-                  <p className="mt-1 text-xs text-muted-foreground">You have {points} points. 100 pts = A$5 off.</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {[0, 100, 200, 500, 1000, maxRedeem]
-                      .filter((v, i, a) => v <= maxRedeem && a.indexOf(v) === i)
-                      .map((v) => (
-                        <button
-                          key={v}
-                          aria-pressed={redeem === v}
-                          onClick={() => setRedeem(v)}
-                          className={`border px-4 py-2.5 text-xs transition ${
-                            redeem === v
-                              ? 'border-primary bg-primary text-primary-foreground'
-                              : 'border-border text-foreground hover:bg-secondary'
-                          }`}
-                        >
-                          {v === 0 ? 'No thanks' : `Use ${v} pts (−A$${(v / 100) * 5})`}
-                        </button>
-                      ))}
-                  </div>
-                </div>
-              )}
-              {user && !canRedeem && points !== null && (
-                <p className="text-xs text-muted-foreground">
-                  You have {points} points. Earn 100+ to unlock rewards at checkout.
-                </p>
-              )}
-
-              <details className="border border-border">
-                <summary className="cursor-pointer list-none px-6 py-4 text-sm text-foreground">
-                  Have a promotion code?
-                </summary>
-                <p className="px-6 pb-5 text-xs leading-relaxed text-muted-foreground">
-                  Enter it in the secure payment step on the next screen — your total updates before you pay.
-                  {canRedeem && ' A promotion code can’t be combined with a points reward on the same order.'}
-                </p>
-              </details>
-
               <div className="border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground">
                 <p className="text-foreground">What happens next</p>
                 <p className="mt-2">
                   On the next screen you’ll enter your Australian delivery address and view the payment methods
-                  available to you. Your final total, including shipping, GST and any valid promotion code, is shown
-                  before you confirm payment.
+                  available to you. Your final total, including shipping and GST, is shown before you confirm payment.
                 </p>
               </div>
 
