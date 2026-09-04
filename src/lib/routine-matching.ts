@@ -40,7 +40,8 @@ export type TexturePref = 'light' | 'rich' | 'either';
 
 export type QuizAnswers = {
   skinFeel: SkinFeel;
-  primaryConcern: Concern;
+  /** 'unsure' = "Not sure—keep it simple": favours a minimal, gentle routine. */
+  primaryConcern: Concern | 'unsure';
   secondaryConcern: Concern | 'none';
   reactivity: Reactivity;
   experience: Experience;
@@ -49,12 +50,12 @@ export type QuizAnswers = {
 };
 
 export const CONCERN_COPY: Record<Concern, { label: string; phrase: string }> = {
-  hydration: { label: 'Dryness & dehydration', phrase: 'dryness and dehydration' },
-  acne: { label: 'Breakouts & congestion', phrase: 'breakouts and congestion' },
-  pigmentation: { label: 'Uneven tone & marks', phrase: 'uneven tone' },
-  sensitivity: { label: 'Redness & reactivity', phrase: 'redness and reactivity' },
-  'anti-aging': { label: 'Firmness & fine lines', phrase: 'firmness and fine lines' },
-  barrier: { label: 'A stressed barrier', phrase: 'a stressed skin barrier' },
+  hydration: { label: 'Dryness or dehydration', phrase: 'dryness and dehydration' },
+  acne: { label: 'Breakouts or congestion', phrase: 'breakouts and congestion' },
+  pigmentation: { label: 'Uneven-looking tone or marks', phrase: 'uneven-looking tone' },
+  sensitivity: { label: 'Redness or reactivity', phrase: 'redness and reactivity' },
+  'anti-aging': { label: 'Fine lines or loss of firmness', phrase: 'firmness and fine lines' },
+  barrier: { label: 'Skin that feels overworked', phrase: 'skin that feels overworked' },
 };
 
 const FEEL_PHRASE: Record<SkinFeel, string> = {

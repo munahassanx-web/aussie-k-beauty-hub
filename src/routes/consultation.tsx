@@ -55,12 +55,24 @@ const SKIN_FEEL: Option<SkinFeel>[] = [
 ];
 
 const CONCERN_OPTIONS: Option<Concern>[] = [
-  { value: "hydration", title: "Dryness & dehydration", hint: "Tightness, flaking, skin drinking product" },
-  { value: "acne", title: "Breakouts & congestion", hint: "Spots, blocked pores, bumpy texture" },
-  { value: "pigmentation", title: "Uneven tone & marks", hint: "Dark marks, patchiness, dullness" },
-  { value: "sensitivity", title: "Redness & reactivity", hint: "Flushes or stings with new products" },
-  { value: "anti-aging", title: "Firmness & fine lines", hint: "Early lines, skin losing bounce" },
-  { value: "barrier", title: "A stressed barrier", hint: "Everything stings, skin feels worn out" },
+  { value: "hydration", title: "Dryness or dehydration", hint: "Tightness, flaking or skin that quickly feels dry again." },
+  { value: "acne", title: "Breakouts or congestion", hint: "Spots, blocked pores or uneven-feeling texture." },
+  { value: "pigmentation", title: "Uneven-looking tone or marks", hint: "Visible marks, patchiness or a dull-looking complexion." },
+  { value: "sensitivity", title: "Redness or reactivity", hint: "Skin that flushes easily or often reacts to new products." },
+  { value: "anti-aging", title: "Fine lines or loss of firmness", hint: "Visible fine lines or skin that feels less firm than before." },
+  { value: "barrier", title: "Skin that feels overworked", hint: "Several products sting, or your skin feels unusually uncomfortable." },
+];
+
+/** Question 2 answer set: the six concerns plus a valid "keep it simple" path. */
+type PrimaryConcern = Concern | "unsure";
+
+const PRIMARY_CONCERN_OPTIONS: Option<PrimaryConcern>[] = [
+  ...CONCERN_OPTIONS,
+  {
+    value: "unsure",
+    title: "Not sure—keep it simple",
+    hint: "I’d prefer a basic, gentle routine without targeting one main concern.",
+  },
 ];
 
 const REACTIVITY: Option<Reactivity>[] = [
