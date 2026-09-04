@@ -272,19 +272,38 @@ function ConsultationPage() {
             {phase === "secondary" && (
               <Question
                 index={2}
-                prompt="Anything else worth working on?"
-                aside="We'll use this to break ties — it won't take over the routine."
+                prompt="Is there a second priority?"
+                aside="This is optional. Choose one additional focus, or keep your suggestions centred on your first answer."
                 onBack={back}
                 onNext={draft.secondaryConcern ? next : null}
               >
                 <Choices
                   options={[
+                    // Never offer the Question 2 concern again — the same
+                    // concern can never be selected twice.
                     ...CONCERN_OPTIONS.filter((c) => c.value !== draft.primaryConcern),
-                    { value: "none" as const, title: "Nothing else for now", hint: "Keep it focused on one thing" },
+                    draft.primaryConcern === "unsure"
+                      ? {
+                          value: "none" as const,
+                          title: "Still not sure—keep it simple",
+                          hint: "Continue with a basic, gentle approach.",
+                        }
+                      : {
+                          value: "none" as const,
+                          title: "No second priority",
+                          hint: "Keep my suggestions focused on my first answer.",
+                        },
                   ]}
                   value={draft.secondaryConcern}
                   onChange={(v) => choose("secondaryConcern", v)}
                 />
+                {draft.primaryConcern !== "barrier" && (
+                  <p className="mt-5 text-[12px] leading-relaxed text-muted-foreground">
+                    If your skin is persistently painful, swollen, cracked, intensely itchy or stings
+                    with most products, pause new skincare and speak with a qualified healthcare
+                    professional.
+                  </p>
+                )}
               </Question>
             )}
 
