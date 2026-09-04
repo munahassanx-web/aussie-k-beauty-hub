@@ -347,7 +347,7 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
       : a.reactivity === 'sometimes'
         ? 'You can flare occasionally, so we\u2019ve leaned gentle where it made no difference to the result.'
         : 'Your skin tolerates most things, which gave us room to be a little more direct.',
-    a.depth === 'minimal'
+    minimal
       ? 'You wanted something short you\u2019ll actually keep up.'
       : a.depth === 'full'
         ? 'You\u2019re happy with a fuller routine, so we\u2019ve used the extra steps.'
@@ -355,7 +355,7 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
   ];
 
   const strategy =
-    a.depth === 'minimal'
+    minimal
       ? 'We\u2019ve kept this to the steps that do the most work: clean skin, one thing that holds moisture in, and daily sun protection. Everything else can come later.'
       : a.depth === 'full'
         ? 'The order matters more than the number of products: cleanse, prep, treat, seal, protect. Morning is about protection, evening is about repair.'
