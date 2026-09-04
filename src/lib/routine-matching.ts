@@ -125,9 +125,15 @@ function scoreProduct(p: ShopProduct, a: QuizAnswers): Scored | null {
   const reasons: string[] = [];
   let score = 0;
 
-  if (p.concerns.includes(a.primaryConcern)) {
+  if (a.primaryConcern !== 'unsure' && p.concerns.includes(a.primaryConcern)) {
     score += 5;
     reasons.push(`it's one of the products we tag for ${CONCERN_COPY[a.primaryConcern].phrase}`);
+  }
+  // "Not sure—keep it simple": no concern is targeted, so lean gentle and
+  // let routine depth (capped to minimal in buildRoutine) do the shaping.
+  if (a.primaryConcern === 'unsure' && isGentle(p)) {
+    score += 2;
+    reasons.push('it\u2019s a gentle, straightforward choice that suits keeping things simple');
   }
   if (a.secondaryConcern !== 'none' && p.concerns.includes(a.secondaryConcern)) {
     score += 3;
@@ -276,8 +282,10 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
     items.push(toItem(found, step, use, fallbackWhen, a));
   };
 
-  const wantsTone = a.depth !== 'minimal';
-  const wantsTreat = a.depth !== 'minimal';
+  // "Not sure—keep it simple" always resolves to a minimal routine.
+  const minimal = a.depth === 'minimal' || a.primaryConcern === 'unsure';
+  const wantsTone = !minimal;
+  const wantsTreat = !minimal;
   const wantsSecondTreat = a.depth === 'full';
   const wantsMask = a.depth === 'full';
 
