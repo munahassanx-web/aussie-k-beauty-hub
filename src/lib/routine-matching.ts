@@ -309,7 +309,15 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
   }
 
   // 4. Optional second treatment for the secondary concern (evening only).
-  if (wantsSecondTreat && a.secondaryConcern !== 'none') {
+  // When "Skin that feels overworked" is the second priority we never stack
+  // an extra treatment — overworked skin gets the shorter, calmer routine
+  // instead. A secondary preference must also never lengthen a routine on
+  // its own, so this step stays gated on the customer choosing a full depth.
+  if (
+    wantsSecondTreat &&
+    a.secondaryConcern !== 'none' &&
+    a.secondaryConcern !== 'barrier'
+  ) {
     const found = bestIn(
       a,
       (p) =>
