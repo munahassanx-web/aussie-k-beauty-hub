@@ -27,7 +27,7 @@ import {
   type Concern,
   type ShopProduct,
 } from '@/lib/shop-catalog';
-import { productSlug } from '@/lib/product-detail';
+import { productInci, productSlug } from '@/lib/product-detail';
 import { applicationForSlug } from '@/lib/product-application-data';
 
 // --- answers ---------------------------------------------------------------
