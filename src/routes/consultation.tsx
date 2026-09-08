@@ -76,9 +76,10 @@ const PRIMARY_CONCERN_OPTIONS: Option<PrimaryConcern>[] = [
 ];
 
 const REACTIVITY: Option<Reactivity>[] = [
-  { value: "often", title: "Often", hint: "New products regularly sting, flush or break me out" },
-  { value: "sometimes", title: "Sometimes", hint: "It happens, but not with everything" },
-  { value: "rarely", title: "Rarely", hint: "My skin handles most things fine" },
+  { value: "often", title: "Often", hint: "New products frequently cause noticeable stinging, burning, itching or redness." },
+  { value: "sometimes", title: "Sometimes", hint: "My skin occasionally becomes uncomfortable or visibly irritated after trying something new." },
+  { value: "rarely", title: "Rarely", hint: "My skin usually tolerates new cosmetic products without significant irritation." },
+  { value: "unsure", title: "Not sure", hint: "I haven’t noticed a clear pattern or I don’t introduce new products often." },
 ];
 
 const EXPERIENCE: Option<Experience>[] = [
@@ -311,11 +312,15 @@ function ConsultationPage() {
               <Question
                 index={3}
                 prompt="How often does your skin react to new products?"
-                aside="If you react easily we leave exfoliating acids and retinal out entirely — no exceptions."
+                aside="We use this answer to decide how cautious your suggestions should be. Frequently reactive skin receives a shorter, gentler routine without stronger exfoliating acids or retinoid products."
                 onBack={back}
                 onNext={draft.reactivity ? next : null}
               >
                 <Choices options={REACTIVITY} value={draft.reactivity} onChange={(v) => choose("reactivity", v)} />
+                <p className="mt-5 text-[12px] leading-relaxed text-muted-foreground">
+                  If reactions are severe, persistent or include swelling, blistering or difficulty
+                  breathing, stop using the product and seek appropriate medical assistance.
+                </p>
               </Question>
             )}
 
