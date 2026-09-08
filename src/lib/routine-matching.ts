@@ -33,7 +33,8 @@ import { applicationForSlug } from '@/lib/product-application-data';
 // --- answers ---------------------------------------------------------------
 
 export type SkinFeel = 'dry' | 'oily' | 'combination' | 'balanced' | 'unsure';
-export type Reactivity = 'often' | 'sometimes' | 'rarely';
+/** 'unsure' = "Not sure": defaults to the cautious pathway, never a sensitivity label. */
+export type Reactivity = 'often' | 'sometimes' | 'rarely' | 'unsure';
 export type Experience = 'new' | 'some' | 'confident';
 export type Depth = 'minimal' | 'balanced' | 'full';
 export type TexturePref = 'light' | 'rich' | 'either';
@@ -119,8 +120,12 @@ function scoreProduct(p: ShopProduct, a: QuizAnswers): Scored | null {
 
   const active = activeOf(p);
   // Hard filter: no exfoliating acids or retinal for skin that reacts often,
+  // for someone who isn't sure how their skin responds (the cautious path),
   // or for someone brand new to a routine.
-  if (active && (a.reactivity === 'often' || a.experience === 'new')) return null;
+  if (active && (a.reactivity === 'often' || a.reactivity === 'unsure' || a.experience === 'new')) return null;
+  // Reactive or unsure skin: only recommend SKUs whose complete ingredient
+  // list we have reviewed and hold on the product record.
+  if ((a.reactivity === 'often' || a.reactivity === 'unsure') && !p.inci?.length) return null;
 
   const reasons: string[] = [];
   let score = 0;
@@ -160,6 +165,9 @@ function scoreProduct(p: ShopProduct, a: QuizAnswers): Scored | null {
   } else if (a.reactivity === 'sometimes' && gentle) {
     score += 2;
     reasons.push('it stays on the gentle side for skin that can flare');
+  } else if (a.reactivity === 'unsure' && gentle) {
+    score += 2;
+    reasons.push('it stays on the gentle side while you\u2019re still learning how your skin responds');
   }
 
   const weight = weightOf(p);
@@ -291,8 +299,11 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
     items.push(toItem(found, step, use, fallbackWhen, a));
   };
 
-  // "Not sure—keep it simple" always resolves to a minimal routine.
-  const minimal = a.depth === 'minimal' || a.primaryConcern === 'unsure';
+  // "Not sure—keep it simple" always resolves to a minimal routine, and so
+  // does frequently reactive skin — a shorter routine means fewer new products
+  // introduced at once.
+  const minimal =
+    a.depth === 'minimal' || a.primaryConcern === 'unsure' || a.reactivity === 'often';
   const wantsTone = !minimal;
   const wantsTreat = !minimal;
   const wantsSecondTreat = a.depth === 'full';
@@ -360,10 +371,12 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
           a.secondaryConcern !== 'none' ? `, with ${CONCERN_COPY[a.secondaryConcern].phrase} close behind` : ''
         }.`,
     a.reactivity === 'often'
-      ? 'You react easily, so we\u2019ve left every exfoliating acid and retinal out of this routine.'
+      ? 'Your skin reacts often, so we\u2019ve kept this routine short, left out every exfoliating acid and retinoid, and only included products whose full ingredient lists we\u2019ve reviewed. Introduce one new product at a time and give each a couple of weeks before adding the next.'
       : a.reactivity === 'sometimes'
-        ? 'You can flare occasionally, so we\u2019ve leaned gentle where it made no difference to the result.'
-        : 'Your skin tolerates most things, which gave us room to be a little more direct.',
+        ? 'You can flare occasionally, so we\u2019ve leaned gentle where it made no difference to the result. Introduce new products gradually — one at a time is the safest pace.'
+        : a.reactivity === 'unsure'
+          ? 'You\u2019re not sure how your skin responds to new products, so we\u2019ve taken the cautious route — no exfoliating acids or retinoids, only products with reviewed ingredient lists, introduced gradually, one at a time.'
+          : 'Your skin usually tolerates new products, so we\u2019ve built the routine around your concerns and preferences — still introduce anything new gradually rather than all at once.',
     minimal
       ? 'You wanted something short you\u2019ll actually keep up.'
       : a.depth === 'full'
