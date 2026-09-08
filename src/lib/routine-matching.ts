@@ -124,8 +124,9 @@ function scoreProduct(p: ShopProduct, a: QuizAnswers): Scored | null {
   // or for someone brand new to a routine.
   if (active && (a.reactivity === 'often' || a.reactivity === 'unsure' || a.experience === 'new')) return null;
   // Reactive or unsure skin: only recommend SKUs whose complete ingredient
-  // list we have reviewed and hold on the product record.
-  if ((a.reactivity === 'often' || a.reactivity === 'unsure') && !p.inci?.length) return null;
+  // list we have reviewed — held either on the product record (`inci`) or in
+  // the audited copy overrides (`fullInci`). `productInci` checks both.
+  if ((a.reactivity === 'often' || a.reactivity === 'unsure') && !productInci(p)) return null;
 
   const reasons: string[] = [];
   let score = 0;
