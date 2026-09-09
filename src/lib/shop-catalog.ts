@@ -253,7 +253,8 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     category: "Cleanse",
     image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp",
     concerns: ["sensitivity"],
-    // INCI transcribed in printed order from a retail ingredient listing for this exact 80ml SKU, checked 9 September 2026.
+    // INCI supplied by UMMA (Skin Grocer's Korean wholesale partner) and checked
+    // against the physical stock received in Melbourne on 9 September 2026.
     inci: [
       "Water",
       "1,2-Hexanediol",
@@ -297,8 +298,11 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Sodium Acetylated Hyaluronate",
     ],
     inciSource: "internal-supplier-record",
-    inciSourceName: "Skin Grocer internal supply-partner ingredient record",
+    inciSourceName: "UMMA — PRIVATE B2B SUPPLY-PARTNER INGREDIENT RECORD",
     inciCheckedOn: "2026-09-09",
+    inciPackagingVerifiedOn: "2026-09-09",
+    inciSourceNote:
+      "This ingredient list was supplied through Skin Grocer's Korean wholesale partner, UMMA. The supporting record is private and cannot be independently checked through a public link.",
   },
   { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "$18", priceId: "round_lab_1025_dokdo_toner_100ml_onetime", tag: null, category: "Tone", image: "/products/round-lab/1025-dokdo-toner-100ml.webp", concerns: ["pigmentation"] },
   { name: "1025 Dokdo Lotion 200ml", brand: "ROUND LAB", price: "$36", priceId: "round_lab_1025_dokdo_lotion_200ml_onetime", tag: null, category: "Moisturise", image: "/products/round-lab/1025-dokdo-lotion-200ml.webp", concerns: ["hydration"] },
