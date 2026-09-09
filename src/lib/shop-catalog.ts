@@ -67,6 +67,12 @@ export type ShopProduct = {
    */
   inciPackagingVerifiedOn?: string;
   /**
+   * Optional customer-facing note explaining the source of an internal or
+   * supply-partner record. Use it to name the partner and clarify that the
+   * supporting record is private and cannot be independently checked online.
+   */
+  inciSourceNote?: string;
+  /**
    * Sunscreens are therapeutic goods in Australia, not ordinary cosmetics.
    * A Protect SKU is only purchasable, recommendable and allowed to carry SPF
    * or UV-protection guidance once every field below is documented.
