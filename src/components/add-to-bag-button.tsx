@@ -19,6 +19,10 @@ export function AddToBagButton({ priceId, name, priceLabel, className }: Props) 
   const cart = useCart();
   const [added, setAdded] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Central safeguard: anything not lawfully sellable right now — including a
+  // sunscreen without a complete Australian compliance record — never renders
+  // a working buy control, wherever the button is used.
+  const sellable = isPurchasable(priceId);
 
   useEffect(
     () => () => {

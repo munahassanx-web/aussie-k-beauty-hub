@@ -879,6 +879,12 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
 
 
 export function galleryFor(p: ShopProduct): GalleryImage[] {
+  // A sunscreen without a documented Australian supply record carries no SPF,
+  // UV-protection or application guidance anywhere — including the editorial
+  // panels — so it shows the plain packshot only.
+  if (isSunscreen(p) && !australianSupplyVerified(p)) {
+    return [{ src: p.image, alt: `${p.brand} ${p.name}` }];
+  }
   const editorial = EDITORIAL[p.priceId];
   // When a SKU has bespoke, product-accurate editorial imagery we show only
   // that — generic category lifestyle shots look random next to it.
