@@ -747,8 +747,9 @@ function ProductPage() {
                         {productInci(product)}
                       </p>
                       <p className="mt-3 text-[11px] text-muted-foreground">
-                        Ingredient lists may change when a product is reformulated. Check the
+                        Ingredient lists may change when products are reformulated. Check the
                         packaging received before use, particularly if you have known sensitivities.
+                        The ingredient list printed on the product received is the final reference.
                       </p>
                     </div>
                   ) : (
