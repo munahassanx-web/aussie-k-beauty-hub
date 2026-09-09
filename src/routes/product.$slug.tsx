@@ -36,6 +36,7 @@ import {
   hasSourcedCosmeticRole,
   USAGE_CAUTION,
   SUITABILITY_CAUTION,
+  supplyRestricted,
 } from '@/lib/product-detail';
 
 
@@ -312,6 +313,9 @@ function ProductPage() {
   const routineGroups = routineCompanions(product);
   const STEP_NUMBER: Record<string, number> = { Cleanse: 1, Tone: 2, Treat: 3, Moisturise: 4, Protect: 5 };
   const size = productSize(product);
+  // Sunscreen without documented lawful Australian supply: no price, no buy
+  // control, no application, usage or routine guidance anywhere on the page.
+  const restricted = supplyRestricted(product);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
@@ -528,14 +532,16 @@ function ProductPage() {
           )}
 
           <div className="mt-8 border-t border-border pt-6">
-            <div className="flex items-baseline justify-between gap-4">
-              <span className="font-display text-2xl tabular-nums text-foreground">
-                {product.price}
-              </span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                AUD · incl. GST
-              </span>
-            </div>
+            {!restricted && (
+              <div className="flex items-baseline justify-between gap-4">
+                <span className="font-display text-2xl tabular-nums text-foreground">
+                  {product.price}
+                </span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                  AUD · incl. GST
+                </span>
+              </div>
+            )}
 
             <div className="mt-5 space-y-3">
               {!australianSupplyVerified(product) ? (
@@ -549,6 +555,12 @@ function ProductPage() {
                     Sunscreens are regulated separately in Australia. We are completing that check
                     before this product is offered for sale.
                   </p>
+                  <Link
+                    to="/shop"
+                    className="mt-4 inline-block text-[10px] uppercase tracking-[0.2em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
+                  >
+                    Browse the shop
+                  </Link>
                 </div>
               ) : product.comingSoon ? (
                 <div className="rounded-[2px] border border-border px-6 py-5 text-center">
@@ -595,6 +607,9 @@ function ProductPage() {
       <div className="mt-16 max-w-3xl">
         <ProductAccordion
           items={[
+            ...(restricted
+              ? []
+              : [
             {
               id: 'suits',
               title: 'Why it may suit you',
@@ -648,6 +663,7 @@ function ProductPage() {
                 </div>
               ),
             },
+                ]),
             {
               id: 'ingredients',
               title: 'Key ingredients',
@@ -738,7 +754,7 @@ function ProductPage() {
                 </div>
               ),
             },
-            {
+            ...(restricted ? [] : [{
               id: 'routine',
               title: 'Where it sits in a routine',
               content: (
@@ -764,7 +780,7 @@ function ProductPage() {
                   </p>
                 </div>
               ),
-            },
+            }]),
             {
               id: 'authenticity',
               title: 'Authenticity & sourcing',
@@ -818,6 +834,7 @@ function ProductPage() {
         />
       </div>
 
+      {!restricted && (
       <FaqSection
         id="product-faq"
         eyebrow="Product questions"
@@ -829,11 +846,14 @@ function ProductPage() {
         })}
 
       />
+      )}
 
-      <ProductReviews productId={product.priceId} productName={product.name} brand={product.brand} />
+      {!restricted && (
+        <ProductReviews productId={product.priceId} productName={product.name} brand={product.brand} />
+      )}
 
       {/* Complete your routine — grouped by the routine steps that follow this product. */}
-      {routineGroups.length > 0 && (
+      {!restricted && routineGroups.length > 0 && (
         <section className="mt-14 border-t border-border pt-10">
           <h2 className="font-display text-2xl text-foreground">Complete your routine</h2>
           <p className="mt-2 text-sm text-muted-foreground">
