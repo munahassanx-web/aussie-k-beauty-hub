@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useBuyNow } from '@/hooks/use-buy-now';
 import { useCart } from '@/lib/cart';
+import { isPurchasable } from '@/lib/shop-catalog';
 
 type Props = {
   priceId: string;
@@ -32,12 +33,14 @@ export function AddToBagButton({ priceId, name, priceLabel, className }: Props) 
   );
 
   function handleClick() {
-    if (!cart.ready || added) return;
+    if (!sellable || !cart.ready || added) return;
     buy({ priceId, name, priceLabel });
     setAdded(true);
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => setAdded(false), 2000);
   }
+
+  if (!sellable) return null;
 
   return (
     <button
