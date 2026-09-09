@@ -5,6 +5,7 @@
 import type { ReactNode } from 'react';
 import { Link } from '@tanstack/react-router';
 import type { ShopProduct } from '@/lib/shop-catalog';
+import { supplyRestricted } from '@/lib/product-detail';
 
 export type Faq = {
   q: string;
@@ -265,10 +266,10 @@ export function productFaqs(
       };
 
   return [
-    {
-      q: `How do I use ${p.brand} ${p.name}?`,
-      a: stepText,
-    },
+    // No usage question while lawful Australian supply is unverified.
+    ...(supplyRestricted(p)
+      ? []
+      : [{ q: `How do I use ${p.brand} ${p.name}?`, a: stepText }]),
     goodForAnswer,
     {
       q: `Is ${p.brand} ${p.name} authentic, and where does it ship from?`,

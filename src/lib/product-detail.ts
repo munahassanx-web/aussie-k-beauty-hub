@@ -1168,6 +1168,7 @@ const COPY: Record<string, CopyOverride> = {
 
 
 export function productTexture(p: ShopProduct): string | undefined {
+  if (supplyRestricted(p)) return undefined;
   return COPY[p.priceId]?.texture;
 }
 
@@ -1220,6 +1221,9 @@ export function inciRecord(p: ShopProduct) {
 }
 
 export function howToUse(p: ShopProduct): string[] {
+  // No application, timing or sun-exposure guidance while lawful Australian
+  // supply is unverified.
+  if (supplyRestricted(p)) return [];
   // Brand-sourced directions recorded on the product record win over everything.
   if (p.usageDirections?.length) return p.usageDirections;
   const verified = applicationForSlug(productSlug(p));
@@ -1254,7 +1258,20 @@ export function hasProductSpecificHowTo(p: ShopProduct): boolean {
 
 
 
+/**
+ * Page-level safeguard. A sunscreen without a documented lawful Australian
+ * supply record must not present application guidance, usage instructions,
+ * usage FAQs, a price, an Add to Bag control or routine recommendations.
+ */
+export function supplyRestricted(p: ShopProduct): boolean {
+  return isSunscreen(p) && !australianSupplyVerified(p);
+}
+
+export const SUPPLY_RESTRICTED_INTRO =
+  'This product is not currently available for purchase. Skin Grocer is verifying whether it can be lawfully supplied as a sunscreen in Australia.';
+
 export function productDescription(p: ShopProduct): string {
+  if (supplyRestricted(p)) return SUPPLY_RESTRICTED_INTRO;
   const override = COPY[p.priceId]?.description;
   if (override) return override;
   const type = p.category.toLowerCase();
@@ -1269,6 +1286,7 @@ export function productDescription(p: ShopProduct): string {
 }
 
 export function productBenefits(p: ShopProduct): string[] {
+  if (supplyRestricted(p)) return [];
   // Sourced, neutral cosmetic-role statements take priority; never mixed with
   // generated benefit claims.
   if (p.cosmeticRole?.length) return p.cosmeticRole;
