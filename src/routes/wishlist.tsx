@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { useWishlist } from '@/lib/wishlist';
 import { useBuyNow } from '@/hooks/use-buy-now';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
+import { supplyRestricted } from '@/lib/product-detail';
 import { productSlug } from '@/lib/product-detail';
 import { HeartIcon } from '@/components/wishlist-button';
 
@@ -79,6 +80,12 @@ function WishlistPage() {
                   {p.name}
                 </Link>
                 <div className="mt-2 flex items-center justify-between">
+                  {supplyRestricted(p) ? (
+                    <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      Unavailable — Australian supply verification pending.
+                    </span>
+                  ) : (
+                  <>
                   <span className="text-sm text-foreground">{p.price}</span>
                   {p.comingSoon ? (
                     <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Arriving soon</span>
@@ -89,6 +96,8 @@ function WishlistPage() {
                     >
                       Add to bag →
                     </button>
+                  )}
+                  </>
                   )}
                 </div>
               </div>

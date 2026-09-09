@@ -80,9 +80,11 @@ export const Route = createFileRoute('/product/$slug')({
   head: ({ params, loaderData }: { params: { slug: string }; loaderData?: { soldOut?: string[] } }) => {
     const p = findProductBySlug(params.slug);
     const title = p ? `${p.name} — ${p.brand} | Skin Grocer` : 'Product — Skin Grocer';
-    const description = p
-      ? `Buy ${p.brand} ${p.name} (${p.price} AUD) — authentic K-beauty stocked in Melbourne. Ingredients, how to use and reviews.`
-      : 'Authentic Korean skincare, stocked in Melbourne.';
+    const description = !p
+      ? 'Authentic Korean skincare, stocked in Melbourne.'
+      : supplyRestricted(p)
+        ? `${p.brand} ${p.name} is not currently available for purchase. Skin Grocer is verifying whether it can be lawfully supplied as a sunscreen in Australia.`
+        : `Buy ${p.brand} ${p.name} (${p.price} AUD) — authentic K-beauty stocked in Melbourne. Ingredients, how to use and reviews.`;
     return {
       meta: [
         { title },
