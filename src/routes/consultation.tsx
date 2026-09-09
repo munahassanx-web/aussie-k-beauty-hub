@@ -627,7 +627,13 @@ function Results({
       </div>
 
       <div className="mt-8 grid gap-6 md:grid-cols-2">
-        <RoutineColumn title="Morning" caption="Protect and prep for an Australian UV day" items={am} buy={buy} />
+        <RoutineColumn
+          title="Morning"
+          caption="Cleanse, hydrate and protect"
+          items={am}
+          buy={buy}
+          protectPlaceholder={outcome.protectPlaceholder}
+        />
         <RoutineColumn title="Evening" caption="Repair while you sleep" items={pm} buy={buy} />
       </div>
 
@@ -675,16 +681,32 @@ function Results({
   );
 }
 
+/** Neutral guidance shown when no sunscreen can lawfully be offered yet. It is
+ *  never priced and never added to the cart. */
+function ProtectPlaceholder() {
+  return (
+    <div className="mt-5 rounded-xl border border-dashed border-border bg-paper p-4">
+      <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Protect</p>
+      <p className="mt-2 text-[13px] leading-relaxed text-ink/85">
+        Complete your morning routine with a broad-spectrum sunscreen lawfully supplied in
+        Australia. Skin Grocer's sunscreen selection is currently being verified.
+      </p>
+    </div>
+  );
+}
+
 function RoutineColumn({
   title,
   caption,
   items,
   buy,
+  protectPlaceholder = false,
 }: {
   title: string;
   caption: string;
   items: ReturnType<typeof itemsFor>;
   buy: ReturnType<typeof useBuyNow>["buy"];
+  protectPlaceholder?: boolean;
 }) {
   return (
     <section className="rounded-2xl border border-border/70 bg-cream/50 p-4">
@@ -693,7 +715,10 @@ function RoutineColumn({
         <p className="mt-1 text-[11px] uppercase tracking-[0.14em] text-muted-foreground">{caption}</p>
       </header>
       {items.length === 0 ? (
-        <p className="mt-4 text-[13px] text-muted-foreground">No steps recommended for this time of day.</p>
+        <>
+          <p className="mt-4 text-[13px] text-muted-foreground">No steps recommended for this time of day.</p>
+          {protectPlaceholder && <ProtectPlaceholder />}
+        </>
       ) : (
         <ol className="mt-4 space-y-5">
           {items.map((item, i) => (
@@ -755,6 +780,7 @@ function RoutineColumn({
           ))}
         </ol>
       )}
+      {items.length > 0 && protectPlaceholder && <ProtectPlaceholder />}
     </section>
   );
 }

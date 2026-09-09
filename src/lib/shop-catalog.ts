@@ -43,8 +43,20 @@ export type ShopProduct = {
    * formula. Key-ingredient cards are validated against this list.
    */
   inci?: string[];
-  /** Where `inci` was transcribed from. */
-  inciSource?: 'packaging' | 'brand-listing' | 'supplier-listing';
+  /**
+   * What kind of source the list came from.
+   *  - `packaging`            — transcribed from the carton in our own hands.
+   *  - `brand`                — the brand's own official product page.
+   *  - `authorised-retailer`  — a named retailer's product page for this SKU.
+   *  - `supplier`             — a named supply partner's published listing.
+   *  - `internal-supplier-record` — a private record from our supply partner.
+   *    NOT an independently verifiable public source, and never presented as one.
+   */
+  inciSource?: InciSourceType;
+  /** Exact name of the source, e.g. "ROUND LAB official product page". */
+  inciSourceName?: string;
+  /** Direct link to the exact page the list was read from. Never a homepage. */
+  inciSourceUrl?: string;
   /** ISO date the INCI list above was checked against its source. */
   inciCheckedOn?: string;
   /**
@@ -54,6 +66,36 @@ export type ShopProduct = {
    * pending packaging verification.
    */
   inciPackagingVerifiedOn?: string;
+  /**
+   * Sunscreens are therapeutic goods in Australia, not ordinary cosmetics.
+   * A Protect SKU is only purchasable, recommendable and allowed to carry SPF
+   * or UV-protection guidance once every field below is documented.
+   */
+  sunscreenCompliance?: SunscreenCompliance;
+};
+
+export type InciSourceType =
+  | 'packaging'
+  | 'brand'
+  | 'authorised-retailer'
+  | 'supplier'
+  | 'internal-supplier-record';
+
+export type SunscreenCompliance = {
+  /** Plain-language supply status, e.g. "Under verification — not offered for sale". */
+  australianSupplyStatus: string;
+  /** Confirmed entry in the Australian Register of Therapeutic Goods. */
+  artgEntryConfirmed: boolean;
+  /** AUST L / AUST R number exactly as it appears on the ARTG entry. */
+  artgNumber?: string;
+  /** Australian sponsor or importer of record. */
+  australianSponsor?: string;
+  /** Australian-compliant packaging and labelling checked against stock in hand. */
+  packagingVerified: boolean;
+  /** Link or document reference supporting the fields above. */
+  evidenceUrl?: string;
+  /** ISO date the compliance record was last reviewed. */
+  complianceReviewedOn: string;
 };
 
 
@@ -124,7 +166,8 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Water",
       "Xanthan Gum",
     ],
-    inciSource: "supplier-listing",
+    inciSource: "internal-supplier-record",
+    inciSourceName: "Skin Grocer internal supply-partner ingredient record",
     inciCheckedOn: "2026-09-01",
   },
 
@@ -186,7 +229,9 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Glutamic Acid",
       "Arginine",
     ],
-    inciSource: "supplier-listing",
+    inciSource: "authorised-retailer",
+    inciSourceName: "Cult Beauty \u2014 MEDICUBE PDRN Pink Cica Soothing Toner 250ml product page",
+    inciSourceUrl: "https://www.cultbeauty.co.uk/p/medicube-pdrn-pink-cica-soothing-toner-250ml/17753009/",
     inciCheckedOn: "2026-09-09",
   },
   { name: "Revive Eye Serum: Ginseng + Retinal 30ml", brand: "Beauty of Joseon", price: "$34", priceId: "beauty_of_joseon_revive_eye_serum_ginseng_plus_retinal_30ml_onetime", tag: null, category: "Treat", image: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.webp", concerns: ["anti-aging"] },
@@ -245,7 +290,8 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Hydrolyzed Hyaluronic Acid",
       "Sodium Acetylated Hyaluronate",
     ],
-    inciSource: "supplier-listing",
+    inciSource: "internal-supplier-record",
+    inciSourceName: "Skin Grocer internal supply-partner ingredient record",
     inciCheckedOn: "2026-09-09",
   },
   { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "$18", priceId: "round_lab_1025_dokdo_toner_100ml_onetime", tag: null, category: "Tone", image: "/products/round-lab/1025-dokdo-toner-100ml.webp", concerns: ["pigmentation"] },
@@ -302,7 +348,9 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Butylene Glycol",
       "Disodium EDTA",
     ],
-    inciSource: "brand-listing",
+    inciSource: "brand",
+    inciSourceName: "ROUND LAB official product page \u2014 Birch Juice Moisturizing Cream",
+    inciSourceUrl: "https://roundlab.com/products/birch-moisturizing-cream",
     inciCheckedOn: "2026-09-09",
   },
   { name: "1025 Dokdo Trial Kit (Cleanser 30ml + Toner 20ml + Ampule 10ml + Cream 20ml)", brand: "ROUND LAB", price: "$30", priceId: "round_lab_1025_dokdo_trial_kit_onetime", size: "Cleanser 30ml + Toner 20ml + Ampoule 10ml + Cream 20ml", tag: null, category: "Treat", image: "/products/round-lab/1025-dokdo-trial-kit.webp", concerns: ["pigmentation"] },
@@ -336,7 +384,9 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Disodium EDTA",
       "Hydroxyacetophenone",
     ],
-    inciSource: "supplier-listing",
+    inciSource: "authorised-retailer",
+    inciSourceName: "Soko Glam \u2014 ISNTREE Green Tea Fresh Toner 200ml product page",
+    inciSourceUrl: "https://sokoglam.com/products/isntree-green-tea-fresh-toner",
     inciCheckedOn: "2026-09-09",
   },
   { name: "Chestnut BHA 2% Clear Liquid 100ml", brand: "ISNTREE", price: "$36", priceId: "isntree_chestnut_bha_2_percent_clear_liquid_100ml_onetime", tag: null, category: "Treat", image: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.webp", concerns: ["acne"] },
@@ -402,7 +452,9 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Malachite Extract",
       "Ethylhexylglycerin",
     ],
-    inciSource: "brand-listing",
+    inciSource: "brand",
+    inciSourceName: "TORRIDEN official product page \u2014 DIVE-IN Soothing Cream",
+    inciSourceUrl: "https://torriden.us/products/dive-in-soothing-cream",
     inciCheckedOn: "2026-09-09",
   },
   {
@@ -460,7 +512,9 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Rosmarinus Officinalis (Rosemary) Leaf Oil",
       "Ethylhexylglycerin",
     ],
-    inciSource: "brand-listing",
+    inciSource: "brand",
+    inciSourceName: "TORRIDEN official product page \u2014 Balanceful Cica Cleansing Gel",
+    inciSourceUrl: "https://torriden.us/products/balanceful-cleansing-gel",
     inciCheckedOn: "2026-09-09",
   },
   { name: "Dive In Mask Pack 1pc", brand: "TORRIDEN", price: "$10", priceId: "torriden_dive_in_mask_pack_1pc_onetime", size: "1 sheet", tag: null, category: "Masks", image: "/products/torriden/dive-in-mask-pack-1pc.webp", concerns: ["hydration"] },
@@ -514,7 +568,9 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Lactobacillus Ferment Lysate",
       "Tocopherol",
     ],
-    inciSource: "supplier-listing",
+    inciSource: "authorised-retailer",
+    inciSourceName: "Soko Glam \u2014 BIODANCE Bio-Collagen Real Deep Mask product page",
+    inciSourceUrl: "https://sokoglam.com/products/bio-collagen-real-deep-mask",
     inciCheckedOn: "2026-09-09",
   },
   { name: "Hydro Cera-Nol Real Deep Mask", brand: "BIODANCE", price: "$38", priceId: "biodance_hydro_cera_nol_real_deep_mask_onetime", size: "4 sheets", tag: null, category: "Masks", image: "/products/biodance/hydro-cera-nol-real-deep-mask.webp", concerns: ["hydration","barrier"] },
@@ -575,7 +631,9 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Tocopherol",
       "Oleic Acid",
     ],
-    inciSource: "brand-listing",
+    inciSource: "brand",
+    inciSourceName: "AESTURA official product page \u2014 Atobarrier365 Cream",
+    inciSourceUrl: "https://int.aestura.com/products/atobarrier365-cream",
     inciCheckedOn: "2026-09-09",
   },
   {
@@ -616,8 +674,19 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Sodium Acetylated Hyaluronate",
       "Hydrolyzed Hyaluronic Acid",
     ],
-    inciSource: "brand-listing",
+    inciSource: "brand",
+    inciSourceName: "AESTURA official product page \u2014 Derma UV365 Barrier Hydro Mineral Sunscreen",
+    inciSourceUrl: "https://int.aestura.com/products/derma-uv365-barrier-hydro-mineral-sunscreen",
     inciCheckedOn: "2026-09-09",
+    // Sunscreens are therapeutic goods in Australia. Nothing here is confirmed
+    // yet, so the SKU is not purchasable, not recommended, and carries no SPF
+    // or UV-protection guidance anywhere on the site.
+    sunscreenCompliance: {
+      australianSupplyStatus: "Australian availability being verified — not offered for sale",
+      artgEntryConfirmed: false,
+      packagingVerified: false,
+      complianceReviewedOn: "2026-09-09",
+    },
   },
   { name: "A-Cica Moisture Toner 25ml", brand: "AESTURA", price: "$10", priceId: "aestura_a_cica_moisture_toner_onetime", tag: null, category: "Tone", image: "/products/aestura/a-cica-moisture-toner.webp", concerns: ["hydration","sensitivity","pigmentation"] },
   { name: "Atobarrier 365 Hydro Soothing Cream", brand: "AESTURA", price: "$60", priceId: "aestura_atobarrier_365_hydro_soothing_cream_onetime", size: "60ml", tag: null, category: "Moisturise", image: "/products/aestura/atobarrier-365-hydro-soothing-cream.webp", concerns: ["hydration","sensitivity","barrier"] },
@@ -691,7 +760,9 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Tetraacetylphytosphingosine",
       "Glycosphingolipids",
     ],
-    inciSource: "supplier-listing",
+    inciSource: "authorised-retailer",
+    inciSourceName: "Korean Skincare \u2014 beplain Milk Ceramide Moisturizing Cream product page",
+    inciSourceUrl: "https://koreanskincare.com/products/beplain-milk-ceramide-moisturizing-cream",
     inciCheckedOn: "2026-09-09",
   },
   { name: "Ginseng Cleansing Oil 210ml", brand: "Beauty of Joseon", price: "$30", priceId: "beauty_of_joseon_ginseng_cleansing_oil_210ml_onetime", tag: "New", category: "Cleanse", image: "/__l5e/assets-v1/ee718186-6443-43e5-847d-47725b187889/boj-ginseng-cleansing-oil.webp", concerns: ["hydration"] },
@@ -746,7 +817,9 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Dextrin",
       "Scutellaria Baicalensis Root Extract",
     ],
-    inciSource: "supplier-listing",
+    inciSource: "authorised-retailer",
+    inciSourceName: "Jolse \u2014 Beauty of Joseon Dynasty Cream 50ml product page",
+    inciSourceUrl: "https://jolse.com/product/beauty-of-joseon-dynasty-cream-50ml/37118/",
     inciCheckedOn: "2026-09-09",
   },
 
@@ -914,16 +987,71 @@ export type CatalogEntry = {
 };
 
 
+// --- compliance and provenance safeguards ---------------------------------
+
+/** Sunscreens are regulated separately from ordinary cosmetics in Australia. */
+export function isSunscreen(p: ShopProduct): boolean {
+  return p.category === 'Protect';
+}
+
+/**
+ * A sunscreen may only be sold, recommended, or presented with SPF and
+ * UV-protection guidance once every Australian compliance field is documented.
+ * Missing record = not verified. There is no partial pass.
+ */
+export function australianSupplyVerified(p: ShopProduct): boolean {
+  if (!isSunscreen(p)) return true;
+  const c = p.sunscreenCompliance;
+  return Boolean(
+    c &&
+      c.artgEntryConfirmed &&
+      c.artgNumber &&
+      c.australianSponsor &&
+      c.packagingVerified &&
+      c.evidenceUrl &&
+      c.complianceReviewedOn,
+  );
+}
+
+/**
+ * An ingredient list only counts as reviewed when its provenance is complete:
+ * source name, source type and review date, plus a link to the exact page for
+ * any publicly citable source. An internal supply-partner record is allowed
+ * without a link, but is never described as independently verified.
+ */
+export function ingredientReviewed(p: ShopProduct): boolean {
+  if (!p.inci?.length) return false;
+  if (!p.inciSource || !p.inciSourceName || !p.inciCheckedOn) return false;
+  if (p.inciSource === 'internal-supplier-record' || p.inciSource === 'packaging') return true;
+  return Boolean(p.inciSourceUrl);
+}
+
 /** True when a price id can actually be charged (exists in the catalog and is in stock). */
 export function isPurchasable(priceId: string): boolean {
   const product = SHOP_PRODUCTS.find((p) => p.priceId === priceId);
-  if (product) return !product.comingSoon;
+  if (product) return !product.comingSoon && australianSupplyVerified(product);
   if (BUNDLE_DEFINITIONS.some((b) => b.priceId === priceId)) return true;
   const restockSource = Object.entries(RESTOCK_PRICE_BY_PRODUCT).find(([, sub]) => sub === priceId);
   if (!restockSource) return false;
   const base = SHOP_PRODUCTS.find((p) => p.priceId === restockSource[0]);
-  return Boolean(base && !base.comingSoon);
+  return Boolean(base && !base.comingSoon && australianSupplyVerified(base));
 }
+
+if (import.meta.env?.DEV) {
+  for (const p of SHOP_PRODUCTS) {
+    if (p.inci?.length && !ingredientReviewed(p)) {
+      console.warn(
+        `[catalog] ${p.brand} ${p.name}: ingredient list is missing source name, type, URL or review date.`,
+      );
+    }
+    if (isSunscreen(p) && !australianSupplyVerified(p)) {
+      console.warn(
+        `[catalog] ${p.brand} ${p.name}: sunscreen without complete Australian compliance record — not purchasable.`,
+      );
+    }
+  }
+}
+
 
 /** Look up any purchasable price id — product, bundle, or Restock subscription. */
 export function catalogEntryFor(priceId: string): CatalogEntry | null {

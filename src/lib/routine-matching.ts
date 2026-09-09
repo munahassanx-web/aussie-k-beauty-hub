@@ -200,7 +200,11 @@ function bestIn(
   predicate: (p: ShopProduct) => boolean,
   used: Set<string>,
 ): Scored | null {
-  const ranked = SHOP_PRODUCTS.filter((p) => !used.has(p.priceId) && predicate(p))
+  // Only products a customer can lawfully buy today are eligible. For
+  // sunscreens that also means a complete Australian compliance record.
+  const ranked = SHOP_PRODUCTS.filter(
+    (p) => !used.has(p.priceId) && isPurchasable(p.priceId) && predicate(p),
+  )
     .map((p) => scoreProduct(p, a))
     .filter((s): s is Scored => s !== null)
     .sort((x, y) => y.score - x.score);
@@ -233,6 +237,12 @@ export type ConsultationOutcome = {
   /** Steps we deliberately left out because no confident match existed. */
   omitted: string[];
   totalCents: number;
+  /**
+   * True when we could not offer a sunscreen that is documented as lawfully
+   * supplied in Australia. The results page then shows neutral Protect
+   * guidance instead — never counted in the total or the add-all action.
+   */
+  protectPlaceholder: boolean;
 };
 
 function why(step: string, a: QuizAnswers, reasons: string[]): string {
@@ -356,8 +366,17 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
   // 5. Moisturise
   push('a moisturiser', (p) => p.category === 'Moisturise' && !/eye/i.test(p.name), 'Moisturise', 'both', 'Morning and evening, as your last hydrating step');
 
-  // 6. Protect — SPF is always the final morning step.
+  // 6. Protect — the final morning step. We only ever place a sunscreen whose
+  // lawful Australian supply is documented; otherwise the results page shows
+  // neutral guidance instead of a product.
+  const protectBefore = items.length;
   push('an SPF', (p) => p.category === 'Protect', 'Protect', 'am', 'Every morning, as your final step');
+  const protectPlaceholder = items.length === protectBefore;
+  if (protectPlaceholder) {
+    // Not an "omitted with no confident match" case — it has its own block.
+    const i = omitted.indexOf('an SPF');
+    if (i !== -1) omitted.splice(i, 1);
+  }
 
   // 7. Weekly treatment mask, only for a full routine.
   if (wantsMask) {
@@ -396,7 +415,7 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
 
   const totalCents = items.reduce((sum, i) => sum + Math.round(productPrice(i.product) * 100), 0);
 
-  return { answers: a, profile, strategy, items, omitted, totalCents };
+  return { answers: a, profile, strategy, items, omitted, totalCents, protectPlaceholder };
 }
 
 export function itemsFor(outcome: ConsultationOutcome, slot: 'am' | 'pm'): RoutineItem[] {

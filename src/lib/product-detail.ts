@@ -1,7 +1,14 @@
 // Product detail data layer: slugs, editorial copy, hero-ingredient breakdowns
 // and lifestyle imagery for every SKU in the launch assortment.
 
-import { SHOP_PRODUCTS, type ShopProduct, type Category, type Concern } from '@/lib/shop-catalog';
+import {
+  SHOP_PRODUCTS,
+  australianSupplyVerified,
+  isSunscreen,
+  type ShopProduct,
+  type Category,
+  type Concern,
+} from '@/lib/shop-catalog';
 import { bespokeHeroIngredients } from '@/lib/hero-ingredients';
 import { applicationForSlug } from '@/lib/product-application-data';
 
@@ -1165,8 +1172,10 @@ export function productInci(p: ShopProduct): string | undefined {
 
 export const INCI_SOURCE_LABEL: Record<NonNullable<ShopProduct['inciSource']>, string> = {
   packaging: 'Product packaging',
-  'brand-listing': 'Official brand listing',
-  'supplier-listing': 'Supplier listing',
+  brand: 'Official brand',
+  'authorised-retailer': 'Authorised retailer',
+  supplier: 'Supplier',
+  'internal-supplier-record': 'Internal supplier record',
 };
 
 const INCI_MONTHS = [
@@ -1185,10 +1194,18 @@ export function inciDateLong(iso?: string): string | undefined {
 /** Verified INCI record for a SKU, with its provenance — undefined when unverified. */
 export function inciRecord(p: ShopProduct) {
   if (!p.inci?.length) return undefined;
+  const type = p.inciSource ?? 'internal-supplier-record';
   return {
     list: p.inci,
     text: p.inci.join(', '),
-    source: INCI_SOURCE_LABEL[p.inciSource ?? 'supplier-listing'],
+    /** Official brand / Authorised retailer / Supplier / Internal supplier record. */
+    sourceType: INCI_SOURCE_LABEL[type],
+    /** Exact name of the source the list was read from. */
+    sourceName: p.inciSourceName,
+    /** Direct link to the exact page — absent for internal supplier records. */
+    sourceUrl: p.inciSourceUrl,
+    /** True when the source is a private record, not a public citation. */
+    isInternalRecord: type === 'internal-supplier-record',
     checkedOn: p.inciCheckedOn,
     checkedOnLong: inciDateLong(p.inciCheckedOn),
     /** Long-form date only once physical packaging has been checked. */
@@ -1251,6 +1268,11 @@ export function productBenefits(p: ShopProduct): string[] {
   if (p.cosmeticRole?.length) return p.cosmeticRole;
   const override = COPY[p.priceId]?.benefits;
   if (override) return override;
+
+  // Sunscreens are regulated goods. Until Australian supply is documented we
+  // publish no generated benefit statements for them at all — no SPF, UV,
+  // application-time or reapplication guidance, and no barrier or tone claims.
+  if (isSunscreen(p) && !australianSupplyVerified(p)) return [];
 
   const base = p.concerns.map((c) => {
     switch (c) {
