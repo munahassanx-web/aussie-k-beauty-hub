@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useBuyNow } from '@/hooks/use-buy-now';
 import { useCart } from '@/lib/cart';
+import { isPurchasable } from '@/lib/shop-catalog';
 
 type Props = {
   priceId: string;
@@ -19,6 +20,10 @@ export function AddToBagButton({ priceId, name, priceLabel, className }: Props) 
   const cart = useCart();
   const [added, setAdded] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Central safeguard: anything not lawfully sellable right now — including a
+  // sunscreen without a complete Australian compliance record — never renders
+  // a working buy control, wherever the button is used.
+  const sellable = isPurchasable(priceId);
 
   useEffect(
     () => () => {
@@ -28,12 +33,14 @@ export function AddToBagButton({ priceId, name, priceLabel, className }: Props) 
   );
 
   function handleClick() {
-    if (!cart.ready || added) return;
+    if (!sellable || !cart.ready || added) return;
     buy({ priceId, name, priceLabel });
     setAdded(true);
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => setAdded(false), 2000);
   }
+
+  if (!sellable) return null;
 
   return (
     <button

@@ -13,7 +13,11 @@ import { FaqSection } from '@/components/faq-section';
 import { productFaqs, faqJsonLd } from '@/lib/faqs';
 import { track } from '@/lib/analytics';
 
-import { productPrice, type ShopProduct } from '@/lib/shop-catalog';
+import {
+  productPrice,
+  australianSupplyVerified,
+  type ShopProduct,
+} from '@/lib/shop-catalog';
 import { breadcrumbJsonLd } from '@/lib/breadcrumbs';
 import { listSoldOutSkus } from '@/lib/inventory.functions';
 import {
@@ -58,7 +62,9 @@ function productJsonLd(p: ShopProduct, soldOut: boolean) {
       // Live warehouse state: a SKU is only advertised as InStock when it is
       // genuinely purchasable right now (not pre-launch, not sold out).
       availability:
-        p.comingSoon || soldOut ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock',
+        p.comingSoon || soldOut || !australianSupplyVerified(p)
+          ? 'https://schema.org/OutOfStock'
+          : 'https://schema.org/InStock',
       url: productUrl,
     },
   };
@@ -532,7 +538,19 @@ function ProductPage() {
             </div>
 
             <div className="mt-5 space-y-3">
-              {product.comingSoon ? (
+              {!australianSupplyVerified(product) ? (
+                /* Sunscreen without a documented Australian supply record: no
+                   sale, no SPF or UV guidance, no application-time claims. */
+                <div className="rounded-[2px] border border-border px-6 py-5 text-center">
+                  <p className="text-sm font-medium text-foreground">
+                    Australian availability being verified
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    Sunscreens are regulated separately in Australia. We are completing that check
+                    before this product is offered for sale.
+                  </p>
+                </div>
+              ) : product.comingSoon ? (
                 <div className="rounded-[2px] border border-border px-6 py-5 text-center">
                   <p className="text-sm font-medium text-foreground">
                     Arriving soon · {product.price}
@@ -655,24 +673,45 @@ function ProductPage() {
                         Ingredient lists may change when a product is reformulated. Check the
                         packaging received before use, particularly if you have known sensitivities.
                       </p>
-                      <p className="mt-3 text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                        Source reviewed: {inci.checkedOnLong ?? inci.checkedOn} · {inci.source}
-                        {' · '}
-                        {inci.packagingVerifiedOnLong ? (
-                          <span className="inline-block rounded-full border border-foreground/25 px-2.5 py-0.5 text-[9px] font-semibold tracking-[0.18em] text-foreground/75">
-                            Verified against product packaging: {inci.packagingVerifiedOnLong}
-                          </span>
-                        ) : (
-                          <span className="inline-block rounded-full border border-border px-2.5 py-0.5 text-[9px] font-medium tracking-[0.18em] text-muted-foreground">
-                            Packaging verification pending
-                          </span>
-                        )}
-                      </p>
+                      <div className="mt-4 space-y-1.5 border-t border-border pt-4">
+                        <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                          Source reviewed: {inci.checkedOnLong ?? inci.checkedOn}
+                        </p>
+                        <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                          Source: <span className="text-foreground/80">{inci.sourceName}</span> (
+                          {inci.sourceType})
+                          {inci.sourceUrl && (
+                            <>
+                              {' — '}
+                              <a
+                                href={inci.sourceUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline underline-offset-4 hover:text-foreground"
+                              >
+                                View original ingredient listing
+                              </a>
+                            </>
+                          )}
+                        </p>
+                        <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                          Packaging check:{' '}
+                          {inci.packagingVerifiedOnLong
+                            ? `Confirmed on ${inci.packagingVerifiedOnLong}`
+                            : 'Pending'}
+                        </p>
+                      </div>
+                      {inci.isInternalRecord && (
+                        <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
+                          This list comes from a private record supplied by our supply partner, not
+                          from a publicly available page, so it cannot be independently checked
+                          online.
+                        </p>
+                      )}
                       {!inci.packagingVerifiedOnLong && (
                         <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-                          This online ingredient list must be checked against Skin Grocer's physical
-                          stock before launch. The ingredient list printed on the product received is
-                          the final reference for customers.
+                          This list has not yet been compared with Skin Grocer's physical stock. The
+                          ingredient list printed on the product you receive is the final reference.
                         </p>
                       )}
                     </details>
@@ -825,7 +864,7 @@ function ProductPage() {
       )}
 
       {/* Mobile purchase bar — reuses the exact buy handler, price and availability above. */}
-      {!product.comingSoon && (
+      {!product.comingSoon && australianSupplyVerified(product) && (
         <>
           <div aria-hidden="true" className="h-20 lg:hidden" />
           <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur lg:hidden">
