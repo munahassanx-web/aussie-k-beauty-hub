@@ -47,7 +47,7 @@ describe('Stage 2A supplier-ordered records', () => {
 
   it('lists the HARUHARU cleansing oil only once, under matched_both', () => {
     const oils = SHOP_PRODUCTS.filter(
-      (p) => p.brand === 'HARUHARU WONDER' && p.name === 'Black Rice Moisture Cleansing Oil 150ml',
+      (p) => p.brand === 'HARUHARU WONDER' && /Moisture (Deep )?Cleansing Oil/.test(p.name),
     );
     expect(oils).toHaveLength(1);
     expect(oils[0]!.supplierReconciliationStatus).toBe('matched_both');

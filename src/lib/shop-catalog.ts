@@ -113,7 +113,44 @@ export type ShopProduct = {
   quickAddEligible?: boolean;
   /** Explicit approval for restoring this SKU from a saved cart. */
   cartRestorationEligible?: boolean;
+  // --- Stage 2B1: identity and source verification --------------------------
+  /** The product name exactly as it appears in the supplier order record. */
+  supplierRecordName?: string;
+  /** The product name as published by the brand, when a brand listing exists. */
+  brandReferenceName?: string;
+  /** All suppliers this SKU was ordered through (one customer-facing record). */
+  suppliers?: string[];
+  /**
+   * Naming variations seen in supplier or retailer records for the SAME SKU.
+   * Recorded so a variant name never spawns a second customer-facing product.
+   */
+  acceptedNameVariants?: string[];
+  /**
+   * `packaging_check_required` — online references disagree on name or formula,
+   * so identity is unconfirmed until the physical carton, barcode and
+   * ingredient list are checked in Melbourne.
+   */
+  identityVerificationStatus?:
+    | 'packaging_check_required'
+    | 'online_identity_supported'
+    | 'identity_confirmed';
+  /** Internal-only note about the identity question. Never shown to customers. */
+  internalIdentityNote?: string;
+  /** Reviewed public sources for this SKU's identity. */
+  identitySources?: IdentitySource[];
 };
+
+/** A public reference reviewed while verifying a SKU's identity. */
+export type IdentitySource = {
+  sourceType: 'official_brand' | 'authorised_or_major_retailer';
+  sourceName: string;
+  /** Exact product-page URL — never a homepage or category page. */
+  sourceUrl: string;
+  /** ISO date the reference was reviewed. */
+  sourceReviewedDate: string;
+  sourceVerificationStatus: 'online_reference_reviewed';
+};
+
 
 export type SupplierReconciliationStatus =
   | 'matched_umma'
@@ -166,7 +203,11 @@ const CONTENT_IN_PREPARATION = {
   ingredientReviewStatus: 'pending',
   priceStatus: 'pending',
   routineFinderEligible: false,
+  bundleEligible: false,
+  quickAddEligible: false,
+  cartRestorationEligible: false,
 } as const;
+
 
 export const SHOP_PRODUCTS: ShopProduct[] = [
   {
@@ -914,11 +955,148 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   // -------------------------------------------------------------------------
 
   // UMMA
-  { ...CONTENT_IN_PREPARATION, name: "Rose PDRN Firming Serum 30ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime", category: "Treat", supplierReconciliationStatus: "matched_umma" },
-  { ...CONTENT_IN_PREPARATION, name: "Black Rice Triple AHA Gentle Cleansing Gel 100ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_triple_aha_gentle_cleansing_gel_100ml_onetime", category: "Cleanse", supplierReconciliationStatus: "matched_umma" },
-  { ...CONTENT_IN_PREPARATION, name: "Centella 4% TXA Gel Serum 30ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime", category: "Treat", supplierReconciliationStatus: "matched_umma" },
-  { ...CONTENT_IN_PREPARATION, name: "Black Rice Facial Oil 10ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_facial_oil_10ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_umma" },
-  { ...CONTENT_IN_PREPARATION, name: "Black Rice 10 Hyaluronic Cream Unscented 50ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_10_hyaluronic_cream_unscented_50ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_umma" },
+  {
+    ...CONTENT_IN_PREPARATION,
+    // Supplier-order name retained verbatim. The brand also lists a separate
+    // "Rose PDRN Soothing Serum" — the two are NOT merged or renamed here.
+    name: "Rose PDRN Firming Serum 30ml",
+    supplierRecordName: "HARUHARU WONDER Rose PDRN Firming Serum 30ml",
+    brand: "HARUHARU WONDER",
+    priceId: "haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime",
+    category: "Treat",
+    suppliers: ["UMMA"],
+    supplierReconciliationStatus: "matched_umma",
+    identityVerificationStatus: "packaging_check_required",
+    internalIdentityNote:
+      "Possible naming or formula variation: Firming Serum versus Soothing Serum. Physical carton verification required.",
+    identitySources: [
+      {
+        sourceType: "official_brand",
+        sourceName: "HARUHARU WONDER",
+        sourceUrl:
+          "https://haruharuwonder.com/products/haruharuwonder-rose-pdrn-firming-serum-30ml",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+    ],
+  },
+  {
+    ...CONTENT_IN_PREPARATION,
+    name: "Black Rice Triple AHA Gentle Cleansing Gel / Unscented 100ml",
+    supplierRecordName: "HARUHARU WONDER Black Rice Triple AHA Gentle Cleansing Gel 100ml",
+    brandReferenceName: "Triple AHA Gentle Cleansing Gel / Unscented 100ml",
+    brand: "HARUHARU WONDER",
+    priceId: "haruharu_wonder_black_rice_triple_aha_gentle_cleansing_gel_100ml_onetime",
+    category: "Cleanse",
+    suppliers: ["UMMA"],
+    supplierReconciliationStatus: "matched_umma",
+    identityVerificationStatus: "online_identity_supported",
+    // No exfoliation-frequency guidance until the carton instructions and the
+    // full formula have been reviewed.
+    identitySources: [
+      {
+        sourceType: "official_brand",
+        sourceName: "HARUHARU WONDER",
+        sourceUrl:
+          "https://haruharuwonder.com/products/haruharuwonder-black-rice-triple-aha-gentle-cleansing-gel-unscented-100ml",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+      {
+        sourceType: "authorised_or_major_retailer",
+        sourceName: "YesStyle",
+        sourceUrl:
+          "https://www.yesstyle.com/en/haruharu-wonder-black-rice-triple-aha-gentle-cleansing-gel-100ml/info.html/pid.1125408032",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+    ],
+  },
+  {
+    ...CONTENT_IN_PREPARATION,
+    // Supplier-order name retained. Retailer listings also use "Centella 4% TXA
+    // Dark Spot Go Away Serum"; the two names are not assumed to be one formula.
+    name: "Centella 4% TXA Gel Serum 30ml",
+    supplierRecordName: "HARUHARU WONDER Centella 4% TXA Gel Serum 30ml",
+    brand: "HARUHARU WONDER",
+    priceId: "haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime",
+    category: "Treat",
+    suppliers: ["UMMA"],
+    supplierReconciliationStatus: "matched_umma",
+    identityVerificationStatus: "packaging_check_required",
+    internalIdentityNote:
+      "Possible renewed name or packaging. Confirm exact carton name, barcode and formula before publication.",
+    identitySources: [
+      {
+        sourceType: "official_brand",
+        sourceName: "HARUHARU WONDER",
+        sourceUrl:
+          "https://haruharuwonder.com/products/haruharuwonder-centella-4-txa-gel-serum-30ml",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+      {
+        sourceType: "authorised_or_major_retailer",
+        sourceName: "Olive Young Global",
+        sourceUrl: "https://global.oliveyoung.com/product/detail?prdtNo=GA240322817",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+    ],
+  },
+  {
+    ...CONTENT_IN_PREPARATION,
+    name: "Black Rice Facial Oil 10ml",
+    supplierRecordName: "HARUHARU WONDER Black Rice Facial Oil 10ml",
+    brand: "HARUHARU WONDER",
+    priceId: "haruharu_wonder_black_rice_facial_oil_10ml_onetime",
+    category: "Moisturise",
+    // Travel format. 30ml full-size imagery must never stand in for this SKU.
+    size: "10ml (travel size)",
+    suppliers: ["UMMA"],
+    supplierReconciliationStatus: "matched_umma",
+    identityVerificationStatus: "online_identity_supported",
+    identitySources: [
+      {
+        sourceType: "official_brand",
+        sourceName: "HARUHARU WONDER",
+        sourceUrl: "https://haruharuwonder.com/products/haruharuwonder-black-rice-facial-oil",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+      {
+        sourceType: "authorised_or_major_retailer",
+        sourceName: "Superdrug",
+        sourceUrl:
+          "https://www.superdrug.com/skin/face-skin-care/face-oil/haruharu-wonder-black-rice-facial-oil-10ml/p/mp-00035540",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+    ],
+  },
+  {
+    ...CONTENT_IN_PREPARATION,
+    // Separate record from "Black Rice 5 Ceramide Barrier Moisturizing Cream".
+    name: "Black Rice 10 Hyaluronic Cream / Unscented 50ml",
+    supplierRecordName: "HARUHARU WONDER Black Rice 10 Hyaluronic Cream Unscented 50ml",
+    brand: "HARUHARU WONDER",
+    priceId: "haruharu_wonder_black_rice_10_hyaluronic_cream_unscented_50ml_onetime",
+    category: "Moisturise",
+    suppliers: ["UMMA"],
+    supplierReconciliationStatus: "matched_umma",
+    identityVerificationStatus: "online_identity_supported",
+    identitySources: [
+      {
+        sourceType: "official_brand",
+        sourceName: "HARUHARU WONDER",
+        sourceUrl:
+          "https://haruharuwonder.com/products/haruharuwonder-black-rice-10-hyaluronic-cream-50ml-unscented",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+    ],
+  },
+
 
   // Seoul4PM
   { ...CONTENT_IN_PREPARATION, name: "Radiant Vita Niacinamide Real Deep Mask", brand: "BIODANCE", priceId: "biodance_radiant_vita_niacinamide_real_deep_mask_onetime", category: "Masks", size: "1 box (4 \u00d7 34g masks)", supplierReconciliationStatus: "matched_seoul4pm" },
@@ -930,15 +1108,130 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   { ...CONTENT_IN_PREPARATION, name: "Probioderm Collagen Remodeling Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_collagen_remodeling_cream_50ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_seoul4pm" },
   { ...CONTENT_IN_PREPARATION, name: "Probioderm 3D Lifting Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_3d_lifting_cream_50ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_seoul4pm" },
   { ...CONTENT_IN_PREPARATION, name: "Brightening Peeling Gel 120g", brand: "Dr.G", priceId: "dr_g_brightening_peeling_gel_120g_onetime", category: "Cleanse", supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Black Rice Night Knight Retinol Serum 20ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_night_knight_retinol_serum_20ml_onetime", category: "Treat", supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Centella Phyto & 5 Peptide Concentrate Cream 30ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_centella_phyto_5_peptide_concentrate_cream_30ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Black Rice Bakuchiol Eye Cream 20ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_bakuchiol_eye_cream_20ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_seoul4pm" },
+  {
+    ...CONTENT_IN_PREPARATION,
+    // No retinol percentage is published until it is read from the received
+    // carton and confirmed against an authoritative formula source.
+    name: "Black Rice Night Knight Retinol Serum 20ml",
+    supplierRecordName: "HARUHARU WONDER Black Rice Night Knight Retinol Serum 20ml",
+    brand: "HARUHARU WONDER",
+    priceId: "haruharu_wonder_black_rice_night_knight_retinol_serum_20ml_onetime",
+    category: "Treat",
+    suppliers: ["Seoul4PM"],
+    supplierReconciliationStatus: "matched_seoul4pm",
+    identityVerificationStatus: "online_identity_supported",
+    internalIdentityNote:
+      "Retinoid product. Excluded from the Routine Finder until retinoid safeguards are completed.",
+    identitySources: [
+      {
+        sourceType: "official_brand",
+        sourceName: "HARUHARU WONDER",
+        sourceUrl:
+          "https://haruharuwonder.com/products/haruharuwonder-black-rice-night-knight-retinol-serum-20ml",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+    ],
+  },
+  {
+    ...CONTENT_IN_PREPARATION,
+    // "5 Peptide" is part of the product name only — never a concentration claim.
+    name: "Centella Phyto & 5 Peptide Concentrate Cream 30ml",
+    supplierRecordName: "HARUHARU WONDER Centella Phyto & 5 Peptide Concentrate Cream 30ml",
+    brand: "HARUHARU WONDER",
+    priceId: "haruharu_wonder_centella_phyto_5_peptide_concentrate_cream_30ml_onetime",
+    category: "Moisturise",
+    suppliers: ["Seoul4PM"],
+    supplierReconciliationStatus: "matched_seoul4pm",
+    identityVerificationStatus: "online_identity_supported",
+    identitySources: [
+      {
+        sourceType: "official_brand",
+        sourceName: "HARUHARU WONDER",
+        sourceUrl:
+          "https://haruharuwonder.com/products/haruharuwonder-centella-phyto-5-peptide-concentrate-cream",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+      {
+        sourceType: "authorised_or_major_retailer",
+        sourceName: "LOOKFANTASTIC",
+        sourceUrl:
+          "https://www.lookfantastic.com/p/haruharu-wonder-centella-phyto-5-peptide-concentrate-cream-30ml/16858589/",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+    ],
+  },
+  {
+    ...CONTENT_IN_PREPARATION,
+    // Bakuchiol is a distinct cosmetic ingredient — never described as
+    // "natural retinol" or presented as equivalent to retinol.
+    name: "Black Rice Bakuchiol Eye Cream / Unscented 20ml",
+    supplierRecordName: "HARUHARU WONDER Black Rice Bakuchiol Eye Cream 20ml",
+    brand: "HARUHARU WONDER",
+    priceId: "haruharu_wonder_black_rice_bakuchiol_eye_cream_20ml_onetime",
+    category: "Moisturise",
+    suppliers: ["Seoul4PM"],
+    supplierReconciliationStatus: "matched_seoul4pm",
+    identityVerificationStatus: "online_identity_supported",
+    identitySources: [
+      {
+        sourceType: "official_brand",
+        sourceName: "HARUHARU WONDER",
+        sourceUrl:
+          "https://haruharuwonder.com/products/haruharuwonder-black-rice-bakuchiol-eye-cream-20ml",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+      {
+        sourceType: "authorised_or_major_retailer",
+        sourceName: "YesStyle",
+        sourceUrl:
+          "https://www.yesstyle.com/en/haruharu-wonder-black-rice-bakuchiol-eye-cream-20ml/info.html/pid.1112455824",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+    ],
+  },
   { ...CONTENT_IN_PREPARATION, name: "Bifida Biome Ampoule Toner 210ml", brand: "ma:nyo", priceId: "manyo_bifida_biome_ampoule_toner_210ml_onetime", category: "Tone", supplierReconciliationStatus: "matched_seoul4pm" },
   { ...CONTENT_IN_PREPARATION, name: "Pure Soybean Cleansing Oil 200ml", brand: "ma:nyo", priceId: "manyo_pure_soybean_cleansing_oil_200ml_onetime", category: "Cleanse", supplierReconciliationStatus: "matched_seoul4pm" },
   { ...CONTENT_IN_PREPARATION, name: "Galac Niacin 3.0 Essence 60ml", brand: "ma:nyo", priceId: "manyo_galac_niacin_3_0_essence_60ml_onetime", category: "Tone", supplierReconciliationStatus: "matched_seoul4pm" },
 
   // Ordered through both suppliers — one customer-facing record only.
-  { ...CONTENT_IN_PREPARATION, name: "Black Rice Moisture Cleansing Oil 150ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime", category: "Cleanse", supplierReconciliationStatus: "matched_both" },
+  {
+    ...CONTENT_IN_PREPARATION,
+    // One customer-facing record only. Internal supplier records also call this
+    // "Black Rice Moisture Deep Cleansing Oil" — that variant never becomes a
+    // second product.
+    name: "Black Rice Moisture Cleansing Oil / Unscented 150ml",
+    supplierRecordName: "HARUHARU WONDER Black Rice Moisture Cleansing Oil 150ml",
+    acceptedNameVariants: ["Black Rice Moisture Deep Cleansing Oil"],
+    brand: "HARUHARU WONDER",
+    priceId: "haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime",
+    category: "Cleanse",
+    suppliers: ["UMMA", "Seoul4PM"],
+    supplierReconciliationStatus: "matched_both",
+    identityVerificationStatus: "online_identity_supported",
+    identitySources: [
+      {
+        sourceType: "official_brand",
+        sourceName: "HARUHARU WONDER",
+        sourceUrl:
+          "https://haruharuwonder.com/products/haruharuwonder-black-rice-moisture-cleansing-oil",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+      {
+        sourceType: "authorised_or_major_retailer",
+        sourceName: "YesStyle",
+        sourceUrl:
+          "https://www.yesstyle.com/en/haruharu-wonder-black-rice-moisture-cleansing-oil-150ml/info.html/pid.1134315119",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+    ],
+  },
 ];
 
 /** Numeric price (AUD) for a catalog product. */
