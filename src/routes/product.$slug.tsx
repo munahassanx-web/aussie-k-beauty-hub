@@ -919,7 +919,7 @@ function ProductPage() {
       )}
 
       {/* Mobile purchase bar — reuses the exact buy handler, price and availability above. */}
-      {!product.comingSoon && australianSupplyVerified(product) && (
+      {!product.comingSoon && australianSupplyVerified(product) && !supplyPending && (
         <>
           <div aria-hidden="true" className="h-20 lg:hidden" />
           <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur lg:hidden">
