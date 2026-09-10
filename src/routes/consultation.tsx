@@ -628,6 +628,19 @@ function Results({
           ))}
       </div>
 
+      {outcome.cautiousOverride && (
+        <div className="mt-6 border border-border bg-paper p-5">
+          <p className="text-[10px] uppercase tracking-[0.22em] text-primary">
+            You preferred more steps
+          </p>
+          <p className="mt-2 text-[14px] leading-relaxed text-ink/85">
+            {outcome.answers.reactivity === "often"
+              ? "You told us you enjoy a layered routine. Because your skin reacts often, we recommend beginning with the essentials and introducing only one suitable product at a time after your skin has remained comfortable."
+              : "You told us you enjoy a layered routine. Because you told us your skin feels overworked, we recommend beginning with the essentials and introducing only one suitable product at a time after your skin has remained comfortable."}
+          </p>
+        </div>
+      )}
+
       <div className="mt-8 border-t border-border pt-6">
         <h2 className="font-display text-[1.3rem] text-ink">The strategy</h2>
         <p className="mt-3 text-[15px] leading-relaxed text-ink/85">{outcome.strategy}</p>
