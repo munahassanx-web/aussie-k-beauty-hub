@@ -2,7 +2,13 @@ import { useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useBuyNow } from "@/hooks/use-buy-now";
-import { AVAILABILITY_PENDING_LABEL, isPurchasable } from "@/lib/shop-catalog";
+import { AVAILABILITY_PENDING_LABEL, SHOP_PRODUCTS, availabilityLabelFor, isPurchasable } from "@/lib/shop-catalog";
+
+/** Availability wording for a compared SKU, resolved from the catalogue. */
+function pendingLabel(priceId: string): string {
+  const product = SHOP_PRODUCTS.find((x) => x.priceId === priceId);
+  return product ? availabilityLabelFor(product) : AVAILABILITY_PENDING_LABEL;
+}
 
 export type CompareItem = {
   priceId: string;
@@ -135,7 +141,7 @@ export function CompareModal({
                 <p className="mt-4 text-xs uppercase tracking-wider text-muted-foreground">{p.brand}</p>
                 <h3 className="mt-1 font-display text-xl text-foreground">{p.name}</h3>
                 <p className="mt-2 text-sm text-foreground">
-                  {isPurchasable(p.priceId) ? `${p.price} AUD` : AVAILABILITY_PENDING_LABEL}
+                  {isPurchasable(p.priceId) ? `${p.price} AUD` : pendingLabel(p.priceId)}
                 </p>
 
                 <div className="mt-5 border-t border-border pt-4">
@@ -174,7 +180,7 @@ export function CompareModal({
                   </button>
                 ) : (
                   <p className="mt-5 text-center text-xs text-muted-foreground">
-                    {AVAILABILITY_PENDING_LABEL}
+                    {pendingLabel(p.priceId)}
                   </p>
                 )}
               </article>

@@ -16,6 +16,7 @@ import { track } from '@/lib/analytics';
 import {
   productPrice,
   australianSupplyVerified,
+  contentInPreparation,
   supplierMatchPending,
   type ShopProduct,
 } from '@/lib/shop-catalog';
@@ -92,8 +93,10 @@ export const Route = createFileRoute('/product/$slug')({
       ? 'Authentic Korean skincare, stocked in Melbourne.'
       : supplyRestricted(p)
         ? `${p.brand} ${p.name} is not currently available for purchase. Skin Grocer is verifying whether it can be lawfully supplied as a sunscreen in Australia.`
-        : supplierMatchPending(p)
-          ? `${p.brand} ${p.name} is not currently available to purchase. Skin Grocer is confirming its supply record before making it available.`
+        : contentInPreparation(p)
+          ? `${p.brand} ${p.name} is coming soon — Skin Grocer is preparing its product information. It is not currently available to purchase.`
+          : supplierMatchPending(p)
+            ? `${p.brand} ${p.name} is not currently available to purchase. Skin Grocer is confirming its supply record before making it available.`
           : `Buy ${p.brand} ${p.name} (${p.price} AUD) — authentic K-beauty stocked in Melbourne. Ingredients, how to use and reviews.`;
     return {
       meta: [
@@ -330,6 +333,9 @@ function ProductPage() {
   const restricted = supplyRestricted(product);
   // Supplier reconciliation pending: viewable, but no price and no purchase path.
   const supplyPending = supplierMatchPending(product);
+  // Supplier order confirmed, product content not yet prepared: viewable only,
+  // with no price, purchase path, claim or availability statement.
+  const contentPending = contentInPreparation(product);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
@@ -558,7 +564,25 @@ function ProductPage() {
             )}
 
             <div className="mt-5 space-y-3">
-              {supplyPending ? (
+              {contentPending ? (
+                /* Confirmed in a supplier order, but pack detail, ingredients,
+                   price, imagery and guidance are still being prepared. */
+                <div className="rounded-[2px] border border-border px-6 py-5 text-center">
+                  <p className="text-sm font-medium text-foreground">
+                    Coming soon — product information being prepared
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    This product is not yet available to purchase. Skin Grocer is confirming its
+                    pack details, ingredient list, pricing and usage guidance before publishing.
+                  </p>
+                  <Link
+                    to="/shop"
+                    className="mt-4 inline-block text-[10px] uppercase tracking-[0.2em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
+                  >
+                    Browse the shop
+                  </Link>
+                </div>
+              ) : supplyPending ? (
                 /* Supplier reconciliation pending: not sold out, no restock
                    date, no pre-order, no substitute product. */
                 <div className="rounded-[2px] border border-border px-6 py-5 text-center">

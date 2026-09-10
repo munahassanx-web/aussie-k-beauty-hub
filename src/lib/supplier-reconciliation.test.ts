@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   BUNDLE_DEFINITIONS,
   SHOP_PRODUCTS,
+  contentInPreparation,
   isPurchasable,
   supplierMatchPending,
 } from '@/lib/shop-catalog';
@@ -88,7 +89,11 @@ describe('Stage 1 supplier reconciliation', () => {
   });
 
   it('leaves every other product untouched', () => {
-    const flagged = SHOP_PRODUCTS.filter(supplierMatchPending).map((p) => p.priceId).sort();
+    // Stage 2A records are pending for a different reason (content in
+    // preparation), so they are excluded from this Stage 1 assertion.
+    const flagged = SHOP_PRODUCTS.filter((p) => supplierMatchPending(p) && !contentInPreparation(p))
+      .map((p) => p.priceId)
+      .sort();
     expect(flagged).toEqual([...UNMATCHED].sort());
   });
 });

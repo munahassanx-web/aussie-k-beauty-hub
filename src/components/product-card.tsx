@@ -5,6 +5,8 @@ import { WishlistButton } from '@/components/wishlist-button';
 import { productSlug, routineStepLabel } from '@/lib/product-detail';
 import {
   AVAILABILITY_PENDING_LABEL,
+  availabilityLabelFor,
+  contentInPreparation,
   productPrice,
   productSizeFor,
   supplierMatchPending,
@@ -50,7 +52,9 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
   const unavailable = p.comingSoon || soldOut || supplyPending;
   // One badge only — availability outranks the brand-supplied tag.
   const badge = supplyPending
-    ? AVAILABILITY_PENDING_LABEL
+    ? contentInPreparation(p)
+      ? 'Coming soon'
+      : AVAILABILITY_PENDING_LABEL
     : p.comingSoon
       ? 'Arriving soon'
       : soldOut
@@ -127,7 +131,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
         <div className="mt-auto pt-4">
           <div className="flex items-center justify-between gap-3 border-t border-border/70 pt-3">
             {supplyPending ? (
-              <span className="text-xs text-muted-foreground">{AVAILABILITY_PENDING_LABEL}</span>
+              <span className="text-xs text-muted-foreground">{availabilityLabelFor(p)}</span>
             ) : (
               <span className="text-sm tabular-nums text-foreground">{p.price}</span>
             )}
@@ -137,7 +141,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
                   to="/shop"
                   className="relative z-10 text-[10px] uppercase tracking-[0.18em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
                 >
-                  Browse available products
+                  {contentInPreparation(p) ? 'Browse the shop' : 'Browse available products'}
                 </Link>
               ) : unavailable ? (
                 <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">

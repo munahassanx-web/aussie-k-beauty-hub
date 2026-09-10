@@ -90,6 +90,23 @@ export type ShopProduct = {
   supplierMatchConfirmed?: boolean;
   /** Explicit override — false blocks every purchase path for this SKU. */
   purchasable?: boolean;
+  // --- Stage 2A: supplier-ordered records awaiting content ------------------
+  /** True once an internal product record exists for a supplier-ordered SKU. */
+  productRecordCreated?: boolean;
+  /**
+   * `content_in_preparation` — the SKU is confirmed in a supplier order, but its
+   * pack size, ingredient list, price, imagery and guidance are not yet verified.
+   * It is viewable, never priced, never purchasable and never recommended.
+   */
+  websiteStatus?: 'live' | 'content_in_preparation';
+  /** Physical packaging check against stock in hand. */
+  packagingCheck?: 'pending' | 'confirmed';
+  /** Ingredient-list review state. */
+  ingredientReviewStatus?: 'pending' | 'reviewed';
+  /** Australian retail price confirmation state. */
+  priceStatus?: 'pending' | 'confirmed';
+  /** Explicit approval for Routine Finder inclusion. */
+  routineFinderEligible?: boolean;
 };
 
 export type SupplierReconciliationStatus =
@@ -124,6 +141,26 @@ export type SunscreenCompliance = {
   complianceReviewedOn: string;
 };
 
+
+/**
+ * Stage 2A default state for a SKU confirmed in a supplier order but with no
+ * verified pack detail, ingredient list, price, imagery or guidance yet.
+ * Nothing here may be sold, priced, recommended or bundled.
+ */
+const CONTENT_IN_PREPARATION = {
+  price: '',
+  tag: null,
+  image: '/products/placeholder.webp',
+  concerns: [] as Concern[],
+  productRecordCreated: true,
+  supplierMatchConfirmed: true,
+  purchasable: false,
+  websiteStatus: 'content_in_preparation',
+  packagingCheck: 'pending',
+  ingredientReviewStatus: 'pending',
+  priceStatus: 'pending',
+  routineFinderEligible: false,
+} as const;
 
 export const SHOP_PRODUCTS: ShopProduct[] = [
   {
@@ -856,6 +893,39 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     inciCheckedOn: "2026-09-09",
   },
 
+  // -------------------------------------------------------------------------
+  // Stage 2A — products confirmed in the UMMA / Seoul4PM supplier orders.
+  // Supplier-cart names are retained until the official brand name, generation
+  // and pack detail are confirmed against physical stock. No price, ingredient
+  // list, imagery, claim or availability statement has been inferred.
+  // -------------------------------------------------------------------------
+
+  // UMMA
+  { ...CONTENT_IN_PREPARATION, name: "Rose PDRN Firming Serum 30ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime", category: "Treat", supplierReconciliationStatus: "matched_umma" },
+  { ...CONTENT_IN_PREPARATION, name: "Black Rice Triple AHA Gentle Cleansing Gel 100ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_triple_aha_gentle_cleansing_gel_100ml_onetime", category: "Cleanse", supplierReconciliationStatus: "matched_umma" },
+  { ...CONTENT_IN_PREPARATION, name: "Centella 4% TXA Gel Serum 30ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime", category: "Treat", supplierReconciliationStatus: "matched_umma" },
+  { ...CONTENT_IN_PREPARATION, name: "Black Rice Facial Oil 10ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_facial_oil_10ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_umma" },
+  { ...CONTENT_IN_PREPARATION, name: "Black Rice 10 Hyaluronic Cream Unscented 50ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_10_hyaluronic_cream_unscented_50ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_umma" },
+
+  // Seoul4PM
+  { ...CONTENT_IN_PREPARATION, name: "Radiant Vita Niacinamide Real Deep Mask", brand: "BIODANCE", priceId: "biodance_radiant_vita_niacinamide_real_deep_mask_onetime", category: "Masks", size: "1 box (4 \u00d7 34g masks)", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "First Synergy Toner 150ml", brand: "BIODANCE", priceId: "biodance_first_synergy_toner_150ml_onetime", category: "Tone", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Collagen Mask to Foam Cleanser 150ml", brand: "BIODANCE", priceId: "biodance_collagen_mask_to_foam_cleanser_150ml_onetime", category: "Cleanse", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Skin-Glow Essence Cream 50ml", brand: "BIODANCE", priceId: "biodance_skin_glow_essence_cream_50ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Panthecell Repair Cica-Some Ampoule Mask 1P", brand: "BIOHEAL BOH", priceId: "bioheal_boh_panthecell_repair_cica_some_ampoule_mask_1p_onetime", category: "Masks", size: "1P", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Panthecell Repair Cica Soothing Cleanser 160ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_panthecell_repair_cica_soothing_cleanser_160ml_onetime", category: "Cleanse", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Probioderm Collagen Remodeling Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_collagen_remodeling_cream_50ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Probioderm 3D Lifting Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_3d_lifting_cream_50ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Brightening Peeling Gel 120g", brand: "Dr.G", priceId: "dr_g_brightening_peeling_gel_120g_onetime", category: "Cleanse", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Black Rice Night Knight Retinol Serum 20ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_night_knight_retinol_serum_20ml_onetime", category: "Treat", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Centella Phyto & 5 Peptide Concentrate Cream 30ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_centella_phyto_5_peptide_concentrate_cream_30ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Black Rice Bakuchiol Eye Cream 20ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_bakuchiol_eye_cream_20ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Bifida Biome Ampoule Toner 210ml", brand: "ma:nyo", priceId: "manyo_bifida_biome_ampoule_toner_210ml_onetime", category: "Tone", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Pure Soybean Cleansing Oil 200ml", brand: "ma:nyo", priceId: "manyo_pure_soybean_cleansing_oil_200ml_onetime", category: "Cleanse", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Galac Niacin 3.0 Essence 60ml", brand: "ma:nyo", priceId: "manyo_galac_niacin_3_0_essence_60ml_onetime", category: "Tone", supplierReconciliationStatus: "matched_seoul4pm" },
+
+  // Ordered through both suppliers — one customer-facing record only.
+  { ...CONTENT_IN_PREPARATION, name: "Black Rice Moisture Cleansing Oil 150ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime", category: "Cleanse", supplierReconciliationStatus: "matched_both" },
 ];
 
 /** Numeric price (AUD) for a catalog product. */
@@ -1078,6 +1148,23 @@ export function supplierMatchPending(p: ShopProduct): boolean {
 /** Customer-facing message shown wherever an unmatched product's price would be. */
 export const AVAILABILITY_PENDING_LABEL = 'Availability being confirmed';
 
+/**
+ * Stage 2A: the SKU is confirmed in a documented supplier order, but its
+ * content — pack size, generation, ingredients, price, imagery, guidance and
+ * packaging check — is still being prepared. Viewable only.
+ */
+export function contentInPreparation(p: ShopProduct): boolean {
+  return p.websiteStatus === 'content_in_preparation';
+}
+
+/** Customer-facing wording for a supplier-ordered SKU still being prepared. */
+export const CONTENT_PREPARATION_LABEL = 'Coming soon — product information being prepared';
+
+/** The single availability wording to show wherever a product's price would be. */
+export function availabilityLabelFor(p: ShopProduct): string {
+  return contentInPreparation(p) ? CONTENT_PREPARATION_LABEL : AVAILABILITY_PENDING_LABEL;
+}
+
 /** True when a bundle contains a SKU still awaiting supplier reconciliation. */
 export function bundleSupplyPending(includes: string[]): boolean {
   return includes.some((entry) =>
@@ -1182,9 +1269,15 @@ export function productSizeFor(p: ShopProduct): string | null {
 
 export type CatalogSizeIssue = { name: string; brand: string; sku: string };
 
-/** Active sellable products with no verified size/quantity. */
+/**
+ * Active sellable products with no verified size/quantity. Records still in
+ * content preparation are excluded — their pack detail is confirmed later,
+ * against physical stock, and is never guessed in the meantime.
+ */
 export function catalogSizeIssues(): CatalogSizeIssue[] {
-  return SHOP_PRODUCTS.filter((p) => !p.comingSoon && !productSizeFor(p)).map((p) => ({
+  return SHOP_PRODUCTS.filter(
+    (p) => !p.comingSoon && !contentInPreparation(p) && !productSizeFor(p),
+  ).map((p) => ({
     name: p.name,
     brand: p.brand,
     sku: p.priceId,
@@ -1193,7 +1286,7 @@ export function catalogSizeIssues(): CatalogSizeIssue[] {
 
 /** A sellable product cannot be active without a size/quantity. */
 export function isSellableActive(p: ShopProduct): boolean {
-  return !p.comingSoon && Boolean(productSizeFor(p));
+  return !p.comingSoon && !contentInPreparation(p) && Boolean(productSizeFor(p));
 }
 
 if (import.meta.env?.DEV) {
