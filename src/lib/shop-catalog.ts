@@ -113,7 +113,44 @@ export type ShopProduct = {
   quickAddEligible?: boolean;
   /** Explicit approval for restoring this SKU from a saved cart. */
   cartRestorationEligible?: boolean;
+  // --- Stage 2B1: identity and source verification --------------------------
+  /** The product name exactly as it appears in the supplier order record. */
+  supplierRecordName?: string;
+  /** The product name as published by the brand, when a brand listing exists. */
+  brandReferenceName?: string;
+  /** All suppliers this SKU was ordered through (one customer-facing record). */
+  suppliers?: string[];
+  /**
+   * Naming variations seen in supplier or retailer records for the SAME SKU.
+   * Recorded so a variant name never spawns a second customer-facing product.
+   */
+  acceptedNameVariants?: string[];
+  /**
+   * `packaging_check_required` — online references disagree on name or formula,
+   * so identity is unconfirmed until the physical carton, barcode and
+   * ingredient list are checked in Melbourne.
+   */
+  identityVerificationStatus?:
+    | 'packaging_check_required'
+    | 'online_identity_supported'
+    | 'identity_confirmed';
+  /** Internal-only note about the identity question. Never shown to customers. */
+  internalIdentityNote?: string;
+  /** Reviewed public sources for this SKU's identity. */
+  identitySources?: IdentitySource[];
 };
+
+/** A public reference reviewed while verifying a SKU's identity. */
+export type IdentitySource = {
+  sourceType: 'official_brand' | 'authorised_or_major_retailer';
+  sourceName: string;
+  /** Exact product-page URL — never a homepage or category page. */
+  sourceUrl: string;
+  /** ISO date the reference was reviewed. */
+  sourceReviewedDate: string;
+  sourceVerificationStatus: 'online_reference_reviewed';
+};
+
 
 export type SupplierReconciliationStatus =
   | 'matched_umma'
