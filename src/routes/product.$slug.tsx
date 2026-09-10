@@ -91,7 +91,9 @@ export const Route = createFileRoute('/product/$slug')({
       ? 'Authentic Korean skincare, stocked in Melbourne.'
       : supplyRestricted(p)
         ? `${p.brand} ${p.name} is not currently available for purchase. Skin Grocer is verifying whether it can be lawfully supplied as a sunscreen in Australia.`
-        : `Buy ${p.brand} ${p.name} (${p.price} AUD) — authentic K-beauty stocked in Melbourne. Ingredients, how to use and reviews.`;
+        : supplierMatchPending(p)
+          ? `${p.brand} ${p.name} is not currently available to purchase. Skin Grocer is confirming its supply record before making it available.`
+          : `Buy ${p.brand} ${p.name} (${p.price} AUD) — authentic K-beauty stocked in Melbourne. Ingredients, how to use and reviews.`;
     return {
       meta: [
         { title },
