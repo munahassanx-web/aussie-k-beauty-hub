@@ -1269,9 +1269,15 @@ export function productSizeFor(p: ShopProduct): string | null {
 
 export type CatalogSizeIssue = { name: string; brand: string; sku: string };
 
-/** Active sellable products with no verified size/quantity. */
+/**
+ * Active sellable products with no verified size/quantity. Records still in
+ * content preparation are excluded — their pack detail is confirmed later,
+ * against physical stock, and is never guessed in the meantime.
+ */
 export function catalogSizeIssues(): CatalogSizeIssue[] {
-  return SHOP_PRODUCTS.filter((p) => !p.comingSoon && !productSizeFor(p)).map((p) => ({
+  return SHOP_PRODUCTS.filter(
+    (p) => !p.comingSoon && !contentInPreparation(p) && !productSizeFor(p),
+  ).map((p) => ({
     name: p.name,
     brand: p.brand,
     sku: p.priceId,
@@ -1280,7 +1286,7 @@ export function catalogSizeIssues(): CatalogSizeIssue[] {
 
 /** A sellable product cannot be active without a size/quantity. */
 export function isSellableActive(p: ShopProduct): boolean {
-  return !p.comingSoon && Boolean(productSizeFor(p));
+  return !p.comingSoon && !contentInPreparation(p) && Boolean(productSizeFor(p));
 }
 
 if (import.meta.env?.DEV) {
