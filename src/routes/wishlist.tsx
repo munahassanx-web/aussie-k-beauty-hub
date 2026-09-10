@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { useWishlist } from '@/lib/wishlist';
 import { useBuyNow } from '@/hooks/use-buy-now';
-import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
+import { AVAILABILITY_PENDING_LABEL, SHOP_PRODUCTS, supplierMatchPending } from '@/lib/shop-catalog';
 import { supplyRestricted } from '@/lib/product-detail';
 import { productSlug } from '@/lib/product-detail';
 import { HeartIcon } from '@/components/wishlist-button';
