@@ -89,9 +89,21 @@ const EXPERIENCE: Option<Experience>[] = [
 ];
 
 const DEPTH: Option<Depth>[] = [
-  { value: "minimal", title: "Keep it short", hint: "Three steps I'll actually do every day" },
-  { value: "balanced", title: "A proper routine", hint: "Around five steps, morning and night" },
-  { value: "full", title: "I enjoy the ritual", hint: "Happy with a fuller routine and a weekly treatment" },
+  {
+    value: "minimal",
+    title: "Keep it essential",
+    hint: "A simple morning and evening routine using only the necessary steps.",
+  },
+  {
+    value: "balanced",
+    title: "A balanced routine",
+    hint: "The essentials, with up to two optional steps when they have a clear purpose.",
+  },
+  {
+    value: "full",
+    title: "I enjoy a layered routine",
+    hint: "I’m open to additional steps when they are suitable, useful and ingredient-reviewed.",
+  },
 ];
 
 const TEXTURE: Option<TexturePref>[] = [
