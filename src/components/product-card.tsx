@@ -44,9 +44,18 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
   const soldOut = isSoldOut(p.priceId);
   const size = productSize(p);
   const slug = productSlug(p);
-  const unavailable = p.comingSoon || soldOut;
+  // Supplier reconciliation pending: viewable, never priced or purchasable,
+  // and never described as sold out.
+  const supplyPending = supplierMatchPending(p);
+  const unavailable = p.comingSoon || soldOut || supplyPending;
   // One badge only — availability outranks the brand-supplied tag.
-  const badge = p.comingSoon ? 'Arriving soon' : soldOut ? 'Out of stock' : p.tag || null;
+  const badge = supplyPending
+    ? AVAILABILITY_PENDING_LABEL
+    : p.comingSoon
+      ? 'Arriving soon'
+      : soldOut
+        ? 'Out of stock'
+        : p.tag || null;
 
   return (
     <article className="group relative flex h-full flex-col">
