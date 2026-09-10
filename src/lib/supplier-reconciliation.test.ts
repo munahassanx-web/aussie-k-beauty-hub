@@ -6,6 +6,11 @@ import {
   supplierMatchPending,
 } from '@/lib/shop-catalog';
 import { buildRoutine, type QuizAnswers } from '@/lib/routine-matching';
+import {
+  productBenefits,
+  productDescription,
+  SUPPLIER_RECONCILIATION_INTRO,
+} from '@/lib/product-detail';
 
 const UNMATCHED = [
   'isntree_chestnut_bha_2_percent_clear_liquid_100ml_onetime',
@@ -27,6 +32,18 @@ describe('Stage 1 supplier reconciliation', () => {
 
   it('never allows an unmatched product to be purchased', () => {
     for (const id of UNMATCHED) expect(isPurchasable(id), id).toBe(false);
+  });
+
+  it('uses neutral copy without stock, fulfilment or authenticity claims', () => {
+    for (const id of UNMATCHED) {
+      const product = SHOP_PRODUCTS.find((item) => item.priceId === id);
+      expect(product).toBeDefined();
+      if (!product) continue;
+      expect(productDescription(product)).toBe(SUPPLIER_RECONCILIATION_INTRO);
+      expect(productBenefits(product).join(' ')).not.toMatch(
+        /authentic|stocked|dispatched|shipped from (?:our )?Melbourne/i,
+      );
+    }
   });
 
   it('never includes an unmatched product in a purchasable bundle', () => {
