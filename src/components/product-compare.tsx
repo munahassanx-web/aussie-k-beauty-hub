@@ -164,12 +164,18 @@ export function CompareModal({
                   </div>
                 )}
 
-                <button
-                  onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
-                  className="mt-5 w-full rounded-full bg-primary px-5 py-2.5 text-xs font-medium uppercase tracking-wider text-primary-foreground hover:opacity-90"
-                >
-                  Buy {p.name}
-                </button>
+                {isPurchasable(p.priceId) ? (
+                  <button
+                    onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
+                    className="mt-5 w-full rounded-full bg-primary px-5 py-2.5 text-xs font-medium uppercase tracking-wider text-primary-foreground hover:opacity-90"
+                  >
+                    Buy {p.name}
+                  </button>
+                ) : (
+                  <p className="mt-5 text-center text-xs text-muted-foreground">
+                    {AVAILABILITY_PENDING_LABEL}
+                  </p>
+                )}
               </article>
             );
           })}
