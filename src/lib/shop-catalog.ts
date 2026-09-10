@@ -1148,6 +1148,23 @@ export function supplierMatchPending(p: ShopProduct): boolean {
 /** Customer-facing message shown wherever an unmatched product's price would be. */
 export const AVAILABILITY_PENDING_LABEL = 'Availability being confirmed';
 
+/**
+ * Stage 2A: the SKU is confirmed in a documented supplier order, but its
+ * content — pack size, generation, ingredients, price, imagery, guidance and
+ * packaging check — is still being prepared. Viewable only.
+ */
+export function contentInPreparation(p: ShopProduct): boolean {
+  return p.websiteStatus === 'content_in_preparation';
+}
+
+/** Customer-facing wording for a supplier-ordered SKU still being prepared. */
+export const CONTENT_PREPARATION_LABEL = 'Coming soon — product information being prepared';
+
+/** The single availability wording to show wherever a product's price would be. */
+export function availabilityLabelFor(p: ShopProduct): string {
+  return contentInPreparation(p) ? CONTENT_PREPARATION_LABEL : AVAILABILITY_PENDING_LABEL;
+}
+
 /** True when a bundle contains a SKU still awaiting supplier reconciliation. */
 export function bundleSupplyPending(includes: string[]): boolean {
   return includes.some((entry) =>
