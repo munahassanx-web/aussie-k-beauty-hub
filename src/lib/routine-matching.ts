@@ -250,6 +250,13 @@ export type ConsultationOutcome = {
    * guidance instead — never counted in the total or the add-all action.
    */
   protectPlaceholder: boolean;
+  /**
+   * True when the customer asked for a longer routine but a safety answer
+   * (frequent reactivity, or overworked skin as the main focus) means we
+   * return the cautious essentials instead. Routine length is a preference,
+   * never a product quota.
+   */
+  cautiousOverride: boolean;
 };
 
 function why(step: string, a: QuizAnswers, reasons: string[]): string {
