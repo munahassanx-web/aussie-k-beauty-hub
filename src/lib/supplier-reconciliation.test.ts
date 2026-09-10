@@ -41,21 +41,29 @@ describe('Stage 1 supplier reconciliation', () => {
   });
 
   it('never recommends an unmatched product in the Routine Finder', () => {
-    const skinTypes = ['dry', 'oily', 'combination', 'normal', 'sensitive'] as const;
-    const concerns = ['hydration', 'acne', 'pigmentation', 'sensitivity', 'anti-aging', 'barrier'] as const;
-    for (const skinType of skinTypes) {
-      for (const primary of concerns) {
+    const feels = ['dry', 'oily', 'combination', 'balanced', 'sensitive'] as const;
+    const concerns = [
+      'hydration',
+      'acne',
+      'pigmentation',
+      'sensitivity',
+      'anti-aging',
+      'barrier',
+      'unsure',
+    ] as const;
+    for (const skinFeel of feels) {
+      for (const primaryConcern of concerns) {
         const outcome = buildRoutine({
-          skinType,
-          primaryConcern: primary,
+          skinFeel,
+          primaryConcern,
           secondaryConcern: 'none',
           reactivity: 'rarely',
-          familiarity: 'familiar',
-          routineLength: 'layered',
-          budget: 'no-limit',
-        } as never);
+          experience: 'confident',
+          depth: 'full',
+          texture: 'either',
+        } as QuizAnswers);
         for (const item of outcome.items) {
-          expect(UNMATCHED, `${primary}/${skinType}`).not.toContain(item.product.priceId);
+          expect(UNMATCHED, `${primaryConcern}/${skinFeel}`).not.toContain(item.product.priceId);
         }
       }
     }
