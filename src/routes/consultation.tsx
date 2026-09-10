@@ -351,8 +351,8 @@ function ConsultationPage() {
             {phase === "depth" && (
               <Question
                 index={5}
-                prompt="How many steps do you actually want?"
-                aside="We'd rather build something you'll keep up than something impressive."
+                prompt="How much time would you like to give your routine?"
+                aside="We’ll use this preference to shape the number of optional steps. Product suitability and your reactivity answers always come first."
                 onBack={back}
                 onNext={draft.depth ? next : null}
               >
