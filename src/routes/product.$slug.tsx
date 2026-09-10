@@ -582,21 +582,6 @@ function ProductPage() {
                     Browse the shop
                   </Link>
                 </div>
-              ) : supplyPending ? (
-                /* Supplier reconciliation pending: not sold out, no restock
-                   date, no pre-order, no substitute product. */
-                <div className="rounded-[2px] border border-border px-6 py-5 text-center">
-                  <p className="text-sm font-medium text-foreground">Availability being confirmed</p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                    {SUPPLIER_RECONCILIATION_INTRO}
-                  </p>
-                  <Link
-                    to="/shop"
-                    className="mt-4 inline-block text-[10px] uppercase tracking-[0.2em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
-                  >
-                    Browse available products
-                  </Link>
-                </div>
               ) : !australianSupplyVerified(product) ? (
                 /* Sunscreen without a documented Australian supply record: no
                    sale, no SPF or UV guidance, no application-time claims. */
@@ -613,6 +598,21 @@ function ProductPage() {
                     className="mt-4 inline-block text-[10px] uppercase tracking-[0.2em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
                   >
                     Browse the shop
+                  </Link>
+                </div>
+              ) : supplyPending ? (
+                /* Supplier reconciliation pending: not sold out, no restock
+                   date, no pre-order, no substitute product. */
+                <div className="rounded-[2px] border border-border px-6 py-5 text-center">
+                  <p className="text-sm font-medium text-foreground">Availability being confirmed</p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    {SUPPLIER_RECONCILIATION_INTRO}
+                  </p>
+                  <Link
+                    to="/shop"
+                    className="mt-4 inline-block text-[10px] uppercase tracking-[0.2em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
+                  >
+                    Browse available products
                   </Link>
                 </div>
               ) : product.comingSoon ? (

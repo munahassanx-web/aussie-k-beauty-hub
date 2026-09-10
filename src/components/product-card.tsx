@@ -4,7 +4,6 @@ import { useSoldOutSkus } from '@/hooks/use-stock';
 import { WishlistButton } from '@/components/wishlist-button';
 import { productSlug, routineStepLabel } from '@/lib/product-detail';
 import {
-  AVAILABILITY_PENDING_LABEL,
   availabilityLabelFor,
   contentInPreparation,
   productPrice,
@@ -54,7 +53,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
   const badge = supplyPending
     ? contentInPreparation(p)
       ? 'Coming soon'
-      : AVAILABILITY_PENDING_LABEL
+      : availabilityLabelFor(p)
     : p.comingSoon
       ? 'Arriving soon'
       : soldOut
