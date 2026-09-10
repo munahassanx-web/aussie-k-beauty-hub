@@ -84,6 +84,10 @@ function WishlistPage() {
                     <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                       Unavailable — Australian supply verification pending.
                     </span>
+                  ) : supplierMatchPending(p) ? (
+                    <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      {AVAILABILITY_PENDING_LABEL}
+                    </span>
                   ) : (
                   <>
                   <span className="text-sm text-foreground">{p.price}</span>
