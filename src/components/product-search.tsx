@@ -8,6 +8,7 @@ import {
   isBroadIntent,
   searchCatalog,
 } from "@/lib/product-search";
+import { AVAILABILITY_PENDING_LABEL, supplierMatchPending } from "@/lib/shop-catalog";
 
 type Props = {
   open: boolean;
