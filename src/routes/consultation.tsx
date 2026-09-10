@@ -89,9 +89,21 @@ const EXPERIENCE: Option<Experience>[] = [
 ];
 
 const DEPTH: Option<Depth>[] = [
-  { value: "minimal", title: "Keep it short", hint: "Three steps I'll actually do every day" },
-  { value: "balanced", title: "A proper routine", hint: "Around five steps, morning and night" },
-  { value: "full", title: "I enjoy the ritual", hint: "Happy with a fuller routine and a weekly treatment" },
+  {
+    value: "minimal",
+    title: "Keep it essential",
+    hint: "A simple morning and evening routine using only the necessary steps.",
+  },
+  {
+    value: "balanced",
+    title: "A balanced routine",
+    hint: "The essentials, with up to two optional steps when they have a clear purpose.",
+  },
+  {
+    value: "full",
+    title: "I enjoy a layered routine",
+    hint: "I’m open to additional steps when they are suitable, useful and ingredient-reviewed.",
+  },
 ];
 
 const TEXTURE: Option<TexturePref>[] = [
@@ -339,8 +351,8 @@ function ConsultationPage() {
             {phase === "depth" && (
               <Question
                 index={5}
-                prompt="How many steps do you actually want?"
-                aside="We'd rather build something you'll keep up than something impressive."
+                prompt="How much time would you like to give your routine?"
+                aside="We’ll use this preference to shape the number of optional steps. Product suitability and your reactivity answers always come first."
                 onBack={back}
                 onNext={draft.depth ? next : null}
               >
@@ -602,7 +614,8 @@ function Results({
             ? CONCERN_COPY[outcome.answers.secondaryConcern].label
             : null,
           outcome.answers.reactivity === "often" ? "Acid & retinal free" : null,
-          outcome.answers.depth === "minimal" ? "Short routine" : null,
+          outcome.cautiousOverride ? "Cautious start" : null,
+          outcome.answers.depth === "minimal" && !outcome.cautiousOverride ? "Short routine" : null,
         ]
           .filter(Boolean)
           .map((f) => (
@@ -614,6 +627,19 @@ function Results({
             </span>
           ))}
       </div>
+
+      {outcome.cautiousOverride && (
+        <div className="mt-6 border border-border bg-paper p-5">
+          <p className="text-[10px] uppercase tracking-[0.22em] text-primary">
+            You preferred more steps
+          </p>
+          <p className="mt-2 text-[14px] leading-relaxed text-ink/85">
+            {outcome.answers.reactivity === "often"
+              ? "You told us you enjoy a layered routine. Because your skin reacts often, we recommend beginning with the essentials and introducing only one suitable product at a time after your skin has remained comfortable."
+              : "You told us you enjoy a layered routine. Because you told us your skin feels overworked, we recommend beginning with the essentials and introducing only one suitable product at a time after your skin has remained comfortable."}
+          </p>
+        </div>
+      )}
 
       <div className="mt-8 border-t border-border pt-6">
         <h2 className="font-display text-[1.3rem] text-ink">The strategy</h2>
