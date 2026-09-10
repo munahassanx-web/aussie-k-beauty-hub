@@ -39,7 +39,13 @@ export function brandSlug(brand: string): string {
 /** Stable, unique, human-readable URL slug for a product. */
 export function productSlug(p: ShopProduct): string {
   const file = p.image.split('/').pop()?.replace(/\.[a-z0-9]+$/i, '') ?? '';
-  const base = file || p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  // Records awaiting their own imagery share the placeholder file, so their
+  // address comes from the product name instead of the image name.
+  const nameSlug = p.name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  const base = !file || file === 'placeholder' ? nameSlug : file;
   const brand = brandSlug(p.brand);
   return base.startsWith(brand) ? base : `${brand}-${base}`;
 }
