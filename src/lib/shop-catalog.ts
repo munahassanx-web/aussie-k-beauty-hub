@@ -78,7 +78,27 @@ export type ShopProduct = {
    * or UV-protection guidance once every field below is documented.
    */
   sunscreenCompliance?: SunscreenCompliance;
+  // --- supplier reconciliation (Stage 1) -----------------------------------
+  /**
+   * Where this SKU sits in the supplier-cart reconciliation. `unmatched` means
+   * the product could not be found in any documented supplier cart, so it may
+   * not be sold, recommended or bundled. Similarity to another product is
+   * never evidence of supply.
+   */
+  supplierReconciliationStatus?: SupplierReconciliationStatus;
+  /** True only when the SKU has been located in a documented supplier record. */
+  supplierMatchConfirmed?: boolean;
+  /** Explicit override — false blocks every purchase path for this SKU. */
+  purchasable?: boolean;
 };
+
+export type SupplierReconciliationStatus =
+  | 'matched_umma'
+  | 'matched_seoul4pm'
+  | 'matched_both'
+  | 'other_documented_supplier'
+  | 'unmatched'
+  | 'verification_pending';
 
 export type InciSourceType =
   | 'packaging'
