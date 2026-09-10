@@ -5,6 +5,7 @@ import {
   SHOP_PRODUCTS,
   australianSupplyVerified,
   isSunscreen,
+  supplierMatchPending,
   type ShopProduct,
   type Category,
   type Concern,
@@ -1272,11 +1273,15 @@ export function supplyRestricted(p: ShopProduct): boolean {
 export const SUPPLY_RESTRICTED_INTRO =
   'This product is not currently available for purchase. Skin Grocer is verifying whether it can be lawfully supplied as a sunscreen in Australia.';
 
+export const SUPPLIER_RECONCILIATION_INTRO =
+  'Not currently available for purchase while Skin Grocer confirms the product’s supply record.';
+
 export function productDescription(p: ShopProduct): string {
   if (supplyRestricted(p)) return SUPPLY_RESTRICTED_INTRO;
+  if (supplierMatchPending(p)) return SUPPLIER_RECONCILIATION_INTRO;
   const override = COPY[p.priceId]?.description;
   if (override) return override;
-  const type = p.category.toLowerCase();
+  const type = p.category === 'Masks' ? 'mask' : p.category.toLowerCase();
   const texture = COPY[p.priceId]?.texture;
   // One concise, verified introduction. Never auto-joins concern tags, never
   // adds climate or sourcing claims — only the product's role and, when we
@@ -1316,7 +1321,9 @@ export function productBenefits(p: ShopProduct): string[] {
         return 'Rebuilds a stressed moisture barrier over time';
     }
   });
-  return [...base, 'Authentic stock, shipped from our Melbourne warehouse'];
+  return supplierMatchPending(p)
+    ? base
+    : [...base, 'Authentic stock, shipped from our Melbourne warehouse'];
 }
 
 // --- hero ingredients -------------------------------------------------------
