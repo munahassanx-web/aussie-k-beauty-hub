@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   BUNDLE_DEFINITIONS,
   SHOP_PRODUCTS,
+  contentInPreparation,
   isPurchasable,
   supplierMatchPending,
 } from '@/lib/shop-catalog';
