@@ -3,7 +3,12 @@ import { useBuyNow } from '@/hooks/use-buy-now';
 import { useSoldOutSkus } from '@/hooks/use-stock';
 import { WishlistButton } from '@/components/wishlist-button';
 import { productSlug, routineStepLabel } from '@/lib/product-detail';
-import { productPrice, productSizeFor } from '@/lib/shop-catalog';
+import {
+  AVAILABILITY_PENDING_LABEL,
+  productPrice,
+  productSizeFor,
+  supplierMatchPending,
+} from '@/lib/shop-catalog';
 import type { ShopProduct } from '@/lib/shop-catalog';
 import { track } from '@/lib/analytics';
 
