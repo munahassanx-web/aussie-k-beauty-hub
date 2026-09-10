@@ -614,7 +614,8 @@ function Results({
             ? CONCERN_COPY[outcome.answers.secondaryConcern].label
             : null,
           outcome.answers.reactivity === "often" ? "Acid & retinal free" : null,
-          outcome.answers.depth === "minimal" ? "Short routine" : null,
+          outcome.cautiousOverride ? "Cautious start" : null,
+          outcome.answers.depth === "minimal" && !outcome.cautiousOverride ? "Short routine" : null,
         ]
           .filter(Boolean)
           .map((f) => (
