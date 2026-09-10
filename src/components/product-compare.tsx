@@ -133,7 +133,9 @@ export function CompareModal({
                 </div>
                 <p className="mt-4 text-xs uppercase tracking-wider text-muted-foreground">{p.brand}</p>
                 <h3 className="mt-1 font-display text-xl text-foreground">{p.name}</h3>
-                <p className="mt-2 text-sm text-foreground">{p.price} AUD</p>
+                <p className="mt-2 text-sm text-foreground">
+                  {isPurchasable(p.priceId) ? `${p.price} AUD` : AVAILABILITY_PENDING_LABEL}
+                </p>
 
                 <div className="mt-5 border-t border-border pt-4">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">Hero ingredients</p>
