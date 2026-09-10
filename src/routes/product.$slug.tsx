@@ -37,6 +37,7 @@ import {
   hasSourcedCosmeticRole,
   USAGE_CAUTION,
   SUITABILITY_CAUTION,
+  SUPPLIER_RECONCILIATION_INTRO,
   supplyRestricted,
 } from '@/lib/product-detail';
 
@@ -563,8 +564,7 @@ function ProductPage() {
                 <div className="rounded-[2px] border border-border px-6 py-5 text-center">
                   <p className="text-sm font-medium text-foreground">Availability being confirmed</p>
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                    This product is not currently available to purchase. Skin Grocer is confirming
-                    its supply record before making it available.
+                    {SUPPLIER_RECONCILIATION_INTRO}
                   </p>
                   <Link
                     to="/shop"
@@ -615,18 +615,22 @@ function ProductPage() {
               />
             </div>
 
-            <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
-              Dispatched from our Melbourne warehouse · Free standard shipping over A$100 ·{' '}
-              <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-foreground">
-                View shipping and returns
-              </Link>
-            </p>
-            <Link
-              to="/verify/sample"
-              className="mt-3 inline-block text-[10px] uppercase tracking-[0.2em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
-            >
-              View how Skin Grocer verifies stock
-            </Link>
+            {!supplyPending && (
+              <>
+                <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
+                  Dispatched from our Melbourne warehouse · Free standard shipping over A$100 ·{' '}
+                  <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-foreground">
+                    View shipping and returns
+                  </Link>
+                </p>
+                <Link
+                  to="/verify/sample"
+                  className="mt-3 inline-block text-[10px] uppercase tracking-[0.2em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
+                >
+                  View how Skin Grocer verifies stock
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
@@ -816,7 +820,7 @@ function ProductPage() {
                 </div>
               ),
             }]),
-            {
+            ...(!supplyPending ? [{
               id: 'authenticity',
               title: 'Authenticity & sourcing',
               content: (
@@ -864,7 +868,7 @@ function ProductPage() {
                   </p>
                 </div>
               ),
-            },
+            }] : []),
           ]}
         />
       </div>
