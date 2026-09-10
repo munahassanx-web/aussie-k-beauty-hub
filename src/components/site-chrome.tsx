@@ -114,13 +114,13 @@ function AnnouncementBar({ suppressStockClaims = false }: { suppressStockClaims?
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  useEffect(() => {
-    if (prefersReducedMotion || announcements.length <= 1 || paused) return;
-    const id = setInterval(() => setActive((i) => (i + 1) % announcements.length), 7000);
-    return () => clearInterval(id);
-  }, [prefersReducedMotion, paused]);
-
   const visibleAnnouncements = suppressStockClaims ? announcements.slice(0, 1) : announcements;
+
+  useEffect(() => {
+    if (prefersReducedMotion || visibleAnnouncements.length <= 1 || paused) return;
+    const id = setInterval(() => setActive((i) => (i + 1) % visibleAnnouncements.length), 7000);
+    return () => clearInterval(id);
+  }, [prefersReducedMotion, paused, visibleAnnouncements.length]);
 
   return (
     <div
@@ -153,7 +153,7 @@ function AnnouncementBar({ suppressStockClaims = false }: { suppressStockClaims?
 
         {/* Mobile: rotate one message at a time with a gentle fade */}
         <div className="relative h-4 w-full md:hidden">
-          {announcements.map((msg, i) => (
+          {visibleAnnouncements.map((msg, i) => (
             <span
               key={msg}
               className={`absolute inset-0 flex items-center justify-center whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.16em] text-paper/70 ease-out ${
