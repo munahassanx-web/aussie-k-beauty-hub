@@ -127,6 +127,10 @@ function scoreProduct(p: ShopProduct, a: QuizAnswers): Scored | null {
   // list we have reviewed — held either on the product record (`inci`) or in
   // the audited copy overrides (`fullInci`). `productInci` checks both.
   if ((a.reactivity === 'often' || a.reactivity === 'unsure') && !productInci(p)) return null;
+  // Targeted products with a named exfoliating acid or retinal are only ever
+  // considered when their complete ingredient list has been reviewed — for
+  // every customer, whatever their experience or reactivity answers.
+  if (active && !productInci(p)) return null;
 
   const reasons: string[] = [];
   let score = 0;
@@ -315,9 +319,13 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
 
   // "Not sure—keep it simple" always resolves to a minimal routine, and so
   // does frequently reactive skin — a shorter routine means fewer new products
-  // introduced at once.
+  // introduced at once. "Skin that feels overworked" as the main focus also
+  // gets the cautious routine, whatever the familiarity answer says.
   const minimal =
-    a.depth === 'minimal' || a.primaryConcern === 'unsure' || a.reactivity === 'often';
+    a.depth === 'minimal' ||
+    a.primaryConcern === 'unsure' ||
+    a.primaryConcern === 'barrier' ||
+    a.reactivity === 'often';
   const wantsTone = !minimal;
   const wantsTreat = !minimal;
   const wantsSecondTreat = a.depth === 'full';
