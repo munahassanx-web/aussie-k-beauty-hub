@@ -142,6 +142,26 @@ export type SunscreenCompliance = {
 };
 
 
+/**
+ * Stage 2A default state for a SKU confirmed in a supplier order but with no
+ * verified pack detail, ingredient list, price, imagery or guidance yet.
+ * Nothing here may be sold, priced, recommended or bundled.
+ */
+const CONTENT_IN_PREPARATION = {
+  price: '',
+  tag: null,
+  image: '/products/placeholder.webp',
+  concerns: [] as Concern[],
+  productRecordCreated: true,
+  supplierMatchConfirmed: true,
+  purchasable: false,
+  websiteStatus: 'content_in_preparation',
+  packagingCheck: 'pending',
+  ingredientReviewStatus: 'pending',
+  priceStatus: 'pending',
+  routineFinderEligible: false,
+} as const;
+
 export const SHOP_PRODUCTS: ShopProduct[] = [
   {
     name: "Real Hyaluronic 100 Toner 200ml",
