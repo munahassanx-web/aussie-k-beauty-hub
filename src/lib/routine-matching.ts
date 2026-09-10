@@ -328,11 +328,11 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
   // does frequently reactive skin — a shorter routine means fewer new products
   // introduced at once. "Skin that feels overworked" as the main focus also
   // gets the cautious routine, whatever the familiarity answer says.
-  const minimal =
-    a.depth === 'minimal' ||
-    a.primaryConcern === 'unsure' ||
-    a.primaryConcern === 'barrier' ||
-    a.reactivity === 'often';
+  // Safety answers always win over the routine-length preference.
+  const safetyCautious = a.primaryConcern === 'barrier' || a.reactivity === 'often';
+  const minimal = a.depth === 'minimal' || a.primaryConcern === 'unsure' || safetyCautious;
+  /** The customer asked for more steps, but a safety answer overrode it. */
+  const cautiousOverride = safetyCautious && a.depth !== 'minimal';
   const wantsTone = !minimal;
   const wantsTreat = !minimal;
   // Optional full-depth extras never appear on a cautious (minimal) routine.
