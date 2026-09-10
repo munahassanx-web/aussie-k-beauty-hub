@@ -688,8 +688,9 @@ function ProductPage() {
                       </summary>
                       <p className="mt-4 text-xs leading-relaxed text-muted-foreground">{inci.text}</p>
                       <p className="mt-4 text-[11px] leading-relaxed text-muted-foreground">
-                        Ingredient lists may change when a product is reformulated. Check the
+                        Ingredient lists may change when products are reformulated. Check the
                         packaging received before use, particularly if you have known sensitivities.
+                        The ingredient list printed on the product received is the final reference.
                       </p>
                       <div className="mt-4 space-y-1.5 border-t border-border pt-4">
                         <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
@@ -719,13 +720,17 @@ function ProductPage() {
                             : 'Pending'}
                         </p>
                       </div>
-                      {inci.isInternalRecord && (
+                      {inci.sourceNote ? (
+                        <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
+                          {inci.sourceNote}
+                        </p>
+                      ) : inci.isInternalRecord ? (
                         <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
                           This list comes from a private record supplied by our supply partner, not
                           from a publicly available page, so it cannot be independently checked
                           online.
                         </p>
-                      )}
+                      ) : null}
                       {!inci.packagingVerifiedOnLong && (
                         <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
                           This list has not yet been compared with Skin Grocer's physical stock. The
@@ -742,8 +747,9 @@ function ProductPage() {
                         {productInci(product)}
                       </p>
                       <p className="mt-3 text-[11px] text-muted-foreground">
-                        Ingredient lists may change when a product is reformulated. Check the
+                        Ingredient lists may change when products are reformulated. Check the
                         packaging received before use, particularly if you have known sensitivities.
+                        The ingredient list printed on the product received is the final reference.
                       </p>
                     </div>
                   ) : (

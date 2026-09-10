@@ -1213,6 +1213,8 @@ export function inciRecord(p: ShopProduct) {
     sourceUrl: p.inciSourceUrl,
     /** True when the source is a private record, not a public citation. */
     isInternalRecord: type === 'internal-supplier-record',
+    /** Customer-facing note about a private / supply-partner record. */
+    sourceNote: p.inciSourceNote,
     checkedOn: p.inciCheckedOn,
     checkedOnLong: inciDateLong(p.inciCheckedOn),
     /** Long-form date only once physical packaging has been checked. */

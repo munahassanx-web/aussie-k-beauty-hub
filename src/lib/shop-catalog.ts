@@ -67,6 +67,12 @@ export type ShopProduct = {
    */
   inciPackagingVerifiedOn?: string;
   /**
+   * Optional customer-facing note explaining the source of an internal or
+   * supply-partner record. Use it to name the partner and clarify that the
+   * supporting record is private and cannot be independently checked online.
+   */
+  inciSourceNote?: string;
+  /**
    * Sunscreens are therapeutic goods in Australia, not ordinary cosmetics.
    * A Protect SKU is only purchasable, recommendable and allowed to carry SPF
    * or UV-protection guidance once every field below is documented.
@@ -247,7 +253,8 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     category: "Cleanse",
     image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp",
     concerns: ["sensitivity"],
-    // INCI transcribed in printed order from a retail ingredient listing for this exact 80ml SKU, checked 9 September 2026.
+    // INCI supplied by UMMA (Skin Grocer's Korean wholesale partner) and checked
+    // against the physical stock received in Melbourne on 9 September 2026.
     inci: [
       "Water",
       "1,2-Hexanediol",
@@ -291,8 +298,11 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Sodium Acetylated Hyaluronate",
     ],
     inciSource: "internal-supplier-record",
-    inciSourceName: "Skin Grocer internal supply-partner ingredient record",
+    inciSourceName: "UMMA — PRIVATE B2B SUPPLY-PARTNER INGREDIENT RECORD",
     inciCheckedOn: "2026-09-09",
+    inciPackagingVerifiedOn: "2026-09-09",
+    inciSourceNote:
+      "This ingredient list was supplied through Skin Grocer's Korean wholesale partner, UMMA. The supporting record is private and cannot be independently checked through a public link.",
   },
   { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "$18", priceId: "round_lab_1025_dokdo_toner_100ml_onetime", tag: null, category: "Tone", image: "/products/round-lab/1025-dokdo-toner-100ml.webp", concerns: ["pigmentation"] },
   { name: "1025 Dokdo Lotion 200ml", brand: "ROUND LAB", price: "$36", priceId: "round_lab_1025_dokdo_lotion_200ml_onetime", tag: null, category: "Moisturise", image: "/products/round-lab/1025-dokdo-lotion-200ml.webp", concerns: ["hydration"] },
@@ -706,7 +716,8 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     category: "Moisturise",
     image: "/products/beplain/milk-ceramide-moisturizing-cream.webp",
     concerns: ["hydration","barrier"],
-    // INCI transcribed in printed order from a retail ingredient listing for this exact SKU, checked 9 September 2026.
+    // INCI supplied by UMMA (Skin Grocer's Korean wholesale partner) and checked
+    // against the physical stock received in Melbourne on 9 September 2026.
     inci: [
       "Aqua",
       "Caprylic/Capric Triglyceride",
@@ -760,10 +771,12 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Tetraacetylphytosphingosine",
       "Glycosphingolipids",
     ],
-    inciSource: "authorised-retailer",
-    inciSourceName: "Korean Skincare \u2014 beplain Milk Ceramide Moisturizing Cream product page",
-    inciSourceUrl: "https://koreanskincare.com/products/beplain-milk-ceramide-moisturizing-cream",
+    inciSource: "internal-supplier-record",
+    inciSourceName: "UMMA — PRIVATE B2B SUPPLY-PARTNER INGREDIENT RECORD",
     inciCheckedOn: "2026-09-09",
+    inciPackagingVerifiedOn: "2026-09-09",
+    inciSourceNote:
+      "This ingredient list was supplied through Skin Grocer's Korean wholesale partner, UMMA. The supporting record is private and cannot be independently checked through a public link.",
   },
   { name: "Ginseng Cleansing Oil 210ml", brand: "Beauty of Joseon", price: "$30", priceId: "beauty_of_joseon_ginseng_cleansing_oil_210ml_onetime", tag: "New", category: "Cleanse", image: "/__l5e/assets-v1/ee718186-6443-43e5-847d-47725b187889/boj-ginseng-cleansing-oil.webp", concerns: ["hydration"] },
   { name: "Green Plum Refreshing Toner: AHA + BHA 150ml", brand: "Beauty of Joseon", price: "$32", priceId: "beauty_of_joseon_green_plum_refreshing_toner_150ml_onetime", tag: "New", category: "Tone", image: "/products/beauty-of-joseon/green-plum-refreshing-toner-aha-bha-150ml.webp", concerns: ["acne"] },
