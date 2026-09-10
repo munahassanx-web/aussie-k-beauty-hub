@@ -104,9 +104,15 @@ export type ShopProduct = {
   /** Ingredient-list review state. */
   ingredientReviewStatus?: 'pending' | 'reviewed';
   /** Australian retail price confirmation state. */
-  priceStatus?: 'pending' | 'confirmed';
+  priceStatus?: 'pending' | 'confirmed' | 'blocked_pending_compliance';
   /** Explicit approval for Routine Finder inclusion. */
   routineFinderEligible?: boolean;
+  /** Explicit approval for inclusion in bundles / routine kits. */
+  bundleEligible?: boolean;
+  /** Explicit approval for quick-add / buy-now controls. */
+  quickAddEligible?: boolean;
+  /** Explicit approval for restoring this SKU from a saved cart. */
+  cartRestorationEligible?: boolean;
 };
 
 export type SupplierReconciliationStatus =
@@ -706,7 +712,14 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   {
     name: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml",
     brand: "AESTURA",
-    price: "$10",
+    // No retail price is published while Australian sunscreen supply is unverified.
+    price: "",
+    purchasable: false,
+    priceStatus: "blocked_pending_compliance",
+    routineFinderEligible: false,
+    bundleEligible: false,
+    quickAddEligible: false,
+    cartRestorationEligible: false,
     priceId: "aestura_derma_uv365_barrier_moisture_mineral_sun_cream_onetime",
     tag: null,
     category: "Protect",
@@ -1138,6 +1151,9 @@ export function ingredientReviewed(p: ShopProduct): boolean {
  */
 export function supplierMatchPending(p: ShopProduct): boolean {
   return (
+    // Compliance overrides supplier-cart presence: an unverified sunscreen is
+    // never priced or purchasable, whatever the supplier record says.
+    sunscreenSupplyRestricted(p) ||
     p.purchasable === false ||
     p.supplierMatchConfirmed === false ||
     p.supplierReconciliationStatus === 'unmatched' ||
@@ -1160,8 +1176,20 @@ export function contentInPreparation(p: ShopProduct): boolean {
 /** Customer-facing wording for a supplier-ordered SKU still being prepared. */
 export const CONTENT_PREPARATION_LABEL = 'Coming soon — product information being prepared';
 
+/** Wording for a sunscreen awaiting Australian supply verification. */
+export const SUNSCREEN_VERIFICATION_LABEL = 'Australian availability being verified';
+
+/**
+ * A sunscreen may only ever be sold once its Australian supply record is
+ * documented. This gate outranks supplier matching, stock and price.
+ */
+export function sunscreenSupplyRestricted(p: ShopProduct): boolean {
+  return isSunscreen(p) && !australianSupplyVerified(p);
+}
+
 /** The single availability wording to show wherever a product's price would be. */
 export function availabilityLabelFor(p: ShopProduct): string {
+  if (sunscreenSupplyRestricted(p)) return SUNSCREEN_VERIFICATION_LABEL;
   return contentInPreparation(p) ? CONTENT_PREPARATION_LABEL : AVAILABILITY_PENDING_LABEL;
 }
 
