@@ -420,7 +420,7 @@ function ProductPage() {
             </button>
 
             <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center gap-2 p-4">
-              {gallery.map((g, i) => (
+              {count > 1 && gallery.map((g, i) => (
                 <span
                   key={g.src}
                   className={`h-px transition-all duration-300 ${
@@ -434,7 +434,7 @@ function ProductPage() {
 
           {/* Announce the current slide to screen readers */}
           <p aria-live="polite" className="sr-only">
-            {count > 0 ? `Image ${active + 1} of ${count}: ${gallery[active].alt}` : ''}
+            {count > 1 ? `Image ${active + 1} of ${count}: ${gallery[active].alt}` : ''}
           </p>
 
 
