@@ -434,7 +434,7 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
 
   const totalCents = items.reduce((sum, i) => sum + Math.round(productPrice(i.product) * 100), 0);
 
-  return { answers: a, profile, strategy, items, omitted, totalCents, protectPlaceholder };
+  return { answers: a, profile, strategy, items, omitted, totalCents, protectPlaceholder, cautiousOverride };
 }
 
 export function itemsFor(outcome: ConsultationOutcome, slot: 'am' | 'pm'): RoutineItem[] {
