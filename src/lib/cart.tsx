@@ -67,7 +67,16 @@ function readStored(): CartLine[] {
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter((l) => l && typeof l.priceId === 'string' && typeof l.unitCents === 'number');
+    // Stored carts are re-validated on every restore, so a line saved before a
+    // SKU became unpurchasable (e.g. supplier reconciliation pending) can never
+    // reappear from old browser data.
+    return parsed.filter(
+      (l) =>
+        l &&
+        typeof l.priceId === 'string' &&
+        typeof l.unitCents === 'number' &&
+        isPurchasable(l.priceId),
+    );
   } catch {
     return [];
   }
