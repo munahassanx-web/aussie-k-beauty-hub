@@ -327,6 +327,8 @@ function ProductPage() {
   // Sunscreen without documented lawful Australian supply: no price, no buy
   // control, no application, usage or routine guidance anywhere on the page.
   const restricted = supplyRestricted(product);
+  // Supplier reconciliation pending: viewable, but no price and no purchase path.
+  const supplyPending = supplierMatchPending(product);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
