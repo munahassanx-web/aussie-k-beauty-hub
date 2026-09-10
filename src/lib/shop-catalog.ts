@@ -1108,15 +1108,130 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   { ...CONTENT_IN_PREPARATION, name: "Probioderm Collagen Remodeling Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_collagen_remodeling_cream_50ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_seoul4pm" },
   { ...CONTENT_IN_PREPARATION, name: "Probioderm 3D Lifting Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_3d_lifting_cream_50ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_seoul4pm" },
   { ...CONTENT_IN_PREPARATION, name: "Brightening Peeling Gel 120g", brand: "Dr.G", priceId: "dr_g_brightening_peeling_gel_120g_onetime", category: "Cleanse", supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Black Rice Night Knight Retinol Serum 20ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_night_knight_retinol_serum_20ml_onetime", category: "Treat", supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Centella Phyto & 5 Peptide Concentrate Cream 30ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_centella_phyto_5_peptide_concentrate_cream_30ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Black Rice Bakuchiol Eye Cream 20ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_bakuchiol_eye_cream_20ml_onetime", category: "Moisturise", supplierReconciliationStatus: "matched_seoul4pm" },
+  {
+    ...CONTENT_IN_PREPARATION,
+    // No retinol percentage is published until it is read from the received
+    // carton and confirmed against an authoritative formula source.
+    name: "Black Rice Night Knight Retinol Serum 20ml",
+    supplierRecordName: "HARUHARU WONDER Black Rice Night Knight Retinol Serum 20ml",
+    brand: "HARUHARU WONDER",
+    priceId: "haruharu_wonder_black_rice_night_knight_retinol_serum_20ml_onetime",
+    category: "Treat",
+    suppliers: ["Seoul4PM"],
+    supplierReconciliationStatus: "matched_seoul4pm",
+    identityVerificationStatus: "online_identity_supported",
+    internalIdentityNote:
+      "Retinoid product. Excluded from the Routine Finder until retinoid safeguards are completed.",
+    identitySources: [
+      {
+        sourceType: "official_brand",
+        sourceName: "HARUHARU WONDER",
+        sourceUrl:
+          "https://haruharuwonder.com/products/haruharuwonder-black-rice-night-knight-retinol-serum-20ml",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+    ],
+  },
+  {
+    ...CONTENT_IN_PREPARATION,
+    // "5 Peptide" is part of the product name only — never a concentration claim.
+    name: "Centella Phyto & 5 Peptide Concentrate Cream 30ml",
+    supplierRecordName: "HARUHARU WONDER Centella Phyto & 5 Peptide Concentrate Cream 30ml",
+    brand: "HARUHARU WONDER",
+    priceId: "haruharu_wonder_centella_phyto_5_peptide_concentrate_cream_30ml_onetime",
+    category: "Moisturise",
+    suppliers: ["Seoul4PM"],
+    supplierReconciliationStatus: "matched_seoul4pm",
+    identityVerificationStatus: "online_identity_supported",
+    identitySources: [
+      {
+        sourceType: "official_brand",
+        sourceName: "HARUHARU WONDER",
+        sourceUrl:
+          "https://haruharuwonder.com/products/haruharuwonder-centella-phyto-5-peptide-concentrate-cream",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+      {
+        sourceType: "authorised_or_major_retailer",
+        sourceName: "LOOKFANTASTIC",
+        sourceUrl:
+          "https://www.lookfantastic.com/p/haruharu-wonder-centella-phyto-5-peptide-concentrate-cream-30ml/16858589/",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+    ],
+  },
+  {
+    ...CONTENT_IN_PREPARATION,
+    // Bakuchiol is a distinct cosmetic ingredient — never described as
+    // "natural retinol" or presented as equivalent to retinol.
+    name: "Black Rice Bakuchiol Eye Cream / Unscented 20ml",
+    supplierRecordName: "HARUHARU WONDER Black Rice Bakuchiol Eye Cream 20ml",
+    brand: "HARUHARU WONDER",
+    priceId: "haruharu_wonder_black_rice_bakuchiol_eye_cream_20ml_onetime",
+    category: "Moisturise",
+    suppliers: ["Seoul4PM"],
+    supplierReconciliationStatus: "matched_seoul4pm",
+    identityVerificationStatus: "online_identity_supported",
+    identitySources: [
+      {
+        sourceType: "official_brand",
+        sourceName: "HARUHARU WONDER",
+        sourceUrl:
+          "https://haruharuwonder.com/products/haruharuwonder-black-rice-bakuchiol-eye-cream-20ml",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+      {
+        sourceType: "authorised_or_major_retailer",
+        sourceName: "YesStyle",
+        sourceUrl:
+          "https://www.yesstyle.com/en/haruharu-wonder-black-rice-bakuchiol-eye-cream-20ml/info.html/pid.1112455824",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+    ],
+  },
   { ...CONTENT_IN_PREPARATION, name: "Bifida Biome Ampoule Toner 210ml", brand: "ma:nyo", priceId: "manyo_bifida_biome_ampoule_toner_210ml_onetime", category: "Tone", supplierReconciliationStatus: "matched_seoul4pm" },
   { ...CONTENT_IN_PREPARATION, name: "Pure Soybean Cleansing Oil 200ml", brand: "ma:nyo", priceId: "manyo_pure_soybean_cleansing_oil_200ml_onetime", category: "Cleanse", supplierReconciliationStatus: "matched_seoul4pm" },
   { ...CONTENT_IN_PREPARATION, name: "Galac Niacin 3.0 Essence 60ml", brand: "ma:nyo", priceId: "manyo_galac_niacin_3_0_essence_60ml_onetime", category: "Tone", supplierReconciliationStatus: "matched_seoul4pm" },
 
   // Ordered through both suppliers — one customer-facing record only.
-  { ...CONTENT_IN_PREPARATION, name: "Black Rice Moisture Cleansing Oil 150ml", brand: "HARUHARU WONDER", priceId: "haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime", category: "Cleanse", supplierReconciliationStatus: "matched_both" },
+  {
+    ...CONTENT_IN_PREPARATION,
+    // One customer-facing record only. Internal supplier records also call this
+    // "Black Rice Moisture Deep Cleansing Oil" — that variant never becomes a
+    // second product.
+    name: "Black Rice Moisture Cleansing Oil / Unscented 150ml",
+    supplierRecordName: "HARUHARU WONDER Black Rice Moisture Cleansing Oil 150ml",
+    acceptedNameVariants: ["Black Rice Moisture Deep Cleansing Oil"],
+    brand: "HARUHARU WONDER",
+    priceId: "haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime",
+    category: "Cleanse",
+    suppliers: ["UMMA", "Seoul4PM"],
+    supplierReconciliationStatus: "matched_both",
+    identityVerificationStatus: "online_identity_supported",
+    identitySources: [
+      {
+        sourceType: "official_brand",
+        sourceName: "HARUHARU WONDER",
+        sourceUrl:
+          "https://haruharuwonder.com/products/haruharuwonder-black-rice-moisture-cleansing-oil",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+      {
+        sourceType: "authorised_or_major_retailer",
+        sourceName: "YesStyle",
+        sourceUrl:
+          "https://www.yesstyle.com/en/haruharu-wonder-black-rice-moisture-cleansing-oil-150ml/info.html/pid.1134315119",
+        sourceReviewedDate: "2026-09-10",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+    ],
+  },
 ];
 
 /** Numeric price (AUD) for a catalog product. */
