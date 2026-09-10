@@ -126,9 +126,20 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
 
         <div className="mt-auto pt-4">
           <div className="flex items-center justify-between gap-3 border-t border-border/70 pt-3">
-            <span className="text-sm tabular-nums text-foreground">{p.price}</span>
+            {supplyPending ? (
+              <span className="text-xs text-muted-foreground">{AVAILABILITY_PENDING_LABEL}</span>
+            ) : (
+              <span className="text-sm tabular-nums text-foreground">{p.price}</span>
+            )}
             {!compact &&
-              (unavailable ? (
+              (supplyPending ? (
+                <Link
+                  to="/shop"
+                  className="relative z-10 text-[10px] uppercase tracking-[0.18em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
+                >
+                  Browse available products
+                </Link>
+              ) : unavailable ? (
                 <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                   {p.comingSoon ? 'Not yet orderable' : 'Out of stock'}
                 </span>
