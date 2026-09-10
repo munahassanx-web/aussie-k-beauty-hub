@@ -203,7 +203,11 @@ const CONTENT_IN_PREPARATION = {
   ingredientReviewStatus: 'pending',
   priceStatus: 'pending',
   routineFinderEligible: false,
+  bundleEligible: false,
+  quickAddEligible: false,
+  cartRestorationEligible: false,
 } as const;
+
 
 export const SHOP_PRODUCTS: ShopProduct[] = [
   {
