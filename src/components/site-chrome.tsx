@@ -1,11 +1,13 @@
 import { NewsletterForm } from "@/components/newsletter-form";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/lib/cart";
 import { ProductSearchOverlay } from "@/components/product-search";
 import { BrandWordmark, BrandLine } from "@/components/brand-wordmark";
 import { BrandBand } from "@/components/brand-band";
+import { findProductBySlug } from "@/lib/product-detail";
+import { supplierMatchPending } from "@/lib/shop-catalog";
 
 
 type MegaLink = { label: string; to: string; search?: Record<string, string>; hash?: string };
@@ -99,7 +101,7 @@ const announcements = [
 ];
 
 
-function AnnouncementBar() {
+function AnnouncementBar({ suppressStockClaims = false }: { suppressStockClaims?: boolean }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -118,6 +120,8 @@ function AnnouncementBar() {
     return () => clearInterval(id);
   }, [prefersReducedMotion, paused]);
 
+  const visibleAnnouncements = suppressStockClaims ? announcements.slice(0, 1) : announcements;
+
   return (
     <div
       className="bg-ink text-paper"
@@ -135,12 +139,12 @@ function AnnouncementBar() {
 
         {/* Desktop: all three trust messages in a calm, spaced row */}
         <div className="hidden w-full items-center justify-center md:flex">
-          {announcements.map((msg, i) => (
+          {visibleAnnouncements.map((msg, i) => (
             <span key={msg} className="flex items-center">
               <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-paper/70">
                 {msg}
               </span>
-              {i < announcements.length - 1 && (
+              {i < visibleAnnouncements.length - 1 && (
                 <span className="mx-8 text-[10px] text-paper/30" aria-hidden="true">·</span>
               )}
             </span>
@@ -181,6 +185,12 @@ export function SiteHeader() {
   const [compact, setCompact] = useState(false);
   const { user } = useAuth();
   const cart = useCart();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const productSlugFromPath = pathname.startsWith('/product/')
+    ? decodeURIComponent(pathname.slice('/product/'.length))
+    : null;
+  const pageProduct = productSlugFromPath ? findProductBySlug(productSlugFromPath) : undefined;
+  const suppressStockClaims = pageProduct ? supplierMatchPending(pageProduct) : false;
 
   // Remember which control opened a modal-style panel so focus can return to it.
   const lastTrigger = useRef<HTMLElement | null>(null);
@@ -292,7 +302,7 @@ export function SiteHeader() {
       <div className="relative">
         <div className="bg-background/60 backdrop-blur-2xl" onMouseLeave={() => setOpenMenu(null)}>
           {/* Trust messages sit at the top of the page and scroll away with it. */}
-          <AnnouncementBar />
+          <AnnouncementBar suppressStockClaims={suppressStockClaims} />
           <div className="mx-auto max-w-7xl px-6 border-b border-foreground/5">
             {/* Brand row — large centered wordmark */}
             <div className="relative flex items-center justify-center px-4 pt-10 pb-4 md:min-h-[84px] md:px-0 md:pt-0 md:pb-0">

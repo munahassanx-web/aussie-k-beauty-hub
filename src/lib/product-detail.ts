@@ -1278,7 +1278,6 @@ export const SUPPLIER_RECONCILIATION_INTRO =
 
 export function productDescription(p: ShopProduct): string {
   if (supplyRestricted(p)) return SUPPLY_RESTRICTED_INTRO;
-  if (supplierMatchPending(p)) return SUPPLIER_RECONCILIATION_INTRO;
   const override = COPY[p.priceId]?.description;
   if (override) return override;
   const type = p.category === 'Masks' ? 'mask' : p.category.toLowerCase();
