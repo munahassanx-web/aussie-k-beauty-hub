@@ -4,6 +4,7 @@
 import {
   SHOP_PRODUCTS,
   australianSupplyVerified,
+  contentInPreparation,
   isSunscreen,
   supplierMatchPending,
   type ShopProduct,
@@ -893,6 +894,17 @@ export function galleryFor(p: ShopProduct): GalleryImage[] {
     return [{ src: p.image, alt: `${p.brand} ${p.name}` }];
   }
   const editorial = EDITORIAL[p.priceId];
+  // Coming Soon records have no verified imagery yet: one neutral placeholder,
+  // never duplicated into a false multi-image gallery, and never padded out
+  // with generic lifestyle shots.
+  if (contentInPreparation(p) && !editorial) {
+    return [
+      {
+        src: p.image,
+        alt: `${p.brand} ${p.name} — verified product imagery coming soon`,
+      },
+    ];
+  }
   // When a SKU has bespoke, product-accurate editorial imagery we show only
   // that — generic category lifestyle shots look random next to it.
   return [
