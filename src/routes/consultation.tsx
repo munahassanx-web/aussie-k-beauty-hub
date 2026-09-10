@@ -83,9 +83,9 @@ const REACTIVITY: Option<Reactivity>[] = [
 ];
 
 const EXPERIENCE: Option<Experience>[] = [
-  { value: "new", title: "Starting from scratch", hint: "Little or no routine yet" },
-  { value: "some", title: "I have the basics", hint: "Cleanser, moisturiser, maybe SPF" },
-  { value: "confident", title: "I know what I'm doing", hint: "Comfortable with serums and stronger actives" },
+  { value: "new", title: "I’m new to skincare routines", hint: "I’d like a simple starting point with clear instructions." },
+  { value: "some", title: "I use a basic routine", hint: "I’m familiar with cleanser, moisturiser and daily sunscreen." },
+  { value: "confident", title: "I’m familiar with skincare products", hint: "I understand layering and have previously used serums or targeted cosmetic products." },
 ];
 
 const DEPTH: Option<Depth>[] = [
@@ -327,8 +327,8 @@ function ConsultationPage() {
             {phase === "experience" && (
               <Question
                 index={4}
-                prompt="Where are you starting from?"
-                aside="This changes how strong we're willing to go, not how much we recommend."
+                prompt="How familiar are you with building a skincare routine?"
+                aside="This helps us decide how much guidance and how many optional steps to show. It never overrides your sensitivity or reactivity answers."
                 onBack={back}
                 onNext={draft.experience ? next : null}
               >

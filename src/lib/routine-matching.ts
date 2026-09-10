@@ -127,6 +127,10 @@ function scoreProduct(p: ShopProduct, a: QuizAnswers): Scored | null {
   // list we have reviewed — held either on the product record (`inci`) or in
   // the audited copy overrides (`fullInci`). `productInci` checks both.
   if ((a.reactivity === 'often' || a.reactivity === 'unsure') && !productInci(p)) return null;
+  // Targeted products with a named exfoliating acid or retinal are only ever
+  // considered when their complete ingredient list has been reviewed — for
+  // every customer, whatever their experience or reactivity answers.
+  if (active && !productInci(p)) return null;
 
   const reasons: string[] = [];
   let score = 0;
@@ -184,10 +188,13 @@ function scoreProduct(p: ShopProduct, a: QuizAnswers): Scored | null {
   if (a.skinFeel === 'dry' && weight === 'rich') { score += 2; reasons.push('the richer texture suits skin that feels tight'); }
   if (a.skinFeel === 'combination' && weight === 'medium') { score += 1; }
 
-  if (a.experience === 'confident' && active) {
-    score += 2;
-    reasons.push('you told us you\u2019re comfortable with stronger actives');
-  }
+  // Question 5 (routine familiarity) never changes what is appropriate or
+  // safe — it only shapes how much explanation and how many optional steps
+  // the result carries. It therefore contributes no score here, and it can
+  // never override the reactivity, overworked-skin, ingredient-review or
+  // Australian sunscreen-compliance rules above.
+
+
 
   // Gentle tie-break so results are stable and the cheaper option wins a draw.
   score += Math.max(0, (60 - productPrice(p)) / 100);
@@ -312,13 +319,18 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
 
   // "Not sure—keep it simple" always resolves to a minimal routine, and so
   // does frequently reactive skin — a shorter routine means fewer new products
-  // introduced at once.
+  // introduced at once. "Skin that feels overworked" as the main focus also
+  // gets the cautious routine, whatever the familiarity answer says.
   const minimal =
-    a.depth === 'minimal' || a.primaryConcern === 'unsure' || a.reactivity === 'often';
+    a.depth === 'minimal' ||
+    a.primaryConcern === 'unsure' ||
+    a.primaryConcern === 'barrier' ||
+    a.reactivity === 'often';
   const wantsTone = !minimal;
   const wantsTreat = !minimal;
-  const wantsSecondTreat = a.depth === 'full';
-  const wantsMask = a.depth === 'full';
+  // Optional full-depth extras never appear on a cautious (minimal) routine.
+  const wantsSecondTreat = !minimal && a.depth === 'full';
+  const wantsMask = !minimal && a.depth === 'full';
 
   // 1. Cleanse
   push('a cleanser', (p) => p.category === 'Cleanse', 'Cleanse', 'both', 'Morning and evening');
