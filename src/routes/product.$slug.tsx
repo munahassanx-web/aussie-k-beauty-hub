@@ -545,7 +545,7 @@ function ProductPage() {
           )}
 
           <div className="mt-8 border-t border-border pt-6">
-            {!restricted && (
+            {!restricted && !supplyPending && (
               <div className="flex items-baseline justify-between gap-4">
                 <span className="font-display text-2xl tabular-nums text-foreground">
                   {product.price}
@@ -557,7 +557,23 @@ function ProductPage() {
             )}
 
             <div className="mt-5 space-y-3">
-              {!australianSupplyVerified(product) ? (
+              {supplyPending ? (
+                /* Supplier reconciliation pending: not sold out, no restock
+                   date, no pre-order, no substitute product. */
+                <div className="rounded-[2px] border border-border px-6 py-5 text-center">
+                  <p className="text-sm font-medium text-foreground">Availability being confirmed</p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    This product is not currently available to purchase. Skin Grocer is confirming
+                    its supply record before making it available.
+                  </p>
+                  <Link
+                    to="/shop"
+                    className="mt-4 inline-block text-[10px] uppercase tracking-[0.2em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
+                  >
+                    Browse available products
+                  </Link>
+                </div>
+              ) : !australianSupplyVerified(product) ? (
                 /* Sunscreen without a documented Australian supply record: no
                    sale, no SPF or UV guidance, no application-time claims. */
                 <div className="rounded-[2px] border border-border px-6 py-5 text-center">
