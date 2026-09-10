@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useBuyNow } from "@/hooks/use-buy-now";
+import { AVAILABILITY_PENDING_LABEL, isPurchasable } from "@/lib/shop-catalog";
 
 export type CompareItem = {
   priceId: string;
