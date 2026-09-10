@@ -5,6 +5,7 @@ import {
   contentInPreparation,
   isPurchasable,
   supplierMatchPending,
+  sunscreenSupplyRestricted,
 } from '@/lib/shop-catalog';
 import { buildRoutine, type QuizAnswers } from '@/lib/routine-matching';
 import {
@@ -89,9 +90,11 @@ describe('Stage 1 supplier reconciliation', () => {
   });
 
   it('leaves every other product untouched', () => {
-    // Stage 2A records are pending for a different reason (content in
-    // preparation), so they are excluded from this Stage 1 assertion.
-    const flagged = SHOP_PRODUCTS.filter((p) => supplierMatchPending(p) && !contentInPreparation(p))
+    // Stage 2A records (content in preparation) and the restricted sunscreen
+    // are pending for different reasons, so they are excluded here.
+    const flagged = SHOP_PRODUCTS.filter(
+      (p) => supplierMatchPending(p) && !contentInPreparation(p) && !sunscreenSupplyRestricted(p),
+    )
       .map((p) => p.priceId)
       .sort();
     expect(flagged).toEqual([...UNMATCHED].sort());
