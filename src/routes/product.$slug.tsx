@@ -16,6 +16,7 @@ import { track } from '@/lib/analytics';
 import {
   productPrice,
   australianSupplyVerified,
+  supplierMatchPending,
   type ShopProduct,
 } from '@/lib/shop-catalog';
 import { breadcrumbJsonLd } from '@/lib/breadcrumbs';
