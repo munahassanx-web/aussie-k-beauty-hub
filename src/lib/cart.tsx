@@ -17,7 +17,7 @@ export {
 } from '@/lib/shipping-rates';
 import { FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS } from '@/lib/shipping-rates';
 import { track, centsToAud, type AnalyticsItem } from '@/lib/analytics';
-import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
+import { SHOP_PRODUCTS, isPurchasable } from '@/lib/shop-catalog';
 
 /** Catalogue category for a cart line, looked up by the stable price/SKU id. */
 function categoryFor(priceId: string): string | undefined {
