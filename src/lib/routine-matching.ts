@@ -184,10 +184,13 @@ function scoreProduct(p: ShopProduct, a: QuizAnswers): Scored | null {
   if (a.skinFeel === 'dry' && weight === 'rich') { score += 2; reasons.push('the richer texture suits skin that feels tight'); }
   if (a.skinFeel === 'combination' && weight === 'medium') { score += 1; }
 
-  if (a.experience === 'confident' && active) {
-    score += 2;
-    reasons.push('you told us you\u2019re comfortable with stronger actives');
-  }
+  // Question 5 (routine familiarity) never changes what is appropriate or
+  // safe — it only shapes how much explanation and how many optional steps
+  // the result carries. It therefore contributes no score here, and it can
+  // never override the reactivity, overworked-skin, ingredient-review or
+  // Australian sunscreen-compliance rules above.
+
+
 
   // Gentle tie-break so results are stable and the cheaper option wins a draw.
   score += Math.max(0, (60 - productPrice(p)) / 100);
