@@ -1059,15 +1059,47 @@ export function ingredientReviewed(p: ShopProduct): boolean {
   return Boolean(p.inciSourceUrl);
 }
 
+/**
+ * Supplier-cart reconciliation gate. A SKU that could not be located in a
+ * documented supplier record is kept in the catalogue and remains viewable,
+ * but is never sold, priced, recommended or bundled. This is NOT a sold-out
+ * state: no incoming or previously available stock has been established, so
+ * no restock date or replacement is ever implied.
+ */
+export function supplierMatchPending(p: ShopProduct): boolean {
+  return (
+    p.purchasable === false ||
+    p.supplierMatchConfirmed === false ||
+    p.supplierReconciliationStatus === 'unmatched' ||
+    p.supplierReconciliationStatus === 'verification_pending'
+  );
+}
+
+/** Customer-facing message shown wherever an unmatched product's price would be. */
+export const AVAILABILITY_PENDING_LABEL = 'Availability being confirmed';
+
+/** True when a bundle contains a SKU still awaiting supplier reconciliation. */
+export function bundleSupplyPending(includes: string[]): boolean {
+  return includes.some((entry) =>
+    SHOP_PRODUCTS.some(
+      (p) => supplierMatchPending(p) && entry.toLowerCase().includes(p.name.toLowerCase()),
+    ),
+  );
+}
+
 /** True when a price id can actually be charged (exists in the catalog and is in stock). */
 export function isPurchasable(priceId: string): boolean {
   const product = SHOP_PRODUCTS.find((p) => p.priceId === priceId);
-  if (product) return !product.comingSoon && australianSupplyVerified(product);
-  if (BUNDLE_DEFINITIONS.some((b) => b.priceId === priceId)) return true;
+  if (product)
+    return !product.comingSoon && australianSupplyVerified(product) && !supplierMatchPending(product);
+  const bundle = BUNDLE_DEFINITIONS.find((b) => b.priceId === priceId);
+  if (bundle) return !bundleSupplyPending(bundle.includes);
   const restockSource = Object.entries(RESTOCK_PRICE_BY_PRODUCT).find(([, sub]) => sub === priceId);
   if (!restockSource) return false;
   const base = SHOP_PRODUCTS.find((p) => p.priceId === restockSource[0]);
-  return Boolean(base && !base.comingSoon && australianSupplyVerified(base));
+  return Boolean(
+    base && !base.comingSoon && australianSupplyVerified(base) && !supplierMatchPending(base),
+  );
 }
 
 if (import.meta.env?.DEV) {
