@@ -417,12 +417,12 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
           ? 'You\u2019re not sure how your skin responds to new products, so we\u2019ve taken the cautious route — no exfoliating acids or retinoids, only products with reviewed ingredient lists, introduced gradually, one at a time.'
           : 'Your skin usually tolerates new products, so we\u2019ve built the routine around your concerns and preferences — still introduce anything new gradually rather than all at once.',
     minimal
-      ? a.reactivity === 'often'
-        ? 'Because your skin reacts often, we\u2019ve kept this to a short routine — fewer new products at once is the safer start.'
-        : 'You wanted something short you\u2019ll actually keep up.'
+      ? cautiousOverride
+        ? 'We\u2019ve kept this to the essential steps for now. Each product here has a clear reason for being included.'
+        : 'You asked to keep things essential, so this is the necessary steps only.'
       : a.depth === 'full'
-        ? 'You\u2019re happy with a fuller routine, so we\u2019ve used the extra steps.'
-        : 'You wanted a balanced routine — enough steps to matter, not so many they get skipped.',
+        ? 'You\u2019re open to extra steps, so we\u2019ve included the optional ones that were suitable, useful and ingredient-reviewed.'
+        : 'You asked for a balanced routine — the essentials, plus an optional step only where it had a clear purpose.',
   ];
 
   const strategy =
