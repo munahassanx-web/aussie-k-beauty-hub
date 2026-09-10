@@ -328,8 +328,9 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
     a.reactivity === 'often';
   const wantsTone = !minimal;
   const wantsTreat = !minimal;
-  const wantsSecondTreat = a.depth === 'full';
-  const wantsMask = a.depth === 'full';
+  // Optional full-depth extras never appear on a cautious (minimal) routine.
+  const wantsSecondTreat = !minimal && a.depth === 'full';
+  const wantsMask = !minimal && a.depth === 'full';
 
   // 1. Cleanse
   push('a cleanser', (p) => p.category === 'Cleanse', 'Cleanse', 'both', 'Morning and evening');
