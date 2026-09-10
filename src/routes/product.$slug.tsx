@@ -57,18 +57,24 @@ function productJsonLd(p: ShopProduct, soldOut: boolean) {
     name: p.name,
     image: imageUrl,
     brand: { '@type': 'Brand', name: p.brand },
-    offers: {
-      '@type': 'Offer',
-      price: numericPrice.toFixed(2),
-      priceCurrency: 'AUD',
-      // Live warehouse state: a SKU is only advertised as InStock when it is
-      // genuinely purchasable right now (not pre-launch, not sold out).
-      availability:
-        p.comingSoon || soldOut || !australianSupplyVerified(p)
-          ? 'https://schema.org/OutOfStock'
-          : 'https://schema.org/InStock',
-      url: productUrl,
-    },
+    // A SKU still awaiting supplier reconciliation carries no offer at all —
+    // no price, no availability claim, no order signal of any kind.
+    ...(supplierMatchPending(p)
+      ? {}
+      : {
+          offers: {
+            '@type': 'Offer',
+            price: numericPrice.toFixed(2),
+            priceCurrency: 'AUD',
+            // Live warehouse state: a SKU is only advertised as InStock when it is
+            // genuinely purchasable right now (not pre-launch, not sold out).
+            availability:
+              p.comingSoon || soldOut || !australianSupplyVerified(p)
+                ? 'https://schema.org/OutOfStock'
+                : 'https://schema.org/InStock',
+            url: productUrl,
+          },
+        }),
   };
 
   return {
