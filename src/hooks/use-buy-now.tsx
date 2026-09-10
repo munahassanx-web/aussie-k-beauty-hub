@@ -1,6 +1,12 @@
 import { toast } from 'sonner';
 import { useCart } from '@/lib/cart';
-import { catalogEntryFor, isPurchasable, priceToCents } from '@/lib/shop-catalog';
+import {
+  SHOP_PRODUCTS,
+  catalogEntryFor,
+  isPurchasable,
+  priceToCents,
+  supplierMatchPending,
+} from '@/lib/shop-catalog';
 import { useSoldOutSkus } from '@/hooks/use-stock';
 
 export type BuyOptions = {
