@@ -419,7 +419,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     inciSourceUrl: "https://sokoglam.com/products/isntree-green-tea-fresh-toner",
     inciCheckedOn: "2026-09-09",
   },
-  { name: "Chestnut BHA 2% Clear Liquid 100ml", brand: "ISNTREE", price: "$36", priceId: "isntree_chestnut_bha_2_percent_clear_liquid_100ml_onetime", tag: null, category: "Treat", image: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.webp", concerns: ["acne"] },
+  { name: "Chestnut BHA 2% Clear Liquid 100ml", brand: "ISNTREE", price: "$36", priceId: "isntree_chestnut_bha_2_percent_clear_liquid_100ml_onetime", tag: null, category: "Treat", image: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.webp", concerns: ["acne"], supplierReconciliationStatus: "unmatched", supplierMatchConfirmed: false, purchasable: false },
   { name: "Yam Root Vegan Milk Cleanser 220ml", brand: "ISNTREE", price: "$38", priceId: "isntree_yam_root_vegan_milk_cleanser_220ml_onetime", tag: null, category: "Cleanse", image: "/products/isntree/yam-root-vegan-milk-cleanser-220ml.webp", concerns: ["hydration"] },
   { name: "Yam Root Vegan Milk Toner 200ml", brand: "ISNTREE", price: "$32", priceId: "isntree_yam_root_vegan_milk_toner_200ml_onetime", tag: null, category: "Tone", image: "/products/isntree/yam-root-vegan-milk-toner-200ml.webp", concerns: ["hydration","pigmentation"] },
   { name: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", price: "$28", priceId: "haruharu_wonder_black_rice_hyaluronic_toner_150ml_onetime", tag: null, category: "Tone", image: "/__l5e/assets-v1/5c2e77da-7082-420c-809a-9005bdb6aef8/haruharu-wonder-black-rice-hyaluronic-toner-150ml.png", concerns: ["hydration","pigmentation"] },
