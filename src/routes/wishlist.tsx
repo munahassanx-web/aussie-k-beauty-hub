@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { useWishlist } from '@/lib/wishlist';
 import { useBuyNow } from '@/hooks/use-buy-now';
-import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
+import { AVAILABILITY_PENDING_LABEL, SHOP_PRODUCTS, supplierMatchPending } from '@/lib/shop-catalog';
 import { supplyRestricted } from '@/lib/product-detail';
 import { productSlug } from '@/lib/product-detail';
 import { HeartIcon } from '@/components/wishlist-button';
@@ -83,6 +83,10 @@ function WishlistPage() {
                   {supplyRestricted(p) ? (
                     <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                       Unavailable — Australian supply verification pending.
+                    </span>
+                  ) : supplierMatchPending(p) ? (
+                    <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      {AVAILABILITY_PENDING_LABEL}
                     </span>
                   ) : (
                   <>

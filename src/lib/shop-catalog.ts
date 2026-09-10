@@ -78,7 +78,27 @@ export type ShopProduct = {
    * or UV-protection guidance once every field below is documented.
    */
   sunscreenCompliance?: SunscreenCompliance;
+  // --- supplier reconciliation (Stage 1) -----------------------------------
+  /**
+   * Where this SKU sits in the supplier-cart reconciliation. `unmatched` means
+   * the product could not be found in any documented supplier cart, so it may
+   * not be sold, recommended or bundled. Similarity to another product is
+   * never evidence of supply.
+   */
+  supplierReconciliationStatus?: SupplierReconciliationStatus;
+  /** True only when the SKU has been located in a documented supplier record. */
+  supplierMatchConfirmed?: boolean;
+  /** Explicit override — false blocks every purchase path for this SKU. */
+  purchasable?: boolean;
 };
+
+export type SupplierReconciliationStatus =
+  | 'matched_umma'
+  | 'matched_seoul4pm'
+  | 'matched_both'
+  | 'other_documented_supplier'
+  | 'unmatched'
+  | 'verification_pending';
 
 export type InciSourceType =
   | 'packaging'
@@ -399,9 +419,9 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     inciSourceUrl: "https://sokoglam.com/products/isntree-green-tea-fresh-toner",
     inciCheckedOn: "2026-09-09",
   },
-  { name: "Chestnut BHA 2% Clear Liquid 100ml", brand: "ISNTREE", price: "$36", priceId: "isntree_chestnut_bha_2_percent_clear_liquid_100ml_onetime", tag: null, category: "Treat", image: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.webp", concerns: ["acne"] },
+  { name: "Chestnut BHA 2% Clear Liquid 100ml", brand: "ISNTREE", price: "$36", priceId: "isntree_chestnut_bha_2_percent_clear_liquid_100ml_onetime", tag: null, category: "Treat", image: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.webp", concerns: ["acne"], supplierReconciliationStatus: "unmatched", supplierMatchConfirmed: false, purchasable: false },
   { name: "Yam Root Vegan Milk Cleanser 220ml", brand: "ISNTREE", price: "$38", priceId: "isntree_yam_root_vegan_milk_cleanser_220ml_onetime", tag: null, category: "Cleanse", image: "/products/isntree/yam-root-vegan-milk-cleanser-220ml.webp", concerns: ["hydration"] },
-  { name: "Yam Root Vegan Milk Toner 200ml", brand: "ISNTREE", price: "$32", priceId: "isntree_yam_root_vegan_milk_toner_200ml_onetime", tag: null, category: "Tone", image: "/products/isntree/yam-root-vegan-milk-toner-200ml.webp", concerns: ["hydration","pigmentation"] },
+  { name: "Yam Root Vegan Milk Toner 200ml", brand: "ISNTREE", price: "$32", priceId: "isntree_yam_root_vegan_milk_toner_200ml_onetime", tag: null, category: "Tone", image: "/products/isntree/yam-root-vegan-milk-toner-200ml.webp", concerns: ["hydration","pigmentation"], supplierReconciliationStatus: "unmatched", supplierMatchConfirmed: false, purchasable: false },
   { name: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", price: "$28", priceId: "haruharu_wonder_black_rice_hyaluronic_toner_150ml_onetime", tag: null, category: "Tone", image: "/__l5e/assets-v1/5c2e77da-7082-420c-809a-9005bdb6aef8/haruharu-wonder-black-rice-hyaluronic-toner-150ml.png", concerns: ["hydration","pigmentation"] },
   { name: "Black Rice 5 Ceramide Barrier Moisturizing Cream", brand: "HARUHARU WONDER", price: "$38", priceId: "haruharu_wonder_black_rice_5_ceramide_barrier_moisturizing_cream_onetime", size: "50ml", tag: null, category: "Moisturise", image: "/products/haruharu-wonder/black-rice-5-ceramide-barrier-moisturizing-cream.webp", concerns: ["hydration","barrier","pigmentation"] },
   { name: "Dive In Serum", brand: "TORRIDEN", price: "$38", priceId: "torriden_dive_in_serum_onetime", size: "50ml", tag: null, category: "Treat", image: "/products/torriden/dive-in-serum.webp", concerns: ["hydration"] },
@@ -530,7 +550,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   { name: "Dive In Mask Pack 1pc", brand: "TORRIDEN", price: "$10", priceId: "torriden_dive_in_mask_pack_1pc_onetime", size: "1 sheet", tag: null, category: "Masks", image: "/products/torriden/dive-in-mask-pack-1pc.webp", concerns: ["hydration"] },
   { name: "Balanceful Trial Kit (Global)", brand: "TORRIDEN", price: "$35", priceId: "torriden_balanceful_trial_kit_onetime", size: "Cleansing Gel 30ml + Toner Pads 6 pads + Serum 10ml + Cream 20ml", tag: null, category: "Treat", image: "/products/torriden/balanceful-trial-kit.webp", concerns: ["barrier"] },
   { name: "Dive In Trial Kit (Global)", brand: "TORRIDEN", price: "$35", priceId: "torriden_dive_in_trial_kit_onetime", size: "Cleansing Foam 30ml + Toner 50ml + Serum 20ml + Cream 20ml", tag: null, category: "Treat", image: "/products/torriden/dive-in-trial-kit.webp", concerns: ["hydration"] },
-  { name: "Refreshing Sea Kelp Real Deep Mask", brand: "BIODANCE", price: "$38", priceId: "biodance_refreshing_sea_kelp_real_deep_mask_onetime", size: "4 sheets", tag: null, category: "Masks", image: "/products/biodance/refreshing-sea-kelp-real-deep-mask.webp", concerns: ["sensitivity"] },
+  { name: "Refreshing Sea Kelp Real Deep Mask", brand: "BIODANCE", price: "$38", priceId: "biodance_refreshing_sea_kelp_real_deep_mask_onetime", size: "4 sheets", tag: null, category: "Masks", image: "/products/biodance/refreshing-sea-kelp-real-deep-mask.webp", concerns: ["sensitivity"], supplierReconciliationStatus: "unmatched", supplierMatchConfirmed: false, purchasable: false },
   {
     name: "Bio Collagen Real Deep Mask",
     brand: "BIODANCE",
@@ -1039,15 +1059,47 @@ export function ingredientReviewed(p: ShopProduct): boolean {
   return Boolean(p.inciSourceUrl);
 }
 
+/**
+ * Supplier-cart reconciliation gate. A SKU that could not be located in a
+ * documented supplier record is kept in the catalogue and remains viewable,
+ * but is never sold, priced, recommended or bundled. This is NOT a sold-out
+ * state: no incoming or previously available stock has been established, so
+ * no restock date or replacement is ever implied.
+ */
+export function supplierMatchPending(p: ShopProduct): boolean {
+  return (
+    p.purchasable === false ||
+    p.supplierMatchConfirmed === false ||
+    p.supplierReconciliationStatus === 'unmatched' ||
+    p.supplierReconciliationStatus === 'verification_pending'
+  );
+}
+
+/** Customer-facing message shown wherever an unmatched product's price would be. */
+export const AVAILABILITY_PENDING_LABEL = 'Availability being confirmed';
+
+/** True when a bundle contains a SKU still awaiting supplier reconciliation. */
+export function bundleSupplyPending(includes: string[]): boolean {
+  return includes.some((entry) =>
+    SHOP_PRODUCTS.some(
+      (p) => supplierMatchPending(p) && entry.toLowerCase().includes(p.name.toLowerCase()),
+    ),
+  );
+}
+
 /** True when a price id can actually be charged (exists in the catalog and is in stock). */
 export function isPurchasable(priceId: string): boolean {
   const product = SHOP_PRODUCTS.find((p) => p.priceId === priceId);
-  if (product) return !product.comingSoon && australianSupplyVerified(product);
-  if (BUNDLE_DEFINITIONS.some((b) => b.priceId === priceId)) return true;
+  if (product)
+    return !product.comingSoon && australianSupplyVerified(product) && !supplierMatchPending(product);
+  const bundle = BUNDLE_DEFINITIONS.find((b) => b.priceId === priceId);
+  if (bundle) return !bundleSupplyPending(bundle.includes);
   const restockSource = Object.entries(RESTOCK_PRICE_BY_PRODUCT).find(([, sub]) => sub === priceId);
   if (!restockSource) return false;
   const base = SHOP_PRODUCTS.find((p) => p.priceId === restockSource[0]);
-  return Boolean(base && !base.comingSoon && australianSupplyVerified(base));
+  return Boolean(
+    base && !base.comingSoon && australianSupplyVerified(base) && !supplierMatchPending(base),
+  );
 }
 
 if (import.meta.env?.DEV) {

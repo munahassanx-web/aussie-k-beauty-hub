@@ -17,7 +17,7 @@ export {
 } from '@/lib/shipping-rates';
 import { FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS } from '@/lib/shipping-rates';
 import { track, centsToAud, type AnalyticsItem } from '@/lib/analytics';
-import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
+import { SHOP_PRODUCTS, isPurchasable } from '@/lib/shop-catalog';
 
 /** Catalogue category for a cart line, looked up by the stable price/SKU id. */
 function categoryFor(priceId: string): string | undefined {
@@ -67,7 +67,16 @@ function readStored(): CartLine[] {
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter((l) => l && typeof l.priceId === 'string' && typeof l.unitCents === 'number');
+    // Stored carts are re-validated on every restore, so a line saved before a
+    // SKU became unpurchasable (e.g. supplier reconciliation pending) can never
+    // reappear from old browser data.
+    return parsed.filter(
+      (l) =>
+        l &&
+        typeof l.priceId === 'string' &&
+        typeof l.unitCents === 'number' &&
+        isPurchasable(l.priceId),
+    );
   } catch {
     return [];
   }

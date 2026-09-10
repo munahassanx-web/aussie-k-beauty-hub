@@ -3,7 +3,12 @@ import { useBuyNow } from '@/hooks/use-buy-now';
 import { useSoldOutSkus } from '@/hooks/use-stock';
 import { WishlistButton } from '@/components/wishlist-button';
 import { productSlug, routineStepLabel } from '@/lib/product-detail';
-import { productPrice, productSizeFor } from '@/lib/shop-catalog';
+import {
+  AVAILABILITY_PENDING_LABEL,
+  productPrice,
+  productSizeFor,
+  supplierMatchPending,
+} from '@/lib/shop-catalog';
 import type { ShopProduct } from '@/lib/shop-catalog';
 import { track } from '@/lib/analytics';
 
@@ -39,9 +44,18 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
   const soldOut = isSoldOut(p.priceId);
   const size = productSize(p);
   const slug = productSlug(p);
-  const unavailable = p.comingSoon || soldOut;
+  // Supplier reconciliation pending: viewable, never priced or purchasable,
+  // and never described as sold out.
+  const supplyPending = supplierMatchPending(p);
+  const unavailable = p.comingSoon || soldOut || supplyPending;
   // One badge only — availability outranks the brand-supplied tag.
-  const badge = p.comingSoon ? 'Arriving soon' : soldOut ? 'Out of stock' : p.tag || null;
+  const badge = supplyPending
+    ? AVAILABILITY_PENDING_LABEL
+    : p.comingSoon
+      ? 'Arriving soon'
+      : soldOut
+        ? 'Out of stock'
+        : p.tag || null;
 
   return (
     <article className="group relative flex h-full flex-col">
@@ -112,9 +126,20 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
 
         <div className="mt-auto pt-4">
           <div className="flex items-center justify-between gap-3 border-t border-border/70 pt-3">
-            <span className="text-sm tabular-nums text-foreground">{p.price}</span>
+            {supplyPending ? (
+              <span className="text-xs text-muted-foreground">{AVAILABILITY_PENDING_LABEL}</span>
+            ) : (
+              <span className="text-sm tabular-nums text-foreground">{p.price}</span>
+            )}
             {!compact &&
-              (unavailable ? (
+              (supplyPending ? (
+                <Link
+                  to="/shop"
+                  className="relative z-10 text-[10px] uppercase tracking-[0.18em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
+                >
+                  Browse available products
+                </Link>
+              ) : unavailable ? (
                 <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                   {p.comingSoon ? 'Not yet orderable' : 'Out of stock'}
                 </span>

@@ -1,6 +1,12 @@
 import { toast } from 'sonner';
 import { useCart } from '@/lib/cart';
-import { catalogEntryFor, isPurchasable, priceToCents } from '@/lib/shop-catalog';
+import {
+  SHOP_PRODUCTS,
+  catalogEntryFor,
+  isPurchasable,
+  priceToCents,
+  supplierMatchPending,
+} from '@/lib/shop-catalog';
 import { useSoldOutSkus } from '@/hooks/use-stock';
 
 export type BuyOptions = {
@@ -22,6 +28,12 @@ export function useBuyNow() {
 
   function buy(opts: BuyOptions) {
     const entry = catalogEntryFor(opts.priceId);
+    const product = SHOP_PRODUCTS.find((p) => p.priceId === opts.priceId);
+    if (product && supplierMatchPending(product)) {
+      // Not sold out and not arriving soon — the supply record is still being confirmed.
+      toast.info(`${opts.name}: availability being confirmed. It can't be ordered right now.`);
+      return;
+    }
     if (!entry || !isPurchasable(opts.priceId)) {
       toast.info(`${opts.name} isn't available to order yet — it lands in the Melbourne warehouse soon.`);
       return;

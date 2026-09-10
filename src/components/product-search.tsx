@@ -8,6 +8,7 @@ import {
   isBroadIntent,
   searchCatalog,
 } from "@/lib/product-search";
+import { AVAILABILITY_PENDING_LABEL, supplierMatchPending } from "@/lib/shop-catalog";
 
 type Props = {
   open: boolean;
@@ -153,9 +154,15 @@ export function ProductSearchOverlay({ open, onClose }: Props) {
                           {r.product.comingSoon ? " · Arriving soon" : ""}
                         </span>
                       </span>
-                      <span className="shrink-0 text-sm tabular-nums text-foreground">
-                        {r.product.price}
-                      </span>
+                      {supplierMatchPending(r.product) ? (
+                        <span className="shrink-0 text-xs text-muted-foreground">
+                          {AVAILABILITY_PENDING_LABEL}
+                        </span>
+                      ) : (
+                        <span className="shrink-0 text-sm tabular-nums text-foreground">
+                          {r.product.price}
+                        </span>
+                      )}
                     </Link>
                   </li>
                 ))}

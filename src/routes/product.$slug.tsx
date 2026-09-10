@@ -16,6 +16,7 @@ import { track } from '@/lib/analytics';
 import {
   productPrice,
   australianSupplyVerified,
+  supplierMatchPending,
   type ShopProduct,
 } from '@/lib/shop-catalog';
 import { breadcrumbJsonLd } from '@/lib/breadcrumbs';
@@ -56,18 +57,24 @@ function productJsonLd(p: ShopProduct, soldOut: boolean) {
     name: p.name,
     image: imageUrl,
     brand: { '@type': 'Brand', name: p.brand },
-    offers: {
-      '@type': 'Offer',
-      price: numericPrice.toFixed(2),
-      priceCurrency: 'AUD',
-      // Live warehouse state: a SKU is only advertised as InStock when it is
-      // genuinely purchasable right now (not pre-launch, not sold out).
-      availability:
-        p.comingSoon || soldOut || !australianSupplyVerified(p)
-          ? 'https://schema.org/OutOfStock'
-          : 'https://schema.org/InStock',
-      url: productUrl,
-    },
+    // A SKU still awaiting supplier reconciliation carries no offer at all —
+    // no price, no availability claim, no order signal of any kind.
+    ...(supplierMatchPending(p)
+      ? {}
+      : {
+          offers: {
+            '@type': 'Offer',
+            price: numericPrice.toFixed(2),
+            priceCurrency: 'AUD',
+            // Live warehouse state: a SKU is only advertised as InStock when it is
+            // genuinely purchasable right now (not pre-launch, not sold out).
+            availability:
+              p.comingSoon || soldOut || !australianSupplyVerified(p)
+                ? 'https://schema.org/OutOfStock'
+                : 'https://schema.org/InStock',
+            url: productUrl,
+          },
+        }),
   };
 
   return {
@@ -84,7 +91,9 @@ export const Route = createFileRoute('/product/$slug')({
       ? 'Authentic Korean skincare, stocked in Melbourne.'
       : supplyRestricted(p)
         ? `${p.brand} ${p.name} is not currently available for purchase. Skin Grocer is verifying whether it can be lawfully supplied as a sunscreen in Australia.`
-        : `Buy ${p.brand} ${p.name} (${p.price} AUD) — authentic K-beauty stocked in Melbourne. Ingredients, how to use and reviews.`;
+        : supplierMatchPending(p)
+          ? `${p.brand} ${p.name} is not currently available to purchase. Skin Grocer is confirming its supply record before making it available.`
+          : `Buy ${p.brand} ${p.name} (${p.price} AUD) — authentic K-beauty stocked in Melbourne. Ingredients, how to use and reviews.`;
     return {
       meta: [
         { title },
@@ -318,6 +327,8 @@ function ProductPage() {
   // Sunscreen without documented lawful Australian supply: no price, no buy
   // control, no application, usage or routine guidance anywhere on the page.
   const restricted = supplyRestricted(product);
+  // Supplier reconciliation pending: viewable, but no price and no purchase path.
+  const supplyPending = supplierMatchPending(product);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
@@ -534,7 +545,7 @@ function ProductPage() {
           )}
 
           <div className="mt-8 border-t border-border pt-6">
-            {!restricted && (
+            {!restricted && !supplyPending && (
               <div className="flex items-baseline justify-between gap-4">
                 <span className="font-display text-2xl tabular-nums text-foreground">
                   {product.price}
@@ -546,7 +557,23 @@ function ProductPage() {
             )}
 
             <div className="mt-5 space-y-3">
-              {!australianSupplyVerified(product) ? (
+              {supplyPending ? (
+                /* Supplier reconciliation pending: not sold out, no restock
+                   date, no pre-order, no substitute product. */
+                <div className="rounded-[2px] border border-border px-6 py-5 text-center">
+                  <p className="text-sm font-medium text-foreground">Availability being confirmed</p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    This product is not currently available to purchase. Skin Grocer is confirming
+                    its supply record before making it available.
+                  </p>
+                  <Link
+                    to="/shop"
+                    className="mt-4 inline-block text-[10px] uppercase tracking-[0.2em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
+                  >
+                    Browse available products
+                  </Link>
+                </div>
+              ) : !australianSupplyVerified(product) ? (
                 /* Sunscreen without a documented Australian supply record: no
                    sale, no SPF or UV guidance, no application-time claims. */
                 <div className="rounded-[2px] border border-border px-6 py-5 text-center">
@@ -892,7 +919,7 @@ function ProductPage() {
       )}
 
       {/* Mobile purchase bar — reuses the exact buy handler, price and availability above. */}
-      {!product.comingSoon && australianSupplyVerified(product) && (
+      {!product.comingSoon && australianSupplyVerified(product) && !supplyPending && (
         <>
           <div aria-hidden="true" className="h-20 lg:hidden" />
           <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur lg:hidden">
