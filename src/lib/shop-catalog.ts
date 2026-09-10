@@ -90,6 +90,23 @@ export type ShopProduct = {
   supplierMatchConfirmed?: boolean;
   /** Explicit override — false blocks every purchase path for this SKU. */
   purchasable?: boolean;
+  // --- Stage 2A: supplier-ordered records awaiting content ------------------
+  /** True once an internal product record exists for a supplier-ordered SKU. */
+  productRecordCreated?: boolean;
+  /**
+   * `content_in_preparation` — the SKU is confirmed in a supplier order, but its
+   * pack size, ingredient list, price, imagery and guidance are not yet verified.
+   * It is viewable, never priced, never purchasable and never recommended.
+   */
+  websiteStatus?: 'live' | 'content_in_preparation';
+  /** Physical packaging check against stock in hand. */
+  packagingCheck?: 'pending' | 'confirmed';
+  /** Ingredient-list review state. */
+  ingredientReviewStatus?: 'pending' | 'reviewed';
+  /** Australian retail price confirmation state. */
+  priceStatus?: 'pending' | 'confirmed';
+  /** Explicit approval for Routine Finder inclusion. */
+  routineFinderEligible?: boolean;
 };
 
 export type SupplierReconciliationStatus =
