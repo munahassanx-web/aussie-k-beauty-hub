@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useBuyNow } from "@/hooks/use-buy-now";
-import { AVAILABILITY_PENDING_LABEL, isPurchasable } from "@/lib/shop-catalog";
+import { availabilityLabelFor, isPurchasable } from "@/lib/shop-catalog";
 
 export type CompareItem = {
   priceId: string;
@@ -135,7 +135,7 @@ export function CompareModal({
                 <p className="mt-4 text-xs uppercase tracking-wider text-muted-foreground">{p.brand}</p>
                 <h3 className="mt-1 font-display text-xl text-foreground">{p.name}</h3>
                 <p className="mt-2 text-sm text-foreground">
-                  {isPurchasable(p.priceId) ? `${p.price} AUD` : AVAILABILITY_PENDING_LABEL}
+                  {isPurchasable(p.priceId) ? `${p.price} AUD` : availabilityLabelFor(p)}
                 </p>
 
                 <div className="mt-5 border-t border-border pt-4">
@@ -174,7 +174,7 @@ export function CompareModal({
                   </button>
                 ) : (
                   <p className="mt-5 text-center text-xs text-muted-foreground">
-                    {AVAILABILITY_PENDING_LABEL}
+                    {availabilityLabelFor(p)}
                   </p>
                 )}
               </article>
