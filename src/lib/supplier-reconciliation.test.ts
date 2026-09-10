@@ -5,7 +5,7 @@ import {
   isPurchasable,
   supplierMatchPending,
 } from '@/lib/shop-catalog';
-import { buildRoutine } from '@/lib/routine-matching';
+import { buildRoutine, type QuizAnswers } from '@/lib/routine-matching';
 
 const UNMATCHED = [
   'isntree_chestnut_bha_2_percent_clear_liquid_100ml_onetime',
