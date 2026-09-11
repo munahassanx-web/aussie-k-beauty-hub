@@ -7,12 +7,8 @@ const byId = (id: string) => SHOP_PRODUCTS.find((p) => p.priceId === id) as Shop
 
 const COMING_SOON: Array<{ id: string; sentence: string }> = [
   {
-    id: 'haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime',
-    sentence: 'A serum or essence',
-  },
-  {
-    id: 'haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime',
-    sentence: 'A serum or essence',
+    id: 'haruharu_wonder_black_rice_10_hyaluronic_cream_unscented_50ml_onetime',
+    sentence: 'A moisturiser',
   },
   {
     id: 'haruharu_wonder_black_rice_facial_oil_10ml_onetime',

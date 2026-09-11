@@ -13,7 +13,7 @@ const byId = (id: string) => SHOP_PRODUCTS.find((p) => p.priceId === id) as Shop
 const EXPECTED: Array<{ id: string; name: string; identity: string; suppliers: string[] }> = [
   {
     id: 'haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime',
-    name: 'Rose PDRN Firming Serum 30ml',
+    name: 'Rose PDRN Firming Serum with Retinal 0.1% 30ml',
     identity: 'packaging_check_required',
     suppliers: ['UMMA'],
   },
@@ -25,7 +25,7 @@ const EXPECTED: Array<{ id: string; name: string; identity: string; suppliers: s
   },
   {
     id: 'haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime',
-    name: 'Centella 4% TXA Gel Serum 30ml',
+    name: 'Centella 4% TXA Gel Serum / Unscented 30ml',
     identity: 'packaging_check_required',
     suppliers: ['UMMA'],
   },
@@ -129,7 +129,12 @@ describe('Stage 2B1 — HARUHARU WONDER identity and source verification', () =>
   it('marks no ingredient list as reviewed and uses only the neutral placeholder image', () => {
     for (const { id } of EXPECTED) {
       const p = byId(id);
-      if (p.priceId !== 'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime') {
+      const reviewed = [
+        'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime',
+        'haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime',
+        'haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime',
+      ];
+      if (!reviewed.includes(p.priceId)) {
         expect(p.ingredientReviewStatus).toBe('pending');
         expect(p.inci ?? []).toHaveLength(0);
       }
