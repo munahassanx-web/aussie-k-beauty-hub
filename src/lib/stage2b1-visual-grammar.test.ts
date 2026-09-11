@@ -11,7 +11,6 @@ const COMING_SOON: Array<{ id: string; sentence: string }> = [
     sentence: 'A serum or essence',
   },
   {
-  {
     id: 'haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime',
     sentence: 'A serum or essence',
   },
