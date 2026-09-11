@@ -44,7 +44,6 @@ describe('Coming Soon records', () => {
       'Bifida Biome Ampoule Toner 210ml': 'A toner',
       'Galac Niacin 3.0 Essence 60ml': 'A serum or essence',
       'Brightening Peeling Gel 120g': 'An exfoliating gel',
-      'Black Rice Bakuchiol Eye Cream / Unscented 20ml': 'An eye cream',
     };
     for (const [name, subject] of Object.entries(expected)) {
       const p = SHOP_PRODUCTS.find((x) => x.name === name)!;

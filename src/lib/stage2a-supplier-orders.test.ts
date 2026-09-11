@@ -69,6 +69,9 @@ describe('Stage 2A supplier-ordered records', () => {
         'haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime',
         'haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime',
         'haruharu_wonder_black_rice_facial_oil_10ml_onetime',
+        'haruharu_wonder_black_rice_night_knight_retinol_serum_20ml_onetime',
+        'haruharu_wonder_centella_phyto_5_peptide_concentrate_cream_30ml_onetime',
+        'haruharu_wonder_black_rice_bakuchiol_eye_cream_20ml_onetime',
       ];
       if (!sourceReviewed.includes(id)) expect(p.ingredientReviewStatus).toBe('pending');
       expect(p.priceStatus).toBe('pending');
@@ -86,6 +89,9 @@ describe('Stage 2A supplier-ordered records', () => {
         'haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime',
         'haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime',
         'haruharu_wonder_black_rice_facial_oil_10ml_onetime',
+        'haruharu_wonder_black_rice_night_knight_retinol_serum_20ml_onetime',
+        'haruharu_wonder_centella_phyto_5_peptide_concentrate_cream_30ml_onetime',
+        'haruharu_wonder_black_rice_bakuchiol_eye_cream_20ml_onetime',
       ];
       if (!sourceReviewed.includes(id)) expect(p.inci, id).toBeUndefined();
       expect(p.image, id).toBe('/products/placeholder.webp');

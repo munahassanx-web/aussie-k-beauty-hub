@@ -5,19 +5,9 @@ import type { ShopProduct } from '@/lib/shop-catalog';
 
 const byId = (id: string) => SHOP_PRODUCTS.find((p) => p.priceId === id) as ShopProduct;
 
+// Records with source-reviewed content use their verified descriptions instead
+// of the generic sentence, so only fully generic records are asserted here.
 const COMING_SOON: Array<{ id: string; sentence: string }> = [
-  {
-    id: 'haruharu_wonder_black_rice_night_knight_retinol_serum_20ml_onetime',
-    sentence: 'A serum or essence',
-  },
-  {
-    id: 'haruharu_wonder_centella_phyto_5_peptide_concentrate_cream_30ml_onetime',
-    sentence: 'A moisturiser',
-  },
-  {
-    id: 'haruharu_wonder_black_rice_bakuchiol_eye_cream_20ml_onetime',
-    sentence: 'An eye cream',
-  },
   {
     id: 'biodance_collagen_mask_to_foam_cleanser_150ml_onetime',
     sentence: 'A cleanser',
