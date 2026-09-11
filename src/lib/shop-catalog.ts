@@ -103,6 +103,8 @@ export type ShopProduct = {
   packagingCheck?: 'pending' | 'confirmed';
   /** Ingredient-list review state. */
   ingredientReviewStatus?: 'pending' | 'reviewed';
+  /** Usage / application guidance review state. */
+  usageReviewStatus?: 'pending' | 'reviewed';
   /** Australian retail price confirmation state. */
   priceStatus?: 'pending' | 'confirmed' | 'blocked_pending_compliance';
   /** Explicit approval for Routine Finder inclusion. */
