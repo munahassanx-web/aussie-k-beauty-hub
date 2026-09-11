@@ -8,7 +8,7 @@ const byId = (id: string) => SHOP_PRODUCTS.find((p) => p.priceId === id) as Shop
 const COMING_SOON: Array<{ id: string; sentence: string }> = [
   {
     id: 'haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime',
-    sentence: 'A serum',
+    sentence: 'A serum or essence',
   },
   {
     id: 'haruharu_wonder_black_rice_triple_aha_gentle_cleansing_gel_100ml_onetime',
@@ -16,7 +16,7 @@ const COMING_SOON: Array<{ id: string; sentence: string }> = [
   },
   {
     id: 'haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime',
-    sentence: 'A serum',
+    sentence: 'A serum or essence',
   },
   {
     id: 'haruharu_wonder_black_rice_facial_oil_10ml_onetime',
@@ -28,7 +28,7 @@ const COMING_SOON: Array<{ id: string; sentence: string }> = [
   },
   {
     id: 'haruharu_wonder_black_rice_night_knight_retinol_serum_20ml_onetime',
-    sentence: 'A serum',
+    sentence: 'A serum or essence',
   },
   {
     id: 'haruharu_wonder_centella_phyto_5_peptide_concentrate_cream_30ml_onetime',

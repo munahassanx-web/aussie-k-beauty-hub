@@ -17,6 +17,7 @@ import {
   productPrice,
   australianSupplyVerified,
   contentInPreparation,
+  isContentPending,
   supplierMatchPending,
   type ShopProduct,
 } from '@/lib/shop-catalog';
@@ -39,6 +40,7 @@ import {
   USAGE_CAUTION,
   SUITABILITY_CAUTION,
   SUPPLIER_RECONCILIATION_INTRO,
+  temporaryProductTypeSentence,
   supplyRestricted,
 } from '@/lib/product-detail';
 
@@ -61,7 +63,7 @@ function productJsonLd(p: ShopProduct, soldOut: boolean) {
     brand: { '@type': 'Brand', name: p.brand },
     // A SKU still awaiting supplier reconciliation carries no offer at all —
     // no price, no availability claim, no order signal of any kind.
-    ...(supplierMatchPending(p)
+    ...(supplierMatchPending(p) || isContentPending(p)
       ? {}
       : {
           offers: {
@@ -321,6 +323,11 @@ function ProductPage() {
   };
 
   if (!product) return <ProductNotFound />;
+
+  // Authoritative gate: an unfinished record never mounts any completed-product
+  // component — no gallery, benefits, usage, ingredients, compatibility or
+  // recommendations exist in the DOM at all.
+  if (isContentPending(product)) return <PendingProductPage product={product} />;
 
 
   const ingredients = heroIngredients(product);
@@ -970,5 +977,77 @@ function ProductPage() {
       )}
     </div>
 
+  );
+}
+
+/**
+ * Pending-content view. Rendered instead of — never alongside — the completed
+ * product template. Identity, one static placeholder image, the coming-soon
+ * statement, a shop link and wishlist only. No price, no purchase control, no
+ * benefits, usage, ingredients, compatibility or recommendations.
+ */
+function PendingProductPage({ product }: { product: ShopProduct }) {
+  const size = productSize(product);
+  return (
+    <div className="mx-auto max-w-6xl px-6 py-12">
+      <nav className="text-xs text-muted-foreground">
+        <Link to="/shop" className="hover:text-foreground">
+          Shop
+        </Link>{' '}
+        / <span className="text-foreground">{product.name}</span>
+      </nav>
+
+      <div className="mt-8 grid gap-12 lg:grid-cols-2">
+        <div className="aspect-square bg-secondary">
+          <img
+            src="/products/placeholder.webp"
+            alt={`${product.brand} ${product.name} — verified product imagery coming soon`}
+            width={1024}
+            height={1024}
+            className="h-full w-full object-contain p-8 sm:p-12"
+          />
+        </div>
+
+        <div className="lg:pt-2">
+          <p className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+            {product.brand}
+          </p>
+          <h1 className="mt-3 font-display text-[2rem] leading-[1.1] text-foreground md:text-[2.5rem]">
+            {product.name}
+          </h1>
+          <p className="mt-3 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            {routineStepLabel(product)}
+            {size ? ` · ${size}` : ''}
+          </p>
+
+          <p className="mt-6 text-[0.95rem] leading-relaxed text-muted-foreground">
+            {temporaryProductTypeSentence(product)}
+          </p>
+
+          <div className="mt-8 space-y-3 border-t border-border pt-6">
+            <div className="rounded-[2px] border border-border px-6 py-5 text-center">
+              <p className="text-sm font-medium text-foreground">
+                Coming soon — product information being prepared
+              </p>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                This product is not yet available to purchase. Skin Grocer is confirming its pack
+                details, ingredient list, pricing and usage guidance before publishing.
+              </p>
+              <Link
+                to="/shop"
+                className="mt-4 inline-block text-[10px] uppercase tracking-[0.2em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
+              >
+                Browse the shop
+              </Link>
+            </div>
+            <WishlistButton
+              variant="inline"
+              productId={product.priceId}
+              productName={`${product.brand} ${product.name}`}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -103,6 +103,8 @@ export type ShopProduct = {
   packagingCheck?: 'pending' | 'confirmed';
   /** Ingredient-list review state. */
   ingredientReviewStatus?: 'pending' | 'reviewed';
+  /** Usage / application guidance review state. */
+  usageReviewStatus?: 'pending' | 'reviewed';
   /** Australian retail price confirmation state. */
   priceStatus?: 'pending' | 'confirmed' | 'blocked_pending_compliance';
   /** Explicit approval for Routine Finder inclusion. */
@@ -201,6 +203,7 @@ const CONTENT_IN_PREPARATION = {
   websiteStatus: 'content_in_preparation',
   packagingCheck: 'pending',
   ingredientReviewStatus: 'pending',
+  usageReviewStatus: 'pending',
   priceStatus: 'pending',
   routineFinderEligible: false,
   bundleEligible: false,
@@ -1463,7 +1466,20 @@ export const AVAILABILITY_PENDING_LABEL = 'Availability being confirmed';
  * packaging check — is still being prepared. Viewable only.
  */
 export function contentInPreparation(p: ShopProduct): boolean {
-  return p.websiteStatus === 'content_in_preparation';
+  return isContentPending(p);
+}
+
+/**
+ * The single authoritative gate for "this record's content is not finished".
+ * Any one unfinished review state is enough: no completed-product component
+ * may render for these records.
+ */
+export function isContentPending(p: ShopProduct): boolean {
+  return (
+    p.websiteStatus === 'content_in_preparation' ||
+    p.ingredientReviewStatus === 'pending' ||
+    (p.usageReviewStatus !== undefined && p.usageReviewStatus !== 'reviewed')
+  );
 }
 
 /** Customer-facing wording for a supplier-ordered SKU still being prepared. */

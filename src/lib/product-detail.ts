@@ -1298,18 +1298,24 @@ export const SUPPLIER_RECONCILIATION_INTRO =
  * Temporary copy for a Coming Soon record. Grammatically correct product-type
  * nouns only — no benefits, suitability or ingredient claims.
  */
-function temporaryProductTypeSentence(p: ShopProduct): string {
+export function temporaryProductTypeSentence(p: ShopProduct): string {
   const n = p.name.toLowerCase();
   let subject: string;
+  // Order matters: the explicit product type always wins over the broad
+  // routine-step category (an "Ampoule Toner" is a toner, an "Essence Cream"
+  // is a moisturiser, a "Peeling Gel" is not a cleanser).
   if (/\beye cream\b/.test(n)) subject = 'An eye cream';
-  else if (/\bcleansing (oil|gel)\b|\bcleanser\b/.test(n)) subject = 'A cleanser';
-  else if (/\b(serum|ampoule|essence)\b/.test(n)) subject = 'A serum';
+  else if (/\bmask\b/.test(n) || p.category === 'Masks') subject = 'A mask';
+  else if (/\bpeeling gel\b|\bexfoliat/.test(n)) subject = 'An exfoliating gel';
+  else if (/\btoner\b/.test(n)) subject = 'A toner';
+  else if (/\bcleansing (oil|gel|balm|water|foam)\b|\bcleanser\b/.test(n)) subject = 'A cleanser';
   else if (/\bfacial oil\b/.test(n)) subject = 'A facial oil';
-  else if (/\b(cream|moisturi[sz]er)\b/.test(n) || p.category === 'Moisturise')
-    subject = 'A moisturiser';
-  else if (p.category === 'Masks' || /\bmask\b/.test(n)) subject = 'A mask';
+  else if (/\b(cream|moisturi[sz]er)\b/.test(n)) subject = 'A moisturiser';
+  else if (/\b(serum|ampoule|essence)\b/.test(n)) subject = 'A serum or essence';
   else if (p.category === 'Cleanse') subject = 'A cleanser';
   else if (p.category === 'Tone') subject = 'A toner';
+  else if (p.category === 'Moisturise') subject = 'A moisturiser';
+  else if (p.category === 'Treat') subject = 'A serum or essence';
   else subject = 'A product';
   return `${subject} from ${p.brand}. Full product information is being reviewed before launch.`;
 }
