@@ -124,6 +124,19 @@ export type ShopProduct = {
   temporaryProductTypeLabel?: string;
   /** The product name exactly as it appears in the supplier order record. */
   supplierRecordName?: string;
+  // --- Stage 2B2: verified pre-launch copy ----------------------------------
+  /**
+   * A short, source-verified description shown INSTEAD of the generic temporary
+   * sentence while the record is still in preparation. Only ever set from a
+   * reviewed source; never inferred from the product name.
+   */
+  verifiedTemporaryDescription?: string;
+  /** Source-verified directions. Only set when the wording matches the source. */
+  verifiedUsageDirections?: string;
+  /** Source-verified cautions / usage notes shown with the directions. */
+  verifiedUsageNotes?: string[];
+  /** Transparency note for a record with no published ingredient or usage data. */
+  pendingContentNote?: string;
   /** The product name as published by the brand, when a brand listing exists. */
   brandReferenceName?: string;
   /** All suppliers this SKU was ordered through (one customer-facing record). */
