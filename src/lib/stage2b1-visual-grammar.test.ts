@@ -42,6 +42,10 @@ const COMING_SOON: Array<{ id: string; sentence: string }> = [
     id: 'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime',
     sentence: 'A cleanser',
   },
+  {
+    id: 'biodance_collagen_mask_to_foam_cleanser_150ml_onetime',
+    sentence: 'A cleanser',
+  },
 ];
 
 describe('Stage 2B1 visual correction — placeholder gallery', () => {
@@ -70,7 +74,7 @@ describe('Stage 2B1 grammar correction — temporary product copy', () => {
     for (const { id, sentence } of COMING_SOON) {
       const p = byId(id);
       expect(productDescription(p), id).toBe(
-        `${sentence} from HARUHARU WONDER. Full product information is being reviewed before launch.`,
+        `${sentence} from ${p.brand}. Full product information is being reviewed before launch.`,
       );
     }
   });
