@@ -1051,7 +1051,7 @@ function PendingProductPage({ product }: { product: ShopProduct }) {
                 {product.inci.join(', ')}
               </p>
               <dl className="mt-4 space-y-1 text-[11px] leading-relaxed text-muted-foreground">
-                <div>Source reviewed: {formatReviewDate(product.inciCheckedOn)}</div>
+                <div>Source reviewed: {inciDateLong(product.inciCheckedOn)}</div>
                 <div>Source: {product.inciSourceName}</div>
                 <div>Source type: Brand</div>
                 <div>Ingredient review status: Source reviewed</div>
