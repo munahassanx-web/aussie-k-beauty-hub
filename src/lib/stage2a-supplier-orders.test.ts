@@ -62,7 +62,9 @@ describe('Stage 2A supplier-ordered records', () => {
       expect(p.supplierMatchConfirmed).toBe(true);
       expect(p.purchasable).toBe(false);
       expect(p.packagingCheck).toBe('pending');
-      expect(p.ingredientReviewStatus).toBe('pending');
+      // Stage 2B2: the cleansing oil's ingredient list is source reviewed;
+      // its packaging check stays pending.
+      if (id !== 'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime') expect(p.ingredientReviewStatus).toBe('pending');
       expect(p.priceStatus).toBe('pending');
       expect(p.routineFinderEligible).toBe(false);
       expect(availabilityLabelFor(p)).toBe(CONTENT_PREPARATION_LABEL);
@@ -73,7 +75,7 @@ describe('Stage 2A supplier-ordered records', () => {
     for (const id of NEW_SKUS) {
       const p = SHOP_PRODUCTS.find((x) => x.priceId === id)!;
       expect(p.price, id).toBe('');
-      expect(p.inci, id).toBeUndefined();
+      if (id !== 'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime') expect(p.inci, id).toBeUndefined();
       expect(p.image, id).toBe('/products/placeholder.webp');
       expect(p.tag, id).toBeNull();
     }

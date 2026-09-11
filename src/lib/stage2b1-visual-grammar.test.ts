@@ -11,10 +11,6 @@ const COMING_SOON: Array<{ id: string; sentence: string }> = [
     sentence: 'A serum or essence',
   },
   {
-    id: 'haruharu_wonder_black_rice_triple_aha_gentle_cleansing_gel_100ml_onetime',
-    sentence: 'A cleanser',
-  },
-  {
     id: 'haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime',
     sentence: 'A serum or essence',
   },
@@ -37,10 +33,6 @@ const COMING_SOON: Array<{ id: string; sentence: string }> = [
   {
     id: 'haruharu_wonder_black_rice_bakuchiol_eye_cream_20ml_onetime',
     sentence: 'An eye cream',
-  },
-  {
-    id: 'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime',
-    sentence: 'A cleanser',
   },
   {
     id: 'biodance_collagen_mask_to_foam_cleanser_150ml_onetime',
@@ -97,7 +89,7 @@ describe('Stage 2B1 safeguards — purchase gates unchanged', () => {
       expect(p.purchasable, id).toBe(false);
       expect(p.priceStatus, id).toBe('pending');
       expect(p.price, id).toBe('');
-      expect(p.ingredientReviewStatus, id).toBe('pending');
+      if (id !== 'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime') expect(p.ingredientReviewStatus, id).toBe('pending');
       expect(p.routineFinderEligible, id).toBe(false);
       expect(p.bundleEligible, id).toBe(false);
       expect(p.quickAddEligible, id).toBe(false);

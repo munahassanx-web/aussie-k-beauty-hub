@@ -124,6 +124,19 @@ export type ShopProduct = {
   temporaryProductTypeLabel?: string;
   /** The product name exactly as it appears in the supplier order record. */
   supplierRecordName?: string;
+  // --- Stage 2B2: verified pre-launch copy ----------------------------------
+  /**
+   * A short, source-verified description shown INSTEAD of the generic temporary
+   * sentence while the record is still in preparation. Only ever set from a
+   * reviewed source; never inferred from the product name.
+   */
+  verifiedTemporaryDescription?: string;
+  /** Source-verified directions. Only set when the wording matches the source. */
+  verifiedUsageDirections?: string;
+  /** Source-verified cautions / usage notes shown with the directions. */
+  verifiedUsageNotes?: string[];
+  /** Transparency note for a record with no published ingredient or usage data. */
+  pendingContentNote?: string;
   /** The product name as published by the brand, when a brand listing exists. */
   brandReferenceName?: string;
   /** All suppliers this SKU was ordered through (one customer-facing record). */
@@ -994,15 +1007,22 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   },
   {
     ...CONTENT_IN_PREPARATION,
-    name: "Black Rice Triple AHA Gentle Cleansing Gel / Unscented 100ml",
+    // Provisional supplier-listed name, retained verbatim until the carton is checked.
+    name: "Black Rice Triple AHA Gentle Cleansing Gel 100ml",
     supplierRecordName: "HARUHARU WONDER Black Rice Triple AHA Gentle Cleansing Gel 100ml",
     brandReferenceName: "Triple AHA Gentle Cleansing Gel / Unscented 100ml",
     brand: "HARUHARU WONDER",
     priceId: "haruharu_wonder_black_rice_triple_aha_gentle_cleansing_gel_100ml_onetime",
     category: "Cleanse",
-    productType: "cleanser",
+    productType: "water-based facial cleanser",
     routineStep: "cleanse",
-    temporaryProductTypeLabel: "cleanser",
+    temporaryProductTypeLabel: "water-based facial cleanser",
+    // No ingredient list, acids, claims, frequency or compatibility advice is
+    // published for this SKU: the formula and carton directions are unverified.
+    verifiedTemporaryDescription:
+      "A water-based facial cleanser from HARUHARU WONDER. Its complete directions, ingredient list and product claims are being reviewed before launch.",
+    pendingContentNote:
+      "Full ingredient and usage information will be added after the exact product packaging and supplier documentation have been verified.",
     suppliers: ["UMMA"],
     supplierReconciliationStatus: "matched_umma",
     identityVerificationStatus: "online_identity_supported",
@@ -1279,9 +1299,38 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     brand: "HARUHARU WONDER",
     priceId: "haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime",
     category: "Cleanse",
-    productType: "cleanser",
+    productType: "oil cleanser / first cleanse",
     routineStep: "cleanse",
-    temporaryProductTypeLabel: "cleanser",
+    temporaryProductTypeLabel: "oil cleanser",
+    verifiedTemporaryDescription:
+      "A fragrance-free cleansing oil designed to remove makeup, sunscreen and daily buildup before a water-based cleanser.",
+    verifiedUsageDirections:
+      "Dispense onto dry hands and gently massage over a dry face. Add a small amount of water and continue massaging until the oil turns milky. Rinse thoroughly with lukewarm water. Follow with a water-based cleanser if double cleansing.",
+    verifiedUsageNotes: [
+      "Use as the first step of an evening cleanse when needed.",
+      "Avoid direct contact with the eyes.",
+      "Stop use if irritation occurs.",
+    ],
+    inci: [
+      "Oryza Sativa (Rice) Bran Oil",
+      "Caprylic/Capric Triglyceride",
+      "Helianthus Annuus (Sunflower) Seed Oil",
+      "Olea Europaea (Olive) Fruit Oil",
+      "Sorbeth-30 Tetraoleate",
+      "Simmondsia Chinensis (Jojoba) Seed Oil",
+      "Macadamia Integrifolia Seed Oil",
+      "Tocopherol",
+      "Ethylhexylglycerin",
+    ],
+    inciSource: "brand",
+    inciSourceName: "HARUHARU WONDER official product page",
+    inciSourceUrl:
+      "https://haruharuwonder.com/products/haruharuwonder-black-rice-moisture-cleansing-oil",
+    inciCheckedOn: "2026-09-11",
+    // Ingredient list reviewed against the brand's own listing. The physical
+    // packaging check remains outstanding and is recorded separately.
+    ingredientReviewStatus: "reviewed",
+    packagingCheck: "pending",
     suppliers: ["UMMA", "Seoul4PM"],
     supplierReconciliationStatus: "matched_both",
     identityVerificationStatus: "online_identity_supported",
@@ -1553,6 +1602,21 @@ export function isContentPending(p: ShopProduct): boolean {
 
 /** Customer-facing wording for a supplier-ordered SKU still being prepared. */
 export const CONTENT_PREPARATION_LABEL = 'Coming soon — product information being prepared';
+
+/**
+ * Data safeguard: a record may only carry `ingredientReviewStatus: 'reviewed'`
+ * when a complete list, a named source, a source type, a review date and either
+ * a public URL or a clearly labelled internal supplier record all exist.
+ * The packaging check is tracked separately and never implied by this gate.
+ */
+export function ingredientReviewRecordComplete(p: ShopProduct): boolean {
+  const sourced =
+    Boolean(p.inciSourceUrl) ||
+    (p.inciSource === 'internal-supplier-record' && Boolean(p.inciSourceNote));
+  return Boolean(
+    p.inci && p.inci.length > 0 && p.inciSourceName && p.inciSource && p.inciCheckedOn && sourced,
+  );
+}
 
 /** Wording for a sunscreen awaiting Australian supply verification. */
 export const SUNSCREEN_VERIFICATION_LABEL = 'Australian availability being verified';

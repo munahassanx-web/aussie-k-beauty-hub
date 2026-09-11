@@ -46,7 +46,6 @@ describe('Coming Soon records', () => {
       'Brightening Peeling Gel 120g': 'An exfoliating gel',
       'Black Rice Facial Oil 10ml': 'A facial oil',
       'Black Rice Bakuchiol Eye Cream / Unscented 20ml': 'An eye cream',
-      'Black Rice Moisture Cleansing Oil / Unscented 150ml': 'A cleanser',
       'Rose PDRN Firming Serum 30ml': 'A serum or essence',
     };
     for (const [name, subject] of Object.entries(expected)) {
