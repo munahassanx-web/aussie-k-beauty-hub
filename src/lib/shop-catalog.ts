@@ -1007,15 +1007,22 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   },
   {
     ...CONTENT_IN_PREPARATION,
-    name: "Black Rice Triple AHA Gentle Cleansing Gel / Unscented 100ml",
+    // Provisional supplier-listed name, retained verbatim until the carton is checked.
+    name: "Black Rice Triple AHA Gentle Cleansing Gel 100ml",
     supplierRecordName: "HARUHARU WONDER Black Rice Triple AHA Gentle Cleansing Gel 100ml",
     brandReferenceName: "Triple AHA Gentle Cleansing Gel / Unscented 100ml",
     brand: "HARUHARU WONDER",
     priceId: "haruharu_wonder_black_rice_triple_aha_gentle_cleansing_gel_100ml_onetime",
     category: "Cleanse",
-    productType: "cleanser",
+    productType: "water-based facial cleanser",
     routineStep: "cleanse",
-    temporaryProductTypeLabel: "cleanser",
+    temporaryProductTypeLabel: "water-based facial cleanser",
+    // No ingredient list, acids, claims, frequency or compatibility advice is
+    // published for this SKU: the formula and carton directions are unverified.
+    verifiedTemporaryDescription:
+      "A water-based facial cleanser from HARUHARU WONDER. Its complete directions, ingredient list and product claims are being reviewed before launch.",
+    pendingContentNote:
+      "Full ingredient and usage information will be added after the exact product packaging and supplier documentation have been verified.",
     suppliers: ["UMMA"],
     supplierReconciliationStatus: "matched_umma",
     identityVerificationStatus: "online_identity_supported",
