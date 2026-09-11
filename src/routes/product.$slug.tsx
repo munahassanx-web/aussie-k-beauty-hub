@@ -17,6 +17,7 @@ import {
   productPrice,
   australianSupplyVerified,
   contentInPreparation,
+  isContentPending,
   supplierMatchPending,
   type ShopProduct,
 } from '@/lib/shop-catalog';
