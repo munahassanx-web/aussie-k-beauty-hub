@@ -42,6 +42,10 @@ const COMING_SOON: Array<{ id: string; sentence: string }> = [
     id: 'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime',
     sentence: 'A cleanser',
   },
+  {
+    id: 'biodance_collagen_mask_to_foam_cleanser_150ml_onetime',
+    sentence: 'A cleanser',
+  },
 ];
 
 describe('Stage 2B1 visual correction — placeholder gallery', () => {
