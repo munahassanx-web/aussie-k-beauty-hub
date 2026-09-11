@@ -61,7 +61,7 @@ function productJsonLd(p: ShopProduct, soldOut: boolean) {
     brand: { '@type': 'Brand', name: p.brand },
     // A SKU still awaiting supplier reconciliation carries no offer at all —
     // no price, no availability claim, no order signal of any kind.
-    ...(supplierMatchPending(p)
+    ...(supplierMatchPending(p) || isContentPending(p)
       ? {}
       : {
           offers: {
