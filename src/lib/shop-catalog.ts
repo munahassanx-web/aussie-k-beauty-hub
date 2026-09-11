@@ -1217,7 +1217,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Patch test before use.",
       "Avoid direct contact with the eyes.",
       "Stop use if irritation occurs.",
-      "The formula contains lavender oil and sweet almond oil; do not describe it as fragrance-free.",
+      "This formula contains lavender oil and sweet almond oil, so it is not fragrance free.",
       "Customers with known ingredient sensitivities should check the packaging before use.",
     ],
     inci: [
