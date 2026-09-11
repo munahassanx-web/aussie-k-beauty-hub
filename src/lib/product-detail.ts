@@ -4,6 +4,7 @@
 import {
   SHOP_PRODUCTS,
   australianSupplyVerified,
+  contentInPreparation,
   isSunscreen,
   supplierMatchPending,
   type ShopProduct,
@@ -893,6 +894,17 @@ export function galleryFor(p: ShopProduct): GalleryImage[] {
     return [{ src: p.image, alt: `${p.brand} ${p.name}` }];
   }
   const editorial = EDITORIAL[p.priceId];
+  // Coming Soon records have no verified imagery yet: one neutral placeholder,
+  // never duplicated into a false multi-image gallery, and never padded out
+  // with generic lifestyle shots.
+  if (contentInPreparation(p) && !editorial) {
+    return [
+      {
+        src: p.image,
+        alt: `${p.brand} ${p.name} — verified product imagery coming soon`,
+      },
+    ];
+  }
   // When a SKU has bespoke, product-accurate editorial imagery we show only
   // that — generic category lifestyle shots look random next to it.
   return [
@@ -1282,8 +1294,29 @@ export const SUPPLY_RESTRICTED_INTRO =
 export const SUPPLIER_RECONCILIATION_INTRO =
   'Not currently available for purchase while Skin Grocer confirms the product’s supply record.';
 
+/**
+ * Temporary copy for a Coming Soon record. Grammatically correct product-type
+ * nouns only — no benefits, suitability or ingredient claims.
+ */
+function temporaryProductTypeSentence(p: ShopProduct): string {
+  const n = p.name.toLowerCase();
+  let subject: string;
+  if (/\beye cream\b/.test(n)) subject = 'An eye cream';
+  else if (/\bcleansing (oil|gel)\b|\bcleanser\b/.test(n)) subject = 'A cleanser';
+  else if (/\b(serum|ampoule|essence)\b/.test(n)) subject = 'A serum';
+  else if (/\bfacial oil\b/.test(n)) subject = 'A facial oil';
+  else if (/\b(cream|moisturi[sz]er)\b/.test(n) || p.category === 'Moisturise')
+    subject = 'A moisturiser';
+  else if (p.category === 'Masks' || /\bmask\b/.test(n)) subject = 'A mask';
+  else if (p.category === 'Cleanse') subject = 'A cleanser';
+  else if (p.category === 'Tone') subject = 'A toner';
+  else subject = 'A product';
+  return `${subject} from ${p.brand}. Full product information is being reviewed before launch.`;
+}
+
 export function productDescription(p: ShopProduct): string {
   if (supplyRestricted(p)) return SUPPLY_RESTRICTED_INTRO;
+  if (contentInPreparation(p)) return temporaryProductTypeSentence(p);
   const override = COPY[p.priceId]?.description;
   if (override) return override;
   const type = p.category === 'Masks' ? 'mask' : p.category.toLowerCase();
