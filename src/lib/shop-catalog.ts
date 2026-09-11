@@ -972,10 +972,10 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     supplierRecordName: "HARUHARU WONDER Rose PDRN Firming Serum 30ml",
     brand: "HARUHARU WONDER",
     priceId: "haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime",
-    category: "Treat"
+    category: "Treat",
     productType: "serum or essence",
     routineStep: "treat",
-    temporaryProductTypeLabel: "serum or essence",,
+    temporaryProductTypeLabel: "serum or essence",
     suppliers: ["UMMA"],
     supplierReconciliationStatus: "matched_umma",
     identityVerificationStatus: "packaging_check_required",
@@ -999,10 +999,10 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     brandReferenceName: "Triple AHA Gentle Cleansing Gel / Unscented 100ml",
     brand: "HARUHARU WONDER",
     priceId: "haruharu_wonder_black_rice_triple_aha_gentle_cleansing_gel_100ml_onetime",
-    category: "Cleanse"
+    category: "Cleanse",
     productType: "cleanser",
     routineStep: "cleanse",
-    temporaryProductTypeLabel: "cleanser",,
+    temporaryProductTypeLabel: "cleanser",
     suppliers: ["UMMA"],
     supplierReconciliationStatus: "matched_umma",
     identityVerificationStatus: "online_identity_supported",
@@ -1035,10 +1035,10 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     supplierRecordName: "HARUHARU WONDER Centella 4% TXA Gel Serum 30ml",
     brand: "HARUHARU WONDER",
     priceId: "haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime",
-    category: "Treat"
+    category: "Treat",
     productType: "serum or essence",
     routineStep: "treat",
-    temporaryProductTypeLabel: "serum or essence",,
+    temporaryProductTypeLabel: "serum or essence",
     suppliers: ["UMMA"],
     supplierReconciliationStatus: "matched_umma",
     identityVerificationStatus: "packaging_check_required",
@@ -1068,10 +1068,10 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     supplierRecordName: "HARUHARU WONDER Black Rice Facial Oil 10ml",
     brand: "HARUHARU WONDER",
     priceId: "haruharu_wonder_black_rice_facial_oil_10ml_onetime",
-    category: "Moisturise"
+    category: "Moisturise",
     productType: "facial oil",
     routineStep: "moisturise",
-    temporaryProductTypeLabel: "facial oil",,
+    temporaryProductTypeLabel: "facial oil",
     // Travel format. 30ml full-size imagery must never stand in for this SKU.
     size: "10ml (travel size)",
     suppliers: ["UMMA"],
@@ -1102,10 +1102,10 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     supplierRecordName: "HARUHARU WONDER Black Rice 10 Hyaluronic Cream Unscented 50ml",
     brand: "HARUHARU WONDER",
     priceId: "haruharu_wonder_black_rice_10_hyaluronic_cream_unscented_50ml_onetime",
-    category: "Moisturise"
+    category: "Moisturise",
     productType: "moisturiser",
     routineStep: "moisturise",
-    temporaryProductTypeLabel: "moisturiser",,
+    temporaryProductTypeLabel: "moisturiser",
     suppliers: ["UMMA"],
     supplierReconciliationStatus: "matched_umma",
     identityVerificationStatus: "online_identity_supported",
@@ -1123,42 +1123,42 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
 
 
   // Seoul4PM
-  { ...CONTENT_IN_PREPARATION, name: "Radiant Vita Niacinamide Real Deep Mask", brand: "BIODANCE", priceId: "biodance_radiant_vita_niacinamide_real_deep_mask_onetime", category: "Masks"
+  { ...CONTENT_IN_PREPARATION, name: "Radiant Vita Niacinamide Real Deep Mask", brand: "BIODANCE", priceId: "biodance_radiant_vita_niacinamide_real_deep_mask_onetime", category: "Masks",
     productType: "mask",
     routineStep: "masks",
-    temporaryProductTypeLabel: "mask",, size: "1 box (4 \u00d7 34g masks)", supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "First Synergy Toner 150ml", brand: "BIODANCE", priceId: "biodance_first_synergy_toner_150ml_onetime", category: "Tone"
+    temporaryProductTypeLabel: "mask", size: "1 box (4 \u00d7 34g masks)", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "First Synergy Toner 150ml", brand: "BIODANCE", priceId: "biodance_first_synergy_toner_150ml_onetime", category: "Tone",
     productType: "toner",
     routineStep: "tone",
-    temporaryProductTypeLabel: "toner",, supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Collagen Mask to Foam Cleanser 150ml", brand: "BIODANCE", priceId: "biodance_collagen_mask_to_foam_cleanser_150ml_onetime", category: "Cleanse"
+    temporaryProductTypeLabel: "toner", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Collagen Mask to Foam Cleanser 150ml", brand: "BIODANCE", priceId: "biodance_collagen_mask_to_foam_cleanser_150ml_onetime", category: "Cleanse",
     productType: "cleanser",
     routineStep: "cleanse",
-    temporaryProductTypeLabel: "cleanser",, supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Skin-Glow Essence Cream 50ml", brand: "BIODANCE", priceId: "biodance_skin_glow_essence_cream_50ml_onetime", category: "Moisturise"
+    temporaryProductTypeLabel: "cleanser", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Skin-Glow Essence Cream 50ml", brand: "BIODANCE", priceId: "biodance_skin_glow_essence_cream_50ml_onetime", category: "Moisturise",
     productType: "moisturiser",
     routineStep: "moisturise",
-    temporaryProductTypeLabel: "moisturiser",, supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Panthecell Repair Cica-Some Ampoule Mask 1P", brand: "BIOHEAL BOH", priceId: "bioheal_boh_panthecell_repair_cica_some_ampoule_mask_1p_onetime", category: "Masks"
+    temporaryProductTypeLabel: "moisturiser", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Panthecell Repair Cica-Some Ampoule Mask 1P", brand: "BIOHEAL BOH", priceId: "bioheal_boh_panthecell_repair_cica_some_ampoule_mask_1p_onetime", category: "Masks",
     productType: "mask",
     routineStep: "masks",
-    temporaryProductTypeLabel: "mask",, size: "1P", supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Panthecell Repair Cica Soothing Cleanser 160ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_panthecell_repair_cica_soothing_cleanser_160ml_onetime", category: "Cleanse"
+    temporaryProductTypeLabel: "mask", size: "1P", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Panthecell Repair Cica Soothing Cleanser 160ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_panthecell_repair_cica_soothing_cleanser_160ml_onetime", category: "Cleanse",
     productType: "cleanser",
     routineStep: "cleanse",
-    temporaryProductTypeLabel: "cleanser",, supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Probioderm Collagen Remodeling Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_collagen_remodeling_cream_50ml_onetime", category: "Moisturise"
+    temporaryProductTypeLabel: "cleanser", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Probioderm Collagen Remodeling Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_collagen_remodeling_cream_50ml_onetime", category: "Moisturise",
     productType: "moisturiser",
     routineStep: "moisturise",
-    temporaryProductTypeLabel: "moisturiser",, supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Probioderm 3D Lifting Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_3d_lifting_cream_50ml_onetime", category: "Moisturise"
+    temporaryProductTypeLabel: "moisturiser", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Probioderm 3D Lifting Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_3d_lifting_cream_50ml_onetime", category: "Moisturise",
     productType: "moisturiser",
     routineStep: "moisturise",
-    temporaryProductTypeLabel: "moisturiser",, supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Brightening Peeling Gel 120g", brand: "Dr.G", priceId: "dr_g_brightening_peeling_gel_120g_onetime", category: "Cleanse"
+    temporaryProductTypeLabel: "moisturiser", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Brightening Peeling Gel 120g", brand: "Dr.G", priceId: "dr_g_brightening_peeling_gel_120g_onetime", category: "Cleanse",
     productType: "exfoliating gel",
     routineStep: "cleanse",
-    temporaryProductTypeLabel: "exfoliating gel",, supplierReconciliationStatus: "matched_seoul4pm" },
+    temporaryProductTypeLabel: "exfoliating gel", supplierReconciliationStatus: "matched_seoul4pm" },
   {
     ...CONTENT_IN_PREPARATION,
     // No retinol percentage is published until it is read from the received
@@ -1167,10 +1167,10 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     supplierRecordName: "HARUHARU WONDER Black Rice Night Knight Retinol Serum 20ml",
     brand: "HARUHARU WONDER",
     priceId: "haruharu_wonder_black_rice_night_knight_retinol_serum_20ml_onetime",
-    category: "Treat"
+    category: "Treat",
     productType: "serum or essence",
     routineStep: "treat",
-    temporaryProductTypeLabel: "serum or essence",,
+    temporaryProductTypeLabel: "serum or essence",
     suppliers: ["Seoul4PM"],
     supplierReconciliationStatus: "matched_seoul4pm",
     identityVerificationStatus: "online_identity_supported",
@@ -1194,10 +1194,10 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     supplierRecordName: "HARUHARU WONDER Centella Phyto & 5 Peptide Concentrate Cream 30ml",
     brand: "HARUHARU WONDER",
     priceId: "haruharu_wonder_centella_phyto_5_peptide_concentrate_cream_30ml_onetime",
-    category: "Moisturise"
+    category: "Moisturise",
     productType: "moisturiser",
     routineStep: "moisturise",
-    temporaryProductTypeLabel: "moisturiser",,
+    temporaryProductTypeLabel: "moisturiser",
     suppliers: ["Seoul4PM"],
     supplierReconciliationStatus: "matched_seoul4pm",
     identityVerificationStatus: "online_identity_supported",
@@ -1228,10 +1228,10 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     supplierRecordName: "HARUHARU WONDER Black Rice Bakuchiol Eye Cream 20ml",
     brand: "HARUHARU WONDER",
     priceId: "haruharu_wonder_black_rice_bakuchiol_eye_cream_20ml_onetime",
-    category: "Moisturise"
+    category: "Moisturise",
     productType: "eye cream",
     routineStep: "moisturise",
-    temporaryProductTypeLabel: "eye cream",,
+    temporaryProductTypeLabel: "eye cream",
     suppliers: ["Seoul4PM"],
     supplierReconciliationStatus: "matched_seoul4pm",
     identityVerificationStatus: "online_identity_supported",
@@ -1254,18 +1254,18 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       },
     ],
   },
-  { ...CONTENT_IN_PREPARATION, name: "Bifida Biome Ampoule Toner 210ml", brand: "ma:nyo", priceId: "manyo_bifida_biome_ampoule_toner_210ml_onetime", category: "Tone"
+  { ...CONTENT_IN_PREPARATION, name: "Bifida Biome Ampoule Toner 210ml", brand: "ma:nyo", priceId: "manyo_bifida_biome_ampoule_toner_210ml_onetime", category: "Tone",
     productType: "toner",
     routineStep: "tone",
-    temporaryProductTypeLabel: "toner",, supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Pure Soybean Cleansing Oil 200ml", brand: "ma:nyo", priceId: "manyo_pure_soybean_cleansing_oil_200ml_onetime", category: "Cleanse"
+    temporaryProductTypeLabel: "toner", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Pure Soybean Cleansing Oil 200ml", brand: "ma:nyo", priceId: "manyo_pure_soybean_cleansing_oil_200ml_onetime", category: "Cleanse",
     productType: "cleanser",
     routineStep: "cleanse",
-    temporaryProductTypeLabel: "cleanser",, supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Galac Niacin 3.0 Essence 60ml", brand: "ma:nyo", priceId: "manyo_galac_niacin_3_0_essence_60ml_onetime", category: "Tone"
+    temporaryProductTypeLabel: "cleanser", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Galac Niacin 3.0 Essence 60ml", brand: "ma:nyo", priceId: "manyo_galac_niacin_3_0_essence_60ml_onetime", category: "Tone",
     productType: "serum or essence",
     routineStep: "tone",
-    temporaryProductTypeLabel: "serum or essence",, supplierReconciliationStatus: "matched_seoul4pm" },
+    temporaryProductTypeLabel: "serum or essence", supplierReconciliationStatus: "matched_seoul4pm" },
 
   // Ordered through both suppliers — one customer-facing record only.
   {
@@ -1278,10 +1278,10 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     acceptedNameVariants: ["Black Rice Moisture Deep Cleansing Oil"],
     brand: "HARUHARU WONDER",
     priceId: "haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime",
-    category: "Cleanse"
+    category: "Cleanse",
     productType: "cleanser",
     routineStep: "cleanse",
-    temporaryProductTypeLabel: "cleanser",,
+    temporaryProductTypeLabel: "cleanser",
     suppliers: ["UMMA", "Seoul4PM"],
     supplierReconciliationStatus: "matched_both",
     identityVerificationStatus: "online_identity_supported",
