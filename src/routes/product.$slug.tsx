@@ -40,6 +40,7 @@ import {
   USAGE_CAUTION,
   SUITABILITY_CAUTION,
   SUPPLIER_RECONCILIATION_INTRO,
+  temporaryProductTypeSentence,
   supplyRestricted,
 } from '@/lib/product-detail';
 
