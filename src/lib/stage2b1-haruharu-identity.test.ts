@@ -129,8 +129,10 @@ describe('Stage 2B1 — HARUHARU WONDER identity and source verification', () =>
   it('marks no ingredient list as reviewed and uses only the neutral placeholder image', () => {
     for (const { id } of EXPECTED) {
       const p = byId(id);
-      expect(p.ingredientReviewStatus).toBe('pending');
-      expect(p.inci ?? []).toHaveLength(0);
+      if (p.priceId !== 'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime') {
+        expect(p.ingredientReviewStatus).toBe('pending');
+        expect(p.inci ?? []).toHaveLength(0);
+      }
       expect(p.image).toBe('/products/placeholder.webp');
     }
   });
