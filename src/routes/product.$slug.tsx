@@ -1076,6 +1076,44 @@ function PendingProductPage({ product }: { product: ShopProduct }) {
             </div>
           )}
 
+          {product.ingredientStatusNote && (
+            <div className="mt-8 border-t border-border pt-6">
+              <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                Ingredients
+              </h2>
+              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                {product.ingredientStatusNote}
+              </p>
+              <dl className="mt-4 space-y-1 text-[11px] leading-relaxed text-muted-foreground">
+                <div>Ingredient review status: Pending</div>
+                <div>Packaging check: Pending</div>
+                <div>Full INCI verified: No</div>
+                {product.officialSourceReviewedOn && (
+                  <div>Source reviewed: {inciDateLong(product.officialSourceReviewedOn)}</div>
+                )}
+                {product.officialSourceName && <div>Source: {product.officialSourceName}</div>}
+                <div>Source type: Brand</div>
+              </dl>
+              {product.officialSourceUrl && (
+                <a
+                  href={product.officialSourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-block text-[10px] uppercase tracking-[0.2em] underline underline-offset-4 hover:text-foreground"
+                >
+                  {product.officialSourceLinkLabel ?? 'View official product information'}
+                </a>
+              )}
+              <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
+                Ingredient lists may change when products are reformulated. Check the packaging
+                received before use, particularly if you have known sensitivities. The ingredient
+                list printed on the product received is the final reference.
+              </p>
+            </div>
+          )}
+
+
+
           {product.pendingContentNote && (
             <p className="mt-8 border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground">
               {product.pendingContentNote}
