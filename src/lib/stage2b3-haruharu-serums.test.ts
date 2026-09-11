@@ -18,7 +18,17 @@ describe('Stage 2B3 — HARUHARU serum records', () => {
   it('names the Rose serum as the retinal formula, distinct from the Soothing Serum', () => {
     expect(rose.name).toBe('Rose PDRN Firming Serum with Retinal 0.1% 30ml');
     expect(rose.name).toContain('Firming Serum with Retinal 0.1%');
-    const text = JSON.stringify(rose).toLowerCase();
+    // Customer-facing copy only; the internal packaging-check note may still
+    // reference the other product by name.
+    const text = [
+      rose.name,
+      rose.verifiedTemporaryDescription ?? '',
+      rose.verifiedUsageDirections ?? '',
+      ...(rose.verifiedUsageNotes ?? []),
+      ...(rose.inci ?? []),
+    ]
+      .join(' ')
+      .toLowerCase();
     expect(text).not.toContain('soothing serum');
     expect(text).not.toContain('azelaic');
   });
