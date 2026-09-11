@@ -116,6 +116,12 @@ export type ShopProduct = {
   /** Explicit approval for restoring this SKU from a saved cart. */
   cartRestorationEligible?: boolean;
   // --- Stage 2B1: identity and source verification --------------------------
+  /** Explicit product type for customer-facing Coming Soon copy. Never inferred from the product name. */
+  productType?: string;
+  /** Explicit routine step for Coming Soon records. */
+  routineStep?: string;
+  /** Explicit temporary product-type label used in the pending sentence. */
+  temporaryProductTypeLabel?: string;
   /** The product name exactly as it appears in the supplier order record. */
   supplierRecordName?: string;
   /** The product name as published by the brand, when a brand listing exists. */
