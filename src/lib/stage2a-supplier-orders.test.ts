@@ -75,7 +75,12 @@ describe('Stage 2A supplier-ordered records', () => {
     for (const id of NEW_SKUS) {
       const p = SHOP_PRODUCTS.find((x) => x.priceId === id)!;
       expect(p.price, id).toBe('');
-      if (id !== 'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime') expect(p.inci, id).toBeUndefined();
+      const sourceReviewed = [
+        'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime',
+        'haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime',
+        'haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime',
+      ];
+      if (!sourceReviewed.includes(id)) expect(p.inci, id).toBeUndefined();
       expect(p.image, id).toBe('/products/placeholder.webp');
       expect(p.tag, id).toBeNull();
     }
