@@ -1299,9 +1299,38 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     brand: "HARUHARU WONDER",
     priceId: "haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime",
     category: "Cleanse",
-    productType: "cleanser",
+    productType: "oil cleanser / first cleanse",
     routineStep: "cleanse",
-    temporaryProductTypeLabel: "cleanser",
+    temporaryProductTypeLabel: "oil cleanser",
+    verifiedTemporaryDescription:
+      "A fragrance-free cleansing oil designed to remove makeup, sunscreen and daily buildup before a water-based cleanser.",
+    verifiedUsageDirections:
+      "Dispense onto dry hands and gently massage over a dry face. Add a small amount of water and continue massaging until the oil turns milky. Rinse thoroughly with lukewarm water. Follow with a water-based cleanser if double cleansing.",
+    verifiedUsageNotes: [
+      "Use as the first step of an evening cleanse when needed.",
+      "Avoid direct contact with the eyes.",
+      "Stop use if irritation occurs.",
+    ],
+    inci: [
+      "Oryza Sativa (Rice) Bran Oil",
+      "Caprylic/Capric Triglyceride",
+      "Helianthus Annuus (Sunflower) Seed Oil",
+      "Olea Europaea (Olive) Fruit Oil",
+      "Sorbeth-30 Tetraoleate",
+      "Simmondsia Chinensis (Jojoba) Seed Oil",
+      "Macadamia Integrifolia Seed Oil",
+      "Tocopherol",
+      "Ethylhexylglycerin",
+    ],
+    inciSource: "brand",
+    inciSourceName: "HARUHARU WONDER official product page",
+    inciSourceUrl:
+      "https://haruharuwonder.com/products/haruharuwonder-black-rice-moisture-cleansing-oil",
+    inciCheckedOn: "2026-09-11",
+    // Ingredient list reviewed against the brand's own listing. The physical
+    // packaging check remains outstanding and is recorded separately.
+    ingredientReviewStatus: "reviewed",
+    packagingCheck: "pending",
     suppliers: ["UMMA", "Seoul4PM"],
     supplierReconciliationStatus: "matched_both",
     identityVerificationStatus: "online_identity_supported",
