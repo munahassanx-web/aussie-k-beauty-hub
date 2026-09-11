@@ -28,6 +28,7 @@ import {
   galleryFor,
   heroIngredients,
   inciRecord,
+  inciDateLong,
   howToUse,
   productBenefits,
   productDescription,
