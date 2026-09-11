@@ -1603,6 +1603,21 @@ export function isContentPending(p: ShopProduct): boolean {
 /** Customer-facing wording for a supplier-ordered SKU still being prepared. */
 export const CONTENT_PREPARATION_LABEL = 'Coming soon — product information being prepared';
 
+/**
+ * Data safeguard: a record may only carry `ingredientReviewStatus: 'reviewed'`
+ * when a complete list, a named source, a source type, a review date and either
+ * a public URL or a clearly labelled internal supplier record all exist.
+ * The packaging check is tracked separately and never implied by this gate.
+ */
+export function ingredientReviewRecordComplete(p: ShopProduct): boolean {
+  const sourced =
+    Boolean(p.inciSourceUrl) ||
+    (p.inciSource === 'internal-supplier-record' && Boolean(p.inciSourceNote));
+  return Boolean(
+    p.inci && p.inci.length > 0 && p.inciSourceName && p.inciSource && p.inciCheckedOn && sourced,
+  );
+}
+
 /** Wording for a sunscreen awaiting Australian supply verification. */
 export const SUNSCREEN_VERIFICATION_LABEL = 'Australian availability being verified';
 
