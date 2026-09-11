@@ -1270,7 +1270,26 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     category: "Moisturise",
     productType: "moisturiser",
     routineStep: "moisturise",
+    routineStepLabelOverride: "Step 4 — moisturise",
     temporaryProductTypeLabel: "moisturiser",
+    verifiedTemporaryDescription:
+      "An unscented moisturising cream from HARUHARU WONDER. The exact full ingredient list is being confirmed against the product packaging before launch.",
+    verifiedUsageDirections:
+      "Apply after toner and any treatment products. The brand directs that it may be used in morning and evening routines.",
+    verifiedUsageNotes: [
+      "Patch test before use.",
+      "Avoid direct contact with the eyes.",
+      "Stop use if irritation occurs.",
+    ],
+    // The brand page publishes only a five-item marketing summary, which must
+    // never be presented as an INCI list.
+    ingredientStatusNote: "Complete ingredient list pending packaging verification.",
+    officialSourceName: "HARUHARU WONDER official product page",
+    officialSourceUrl:
+      "https://haruharuwonder.com/products/haruharuwonder-black-rice-10-hyaluronic-cream-50ml-unscented",
+    officialSourceReviewedOn: "2026-09-11",
+    officialSourceLinkLabel: "View official product information",
+
     suppliers: ["UMMA"],
     supplierReconciliationStatus: "matched_umma",
     identityVerificationStatus: "online_identity_supported",
