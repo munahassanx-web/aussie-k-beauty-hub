@@ -137,6 +137,18 @@ export type ShopProduct = {
   verifiedUsageNotes?: string[];
   /** Transparency note for a record with no published ingredient or usage data. */
   pendingContentNote?: string;
+  // --- Stage 2B4 -----------------------------------------------------------
+  /** Overrides the category-derived routine-step label for one record only. */
+  routineStepLabelOverride?: string;
+  /** Shown in place of an INCI list when the full list is not yet verified. */
+  ingredientStatusNote?: string;
+  /** A reviewed public product page that is NOT a reliable full INCI source. */
+  officialSourceName?: string;
+  officialSourceUrl?: string;
+  officialSourceReviewedOn?: string;
+  /** Link label for the official source, e.g. "View official product information". */
+  officialSourceLinkLabel?: string;
+
   /** The product name as published by the brand, when a brand listing exists. */
   brandReferenceName?: string;
   /** All suppliers this SKU was ordered through (one customer-facing record). */
