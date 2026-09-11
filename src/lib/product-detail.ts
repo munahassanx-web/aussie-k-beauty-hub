@@ -1299,6 +1299,8 @@ export const SUPPLIER_RECONCILIATION_INTRO =
  * nouns only — no benefits, suitability or ingredient claims.
  */
 export function temporaryProductTypeSentence(p: ShopProduct): string {
+  // A source-verified description always wins over the generic sentence.
+  if (p.verifiedTemporaryDescription) return p.verifiedTemporaryDescription;
   // Authoritative data field: the product type is declared on the record and
   // is never inferred from the product name or title keywords.
   const label = p.temporaryProductTypeLabel ?? p.productType;
