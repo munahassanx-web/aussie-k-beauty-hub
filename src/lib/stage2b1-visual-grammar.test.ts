@@ -7,10 +7,6 @@ const byId = (id: string) => SHOP_PRODUCTS.find((p) => p.priceId === id) as Shop
 
 const COMING_SOON: Array<{ id: string; sentence: string }> = [
   {
-    id: 'haruharu_wonder_black_rice_10_hyaluronic_cream_unscented_50ml_onetime',
-    sentence: 'A moisturiser',
-  },
-  {
     id: 'haruharu_wonder_black_rice_facial_oil_10ml_onetime',
     sentence: 'A facial oil',
   },
