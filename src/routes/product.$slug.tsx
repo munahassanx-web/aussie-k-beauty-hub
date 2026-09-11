@@ -1024,6 +1024,63 @@ function PendingProductPage({ product }: { product: ShopProduct }) {
             {temporaryProductTypeSentence(product)}
           </p>
 
+          {product.verifiedUsageDirections && (
+            <div className="mt-8 border-t border-border pt-6">
+              <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                How to use
+              </h2>
+              <p className="mt-3 text-[0.95rem] leading-relaxed text-muted-foreground">
+                {product.verifiedUsageDirections}
+              </p>
+              {product.verifiedUsageNotes && product.verifiedUsageNotes.length > 0 && (
+                <ul className="mt-3 list-disc space-y-1 pl-5 text-xs leading-relaxed text-muted-foreground">
+                  {product.verifiedUsageNotes.map((note) => (
+                    <li key={note}>{note}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          {product.inci && product.inci.length > 0 && (
+            <div className="mt-8 border-t border-border pt-6">
+              <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                Full ingredient list
+              </h2>
+              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                {product.inci.join(', ')}
+              </p>
+              <dl className="mt-4 space-y-1 text-[11px] leading-relaxed text-muted-foreground">
+                <div>Source reviewed: {formatReviewDate(product.inciCheckedOn)}</div>
+                <div>Source: {product.inciSourceName}</div>
+                <div>Source type: Brand</div>
+                <div>Ingredient review status: Source reviewed</div>
+                <div>Packaging check: Pending</div>
+              </dl>
+              {product.inciSourceUrl && (
+                <a
+                  href={product.inciSourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-block text-[10px] uppercase tracking-[0.2em] underline underline-offset-4 hover:text-foreground"
+                >
+                  View original ingredient listing
+                </a>
+              )}
+              <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
+                Ingredient lists may change when products are reformulated. Check the packaging
+                received before use, particularly if you have known sensitivities. The ingredient
+                list printed on the product received is the final reference.
+              </p>
+            </div>
+          )}
+
+          {product.pendingContentNote && (
+            <p className="mt-8 border-t border-border pt-6 text-xs leading-relaxed text-muted-foreground">
+              {product.pendingContentNote}
+            </p>
+          )}
+
           <div className="mt-8 space-y-3 border-t border-border pt-6">
             <div className="rounded-[2px] border border-border px-6 py-5 text-center">
               <p className="text-sm font-medium text-foreground">
