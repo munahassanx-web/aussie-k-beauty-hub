@@ -322,6 +322,11 @@ function ProductPage() {
 
   if (!product) return <ProductNotFound />;
 
+  // Authoritative gate: an unfinished record never mounts any completed-product
+  // component — no gallery, benefits, usage, ingredients, compatibility or
+  // recommendations exist in the DOM at all.
+  if (isContentPending(product)) return <PendingProductPage product={product} />;
+
 
   const ingredients = heroIngredients(product);
   const inci = inciRecord(product);
