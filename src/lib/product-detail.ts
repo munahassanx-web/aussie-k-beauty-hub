@@ -1299,25 +1299,24 @@ export const SUPPLIER_RECONCILIATION_INTRO =
  * nouns only — no benefits, suitability or ingredient claims.
  */
 export function temporaryProductTypeSentence(p: ShopProduct): string {
-  const n = p.name.toLowerCase();
-  let subject: string;
-  // Order matters: the explicit product type always wins over the broad
-  // routine-step category (an "Ampoule Toner" is a toner, an "Essence Cream"
-  // is a moisturiser, a "Peeling Gel" is not a cleanser).
-  if (/\beye cream\b/.test(n)) subject = 'An eye cream';
-  else if (/\bmask\b/.test(n) || p.category === 'Masks') subject = 'A mask';
-  else if (/\bpeeling gel\b|\bexfoliat/.test(n)) subject = 'An exfoliating gel';
-  else if (/\btoner\b/.test(n)) subject = 'A toner';
-  else if (/\bcleansing (oil|gel|balm|water|foam)\b|\bcleanser\b/.test(n)) subject = 'A cleanser';
-  else if (/\bfacial oil\b/.test(n)) subject = 'A facial oil';
-  else if (/\b(cream|moisturi[sz]er)\b/.test(n)) subject = 'A moisturiser';
-  else if (/\b(serum|ampoule|essence)\b/.test(n)) subject = 'A serum or essence';
-  else if (p.category === 'Cleanse') subject = 'A cleanser';
-  else if (p.category === 'Tone') subject = 'A toner';
-  else if (p.category === 'Moisturise') subject = 'A moisturiser';
-  else if (p.category === 'Treat') subject = 'A serum or essence';
-  else subject = 'A product';
-  return `${subject} from ${p.brand}. Full product information is being reviewed before launch.`;
+  // Authoritative data field: the product type is declared on the record and
+  // is never inferred from the product name or title keywords.
+  const label = p.temporaryProductTypeLabel ?? p.productType;
+  if (label) {
+    const article = /^[aeiou]/i.test(label) ? 'An' : 'A';
+    return `${article} ${label} from ${p.brand}. Full product information is being reviewed before launch.`;
+  }
+
+  // Fallback for records that have not yet been given an explicit productType.
+  const categorySubject: Record<Category, string> = {
+    Cleanse: 'A cleanser',
+    Tone: 'A toner',
+    Treat: 'A serum or essence',
+    Moisturise: 'A moisturiser',
+    Protect: 'A sunscreen',
+    Masks: 'A mask',
+  };
+  return `${categorySubject[p.category]} from ${p.brand}. Full product information is being reviewed before launch.`;
 }
 
 export function productDescription(p: ShopProduct): string {
