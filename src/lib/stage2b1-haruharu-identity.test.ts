@@ -43,7 +43,7 @@ const EXPECTED: Array<{ id: string; name: string; identity: string; suppliers: s
   },
   {
     id: 'haruharu_wonder_black_rice_night_knight_retinol_serum_20ml_onetime',
-    name: 'Black Rice Night Knight Retinol Serum 20ml',
+    name: 'Black Rice Night Knight Retinol Serum / Unscented 20ml',
     identity: 'online_identity_supported',
     suppliers: ['Seoul4PM'],
   },
@@ -134,6 +134,9 @@ describe('Stage 2B1 — HARUHARU WONDER identity and source verification', () =>
         'haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime',
         'haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime',
         'haruharu_wonder_black_rice_facial_oil_10ml_onetime',
+        'haruharu_wonder_black_rice_night_knight_retinol_serum_20ml_onetime',
+        'haruharu_wonder_centella_phyto_5_peptide_concentrate_cream_30ml_onetime',
+        'haruharu_wonder_black_rice_bakuchiol_eye_cream_20ml_onetime',
       ];
       if (!reviewed.includes(p.priceId)) {
         expect(p.ingredientReviewStatus).toBe('pending');
