@@ -13,13 +13,13 @@ describe('Coming Soon records', () => {
   it('has the expected catalogue shape', () => {
     expect(SHOP_PRODUCTS).toHaveLength(77);
     expect(pending).toHaveLength(21);
-    expect(SHOP_PRODUCTS.filter(isPurchasable)).toHaveLength(52);
+    expect(SHOP_PRODUCTS.filter((p) => isPurchasable(p.priceId))).toHaveLength(52);
   });
 
   it('never carries a price or a purchase path', () => {
     for (const p of pending) {
       expect(p.price, p.name).toBe('');
-      expect(isPurchasable(p), p.name).toBe(false);
+      expect(isPurchasable(p.priceId), p.name).toBe(false);
       expect(p.routineFinderEligible, p.name).toBe(false);
       expect(p.quickAddEligible, p.name).toBe(false);
       expect(p.bundleEligible, p.name).toBe(false);
@@ -34,7 +34,7 @@ describe('Coming Soon records', () => {
   it('keeps AESTURA sunscreen restricted', () => {
     const aestura = SHOP_PRODUCTS.find((p) => /Derma UV365/i.test(p.name))!;
     expect(sunscreenSupplyRestricted(aestura)).toBe(true);
-    expect(isPurchasable(aestura)).toBe(false);
+    expect(isPurchasable(aestura.priceId)).toBe(false);
   });
 
   it('describes each product by its explicit product type', () => {
