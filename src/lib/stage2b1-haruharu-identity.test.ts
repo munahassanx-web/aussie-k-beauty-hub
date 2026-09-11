@@ -19,7 +19,7 @@ const EXPECTED: Array<{ id: string; name: string; identity: string; suppliers: s
   },
   {
     id: 'haruharu_wonder_black_rice_triple_aha_gentle_cleansing_gel_100ml_onetime',
-    name: 'Black Rice Triple AHA Gentle Cleansing Gel / Unscented 100ml',
+    name: 'Black Rice Triple AHA Gentle Cleansing Gel 100ml',
     identity: 'online_identity_supported',
     suppliers: ['UMMA'],
   },
