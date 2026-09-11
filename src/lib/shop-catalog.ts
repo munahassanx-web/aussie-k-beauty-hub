@@ -203,6 +203,7 @@ const CONTENT_IN_PREPARATION = {
   websiteStatus: 'content_in_preparation',
   packagingCheck: 'pending',
   ingredientReviewStatus: 'pending',
+  usageReviewStatus: 'pending',
   priceStatus: 'pending',
   routineFinderEligible: false,
   bundleEligible: false,
