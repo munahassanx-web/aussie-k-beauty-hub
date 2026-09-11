@@ -137,6 +137,18 @@ export type ShopProduct = {
   verifiedUsageNotes?: string[];
   /** Transparency note for a record with no published ingredient or usage data. */
   pendingContentNote?: string;
+  // --- Stage 2B4 -----------------------------------------------------------
+  /** Overrides the category-derived routine-step label for one record only. */
+  routineStepLabelOverride?: string;
+  /** Shown in place of an INCI list when the full list is not yet verified. */
+  ingredientStatusNote?: string;
+  /** A reviewed public product page that is NOT a reliable full INCI source. */
+  officialSourceName?: string;
+  officialSourceUrl?: string;
+  officialSourceReviewedOn?: string;
+  /** Link label for the official source, e.g. "View official product information". */
+  officialSourceLinkLabel?: string;
+
   /** The product name as published by the brand, when a brand listing exists. */
   brandReferenceName?: string;
   /** All suppliers this SKU was ordered through (one customer-facing record). */
@@ -1189,11 +1201,44 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     brand: "HARUHARU WONDER",
     priceId: "haruharu_wonder_black_rice_facial_oil_10ml_onetime",
     category: "Moisturise",
-    productType: "facial oil",
-    routineStep: "moisturise",
-    temporaryProductTypeLabel: "facial oil",
+    productType: "leave-on facial oil",
+    routineStep: "seal",
+    routineStepLabelOverride: "Step 5 — seal",
+    temporaryProductTypeLabel: "leave-on facial oil",
     // Travel format. 30ml full-size imagery must never stand in for this SKU.
-    size: "10ml (travel size)",
+    size: "10ml · Travel size",
+    verifiedTemporaryDescription:
+      "A leave-on facial oil made with rice bran, sunflower, camellia, jojoba/macadamia and sweet almond-derived oils.",
+    verifiedUsageDirections:
+      "Apply a small amount as the final leave-on step of your routine. Gently press or massage over the face, avoiding the immediate eye area. It may also be mixed with moisturiser.",
+    verifiedUsageNotes: [
+      "This is a leave-on oil, not the Black Rice Moisture Cleansing Oil.",
+      "Begin with a small amount.",
+      "Patch test before use.",
+      "Avoid direct contact with the eyes.",
+      "Stop use if irritation occurs.",
+      "This formula contains lavender oil and sweet almond oil, so it is not fragrance free.",
+      "Customers with known ingredient sensitivities should check the packaging before use.",
+    ],
+    inci: [
+      "Oryza Sativa (Rice) Bran Oil",
+      "Helianthus Annuus (Sunflower) Seed Oil",
+      "Caprylic/Capric Triglyceride",
+      "Triolein",
+      "Heptyl Undecylenate",
+      "Glyceryl Dioleate",
+      "Lavandula Angustifolia (Lavender) Oil",
+      "Camellia Seed Oil",
+      "Jojoba Oil/Macadamia Seed Oil Esters",
+      "Prunus Amygdalus Dulcis (Sweet Almond) Oil",
+      "Tocopherol",
+    ],
+    inciSource: "brand",
+    inciSourceName: "HARUHARU WONDER official product page",
+    inciSourceUrl: "https://haruharuwonder.com/products/haruharuwonder-black-rice-facial-oil",
+    inciCheckedOn: "2026-09-11",
+    ingredientReviewStatus: "reviewed",
+
     suppliers: ["UMMA"],
     supplierReconciliationStatus: "matched_umma",
     identityVerificationStatus: "online_identity_supported",
@@ -1225,7 +1270,26 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     category: "Moisturise",
     productType: "moisturiser",
     routineStep: "moisturise",
+    routineStepLabelOverride: "Step 4 — moisturise",
     temporaryProductTypeLabel: "moisturiser",
+    verifiedTemporaryDescription:
+      "An unscented moisturising cream from HARUHARU WONDER. The exact full ingredient list is being confirmed against the product packaging before launch.",
+    verifiedUsageDirections:
+      "Apply after toner and any treatment products. The brand directs that it may be used in morning and evening routines.",
+    verifiedUsageNotes: [
+      "Patch test before use.",
+      "Avoid direct contact with the eyes.",
+      "Stop use if irritation occurs.",
+    ],
+    // The brand page publishes only a five-item marketing summary, which must
+    // never be presented as an INCI list.
+    ingredientStatusNote: "Complete ingredient list pending packaging verification.",
+    officialSourceName: "HARUHARU WONDER official product page",
+    officialSourceUrl:
+      "https://haruharuwonder.com/products/haruharuwonder-black-rice-10-hyaluronic-cream-50ml-unscented",
+    officialSourceReviewedOn: "2026-09-11",
+    officialSourceLinkLabel: "View official product information",
+
     suppliers: ["UMMA"],
     supplierReconciliationStatus: "matched_umma",
     identityVerificationStatus: "online_identity_supported",

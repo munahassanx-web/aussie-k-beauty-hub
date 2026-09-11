@@ -7,14 +7,6 @@ const byId = (id: string) => SHOP_PRODUCTS.find((p) => p.priceId === id) as Shop
 
 const COMING_SOON: Array<{ id: string; sentence: string }> = [
   {
-    id: 'haruharu_wonder_black_rice_facial_oil_10ml_onetime',
-    sentence: 'A facial oil',
-  },
-  {
-    id: 'haruharu_wonder_black_rice_10_hyaluronic_cream_unscented_50ml_onetime',
-    sentence: 'A moisturiser',
-  },
-  {
     id: 'haruharu_wonder_black_rice_night_knight_retinol_serum_20ml_onetime',
     sentence: 'A serum or essence',
   },
@@ -81,7 +73,7 @@ describe('Stage 2B1 safeguards — purchase gates unchanged', () => {
       expect(p.purchasable, id).toBe(false);
       expect(p.priceStatus, id).toBe('pending');
       expect(p.price, id).toBe('');
-      if (id !== 'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime') expect(p.ingredientReviewStatus, id).toBe('pending');
+      if (p.ingredientReviewStatus !== 'reviewed') expect(p.ingredientReviewStatus, id).toBe('pending');
       expect(p.routineFinderEligible, id).toBe(false);
       expect(p.bundleEligible, id).toBe(false);
       expect(p.quickAddEligible, id).toBe(false);

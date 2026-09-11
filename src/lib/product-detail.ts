@@ -934,8 +934,9 @@ const CATEGORY_ROLE: Record<Category, string> = {
 };
 
 export function routineStepLabel(p: ShopProduct): string {
-  return CATEGORY_ROLE[p.category];
+  return p.routineStepLabelOverride ?? CATEGORY_ROLE[p.category];
 }
+
 
 const CATEGORY_HOW_TO: Record<Category, string[]> = {
   Cleanse: [

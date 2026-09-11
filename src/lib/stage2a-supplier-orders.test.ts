@@ -68,6 +68,7 @@ describe('Stage 2A supplier-ordered records', () => {
         'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime',
         'haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime',
         'haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime',
+        'haruharu_wonder_black_rice_facial_oil_10ml_onetime',
       ];
       if (!sourceReviewed.includes(id)) expect(p.ingredientReviewStatus).toBe('pending');
       expect(p.priceStatus).toBe('pending');
@@ -84,6 +85,7 @@ describe('Stage 2A supplier-ordered records', () => {
         'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime',
         'haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime',
         'haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime',
+        'haruharu_wonder_black_rice_facial_oil_10ml_onetime',
       ];
       if (!sourceReviewed.includes(id)) expect(p.inci, id).toBeUndefined();
       expect(p.image, id).toBe('/products/placeholder.webp');

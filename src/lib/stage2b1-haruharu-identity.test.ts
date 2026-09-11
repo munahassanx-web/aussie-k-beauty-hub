@@ -133,6 +133,7 @@ describe('Stage 2B1 — HARUHARU WONDER identity and source verification', () =>
         'haruharu_wonder_black_rice_moisture_cleansing_oil_150ml_onetime',
         'haruharu_wonder_rose_pdrn_firming_serum_30ml_onetime',
         'haruharu_wonder_centella_4_txa_gel_serum_30ml_onetime',
+        'haruharu_wonder_black_rice_facial_oil_10ml_onetime',
       ];
       if (!reviewed.includes(p.priceId)) {
         expect(p.ingredientReviewStatus).toBe('pending');
