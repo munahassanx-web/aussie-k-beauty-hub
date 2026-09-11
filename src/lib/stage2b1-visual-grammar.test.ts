@@ -74,7 +74,7 @@ describe('Stage 2B1 grammar correction — temporary product copy', () => {
     for (const { id, sentence } of COMING_SOON) {
       const p = byId(id);
       expect(productDescription(p), id).toBe(
-        `${sentence} from HARUHARU WONDER. Full product information is being reviewed before launch.`,
+        `${sentence} from ${p.brand}. Full product information is being reviewed before launch.`,
       );
     }
   });
