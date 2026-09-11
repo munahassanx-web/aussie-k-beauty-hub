@@ -1465,7 +1465,20 @@ export const AVAILABILITY_PENDING_LABEL = 'Availability being confirmed';
  * packaging check — is still being prepared. Viewable only.
  */
 export function contentInPreparation(p: ShopProduct): boolean {
-  return p.websiteStatus === 'content_in_preparation';
+  return isContentPending(p);
+}
+
+/**
+ * The single authoritative gate for "this record's content is not finished".
+ * Any one unfinished review state is enough: no completed-product component
+ * may render for these records.
+ */
+export function isContentPending(p: ShopProduct): boolean {
+  return (
+    p.websiteStatus === 'content_in_preparation' ||
+    p.ingredientReviewStatus === 'pending' ||
+    (p.usageReviewStatus !== undefined && p.usageReviewStatus !== 'reviewed')
+  );
 }
 
 /** Customer-facing wording for a supplier-ordered SKU still being prepared. */
