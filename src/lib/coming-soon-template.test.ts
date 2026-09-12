@@ -39,7 +39,7 @@ describe('Coming Soon records', () => {
 
   it('describes each product by its explicit product type', () => {
     const expected: Record<string, string> = {
-      'Panthecell Repair Cica-Some Ampoule Mask 1P': 'A mask',
+      'Panthecell Repair Cica-Some Ampoule Mask': 'A single-use sheet mask formulated with panthenol, centella-derived ingredients, glycerin, niacinamide and sodium hyaluronate.',
       'Bifida Biome Ampoule Toner 210ml': 'A toner',
       'Galac Niacin 3.0 Essence 60ml': 'A serum or essence',
       'Brightening Peeling Gel 120g': 'An exfoliating gel',

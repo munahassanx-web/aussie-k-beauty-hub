@@ -1091,20 +1091,25 @@ function PendingProductPage({ product }: { product: ShopProduct }) {
           {product.ingredientStatusNote && (
             <div className="mt-8 border-t border-border pt-6">
               <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                Ingredients
+                {product.ingredientSectionHeading ?? 'Ingredients'}
               </h2>
+              {product.ingredientInformationSummary && (
+                <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                  {product.ingredientInformationSummary}
+                </p>
+              )}
               <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-                {product.ingredientStatusNote}
+                <strong className="font-medium text-foreground">{product.ingredientStatusNote}</strong>
               </p>
               <dl className="mt-4 space-y-1 text-[11px] leading-relaxed text-muted-foreground">
                 <div>Ingredient review status: Pending</div>
                 <div>Packaging check: Pending</div>
-                <div>Full INCI verified: No</div>
+                <div>Full English INCI verified: No</div>
                 {product.officialSourceReviewedOn && (
                   <div>Source reviewed: {inciDateLong(product.officialSourceReviewedOn)}</div>
                 )}
                 {product.officialSourceName && <div>Source: {product.officialSourceName}</div>}
-                <div>Source type: Brand</div>
+                <div>Source type: {product.officialSourceType ?? 'Brand'}</div>
                 {product.officialSource2ReviewedOn && (
                   <div>Source reviewed: {inciDateLong(product.officialSource2ReviewedOn)}</div>
                 )}
