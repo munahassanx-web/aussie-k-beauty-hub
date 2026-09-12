@@ -42,7 +42,9 @@ describe('Stage 2D1 — BIOHEAL BOH mask and cleanser', () => {
       expect(p.officialSourceType).toBe('Major retailer');
     }
     expect(mask.officialSourceName).toBe('YesStyle product listing');
-    expect(mask.officialSourceUrl).toBeUndefined();
+    expect(mask.officialSourceUrl).toBe(
+      'https://www.yesstyle.com/en/bioheal-boh-panthecell-repair-cica-some-ampoule-mask-30g-x-1-sheet/info.html/pid.1136846548',
+    );
     expect(cleanser.officialSourceName).toBe('OLIVE YOUNG Global product listing');
     expect(cleanser.officialSourceUrl).toBe(
       'https://global.oliveyoung.com/product/detail?prdtNo=GA250832675',

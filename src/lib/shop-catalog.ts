@@ -1680,8 +1680,11 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     ingredientStatusNote: "Complete English ingredient list pending packaging verification.",
     ingredientSectionHeading: "Ingredient information",
     officialSourceName: "YesStyle product listing",
+    officialSourceUrl:
+      "https://www.yesstyle.com/en/bioheal-boh-panthecell-repair-cica-some-ampoule-mask-30g-x-1-sheet/info.html/pid.1136846548",
     officialSourceReviewedOn: "2026-09-12",
     officialSourceType: "Major retailer",
+    officialSourceLinkLabel: "View retailer product information",
     internalClaimRestrictions: [
       "Do not claim this product repairs a damaged skin barrier.",
       "Do not claim this product treats redness, acne, scars, eczema or dermatitis.",
