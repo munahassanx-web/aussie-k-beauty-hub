@@ -1093,6 +1093,11 @@ function PendingProductPage({ product }: { product: ShopProduct }) {
                 )}
                 {product.officialSourceName && <div>Source: {product.officialSourceName}</div>}
                 <div>Source type: Brand</div>
+                {product.officialSource2ReviewedOn && (
+                  <div>Source reviewed: {inciDateLong(product.officialSource2ReviewedOn)}</div>
+                )}
+                {product.officialSource2Name && <div>Source: {product.officialSource2Name}</div>}
+                {product.officialSource2Name && <div>Source type: Brand</div>}
               </dl>
               {product.officialSourceUrl && (
                 <a
@@ -1102,6 +1107,16 @@ function PendingProductPage({ product }: { product: ShopProduct }) {
                   className="mt-3 inline-block text-[10px] uppercase tracking-[0.2em] underline underline-offset-4 hover:text-foreground"
                 >
                   {product.officialSourceLinkLabel ?? 'View official product information'}
+                </a>
+              )}
+              {product.officialSource2Url && (
+                <a
+                  href={product.officialSource2Url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-4 mt-3 inline-block text-[10px] uppercase tracking-[0.2em] underline underline-offset-4 hover:text-foreground"
+                >
+                  {product.officialSource2LinkLabel ?? 'View official product information'}
                 </a>
               )}
               <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
