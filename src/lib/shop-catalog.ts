@@ -122,6 +122,8 @@ export type ShopProduct = {
   routineStep?: string;
   /** Explicit temporary product-type label used in the pending sentence. */
   temporaryProductTypeLabel?: string;
+  /** Stable URL segment when an exact customer-facing name changes before launch. */
+  productSlugOverride?: string;
   /** The product name exactly as it appears in the supplier order record. */
   supplierRecordName?: string;
   // --- Stage 2B2: verified pre-launch copy ----------------------------------
@@ -149,10 +151,15 @@ export type ShopProduct = {
   routineStepLabelOverride?: string;
   /** Shown in place of an INCI list when the full list is not yet verified. */
   ingredientStatusNote?: string;
+  /** Factual partial ingredient disclosure shown before the pending-INCI notice. */
+  ingredientInformationSummary?: string;
+  /** Optional heading for a pending ingredient-information record. */
+  ingredientSectionHeading?: string;
   /** A reviewed public product page that is NOT a reliable full INCI source. */
   officialSourceName?: string;
   officialSourceUrl?: string;
   officialSourceReviewedOn?: string;
+  officialSourceType?: 'Brand' | 'Major retailer';
   /** Link label for the official source, e.g. "View official product information". */
   officialSourceLinkLabel?: string;
   /** An optional second reviewed official source shown alongside the first. */
@@ -1642,14 +1649,97 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
         sourceVerificationStatus: "online_reference_reviewed",
       },
     ] },
-  { ...CONTENT_IN_PREPARATION, name: "Panthecell Repair Cica-Some Ampoule Mask 1P", brand: "BIOHEAL BOH", priceId: "bioheal_boh_panthecell_repair_cica_some_ampoule_mask_1p_onetime", category: "Masks",
-    productType: "mask",
+  {
+    ...CONTENT_IN_PREPARATION,
+    name: "Panthecell Repair Cica-Some Ampoule Mask",
+    brand: "BIOHEAL BOH",
+    priceId: "bioheal_boh_panthecell_repair_cica_some_ampoule_mask_1p_onetime",
+    category: "Masks",
+    productType: "sheet mask",
     routineStep: "masks",
-    temporaryProductTypeLabel: "mask", size: "1P", supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Panthecell Repair Cica Soothing Cleanser 160ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_panthecell_repair_cica_soothing_cleanser_160ml_onetime", category: "Cleanse",
-    productType: "cleanser",
+    temporaryProductTypeLabel: "sheet mask",
+    productSlugOverride: "bioheal-boh-panthecell-repair-cica-some-ampoule-mask-1p",
+    size: "1P / one sheet mask",
+    routineStepLabelOverride: "Weekly Treatment",
+    verifiedTemporaryDescription:
+      "A single-use sheet mask formulated with panthenol, centella-derived ingredients, glycerin, niacinamide and sodium hyaluronate.",
+    verifiedUsageDirections:
+      "After cleansing and toner, unfold the mask and apply it evenly to the face, avoiding the eyes and lips. Leave on for the time printed on the received packaging. Remove the mask and gently pat in the remaining essence. Do not rinse unless irritation occurs.",
+    verifiedUsageNotes: [
+      "For external use only.",
+      "Single use only—do not reuse the mask.",
+      "Avoid direct contact with the eyes and lips.",
+      "Do not apply to broken or irritated skin.",
+      "Patch test before first use.",
+      "Remove immediately and rinse if burning or significant discomfort occurs.",
+      "Stop use if persistent redness, swelling, itching or irritation develops.",
+      "Store away from direct sunlight and out of reach of children.",
+    ],
+    ingredientInformationSummary:
+      "Selected ingredients disclosed by major retailers include panthenol, centella-derived ingredients, glycerin, niacinamide and sodium hyaluronate.",
+    ingredientStatusNote: "Complete English ingredient list pending packaging verification.",
+    ingredientSectionHeading: "Ingredient information",
+    officialSourceName: "YesStyle product listing",
+    officialSourceUrl:
+      "https://www.yesstyle.com/en/bioheal-boh-panthecell-repair-cica-some-ampoule-mask-30g-x-1-sheet/info.html/pid.1136846548",
+    officialSourceReviewedOn: "2026-09-12",
+    officialSourceType: "Major retailer",
+    officialSourceLinkLabel: "View retailer product information",
+    internalClaimRestrictions: [
+      "Do not claim this product repairs a damaged skin barrier.",
+      "Do not claim this product treats redness, acne, scars, eczema or dermatitis.",
+      "Do not claim Cica-Some or exosomes are delivered into living skin.",
+      "Do not claim this product regenerates skin or produces immediate clinical improvement.",
+      "Do not claim this product is hypoallergenic, irritation-free or safe for every skin type.",
+      "Do not claim pregnancy or breastfeeding safety.",
+      "Do not claim this product is fragrance-free until confirmed from received packaging.",
+    ],
+    supplierReconciliationStatus: "matched_seoul4pm",
+  },
+  {
+    ...CONTENT_IN_PREPARATION,
+    name: "Panthecell Repair Cica Soothing Cleanser 160ml",
+    brand: "BIOHEAL BOH",
+    priceId: "bioheal_boh_panthecell_repair_cica_soothing_cleanser_160ml_onetime",
+    category: "Cleanse",
+    productType: "water-based cleanser",
     routineStep: "cleanse",
-    temporaryProductTypeLabel: "cleanser", supplierReconciliationStatus: "matched_seoul4pm" },
+    temporaryProductTypeLabel: "water-based cleanser",
+    size: "160ml",
+    routineStepLabelOverride: "Step 1 — Cleanse",
+    verifiedTemporaryDescription:
+      "A rinse-off facial cleanser formulated with surfactants and skin-conditioning ingredients, including panthenol and centella-derived ingredients.",
+    verifiedUsageDirections:
+      "Dispense a small amount into wet hands and work into a lather. Massage gently over damp skin, avoiding the eye area, then rinse thoroughly with lukewarm water. Follow with the remaining steps of the routine. For makeup or water-resistant sunscreen, use an appropriate first cleanser before this water-based cleanser.",
+    verifiedUsageNotes: [
+      "For external use only.",
+      "Avoid direct contact with the eyes.",
+      "Rinse immediately if the product enters the eyes.",
+      "Do not apply to broken or irritated skin.",
+      "Patch test before first use.",
+      "Stop use if persistent irritation occurs.",
+      "If skin feels dry or tight after cleansing, reduce the amount or frequency of use.",
+      "Store away from direct sunlight and out of reach of children.",
+    ],
+    ingredientInformationSummary:
+      "Public retailer information identifies a surfactant-based formula containing panthenol and centella-derived ingredients.",
+    ingredientStatusNote: "Complete English ingredient list pending packaging verification.",
+    ingredientSectionHeading: "Ingredient information",
+    officialSourceName: "OLIVE YOUNG Global product listing",
+    officialSourceUrl: "https://global.oliveyoung.com/product/detail?prdtNo=GA250832675",
+    officialSourceReviewedOn: "2026-09-12",
+    officialSourceType: "Major retailer",
+    officialSourceLinkLabel: "View retailer product information",
+    internalClaimRestrictions: [
+      "Do not claim this product repairs the skin barrier or treats acne, redness, sensitivity, eczema or dermatitis.",
+      "Do not claim this product removes pollution or fine dust from within pores.",
+      "Do not claim this product deeply hydrates skin or strengthens living skin using protein growth factors.",
+      "Do not claim this product is hypoallergenic, non-irritating or suitable for every person.",
+      "Do not claim this product is fragrance-free until confirmed from received packaging.",
+      "Do not claim pregnancy or breastfeeding safety.",
+    ],
+    supplierReconciliationStatus: "matched_seoul4pm",
+  },
   { ...CONTENT_IN_PREPARATION, name: "Probioderm Collagen Remodeling Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_collagen_remodeling_cream_50ml_onetime", category: "Moisturise",
     productType: "moisturiser",
     routineStep: "moisturise",

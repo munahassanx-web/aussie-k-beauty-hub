@@ -7,12 +7,7 @@ const byId = (id: string) => SHOP_PRODUCTS.find((p) => p.priceId === id) as Shop
 
 // Records with source-reviewed content use their verified descriptions instead
 // of the generic sentence, so only fully generic records are asserted here.
-const COMING_SOON: Array<{ id: string; sentence: string }> = [
-  {
-    id: 'bioheal_boh_panthecell_repair_cica_some_ampoule_mask_1p_onetime',
-    sentence: 'A mask',
-  },
-];
+const COMING_SOON: Array<{ id: string; sentence: string }> = [];
 
 describe('Stage 2B1 visual correction — placeholder gallery', () => {
   it('shows exactly one placeholder image per Coming Soon HARUHARU record', () => {

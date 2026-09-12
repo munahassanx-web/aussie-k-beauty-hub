@@ -39,6 +39,7 @@ export function brandSlug(brand: string): string {
 
 /** Stable, unique, human-readable URL slug for a product. */
 export function productSlug(p: ShopProduct): string {
+  if (p.productSlugOverride) return p.productSlugOverride;
   const file = p.image.split('/').pop()?.replace(/\.[a-z0-9]+$/i, '') ?? '';
   // Records awaiting their own imagery share the placeholder file, so their
   // address comes from the product name instead of the image name.
