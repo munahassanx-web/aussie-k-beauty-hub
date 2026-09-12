@@ -1025,14 +1025,26 @@ function PendingProductPage({ product }: { product: ShopProduct }) {
             {temporaryProductTypeSentence(product)}
           </p>
 
-          {product.verifiedUsageDirections && (
+          {(product.verifiedUsageDirections || product.verifiedUsageOptions) && (
             <div className="mt-8 border-t border-border pt-6">
               <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
                 How to use
               </h2>
-              <p className="mt-3 text-[0.95rem] leading-relaxed text-muted-foreground">
-                {product.verifiedUsageDirections}
-              </p>
+              {product.verifiedUsageOptions?.map((option) => (
+                <div key={option.label} className="mt-4">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-foreground">
+                    {option.label}
+                  </p>
+                  <p className="mt-1.5 text-[0.95rem] leading-relaxed text-muted-foreground">
+                    {option.text}
+                  </p>
+                </div>
+              ))}
+              {product.verifiedUsageDirections && (
+                <p className="mt-3 text-[0.95rem] leading-relaxed text-muted-foreground">
+                  {product.verifiedUsageDirections}
+                </p>
+              )}
               {product.verifiedUsageNotes && product.verifiedUsageNotes.length > 0 && (
                 <ul className="mt-3 list-disc space-y-1 pl-5 text-xs leading-relaxed text-muted-foreground">
                   {product.verifiedUsageNotes.map((note) => (
