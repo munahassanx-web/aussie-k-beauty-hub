@@ -9,8 +9,8 @@ const byId = (id: string) => SHOP_PRODUCTS.find((p) => p.priceId === id) as Shop
 // of the generic sentence, so only fully generic records are asserted here.
 const COMING_SOON: Array<{ id: string; sentence: string }> = [
   {
-    id: 'biodance_collagen_mask_to_foam_cleanser_150ml_onetime',
-    sentence: 'A cleanser',
+    id: 'bioheal_boh_panthecell_repair_cica_some_ampoule_mask_1p_onetime',
+    sentence: 'A mask',
   },
 ];
 
