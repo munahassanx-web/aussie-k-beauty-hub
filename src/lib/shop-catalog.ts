@@ -1321,7 +1321,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   { ...CONTENT_IN_PREPARATION, name: "First Synergy Toner 150ml", brand: "BIODANCE", priceId: "biodance_first_synergy_toner_150ml_onetime", category: "Tone",
     productType: "toner",
     routineStep: "tone",
-    temporaryProductTypeLabel: "toner", size: "150ml", supplierReconciliationStatus: "matched_seoul4pm",
+    temporaryProductTypeLabel: "toner", size: "150ml", routineStepLabelOverride: "Step 2 — Prepare", supplierReconciliationStatus: "matched_seoul4pm",
     verifiedTemporaryDescription:
       "A lightweight toner formulated with humectants, panthenol, betaine, botanical extracts and multiple forms of hyaluronic acid.",
     verifiedUsageDirections:
@@ -1371,7 +1371,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   { ...CONTENT_IN_PREPARATION, name: "Skin Glow Essence Cream 50ml", brand: "BIODANCE", priceId: "biodance_skin_glow_essence_cream_50ml_onetime", category: "Moisturise",
     productType: "moisturiser",
     routineStep: "moisturise",
-    temporaryProductTypeLabel: "moisturiser", size: "50ml", supplierReconciliationStatus: "matched_seoul4pm",
+    temporaryProductTypeLabel: "moisturiser", size: "50ml", routineStepLabelOverride: "Step 4 — Moisturise", supplierReconciliationStatus: "matched_seoul4pm",
     verifiedTemporaryDescription:
       "A moisturising cream formulated with niacinamide, panthenol, betaine, ferment ingredients, multiple ceramides and several forms of hyaluronic acid.",
     verifiedUsageDirections:
