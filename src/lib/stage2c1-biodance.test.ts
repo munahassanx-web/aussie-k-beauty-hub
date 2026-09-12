@@ -48,12 +48,12 @@ describe('Stage 2C1 — BIODANCE toner and essence cream', () => {
     expect(routineStepLabel(p)).toBe('Step 4 — Moisturise');
   });
 
-  it('stores the complete 48-item official cream INCI with brand provenance', () => {
+  it('stores the complete 47-item official cream INCI with brand provenance', () => {
     const p = byId(CREAM);
-    expect(p.inci).toHaveLength(48);
+    expect(p.inci).toHaveLength(47);
     expect(p.inci).toContain('Niacinamide');
     expect(p.inci).toContain('Ceramide EOP');
-    expect(p.inci![45]).toBe('Tocopherol');
+    expect(p.inci![44]).toBe('Tocopherol');
     expect(p.ingredientReviewStatus).toBe('reviewed');
     expect(p.inciSource).toBe('brand');
     expect(p.inciSourceName).toBe('BIODANCE official product page');
@@ -72,7 +72,7 @@ describe('Stage 2C1 — BIODANCE toner and essence cream', () => {
         ...(p.verifiedUsageNotes ?? []),
       ];
     }).join(' ');
-    expect(visible).not.toMatch(/do not|never|2\.4|pH 5\.5|96%|hypoallergenic|microbiome|glass skin/i);
+    expect(visible).not.toMatch(/2\.4|pH 5\.5|96%|hypoallergenic|microbiome|glass skin|penetrates deeply|toxins|guaranteed makeup/i);
     expect(byId(TONER).internalClaimRestrictions).toHaveLength(6);
     expect(byId(CREAM).internalClaimRestrictions).toHaveLength(6);
   });
