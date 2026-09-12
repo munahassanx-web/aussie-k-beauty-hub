@@ -51,6 +51,12 @@ describe('Stage 2B5 — HARUHARU treatment verification', () => {
     expect(p.inci).toContain('Copper Tripeptide-1');
     expect(p.inci).toContain('Palmitoyl Pentapeptide-4');
     expect(p.verifiedTemporaryDescription).not.toMatch(/collagen production|lifting|firming/i);
+    expect(p.verifiedUsageNotes).toEqual([
+      'Patch test before use.',
+      'Avoid direct contact with the eyes.',
+      'Stop use if irritation occurs.',
+    ]);
+    expect(p.internalClaimRestrictions).toHaveLength(4);
   });
 
   it('labels the eye cream 20ml and Optional — Eye care', () => {
@@ -59,10 +65,25 @@ describe('Stage 2B5 — HARUHARU treatment verification', () => {
     expect(routineStepLabel(p)).toBe('Optional — Eye care');
     expect(p.inci).toHaveLength(42);
     expect(p.inci).toContain('Bakuchiol');
-    // Bakuchiol is never presented as retinol or its equal.
+    // The useful distinction remains public while claim restrictions stay internal.
     expect(p.verifiedTemporaryDescription).not.toMatch(/retinol/i);
-    expect(p.verifiedUsageNotes!.join(' ')).toContain('not retinol');
-    expect(p.verifiedUsageNotes!.join(' ')).toContain('not claimed to be equally effective as retinol');
+    expect(p.verifiedUsageNotes).toEqual([
+      'Use only a small amount.',
+      'Avoid direct eye contact.',
+      'Rinse thoroughly if the product enters the eyes.',
+      'Patch test before use.',
+      'Stop use if irritation occurs.',
+      'Bakuchiol is a cosmetic ingredient distinct from retinol.',
+    ]);
+    expect(p.internalClaimRestrictions).toHaveLength(4);
+  });
+
+  it('keeps internal claim instructions out of customer-facing usage notes', () => {
+    const visibleText = [PEPTIDE, EYE]
+      .flatMap((id) => byId(id).verifiedUsageNotes ?? [])
+      .join(' ');
+    expect(visibleText).not.toMatch(/does not promise|not described as|not guaranteed|without evidence/i);
+    expect(visibleText).not.toMatch(/not claimed|absolute zero-photosensitivity|not claimed to create/i);
   });
 
   it('stores complete official source provenance with new-tab links for all three', () => {

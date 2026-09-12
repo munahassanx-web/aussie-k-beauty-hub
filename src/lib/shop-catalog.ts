@@ -135,6 +135,8 @@ export type ShopProduct = {
   verifiedUsageDirections?: string;
   /** Source-verified cautions / usage notes shown with the directions. */
   verifiedUsageNotes?: string[];
+  /** Internal content guardrails. Never render these instructions to customers. */
+  internalClaimRestrictions?: string[];
   /** Transparency note for a record with no published ingredient or usage data. */
   pendingContentNote?: string;
   // --- Stage 2B4 -----------------------------------------------------------
@@ -1448,10 +1450,12 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Patch test before use.",
       "Avoid direct contact with the eyes.",
       "Stop use if irritation occurs.",
-      "This product does not promise wrinkle reduction, lifting, firming or collagen production.",
-      "Peptides in this product are not described as repairing UV damage.",
-      "Suitability for sensitive or all skin types is not guaranteed.",
-      "The refill packaging is not claimed to be environmentally superior without evidence.",
+    ],
+    internalClaimRestrictions: [
+      "Do not promise wrinkle reduction, lifting, firming or collagen production.",
+      "Do not describe peptides as repairing UV damage.",
+      "Do not guarantee suitability for sensitive or all skin types.",
+      "Do not call the refill packaging environmentally superior without evidence.",
     ],
     inci: [
       "Water",
@@ -1551,10 +1555,13 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
       "Rinse thoroughly if the product enters the eyes.",
       "Patch test before use.",
       "Stop use if irritation occurs.",
-      "Bakuchiol is not retinol and is not claimed to be equally effective as retinol.",
-      "Dark-circle, wrinkle or firming results are not guaranteed.",
-      "No absolute zero-photosensitivity promise is made.",
-      "Sodium hyaluronate in this product is not claimed to create collagen.",
+      "Bakuchiol is a cosmetic ingredient distinct from retinol.",
+    ],
+    internalClaimRestrictions: [
+      "Do not describe bakuchiol as retinol or claim it is equally effective as retinol.",
+      "Do not guarantee dark-circle, wrinkle or firming results.",
+      "Do not state zero photosensitivity as an absolute promise.",
+      "Do not claim that sodium hyaluronate creates collagen.",
     ],
     inci: [
       "Water",
