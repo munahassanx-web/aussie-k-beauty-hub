@@ -10,4 +10,4 @@
 
 ## Stage 2D1 BIOHEAL BOH records
 - [x] Update the mask and cleanser with reviewed identity, directions, precautions, and retailer provenance
-- [ ] Verify both direct pages, catalogue safeguards, tests, and production build
+- [x] Verify both direct pages, catalogue safeguards, tests, and production build
