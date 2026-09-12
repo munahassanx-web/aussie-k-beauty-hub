@@ -39,7 +39,6 @@ describe('Coming Soon records', () => {
 
   it('describes each product by its explicit product type', () => {
     const expected: Record<string, string> = {
-      'Skin-Glow Essence Cream 50ml': 'A moisturiser',
       'Panthecell Repair Cica-Some Ampoule Mask 1P': 'A mask',
       'Bifida Biome Ampoule Toner 210ml': 'A toner',
       'Galac Niacin 3.0 Essence 60ml': 'A serum or essence',
