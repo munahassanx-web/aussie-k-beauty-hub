@@ -133,6 +133,11 @@ export type ShopProduct = {
   verifiedTemporaryDescription?: string;
   /** Source-verified directions. Only set when the wording matches the source. */
   verifiedUsageDirections?: string;
+  /**
+   * Labelled usage options (e.g. Daytime / Overnight). Rendered under the
+   * "How to use" heading in place of a single directions paragraph.
+   */
+  verifiedUsageOptions?: { label: string; text: string }[];
   /** Source-verified cautions / usage notes shown with the directions. */
   verifiedUsageNotes?: string[];
   /** Internal content guardrails. Never render these instructions to customers. */
