@@ -150,6 +150,11 @@ export type ShopProduct = {
   officialSourceReviewedOn?: string;
   /** Link label for the official source, e.g. "View official product information". */
   officialSourceLinkLabel?: string;
+  /** An optional second reviewed official source shown alongside the first. */
+  officialSource2Name?: string;
+  officialSource2Url?: string;
+  officialSource2ReviewedOn?: string;
+  officialSource2LinkLabel?: string;
 
   /** The product name as published by the brand, when a brand listing exists. */
   brandReferenceName?: string;
@@ -1316,7 +1321,49 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
   { ...CONTENT_IN_PREPARATION, name: "First Synergy Toner 150ml", brand: "BIODANCE", priceId: "biodance_first_synergy_toner_150ml_onetime", category: "Tone",
     productType: "toner",
     routineStep: "tone",
-    temporaryProductTypeLabel: "toner", supplierReconciliationStatus: "matched_seoul4pm" },
+    temporaryProductTypeLabel: "toner", size: "150ml", supplierReconciliationStatus: "matched_seoul4pm",
+    verifiedTemporaryDescription:
+      "A lightweight toner formulated with humectants, panthenol, betaine, botanical extracts and multiple forms of hyaluronic acid.",
+    verifiedUsageDirections:
+      "After cleansing, apply an appropriate amount with clean hands and gently press into the skin, or dispense onto a cotton pad and sweep gently across the face. Do not rinse.",
+    verifiedUsageNotes: [
+      "Avoid direct contact with the eyes.",
+      "Rinse with water if the product enters the eyes.",
+      "Do not apply to broken or irritated skin.",
+      "Patch test before use.",
+      "Stop use and seek appropriate advice if persistent redness, swelling or itching develops.",
+      "Store away from direct sunlight and out of reach of children.",
+    ],
+    internalClaimRestrictions: [
+      "Do not claim 2.4-times increased product absorption.",
+      "Do not claim hydration reaches a stated millimetre depth.",
+      "Do not claim it restores every customer's skin to pH 5.5.",
+      "Do not claim 96% active ingredients.",
+      "Do not guarantee makeup performance.",
+      "Do not describe it as universally safe or hypoallergenic.",
+    ],
+    // Only the official Korean disclosure is located; the full English INCI
+    // is not published until the physical packaging is checked.
+    ingredientStatusNote: "Complete English ingredient list pending packaging verification.",
+    officialSourceName: "BIODANCE official Korean product page",
+    officialSourceUrl:
+      "https://biodance.co.kr/product/%EC%8B%9C%EB%84%88%EC%A7%80-%ED%86%A0%EB%84%88%ED%8C%8C%ED%95%98-%ED%86%A0%EB%84%88/354/",
+    officialSourceReviewedOn: "2026-09-12",
+    officialSourceLinkLabel: "View official Korean ingredient disclosure",
+    officialSource2Name: "BIODANCE official international product guide",
+    officialSource2Url: "https://biodance.com/pages/first-synergy-toner",
+    officialSource2ReviewedOn: "2026-09-12",
+    officialSource2LinkLabel: "View official product information",
+    identityVerificationStatus: "online_identity_supported",
+    identitySources: [
+      {
+        sourceType: "official_brand",
+        sourceName: "BIODANCE",
+        sourceUrl: "https://biodance.com/pages/first-synergy-toner",
+        sourceReviewedDate: "2026-09-12",
+        sourceVerificationStatus: "online_reference_reviewed",
+      },
+    ] },
   { ...CONTENT_IN_PREPARATION, name: "Collagen Mask to Foam Cleanser 150ml", brand: "BIODANCE", priceId: "biodance_collagen_mask_to_foam_cleanser_150ml_onetime", category: "Cleanse",
     productType: "cleanser",
     routineStep: "cleanse",
