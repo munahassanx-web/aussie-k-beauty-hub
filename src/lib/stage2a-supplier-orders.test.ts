@@ -73,6 +73,8 @@ describe('Stage 2A supplier-ordered records', () => {
         'haruharu_wonder_centella_phyto_5_peptide_concentrate_cream_30ml_onetime',
         'haruharu_wonder_black_rice_bakuchiol_eye_cream_20ml_onetime',
         'biodance_skin_glow_essence_cream_50ml_onetime',
+        'biodance_radiant_vita_niacinamide_real_deep_mask_onetime',
+        'biodance_collagen_mask_to_foam_cleanser_150ml_onetime',
       ];
       if (!sourceReviewed.includes(id)) expect(p.ingredientReviewStatus).toBe('pending');
       expect(p.priceStatus).toBe('pending');
@@ -94,6 +96,8 @@ describe('Stage 2A supplier-ordered records', () => {
         'haruharu_wonder_centella_phyto_5_peptide_concentrate_cream_30ml_onetime',
         'haruharu_wonder_black_rice_bakuchiol_eye_cream_20ml_onetime',
         'biodance_skin_glow_essence_cream_50ml_onetime',
+        'biodance_radiant_vita_niacinamide_real_deep_mask_onetime',
+        'biodance_collagen_mask_to_foam_cleanser_150ml_onetime',
       ];
       if (!sourceReviewed.includes(id)) expect(p.inci, id).toBeUndefined();
       expect(p.image, id).toBe('/products/placeholder.webp');
