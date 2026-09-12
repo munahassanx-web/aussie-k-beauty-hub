@@ -65,12 +65,12 @@ describe('Stage 2C2 — BIODANCE mask and cleanser', () => {
     expect(p.verifiedTemporaryDescription).not.toMatch(/leave-on/i);
   });
 
-  it('stores the complete 38-item official cleanser INCI with brand provenance', () => {
+  it('stores the complete 37-item official cleanser INCI with brand provenance', () => {
     const p = byId(CLEANSER);
-    expect(p.inci).toHaveLength(38);
+    expect(p.inci).toHaveLength(37);
     expect(p.inci).toContain('Sodium Cocoyl Glycinate');
     expect(p.inci).toContain('Kaolin');
-    expect(p.inci![37]).toBe('Palmitoyl Tripeptide-5');
+    expect(p.inci![36]).toBe('Palmitoyl Tripeptide-5');
     expect(p.inciSourceUrl).toBe(
       'https://biodance.com/products/collagen-mask-to-foam-cleanser',
     );
