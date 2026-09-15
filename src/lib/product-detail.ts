@@ -1659,6 +1659,7 @@ export function routineCompanions(p: ShopProduct): RoutineGroup[] {
   // The current product's own step is never suggested as another required step.
   const sequence = [...ROUTINE_ORDER.slice(current + 1), ...ROUTINE_ORDER.slice(0, current)];
   const groups: RoutineGroup[] = [];
+  let sunscreenNote = false;
   for (const cat of sequence) {
     const inStep = SHOP_PRODUCTS.filter(
       (x) => x.category === cat && x.priceId !== p.priceId && recommendationEligible(x),
