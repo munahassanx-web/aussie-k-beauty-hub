@@ -36,7 +36,7 @@ export function ProductAccordion({
                 aria-expanded={isOpen}
                 aria-controls={`panel-${item.id}`}
                 onClick={() => setOpen((p) => ({ ...p, [item.id]: !p[item.id] }))}
-                className="flex min-h-14 w-full items-center justify-between gap-6 py-5 text-left"
+                className="flex min-h-14 w-full items-center justify-between gap-6 py-5 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 <span className="font-display text-lg text-foreground">{item.title}</span>
                 <span
