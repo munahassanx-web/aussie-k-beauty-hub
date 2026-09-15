@@ -20,7 +20,7 @@ describe('product-page routine recommendations', () => {
     const p = bySlug('dr-g-r-e-d-blemish-clear-soothing-cream-70ml');
     expect(p.category).toBe('Moisturise');
     expect(routineRoleSentence(p)).toBe('This moisturiser is your Step 4.');
-    expect(routineDirectionSentence(p)).toBe(
+    expect(routineDirectionSentence(p, routineCompanions(p))).toBe(
       'If your routine needs more, choose earlier steps according to your skin, current routine and ingredient suitability.',
     );
     expect(routineRoleSentence(p)).not.toMatch(/toner/i);
@@ -53,6 +53,23 @@ describe('product-page routine recommendations', () => {
     const sentence = routineRoleSentence(p);
     expect(sentence).toBe('This treatment is your Step 3.');
     expect(sentence).not.toMatch(/toner|moisturiser/i);
+  });
+
+  it('uses “other steps” when WELLAGE Hyper PDRN recommendations span earlier and later steps', () => {
+    const p = bySlug('wellage-hyper-pdrn-repair-ampoule-30ml');
+    const groups = routineCompanions(p);
+    expect(routineRoleSentence(p)).toBe('This treatment is your Step 3.');
+    expect(routineDirectionSentence(p, groups)).toBe(
+      'If your routine needs more, choose other steps according to your skin, current routine and ingredient suitability.',
+    );
+  });
+
+  it('always adds the neutral sunscreen reminder to the DR.G cleanser routine', () => {
+    const p = bySlug('dr-g-red-blemish-clear-soothing-foam-150ml');
+    const protect = routineCompanions(p).find((group) => group.stepLabel === 'Protect');
+    expect(routineRoleSentence(p)).toBe('This cleanser is your Step 1.');
+    expect(protect?.products).toHaveLength(0);
+    expect(protect?.educationalNote).toBe(SUNSCREEN_EDUCATIONAL_NOTE);
   });
 
   it('only shows purchasable, complete, non-pending products in every group', () => {
