@@ -1328,7 +1328,18 @@ export function productDescription(p: ShopProduct): string {
   if (contentInPreparation(p)) return temporaryProductTypeSentence(p);
   const override = COPY[p.priceId]?.description;
   if (override) return override;
-  const type = p.category === 'Masks' ? 'mask' : p.category.toLowerCase();
+  if (p.priceId === 'dr_g_r_e_d_blemish_clear_soothing_cream_70ml_onetime') {
+    return 'A lightweight moisturising cream from Dr.G, selected as the final moisturising step in a considered skincare routine. Review the product details and ingredient information before introducing it.';
+  }
+  const typeByCategory: Record<Category, string> = {
+    Cleanse: 'cleanser',
+    Tone: 'toner',
+    Treat: 'treatment',
+    Moisturise: 'moisturiser',
+    Protect: 'sunscreen',
+    Masks: 'mask',
+  };
+  const type = p.productType ?? typeByCategory[p.category];
   const texture = COPY[p.priceId]?.texture;
   // One concise, verified introduction. Never auto-joins concern tags, never
   // adds climate or sourcing claims — only the product's role and, when we
@@ -1336,7 +1347,7 @@ export function productDescription(p: ShopProduct): string {
   if (texture) {
     return `${p.name} is a ${type} from ${p.brand}. It has a ${texture} texture.`;
   }
-  return `A ${type} from ${p.brand}, selected for a clear role within a considered skincare routine. Review the product details and usage guidance below before introducing it.`;
+  return `A ${type} from ${p.brand}, selected for a clear role within a considered skincare routine. Review the product details and ingredient information before introducing it.`;
 }
 
 export function productBenefits(p: ShopProduct): string[] {

@@ -26,21 +26,21 @@ export function useBuyNow() {
   const cart = useCart();
   const { isSoldOut } = useSoldOutSkus();
 
-  function buy(opts: BuyOptions) {
+  function buy(opts: BuyOptions): boolean {
     const entry = catalogEntryFor(opts.priceId);
     const product = SHOP_PRODUCTS.find((p) => p.priceId === opts.priceId);
     if (product && supplierMatchPending(product)) {
       // Not sold out and not arriving soon — the supply record is still being confirmed.
       toast.info(`${opts.name}: availability being confirmed. It can't be ordered right now.`);
-      return;
+      return false;
     }
     if (!entry || !isPurchasable(opts.priceId)) {
       toast.info(`${opts.name} isn't available to order yet — it lands in the Melbourne warehouse soon.`);
-      return;
+      return false;
     }
     if (isSoldOut(opts.priceId)) {
       toast.info(`${opts.name} is out of stock right now — we'll restock from Seoul shortly.`);
-      return;
+      return false;
     }
     cart.add({
       priceId: opts.priceId,
@@ -51,6 +51,7 @@ export function useBuyNow() {
       recurring: opts.priceId.startsWith('restock_') || opts.priceId.startsWith('circle_'),
     });
     cart.setOpen(true);
+    return true;
   }
 
   // Kept for call-site compatibility — the cart drawer now renders globally.

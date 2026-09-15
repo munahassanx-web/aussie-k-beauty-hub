@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { AddToBagButton } from '@/components/add-to-bag-button';
 import { WishlistButton } from '@/components/wishlist-button';
-import { Maximize2 as ExpandIcon } from 'lucide-react';
+import { BadgeCheck, Maximize2 as ExpandIcon, PackageCheck, Truck } from 'lucide-react';
 import { ImageLightbox } from '@/components/image-lightbox';
 import { IngredientPanel } from '@/components/ingredient-panel';
 import { ProductAccordion } from '@/components/product-accordion';
@@ -189,11 +189,15 @@ function usePrefersReducedMotion() {
 
 function ProductPage() {
   const { slug } = Route.useParams();
+  const { soldOut } = Route.useLoaderData();
   const product = findProductBySlug(slug);
   
   const [active, setActive] = useState(0);
   const prefersReducedMotion = usePrefersReducedMotion();
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const mainPurchaseRef = useRef<HTMLDivElement | null>(null);
+  const [mainPurchaseSeen, setMainPurchaseSeen] = useState(false);
+  const [showMobilePurchase, setShowMobilePurchase] = useState(false);
 
   const gallery = product ? galleryFor(product) : [];
   const count = gallery.length;
@@ -221,6 +225,25 @@ function ProductPage() {
   useEffect(() => {
     setActive(0);
   }, [slug]);
+
+  useEffect(() => {
+    const target = mainPurchaseRef.current;
+    if (!target) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry) return;
+        if (entry.isIntersecting) {
+          setMainPurchaseSeen(true);
+          setShowMobilePurchase(false);
+          return;
+        }
+        if (mainPurchaseSeen && entry.boundingClientRect.bottom < 0) setShowMobilePurchase(true);
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [mainPurchaseSeen, slug]);
 
   const step = (delta: number) => setActive((i) => (i + delta + count) % count);
 
@@ -353,6 +376,9 @@ function ProductPage() {
   // Supplier order confirmed, product content not yet prepared: viewable only,
   // with no price, purchase path, claim or availability statement.
   const contentPending = contentInPreparation(product);
+  const isSoldOut = soldOut.includes(product.priceId);
+  const availableToPurchase =
+    !product.comingSoon && !restricted && !supplyPending && !contentPending && !isSoldOut;
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
@@ -383,7 +409,7 @@ function ProductPage() {
             onPointerUp={endSwipe}
             onPointerCancel={endSwipe}
             style={{ touchAction: count > 1 ? 'pan-y' : undefined }}
-            className="relative aspect-square touch-pan-y overflow-hidden bg-secondary"
+            className="relative aspect-square touch-pan-y overflow-hidden border border-border/60 bg-background"
           >
             {gallery.map((g, i) => {
               const isActive = i === active;
@@ -401,7 +427,7 @@ function ProductPage() {
                   loading={i === 0 ? 'eager' : 'lazy'}
                   aria-hidden={!isActive}
                   style={visible ? { transform: `translate3d(${x}px,0,0)` } : undefined}
-                  className={`absolute inset-0 h-full w-full select-none object-contain p-8 sm:p-12 ${
+                   className={`absolute inset-0 h-full w-full select-none object-contain p-10 sm:p-14 ${
                     prefersReducedMotion || dragging
                       ? ''
                       : 'transition-[opacity,transform] duration-700'
@@ -509,7 +535,7 @@ function ProductPage() {
                   onClick={() => {
                     setActive(i);
                   }}
-                  className={`relative h-[68px] w-[68px] shrink-0 snap-start overflow-hidden rounded-[2px] border bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                   className={`relative h-[68px] w-[68px] shrink-0 snap-start overflow-hidden rounded-[2px] border bg-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                     i === active ? 'border-foreground' : 'border-border/60 hover:border-foreground/40'
                   }`}
                 >
@@ -559,16 +585,7 @@ function ProductPage() {
             {productDescription(product)}
           </p>
 
-          {productTexture(product) && (
-            <p className="mt-4 text-sm text-foreground/85">
-              <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                Texture ·{' '}
-              </span>
-              {productTexture(product)}
-            </p>
-          )}
-
-          <div className="mt-8 border-t border-border pt-6">
+           <div className="mt-7 border-t border-border pt-5">
             {!restricted && !supplyPending && (
               <div className="flex items-baseline justify-between gap-4">
                 <span className="font-display text-2xl tabular-nums text-foreground">
@@ -580,7 +597,7 @@ function ProductPage() {
               </div>
             )}
 
-            <div className="mt-5 space-y-3">
+            <div className="mt-4 space-y-3">
               {contentPending ? (
                 /* Confirmed in a supplier order, but pack detail, ingredients,
                    price, imagery and guidance are still being prepared. */
@@ -642,12 +659,23 @@ function ProductPage() {
                   </p>
                 </div>
               ) : (
-                <AddToBagButton
-                  priceId={product.priceId}
-                  name={product.name}
-                  priceLabel={`${product.price} AUD`}
-                  className="min-h-14 w-full rounded-[2px] bg-foreground px-7 text-[11px] font-medium uppercase tracking-[0.24em] text-background transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
-                />
+                <>
+                  {availableToPurchase && (
+                    <p className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.16em] text-foreground">
+                      <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary" />
+                      In stock · Dispatched from Melbourne
+                    </p>
+                  )}
+                  <div ref={mainPurchaseRef}>
+                    <AddToBagButton
+                      priceId={product.priceId}
+                      name={product.name}
+                      priceLabel={`${product.price} AUD`}
+                      unavailable={isSoldOut}
+                      className="min-h-[52px] w-full rounded-[2px] bg-foreground px-7 text-[11px] font-medium uppercase tracking-[0.24em] text-background transition-colors hover:bg-foreground/85 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60"
+                    />
+                  </div>
+                </>
               )}
               <WishlistButton
                 variant="inline"
@@ -656,20 +684,17 @@ function ProductPage() {
               />
             </div>
 
-            {!supplyPending && (
+            {availableToPurchase && (
               <>
-                <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
-                  Dispatched from our Melbourne warehouse · Free standard shipping over A$100 ·{' '}
-                  <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-foreground">
-                    View shipping and returns
-                  </Link>
-                </p>
-                <Link
-                  to="/verify/sample"
-                  className="mt-3 inline-block text-[10px] uppercase tracking-[0.2em] text-muted-foreground underline underline-offset-4 hover:text-foreground"
-                >
-                  View how Skin Grocer verifies stock
-                </Link>
+                <div className="mt-5 space-y-2 border-t border-border pt-4 text-xs text-muted-foreground">
+                  <p className="flex items-center gap-2"><BadgeCheck className="h-4 w-4 shrink-0" aria-hidden="true" />Batch checked and authenticity recorded</p>
+                  <p className="flex items-center gap-2"><PackageCheck className="h-4 w-4 shrink-0" aria-hidden="true" />Dispatched from our Melbourne warehouse</p>
+                  <p className="flex items-center gap-2"><Truck className="h-4 w-4 shrink-0" aria-hidden="true" />Free standard delivery on Australian orders over A$100</p>
+                </div>
+                <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                  <Link to="/verify/sample" className="underline underline-offset-4 hover:text-foreground">View verification process</Link>
+                  <Link to="/shipping-policy" className="underline underline-offset-4 hover:text-foreground">Shipping and returns</Link>
+                </div>
               </>
             )}
           </div>
@@ -969,14 +994,14 @@ function ProductPage() {
       )}
 
       {/* Mobile purchase bar — reuses the exact buy handler, price and availability above. */}
-      {!product.comingSoon && australianSupplyVerified(product) && !supplyPending && (
+      {availableToPurchase && showMobilePurchase && (
         <>
-          <div aria-hidden="true" className="h-20 lg:hidden" />
-          <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur lg:hidden">
-            <div className="flex items-center gap-4 px-4 py-3 pr-24">
+          <div aria-hidden="true" className="h-24 lg:hidden" />
+          <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background lg:hidden" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+            <div className="flex items-center gap-3 px-4 py-3">
               <div className="min-w-0">
-                <p className="truncate text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                  {product.brand}
+                <p className="max-w-36 truncate text-xs text-foreground">
+                  {product.name.replace(/\s+\d+(?:\.\d+)?(?:ml|g|P)$/i, '')}
                 </p>
                 <p className="text-sm tabular-nums text-foreground">{product.price}</p>
               </div>
@@ -984,7 +1009,9 @@ function ProductPage() {
                 priceId={product.priceId}
                 name={product.name}
                 priceLabel={`${product.price} AUD`}
-                className="ml-auto min-h-12 flex-1 rounded-[2px] bg-foreground px-5 text-[11px] font-medium uppercase tracking-[0.22em] text-background disabled:cursor-not-allowed disabled:opacity-60"
+                unavailable={isSoldOut}
+                accessibleName={`Add ${product.brand} ${product.name} to bag`}
+                className="ml-auto min-h-[52px] flex-1 rounded-[2px] bg-foreground px-5 text-[11px] font-medium uppercase tracking-[0.18em] text-background hover:bg-foreground/85 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60"
               />
             </div>
           </div>
