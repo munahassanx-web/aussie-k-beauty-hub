@@ -75,6 +75,8 @@ describe('Stage 2A supplier-ordered records', () => {
         'biodance_skin_glow_essence_cream_50ml_onetime',
         'biodance_radiant_vita_niacinamide_real_deep_mask_onetime',
         'biodance_collagen_mask_to_foam_cleanser_150ml_onetime',
+        'bioheal_boh_probioderm_collagen_remodeling_cream_50ml_onetime',
+        'bioheal_boh_probioderm_3d_lifting_cream_50ml_onetime',
       ];
       if (!sourceReviewed.includes(id)) expect(p.ingredientReviewStatus).toBe('pending');
       expect(p.priceStatus).toBe('pending');
@@ -98,6 +100,8 @@ describe('Stage 2A supplier-ordered records', () => {
         'biodance_skin_glow_essence_cream_50ml_onetime',
         'biodance_radiant_vita_niacinamide_real_deep_mask_onetime',
         'biodance_collagen_mask_to_foam_cleanser_150ml_onetime',
+        'bioheal_boh_probioderm_collagen_remodeling_cream_50ml_onetime',
+        'bioheal_boh_probioderm_3d_lifting_cream_50ml_onetime',
       ];
       if (!sourceReviewed.includes(id)) expect(p.inci, id).toBeUndefined();
       expect(p.image, id).toBe('/products/placeholder.webp');

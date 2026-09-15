@@ -1025,6 +1025,19 @@ function PendingProductPage({ product }: { product: ShopProduct }) {
             {temporaryProductTypeSentence(product)}
           </p>
 
+          {product.verifiedCustomerGuidance && product.verifiedCustomerGuidance.length > 0 && (
+            <div className="mt-8 border-t border-border pt-6">
+              <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                Customer guidance
+              </h2>
+              <ul className="mt-3 list-disc space-y-1 pl-5 text-xs leading-relaxed text-muted-foreground">
+                {product.verifiedCustomerGuidance.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           {(product.verifiedUsageDirections || product.verifiedUsageOptions) && (
             <div className="mt-8 border-t border-border pt-6">
               <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
@@ -1066,9 +1079,10 @@ function PendingProductPage({ product }: { product: ShopProduct }) {
               <dl className="mt-4 space-y-1 text-[11px] leading-relaxed text-muted-foreground">
                 <div>Source reviewed: {inciDateLong(product.inciCheckedOn)}</div>
                 <div>Source: {product.inciSourceName}</div>
-                <div>Source type: Brand</div>
+                <div>Source type: {product.inciSourceDisplayType ?? 'Brand'}</div>
                 <div>Ingredient review status: Source reviewed</div>
                 <div>Packaging check: Pending</div>
+                <div>Full INCI verified from source: Yes</div>
               </dl>
               {product.inciSourceUrl && (
                 <a

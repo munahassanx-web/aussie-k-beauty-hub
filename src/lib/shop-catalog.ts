@@ -57,6 +57,8 @@ export type ShopProduct = {
   inciSourceName?: string;
   /** Direct link to the exact page the list was read from. Never a homepage. */
   inciSourceUrl?: string;
+  /** Customer-facing source category when a reviewed INCI comes from a retailer. */
+  inciSourceDisplayType?: 'Brand' | 'Major retailer';
   /** ISO date the INCI list above was checked against its source. */
   inciCheckedOn?: string;
   /**
@@ -142,6 +144,8 @@ export type ShopProduct = {
   verifiedUsageOptions?: { label: string; text: string }[];
   /** Source-verified cautions / usage notes shown with the directions. */
   verifiedUsageNotes?: string[];
+  /** Source-reviewed product facts shown separately from use directions and precautions. */
+  verifiedCustomerGuidance?: string[];
   /** Internal content guardrails. Never render these instructions to customers. */
   internalClaimRestrictions?: string[];
   /** Transparency note for a record with no published ingredient or usage data. */
@@ -1740,14 +1744,26 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     ],
     supplierReconciliationStatus: "matched_seoul4pm",
   },
-  { ...CONTENT_IN_PREPARATION, name: "Probioderm Collagen Remodeling Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_collagen_remodeling_cream_50ml_onetime", category: "Moisturise",
-    productType: "moisturiser",
-    routineStep: "moisturise",
-    temporaryProductTypeLabel: "moisturiser", supplierReconciliationStatus: "matched_seoul4pm" },
-  { ...CONTENT_IN_PREPARATION, name: "Probioderm 3D Lifting Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_3d_lifting_cream_50ml_onetime", category: "Moisturise",
-    productType: "moisturiser",
-    routineStep: "moisturise",
-    temporaryProductTypeLabel: "moisturiser", supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Probioderm Collagen Remodeling Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_collagen_remodeling_cream_50ml_onetime", category: "Moisturise", size: "50ml",
+    productType: "moisturiser", routineStep: "moisturise", temporaryProductTypeLabel: "moisturiser", routineStepLabelOverride: "Step 4 — Moisturise",
+    verifiedTemporaryDescription: "A moisturising cream formulated with glycerin, silicones, Lactobacillus ferment, panthenol, betaine, ceramide NP, collagen-derived ingredients, peptides and vitamin E. It has added fragrance.",
+    verifiedCustomerGuidance: ["Texture profile: moisturising cream", "Contains added fragrance", "Contains collagen and collagen-derived ingredients", "Contains Capryloyl Salicylic Acid", "Patch testing is recommended, especially for reactive or fragrance-sensitive skin"],
+    verifiedUsageDirections: "Apply a small amount after toner and treatment products. Spread gently over the face and neck, avoiding the immediate eye area. Use sunscreen as the final step of the morning routine.",
+    verifiedUsageNotes: ["For external use only.", "Avoid direct contact with the eyes.", "Do not apply to broken or irritated skin.", "Patch test before first use.", "Stop use if persistent irritation occurs.", "Introduce cautiously if already using exfoliating acids or retinoids.", "Store away from direct sunlight and out of reach of children."],
+    inci: ["Water", "Glycerin", "Propanediol", "Methylpropanediol", "Phenyl Trimethicone", "Lactobacillus Ferment", "Pentylene Glycol", "Collagen (40 ppm)", "Collagen Extract (40 ppm)", "Oenothera Biennis (Evening Primrose) Flower Extract", "Ulmus Davidiana Root Extract", "Pinus Palustris Leaf Extract", "Pueraria Lobata Root Extract", "Hydrogenated Lecithin", "Phytosterols", "Vinyl Dimethicone", "1,2-Hexanediol", "Panthenol", "Polymethylsilsesquioxane", "Arachidyl Alcohol", "Ammonium Acryloyldimethyl Taurate/VP Copolymer", "Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer", "Betaine", "Hydroxyacetophenone", "Dimethiconol", "Stearic Acid", "Behenyl Alcohol", "Arachidyl Glucoside", "Ethylhexylglycerin", "Cetearyl Alcohol", "Adenosine", "Acrylates/C10-30 Alkyl Acrylate Crosspolymer", "Butylene Glycol", "Ceramide NP", "Sorbitan Isostearate", "Tromethamine", "3-O-Ethyl Ascorbic Acid", "Xanthan Gum", "Beta-Glucan", "Hydrolyzed Corn Starch", "Glycosaminoglycans", "Hydrolyzed Elastin", "Sucrose", "Cyanocobalamin", "Fructooligosaccharides", "Tocopherol", "Gluconolactone", "Capryloyl Salicylic Acid", "Tannic Acid", "Hydroxypropyl Cyclodextrin", "Fructan", "Inulin", "Nonapeptide-1", "Dipeptide Diaminobutyroyl Benzylamide Diacetate", "Acetyl Hexapeptide-8", "Copper Tripeptide-1", "Caprylic/Capric Triglyceride", "Tripeptide-1", "Palmitoyl Tetrapeptide-7", "Palmitoyl Tripeptide-1", "Palmitoyl Tripeptide-5", "Palmitoyl Pentapeptide-4", "Palmitoyl Hexapeptide-12", "Pentapeptide-3", "Hexapeptide-9", "Sucrose Distearate", "Fragrance"],
+    inciSource: "authorised-retailer", inciSourceName: "OLIVE YOUNG US product listing", inciSourceUrl: "https://us.oliveyoung.com/products/UA29860176", inciSourceDisplayType: "Major retailer", inciCheckedOn: "2026-09-15", ingredientReviewStatus: "reviewed",
+    internalClaimRestrictions: ["Do not claim that this cream rebuilds or increases the customer's collagen.", "Do not claim that this cream remodels living skin.", "Do not claim that this cream shrinks, closes, eliminates or tightens pores.", "Do not claim that this cream permanently firms skin.", "Do not claim that this cream treats wrinkles, pigmentation or acne.", "Do not claim that this cream repairs a damaged skin barrier.", "Do not claim clinical results unless Skin Grocer retains the relevant study.", "Do not describe this cream as fragrance-free or suitable for every skin type.", "Do not provide pregnancy or breastfeeding safety advice; refer customers seeking personalised guidance to an appropriate healthcare professional.", "Do not describe topical collagen as replacing the skin's natural collagen."],
+    supplierReconciliationStatus: "matched_seoul4pm" },
+  { ...CONTENT_IN_PREPARATION, name: "Probioderm 3D Lifting Cream 50ml", brand: "BIOHEAL BOH", priceId: "bioheal_boh_probioderm_3d_lifting_cream_50ml_onetime", category: "Moisturise", size: "50ml",
+    productType: "moisturiser", routineStep: "moisturise", temporaryProductTypeLabel: "moisturiser", routineStepLabelOverride: "Step 4 — Moisturise",
+    verifiedTemporaryDescription: "A rich moisturising cream formulated with Lactobacillus ferment ingredients, glycerin, meadowfoam seed oil, betaine, panthenol, beta-glucan and a blend of peptides. It contains shea butter and added fragrance.",
+    verifiedCustomerGuidance: ["Texture profile: rich cream", "Contains added fragrance", "Contains shea butter", "May suit customers who prefer a richer final moisturising step", "Patch testing is recommended, especially for reactive or fragrance-sensitive skin"],
+    verifiedUsageDirections: "Apply a small amount after toner and treatment products. Spread gently over the face and neck until absorbed. Use sunscreen as the final step of the morning routine.",
+    verifiedUsageNotes: ["For external use only.", "Avoid direct contact with the eyes.", "Do not apply to broken or irritated skin.", "Patch test before first use.", "Stop use if persistent irritation occurs.", "Store away from direct sunlight and out of reach of children."],
+    inci: ["Water", "Lactobacillus Ferment Lysate", "Glycerin", "Dipropylene Glycol", "Caprylic/Capric Triglyceride", "Cetearyl Alcohol", "Limnanthes Alba (Meadowfoam) Seed Oil", "Glycereth-26", "Vinyl Dimethicone", "Hydrogenated Poly(C6-14 Olefin)", "Hydrogenated Polydecene", "Polyglyceryl-3 Methylglucose Distearate", "Glyceryl Stearate", "Betaine", "Polyglycerin-3", "1,2-Hexanediol", "Cetearyl Olivate", "Pentylene Glycol", "Phytosteryl/Behenyl/Octyldodecyl Lauroyl Glutamate", "Lactobacillus Ferment", "Fructooligosaccharides", "Fructan", "Inulin", "Panthenol", "Beta-Glucan", "Adenosine", "Saponin", "Soluble Proteoglycan", "Nonapeptide-1", "Acetyl Tetrapeptide-9", "Acetyl Tetrapeptide-5", "Acetyl Hexapeptide-1", "Acetyl Hexapeptide-8", "Palmitoyl Tripeptide-8", "Dipeptide Diaminobutyroyl Benzylamide Diacetate", "Copper Tripeptide-1", "Tripeptide-1", "Palmitoyl Tetrapeptide-7", "Palmitoyl Tripeptide-1", "Palmitoyl Tripeptide-5", "Palmitoyl Pentapeptide-4", "Palmitoyl Hexapeptide-12", "Pentapeptide-3", "Hexapeptide-9", "Oligopeptide-2", "Malt Extract", "Dioscorea Japonica Root Extract", "Elaeis Guineensis (Palm) Oil", "Behenyl Alcohol", "Sorbitan Olivate", "Butyrospermum Parkii (Shea) Butter", "Dipentaerythrityl Hexahydroxystearate/Hexastearate/Hexarosinate", "Hydrogenated Rapeseed Oil", "Hydroxyacetophenone", "Sodium Polyacrylate", "Hydrolyzed Jojoba Esters", "PEG-100 Stearate", "Ethylhexylglycerin", "Acrylates/C10-30 Alkyl Acrylate Crosspolymer", "Xanthan Gum", "Tromethamine", "Butylene Glycol", "Maltodextrin", "Cyanocobalamin", "Cetyl Ethylhexanoate", "Propanediol", "Cetearyl Glucoside", "Algin", "Sodium Stearoyl Glutamate", "Tocopherol", "Biosaccharide Gum-4", "Mineral Salts", "Hydrolyzed Corn Starch", "Sodium Phosphate", "Caprylyl Glycol", "Sucrose", "Dextran", "Disodium Phosphate", "Fragrance"],
+    inciSource: "authorised-retailer", inciSourceName: "OLIVE YOUNG US product listing", inciSourceUrl: "https://us.oliveyoung.com/products/UA35435218", inciSourceDisplayType: "Major retailer", inciCheckedOn: "2026-09-15", ingredientReviewStatus: "reviewed",
+    internalClaimRestrictions: ["Do not claim that this cream physically lifts facial tissue or delivers a facelift effect.", "Do not claim that this cream reverses sagging or permanently firms skin.", "Do not claim that this cream stimulates or rebuilds collagen.", "Do not claim that this cream strengthens the structure of living skin.", "Do not claim that this cream treats wrinkles or other medical conditions.", "Do not describe this cream as clinically proven unless Skin Grocer retains the complete supporting study.", "Do not describe this cream as fragrance-free, irritation-free or suitable for every skin type.", "Do not label this cream suitable for oily, acne-prone or sensitive skin without qualification.", "Do not provide pregnancy or breastfeeding safety advice.", "Do not describe topical collagen as replacing the skin's natural collagen."],
+    supplierReconciliationStatus: "matched_seoul4pm" },
   { ...CONTENT_IN_PREPARATION, name: "Brightening Peeling Gel 120g", brand: "Dr.G", priceId: "dr_g_brightening_peeling_gel_120g_onetime", category: "Cleanse",
     productType: "exfoliating gel",
     routineStep: "cleanse",
