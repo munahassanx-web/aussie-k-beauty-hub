@@ -1653,22 +1653,30 @@ export function recommendationEligible(p: ShopProduct): boolean {
  * steps that follow in a standard routine (no same-step duplicates).
  */
 export function routineCompanions(p: ShopProduct): RoutineGroup[] {
-  const order: Array<ShopProduct['category']> = ['Cleanse', 'Tone', 'Treat', 'Moisturise', 'Protect'];
-  const current = order.indexOf(p.category);
+  const current = ROUTINE_ORDER.indexOf(p.category);
   if (current === -1) return [];
+  // Steps that follow this product first, then the earlier steps it depends on.
+  // The current product's own step is never suggested as another required step.
+  const sequence = [...ROUTINE_ORDER.slice(current + 1), ...ROUTINE_ORDER.slice(0, current)];
   const groups: RoutineGroup[] = [];
-  for (const cat of order.slice(current + 1)) {
+  for (const cat of sequence) {
+    const inStep = SHOP_PRODUCTS.filter(
+      (x) => x.category === cat && x.priceId !== p.priceId && recommendationEligible(x),
+    );
     // Prefer products from the same product line/brand (documented to be used
     // together), then fill from the rest of the catalogue.
-    const inStep = SHOP_PRODUCTS.filter((x) => x.category === cat && x.priceId !== p.priceId);
     const products = [
       ...inStep.filter((x) => x.brand === p.brand),
       ...inStep.filter((x) => x.brand !== p.brand),
     ].slice(0, 2);
     if (products.length > 0) {
       groups.push({ stepLabel: cat, products });
+    } else if (cat === 'Protect' && p.category !== 'Protect') {
+      // No sunscreen may lawfully be recommended: educational wording only,
+      // with no card, image, price, purchase control or SPF claim.
+      groups.push({ stepLabel: cat, products: [], educationalNote: SUNSCREEN_EDUCATIONAL_NOTE });
     }
-    if (groups.length === 2) break;
+    if (groups.length === 3) break;
   }
   return groups;
 }
