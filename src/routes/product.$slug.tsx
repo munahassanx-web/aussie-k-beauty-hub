@@ -18,6 +18,7 @@ import {
   australianSupplyVerified,
   contentInPreparation,
   isContentPending,
+  ingredientReviewRecordComplete,
   supplierMatchPending,
   type ShopProduct,
 } from '@/lib/shop-catalog';
@@ -26,22 +27,21 @@ import { listSoldOutSkus } from '@/lib/inventory.functions';
 import {
   findProductBySlug,
   galleryFor,
-  heroIngredients,
+  accordionIngredients,
   inciRecord,
   inciDateLong,
   howToUse,
-  productBenefits,
+  productOverview,
   productDescription,
-  productInci,
   productSlug,
   productTexture,
   routineCompanions,
   routineRoleSentence,
   routineDirectionSentence,
   routineStepLabel,
+  routinePosition,
   hasSourcedCosmeticRole,
   USAGE_CAUTION,
-  SUITABILITY_CAUTION,
   SUPPLIER_RECONCILIATION_INTRO,
   temporaryProductTypeSentence,
   supplyRestricted,
@@ -356,8 +356,8 @@ function ProductPage() {
   if (isContentPending(product)) return <PendingProductPage product={product} />;
 
 
-  const ingredients = heroIngredients(product);
-  const inci = inciRecord(product);
+  const ingredients = accordionIngredients(product);
+  const inci = ingredientReviewRecordComplete(product) ? inciRecord(product) : undefined;
   const routineGroups = routineCompanions(product);
   const STEP_NUMBER: Record<string, number> = { Cleanse: 1, Tone: 2, Treat: 3, Moisturise: 4, Protect: 5 };
   const STEP_CHOICE: Record<string, string> = {
@@ -710,13 +710,13 @@ function ProductPage() {
               ? []
               : [
             {
-              id: 'suits',
-              title: 'Why it may suit you',
+              id: 'overview',
+              title: 'Product overview',
               defaultOpen: true,
               content: (
                 <div className="space-y-5">
                   <ul className="space-y-2">
-                    {productBenefits(product).map((b) => (
+                    {productOverview(product).map((b) => (
                       <li key={b} className="flex gap-3 text-sm text-foreground/85">
                         <span aria-hidden="true" className="text-primary">
                           —
@@ -726,9 +726,7 @@ function ProductPage() {
                     ))}
                   </ul>
                   <p className="text-xs text-muted-foreground">
-                    {hasSourcedCosmeticRole(product)
-                      ? SUITABILITY_CAUTION
-                      : "Guidance only, based on the brand's stated formulation — not medical advice or a guaranteed outcome."}
+                    Product guidance is educational and is not medical advice or a guaranteed result.
                   </p>
                 </div>
               ),
@@ -736,7 +734,6 @@ function ProductPage() {
             {
               id: 'how',
               title: 'How to use',
-              defaultOpen: true,
               content: (
                 <div>
                   <ol className="space-y-3">
@@ -765,21 +762,24 @@ function ProductPage() {
                 ]),
             {
               id: 'ingredients',
-              title: 'Key ingredients',
+              title: 'Ingredient overview',
               content: (
                 <div>
-                  <IngredientPanel
-                    ingredients={ingredients}
-                    eyebrow={
-                      product.priceId === 'wellage_real_hyaluronic_toner_200ml_onetime'
-                        ? 'Formula, explained'
-                        : undefined
-                    }
-                  />
+                  {ingredients.length > 0 ? (
+                    <IngredientPanel
+                      ingredients={ingredients}
+                      eyebrow="Selected ingredients from the reviewed formula"
+                      title="Ingredient overview"
+                    />
+                  ) : (
+                    <p className="text-sm text-muted-foreground">
+                      Ingredient review in progress. Refer to the ingredient list printed on the product packaging as the final reference.
+                    </p>
+                  )}
                   {inci ? (
                     <details className="group mt-6 rounded-3xl border border-border bg-card p-5">
                       <summary className="cursor-pointer list-none text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground">
-                        Full ingredient list
+                        View full ingredient list
                         <span className="ml-2 text-muted-foreground group-open:hidden">+</span>
                         <span className="ml-2 hidden text-muted-foreground group-open:inline">−</span>
                       </summary>
@@ -835,27 +835,7 @@ function ProductPage() {
                         </p>
                       )}
                     </details>
-                  ) : productInci(product) ? (
-                    <div className="mt-6 border-t border-border pt-5">
-                      <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                        Full ingredient list (INCI)
-                      </p>
-                      <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-                        {productInci(product)}
-                      </p>
-                      <p className="mt-3 text-[11px] text-muted-foreground">
-                        Ingredient lists may change when products are reformulated. Check the
-                        packaging received before use, particularly if you have known sensitivities.
-                        The ingredient list printed on the product received is the final reference.
-                      </p>
-                    </div>
-                  ) : (
-                    <p className="mt-6 border-t border-border pt-5 text-xs text-muted-foreground">
-                      Hero ingredients only. The full INCI list is printed on the carton of every
-                      product we ship — ask us at customercare@skingrocer.com.au if you need it before you
-                      buy.
-                    </p>
-                  )}
+                  ) : null}
                 </div>
               ),
             },
@@ -864,11 +844,7 @@ function ProductPage() {
               title: 'Where it sits in a routine',
               content: (
                 <div className="space-y-3 text-sm text-foreground/85">
-                <p>
-                  Use after cleansing and before serums, treatments and moisturiser. Apply with
-                  clean hands or a cotton pad, then allow it to settle before continuing your
-                  routine.
-                </p>
+                <p>{routinePosition(product)}</p>
                   <p className="text-muted-foreground">
                     Not sure how the steps stack up?{' '}
                     <Link to="/journey" className="underline underline-offset-4 hover:text-foreground">
@@ -888,7 +864,7 @@ function ProductPage() {
             }]),
             ...(!supplyPending ? [{
               id: 'authenticity',
-              title: 'Authenticity & sourcing',
+               title: 'Authenticity and sourcing',
               content: (
               <div className="space-y-3 text-sm text-foreground/85">
                   <p>
@@ -914,21 +890,21 @@ function ProductPage() {
               title: 'Shipping & returns',
               content: (
                 <div className="space-y-3 text-sm text-foreground/85">
-                  <p>Dispatched from Melbourne. Free standard delivery on orders A$100 and over.</p>
+                   <p>Dispatched from our Melbourne warehouse. Free standard delivery on Australian orders of A$100 or more.</p>
                   <p className="text-muted-foreground">
                     Full details in our{' '}
                     <Link
                       to="/shipping-policy"
                       className="underline underline-offset-4 hover:text-foreground"
                     >
-                      shipping policy
+                       Shipping Policy
                     </Link>{' '}
                     and{' '}
                     <Link
                       to="/returns-policy"
                       className="underline underline-offset-4 hover:text-foreground"
                     >
-                      returns policy
+                       Returns and Refund Policy
                     </Link>
                     .
                   </p>

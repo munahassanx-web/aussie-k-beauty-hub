@@ -5,6 +5,7 @@ import {
   SHOP_PRODUCTS,
   australianSupplyVerified,
   contentInPreparation,
+  ingredientReviewRecordComplete,
   isSunscreen,
   supplierMatchPending,
   type ShopProduct,
@@ -933,24 +934,16 @@ export function routineStepLabel(p: ShopProduct): string {
 
 const CATEGORY_HOW_TO: Record<Category, string[]> = {
   Cleanse: [
-    'Warm a small amount between clean hands.',
-    'Massage over damp skin for 30–60 seconds, avoiding the eyes.',
-    'Rinse with lukewarm water and pat dry — never rub.',
+    'Dispense a small amount into wet hands and work into a lather. Massage gently over damp facial skin, avoiding direct contact with the eyes. Rinse thoroughly with lukewarm water and pat dry. Follow with the remaining steps in your routine.',
   ],
   Tone: [
-    'Decant 2–3 drops onto your palms straight after cleansing.',
-    'Press into damp skin rather than swiping, so nothing evaporates.',
-    'Follow immediately with your serum while skin is still tacky.',
+    'After cleansing, apply an appropriate amount with clean hands and gently pat over the face. A cotton pad may be used if preferred and suitable for the product. Follow with treatment products.',
   ],
   Treat: [
-    'Use 2–3 drops on clean, slightly damp skin.',
-    'Press outward from the centre of the face; skip the eye area unless stated.',
-    'Wait 30 seconds before your moisturiser so it absorbs fully.',
+    'After cleansing and toner or essence, apply an appropriate amount over the face, avoiding the immediate eye area unless the product is intended for it. Follow with moisturiser.',
   ],
   Moisturise: [
-    'Warm a pea-to-almond sized amount between fingertips.',
-    'Press over the face and down the neck in upward motions.',
-    'Use morning and night — in Australian summer, go lighter in the AM.',
+    'Apply an appropriate amount after toner, essence and treatment products. Spread gently over the face and neck, avoiding the immediate eye area. Use sunscreen as the final step of the morning routine.',
   ],
   Protect: [
     'Apply as the last step of your morning routine.',
@@ -1239,11 +1232,16 @@ export function howToUse(p: ShopProduct): string[] {
   // No application, timing or sun-exposure guidance while lawful Australian
   // supply is unverified.
   if (supplyRestricted(p)) return [];
-  // Brand-sourced directions recorded on the product record win over everything.
-  if (p.usageDirections?.length) return p.usageDirections;
-  const verified = applicationForSlug(productSlug(p));
-  if (verified && verified.steps.length > 0) return verified.steps;
-  return COPY[p.priceId]?.howToUse ?? CATEGORY_HOW_TO[p.category];
+  // Masks vary substantially, so only their own reviewed instructions are used.
+  if (p.category === 'Masks') {
+    if (p.usageDirections?.length) return p.usageDirections;
+    const verifiedMask = applicationForSlug(productSlug(p));
+    return verifiedMask?.steps ?? [];
+  }
+  // Completed daily-use products share restrained, type-specific guidance.
+  // This prevents toner directions, unsupported quantities, timing and climate
+  // advice from leaking into other product types.
+  return CATEGORY_HOW_TO[p.category];
 }
 
 /** Neutral safety note shown under the directions and reused in the FAQ schema. */
@@ -1374,6 +1372,82 @@ export function productBenefits(p: ShopProduct): string[] {
   return supplierMatchPending(p)
     ? base
     : [...base, 'Authentic stock, shipped from our Melbourne warehouse'];
+}
+
+const PRODUCT_TYPE_BY_CATEGORY: Record<Category, string> = {
+  Cleanse: 'cleanser',
+  Tone: 'toner or essence',
+  Treat: 'treatment, serum or ampoule',
+  Moisturise: 'moisturiser',
+  Protect: 'sunscreen',
+  Masks: 'mask',
+};
+
+/** Factual overview copy for the completed-product accordion. */
+export function productOverview(p: ShopProduct): string[] {
+  if (supplyRestricted(p)) return [];
+  const type = p.productType ?? PRODUCT_TYPE_BY_CATEGORY[p.category];
+  const lines = [`This ${type} is used at ${routineStepLabel(p)} in a skincare routine.`];
+  const record = inciRecord(p);
+  if (record && ingredientReviewRecordComplete(p)) {
+    lines.push(`Skin Grocer reviewed the complete ingredient record from ${record.sourceName}.`);
+    const fragrance = p.inci?.some((item) => /^(fragrance|parfum)$/i.test(item.trim()));
+    if (fragrance) lines.push('The reviewed ingredient list includes added fragrance.');
+  } else {
+    lines.push('Ingredient information is being checked against a source record and the product packaging remains the final reference.');
+  }
+  if (p.verifiedUsageNotes?.length) lines.push(...p.verifiedUsageNotes);
+  return lines;
+}
+
+/** Routine placement comes only from the stored product category / step. */
+export function routinePosition(p: ShopProduct): string {
+  switch (p.category) {
+    case 'Cleanse':
+      return 'Use as the cleansing step. Follow with toner or essence if used, then treatment products and moisturiser.';
+    case 'Tone':
+      return 'Use after cleansing and before serums, ampoules and other treatment products.';
+    case 'Treat':
+      return 'Use after cleansing and toner or essence, and before moisturiser.';
+    case 'Moisturise':
+      return 'Use after toner, essence and treatment products as the final moisturising step. In the morning, follow with sunscreen.';
+    case 'Masks':
+      return howToUse(p).length
+        ? 'Use this weekly treatment in the position stated in its reviewed instructions. It is not a numbered daily step.'
+        : 'This is a weekly treatment rather than a numbered daily step. Check the product packaging for whether it replaces or follows cleansing.';
+    default:
+      return 'Follow the labelled routine position on the product packaging.';
+  }
+}
+
+function measuredIngredientDescription(ingredient: HeroIngredient): string {
+  const name = ingredient.name.toLowerCase();
+  if (name.includes('pdrn') || name.includes('polydeoxyribonucleotide')) {
+    return 'PDRN is included as a skin-conditioning ingredient. Evidence for topical cosmetic formulas should not be confused with evidence for injectable medical procedures.';
+  }
+  if (name.includes('peptide')) {
+    return 'Peptides are included as skin-conditioning ingredients within the complete cosmetic formula.';
+  }
+  if (/hyalur|glycerin|betaine|sodium pca|trehalose/.test(name)) {
+    return 'Commonly used as a humectant in cosmetic formulas to support surface hydration.';
+  }
+  if (/ceramide|squalane|oil|butter|emollient/.test(name)) {
+    return 'Included in the formula alongside other moisturising and skin-conditioning ingredients.';
+  }
+  if (/acid|bha|aha|retinal|retinol/.test(name)) {
+    return 'Included as a cosmetic formula ingredient; use the complete product according to its labelled directions and precautions.';
+  }
+  return 'Included as a skin-conditioning ingredient within the complete cosmetic formula.';
+}
+
+/** Ingredient highlights are allowed only for a complete, reviewed source record. */
+export function accordionIngredients(p: ShopProduct): HeroIngredient[] {
+  if (!ingredientReviewRecordComplete(p)) return [];
+  return heroIngredients(p).map((ingredient) => ({
+    ...ingredient,
+    what: measuredIngredientDescription(ingredient),
+    goodFor: [],
+  }));
 }
 
 // --- hero ingredients -------------------------------------------------------
