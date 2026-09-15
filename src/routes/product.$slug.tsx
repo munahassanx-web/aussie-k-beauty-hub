@@ -36,6 +36,8 @@ import {
   productSlug,
   productTexture,
   routineCompanions,
+  routineRoleSentence,
+  routineDirectionSentence,
   routineStepLabel,
   hasSourcedCosmeticRole,
   USAGE_CAUTION,
