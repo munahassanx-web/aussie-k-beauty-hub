@@ -380,6 +380,10 @@ function ProductPage() {
   const isSoldOut = soldOut.includes(product.priceId);
   const availableToPurchase =
     !product.comingSoon && !restricted && !supplyPending && !contentPending && !isSoldOut;
+  // Legacy live products have already completed receiving checks. An explicit
+  // pending packaging state always blocks completed batch-verification copy.
+  const batchVerificationComplete =
+    availableToPurchase && product.packagingCheck !== 'pending';
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
@@ -868,7 +872,7 @@ function ProductPage() {
                 </div>
               ),
             }]),
-            ...(availableToPurchase ? [{
+            ...(batchVerificationComplete ? [{
               id: 'authenticity',
                title: 'Authenticity and sourcing',
               content: (
