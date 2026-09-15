@@ -1377,16 +1377,40 @@ export function productBenefits(p: ShopProduct): string[] {
 const PRODUCT_TYPE_BY_CATEGORY: Record<Category, string> = {
   Cleanse: 'cleanser',
   Tone: 'toner or essence',
-  Treat: 'treatment, serum or ampoule',
+  Treat: 'treatment',
   Moisturise: 'moisturiser',
   Protect: 'sunscreen',
   Masks: 'mask',
 };
 
+/**
+ * Exact product types recorded for completed products whose catalogue record
+ * predates the productType field. These are SKU-specific, never inferred from
+ * a routine step or from words in a product name.
+ */
+const COMPLETED_PRODUCT_TYPES: Record<string, string> = {
+  dr_g_red_blemish_clear_soothing_foam_150ml_onetime: 'cleanser',
+  wellage_hyper_pdrn_repair_ampoule_30ml_onetime: 'ampoule',
+  dr_g_r_e_d_blemish_clear_soothing_cream_70ml_onetime: 'moisturiser',
+};
+
+export function productTypeLabel(p: ShopProduct): string {
+  return p.productType ?? COMPLETED_PRODUCT_TYPES[p.priceId] ?? PRODUCT_TYPE_BY_CATEGORY[p.category];
+}
+
+const PRODUCT_USAGE_PRECAUTIONS: Record<string, string> = {
+  dr_g_red_blemish_clear_soothing_foam_150ml_onetime:
+    'For external use only. Avoid direct contact with the eyes. Do not apply to broken or actively irritated skin. Stop use if persistent irritation occurs.',
+};
+
+export function productUsagePrecaution(p: ShopProduct): string | undefined {
+  return PRODUCT_USAGE_PRECAUTIONS[p.priceId];
+}
+
 /** Factual overview copy for the completed-product accordion. */
 export function productOverview(p: ShopProduct): string[] {
   if (supplyRestricted(p)) return [];
-  const type = p.productType ?? PRODUCT_TYPE_BY_CATEGORY[p.category];
+  const type = productTypeLabel(p);
   const lines = [`This ${type} is used at ${routineStepLabel(p)} in a skincare routine.`];
   const record = inciRecord(p);
   if (record && ingredientReviewRecordComplete(p)) {

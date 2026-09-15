@@ -32,6 +32,7 @@ import {
   inciDateLong,
   howToUse,
   productOverview,
+  productUsagePrecaution,
   productDescription,
   productSlug,
   productTexture,
@@ -744,6 +745,11 @@ function ProductPage() {
                       </li>
                     ))}
                   </ol>
+                  {productUsagePrecaution(product) && (
+                    <p className="mt-4 text-sm text-foreground/85">
+                      {productUsagePrecaution(product)}
+                    </p>
+                  )}
                   {hasSourcedCosmeticRole(product) && (
                     <p className="mt-4 text-xs text-muted-foreground">{USAGE_CAUTION}</p>
                   )}
@@ -862,7 +868,7 @@ function ProductPage() {
                 </div>
               ),
             }]),
-            ...(!supplyPending ? [{
+            ...(availableToPurchase ? [{
               id: 'authenticity',
                title: 'Authenticity and sourcing',
               content: (
@@ -884,7 +890,8 @@ function ProductPage() {
                   </p>
                 </div>
               ),
-            },
+            }] : []),
+            ...(!supplyPending ? [{
             {
               id: 'shipping',
               title: 'Shipping & returns',
