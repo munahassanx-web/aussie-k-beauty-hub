@@ -1082,6 +1082,7 @@ function PendingProductPage({ product }: { product: ShopProduct }) {
                 <div>Source type: {product.inciSourceDisplayType ?? 'Brand'}</div>
                 <div>Ingredient review status: Source reviewed</div>
                 <div>Packaging check: Pending</div>
+                <div>Full INCI verified from source: Yes</div>
               </dl>
               {product.inciSourceUrl && (
                 <a

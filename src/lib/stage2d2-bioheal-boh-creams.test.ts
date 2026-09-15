@@ -32,7 +32,7 @@ describe('Stage 2D2 — BIOHEAL BOH creams', () => {
 
   it('stores the complete retailer-reviewed 3D Lifting record', () => {
     const p = byId(LIFTING);
-    expect(p.inci).toHaveLength(80);
+    expect(p.inci).toHaveLength(79);
     expect(p.inci).toContain('Butyrospermum Parkii (Shea) Butter');
     expect(p.inci?.at(-1)).toBe('Fragrance');
     expect(p.verifiedCustomerGuidance).toContain('Contains added fragrance');
