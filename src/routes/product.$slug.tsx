@@ -928,8 +928,7 @@ function ProductPage() {
         <section className="mt-14 border-t border-border pt-10">
           <h2 className="font-display text-2xl text-foreground">Complete your routine</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            This toner is your Step 2. If your routine needs more, choose one treatment and one
-            moisturiser after reviewing which product suits you.
+            {routineRoleSentence(product)} {routineDirectionSentence(product)}
           </p>
           <p className="mt-3 text-xs text-muted-foreground">
             You do not need every product shown. Choose according to your skin, current routine and
