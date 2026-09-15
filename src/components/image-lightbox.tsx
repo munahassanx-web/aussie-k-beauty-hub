@@ -206,6 +206,9 @@ export function ImageLightbox({ open, onOpenChange, images, index, onIndexChange
             >
               Reset zoom
             </button>
+            <span className="text-xs tabular-nums text-muted-foreground" aria-hidden="true">
+              {index + 1} of {count}
+            </span>
             <p className="ml-auto hidden text-xs text-muted-foreground sm:block" aria-hidden="true">
               Scroll to zoom · drag to pan · Esc to close
             </p>

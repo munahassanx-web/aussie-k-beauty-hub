@@ -504,7 +504,7 @@ function ProductPage() {
                 ›
               </button>
               <span className="ml-auto text-[10px] uppercase tracking-[0.2em] tabular-nums text-muted-foreground">
-                {active + 1} / {count}
+                {active + 1} of {count}
               </span>
 
               <span className="sr-only">Use the left and right arrow keys to move between images.</span>
