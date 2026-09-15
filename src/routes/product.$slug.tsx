@@ -36,6 +36,8 @@ import {
   productSlug,
   productTexture,
   routineCompanions,
+  routineRoleSentence,
+  routineDirectionSentence,
   routineStepLabel,
   hasSourcedCosmeticRole,
   USAGE_CAUTION,
@@ -335,6 +337,13 @@ function ProductPage() {
   const inci = inciRecord(product);
   const routineGroups = routineCompanions(product);
   const STEP_NUMBER: Record<string, number> = { Cleanse: 1, Tone: 2, Treat: 3, Moisturise: 4, Protect: 5 };
+  const STEP_CHOICE: Record<string, string> = {
+    Cleanse: 'a cleanser',
+    Tone: 'a toner or essence',
+    Treat: 'a treatment',
+    Moisturise: 'a moisturiser',
+    Protect: 'a sunscreen',
+  };
   const size = productSize(product);
   // Sunscreen without documented lawful Australian supply: no price, no buy
   // control, no application, usage or routine guidance anywhere on the page.
@@ -928,8 +937,7 @@ function ProductPage() {
         <section className="mt-14 border-t border-border pt-10">
           <h2 className="font-display text-2xl text-foreground">Complete your routine</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            This toner is your Step 2. If your routine needs more, choose one treatment and one
-            moisturiser after reviewing which product suits you.
+            {routineRoleSentence(product)} {routineDirectionSentence(product)}
           </p>
           <p className="mt-3 text-xs text-muted-foreground">
             You do not need every product shown. Choose according to your skin, current routine and
@@ -939,8 +947,11 @@ function ProductPage() {
             {routineGroups.map((group) => (
               <div key={group.stepLabel}>
                 <h3 className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-                  Step {STEP_NUMBER[group.stepLabel]} — choose {group.stepLabel === 'Protect' ? 'a sunscreen' : group.stepLabel === 'Treat' ? 'a treatment' : group.stepLabel === 'Moisturise' ? 'a moisturiser' : 'one'}
+                  Step {STEP_NUMBER[group.stepLabel]} — choose {STEP_CHOICE[group.stepLabel] ?? 'one'}
                 </h3>
+                {group.educationalNote ? (
+                  <p className="mt-4 text-sm text-muted-foreground">{group.educationalNote}</p>
+                ) : (
                 <div className="mt-6 flex gap-8 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible lg:gap-x-8">
                   {group.products.map((r) => (
                     <div key={r.priceId} className="w-64 shrink-0 sm:w-auto">
@@ -948,6 +959,7 @@ function ProductPage() {
                     </div>
                   ))}
                 </div>
+                )}
               </div>
             ))}
           </div>
