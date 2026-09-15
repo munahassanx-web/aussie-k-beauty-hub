@@ -892,7 +892,6 @@ function ProductPage() {
               ),
             }] : []),
             ...(!supplyPending ? [{
-            {
               id: 'shipping',
               title: 'Shipping & returns',
               content: (

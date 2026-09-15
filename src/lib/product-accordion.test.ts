@@ -31,9 +31,6 @@ describe('product information accordions', () => {
     expect(routinePosition(item)).toBe(
       'Use as the cleansing step. Follow with toner or essence if used, then treatment products and moisturiser.',
     );
-    expect(productOverview(item)[0]).toBe(
-      'This ampoule is used at Step 3 — treat in a skincare routine.',
-    );
     expect([productOverview(item), howToUse(item), accordionIngredients(item)].flat(2).join(' ')).not.toMatch(
       /congestion|reactive skin|low-irritation|cotton pad|after cleansing/i,
     );
@@ -48,7 +45,7 @@ describe('product information accordions', () => {
       'Use after cleansing and toner or essence, and before moisturiser.',
     );
     expect(productOverview(item)[0]).toBe(
-      'This moisturiser is used at Step 4 — moisturise in a skincare routine.',
+      'This ampoule is used at Step 3 — treat in a skincare routine.',
     );
     expect(accordionIngredients(item)).toEqual([]);
     expect([productOverview(item), howToUse(item), accordionIngredients(item)].flat(2).join(' ')).not.toMatch(
@@ -63,6 +60,9 @@ describe('product information accordions', () => {
     ]);
     expect(routinePosition(item)).toBe(
       'Use after toner, essence and treatment products as the final moisturising step. In the morning, follow with sunscreen.',
+    );
+    expect(productOverview(item)[0]).toBe(
+      'This moisturiser is used at Step 4 — moisturise in a skincare routine.',
     );
     expect([productOverview(item), howToUse(item), accordionIngredients(item)].flat(2).join(' ')).not.toMatch(
       /upward motion|Australian summer|acne|congestion|reactive skin/i,
