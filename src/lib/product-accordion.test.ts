@@ -5,6 +5,7 @@ import {
   findProductBySlug,
   howToUse,
   productOverview,
+  productUsagePrecaution,
   routinePosition,
 } from '@/lib/product-detail';
 
@@ -21,6 +22,12 @@ describe('product information accordions', () => {
     expect(howToUse(item)).toEqual([
       'Dispense a small amount into wet hands and work into a lather. Massage gently over damp facial skin, avoiding direct contact with the eyes. Rinse thoroughly with lukewarm water and pat dry. Follow with the remaining steps in your routine.',
     ]);
+    expect(productUsagePrecaution(item)).toBe(
+      'For external use only. Avoid direct contact with the eyes. Do not apply to broken or actively irritated skin. Stop use if persistent irritation occurs.',
+    );
+    expect(productOverview(item)[0]).toBe(
+      'This cleanser is used at Step 1 — cleanse in a skincare routine.',
+    );
     expect(routinePosition(item)).toBe(
       'Use as the cleansing step. Follow with toner or essence if used, then treatment products and moisturiser.',
     );
@@ -37,6 +44,9 @@ describe('product information accordions', () => {
     expect(routinePosition(item)).toBe(
       'Use after cleansing and toner or essence, and before moisturiser.',
     );
+    expect(productOverview(item)[0]).toBe(
+      'This ampoule is used at Step 3 — treat in a skincare routine.',
+    );
     expect(accordionIngredients(item)).toEqual([]);
     expect([productOverview(item), howToUse(item), accordionIngredients(item)].flat(2).join(' ')).not.toMatch(
       /salmon injection|younger skin|skin repair|30 seconds/i,
@@ -50,6 +60,9 @@ describe('product information accordions', () => {
     ]);
     expect(routinePosition(item)).toBe(
       'Use after toner, essence and treatment products as the final moisturising step. In the morning, follow with sunscreen.',
+    );
+    expect(productOverview(item)[0]).toBe(
+      'This moisturiser is used at Step 4 — moisturise in a skincare routine.',
     );
     expect([productOverview(item), howToUse(item), accordionIngredients(item)].flat(2).join(' ')).not.toMatch(
       /upward motion|Australian summer|acne|congestion|reactive skin/i,

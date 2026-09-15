@@ -9,23 +9,26 @@ export function ProductAccordion({
 }: {
   items: { id: string; title: string; defaultOpen?: boolean; content: ReactNode }[];
 }) {
+  const visibleItems = items.filter(
+    (item) => item.content !== null && item.content !== undefined && item.content !== false && item.content !== '',
+  );
   const [open, setOpen] = useState<Record<string, boolean>>(() =>
-    Object.fromEntries(items.map((i) => [i.id, Boolean(i.defaultOpen)])),
+    Object.fromEntries(visibleItems.map((i) => [i.id, Boolean(i.defaultOpen)])),
   );
 
   // Deep links such as /product/x#ingredients open and scroll to that section.
   useEffect(() => {
     const target = window.location.hash.replace('#', '');
-    if (!target || !items.some((i) => i.id === target)) return;
+    if (!target || !visibleItems.some((i) => i.id === target)) return;
     setOpen((p) => ({ ...p, [target]: true }));
     window.requestAnimationFrame(() => {
       document.getElementById(`section-${target}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-  }, [items]);
+  }, [visibleItems]);
 
   return (
     <div className="border-t border-border">
-      {items.map((item) => {
+      {visibleItems.map((item) => {
         const isOpen = Boolean(open[item.id]);
         return (
           <section key={item.id} id={`section-${item.id}`} className="scroll-mt-28 border-b border-border">

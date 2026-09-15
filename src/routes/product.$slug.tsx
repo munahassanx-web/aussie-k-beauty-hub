@@ -32,6 +32,7 @@ import {
   inciDateLong,
   howToUse,
   productOverview,
+  productUsagePrecaution,
   productDescription,
   productSlug,
   productTexture,
@@ -379,6 +380,10 @@ function ProductPage() {
   const isSoldOut = soldOut.includes(product.priceId);
   const availableToPurchase =
     !product.comingSoon && !restricted && !supplyPending && !contentPending && !isSoldOut;
+  // Legacy live products have already completed receiving checks. An explicit
+  // pending packaging state always blocks completed batch-verification copy.
+  const batchVerificationComplete =
+    availableToPurchase && product.packagingCheck !== 'pending';
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
@@ -744,6 +749,11 @@ function ProductPage() {
                       </li>
                     ))}
                   </ol>
+                  {productUsagePrecaution(product) && (
+                    <p className="mt-4 text-sm text-foreground/85">
+                      {productUsagePrecaution(product)}
+                    </p>
+                  )}
                   {hasSourcedCosmeticRole(product) && (
                     <p className="mt-4 text-xs text-muted-foreground">{USAGE_CAUTION}</p>
                   )}
@@ -862,7 +872,7 @@ function ProductPage() {
                 </div>
               ),
             }]),
-            ...(!supplyPending ? [{
+            ...(batchVerificationComplete ? [{
               id: 'authenticity',
                title: 'Authenticity and sourcing',
               content: (
@@ -884,8 +894,8 @@ function ProductPage() {
                   </p>
                 </div>
               ),
-            },
-            {
+            }] : []),
+            ...(!supplyPending ? [{
               id: 'shipping',
               title: 'Shipping & returns',
               content: (
