@@ -63,6 +63,16 @@ describe('product information accordions', () => {
     expect(accordionIngredients(item)).toEqual([]);
   });
 
+  it('keeps every purchasable accordion free of prohibited generic claims and directions', () => {
+    const prohibited = /Helps keep pores clear|Calms active congestion|For reactive skin|Supports firmness|Softens fine lines|Repairs the barrier|Safe for sensitive skin|used at cream strength|works on visible redness|takes the sting out|helps skin repair itself|does not aggravate|without irritation|signal skin to behave like younger skin|without the irritation of retinoids|supports skin repair|salmon injection trend|smoother, bouncier skin over time|Press outward from the centre|Use upward motions|Wait 30 seconds so it absorbs fully|In Australian summer, go lighter|pea-to-almond sized amount/i;
+    for (const item of SHOP_PRODUCTS.filter((entry) => isPurchasable(entry.priceId))) {
+      const rendered = [productOverview(item), howToUse(item), routinePosition(item)]
+        .flat()
+        .join(' ');
+      expect(rendered, item.name).not.toMatch(prohibited);
+    }
+  });
+
   it('preserves catalogue and purchasing safeguards', () => {
     expect(SHOP_PRODUCTS).toHaveLength(77);
     const comingSoon = SHOP_PRODUCTS.filter(isContentPending);

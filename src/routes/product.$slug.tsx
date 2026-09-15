@@ -18,6 +18,7 @@ import {
   australianSupplyVerified,
   contentInPreparation,
   isContentPending,
+  ingredientReviewRecordComplete,
   supplierMatchPending,
   type ShopProduct,
 } from '@/lib/shop-catalog';
@@ -32,7 +33,6 @@ import {
   howToUse,
   productOverview,
   productDescription,
-  productInci,
   productSlug,
   productTexture,
   routineCompanions,
@@ -42,7 +42,6 @@ import {
   routinePosition,
   hasSourcedCosmeticRole,
   USAGE_CAUTION,
-  SUITABILITY_CAUTION,
   SUPPLIER_RECONCILIATION_INTRO,
   temporaryProductTypeSentence,
   supplyRestricted,
@@ -358,7 +357,7 @@ function ProductPage() {
 
 
   const ingredients = accordionIngredients(product);
-  const inci = inciRecord(product);
+  const inci = ingredientReviewRecordComplete(product) ? inciRecord(product) : undefined;
   const routineGroups = routineCompanions(product);
   const STEP_NUMBER: Record<string, number> = { Cleanse: 1, Tone: 2, Treat: 3, Moisturise: 4, Protect: 5 };
   const STEP_CHOICE: Record<string, string> = {
