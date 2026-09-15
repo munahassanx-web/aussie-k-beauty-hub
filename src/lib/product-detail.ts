@@ -1624,12 +1624,23 @@ export function routineRoleSentence(p: ShopProduct): string {
   }
 }
 
-/** Direction of the remaining steps, so the sentence matches what is shown. */
-export function routineDirectionSentence(p: ShopProduct): string {
-  const laterExists = ROUTINE_ORDER.indexOf(p.category) < ROUTINE_ORDER.length - 2;
-  return laterExists
-    ? 'If your routine needs more, choose later steps according to your skin, current routine and ingredient suitability.'
-    : 'If your routine needs more, choose earlier steps according to your skin, current routine and ingredient suitability.';
+/** Direction of the displayed product recommendations, excluding educational notes. */
+export function routineDirectionSentence(p: ShopProduct, groups = routineCompanions(p)): string {
+  const current = ROUTINE_ORDER.indexOf(p.category);
+  const displayed = groups
+    .filter((group) => group.products.length > 0)
+    .map((group) => ROUTINE_ORDER.indexOf(group.stepLabel as ShopProduct['category']))
+    .filter((step) => step !== -1);
+  const hasEarlier = displayed.some((step) => step < current);
+  const hasLater = displayed.some((step) => step > current);
+
+  if (hasEarlier && hasLater) {
+    return 'If your routine needs more, choose other steps according to your skin, current routine and ingredient suitability.';
+  }
+  if (hasLater) {
+    return 'If your routine needs more, choose later steps according to your skin, current routine and ingredient suitability.';
+  }
+  return 'If your routine needs more, choose earlier steps according to your skin, current routine and ingredient suitability.';
 }
 
 /**
@@ -1659,7 +1670,6 @@ export function routineCompanions(p: ShopProduct): RoutineGroup[] {
   // The current product's own step is never suggested as another required step.
   const sequence = [...ROUTINE_ORDER.slice(current + 1), ...ROUTINE_ORDER.slice(0, current)];
   const groups: RoutineGroup[] = [];
-  let sunscreenNote = false;
   for (const cat of sequence) {
     const inStep = SHOP_PRODUCTS.filter(
       (x) => x.category === cat && x.priceId !== p.priceId && recommendationEligible(x),
@@ -1672,15 +1682,16 @@ export function routineCompanions(p: ShopProduct): RoutineGroup[] {
     ].slice(0, 2);
     if (products.length > 0) {
       groups.push({ stepLabel: cat, products });
-    } else if (cat === 'Protect' && p.category !== 'Protect') {
-      // No sunscreen may lawfully be recommended: educational wording only,
-      // with no card, image, price, purchase control or SPF claim. Held back
-      // so real routine steps are shown first.
-      sunscreenNote = true;
     }
     if (groups.length === 3) break;
   }
-  if (sunscreenNote) {
+  const eligibleSunscreenExists = SHOP_PRODUCTS.some(
+    (x) => x.category === 'Protect' && x.priceId !== p.priceId && recommendationEligible(x),
+  );
+  if (p.category !== 'Protect' && !eligibleSunscreenExists) {
+    // No sunscreen may lawfully be recommended: educational wording only,
+    // with no card, image, price, purchase control or SPF claim. This remains
+    // visible even when three eligible product groups were found first.
     groups.push({ stepLabel: 'Protect', products: [], educationalNote: SUNSCREEN_EDUCATIONAL_NOTE });
   }
   return groups;
