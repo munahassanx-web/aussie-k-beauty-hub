@@ -113,7 +113,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/torriden/dive-in-soothing-cream-info.webp',
-      alt: 'Key ingredients panel for TORRIDEN DIVE IN Soothing Cream: 5D hyaluronic acid complex, low molecular hyaluronic acid, panthenol, allantoin, fragrance-free and weakly acidic',
+      alt: 'Ingredient information panel for TORRIDEN DIVE IN Soothing Cream',
     },
     {
       src: '/products/editorial/torriden/dive-in-soothing-cream-apply.webp',
@@ -127,7 +127,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/torriden/balanceful-cleansing-gel-info.webp',
-      alt: 'Key ingredients panel for TORRIDEN BALANCEFUL Cleansing Gel: centella asiatica extract, madecassoside, panthenol, weakly acidic pH 5.5 and low-irritation fragrance-free formula',
+      alt: 'Ingredient information panel for TORRIDEN BALANCEFUL Cleansing Gel',
     },
     {
       src: '/products/editorial/torriden/balanceful-cleansing-gel-apply.webp',
@@ -141,7 +141,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/torriden/dive-in-mask-pack-1pc-info.webp',
-      alt: 'Key ingredients panel for TORRIDEN DIVE IN Mask: 5D hyaluronic acid, allantoin, panthenol, 27ml essence per sheet, fragrance-free',
+      alt: 'Ingredient information panel for TORRIDEN DIVE IN Mask',
     },
     {
       src: '/products/editorial/torriden/dive-in-mask-pack-1pc-apply.webp',
@@ -296,7 +296,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/beauty-of-joseon/green-plum-refreshing-toner-150ml-info.webp',
-      alt: 'Key ingredients panel for Beauty of Joseon Green Plum Refreshing Toner: green plum extract, a mild AHA + BHA complex and betaine, fragrance-free, 150ml',
+      alt: 'Ingredient information panel for Beauty of Joseon Green Plum Refreshing Toner 150ml',
     },
     {
       src: '/products/editorial/beauty-of-joseon/green-plum-refreshing-toner-150ml-apply.webp',
@@ -408,7 +408,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/round-lab/1025-dokdo-toner-100ml-info.webp',
-      alt: 'Key ingredients panel for ROUND LAB 1025 Dokdo Toner: Ulleungdo deep sea water, panthenol and hyaluronic acid in a low pH 5.5, fragrance-free formula',
+      alt: 'Ingredient information panel for ROUND LAB 1025 Dokdo Toner',
     },
     {
       src: '/products/editorial/round-lab/1025-dokdo-toner-100ml-apply.webp',
@@ -520,7 +520,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/beplain/mung-bean-ph-balanced-cleansing-foam-80ml-info.webp',
-      alt: 'Key ingredients panel for beplain Mung Bean Cleansing Foam: mung bean seed extract, weakly acidic pH 5.5, amino acid lather, fragrance-free',
+      alt: 'Ingredient information panel for beplain Mung Bean Cleansing Foam',
     },
     {
       src: '/products/editorial/beplain/mung-bean-ph-balanced-cleansing-foam-80ml-apply.webp',
@@ -562,7 +562,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/aestura/atobarrier365-cream-info.webp',
-      alt: 'Key ingredients panel for AESTURA Atobarrier365 Cream: ceramide NP, lipid complex and a fragrance-free formula',
+      alt: 'Ingredient information panel for AESTURA Atobarrier365 Cream',
     },
     {
       src: '/products/editorial/aestura/atobarrier365-cream-apply.webp',
@@ -619,7 +619,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/isntree/hyaluronic-acid-water-essence-50ml-info.webp',
-      alt: 'Key ingredients panel for ISNTREE Hyaluronic Acid Water Essence: 11 types of hyaluronic acid, lightweight watery texture, fragrance-free',
+      alt: 'Ingredient information panel for ISNTREE Hyaluronic Acid Water Essence 50ml',
     },
     {
       src: '/products/editorial/isntree/hyaluronic-acid-water-essence-50ml-apply.webp',
@@ -647,7 +647,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/isntree/chestnut-bha-2-percent-clear-liquid-100ml-info.webp',
-      alt: 'Key ingredients panel for ISNTREE Chestnut BHA 2% Clear Liquid: 2% betaine salicylate, chestnut shell extract, alcohol-free and fragrance-free',
+      alt: 'Ingredient information panel for ISNTREE Chestnut BHA 2% Clear Liquid 100ml',
     },
     {
       src: '/products/editorial/isntree/chestnut-bha-2-percent-clear-liquid-100ml-apply.webp',
@@ -675,11 +675,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/dr-g/red-blemish-clear-soothing-foam-150ml-info.webp',
-      alt: 'Key ingredients panel for Dr.G R.E.D Blemish Clear Soothing Foam: 10-Cica complex, pH balancing formula and a low-irritation lather',
-    },
-    {
-      src: '/products/editorial/dr-g/red-blemish-clear-soothing-foam-150ml-apply.webp',
-      alt: 'A young Korean woman massaging white cleansing foam over her cheeks at a bright basin',
+      alt: 'Ingredient information panel for Dr.G Red Blemish Clear Soothing Foam 150ml',
     },
   ],
   dr_g_r_e_d_blemish_clear_soothing_cream_70ml_onetime: [
@@ -689,11 +685,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/dr-g/r-e-d-blemish-clear-soothing-cream-70ml-info.webp',
-      alt: 'Key ingredients panel for Dr.G R.E.D Blemish Clear Soothing Cream: centella asiatica complex, panthenol and a fragrance-free gel-cream texture',
-    },
-    {
-      src: '/products/editorial/dr-g/r-e-d-blemish-clear-soothing-cream-70ml-apply.webp',
-      alt: 'A woman with fair, flushed skin patting a white gel-cream into her cheek',
+      alt: 'Ingredient information panel for Dr.G R.E.D Blemish Clear Soothing Cream 70ml',
     },
   ],
   dr_g_black_snail_cream_50ml_onetime: [
@@ -734,7 +726,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
     },
     {
       src: '/products/editorial/isntree/yam-root-vegan-milk-toner-200ml-info.webp',
-      alt: 'Key ingredients panel for ISNTREE Yam Root Vegan Milk Toner: 80% yam root extract, milk-texture layering, vegan and fragrance-free',
+      alt: 'Ingredient information panel for ISNTREE Yam Root Vegan Milk Toner 200ml',
     },
     {
       src: '/products/editorial/isntree/yam-root-vegan-milk-toner-200ml-apply.webp',
