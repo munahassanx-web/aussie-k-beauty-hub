@@ -1584,7 +1584,67 @@ export function heroIngredients(p: ShopProduct): HeroIngredient[] {
   return found.slice(0, 3);
 }
 
-export type RoutineGroup = { stepLabel: string; products: ShopProduct[] };
+export type RoutineGroup = {
+  stepLabel: string;
+  products: ShopProduct[];
+  /** Educational wording only: no card, image, price or purchase control. */
+  educationalNote?: string;
+};
+
+const ROUTINE_ORDER: Array<ShopProduct['category']> = [
+  'Cleanse',
+  'Tone',
+  'Treat',
+  'Moisturise',
+  'Protect',
+];
+
+export const SUNSCREEN_EDUCATIONAL_NOTE =
+  'Finish your morning routine with a broad-spectrum sunscreen lawfully supplied in Australia.';
+
+/**
+ * The current product's own role, generated from its stored routine-step
+ * category — never from page position, name keywords or the first
+ * recommendation.
+ */
+export function routineRoleSentence(p: ShopProduct): string {
+  switch (p.category) {
+    case 'Cleanse':
+      return 'This cleanser is your Step 1.';
+    case 'Tone':
+      return 'This toner or essence is your Step 2.';
+    case 'Treat':
+      return 'This treatment is your Step 3.';
+    case 'Moisturise':
+      return 'This moisturiser is your Step 4.';
+    case 'Protect':
+      return 'This sunscreen is your final morning step.';
+    default:
+      return 'This product is one step in your routine.';
+  }
+}
+
+/** Direction of the remaining steps, so the sentence matches what is shown. */
+export function routineDirectionSentence(p: ShopProduct): string {
+  const laterExists = ROUTINE_ORDER.indexOf(p.category) < ROUTINE_ORDER.length - 2;
+  return laterExists
+    ? 'If your routine needs more, choose later steps according to your skin, current routine and ingredient suitability.'
+    : 'If your routine needs more, choose earlier steps according to your skin, current routine and ingredient suitability.';
+}
+
+/**
+ * A product may only appear as a recommendation when it is genuinely for sale:
+ * purchasable, in stock, compliant, content-complete and priced.
+ */
+export function recommendationEligible(p: ShopProduct): boolean {
+  return (
+    !p.comingSoon &&
+    australianSupplyVerified(p) &&
+    !supplierMatchPending(p) &&
+    !contentInPreparation(p) &&
+    Boolean(p.price)
+  );
+}
 
 /**
  * Routine-order companions: groups of products from LATER routine steps than
