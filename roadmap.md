@@ -13,5 +13,5 @@
 - [x] Verify both direct pages, catalogue safeguards, tests, and production build
 
 ## Stage 2D2 BIOHEAL BOH creams
-- [ ] Update both creams with reviewed copy, guidance, full ingredient lists, and retailer provenance
-- [ ] Verify Coming Soon purchase safeguards, claim exclusions, catalogue totals, tests, and production build
+- [x] Update both creams with reviewed copy, guidance, full ingredient lists, and retailer provenance
+- [x] Verify Coming Soon purchase safeguards, claim exclusions, catalogue totals, tests, and production build
