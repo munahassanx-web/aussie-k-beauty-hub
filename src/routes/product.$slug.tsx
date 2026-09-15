@@ -938,8 +938,11 @@ function ProductPage() {
             {routineGroups.map((group) => (
               <div key={group.stepLabel}>
                 <h3 className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-                  Step {STEP_NUMBER[group.stepLabel]} — choose {group.stepLabel === 'Protect' ? 'a sunscreen' : group.stepLabel === 'Treat' ? 'a treatment' : group.stepLabel === 'Moisturise' ? 'a moisturiser' : 'one'}
+                  Step {STEP_NUMBER[group.stepLabel]} — choose {STEP_CHOICE[group.stepLabel] ?? 'one'}
                 </h3>
+                {group.educationalNote ? (
+                  <p className="mt-4 text-sm text-muted-foreground">{group.educationalNote}</p>
+                ) : (
                 <div className="mt-6 flex gap-8 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible lg:gap-x-8">
                   {group.products.map((r) => (
                     <div key={r.priceId} className="w-64 shrink-0 sm:w-auto">
@@ -947,6 +950,7 @@ function ProductPage() {
                     </div>
                   ))}
                 </div>
+                )}
               </div>
             ))}
           </div>
