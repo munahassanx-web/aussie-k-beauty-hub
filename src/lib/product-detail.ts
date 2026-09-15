@@ -1673,10 +1673,14 @@ export function routineCompanions(p: ShopProduct): RoutineGroup[] {
       groups.push({ stepLabel: cat, products });
     } else if (cat === 'Protect' && p.category !== 'Protect') {
       // No sunscreen may lawfully be recommended: educational wording only,
-      // with no card, image, price, purchase control or SPF claim.
-      groups.push({ stepLabel: cat, products: [], educationalNote: SUNSCREEN_EDUCATIONAL_NOTE });
+      // with no card, image, price, purchase control or SPF claim. Held back
+      // so real routine steps are shown first.
+      sunscreenNote = true;
     }
     if (groups.length === 3) break;
+  }
+  if (sunscreenNote) {
+    groups.push({ stepLabel: 'Protect', products: [], educationalNote: SUNSCREEN_EDUCATIONAL_NOTE });
   }
   return groups;
 }
