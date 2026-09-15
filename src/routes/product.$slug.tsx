@@ -335,6 +335,13 @@ function ProductPage() {
   const inci = inciRecord(product);
   const routineGroups = routineCompanions(product);
   const STEP_NUMBER: Record<string, number> = { Cleanse: 1, Tone: 2, Treat: 3, Moisturise: 4, Protect: 5 };
+  const STEP_CHOICE: Record<string, string> = {
+    Cleanse: 'a cleanser',
+    Tone: 'a toner or essence',
+    Treat: 'a treatment',
+    Moisturise: 'a moisturiser',
+    Protect: 'a sunscreen',
+  };
   const size = productSize(product);
   // Sunscreen without documented lawful Australian supply: no price, no buy
   // control, no application, usage or routine guidance anywhere on the page.
