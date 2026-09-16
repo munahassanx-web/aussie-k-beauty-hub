@@ -1703,6 +1703,83 @@ const ROUTINE_ORDER: Array<ShopProduct['category']> = [
 export const SUNSCREEN_EDUCATIONAL_NOTE =
   'Finish your morning routine with a broad-spectrum sunscreen lawfully supplied in Australia.';
 
+/** Neutral daytime reminder shown under the routine recommendations. */
+export const ROUTINE_SUNSCREEN_NOTE =
+  'During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia.';
+
+/** Step numbers and display names, taken only from the stored category. */
+export const ROUTINE_STEP_NUMBER: Record<string, number> = {
+  Cleanse: 1,
+  Tone: 2,
+  Treat: 3,
+  Moisturise: 4,
+  Protect: 5,
+};
+
+export const ROUTINE_STEP_NAME: Record<string, string> = {
+  Cleanse: 'Cleanse',
+  Tone: 'Tone and prep',
+  Treat: 'Treat',
+  Moisturise: 'Moisturise',
+  Protect: 'Protect',
+};
+
+/** Factual, non-claim explanation of why the step exists in a routine. */
+const WHY_THIS_STEP: Record<string, string> = {
+  Cleanse: 'Removes everyday surface impurities before the rest of your routine.',
+  Tone: 'Adds a lightweight hydration step after cleansing.',
+  Treat: 'A targeted treatment step used before moisturiser.',
+  Moisturise: 'The final moisturising layer after toner and treatment products.',
+};
+
+export type RoutineRecommendation = {
+  step: ShopProduct['category'];
+  stepNumber: number;
+  stepName: string;
+  why: string;
+  product: ShopProduct;
+};
+
+/**
+ * Up to three complementary products — one per routine step, always in
+ * chronological routine order, never the current product, never a second
+ * product from the same step, and never a sunscreen (Protect is educational
+ * wording only until Australian supply is complete).
+ */
+export function routineRecommendations(
+  p: ShopProduct,
+  opts?: { excludeSkus?: string[] },
+): RoutineRecommendation[] {
+  const excluded = new Set(opts?.excludeSkus ?? []);
+  const steps: Array<ShopProduct['category']> = ['Cleanse', 'Tone', 'Treat', 'Moisturise'];
+  const recommendations: RoutineRecommendation[] = [];
+  for (const step of steps) {
+    if (step === p.category) continue;
+    const inStep = SHOP_PRODUCTS.filter(
+      (x) =>
+        x.category === step &&
+        x.priceId !== p.priceId &&
+        !excluded.has(x.priceId) &&
+        recommendationEligible(x) &&
+        Boolean(x.image),
+    );
+    // Same-brand products are documented to be used together; otherwise the
+    // first eligible catalogue product for the step.
+    const pick = inStep.find((x) => x.brand === p.brand) ?? inStep[0];
+    if (!pick) continue;
+    recommendations.push({
+      step,
+      stepNumber: ROUTINE_STEP_NUMBER[step]!,
+      stepName: ROUTINE_STEP_NAME[step]!,
+      why: WHY_THIS_STEP[step]!,
+      product: pick,
+    });
+    if (recommendations.length === 3) break;
+  }
+  return recommendations;
+}
+
+
 /**
  * The current product's own role, generated from its stored routine-step
  * category — never from page position, name keywords or the first
