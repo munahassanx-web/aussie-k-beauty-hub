@@ -227,14 +227,7 @@ export function RoutineRecommendations({ product }: { product: ShopProduct }) {
               <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{r.why}</p>
 
               <div className="mt-auto pt-4">
-                <AddToBagButton
-                  priceId={p.priceId}
-                  name={p.name}
-                  priceLabel={`${p.price} AUD`}
-                  unavailable={outOfStock}
-                  accessibleName={`Add ${p.brand} ${p.name} to bag`}
-                  className="min-h-11 w-full rounded-[2px] bg-foreground px-4 text-[11px] font-medium uppercase tracking-[0.18em] text-background hover:bg-foreground/85 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60"
-                />
+                <RecommendationAddButton product={p} outOfStock={outOfStock} />
                 <div className="mt-3 flex items-center justify-between gap-3">
                   <Link
                     to="/product/$slug"
