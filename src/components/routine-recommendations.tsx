@@ -1,11 +1,10 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from '@tanstack/react-router';
-import { AddToBagButton } from '@/components/add-to-bag-button';
 import { WishlistButton } from '@/components/wishlist-button';
 import { useBuyNow } from '@/hooks/use-buy-now';
 import { useSoldOutSkus } from '@/hooks/use-stock';
-import { formatAud } from '@/lib/cart';
-import { priceToCents } from '@/lib/shop-catalog';
+import { formatAud, useCart } from '@/lib/cart';
+import { catalogEntryFor, isPurchasable, priceToCents } from '@/lib/shop-catalog';
 import type { ShopProduct } from '@/lib/shop-catalog';
 import {
   ROUTINE_STEP_NAME,
@@ -14,6 +13,74 @@ import {
   productSlug,
   routineRecommendations,
 } from '@/lib/product-detail';
+
+/**
+ * Recommendation-card buy control. Uses the same shared cart action
+ * (`useBuyNow` → `useCart`) as the primary product-page button; there is no
+ * second cart implementation and no visual-only state.
+ */
+function RecommendationAddButton({
+  product,
+  outOfStock,
+}: {
+  product: ShopProduct;
+  outOfStock: boolean;
+}) {
+  const { buy } = useBuyNow();
+  const cart = useCart();
+  const [busy, setBusy] = useState(false);
+  const [added, setAdded] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(
+    () => () => {
+      if (timer.current) clearTimeout(timer.current);
+    },
+    [],
+  );
+
+  const sellable = isPurchasable(product.priceId) && !outOfStock;
+  const disabled = !sellable || !cart.ready || busy || added;
+
+  function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (disabled) return;
+    setBusy(true);
+    const didAdd = buy({
+      priceId: product.priceId,
+      name: product.name,
+      priceLabel: `${product.price} AUD`,
+      brand: product.brand,
+      image: product.image,
+    });
+    setBusy(false);
+    if (!didAdd) return;
+    setAdded(true);
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => setAdded(false), 1800);
+  }
+
+  if (!isPurchasable(product.priceId)) return null;
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={handleClick}
+        disabled={disabled}
+        aria-label={`Add ${product.brand} ${product.name} to bag`}
+        aria-busy={busy}
+        className="min-h-11 w-full rounded-[2px] bg-foreground px-4 text-[11px] font-medium uppercase tracking-[0.18em] text-background transition-colors hover:bg-foreground/85 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {outOfStock ? 'Out of stock' : !cart.ready ? 'Loading…' : added ? 'Added' : 'Add to bag'}
+      </button>
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
+        {added ? `${product.brand} ${product.name} added to bag` : ''}
+      </span>
+    </>
+  );
+}
 
 /**
  * "Complete your routine" — at most three complementary products, one per
