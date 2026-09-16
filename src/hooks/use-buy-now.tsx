@@ -15,6 +15,8 @@ export type BuyOptions = {
   priceLabel: string;
   brand?: string;
   image?: string;
+  /** Open the cart drawer after adding. Defaults to true. */
+  openCart?: boolean;
 };
 
 /**
