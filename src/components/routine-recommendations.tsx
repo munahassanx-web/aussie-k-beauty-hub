@@ -53,6 +53,9 @@ function RecommendationAddButton({
       priceLabel: `${product.price} AUD`,
       brand: product.brand,
       image: product.image,
+      // Stay on the product page: the drawer would cover the confirmation
+      // and block the next control.
+      openCart: false,
     });
     setBusy(false);
     if (!didAdd) return;
