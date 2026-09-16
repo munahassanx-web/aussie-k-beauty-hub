@@ -18,6 +18,10 @@ const contactSchema = z.object({
 const topics = ["Routine guidance", "Order help", "Vending machine partnerships", "Something else"] as const;
 
 export const Route = createFileRoute("/contact")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    verification: typeof search.verification === 'string' ? search.verification.slice(0, 40) : '',
+    product: typeof search.product === 'string' ? search.product.slice(0, 180) : '',
+  }),
   head: () => ({
     meta: [
       { title: "Contact — Skin Grocer" },
@@ -33,11 +37,15 @@ export const Route = createFileRoute("/contact")({
 });
 
 function Contact() {
+  const search = Route.useSearch();
+  const concernMessage = search.verification && search.product
+    ? `I would like to report a concern about ${search.product}.\n\nVerification reference: ${search.verification}\n\nConcern: `
+    : '';
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    topic: topics[0],
-    message: "",
+    topic: concernMessage ? 'Order help' as const : topics[0],
+    message: concernMessage,
   });
   const [errors, setErrors] = useState<Partial<Record<keyof typeof formData, string>>>({});
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");

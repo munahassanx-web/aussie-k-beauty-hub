@@ -6,6 +6,7 @@ import { useCart, formatAud } from '@/lib/cart';
 import { ladderIndexFor, matchProductByReference } from '@/lib/guide-content';
 import { productSlug } from '@/lib/product-detail';
 import { trackOnce, centsToAud } from '@/lib/analytics';
+import { orderReference } from '@/lib/order-reference';
 
 
 export const Route = createFileRoute('/checkout/return')({
@@ -194,12 +195,14 @@ function CheckoutReturn() {
       </div>
 
       {receipt?.orderId && (
-        <p className="mt-4 text-sm text-muted-foreground">
-          Order ID <span className="font-mono text-foreground">{receipt.orderId}</span> — keep this to{' '}
+        <p className="mt-6 border-y border-border py-5 text-sm text-muted-foreground">
+          <span className="block text-[11px] uppercase tracking-[0.2em]">Your order number</span>
+          <strong className="mt-2 block font-mono text-xl tracking-[0.08em] text-foreground">{orderReference(receipt.orderId)}</strong>
+          <span className="mt-2 block">Keep this number to{' '}
           <Link to="/track" className="underline underline-offset-4">
             track your order
           </Link>
-          .
+          .</span>
         </p>
       )}
 

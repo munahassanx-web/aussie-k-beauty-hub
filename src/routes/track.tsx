@@ -74,7 +74,7 @@ function TrackOrderPage() {
       <p className="text-xs uppercase tracking-[0.2em] text-primary">Order status</p>
       <h1 className="mt-3 font-display text-4xl text-foreground">Track your order</h1>
       <p className="mt-3 text-muted-foreground">
-        No account needed. Enter the email you checked out with and the order ID from your confirmation email.
+        No account needed. Enter the email you checked out with and the order number from your confirmation email.
       </p>
 
       <form onSubmit={onSubmit} className="mt-8 space-y-4 rounded-2xl border border-border p-6">
@@ -95,14 +95,14 @@ function TrackOrderPage() {
         </div>
         <div>
           <label htmlFor="track-order-id" className="text-sm text-foreground">
-            Order ID
+            Order number
           </label>
           <input
             id="track-order-id"
             required
             value={orderId}
             onChange={(e) => setOrderId(e.target.value)}
-            placeholder="e.g. 3f9c1a20-5c1e-4b2f-9a77-0b1f2c3d4e5f"
+            placeholder="e.g. SG-10482ABC"
             className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 font-mono text-sm text-foreground outline-none focus:border-primary"
           />
         </div>
