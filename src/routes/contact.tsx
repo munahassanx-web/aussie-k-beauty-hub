@@ -323,3 +323,6 @@ function Contact() {
           </p>
         </div>
       </section>
+    </div>
+  );
+}
