@@ -904,11 +904,22 @@ export type Database = {
           customer_name: string | null
           id: string
           is_published: boolean
+          moderated_at: string | null
+          moderated_by: string | null
+          moderation_reason: string | null
+          order_id: string | null
           product_id: string
           rating: number
+          response_at: string | null
+          response_text: string | null
           review_text: string | null
           sentiment_score: number | null
+          skin_type: string | null
+          status: string
           tags: string[]
+          time_used: string | null
+          title: string | null
+          updated_at: string
           verified_purchase: boolean
         }
         Insert: {
@@ -918,11 +929,22 @@ export type Database = {
           customer_name?: string | null
           id?: string
           is_published?: boolean
+          moderated_at?: string | null
+          moderated_by?: string | null
+          moderation_reason?: string | null
+          order_id?: string | null
           product_id: string
           rating: number
+          response_at?: string | null
+          response_text?: string | null
           review_text?: string | null
           sentiment_score?: number | null
+          skin_type?: string | null
+          status?: string
           tags?: string[]
+          time_used?: string | null
+          title?: string | null
+          updated_at?: string
           verified_purchase?: boolean
         }
         Update: {
@@ -932,14 +954,33 @@ export type Database = {
           customer_name?: string | null
           id?: string
           is_published?: boolean
+          moderated_at?: string | null
+          moderated_by?: string | null
+          moderation_reason?: string | null
+          order_id?: string | null
           product_id?: string
           rating?: number
+          response_at?: string | null
+          response_text?: string | null
           review_text?: string | null
           sentiment_score?: number | null
+          skin_type?: string | null
+          status?: string
           tags?: string[]
+          time_used?: string | null
+          title?: string | null
+          updated_at?: string
           verified_purchase?: boolean
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "reviews_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       routine_bundles: {
         Row: {
