@@ -45,7 +45,7 @@ export function SignedOutPanel({
           <Link to="/track" className="underline underline-offset-4 hover:text-primary">
             track a guest order
           </Link>{' '}
-          with your order ID and email.
+          with your order number and email.
         </p>
       </div>
 

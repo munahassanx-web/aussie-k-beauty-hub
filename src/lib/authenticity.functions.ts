@@ -17,15 +17,26 @@ import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
 export type PublicCardItem = {
   productName: string;
   brand: string | null;
+  size: string | null;
   quantity: number;
+  supplier: 'UMMA' | 'Seoul4PM' | null;
+  receivedInMelbourneOn: string | null;
+  checkedOn: string | null;
   batchCode: string | null;
-  originCountry: string | null;
+  printedDateType: 'Expiry date' | 'Manufactured date' | null;
+  printedDate: string | null;
+  packagingSealStatus: string | null;
+  productCondition: string | null;
+  verificationStatus: 'Checked before dispatch';
 };
 
 export type PublicVerification =
   | {
       state: 'valid';
       cardRef: string;
+      status: 'Active';
+      version: number;
+      updatedAt: string;
       verifiedAt: string | null;
       issuedAt: string;
       dispatchedAt: string | null;
@@ -35,6 +46,18 @@ export type PublicVerification =
   | { state: 'revoked' | 'superseded' | 'unknown' };
 
 export type OpsCardItem = { productName: string; brand: string | null; quantity: number; sku: string | null };
+
+export type VerificationItemEvidence = OpsCardItem & {
+  size: string;
+  supplier: 'UMMA' | 'Seoul4PM' | '';
+  receivedInMelbourneOn: string;
+  checkedOn: string;
+  batchCode: string;
+  printedDateType: 'Expiry date' | 'Manufactured date' | '';
+  printedDate: string;
+  packagingSealStatus: string;
+  productCondition: string;
+};
 
 export type OpsCard = {
   id: string;
@@ -56,6 +79,44 @@ async function assertStaff(context: { supabase: any; userId: string }) {
   const { data, error } = await context.supabase.rpc('is_fulfillment_staff', { _user_id: context.userId });
   if (error || data !== true) throw new Error('Unauthorized: fulfilment staff only');
 }
+
+/** Order-line draft for staff evidence entry. Contains no customer data. */
+export const getAuthenticityItemDraft = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { orderId: string }) => {
+    if (!input?.orderId) throw new Error('Missing order id');
+    return input;
+  })
+  .handler(async ({ data, context }): Promise<VerificationItemEvidence[]> => {
+    await assertStaff(context as any);
+    const { data: order, error } = await (context.supabase as any)
+      .from('orders')
+      .select('line_items')
+      .eq('id', data.orderId)
+      .maybeSingle();
+    if (error) throw new Error(error.message);
+    if (!order) throw new Error('Order not found');
+    const { SHOP_PRODUCTS, productSizeFor } = await import('@/lib/shop-catalog');
+    const today = new Date().toISOString().slice(0, 10);
+    return (Array.isArray(order.line_items) ? order.line_items : []).map((line: any) => {
+      const product = SHOP_PRODUCTS.find((candidate) => candidate.priceId === line?.lookupKey);
+      return {
+        productName: product?.name ?? String(line?.name ?? 'Item'),
+        brand: product?.brand ?? null,
+        quantity: Math.max(1, Number(line?.quantity ?? 1)),
+        sku: typeof line?.lookupKey === 'string' ? line.lookupKey : null,
+        size: product ? productSizeFor(product) ?? '' : '',
+        supplier: '',
+        receivedInMelbourneOn: '',
+        checkedOn: today,
+        batchCode: '',
+        printedDateType: '',
+        printedDate: '',
+        packagingSealStatus: '',
+        productCondition: '',
+      };
+    });
+  });
 
 function mapOpsCard(row: any, items: any[]): OpsCard {
   return {
@@ -118,9 +179,18 @@ export const getOrderAuthenticityCards = createServerFn({ method: 'POST' })
  */
 export const issueAuthenticityCard = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: { orderId: string; checklist: Record<string, boolean>; reason?: string | null }) => {
+  .inputValidator((input: { orderId: string; checklist: Record<string, boolean>; items: VerificationItemEvidence[]; reason?: string | null }) => {
     if (!input?.orderId) throw new Error('Missing order id');
     if (!input.checklist || typeof input.checklist !== 'object') throw new Error('Missing checklist');
+    if (!Array.isArray(input.items) || input.items.length === 0) throw new Error('Product verification details are required');
+    for (const item of input.items) {
+      if (!item.size.trim() || !item.supplier || !item.receivedInMelbourneOn || !item.checkedOn || !item.batchCode.trim() || !item.packagingSealStatus.trim() || !item.productCondition.trim()) {
+        throw new Error('Complete every required product verification field');
+      }
+      if ((item.printedDateType && !item.printedDate) || (!item.printedDateType && item.printedDate)) {
+        throw new Error('Choose a printed date type and date together');
+      }
+    }
     if (input.reason && input.reason.length > 300) throw new Error('Reason too long');
     return input;
   })
@@ -151,13 +221,26 @@ export const issueAuthenticityCard = createServerFn({ method: 'POST' })
 
     const { SHOP_PRODUCTS } = await import('@/lib/shop-catalog');
     const lines: any[] = Array.isArray(order.line_items) ? order.line_items : [];
-    const items = lines.map((l) => {
+    const items = lines.map((l, index) => {
       const match = SHOP_PRODUCTS.find((p) => p.priceId === l?.lookupKey);
+      const evidence = data.items[index];
+      if (!evidence || evidence.sku !== ((l?.lookupKey as string | null) ?? null)) {
+        throw new Error('Product verification details no longer match this order');
+      }
       return {
         product_name: match ? match.name : String(l?.name ?? 'Item'),
         brand: match ? match.brand : null,
         quantity: Math.max(1, Number(l?.quantity ?? 1)),
         sku: (l?.lookupKey as string | null) ?? null,
+        size: evidence.size.trim(),
+        supplier: evidence.supplier,
+        received_in_melbourne_on: evidence.receivedInMelbourneOn,
+        checked_on: evidence.checkedOn,
+        batch_code: evidence.batchCode.trim(),
+        printed_date_type: evidence.printedDateType || null,
+        printed_date: evidence.printedDate || null,
+        packaging_seal_status: evidence.packagingSealStatus.trim(),
+        product_condition: evidence.productCondition.trim(),
       };
     });
 
@@ -165,14 +248,15 @@ export const issueAuthenticityCard = createServerFn({ method: 'POST' })
     const cardRef = generateCardRef();
     const tokenHash = await hashToken(token);
 
-    const { data: cardId, error } = await supabase.rpc('issue_authenticity_card', {
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+    const { data: cardId, error } = await supabaseAdmin.rpc('issue_authenticity_card', {
       _order_id: data.orderId,
       _card_ref: cardRef,
       _token_hash: tokenHash,
       _token_prefix: token.slice(0, 6),
       _checklist: checklist,
       _items: items,
-      _reissue_reason: data.reason?.trim() || null,
+      _reissue_reason: data.reason?.trim() || undefined,
     });
     if (error) throw new Error(error.message);
 
@@ -217,7 +301,7 @@ export const getVerificationRecord = createServerFn({ method: 'POST' })
 
     const { data: card } = await supabaseAdmin
       .from('authenticity_cards')
-      .select('id, card_ref, status, issued_at, verified_at, checklist, order_id')
+        .select('id, card_ref, status, version, issued_at, verified_at, updated_at, checklist, order_id')
       .eq('token_hash', tokenHash)
       .maybeSingle();
 
@@ -227,7 +311,7 @@ export const getVerificationRecord = createServerFn({ method: 'POST' })
     const [{ data: items }, { data: order }] = await Promise.all([
       supabaseAdmin
         .from('authenticity_card_items')
-        .select('product_name, brand, quantity, batch_code, origin_country, position')
+        .select('product_name, brand, size, quantity, supplier, received_in_melbourne_on, checked_on, batch_code, printed_date_type, printed_date, packaging_seal_status, product_condition, verification_status, position')
         .eq('card_id', card.id)
         .order('position', { ascending: true }),
       supabaseAdmin.from('orders').select('dispatched_at, shipped_at').eq('id', card.order_id).maybeSingle(),
@@ -246,15 +330,26 @@ export const getVerificationRecord = createServerFn({ method: 'POST' })
     return {
       state: 'valid',
       cardRef: card.card_ref,
+      status: 'Active',
+      version: card.version,
+      updatedAt: card.updated_at,
       issuedAt: card.issued_at,
       verifiedAt: card.verified_at ?? null,
       dispatchedAt: (order?.dispatched_at as string | null) ?? (order?.shipped_at as string | null) ?? null,
       items: ((items ?? []) as any[]).map((i) => ({
         productName: i.product_name,
         brand: i.brand ?? null,
+        size: i.size,
         quantity: i.quantity ?? 1,
-        batchCode: i.batch_code ?? null,
-        originCountry: i.origin_country ?? null,
+        supplier: i.supplier,
+        receivedInMelbourneOn: i.received_in_melbourne_on,
+        checkedOn: i.checked_on,
+        batchCode: i.batch_code,
+        printedDateType: i.printed_date_type ?? null,
+        printedDate: i.printed_date ?? null,
+        packagingSealStatus: i.packaging_seal_status,
+        productCondition: i.product_condition,
+        verificationStatus: i.verification_status,
       })),
       checks,
     };

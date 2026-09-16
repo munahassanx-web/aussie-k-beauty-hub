@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useServerFn } from '@tanstack/react-start';
 import {
   getOrderAuthenticityCards,
+  getAuthenticityItemDraft,
   issueAuthenticityCard,
   revokeAuthenticityCard,
   type OpsCard,
+  type VerificationItemEvidence,
 } from '@/lib/authenticity.functions';
 import { CHECK_LABELS_OPS, OPTIONAL_CHECKS, REQUIRED_CHECKS, type CheckKey } from '@/lib/authenticity-checks';
 import { AuthenticityCardPrint } from '@/components/admin/authenticity-card-print';
@@ -33,6 +35,7 @@ function when(value: string | null) {
 export function AuthenticityPanel({ orderId, enabled }: { orderId: string; enabled: boolean }) {
   const qc = useQueryClient();
   const fetchCards = useServerFn(getOrderAuthenticityCards);
+  const fetchDraft = useServerFn(getAuthenticityItemDraft);
   const issue = useServerFn(issueAuthenticityCard);
   const revoke = useServerFn(revokeAuthenticityCard);
 
@@ -45,15 +48,29 @@ export function AuthenticityPanel({ orderId, enabled }: { orderId: string; enabl
 
   const [checks, setChecks] = useState<Record<string, boolean>>({});
   const [reason, setReason] = useState('');
+  const [items, setItems] = useState<VerificationItemEvidence[]>([]);
   // The raw token exists only in this browser session, for printing.
   const [issued, setIssued] = useState<{ cardRef: string; verifyUrl: string } | null>(null);
 
   const cards = (q.data ?? []) as OpsCard[];
+  const draft = useQuery({
+    queryKey: ['authenticity-item-draft', orderId],
+    queryFn: () => fetchDraft({ data: { orderId } }),
+    enabled,
+    retry: false,
+  });
+  useEffect(() => {
+    if (draft.data?.length) setItems(draft.data);
+  }, [draft.data]);
   const active = cards.find((c) => c.status === 'active') ?? null;
-  const readyToIssue = REQUIRED_CHECKS.every((k) => checks[k] === true);
+  const itemEvidenceComplete = items.length > 0 && items.every((item) =>
+    Boolean(item.size.trim() && item.supplier && item.receivedInMelbourneOn && item.checkedOn && item.batchCode.trim() && item.packagingSealStatus.trim() && item.productCondition.trim()) &&
+    Boolean((item.printedDateType && item.printedDate) || (!item.printedDateType && !item.printedDate)),
+  );
+  const readyToIssue = REQUIRED_CHECKS.every((k) => checks[k] === true) && itemEvidenceComplete;
 
   const issueMutation = useMutation({
-    mutationFn: () => issue({ data: { orderId, checklist: checks, reason: reason.trim() || null } }),
+    mutationFn: () => issue({ data: { orderId, checklist: checks, items, reason: reason.trim() || null } }),
     onSuccess: (res) => {
       setIssued({
         cardRef: res.cardRef,
@@ -178,6 +195,28 @@ export function AuthenticityPanel({ orderId, enabled }: { orderId: string; enabl
             ))}
           </fieldset>
 
+          <div className="mt-5 space-y-4 border-t border-border pt-4">
+            <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Products verified in this parcel</p>
+            {items.map((item, index) => {
+              const update = (field: keyof VerificationItemEvidence, value: string) =>
+                setItems((current) => current.map((entry, i) => i === index ? { ...entry, [field]: value } : entry));
+              return (
+                <fieldset key={`${item.sku ?? item.productName}-${index}`} className="grid gap-3 rounded-xl border border-border p-4 sm:grid-cols-2">
+                  <legend className="px-1 text-sm text-foreground">{item.brand ? `${item.brand} ` : ''}{item.productName} × {item.quantity}</legend>
+                  <label className="text-xs text-muted-foreground">Size<input value={item.size} onChange={(e) => update('size', e.target.value)} className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground" required /></label>
+                  <label className="text-xs text-muted-foreground">Supplier<select value={item.supplier} onChange={(e) => update('supplier', e.target.value)} className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground" required><option value="">Select</option><option value="UMMA">UMMA</option><option value="Seoul4PM">Seoul4PM</option></select></label>
+                  <label className="text-xs text-muted-foreground">Received in Melbourne<input type="date" value={item.receivedInMelbourneOn} onChange={(e) => update('receivedInMelbourneOn', e.target.value)} className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground" required /></label>
+                  <label className="text-xs text-muted-foreground">Checked by Skin Grocer<input type="date" value={item.checkedOn} onChange={(e) => update('checkedOn', e.target.value)} className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground" required /></label>
+                  <label className="text-xs text-muted-foreground">Batch or lot code<input value={item.batchCode} onChange={(e) => update('batchCode', e.target.value)} placeholder="Exactly as printed" className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground" required /></label>
+                  <label className="text-xs text-muted-foreground">Printed date type<select value={item.printedDateType} onChange={(e) => update('printedDateType', e.target.value)} className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground"><option value="">Not printed / not recorded</option><option value="Expiry date">Expiry date</option><option value="Manufactured date">Manufactured date</option></select></label>
+                  {item.printedDateType && <label className="text-xs text-muted-foreground">{item.printedDateType}<input type="date" value={item.printedDate} onChange={(e) => update('printedDate', e.target.value)} className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground" required /></label>}
+                  <label className="text-xs text-muted-foreground">Packaging and seal status<input value={item.packagingSealStatus} onChange={(e) => update('packagingSealStatus', e.target.value)} placeholder="Record observed condition" className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground" required /></label>
+                  <label className="text-xs text-muted-foreground">Product condition<input value={item.productCondition} onChange={(e) => update('productCondition', e.target.value)} placeholder="Record observed condition" className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground" required /></label>
+                </fieldset>
+              );
+            })}
+          </div>
+
           {active && (
             <div className="mt-3">
               <label htmlFor="reissue-reason" className="text-sm text-foreground">
@@ -205,7 +244,7 @@ export function AuthenticityPanel({ orderId, enabled }: { orderId: string; enabl
             {issueMutation.isPending ? 'Issuing…' : active ? 'Reissue card' : 'Issue card'}
           </button>
           {!readyToIssue && (
-            <span className="ml-3 text-xs text-muted-foreground">Complete the required checks first.</span>
+            <span className="ml-3 text-xs text-muted-foreground">Complete the checklist and every product record first.</span>
           )}
           {issueMutation.isError && (
             <p className="mt-2 text-sm text-destructive">{(issueMutation.error as Error).message}</p>

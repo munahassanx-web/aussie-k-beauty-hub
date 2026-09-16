@@ -478,27 +478,29 @@ export type TrackedOrder = OrderReceipt & {
 };
 
 /**
- * Guest order tracking: requires BOTH the order id (an unguessable uuid) and the
- * email it was placed with, so knowing one alone reveals nothing.
+ * Tracking requires both the customer-facing SG reference and checkout email.
+ * Invalid and unmatched combinations are intentionally indistinguishable.
  */
 export const trackOrder = createServerFn({ method: 'POST' })
   .inputValidator((data: { orderId: string; email: string }) => {
-    const orderId = data.orderId.trim().toLowerCase();
+    const orderId = data.orderId.trim().toUpperCase().replace(/^SG-/, '');
     const email = data.email.trim().toLowerCase();
-    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(orderId)) {
-      throw new Error('That order ID does not look right. Check the confirmation email.');
-    }
-    if (!isValidEmail(email)) throw new Error('Enter the email you used at checkout.');
+    if (!/^[0-9A-F]{8}$/.test(orderId) || !isValidEmail(email)) return { orderId: '', email: '' };
     return { orderId, email };
   })
   .handler(async ({ data }): Promise<TrackedOrder | null> => {
+    if (!data.orderId || !data.email) return null;
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
-    const { data: order } = await supabaseAdmin
+    const lowerBound = `${data.orderId.toLowerCase()}-0000-0000-0000-000000000000`;
+    const upperBound = `${data.orderId.toLowerCase()}-ffff-ffff-ffff-ffffffffffff`;
+    const { data: orders } = await supabaseAdmin
       .from('orders')
       .select('*')
-      .eq('id', data.orderId)
-      .maybeSingle();
-    if (!order) return null;
+      .gte('id', lowerBound)
+      .lte('id', upperBound)
+      .limit(2);
+    if (!orders || orders.length !== 1) return null;
+    const order = orders[0];
 
     const row = order as Record<string, any>;
     const guestEmail = typeof row['guest_email'] === 'string' ? row['guest_email'].toLowerCase() : null;

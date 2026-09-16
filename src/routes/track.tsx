@@ -11,12 +11,12 @@ export const Route = createFileRoute('/track')({
       {
         name: 'description',
         content:
-          'Check the status of a Skin Grocer order with your email and order ID — no account needed. Dispatched from Melbourne.',
+          'Check the status of a Skin Grocer order with your email and order number — no account needed. Dispatched from Melbourne.',
       },
       { property: 'og:title', content: 'Track your order — Skin Grocer' },
       {
         property: 'og:description',
-        content: 'Enter your email and order ID to see fulfilment status and tracking for your Skin Grocer order.',
+        content: 'Enter your email and order number to see fulfilment status and tracking for your Skin Grocer order.',
       },
       { property: 'og:type', content: 'website' },
       { property: 'og:url', content: 'https://skingrocer.com.au/track' },
@@ -56,7 +56,7 @@ function TrackOrderPage() {
     try {
       const result = await trackOrder({ data: { orderId, email } });
       if (!result) {
-        setError("We couldn't find an order with that email and order ID. Check the details in your confirmation email.");
+        setError("We couldn't match those details. Check the email and order number in your confirmation email.");
       } else {
         setOrder(result);
       }
@@ -74,7 +74,7 @@ function TrackOrderPage() {
       <p className="text-xs uppercase tracking-[0.2em] text-primary">Order status</p>
       <h1 className="mt-3 font-display text-4xl text-foreground">Track your order</h1>
       <p className="mt-3 text-muted-foreground">
-        No account needed. Enter the email you checked out with and the order ID from your confirmation email.
+        No account needed. Enter the email you checked out with and the order number from your confirmation email.
       </p>
 
       <form onSubmit={onSubmit} className="mt-8 space-y-4 rounded-2xl border border-border p-6">
@@ -95,14 +95,14 @@ function TrackOrderPage() {
         </div>
         <div>
           <label htmlFor="track-order-id" className="text-sm text-foreground">
-            Order ID
+            Order number
           </label>
           <input
             id="track-order-id"
             required
             value={orderId}
             onChange={(e) => setOrderId(e.target.value)}
-            placeholder="e.g. 3f9c1a20-5c1e-4b2f-9a77-0b1f2c3d4e5f"
+            placeholder="e.g. SG-10482ABC"
             className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 font-mono text-sm text-foreground outline-none focus:border-primary"
           />
         </div>
@@ -193,7 +193,7 @@ function TrackOrderPage() {
       )}
 
       <p className="mt-6 text-sm text-muted-foreground">
-        Can't find your order ID?{' '}
+        Can't find your order number?{' '}
         <Link to="/contact" className="underline">
           Contact us
         </Link>{' '}
