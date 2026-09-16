@@ -4,7 +4,15 @@ import { z } from 'zod';
 export const contactSchema = z.object({
   name: z.string().trim().min(1, 'Name is required').max(100, 'Name must be less than 100 characters'),
   email: z.string().trim().email('Please enter a valid email').max(255, 'Email must be less than 255 characters'),
-  topic: z.enum(['Routine guidance', 'Order help', 'Vending machine partnerships', 'Something else'], {
+  topic: z.enum([
+    'Product or routine guidance',
+    'Existing order support',
+    'Shipping or delivery question',
+    'Return or product concern',
+    'Verification-record concern',
+    'Brand, supplier or press enquiry',
+    'Something else',
+  ], {
     message: 'Please select a topic',
   }),
   message: z.string().trim().min(1, 'Message is required').max(2000, 'Message must be less than 2000 characters'),
