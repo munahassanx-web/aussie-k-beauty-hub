@@ -9,13 +9,29 @@ import { submitContactForm } from "@/lib/contact.functions";
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
   email: z.string().trim().email("Please enter a valid email").max(255, "Email must be less than 255 characters"),
-  topic: z.enum(["Routine guidance", "Order help", "Vending machine partnerships", "Something else"], {
+  topic: z.enum([
+    "Product or routine guidance",
+    "Existing order support",
+    "Shipping or delivery question",
+    "Return or product concern",
+    "Verification-record concern",
+    "Brand, supplier or press enquiry",
+    "Something else",
+  ], {
     message: "Please select a topic",
   }),
   message: z.string().trim().min(1, "Message is required").max(2000, "Message must be less than 2000 characters"),
 });
 
-const topics = ["Routine guidance", "Order help", "Vending machine partnerships", "Something else"] as const;
+const topics = [
+  "Product or routine guidance",
+  "Existing order support",
+  "Shipping or delivery question",
+  "Return or product concern",
+  "Verification-record concern",
+  "Brand, supplier or press enquiry",
+  "Something else",
+] as const;
 
 export const Route = createFileRoute("/contact")({
   validateSearch: (search: Record<string, unknown>): { verification?: string; product?: string } => {
@@ -27,7 +43,7 @@ export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact — Skin Grocer" },
-      { name: "description", content: "Talk to the Skin Grocer team — routine guidance, order help, and vending machine partnerships in Australia." },
+      { name: "description", content: "Contact Skin Grocer for Korean skincare guidance, order support, shipping questions, product concerns and brand enquiries." },
 
       { property: "og:title", content: "Contact — Skin Grocer" },
       { property: "og:description", content: "We're here to help you glow." },
@@ -46,7 +62,7 @@ function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    topic: concernMessage ? 'Order help' as const : topics[0],
+    topic: concernMessage ? 'Verification-record concern' as const : topics[0],
     message: concernMessage,
   });
   const [errors, setErrors] = useState<Partial<Record<keyof typeof formData, string>>>({});
@@ -101,7 +117,7 @@ function Contact() {
         hangul="연락하기"
         title="Say hello."
         titleAccent="We answer personally."
-        lede="Routine help, order tracking or vending partnerships — a real Melbourne team, usually within a few hours."
+        lede="Routine guidance, order support or product questions—answered personally by our Melbourne team."
         cta={{ label: "Shop the edit", to: "/shop" }}
         tone="plum"
         index="03"
@@ -120,7 +136,7 @@ function Contact() {
             <div>
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">General &amp; business enquiries</dt>
               <dd className="mt-1 font-display text-xl text-foreground sm:text-2xl">info@skingrocer.com.au</dd>
-              <p className="mt-1 text-sm text-muted-foreground">Suppliers, partnerships, wholesale, vending machines and press.</p>
+              <p className="mt-1 text-sm text-muted-foreground">Brand partnerships, Korean skincare suppliers, professional collaborations and press enquiries.</p>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">Warehouse</dt>
@@ -131,11 +147,8 @@ function Contact() {
               <dd className="mt-1 font-display text-xl text-foreground sm:text-2xl">Mon–Sat, 9am–6pm AEST</dd>
             </div>
             <div>
-              <dt className="text-xs uppercase tracking-wider text-muted-foreground">Next-day cutoff</dt>
-              <dd className="mt-1 font-display text-xl text-foreground sm:text-2xl">
-                Order by 12pm*
-                <span className="mt-2 block font-body text-xs text-muted-foreground">*Order before 12pm AEST/AEDT on a business day for same-day dispatch. Transit times vary by destination — see our Shipping Policy.</span>
-              </dd>
+              <dt className="text-xs uppercase tracking-wider text-muted-foreground">Response time</dt>
+              <dd className="mt-1 font-display text-xl text-foreground sm:text-2xl">We aim to respond within 1–2 business days.</dd>
             </div>
           </dl>
 
@@ -149,7 +162,7 @@ function Contact() {
           {status === "success" ? (
             <div className="flex h-full flex-col items-center justify-center text-center">
               <h2 className="font-display text-3xl text-foreground">Message received ✨</h2>
-              <p className="mt-3 text-muted-foreground">We'll be back to you shortly. In the meantime, your skin is in good hands.</p>
+              <p className="mt-3 text-muted-foreground">We aim to respond within 1–2 business days.</p>
               <button
                 type="button"
                 onClick={() => {
@@ -247,9 +260,9 @@ function Contact() {
             <h2 className="mt-3 font-display text-3xl text-foreground md:text-4xl">Delivery coverage & timing.</h2>
           </div>
           <p className="max-w-md text-muted-foreground">
-            We ship Australia-wide with Australia Post from our Melbourne warehouse. Most orders are
-            picked, packed and dispatched the same day when placed before 12pm AEST. Transit times below are
-            Australia Post estimates and depend on your postcode.
+            Orders are dispatched from our Epping, Victoria warehouse. Current dispatch estimates and delivery
+            options are available in our Shipping Policy. Transit times below are Australia Post estimates and
+            depend on your postcode.
           </p>
         </div>
 
@@ -279,12 +292,12 @@ function Contact() {
             <p className="text-xs uppercase tracking-wider text-muted-foreground">WA & NT</p>
             <p className="mt-2 font-display text-2xl text-foreground">2–5 business days</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Typical transit time; we’ll share tracking as soon as it ships.
+              Estimated Australia Post transit after dispatch; timing depends on your postcode.
             </p>
           </div>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border bg-secondary/30 p-6">
+        <div className="mt-8 grid gap-5 rounded-2xl border border-border bg-secondary/30 p-6 md:grid-cols-2">
           <div className="flex items-center gap-4">
             <div className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background">
               <span className="text-sm">$</span>
@@ -294,9 +307,11 @@ function Contact() {
               <p className="text-sm text-muted-foreground">A$9.95 flat rate for orders under A$100.</p>
             </div>
           </div>
-          <p className="text-xs text-muted-foreground">
-            *All transit times are typical estimates from dispatch, not guarantees. Business days exclude public holidays.
-          </p>
+          <div className="text-sm text-muted-foreground">
+            <p className="font-medium text-foreground">Documented batch verification</p>
+            <p>Orders include a QR verification card linked to the receiving and packaging checks recorded for the parcel.</p>
+          </div>
+          <p className="text-xs text-muted-foreground md:col-span-2">All transit times are estimates from dispatch, not guarantees. Business days exclude public holidays.</p>
         </div>
       </section>
 
