@@ -943,41 +943,8 @@ function ProductPage() {
         <ProductReviews productId={product.priceId} productName={product.name} brand={product.brand} />
       )}
 
-      {/* Complete your routine — grouped by the routine steps that follow this product. */}
-      {!restricted && routineGroups.length > 0 && (
-        <section className="mt-14 border-t border-border pt-10">
-          <h2 className="font-display text-2xl text-foreground">Complete your routine</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            {routineRoleSentence(product)} {routineDirectionSentence(product, routineGroups)}
-          </p>
-          <p className="mt-3 text-xs text-muted-foreground">
-            You do not need every product shown. Choose according to your skin, current routine and
-            ingredient suitability.
-          </p>
-          <div className="mt-10 space-y-12">
-            {routineGroups.map((group) => (
-              <div key={group.stepLabel}>
-                <h3 className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-                  {group.educationalNote
-                    ? `Step ${STEP_NUMBER[group.stepLabel]} — Sunscreen`
-                    : `Step ${STEP_NUMBER[group.stepLabel]} — choose ${STEP_CHOICE[group.stepLabel] ?? 'one'}`}
-                </h3>
-                {group.educationalNote ? (
-                  <p className="mt-4 text-sm text-muted-foreground">{group.educationalNote}</p>
-                ) : (
-                <div className="mt-6 flex gap-8 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible lg:gap-x-8">
-                  {group.products.map((r) => (
-                    <div key={r.priceId} className="w-64 shrink-0 sm:w-auto">
-                      <ProductCard product={r} compact />
-                    </div>
-                  ))}
-                </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* Complete your routine — at most three products, one per routine step. */}
+      {!restricted && <RoutineRecommendations product={product} />}
 
       {/* Mobile purchase bar — reuses the exact buy handler, price and availability above. */}
       {availableToPurchase && showMobilePurchase && (
