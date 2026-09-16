@@ -1,0 +1,2 @@
+REVOKE EXECUTE ON FUNCTION public.issue_authenticity_card(uuid, text, text, text, jsonb, jsonb, text) FROM authenticated;
+GRANT EXECUTE ON FUNCTION public.issue_authenticity_card(uuid, text, text, text, jsonb, jsonb, text) TO service_role;
