@@ -95,7 +95,7 @@ const megaMenus: Record<string, MegaSection[]> = {
 };
 
 const announcements = [
-  "Free standard delivery over A$100",
+  "Free standard delivery from A$100",
   "Authenticity verified",
   "Dispatched from Melbourne",
 ];

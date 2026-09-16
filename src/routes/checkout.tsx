@@ -5,7 +5,6 @@ import { getStripe, getStripeEnvironment } from '@/lib/stripe';
 import { useAuth } from '@/hooks/use-auth';
 import { useCart, formatAud, FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS } from '@/lib/cart';
 import { createCartCheckout, createGuestCartCheckout } from '@/lib/commerce.functions';
-import { useCircle } from '@/hooks/use-circle';
 import { track, centsToAud } from '@/lib/analytics';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
 
@@ -27,7 +26,6 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 function Checkout() {
   const cart = useCart();
   const { user, loading } = useAuth();
-  const { isCircle } = useCircle();
   const navigate = useNavigate();
   const [started, setStarted] = useState(false);
   const [emailError, setEmailError] = useState<string | null>(null);
@@ -46,9 +44,7 @@ function Checkout() {
   }, [guestEmail]);
 
   const hasSubscription = cart.lines.some((l) => l.recurring);
-  // Circle members ship free on Express Post — the server applies the same rule.
-  const circleExpress = isCircle && !hasSubscription;
-  const shippingCents = circleExpress ? 0 : cart.shippingCents;
+  const shippingCents = cart.shippingCents;
   const grandTotal = Math.max(0, cart.subtotalCents + shippingCents);
 
   const fetchClientSecret = async (): Promise<string> => {
@@ -169,7 +165,7 @@ function Checkout() {
           <span>{formatAud(cart.subtotalCents)}</span>
         </div>
         <div className="flex justify-between text-muted-foreground">
-          <span>{circleExpress ? 'Circle member · Free Express Post' : 'Standard shipping'}</span>
+          <span>Standard shipping</span>
           <span>
             {cart.hasSubscription ? 'Included' : shippingCents === 0 ? 'Free' : formatAud(FLAT_SHIPPING_CENTS)}
           </span>
@@ -182,7 +178,7 @@ function Checkout() {
           Includes GST. Your final total is confirmed before you pay.
         </p>
       </div>
-      {!cart.hasSubscription && !circleExpress && cart.subtotalCents < FREE_SHIPPING_THRESHOLD_CENTS && (
+      {!cart.hasSubscription && cart.subtotalCents < FREE_SHIPPING_THRESHOLD_CENTS && (
         <p className="mt-3 text-[11px] text-muted-foreground">
           Add {formatAud(FREE_SHIPPING_THRESHOLD_CENTS - cart.subtotalCents)} more to qualify for free shipping.
         </p>

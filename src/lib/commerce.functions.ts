@@ -11,7 +11,6 @@ import {
   resolvePrices,
   shippingOptionFor,
   shippingSelectionFor,
-  isActiveCircleRow,
   subtotalCents,
 } from '@/lib/commerce.server';
 import {
@@ -136,23 +135,13 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
       const customerId = await resolveOrCreateCustomer(stripe, userId, email);
       const description = lineDescriptor(lines);
 
-      // Circle entitlement is read from the server-side subscriptions ledger the
-      // Stripe webhook writes — never from anything the client sends.
-      const { data: circleRows } = await supabase
-        .from('subscriptions')
-        .select('price_id, status, current_period_end')
-        .eq('user_id', userId)
-        .eq('environment', data.environment);
-      const circleExpress = (circleRows ?? []).some((r) => isActiveCircleRow(r as any));
-
-      const selection = shippingSelectionFor(subtotal, circleExpress);
-      const shippingOption = isSubscription ? null : shippingOptionFor(subtotal, circleExpress);
+      const selection = shippingSelectionFor(subtotal);
+      const shippingOption = isSubscription ? null : shippingOptionFor(subtotal);
       const shippingCents = shippingOption?.shipping_rate_data.fixed_amount.amount ?? 0;
 
       logCommerce('checkout', 'shipping.selected', {
         trace,
         userId: shortId(userId),
-        circleExpress,
         service: isSubscription ? 'subscription' : selection.service,
         shippingCents,
       });

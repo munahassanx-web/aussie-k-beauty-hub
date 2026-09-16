@@ -683,7 +683,7 @@ function ProductPage() {
                 <div className="mt-5 space-y-2 border-t border-border pt-4 text-xs text-muted-foreground">
                   <p className="flex items-center gap-2"><BadgeCheck className="h-4 w-4 shrink-0" aria-hidden="true" />Batch checked and authenticity recorded</p>
                   <p className="flex items-center gap-2"><PackageCheck className="h-4 w-4 shrink-0" aria-hidden="true" />Dispatched from our Melbourne warehouse</p>
-                  <p className="flex items-center gap-2"><Truck className="h-4 w-4 shrink-0" aria-hidden="true" />Free standard delivery on Australian orders over A$100</p>
+                  <p className="flex items-center gap-2"><Truck className="h-4 w-4 shrink-0" aria-hidden="true" />Free standard delivery on Australian orders of A$100 or more</p>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                   <Link to="/verify/sample" className="underline underline-offset-4 hover:text-foreground">View verification process</Link>
