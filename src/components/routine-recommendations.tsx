@@ -256,14 +256,26 @@ export function RoutineRecommendations({ product }: { product: ShopProduct }) {
           <button
             type="button"
             onClick={addAllThree}
+            disabled={bundleBusy || bundleAdded || !cart.ready}
+            aria-busy={bundleBusy}
             aria-label={`Add these 3 steps to bag, total ${formatAud(totalCents)} AUD`}
-            className="min-h-11 w-full border border-foreground px-5 text-[11px] font-medium uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:w-auto"
+            className="min-h-11 w-full border border-foreground px-5 text-[11px] font-medium uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
           >
-            {bundleAdded ? 'Added' : `Add these 3 steps to bag — ${formatAud(totalCents)} AUD total`}
+            {bundleAdded
+              ? '3 steps added'
+              : `Add these 3 steps to bag — ${formatAud(totalCents)} AUD total`}
           </button>
           <p className="mt-2 text-xs text-muted-foreground">
             Total shown excludes the product you are viewing.
           </p>
+          <p className="sr-only" aria-live="polite" aria-atomic="true">
+            {bundleAdded ? '3 steps added to bag' : bundleError}
+          </p>
+          {bundleError && (
+            <p className="mt-2 text-xs text-destructive" role="alert">
+              {bundleError}
+            </p>
+          )}
         </div>
       )}
 
