@@ -147,7 +147,7 @@ export function RoutineRecommendations({ product }: { product: ShopProduct }) {
         Boolean(entry) && isPurchasable(p.priceId) && !isSoldOut(p.priceId),
     );
     if (!resolvable) {
-      setBundleError('Sorry, one of these steps is no longer available. Nothing was added to your bag.');
+      setBundleError('We couldn’t add this routine. Please add each product individually.');
       return;
     }
     setBundleBusy(true);
