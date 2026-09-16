@@ -1,12 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { Link } from '@tanstack/react-router';
 import { FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS, formatAud, useCart } from '@/lib/cart';
-import { useCircle } from '@/hooks/use-circle';
 import { sizeForPriceId } from '@/lib/shop-catalog';
 
 export function CartDrawer() {
   const cart = useCart();
-  const { isCircle } = useCircle();
   const panelRef = useRef<HTMLDivElement>(null);
   const open = cart.open;
 
@@ -92,18 +90,7 @@ export function CartDrawer() {
           </div>
         ) : (
           <>
-            {!cart.hasSubscription && isCircle && (
-              <div className="border-b border-border px-6 py-4 sm:px-7">
-                <p className="text-[11px] uppercase tracking-[0.16em] text-foreground">
-                  Circle member · Free Express Post
-                </p>
-                <p className="mt-1 text-[11px] normal-case tracking-normal text-muted-foreground">
-                  Australia Post Express Post, applied at checkout on every order.
-                </p>
-              </div>
-            )}
-
-            {!cart.hasSubscription && !isCircle && (
+            {!cart.hasSubscription && (
               <div className="border-b border-border px-6 py-4 sm:px-7">
                 <p className="text-[11px] uppercase tracking-[0.16em] text-foreground">
                   {remainingForFree > 0 ? (
@@ -201,12 +188,10 @@ export function CartDrawer() {
                   <span>{formatAud(cart.subtotalCents)}</span>
                 </div>
                 <div className="flex justify-between text-sm text-muted-foreground">
-                  <span>{isCircle && !cart.hasSubscription ? 'Express Post · Circle member' : 'Standard shipping'}</span>
+                  <span>Standard shipping</span>
                   <span>
-                    {cart.hasSubscription || isCircle
-                      ? cart.hasSubscription
-                        ? 'Included'
-                        : 'Free'
+                    {cart.hasSubscription
+                      ? 'Included'
                       : cart.shippingCents === 0
                         ? 'Free'
                         : formatAud(FLAT_SHIPPING_CENTS)}
@@ -216,7 +201,7 @@ export function CartDrawer() {
               <div className="mt-4 flex items-baseline justify-between border-t border-border pt-4">
                 <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Total</span>
                 <span className="font-display text-[1.75rem] leading-none text-foreground">
-                  {formatAud(isCircle && !cart.hasSubscription ? cart.subtotalCents : cart.totalCents)}
+                  {formatAud(cart.totalCents)}
                 </span>
               </div>
               <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
