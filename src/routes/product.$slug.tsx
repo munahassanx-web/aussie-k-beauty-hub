@@ -928,7 +928,9 @@ function ProductPage() {
       />
       )}
 
-      {!restricted && (
+      {/* Reviews only exist for products people can actually buy — never on
+          Coming Soon or otherwise unavailable SKUs. */}
+      {!restricted && availableToPurchase && (
         <ProductReviews productId={product.priceId} productName={product.name} brand={product.brand} />
       )}
 
