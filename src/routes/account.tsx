@@ -181,7 +181,7 @@ function AccountPage() {
                   <Link to="/track" className="underline underline-offset-4 hover:text-primary">
                     track that order
                   </Link>{' '}
-                  with its order ID.
+                  with its order number.
                 </p>
                 <Link
                   to="/shop"

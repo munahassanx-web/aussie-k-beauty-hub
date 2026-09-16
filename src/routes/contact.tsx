@@ -18,10 +18,12 @@ const contactSchema = z.object({
 const topics = ["Routine guidance", "Order help", "Vending machine partnerships", "Something else"] as const;
 
 export const Route = createFileRoute("/contact")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    verification: typeof search.verification === 'string' ? search.verification.slice(0, 40) : '',
-    product: typeof search.product === 'string' ? search.product.slice(0, 180) : '',
-  }),
+  validateSearch: (search: Record<string, unknown>): { verification?: string; product?: string } => {
+    const parsed: { verification?: string; product?: string } = {};
+    if (typeof search.verification === 'string' && search.verification.trim()) parsed.verification = search.verification.slice(0, 40);
+    if (typeof search.product === 'string' && search.product.trim()) parsed.product = search.product.slice(0, 180);
+    return parsed;
+  },
   head: () => ({
     meta: [
       { title: "Contact — Skin Grocer" },

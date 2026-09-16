@@ -256,7 +256,7 @@ export const issueAuthenticityCard = createServerFn({ method: 'POST' })
       _token_prefix: token.slice(0, 6),
       _checklist: checklist,
       _items: items,
-      _reissue_reason: data.reason?.trim() || null,
+      _reissue_reason: data.reason?.trim() || undefined,
     });
     if (error) throw new Error(error.message);
 
