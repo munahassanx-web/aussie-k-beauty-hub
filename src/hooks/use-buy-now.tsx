@@ -52,7 +52,7 @@ export function useBuyNow() {
       unitCents: entry.unitCents || priceToCents(opts.priceLabel),
       recurring: opts.priceId.startsWith('restock_') || opts.priceId.startsWith('circle_'),
     });
-    cart.setOpen(true);
+    if (opts.openCart !== false) cart.setOpen(true);
     return true;
   }
 
