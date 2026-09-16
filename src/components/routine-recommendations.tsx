@@ -3,8 +3,8 @@ import { Link } from '@tanstack/react-router';
 import { WishlistButton } from '@/components/wishlist-button';
 import { useBuyNow } from '@/hooks/use-buy-now';
 import { useSoldOutSkus } from '@/hooks/use-stock';
-import { formatAud, useCart } from '@/lib/cart';
-import { catalogEntryFor, isPurchasable, priceToCents } from '@/lib/shop-catalog';
+import { useCart } from '@/lib/cart';
+import { isPurchasable } from '@/lib/shop-catalog';
 import type { ShopProduct } from '@/lib/shop-catalog';
 import {
   ROUTINE_STEP_NAME,
@@ -28,8 +28,8 @@ function RecommendationAddButton({
 }) {
   const { buy } = useBuyNow();
   const cart = useCart();
-  const [busy, setBusy] = useState(false);
-  const [added, setAdded] = useState(false);
+  // Local visual state keyed implicitly by this card's canonical product ID.
+  const [state, setState] = useState<'idle' | 'adding' | 'added' | 'error'>('idle');
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(
@@ -40,13 +40,13 @@ function RecommendationAddButton({
   );
 
   const sellable = isPurchasable(product.priceId) && !outOfStock;
-  const disabled = !sellable || !cart.ready || busy || added;
+  const disabled = !sellable || !cart.ready || state !== 'idle';
 
   function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     event.stopPropagation();
     if (disabled) return;
-    setBusy(true);
+    setState('adding');
     const didAdd = buy({
       priceId: product.priceId,
       name: product.name,
@@ -57,14 +57,28 @@ function RecommendationAddButton({
       // and block the next control.
       openCart: false,
     });
-    setBusy(false);
-    if (!didAdd) return;
-    setAdded(true);
+    if (!didAdd) {
+      setState('error');
+      if (timer.current) clearTimeout(timer.current);
+      timer.current = setTimeout(() => setState('idle'), 2500);
+      return;
+    }
+    setState('added');
     if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => setAdded(false), 1800);
+    timer.current = setTimeout(() => setState('idle'), 1500);
   }
 
   if (!isPurchasable(product.priceId)) return null;
+
+  const label = outOfStock
+    ? 'Out of stock'
+    : !cart.ready
+      ? 'Loading…'
+      : state === 'adding'
+        ? 'Adding…'
+        : state === 'added'
+          ? 'Added ✓'
+          : 'Add to bag';
 
   return (
     <>
@@ -73,14 +87,19 @@ function RecommendationAddButton({
         onClick={handleClick}
         disabled={disabled}
         aria-label={`Add ${product.brand} ${product.name} to bag`}
-        aria-busy={busy}
+        aria-busy={state === 'adding'}
         className="min-h-11 w-full rounded-[2px] bg-foreground px-4 text-[11px] font-medium uppercase tracking-[0.18em] text-background transition-colors hover:bg-foreground/85 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {outOfStock ? 'Out of stock' : !cart.ready ? 'Loading…' : added ? 'Added' : 'Add to bag'}
+        {label}
       </button>
       <span className="sr-only" aria-live="polite" aria-atomic="true">
-        {added ? `${product.brand} ${product.name} added to bag` : ''}
+        {state === 'added' ? `${product.brand} ${product.name} added to bag` : ''}
       </span>
+      {state === 'error' && (
+        <p className="mt-2 text-xs text-destructive" role="alert">
+          Couldn’t add—please try again
+        </p>
+      )}
     </>
   );
 }
@@ -92,13 +111,8 @@ function RecommendationAddButton({
  */
 export function RoutineRecommendations({ product }: { product: ShopProduct }) {
   const { isSoldOut } = useSoldOutSkus();
-  const { buy } = useBuyNow();
-  const cart = useCart();
   const trackRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(0);
-  const [bundleBusy, setBundleBusy] = useState(false);
-  const [bundleAdded, setBundleAdded] = useState(false);
-  const [bundleError, setBundleError] = useState('');
 
   const recommendations = routineRecommendations(product).filter(
     (r) => !isSoldOut(r.product.priceId),
@@ -108,71 +122,11 @@ export function RoutineRecommendations({ product }: { product: ShopProduct }) {
   const currentStepNumber = ROUTINE_STEP_NUMBER[product.category];
   const currentStepName = ROUTINE_STEP_NAME[product.category];
 
-  // Canonical catalogue records, resolved by stable price/SKU id — the same
-  // records the cart itself uses.
-  const bundleEntries = recommendations.map((r) => ({
-    product: r.product,
-    entry: catalogEntryFor(r.product.priceId),
-  }));
-  const allInStock =
-    recommendations.length === 3 &&
-    bundleEntries.every(
-      ({ product: p, entry }) =>
-        Boolean(entry) &&
-        isPurchasable(p.priceId) &&
-        !isSoldOut(p.priceId) &&
-        (entry?.unitCents || priceToCents(p.price ?? '')) > 0,
-    );
-  const totalCents = bundleEntries.reduce(
-    (sum, { product: p, entry }) => sum + (entry?.unitCents || priceToCents(p.price ?? '')),
-    0,
-  );
-
   function onScroll() {
     const el = trackRef.current;
     if (!el) return;
     const width = el.clientWidth || 1;
     setVisible(Math.min(recommendations.length - 1, Math.round(el.scrollLeft / width)));
-  }
-
-  function addAllThree(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    event.stopPropagation();
-    if (bundleBusy || bundleAdded || !cart.ready) return;
-    setBundleError('');
-    // Resolve and check everything before adding anything, so a problem can
-    // never leave a half-filled bag.
-    const resolvable = bundleEntries.every(
-      ({ product: p, entry }) =>
-        Boolean(entry) && isPurchasable(p.priceId) && !isSoldOut(p.priceId),
-    );
-    if (!resolvable) {
-      setBundleError('We couldn’t add this routine. Please add each product individually.');
-      return;
-    }
-    setBundleBusy(true);
-    const seen = new Set<string>();
-    const added = bundleEntries.map(({ product: p }) => {
-      if (seen.has(p.priceId)) return true;
-      seen.add(p.priceId);
-      return buy({
-        priceId: p.priceId,
-        name: p.name,
-        priceLabel: `${p.price} AUD`,
-        brand: p.brand,
-        image: p.image,
-        openCart: false,
-      });
-    });
-    setBundleBusy(false);
-    if (added.some((ok) => !ok)) {
-      setBundleError('We couldn’t add this routine. Please add each product individually.');
-      return;
-    }
-    setBundleAdded(true);
-    window.setTimeout(() => {
-      setBundleAdded(false);
-    }, 2000);
   }
 
   return (
@@ -256,34 +210,6 @@ export function RoutineRecommendations({ product }: { product: ShopProduct }) {
         <p className="mt-3 text-xs text-muted-foreground sm:hidden" aria-live="polite">
           {visible + 1} of {recommendations.length}
         </p>
-      )}
-
-      {allInStock && (
-        <div className="mt-6">
-          <button
-            type="button"
-            onClick={addAllThree}
-            disabled={bundleBusy || bundleAdded || !cart.ready}
-            aria-busy={bundleBusy}
-            aria-label={`Add these 3 steps to bag, total ${formatAud(totalCents)} AUD`}
-            className="min-h-11 w-full border border-foreground px-5 text-[11px] font-medium uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-          >
-            {bundleAdded
-              ? '3 steps added'
-              : `Add these 3 steps to bag — ${formatAud(totalCents)} AUD total`}
-          </button>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Total shown excludes the product you are viewing.
-          </p>
-          <p className="sr-only" aria-live="polite" aria-atomic="true">
-            {bundleAdded ? '3 steps added to bag' : bundleError}
-          </p>
-          {bundleError && (
-            <p className="mt-2 text-xs text-destructive" role="alert">
-              {bundleError}
-            </p>
-          )}
-        </div>
       )}
 
       <p className="mt-6 text-sm text-muted-foreground">{ROUTINE_SUNSCREEN_NOTE}</p>
