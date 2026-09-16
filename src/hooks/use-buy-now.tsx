@@ -15,6 +15,8 @@ export type BuyOptions = {
   priceLabel: string;
   brand?: string;
   image?: string;
+  /** Open the cart drawer after adding. Defaults to true. */
+  openCart?: boolean;
 };
 
 /**
@@ -50,7 +52,7 @@ export function useBuyNow() {
       unitCents: entry.unitCents || priceToCents(opts.priceLabel),
       recurring: opts.priceId.startsWith('restock_') || opts.priceId.startsWith('circle_'),
     });
-    cart.setOpen(true);
+    if (opts.openCart !== false) cart.setOpen(true);
     return true;
   }
 

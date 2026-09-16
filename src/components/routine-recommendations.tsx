@@ -53,6 +53,9 @@ function RecommendationAddButton({
       priceLabel: `${product.price} AUD`,
       brand: product.brand,
       image: product.image,
+      // Stay on the product page: the drawer would cover the confirmation
+      // and block the next control.
+      openCart: false,
     });
     setBusy(false);
     if (!didAdd) return;
@@ -144,22 +147,26 @@ export function RoutineRecommendations({ product }: { product: ShopProduct }) {
         Boolean(entry) && isPurchasable(p.priceId) && !isSoldOut(p.priceId),
     );
     if (!resolvable) {
-      setBundleError('Sorry, one of these steps is no longer available. Nothing was added to your bag.');
+      setBundleError('We couldn’t add this routine. Please add each product individually.');
       return;
     }
     setBundleBusy(true);
-    const added = bundleEntries.map(({ product: p }) =>
-      buy({
+    const seen = new Set<string>();
+    const added = bundleEntries.map(({ product: p }) => {
+      if (seen.has(p.priceId)) return true;
+      seen.add(p.priceId);
+      return buy({
         priceId: p.priceId,
         name: p.name,
         priceLabel: `${p.price} AUD`,
         brand: p.brand,
         image: p.image,
-      }),
-    );
+        openCart: false,
+      });
+    });
     setBundleBusy(false);
     if (added.some((ok) => !ok)) {
-      setBundleError('Sorry, we could not add every step just now. Please check your bag.');
+      setBundleError('We couldn’t add this routine. Please add each product individually.');
       return;
     }
     setBundleAdded(true);
