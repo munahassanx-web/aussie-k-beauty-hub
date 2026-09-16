@@ -5,7 +5,13 @@
 import type { ReactNode } from 'react';
 import { Link } from '@tanstack/react-router';
 import type { ShopProduct } from '@/lib/shop-catalog';
-import { supplyRestricted } from '@/lib/product-detail';
+import { contentInPreparation } from '@/lib/shop-catalog';
+import {
+  supplyRestricted,
+  productTypeLabel,
+  routineStepLabel,
+  routinePosition,
+} from '@/lib/product-detail';
 
 export type Faq = {
   q: string;
@@ -239,38 +245,93 @@ export const TREND_FAQS: Faq[] = [
 
 // --- Product-level FAQs -----------------------------------------------------
 
+/**
+ * Exact, approved answers for individual SKUs. Keyed by priceId so wording can
+ * never be inferred from a product name, concern tag or category.
+ */
+const PRODUCT_FAQ_OVERRIDES: Record<string, { goodFor?: string; compatibility?: string }> = {
+  dr_g_red_blemish_clear_soothing_foam_150ml_onetime: {
+    goodFor:
+      'This is a rinse-off facial cleanser used as Step 1 of a skincare routine. It removes everyday surface impurities before toner, treatment and moisturiser. Review the full ingredient list and packaging directions to determine whether the formula suits your skin.',
+    compatibility:
+      'Use it before toner or essence, treatment products and moisturiser. In the morning, finish with a broad-spectrum sunscreen lawfully supplied in Australia. The cleanser itself does not require you to avoid retinal or exfoliating acids unless the verified formula or packaging directions provide a specific warning.',
+  },
+  dr_g_r_e_d_blemish_clear_soothing_cream_70ml_onetime: {
+    goodFor:
+      'This is a lightweight moisturising cream used as Step 4 of a skincare routine. It provides the final moisturising layer after toner and treatment products. Individual suitability varies, so review the full ingredient list before introducing it.',
+    compatibility:
+      'Apply it after toner, essence and treatment products. In the morning, follow with a broad-spectrum sunscreen lawfully supplied in Australia. There is no verified ingredient interaction requiring you to separate this moisturiser from retinal or exfoliating acids; follow the packaging directions for each product you use.',
+  },
+  wellage_hyper_pdrn_repair_ampoule_30ml_onetime: {
+    goodFor:
+      'This ampoule is used as Step 3 — treat in a skincare routine. Apply it after cleansing and toner or essence, then follow with moisturiser. Any specific benefit statement comes from the product’s reviewed source record rather than its name alone.',
+    compatibility:
+      'Layer it after toner or essence and before moisturiser. If you already use strong active treatments, introduce one new product at a time so you can assess how your skin responds. No confirmed incompatibility is claimed unless the verified formula or packaging directions support it.',
+  },
+};
+
+/** Neutral, routine-step based compatibility wording. Never category warnings. */
+function defaultCompatibility(p: ShopProduct): string {
+  const tail =
+    ' Introduce one new product at a time so you can assess how your skin responds, and follow the directions printed on each product.';
+  switch (p.category) {
+    case 'Cleanse':
+      return (
+        'Use it before toner or essence, treatment products and moisturiser. In the morning, finish with a broad-spectrum sunscreen lawfully supplied in Australia.' +
+        tail
+      );
+    case 'Tone':
+      return (
+        'Use it after cleansing and before treatment products and moisturiser. In the morning, finish with a broad-spectrum sunscreen lawfully supplied in Australia.' +
+        tail
+      );
+    case 'Treat':
+      return 'Layer it after toner or essence and before moisturiser. If you already use strong active treatments, introduce one new product at a time so you can assess how your skin responds, and follow the directions printed on each product.';
+    case 'Moisturise':
+      return (
+        'Apply it after toner, essence and treatment products as the final moisturising layer. In the morning, follow with a broad-spectrum sunscreen lawfully supplied in Australia.' +
+        tail
+      );
+    case 'Masks':
+      return (
+        'Use it after cleansing, in the position stated in its reviewed instructions, then continue with the remaining steps of your routine.' +
+        tail
+      );
+    default:
+      return 'Follow the directions printed on the packaging and introduce one new product at a time so you can assess how your skin responds.';
+  }
+}
+
+/** Neutral role-based answer used when no verified benefit statement exists. */
+function defaultGoodFor(p: ShopProduct): string {
+  const type = productTypeLabel(p);
+  const article = /^[aeiou]/i.test(type) ? 'an' : 'a';
+  return `${p.brand} ${p.name} is ${article} ${type} used as ${routineStepLabel(p)} in a skincare routine. ${routinePosition(p)} Review the full ingredient list and packaging directions to determine whether the formula suits your skin.`;
+}
+
 /** Generates factual, product-specific questions from catalog data. */
 export function productFaqs(
   p: ShopProduct,
   opts?: { steps?: string[]; description?: string; usageNote?: string },
 ): Faq[] {
+  // Coming Soon records have no complete, verified answers to publish.
+  if (contentInPreparation(p)) return [];
+
+  const override = PRODUCT_FAQ_OVERRIDES[p.priceId];
+
   const stepText = opts?.steps?.length
     ? [opts.steps.join(' '), opts.usageNote].filter(Boolean).join(' ')
     : `The brand's directions for ${p.name} are printed on the carton. As general guidance for this routine step, apply it to clean skin in the order shown in the How to use section above, then follow with moisturiser and, in the morning, sunscreen.`;
 
-  const concernText = p.concerns.length
-    ? ` It is most often chosen for ${p.concerns.map(concernLabel).join(', ')}.`
-    : '';
+  const goodForAnswer = override?.goodFor ?? p.goodFor ?? defaultGoodFor(p);
+  const compatibility = override?.compatibility ?? defaultCompatibility(p);
 
-  // Products with a sourced, neutral cosmetic role get a compatibility answer
-  // that does not invent interaction rules we cannot support.
-  const compatibility = p.cosmeticRole?.length
-    ? `This is a ${p.category.toLowerCase() === 'tone' ? 'hydrating toner' : p.category.toLowerCase() + ' step product'} rather than a strong exfoliating or retinoid treatment. It may fit alongside many routine types, but suitability depends on the complete formula and the other products you use. Introduce one new product at a time and follow the labelled directions for every product.`
-    : `It generally sits well alongside hydrating and barrier-focused ingredients such as hyaluronic acid, niacinamide, panthenol, ceramides and centella. Introduce one new product at a time, and avoid using it in the same session as a strong exfoliating acid or retinal — alternate those on separate nights.`;
-
-  const goodForAnswer: Faq = p.goodFor
-    ? { q: `What is ${p.brand} ${p.name} good for?`, a: p.goodFor }
-    : {
-        q: `What is ${p.brand} ${p.name} good for?`,
-        a: `${p.brand} ${p.name} is used as the ${p.category.toLowerCase()} step in a Korean skincare routine.${concernText} ${opts?.description ?? ''}`.trim(),
-      };
-
-  return [
+  const items: Faq[] = [
     // No usage question while lawful Australian supply is unverified.
     ...(supplyRestricted(p)
       ? []
       : [{ q: `How do I use ${p.brand} ${p.name}?`, a: stepText }]),
-    goodForAnswer,
+    { q: `What is ${p.brand} ${p.name} good for?`, a: goodForAnswer },
     {
       q: `Is ${p.brand} ${p.name} authentic, and where does it ship from?`,
       a: (
@@ -289,22 +350,20 @@ export function productFaqs(
       q: `What can I use ${p.brand} ${p.name} with?`,
       a: compatibility,
     },
-
-    {
-      q: `How much does ${p.brand} ${p.name} cost in Australia?`,
-      a: `${p.brand} ${p.name} is ${p.price} AUD at Skin Grocer, priced in Australian dollars including GST with no import surcharge at checkout.`,
-    },
+    ...(p.price
+      ? [
+          {
+            q: `How much does ${p.brand} ${p.name} cost in Australia?`,
+            a: `${p.brand} ${p.name} is ${p.price} AUD at Skin Grocer, priced in Australian dollars including GST with no import surcharge at checkout.`,
+          },
+        ]
+      : []),
   ];
-}
 
-function concernLabel(c: ShopProduct['concerns'][number]): string {
-  const map: Record<string, string> = {
-    hydration: 'hydration and glow',
-    acne: 'congestion and excess oil',
-    pigmentation: 'the look of uneven tone',
-    sensitivity: 'comfort for reactive skin',
-    'anti-aging': 'firmness and the look of fine lines',
-    barrier: 'barrier comfort',
-  };
-  return map[c] ?? c;
+  // Never render an empty question or an empty answer.
+  return items.filter((f) => {
+    if (!f.q.trim()) return false;
+    if (typeof f.a === 'string') return f.a.trim().length > 0;
+    return Boolean(f.a);
+  });
 }
