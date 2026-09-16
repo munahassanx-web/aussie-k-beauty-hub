@@ -4,6 +4,12 @@ import { supabase } from '@/integrations/supabase/client';
 import { lovable } from '@/integrations/lovable';
 
 export const Route = createFileRoute('/auth')({
+  // Only a same-origin path is ever honoured as a return destination.
+  validateSearch: (search: Record<string, unknown>) => {
+    const raw = typeof search['redirect'] === 'string' ? (search['redirect'] as string) : '';
+    const safe = raw.startsWith('/') && !raw.startsWith('//') ? raw : '';
+    return safe ? { redirect: safe } : {};
+  },
   head: () => ({
     meta: [
       { title: 'Sign in — Skin Grocer' },
@@ -28,6 +34,16 @@ type Mode = 'signin' | 'signup' | 'forgot' | 'reset';
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { redirect } = Route.useSearch();
+
+  /** Return the customer where they came from (e.g. a product's Reviews section). */
+  function goAfterAuth() {
+    if (redirect) {
+      window.location.assign(redirect);
+      return;
+    }
+    navigate({ to: '/account' });
+  }
   const [mode, setMode] = useState<Mode>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -47,9 +63,10 @@ function AuthPage() {
       return;
     }
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: '/account' });
+      if (data.session) goAfterAuth();
     });
-  }, [navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate, redirect]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -64,12 +81,12 @@ function AuthPage() {
           options: { emailRedirectTo: window.location.origin, data: { full_name: name } },
         });
         if (error) throw error;
-        if (data.session) navigate({ to: '/account' });
+        if (data.session) goAfterAuth();
         else setNotice('Check your inbox to confirm your email address, then sign in.');
       } else if (mode === 'signin') {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        navigate({ to: '/account' });
+        goAfterAuth();
       } else if (mode === 'forgot') {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: `${window.location.origin}/auth`,
@@ -90,9 +107,13 @@ function AuthPage() {
 
   async function handleGoogle() {
     setError(null);
-    const result = await lovable.auth.signInWithOAuth('google', { redirect_uri: window.location.origin });
+    const result = await lovable.auth.signInWithOAuth('google', {
+      redirect_uri: redirect
+        ? `${window.location.origin}/auth?redirect=${encodeURIComponent(redirect)}`
+        : window.location.origin,
+    });
     if (result.error) setError(result.error.message ?? 'Google sign-in failed');
-    else if (!result.redirected) navigate({ to: '/account' });
+    else if (!result.redirected) goAfterAuth();
   }
 
   const heading =
