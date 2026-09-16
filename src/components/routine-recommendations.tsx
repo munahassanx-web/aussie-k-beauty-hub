@@ -90,9 +90,12 @@ function RecommendationAddButton({
 export function RoutineRecommendations({ product }: { product: ShopProduct }) {
   const { isSoldOut } = useSoldOutSkus();
   const { buy } = useBuyNow();
+  const cart = useCart();
   const trackRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(0);
+  const [bundleBusy, setBundleBusy] = useState(false);
   const [bundleAdded, setBundleAdded] = useState(false);
+  const [bundleError, setBundleError] = useState('');
 
   const recommendations = routineRecommendations(product).filter(
     (r) => !isSoldOut(r.product.priceId),
@@ -102,10 +105,23 @@ export function RoutineRecommendations({ product }: { product: ShopProduct }) {
   const currentStepNumber = ROUTINE_STEP_NUMBER[product.category];
   const currentStepName = ROUTINE_STEP_NAME[product.category];
 
+  // Canonical catalogue records, resolved by stable price/SKU id — the same
+  // records the cart itself uses.
+  const bundleEntries = recommendations.map((r) => ({
+    product: r.product,
+    entry: catalogEntryFor(r.product.priceId),
+  }));
   const allInStock =
-    recommendations.length === 3 && recommendations.every((r) => Boolean(r.product.price));
-  const totalCents = recommendations.reduce(
-    (sum, r) => sum + priceToCents(r.product.price ?? ''),
+    recommendations.length === 3 &&
+    bundleEntries.every(
+      ({ product: p, entry }) =>
+        Boolean(entry) &&
+        isPurchasable(p.priceId) &&
+        !isSoldOut(p.priceId) &&
+        (entry?.unitCents || priceToCents(p.price ?? '')) > 0,
+    );
+  const totalCents = bundleEntries.reduce(
+    (sum, { product: p, entry }) => sum + (entry?.unitCents || priceToCents(p.price ?? '')),
     0,
   );
 
@@ -116,17 +132,40 @@ export function RoutineRecommendations({ product }: { product: ShopProduct }) {
     setVisible(Math.min(recommendations.length - 1, Math.round(el.scrollLeft / width)));
   }
 
-  function addAllThree() {
-    if (bundleAdded) return;
-    for (const r of recommendations) {
+  function addAllThree(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (bundleBusy || bundleAdded || !cart.ready) return;
+    setBundleError('');
+    // Resolve and check everything before adding anything, so a problem can
+    // never leave a half-filled bag.
+    const resolvable = bundleEntries.every(
+      ({ product: p, entry }) =>
+        Boolean(entry) && isPurchasable(p.priceId) && !isSoldOut(p.priceId),
+    );
+    if (!resolvable) {
+      setBundleError('Sorry, one of these steps is no longer available. Nothing was added to your bag.');
+      return;
+    }
+    setBundleBusy(true);
+    const added = bundleEntries.map(({ product: p }) =>
       buy({
-        priceId: r.product.priceId,
-        name: r.product.name,
-        priceLabel: `${r.product.price} AUD`,
-      });
+        priceId: p.priceId,
+        name: p.name,
+        priceLabel: `${p.price} AUD`,
+        brand: p.brand,
+        image: p.image,
+      }),
+    );
+    setBundleBusy(false);
+    if (added.some((ok) => !ok)) {
+      setBundleError('Sorry, we could not add every step just now. Please check your bag.');
+      return;
     }
     setBundleAdded(true);
-    window.setTimeout(() => setBundleAdded(false), 2000);
+    window.setTimeout(() => {
+      setBundleAdded(false);
+    }, 2000);
   }
 
   return (
