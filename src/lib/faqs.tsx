@@ -5,7 +5,13 @@
 import type { ReactNode } from 'react';
 import { Link } from '@tanstack/react-router';
 import type { ShopProduct } from '@/lib/shop-catalog';
-import { supplyRestricted } from '@/lib/product-detail';
+import { contentInPreparation } from '@/lib/shop-catalog';
+import {
+  supplyRestricted,
+  productTypeLabel,
+  routineStepLabel,
+  routinePosition,
+} from '@/lib/product-detail';
 
 export type Faq = {
   q: string;
