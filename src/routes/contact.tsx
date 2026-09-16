@@ -258,38 +258,38 @@ function Contact() {
           </div>
           <p className="max-w-md text-muted-foreground">
             Orders are dispatched from our Epping, Victoria warehouse. Current dispatch estimates and delivery
-            options are available in our Shipping Policy. Transit times below are Australia Post estimates and
-            depend on your postcode.
+            options are available in our Shipping Policy. Australia Post transit estimates begin after dispatch,
+            depend on your postcode and are not guaranteed.
           </p>
         </div>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-2xl border border-border bg-secondary/30 p-6">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">Melbourne metro</p>
-            <p className="mt-2 font-display text-2xl text-foreground">1–2 business days</p>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Order processing</p>
+            <p className="mt-2 font-display text-2xl text-foreground">Before carrier transit</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Estimated transit after dispatch from our Epping warehouse — not a guarantee.
+              Dispatch timing is separate from Australia Post delivery estimates.
             </p>
           </div>
           <div className="rounded-2xl border border-border bg-secondary/30 p-6">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">Sydney, Canberra, Adelaide, Brisbane</p>
-            <p className="mt-2 font-display text-2xl text-foreground">1–2 business days</p>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Carrier transit</p>
+            <p className="mt-2 font-display text-2xl text-foreground">Postcode based</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Estimated metro transit on Australia Post’s standard service.
+              Australia Post estimates begin after your order has been dispatched.
             </p>
           </div>
           <div className="rounded-2xl border border-border bg-secondary/30 p-6">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">Regional Australia</p>
-            <p className="mt-2 font-display text-2xl text-foreground">2–5 business days</p>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Delivery area</p>
+            <p className="mt-2 font-display text-2xl text-foreground">Australia only</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Estimated Australia Post transit to regional addresses after dispatch.
+              We currently deliver to Australian addresses only.
             </p>
           </div>
           <div className="rounded-2xl border border-border bg-secondary/30 p-6">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">WA & NT</p>
-            <p className="mt-2 font-display text-2xl text-foreground">2–5 business days</p>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Current estimates</p>
+            <p className="mt-2 font-display text-2xl text-foreground">Australia Post</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Estimated Australia Post transit after dispatch; timing depends on your postcode.
+              Check the carrier’s current estimate for your destination postcode.
             </p>
           </div>
         </div>

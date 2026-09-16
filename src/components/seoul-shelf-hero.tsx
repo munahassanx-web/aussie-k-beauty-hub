@@ -27,14 +27,14 @@ const SHELF_PICKS = [
 
 const SERVICES = [
   { icon: BadgeCheck, title: "Seoul verified", body: "Checked before dispatch" },
-  { icon: Truck, title: "Next-day dispatch", body: "Shipped from Melbourne" },
+  { icon: Truck, title: "Melbourne dispatch", body: "Processing times apply" },
   { icon: ScanLine, title: "QR routine guide", body: "In every order" },
 ] as const;
 
 const TICKER = [
   "Seoul verified",
-  "Next-day Melbourne dispatch",
-  "Free express shipping over $100",
+  "Dispatched from Melbourne",
+  "Free standard shipping from A$100",
   "Personalised consultation",
   "Authenticity guaranteed",
 ];
