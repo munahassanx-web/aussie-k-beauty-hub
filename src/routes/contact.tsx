@@ -107,7 +107,8 @@ function Contact() {
     }
   };
 
-  const warehouseQuery = "Unit 13/30 Willandra Drive, Epping VIC 3076, Australia";
+
+
 
 
   return (
@@ -137,10 +138,6 @@ function Contact() {
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">General &amp; business enquiries</dt>
               <dd className="mt-1 font-display text-xl text-foreground sm:text-2xl">info@skingrocer.com.au</dd>
               <p className="mt-1 text-sm text-muted-foreground">Brand partnerships, Korean skincare suppliers, professional collaborations and press enquiries.</p>
-            </div>
-            <div>
-              <dt className="text-xs uppercase tracking-wider text-muted-foreground">Warehouse</dt>
-              <dd className="mt-1 font-display text-xl text-foreground sm:text-2xl">Unit 13/30 Willandra Drive, Epping VIC 3076</dd>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">Hours</dt>
@@ -316,33 +313,15 @@ function Contact() {
       </section>
 
       <section className="mt-16">
-        <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">Find us</h2>
-        <div className="mt-4 overflow-hidden rounded-3xl border border-border bg-secondary/30">
-          {/* Keyless Google Maps embed — no API key or billing dependency. */}
-          <iframe
-            title="Skin Grocer warehouse location"
-            src={`https://www.google.com/maps?q=${encodeURIComponent(warehouseQuery)}&output=embed`}
-            width="100%"
-            height="420"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="w-full"
-          />
+        <div className="rounded-3xl border border-border bg-secondary/30 p-8 md:p-10">
+          <h2 className="font-display text-2xl text-foreground md:text-3xl">Melbourne based</h2>
+          <p className="mt-4 max-w-2xl text-muted-foreground">
+            Skin Grocer products are locally stocked and dispatched from our Epping, Victoria warehouse.
+          </p>
+          <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
+            Our warehouse is not currently open for shopping, customer visits or order collection.
+          </p>
         </div>
-        <p className="mt-3 text-sm text-muted-foreground">
-          Unit 13/30 Willandra Drive, Epping VIC 3076 — locally stocked and dispatched from Melbourne.{' '}
-          <a
-            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(warehouseQuery)}`}
-            target="_blank"
-            rel="noreferrer"
-            className="underline underline-offset-4 hover:text-foreground"
-          >
-            Open in Google Maps
-          </a>
-          .
-        </p>
       </section>
     </div>
   );
