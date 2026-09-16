@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import {
   getVerificationRecord,
   recordVerificationScan,
@@ -44,6 +44,10 @@ function Shell({ children }: { children: React.ReactNode }) {
 function dateAU(value: string | null) {
   if (!value) return null;
   return new Date(value).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function Detail({ label, value }: { label: string; value: string }) {
+  return <div className="border-t border-border/70 py-3"><dt className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{label}</dt><dd className="mt-1 text-sm leading-relaxed text-foreground">{value}</dd></div>;
 }
 
 function NotValid({ state }: { state: 'revoked' | 'superseded' | 'unknown' }) {
@@ -100,49 +104,40 @@ function VerifyPage() {
         </p>
       </section>
 
-      <dl className="mt-10 border-y border-border">
-        <div className="flex items-baseline justify-between gap-4 border-b border-border/60 py-3.5">
-          <dt className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Card reference</dt>
-          <dd className="font-mono text-sm tracking-[0.1em] text-foreground">{record.cardRef}</dd>
-        </div>
-        {verified && (
-          <div className="flex items-baseline justify-between gap-4 border-b border-border/60 py-3.5">
-            <dt className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Verified</dt>
-            <dd className="text-sm text-foreground">{verified}</dd>
-          </div>
-        )}
-        {dispatched && (
-          <div className="flex items-baseline justify-between gap-4 py-3.5">
-            <dt className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Dispatched</dt>
-            <dd className="text-sm text-foreground">{dispatched}</dd>
-          </div>
-        )}
+      <dl className="mt-10 grid border-y border-border sm:grid-cols-2 sm:gap-x-8">
+        <Detail label="Verification reference" value={record.cardRef} />
+        <Detail label="Record status" value={record.status} />
+        <Detail label="Parcel checked date" value={verified ?? 'Not recorded'} />
+        <Detail label="Products checked" value={String(record.items.length)} />
+        <Detail label="Checked in" value="Melbourne, Australia" />
+        <Detail label="Record version / last updated" value={`Version ${record.version} · ${dateAU(record.updatedAt) ?? 'Not recorded'}`} />
+        {dispatched && <Detail label="Dispatched" value={dispatched} />}
       </dl>
 
       {record.items.length > 0 && (
-        <section className="mt-10">
-          <h2 className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Products in this order</h2>
-          <ul className="mt-4 divide-y divide-border border-y border-border">
+        <section className="mt-12">
+          <h2 className="font-display text-2xl text-foreground sm:text-3xl">Products verified in this parcel</h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">This record shows the receiving and packaging checks documented by Skin Grocer for the products included in this parcel. It is not laboratory testing or independent certification.</p>
+          <div className="mt-6 grid gap-4">
             {record.items.map((item, i) => (
-              <li key={`${item.productName}-${i}`} className="py-4">
-                <div className="flex items-baseline justify-between gap-4">
-                  <div>
-                    {item.brand && (
-                      <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{item.brand}</p>
-                    )}
-                    <p className="mt-0.5 text-sm text-foreground">{item.productName}</p>
-                  </div>
-                  <span className="shrink-0 text-sm text-muted-foreground">× {item.quantity}</span>
-                </div>
-                {/* Batch / origin render only where evidence was recorded. */}
-                {(item.batchCode || item.originCountry) && (
-                  <p className="mt-1.5 text-xs text-muted-foreground">
-                    {[item.batchCode ? `Batch ${item.batchCode}` : null, item.originCountry].filter(Boolean).join(' · ')}
-                  </p>
-                )}
-              </li>
+              <article key={`${item.productName}-${i}`} className="border border-border bg-secondary/30 p-5">
+                {item.brand && <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{item.brand}</p>}
+                <h3 className="mt-1 font-display text-xl text-foreground">{item.productName}</h3>
+                <dl className="mt-4">
+                  {item.size && <Detail label="Size" value={item.size} />}<Detail label="Quantity" value={String(item.quantity)} />
+                  {item.supplier && <Detail label="Supplier" value={item.supplier} />}
+                  {item.receivedInMelbourneOn && <Detail label="Date received in Melbourne" value={dateAU(item.receivedInMelbourneOn) ?? item.receivedInMelbourneOn} />}
+                  {item.checkedOn && <Detail label="Date Skin Grocer checked it" value={dateAU(item.checkedOn) ?? item.checkedOn} />}
+                  {item.batchCode && <Detail label="Batch or lot code" value={item.batchCode} />}
+                  {item.printedDateType && item.printedDate && <Detail label={item.printedDateType} value={dateAU(item.printedDate) ?? item.printedDate} />}
+                  {item.packagingSealStatus && <Detail label="Packaging and seal status" value={item.packagingSealStatus} />}
+                  {item.productCondition && <Detail label="Product condition" value={item.productCondition} />}
+                  <Detail label="Final verification status" value={item.verificationStatus} />
+                </dl>
+                <Link to="/contact" search={{ verification: record.cardRef, product: `${item.brand ? `${item.brand} ` : ''}${item.productName}` }} className="mt-4 inline-flex min-h-11 items-center text-sm font-medium text-foreground underline underline-offset-4 hover:text-primary">Report a concern about this product</Link>
+              </article>
             ))}
-          </ul>
+          </div>
         </section>
       )}
 
@@ -167,6 +162,7 @@ function VerifyPage() {
           completed before dispatch. It is not a manufacturer certification, and we only show details we have actually
           recorded.
         </p>
+        <p className="mt-4 text-sm text-muted-foreground"><Link to="/about" className="underline underline-offset-4 hover:text-foreground">How we source and verify</Link></p>
         <p className="mt-4 text-sm text-muted-foreground">
           Questions?{' '}
           <a href="mailto:customercare@skingrocer.com.au" className="underline underline-offset-4 hover:text-foreground">
