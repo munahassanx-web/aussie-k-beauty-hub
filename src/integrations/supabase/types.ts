@@ -19,40 +19,67 @@ export type Database = {
           batch_code: string | null
           brand: string | null
           card_id: string
+          checked_on: string | null
           created_at: string
           id: string
           origin_country: string | null
+          packaging_seal_status: string | null
           position: number
+          printed_date: string | null
+          printed_date_type: string | null
+          product_condition: string | null
           product_name: string
           quantity: number
+          received_in_melbourne_on: string | null
+          size: string | null
           sku: string | null
+          supplier: string | null
           supplier_reference: string | null
+          verification_status: string
         }
         Insert: {
           batch_code?: string | null
           brand?: string | null
           card_id: string
+          checked_on?: string | null
           created_at?: string
           id?: string
           origin_country?: string | null
+          packaging_seal_status?: string | null
           position?: number
+          printed_date?: string | null
+          printed_date_type?: string | null
+          product_condition?: string | null
           product_name: string
           quantity?: number
+          received_in_melbourne_on?: string | null
+          size?: string | null
           sku?: string | null
+          supplier?: string | null
           supplier_reference?: string | null
+          verification_status?: string
         }
         Update: {
           batch_code?: string | null
           brand?: string | null
           card_id?: string
+          checked_on?: string | null
           created_at?: string
           id?: string
           origin_country?: string | null
+          packaging_seal_status?: string | null
           position?: number
+          printed_date?: string | null
+          printed_date_type?: string | null
+          product_condition?: string | null
           product_name?: string
           quantity?: number
+          received_in_melbourne_on?: string | null
+          size?: string | null
           sku?: string | null
+          supplier?: string | null
           supplier_reference?: string | null
+          verification_status?: string
         }
         Relationships: [
           {
