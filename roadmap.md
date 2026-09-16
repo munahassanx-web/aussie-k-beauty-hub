@@ -15,3 +15,9 @@
 ## Stage 2D2 BIOHEAL BOH creams
 - [x] Update both creams with reviewed copy, guidance, full ingredient lists, and retailer provenance
 - [x] Verify Coming Soon purchase safeguards, claim exclusions, catalogue totals, tests, and production build
+
+## Parcel verification records and order references
+- [ ] Add recorded batch-level product fields to staff-issued verification records
+- [ ] Upgrade sample and genuine verification pages with privacy-safe product cards and concern links
+- [ ] Standardise customer-facing order numbers across tracking, confirmation pages, and emails
+- [ ] Verify privacy-safe failures and desktop/mobile layouts
