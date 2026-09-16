@@ -350,10 +350,14 @@ export function productFaqs(
       q: `What can I use ${p.brand} ${p.name} with?`,
       a: compatibility,
     },
-    {
-      q: `How much does ${p.brand} ${p.name} cost in Australia?`,
-      a: `${p.brand} ${p.name} is ${p.price} AUD at Skin Grocer, priced in Australian dollars including GST with no import surcharge at checkout.`,
-    },
+    ...(p.price
+      ? [
+          {
+            q: `How much does ${p.brand} ${p.name} cost in Australia?`,
+            a: `${p.brand} ${p.name} is ${p.price} AUD at Skin Grocer, priced in Australian dollars including GST with no import surcharge at checkout.`,
+          },
+        ]
+      : []),
   ];
 
   // Never render an empty question or an empty answer.
