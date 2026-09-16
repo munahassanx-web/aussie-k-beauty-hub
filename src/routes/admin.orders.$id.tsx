@@ -17,6 +17,7 @@ import { AuthenticityPanel } from '@/components/admin/authenticity-panel';
 import { OrderWorkflowGuide } from '@/components/admin/order-workflow-guide';
 import { MyPostPrepPanel } from '@/components/admin/mypost-prep-panel';
 import { useAuth } from '@/hooks/use-auth';
+import { orderReference } from '@/lib/order-reference';
 
 export const Route = createFileRoute('/admin/orders/$id')({
   head: () => ({
@@ -186,7 +187,7 @@ function OrderDetail() {
         <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
           <div>
             <h1 className="font-display text-4xl text-foreground">
-              Order {order.id.slice(0, 8).toUpperCase()}
+              Order {orderReference(order.id)}
               {order.environment !== 'live' && (
                 <span className="ml-3 align-middle rounded-full border border-destructive px-2 py-0.5 text-xs font-semibold uppercase tracking-[0.14em] text-destructive">
                   Test

@@ -96,10 +96,7 @@ export function formatOrderDate(iso: string): string {
   return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
-/** Short human reference for an order — the uuid's first block, uppercased. */
-export function orderReference(id: string): string {
-  return id.split('-')[0]?.toUpperCase() ?? id;
-}
+export { orderReference } from '@/lib/order-reference';
 
 /**
  * Only the statuses the webhook actually writes are given a label. Anything

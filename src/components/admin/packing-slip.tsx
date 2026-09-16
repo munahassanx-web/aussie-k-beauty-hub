@@ -1,4 +1,5 @@
 import type { AdminOrderDetail } from '@/lib/admin-orders.functions';
+import { orderReference } from '@/lib/order-reference';
 
 function money(cents: number, currency = 'AUD') {
   return new Intl.NumberFormat('en-AU', { style: 'currency', currency }).format((cents ?? 0) / 100);
@@ -25,7 +26,7 @@ export function PackingSlip({ order }: { order: AdminOrderDetail }) {
           <p className="text-xs">Seoul Sourced. Skin Assured. · Dispatched from Melbourne, Australia</p>
         </div>
         <div className="text-right text-xs">
-          <p>Order {order.id.slice(0, 8).toUpperCase()}</p>
+          <p>Order {orderReference(order.id)}</p>
           <p>{new Date(order.createdAt).toLocaleDateString('en-AU')}</p>
           <p>{order.isSubscriptionOrder ? 'Restock delivery' : 'One-off order'}</p>
         </div>

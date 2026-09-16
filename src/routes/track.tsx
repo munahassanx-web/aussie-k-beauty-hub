@@ -11,12 +11,12 @@ export const Route = createFileRoute('/track')({
       {
         name: 'description',
         content:
-          'Check the status of a Skin Grocer order with your email and order ID — no account needed. Dispatched from Melbourne.',
+          'Check the status of a Skin Grocer order with your email and order number — no account needed. Dispatched from Melbourne.',
       },
       { property: 'og:title', content: 'Track your order — Skin Grocer' },
       {
         property: 'og:description',
-        content: 'Enter your email and order ID to see fulfilment status and tracking for your Skin Grocer order.',
+        content: 'Enter your email and order number to see fulfilment status and tracking for your Skin Grocer order.',
       },
       { property: 'og:type', content: 'website' },
       { property: 'og:url', content: 'https://skingrocer.com.au/track' },
@@ -56,7 +56,7 @@ function TrackOrderPage() {
     try {
       const result = await trackOrder({ data: { orderId, email } });
       if (!result) {
-        setError("We couldn't find an order with that email and order ID. Check the details in your confirmation email.");
+        setError("We couldn't match those details. Check the email and order number in your confirmation email.");
       } else {
         setOrder(result);
       }
@@ -193,7 +193,7 @@ function TrackOrderPage() {
       )}
 
       <p className="mt-6 text-sm text-muted-foreground">
-        Can't find your order ID?{' '}
+        Can't find your order number?{' '}
         <Link to="/contact" className="underline">
           Contact us
         </Link>{' '}

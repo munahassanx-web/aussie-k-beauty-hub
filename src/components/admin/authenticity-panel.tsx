@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useServerFn } from '@tanstack/react-start';
 import {
@@ -59,7 +59,9 @@ export function AuthenticityPanel({ orderId, enabled }: { orderId: string; enabl
     enabled,
     retry: false,
   });
-  if (items.length === 0 && draft.data?.length) setItems(draft.data);
+  useEffect(() => {
+    if (draft.data?.length) setItems(draft.data);
+  }, [draft.data]);
   const active = cards.find((c) => c.status === 'active') ?? null;
   const itemEvidenceComplete = items.length > 0 && items.every((item) =>
     Boolean(item.size.trim() && item.supplier && item.receivedInMelbourneOn && item.checkedOn && item.batchCode.trim() && item.packagingSealStatus.trim() && item.productCondition.trim()) &&

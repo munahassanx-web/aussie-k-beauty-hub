@@ -17,16 +17,16 @@ import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
 export type PublicCardItem = {
   productName: string;
   brand: string | null;
-  size: string;
+  size: string | null;
   quantity: number;
-  supplier: 'UMMA' | 'Seoul4PM';
-  receivedInMelbourneOn: string;
-  checkedOn: string;
-  batchCode: string;
+  supplier: 'UMMA' | 'Seoul4PM' | null;
+  receivedInMelbourneOn: string | null;
+  checkedOn: string | null;
+  batchCode: string | null;
   printedDateType: 'Expiry date' | 'Manufactured date' | null;
   printedDate: string | null;
-  packagingSealStatus: string;
-  productCondition: string;
+  packagingSealStatus: string | null;
+  productCondition: string | null;
   verificationStatus: 'Checked before dispatch';
 };
 
