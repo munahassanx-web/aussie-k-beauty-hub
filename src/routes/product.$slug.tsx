@@ -9,6 +9,7 @@ import { ProductAccordion } from '@/components/product-accordion';
 import { ProductCard, productSize } from '@/components/product-card';
 
 import { ProductReviews } from '@/components/product-reviews';
+import { RoutineRecommendations } from '@/components/routine-recommendations';
 import { FaqSection } from '@/components/faq-section';
 import { productFaqs, faqJsonLd } from '@/lib/faqs';
 import { track } from '@/lib/analytics';
@@ -36,9 +37,6 @@ import {
   productDescription,
   productSlug,
   productTexture,
-  routineCompanions,
-  routineRoleSentence,
-  routineDirectionSentence,
   routineStepLabel,
   routinePosition,
   hasSourcedCosmeticRole,
@@ -359,7 +357,6 @@ function ProductPage() {
 
   const ingredients = accordionIngredients(product);
   const inci = ingredientReviewRecordComplete(product) ? inciRecord(product) : undefined;
-  const routineGroups = routineCompanions(product);
   const STEP_NUMBER: Record<string, number> = { Cleanse: 1, Tone: 2, Treat: 3, Moisturise: 4, Protect: 5 };
   const STEP_CHOICE: Record<string, string> = {
     Cleanse: 'a cleanser',
