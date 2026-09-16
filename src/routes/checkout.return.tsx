@@ -111,7 +111,7 @@ function CheckoutReturn() {
       <div className="mx-auto max-w-2xl px-6 py-24 text-center">
         <h1 className="font-display text-4xl text-foreground">No order found</h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          If you’ve just paid, check your inbox for the receipt — or look up your order with your email and order ID.
+          If you’ve just paid, check your inbox for the receipt — or look up your order with your email and order number.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link to="/track" className="border border-border px-7 py-3 text-sm uppercase tracking-[0.16em] text-foreground hover:bg-secondary">

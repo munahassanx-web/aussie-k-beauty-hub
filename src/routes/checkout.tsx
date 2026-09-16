@@ -244,7 +244,7 @@ function Checkout() {
                     Email address <span className="text-muted-foreground">(required)</span>
                   </label>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Your receipt, order ID and tracking updates are sent here.
+                    Your receipt, order number and tracking updates are sent here.
                   </p>
                   <input
                     id="guest-email"

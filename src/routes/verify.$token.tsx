@@ -34,7 +34,7 @@ export const Route = createFileRoute('/verify/$token')({
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <main className="mx-auto w-full max-w-xl px-5 py-14 sm:px-6 sm:py-20">
+    <main className="mx-auto w-full max-w-3xl px-5 py-14 sm:px-6 sm:py-20">
       <div className="mx-auto h-px w-14 bg-primary/50" />
       {children}
     </main>
