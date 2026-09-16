@@ -26,4 +26,4 @@
 - [x] Remove public vending-machine references and unsupported rapid-response wording
 - [x] Update enquiry reasons and verification-record prefill behavior
 - [x] Correct shipping language and retain documented delivery and verification trust points
-- [ ] Verify the Contact page on desktop and mobile
+- [x] Verify the Contact page on desktop and mobile
