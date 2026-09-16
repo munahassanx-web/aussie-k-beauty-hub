@@ -300,7 +300,7 @@ function Contact() {
               <span className="text-sm">$</span>
             </div>
             <div>
-              <p className="font-medium text-foreground">Free standard shipping over A$100</p>
+              <p className="font-medium text-foreground">Free standard shipping from A$100</p>
               <p className="text-sm text-muted-foreground">A$9.95 flat rate for orders under A$100.</p>
             </div>
           </div>

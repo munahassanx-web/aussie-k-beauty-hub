@@ -32,4 +32,4 @@
 - [x] Replace guaranteed dispatch and fixed city transit claims with qualified Australia Post guidance
 - [x] Align the policy, bag and checkout to A$9.95 standard delivery and free standard delivery from A$100
 - [x] Remove the paused Circle Express Post benefit from customer-facing and checkout behavior
-- [ ] Verify the policy and shipping totals on desktop and mobile
+- [x] Verify the policy and shipping totals on desktop and mobile
