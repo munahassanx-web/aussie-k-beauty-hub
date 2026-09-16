@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { listPendingReviews, setReviewApproval } from "@/lib/reviews.functions";
+import { listPendingReviews, moderateReview, MODERATION_REASONS } from "@/lib/reviews.functions";
 import { useAuth } from "@/hooks/use-auth";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { Stars } from "@/components/product-reviews";
@@ -24,6 +25,77 @@ function productLabel(productId: string) {
   return p ? `${p.brand} ${p.name}` : productId;
 }
 
+const REASON_LABELS: Record<string, string> = {
+  spam: "Spam",
+  abuse_or_harassment: "Abuse or harassment",
+  personal_information: "Personal information",
+  unrelated_to_product: "Unrelated to the product",
+  unlawful_content: "Unlawful content",
+  unsupported_medical_claims: "Unsupported medical claims",
+  duplicate_submission: "Duplicate submission",
+  not_genuine: "Evidence the review is not genuine",
+};
+
+/**
+ * Approve publishes immediately. Rejecting or removing always records a
+ * documented reason — a review is never rejected merely for being critical.
+ */
+function ModerationActions({
+  id,
+  busy,
+  onAct,
+}: {
+  id: string;
+  busy: boolean;
+  onAct: (status: "approved" | "rejected" | "removed", reason?: string) => void;
+}) {
+  const [reason, setReason] = useState<string>("");
+  return (
+    <div className="mt-4 flex flex-wrap items-center gap-3">
+      <button
+        type="button"
+        disabled={busy}
+        onClick={() => onAct("approved")}
+        className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground disabled:opacity-60"
+      >
+        Approve
+      </button>
+      <label htmlFor={`reason-${id}`} className="sr-only">
+        Moderation reason
+      </label>
+      <select
+        id={`reason-${id}`}
+        value={reason}
+        onChange={(e) => setReason(e.target.value)}
+        className="rounded-xl border border-border bg-background px-3 py-2 text-sm"
+      >
+        <option value="">Select a documented reason…</option>
+        {MODERATION_REASONS.map((r) => (
+          <option key={r} value={r}>
+            {REASON_LABELS[r]}
+          </option>
+        ))}
+      </select>
+      <button
+        type="button"
+        disabled={busy || !reason}
+        onClick={() => onAct("rejected", reason)}
+        className="rounded-full border border-border px-5 py-2 text-sm text-foreground disabled:opacity-40"
+      >
+        Reject
+      </button>
+      <button
+        type="button"
+        disabled={busy || !reason}
+        onClick={() => onAct("removed", reason)}
+        className="rounded-full border border-border px-5 py-2 text-sm text-foreground disabled:opacity-40"
+      >
+        Remove
+      </button>
+    </div>
+  );
+}
+
 function Shell({ children }: { children: React.ReactNode }) {
   return (
     <main className="mx-auto max-w-4xl px-6 py-16">
@@ -38,7 +110,7 @@ function ReviewDesk() {
   const { user, loading } = useAuth();
   const qc = useQueryClient();
   const fetchPending = useServerFn(listPendingReviews);
-  const moderate = useServerFn(setReviewApproval);
+  const moderate = useServerFn(moderateReview);
 
   const pendingQ = useQuery({
     queryKey: ["pending-reviews"],
@@ -48,7 +120,8 @@ function ReviewDesk() {
   });
 
   const act = useMutation({
-    mutationFn: (vars: { id: string; approved: boolean }) => moderate({ data: vars }),
+    mutationFn: (vars: { id: string; status: "approved" | "rejected" | "removed"; reason?: string }) =>
+      moderate({ data: vars }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["pending-reviews"] }),
   });
 
@@ -93,25 +166,13 @@ function ReviewDesk() {
                   {new Date(r.created_at).toLocaleDateString("en-AU")}
                 </span>
               </div>
-              <p className="mt-3 text-sm text-foreground/85">"{r.review_text}"</p>
-              <div className="mt-4 flex gap-3">
-                <button
-                  type="button"
-                  disabled={act.isPending}
-                  onClick={() => act.mutate({ id: r.id, approved: true })}
-                  className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground disabled:opacity-60"
-                >
-                  Approve
-                </button>
-                <button
-                  type="button"
-                  disabled={act.isPending}
-                  onClick={() => act.mutate({ id: r.id, approved: false })}
-                  className="rounded-full border border-border px-5 py-2 text-sm text-foreground disabled:opacity-60"
-                >
-                  Delete
-                </button>
-              </div>
+              {r.title && <p className="mt-3 font-medium text-foreground">{r.title}</p>}
+              <p className="mt-2 text-sm text-foreground/85">{r.review_text}</p>
+              <ModerationActions
+                id={r.id}
+                busy={act.isPending}
+                onAct={(status, reason) => act.mutate({ id: r.id, status, reason })}
+              />
             </article>
           ))}
         </div>
