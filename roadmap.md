@@ -38,4 +38,4 @@
 - [x] Remove the unsupported satisfaction guarantee and its related copy
 - [x] Separate voluntary change-of-mind returns from Australian Consumer Law remedies
 - [x] Add product-concern evidence, skin-reaction, cancellation and last-updated wording
-- [ ] Verify the corrected policy in the live preview on desktop and mobile
+- [x] Verify the corrected policy in the live preview on desktop and mobile
