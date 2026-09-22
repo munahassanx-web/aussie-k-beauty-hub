@@ -981,6 +981,39 @@ type CopyOverride = {
 };
 
 const COPY: Record<string, CopyOverride> = {
+  round_lab_1025_dokdo_trial_kit_onetime: {
+    description:
+      "ROUND LAB 1025 Dokdo Trial Kit — a multi-step trial routine with travel sizes of the cleanser, toner, ampoule and cream, used in that order.",
+    howToUse: [
+      "Step 1 — Cleanser 30ml: use first, on damp skin, then rinse.",
+      "Step 2 — Toner 20ml: apply after cleansing.",
+      "Step 3 — Ampoule 10ml: apply after toner.",
+      "Step 4 — Cream 20ml: apply last, as the final step.",
+      "Suitability and frequency vary — follow the directions printed on each included mini.",
+    ],
+  },
+  torriden_balanceful_trial_kit_onetime: {
+    description:
+      "TORRIDEN Balanceful Trial Kit (Global) — a multi-step trial routine with travel sizes of the cleansing gel, toner pads, serum and cream, used in that order.",
+    howToUse: [
+      "Step 1 — Cleansing Gel 30ml: use first, on damp skin, then rinse.",
+      "Step 2 — Toner Pads (6 pads): sweep over the face after cleansing.",
+      "Step 3 — Serum 10ml: apply after the toner pads.",
+      "Step 4 — Cream 20ml: apply last, as the final step.",
+      "Suitability and frequency vary — follow the directions printed on each included mini.",
+    ],
+  },
+  torriden_dive_in_trial_kit_onetime: {
+    description:
+      "TORRIDEN Dive In Trial Kit (Global) — a multi-step trial routine with travel sizes of the cleansing foam, toner, serum and cream, used in that order.",
+    howToUse: [
+      "Step 1 — Cleansing Foam 30ml: use first, on damp skin, then rinse.",
+      "Step 2 — Toner 50ml: apply after cleansing.",
+      "Step 3 — Serum 20ml: apply after toner.",
+      "Step 4 — Cream 20ml: apply last, as the final step.",
+      "Suitability and frequency vary — follow the directions printed on each included mini.",
+    ],
+  },
   torriden_dive_in_serum_onetime: {
     description:
       'TORRIDEN DIVE-IN Low Molecular Hyaluronic Acid Serum is a lightweight, watery serum built around a 5D-Complex of five hyaluronic acid forms in different molecular weights, so hydration sits at more than one depth instead of just the surface. D-Panthenol, allantoin and madecassoside calm the skin as it absorbs, and the pale blue tint comes from naturally derived malachite extract — no added colourant. Suitable for all skin types, including reactive skin. Made in Korea. 50ml.',

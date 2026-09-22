@@ -120,19 +120,9 @@ export const HOME_FAQS: Faq[] = [
 ];
 
 
-// --- Standalone /faq page: home FAQs plus membership questions ---------------
+// --- Standalone /faq page ----------------------------------------------------
 
-export const FAQ_PAGE_FAQS: Faq[] = [
-  ...HOME_FAQS,
-  {
-    q: 'What is the Restock Club and how do points work?',
-    a: 'Every order earns points automatically — 1 point per A$1 spent. 100 points = A$5 in rewards, redeemable at checkout.',
-  },
-  {
-    q: 'Can I subscribe and save on my favourite products?',
-    a: 'Yes — Subscribe & Save gives 15% off eligible restock products, with 30/45/60/90-day delivery cadence options. You can pause or skip anytime from your account.',
-  },
-];
+export const FAQ_PAGE_FAQS: Faq[] = [...HOME_FAQS];
 
 // --- Shop: choosing and buying ----------------------------------------------
 
