@@ -119,8 +119,8 @@ function About() {
               alt: "An order being packed by hand into a cream box with a wax-sealed provenance card",
 
               step: "Step 03",
-              t: "Packed with a provenance card",
-              d: "Your order ships with a card tracing the product from its Korean source to our Melbourne shelf — so you can see the chain, not just trust it.",
+              t: "Packed with a verification card",
+              d: "Your order ships with a card linking to the receiving and packaging record we created for that parcel. It is not laboratory testing, independent certification, brand endorsement or government certification.",
             },
           ].map((s) => (
             <article key={s.step} className="overflow-hidden rounded-3xl border border-border/60 bg-background">
