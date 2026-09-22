@@ -33,3 +33,9 @@
 - [x] Align the policy, bag and checkout to A$9.95 standard delivery and free standard delivery from A$100
 - [x] Remove the paused Circle Express Post benefit from customer-facing and checkout behavior
 - [x] Verify the policy and shipping totals on desktop and mobile
+
+## Returns and refund policy correction
+- [x] Remove the unsupported satisfaction guarantee and its related copy
+- [x] Separate voluntary change-of-mind returns from Australian Consumer Law remedies
+- [x] Add product-concern evidence, skin-reaction, cancellation and last-updated wording
+- [ ] Verify the corrected policy in the live preview on desktop and mobile
