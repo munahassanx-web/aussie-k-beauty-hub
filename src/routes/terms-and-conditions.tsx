@@ -24,6 +24,9 @@ function TermsAndConditions() {
       <p className="mt-6 text-center text-sm text-muted-foreground">
         These terms apply when you browse skingrocer.com.au or place an order with us.
       </p>
+      <p className="mt-2 text-center text-xs uppercase tracking-[0.2em] text-muted-foreground">
+        Last updated: 22 September 2026
+      </p>
 
       <div className="mt-16 space-y-12">
         <section>

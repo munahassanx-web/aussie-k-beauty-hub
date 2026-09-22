@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { submitStockRequest } from '@/lib/stock-request.functions';
 import { stockRequestSchema } from '@/lib/stock-request';
-import { WATCHLIST_RANKING, RANKING_SNAPSHOT_DATE } from '@/lib/korea-rankings';
+import { WATCHLIST_RANKING } from '@/lib/korea-rankings';
 
 const searchSchema = (search: Record<string, unknown>): { brand?: string; product?: string } => ({
   brand: typeof search['brand'] === 'string' ? search['brand'].slice(0, 120) : undefined,
@@ -97,8 +97,8 @@ function StockRequestPage() {
         </h1>
         <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
           {emailed
-            ? `We've sent a confirmation to ${form.email}. Our buyer reviews requests weekly against the Hwahae ranking snapshot we hold — if this one lands in Melbourne, that address hears first.`
-            : `We've saved your request against ${form.email}. Our confirmation email couldn't go out just now, but the request is on the buyer's list and we'll be in touch if it lands.`}
+            ? `We've sent a confirmation to ${form.email}. Your request is on our buying-research list — if the product lands in our range, that address hears about it.`
+            : `We've saved your request against ${form.email}. Our confirmation email couldn't go out just now, but the request is on our buying-research list.`}
         </p>
         <div className="mt-8 flex flex-wrap gap-6">
           <Link
@@ -132,10 +132,13 @@ function StockRequestPage() {
           Ask us to stock it
         </h1>
         <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
-          Seen something ranking in Korea that isn't on our shelf? Tell us. Every request is logged and reviewed weekly
-          by our buyer against the Hwahae board (snapshot taken {RANKING_SNAPSHOT_DATE} — rankings change, this is a
-          one-off check, not a live feed) and what we can realistically land in Melbourne. We can't promise a date — we
-          can promise you'll hear first if it arrives.
+          Looking for a Korean skincare product that is not currently on our shelf? Tell us what you would like Skin
+          Grocer to investigate.
+        </p>
+        <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">
+          Requests help inform our buying research. We consider supplier availability, lawful Australian supply,
+          formulation information and relevance to the Skin Grocer range. A request does not guarantee that a product
+          will be stocked or provide a confirmed arrival date.
         </p>
       </header>
 
