@@ -44,4 +44,4 @@
 - [x] Audit the live account, checkout, support, email, analytics, Routine Finder and verification data flows
 - [x] Replace outdated collection, provider, cookie, marketing and verification wording
 - [x] Add accurate retention, security, data-breach, under-18, rights and complaint sections
-- [ ] Verify the corrected policy in the live preview on desktop and mobile
+- [x] Verify the corrected policy in the live preview on desktop and mobile
