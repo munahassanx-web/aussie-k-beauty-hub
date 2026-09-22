@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useWishlist } from '@/lib/wishlist';
 import { useBuyNow } from '@/hooks/use-buy-now';
@@ -25,8 +25,24 @@ export const Route = createFileRoute('/wishlist')({
 });
 
 function WishlistPage() {
-  const { ids, loading, signedIn } = useWishlist();
+  const { ids, loading, signedIn, remove } = useWishlist();
   const { buy } = useBuyNow();
+  const [removing, setRemoving] = useState<string | null>(null);
+  const [status, setStatus] = useState('');
+
+  async function handleRemove(priceId: string, label: string) {
+    if (removing) return;
+    setRemoving(priceId);
+    try {
+      await remove(priceId);
+      setStatus(`${label} removed from your saved products`);
+    } catch {
+      setStatus(`Couldn't remove ${label} — please try again.`);
+    } finally {
+      setRemoving(null);
+    }
+  }
+
 
   const saved = useMemo(
     () => ids.map((id) => SHOP_PRODUCTS.find((p) => p.priceId === id)).filter(Boolean) as typeof SHOP_PRODUCTS,
