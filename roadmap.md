@@ -45,3 +45,14 @@
 - [x] Replace outdated collection, provider, cookie, marketing and verification wording
 - [x] Add accurate retention, security, data-breach, under-18, rights and complaint sections
 - [x] Verify the corrected policy in the live preview on desktop and mobile
+
+## Final pre-design launch audit (September 2026)
+- [x] Removed Restock Club / Circle / loyalty points / Subscribe & Save from FAQ, Terms, checkout components and sitemap (membership page and its checkout components deleted)
+- [x] About page: sourcing position and two-sisters founder story corrected
+- [x] Brands page: factual brand descriptions; delivery claim replaced with locally-stocked wording
+- [x] Product copy overclaims softened; trial kits recategorised as "Multi-step trial routine"
+- [x] Ingredient encyclopedia rewritten with restrained wording, limitations, cautions and evidence-review dates
+- [x] Wishlist: self-service Remove with confirmation
+- [x] Purchase controls: no permanent "Loading…" state on any product page
+- [x] AESTURA sunscreen remains non-purchasable with Australian availability wording
+- [x] Contact response aim 1–2 business days used consistently
