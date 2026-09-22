@@ -70,8 +70,8 @@ export function AddToBagButton({
     >
       {unavailable ? (
         'Out of stock'
-      ) : !cart.ready || loading ? (
-        'Loading…'
+      ) : loading ? (
+        'Adding…'
       ) : added ? (
         <span className="inline-flex items-center justify-center gap-2">
           <span aria-hidden="true">✓</span> Added to bag

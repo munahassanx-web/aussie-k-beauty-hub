@@ -41,10 +41,7 @@ function WishlistPage() {
         Everything you've hearted, kept safely with your account so it's here next time you shop.
       </p>
       <p className="mt-3 max-w-xl text-base text-muted-foreground">
-        To remove a saved item, contact us at{' '}
-        <a href="mailto:customercare@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:text-foreground">
-          customercare@skingrocer.com.au
-        </a>.
+        Use Remove on any saved product to take it off this list straight away.
       </p>
 
       {!signedIn && !loading ? (
