@@ -114,14 +114,24 @@ function WishlistPage() {
                       Add to bag →
                     </button>
                   )}
-                  </>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+                   </>
+                   )}
+                 </div>
+                 <button
+                   type="button"
+                   onClick={() => handleRemove(p.priceId, p.name)}
+                   disabled={removing === p.priceId}
+                   aria-label={`Remove ${p.brand} ${p.name} from saved products`}
+                   className="mt-3 text-xs font-medium uppercase tracking-wider text-muted-foreground underline underline-offset-4 hover:text-foreground disabled:opacity-60"
+                 >
+                   {removing === p.priceId ? 'Removing…' : 'Remove'}
+                 </button>
+               </div>
+             </div>
+           ))}
+         </div>
+       )}
+      <p className="sr-only" aria-live="polite" aria-atomic="true">{status}</p>
+     </div>
+   );
 }
