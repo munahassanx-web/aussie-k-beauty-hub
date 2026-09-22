@@ -120,19 +120,9 @@ export const HOME_FAQS: Faq[] = [
 ];
 
 
-// --- Standalone /faq page: home FAQs plus membership questions ---------------
+// --- Standalone /faq page ----------------------------------------------------
 
-export const FAQ_PAGE_FAQS: Faq[] = [
-  ...HOME_FAQS,
-  {
-    q: 'What is the Restock Club and how do points work?',
-    a: 'Every order earns points automatically — 1 point per A$1 spent. 100 points = A$5 in rewards, redeemable at checkout.',
-  },
-  {
-    q: 'Can I subscribe and save on my favourite products?',
-    a: 'Yes — Subscribe & Save gives 15% off eligible restock products, with 30/45/60/90-day delivery cadence options. You can pause or skip anytime from your account.',
-  },
-];
+export const FAQ_PAGE_FAQS: Faq[] = [...HOME_FAQS];
 
 // --- Shop: choosing and buying ----------------------------------------------
 
@@ -199,7 +189,7 @@ export const INGREDIENT_FAQS: Faq[] = [
   },
   {
     q: 'Does snail mucin actually work?',
-    a: 'Snail secretion filtrate is a hydrating, film-forming ingredient rich in glycoproteins and hyaluronic acid. It is genuinely good at making skin feel plump and comfortable and at supporting healing of post-acne marks, but it is a hydrator and soother, not an anti-ageing active on its own.',
+    a: 'Snail secretion filtrate is a hydrating, film-forming ingredient rich in glycoproteins and hyaluronic acid. It is genuinely good at making skin feel plump and comfortable and may help support the appearance of post-acne marks, but it is a hydrator and soother, not an anti-ageing active on its own.',
   },
   {
     q: 'What is the difference between hyaluronic acid molecular weights?',

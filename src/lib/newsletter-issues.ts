@@ -104,7 +104,7 @@ export const newsletterIssues: NewsletterIssue[] = [
   {
     number: "06",
     slug: "korean-products-australians-havent-found-yet",
-    title: "What Korea Is Actually Buying Right Now",
+    title: "What Seoul Keeps Repurchasing",
     theme: "The Undiscovered Issue",
     date: "Fortnight of 17 August 2026",
     published: true,
@@ -112,7 +112,7 @@ export const newsletterIssues: NewsletterIssue[] = [
     coverAlt:
       "S.NATURE, beplain and AESTURA creams on concrete with fresh centella leaves and squalane oil drops",
     standfirst:
-      "The products topping Olive Young's shelves in Seoul are almost never the ones going viral on Australian TikTok. This fortnight: the quiet, boring, dermatologist-adjacent products Korean women repurchase — and why none of them are the ones with the loudest marketing.",
+      "The products topping Olive Young's shelves in Seoul often aren't the ones going viral on Australian TikTok. This fortnight: the quiet, boring, dermatologist-adjacent products Korean women repurchase — and why they rarely have the loudest marketing.",
     bigQuestion: {
       question: "Why is the product Korea repurchases never the one that goes viral here?",
       body: [

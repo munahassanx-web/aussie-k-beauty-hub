@@ -41,79 +41,79 @@ type BrandCard = {
 const brands: BrandCard[] = [
   {
     name: "AESTURA", splash: splashCream,
-    tag: "Dermatologist-backed barrier repair, born in a Korean hospital lab",
+    tag: "Ceramide-focused moisturisers and cleansers for the moisturise step",
     hero: "/products/aestura/atobarrier365-cream.webp",
     from: "#e8f0f7", to: "#b9cede", ink: "dark",
   },
   {
     name: "BIODANCE", splash: splashGel,
-    tag: "Overnight bio-collagen masks that melt into the skin",
+    tag: "Hydrogel sheet masks and mask-focused formats",
     hero: "/products/biodance/bio-collagen-real-deep-mask.webp",
     from: "#f3ecff", to: "#c9b6f2", ink: "dark",
   },
   {
     name: "Beauty of Joseon", splash: splashOil,
-    tag: "Korean heritage ingredients in modern formulas",
+    tag: "Ginseng and rice-based formulas across toners, serums and creams",
     hero: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.webp",
     from: "#f7efe2", to: "#d8bd90", ink: "dark",
   },
   {
     name: "Dr.G", splash: splashGel,
-    tag: "Clinical care for red, blemish-prone and reactive skin",
+    tag: "Foaming cleansers and lightweight creams for the cleanse and moisturise steps",
     hero: "/products/dr-g/red-blemish-clear-soothing-foam-150ml.webp",
     from: "#eaf6f0", to: "#a8d3bd", ink: "dark",
   },
   {
     name: "HARUHARU WONDER", splash: splashOil,
-    tag: "Fermented black rice, clean and low-irritation",
+    tag: "Fermented black rice formulas across cleansing oils, toners and serums",
     hero: "/__l5e/assets-v1/5c2e77da-7082-420c-809a-9005bdb6aef8/haruharu-wonder-black-rice-hyaluronic-toner-150ml.png",
     from: "#efeae6", to: "#8f8378", ink: "light",
   },
   {
     name: "ISNTREE", splash: splashWater,
-    tag: "Ingredient-led hydration and gentle exfoliation",
+    tag: "Watery toners and essences, plus exfoliating acid formats",
     hero: "/products/isntree/hyaluronic-acid-water-essence-50ml.webp",
     from: "#e9f4ef", to: "#9fc9b7", ink: "dark",
   },
   {
     name: "MEDICUBE", splash: splashCream,
-    tag: "PDRN and exosome technology for visible results",
+    tag: "Serums and creams formulated with PDRN and peptide ingredients",
     hero: "/products/medicube/pdrn-pink-peptide-serum-30ml.webp",
     from: "#ffeef4", to: "#f4a9c4", ink: "dark",
   },
   {
     name: "ROUND LAB", splash: splashWater,
-    tag: "The 1025 Dokdo line — simple, everyday essentials",
+    tag: "The 1025 Dokdo line — simple toners, cleansers and creams",
     hero: "/products/round-lab/1025-dokdo-toner-100ml.webp",
     from: "#e8f2fb", to: "#9dc2e6", ink: "dark",
   },
   {
     name: "S.NATURE", splash: splashWater,
-    tag: "Aqua Oasis hydration built on squalane and botanicals",
+    tag: "Squalane and botanical-based serums with a lightweight texture",
     hero: "/products/s-nature/aqua-squalane-serum.webp",
     from: "#e6f5f7", to: "#95cbd4", ink: "dark",
   },
   {
     name: "TIRTIR", splash: splashCream,
-    tag: "Milky ceramide care with a cult following",
+    tag: "Milky ceramide ampoules and creams",
     hero: "/products/tirtir/ceramic-milk-ampoule-40ml.webp",
     from: "#fdf3ee", to: "#e7b9a2", ink: "dark",
   },
   {
     name: "TORRIDEN", splash: splashWater,
-    tag: "Low-molecular hyaluronic acid, deep dive hydration",
+    tag: "Low-molecular hyaluronic acid serums, toners and gels",
     hero: "/products/torriden/dive-in-serum.webp",
     from: "#e7eefc", to: "#8ea6e8", ink: "light",
   },
   {
     name: "WELLAGE", splash: splashGel,
-    tag: "Real Hyaluronic and PDRN ampoules from a K-derm favourite",
+    tag: "Hyaluronic acid and PDRN ampoules, toners and creams",
     hero: "/products/wellage/real-hyaluronic-blue-100-ampoule-60ml.webp",
     from: "#e9edf8", to: "#7f93cf", ink: "light",
   },
   {
     name: "beplain", splash: splashGel,
-    tag: "Mung bean cleansing and calm, pH-balanced basics",
+    tag: "Mung bean cleansing oils and foams, plus pH-balanced basics",
     hero: "/products/beplain/mung-bean-cleansing-oil-200ml.webp",
     from: "#f1f5e6", to: "#bfd08a", ink: "dark",
   },
@@ -129,9 +129,9 @@ function BrandsPage() {
       <p className="text-xs uppercase tracking-[0.25em] text-primary">Shop by Brand</p>
       <h1 className="mt-3 text-5xl text-foreground md:text-7xl">13 hand-picked <em className="not-italic text-primary">brands</em>.</h1>
       <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-        Every brand on Skin Grocer is sourced through verified partners and
-        warehoused locally in Melbourne, then dispatched with 1–3 business days in
-        transit to most metro and regional areas (remote postcodes may take longer).
+        Skin Grocer sources through established Korean wholesale supply partners.
+        Locally stocked in Melbourne. Delivery timing depends on the destination
+        postcode and Australia Post service selected.
       </p>
 
       <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

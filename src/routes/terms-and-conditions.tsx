@@ -130,17 +130,7 @@ function TermsAndConditions() {
         </section>
 
         <section>
-          <h2 className="font-display text-2xl text-foreground">10. Subscriptions and Circle membership</h2>
-          <p className="mt-3 text-muted-foreground">
-            Restock subscriptions and Circle membership renew automatically at the interval shown when you sign up, at the
-            price shown at that time, until you cancel. You can cancel at any time from your account; cancellation takes
-            effect at the end of the current paid period, and you keep the benefits until then. Points, rewards and member
-            benefits have no cash value and can't be sold or transferred.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="font-display text-2xl text-foreground">11. Authenticity cards</h2>
+          <h2 className="font-display text-2xl text-foreground">10. Authenticity cards</h2>
           <p className="mt-3 text-muted-foreground">
             Some orders include a Skin Grocer authenticity card with a unique QR code. Scanning it shows Skin Grocer's own
             verification record for that order — confirming the order was packed and checked by us before dispatch. It is

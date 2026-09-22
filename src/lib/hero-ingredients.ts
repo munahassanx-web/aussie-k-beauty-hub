@@ -11,7 +11,7 @@ import type { HeroIngredient } from '@/lib/product-detail';
 const PANTHENOL: HeroIngredient = {
   name: 'Panthenol (Provitamin B5)',
   korean: '판테놀',
-  what: 'A humectant that also helps skin repair itself — it softens rough patches and takes the sting out of skin that feels tight or over-cleansed.',
+  what: 'A humectant commonly used in cosmetic formulations to help soften rough patches and ease the tight, over-cleansed feeling some skin gets.',
   goodFor: ['Barrier support', 'Soothing', 'Dehydration'],
 };
 
@@ -39,7 +39,7 @@ const CERAMIDE_NP: HeroIngredient = {
 const PDRN: HeroIngredient = {
   name: 'PDRN (Polydeoxyribonucleotide)',
   korean: '피디알엔',
-  what: 'Salmon-derived DNA fragments, the ingredient behind Korea\u2019s "salmon injection" trend, used topically here to support skin repair and a smoother, bouncier look over time.',
+  what: 'Salmon-derived DNA fragments, the ingredient behind Korea\u2019s "salmon injection" trend. Topical PDRN skincare is a newer area of formulation interest, distinct from the more clinically studied in-clinic injectable version; used here with the intention of supporting a smoother, bouncier look over time.',
   goodFor: ['Repair', 'Firmness', 'Tired skin'],
 };
 
@@ -381,7 +381,7 @@ const HERO_INGREDIENTS: Record<string, HeroIngredient[]> = {
     {
       name: '5 Ceramides',
       korean: '5종 세라마이드',
-      what: 'Five ceramide types rather than one, layered into the cream to rebuild the lipid mortar between skin cells so moisture stops escaping.',
+      what: 'Five ceramide types rather than one, layered into the cream with the intention of supporting the lipid mortar between skin cells so moisture is less likely to escape.',
       goodFor: ['Barrier repair', 'Dryness', 'Sensitivity'],
     },
     BLACK_RICE,
@@ -485,7 +485,7 @@ const HERO_INGREDIENTS: Record<string, HeroIngredient[]> = {
     {
       name: 'Snail Secretion Filtrate',
       korean: '달팽이 점액 여과물',
-      what: 'The black snail mucin the cream is named for — a naturally occurring mix of glycoproteins and hyaluronic acid that Korean formulators use for repair and bounce.',
+      what: 'The black snail mucin the cream is named for — a naturally occurring mix of glycoproteins and hyaluronic acid that Korean formulators commonly use for surface hydration and a bouncier feel.',
       goodFor: ['Repair', 'Elasticity', 'Dryness'],
     },
     PEPTIDES,

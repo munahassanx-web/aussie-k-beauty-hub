@@ -97,7 +97,7 @@ function StockRequestPage() {
         </h1>
         <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
           {emailed
-            ? `We've sent a confirmation to ${form.email}. Our buyer reviews requests weekly against the Korean ranking — if this one lands in Melbourne, that address hears first.`
+            ? `We've sent a confirmation to ${form.email}. Our buyer reviews requests weekly against the Hwahae ranking snapshot we hold — if this one lands in Melbourne, that address hears first.`
             : `We've saved your request against ${form.email}. Our confirmation email couldn't go out just now, but the request is on the buyer's list and we'll be in touch if it lands.`}
         </p>
         <div className="mt-8 flex flex-wrap gap-6">
@@ -133,8 +133,9 @@ function StockRequestPage() {
         </h1>
         <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
           Seen something ranking in Korea that isn't on our shelf? Tell us. Every request is logged and reviewed weekly
-          by our buyer against the Hwahae board (snapshot {RANKING_SNAPSHOT_DATE}) and what we can realistically land in
-          Melbourne. We can't promise a date — we can promise you'll hear first if it arrives.
+          by our buyer against the Hwahae board (snapshot taken {RANKING_SNAPSHOT_DATE} — rankings change, this is a
+          one-off check, not a live feed) and what we can realistically land in Melbourne. We can't promise a date — we
+          can promise you'll hear first if it arrives.
         </p>
       </header>
 

@@ -244,8 +244,7 @@ function BlogIndex() {
           <p className="eyebrow eyebrow-rule justify-center text-clay">Every fortnight</p>
           <h2 className="display-section mt-5">Never miss a post.</h2>
           <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-foreground/70">
-            One email a fortnight with the new post, the products behind it, and what Korea is
-            actually buying right now. No countdown timers.
+            One email a fortnight with the new post, the products behind it, and a Korean-market snapshot as it stood on the day we checked. No countdown timers.
           </p>
           <NewsletterForm source="footer" />
         </div>

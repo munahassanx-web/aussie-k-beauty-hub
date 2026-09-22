@@ -9,13 +9,13 @@ export const Route = createFileRoute("/faq")({
       {
         name: "description",
         content:
-          "Answers to the most common questions about Korean skincare, authenticity, delivery across Australia, the Restock Club points system and Subscribe & Save.",
+          "Answers to the most common questions about Korean skincare, our sourcing and packing process, delivery across Australia, and returns.",
       },
       { property: "og:title", content: "FAQ — Korean Skincare Questions Answered | Skin Grocer" },
       {
         property: "og:description",
         content:
-          "Routines, ingredients, authenticity, delivery, loyalty points and Subscribe & Save — answered plainly by Skin Grocer.",
+          "Routines, ingredients, sourcing, delivery and returns — answered plainly by Skin Grocer.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -34,8 +34,8 @@ function FaqPage() {
         <p className="text-xs uppercase tracking-[0.2em] text-primary">Help centre</p>
         <h1 className="mt-4 text-5xl text-foreground md:text-7xl">Frequently asked questions</h1>
         <p className="mt-6 text-muted-foreground">
-          Everything Australians ask us about Korean skincare — routines, ingredients, authenticity,
-          delivery, rewards and subscriptions.
+          Everything Australians ask us about Korean skincare — routines, ingredients, sourcing,
+          delivery and returns.
         </p>
       </div>
 
@@ -77,7 +77,7 @@ function FaqPage() {
             <Link to="/contact" className="text-primary underline underline-offset-4 hover:no-underline">
               Contact our team
             </Link>{" "}
-            — we reply within one business day.
+            — we aim to respond within 1–2 business days.
           </p>
         </div>
       </section>

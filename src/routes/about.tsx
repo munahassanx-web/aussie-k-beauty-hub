@@ -11,9 +11,11 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About — Skin Grocer" },
-      { name: "description", content: "A Melbourne-based team sourcing authentic K-beauty directly from Korea, checking every arrival by hand, and shipping locally with a QR authenticity card in every parcel." },
+      { name: "description", content: "Skin Grocer is a Melbourne team sourcing Korean skincare through established Korean wholesale supply partners, with a documented receiving and packaging process." },
       { property: "og:title", content: "About — Skin Grocer" },
-      { property: "og:description", content: "Australian K-beauty built on authenticity: direct from Seoul, verified in Melbourne, guided like a friend." },
+      { property: "og:description", content: "Built by two Australian sisters: Korean skincare, locally stocked in Melbourne, with a documented receiving and packaging process." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "https://skingrocer.com.au/about" },
     ],
     links: [{ rel: "canonical", href: "https://skingrocer.com.au/about" }],
@@ -56,13 +58,13 @@ function About() {
 
           <div className="space-y-5 text-foreground">
             <p className="text-lg leading-relaxed">
-              Skin Grocer started with a simple frustration: it was almost impossible to know if the K-beauty sitting on an Australian shelf was actually what it claimed to be.
+              We created Skin Grocer after experiencing how difficult it could be to find well-explained Korean skincare from a local Australian retailer. We wanted to make product selection simpler through careful sourcing, plain-English education and locally stocked products.
             </p>
             <p className="leading-relaxed text-muted-foreground">
-              So we built the thing we couldn't find — direct relationships with Korean distributors, hands-on checks on every arrival, and an authenticity card in every parcel, linked by QR to the verification record for your order.
+              Skin Grocer sources through established Korean wholesale supply partners. When products arrive in Melbourne, our team records the supplier and purchase documentation, reconciles the stock against our catalogue, reviews visible packaging and product condition, and records available batch information before dispatch.
             </p>
             <p className="leading-relaxed text-muted-foreground">
-              We're a small, Melbourne-based team who'd rather show you the receipts than tell you to trust us.
+              Skin Grocer verification is our documented receiving and packaging process. It is not laboratory testing, independent certification, brand endorsement or government certification.
             </p>
 
             <div className="mt-8 flex items-center gap-4">
@@ -102,23 +104,23 @@ function About() {
               img: warehouseStockAsset.url,
               alt: "Cartons of Korean skincare stock being handled on shelves in the Melbourne warehouse",
               step: "Step 01",
-              t: "Sourced direct, stocked locally",
-              d: "We buy through verified brand partners and official distributors only, then warehouse it all in Melbourne — so nothing sits on a container for a month.",
+              t: "Sourced through Korean wholesale partners, stocked locally",
+              d: "We source through established Korean wholesale supply partners, including UMMA and Seoul4PM, and record the supplier and purchase documentation for each delivery into our Melbourne warehouse.",
             },
             {
               img: verifyAsset.url,
               alt: "Hands checking the code on a skincare bottle against a verification sheet",
               step: "Step 02",
-              t: "Every arrival checked by hand",
-              d: "Product identity is matched to our catalogue and packaging and seals are inspected before stock is listed. Anything that does not match goes straight back.",
+              t: "Every arrival reconciled and reviewed",
+              d: "Stock is reconciled against our catalogue, visible packaging and product condition are reviewed, and available batch information is recorded before dispatch.",
             },
             {
               img: packingAsset.url,
               alt: "An order being packed by hand into a cream box with a wax-sealed provenance card",
 
               step: "Step 03",
-              t: "Packed with a provenance card",
-              d: "Your order ships with a card tracing the product from its Korean source to our Melbourne shelf — so you can see the chain, not just trust it.",
+              t: "Packed with a verification card",
+              d: "Your order ships with a card linking to the receiving and packaging record we created for that parcel. It is not laboratory testing, independent certification, brand endorsement or government certification.",
             },
           ].map((s) => (
             <article key={s.step} className="overflow-hidden rounded-3xl border border-border/60 bg-background">
@@ -150,8 +152,8 @@ function About() {
           </p>
           <div className="mt-12 grid gap-8 md:grid-cols-3">
             {[
-              { n: "01", t: "Authenticity, always", d: "Direct brand partnerships. Every product is the real thing, sourced through verified channels — never grey-market copies." },
-              { n: "02", t: "Built by a mum, for real life", d: "Simple routines, clear guidance, and a team that understands busy schedules and tired skin." },
+              { n: "01", t: "Documented sourcing", d: "We source through established Korean wholesale supply partners and record supplier and purchase documentation for every delivery." },
+              { n: "02", t: "Built by two Australian sisters for real routines", d: "Simple routines, plain-English guidance and locally stocked products." },
               { n: "03", t: "Locally stocked in Melbourne", d: "Everything is warehoused here, so orders ship fast — no overseas waits, no surprise delays." },
               { n: "04", t: "Honest guidance", d: "We explain how to use each product and why it suits your skin, your climate and your goals." },
               { n: "05", t: "Fair local pricing", d: "No currency conversion sting, no inflated import mark-ups. Just Australian prices for Australian women." },
