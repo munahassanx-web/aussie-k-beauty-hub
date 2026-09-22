@@ -199,7 +199,7 @@ export const INGREDIENT_FAQS: Faq[] = [
   },
   {
     q: 'Does snail mucin actually work?',
-    a: 'Snail secretion filtrate is a hydrating, film-forming ingredient rich in glycoproteins and hyaluronic acid. It is genuinely good at making skin feel plump and comfortable and at supporting healing of post-acne marks, but it is a hydrator and soother, not an anti-ageing active on its own.',
+    a: 'Snail secretion filtrate is a hydrating, film-forming ingredient rich in glycoproteins and hyaluronic acid. It is genuinely good at making skin feel plump and comfortable and may help support the appearance of post-acne marks, but it is a hydrator and soother, not an anti-ageing active on its own.',
   },
   {
     q: 'What is the difference between hyaluronic acid molecular weights?',
