@@ -9,13 +9,13 @@ export const Route = createFileRoute("/faq")({
       {
         name: "description",
         content:
-          "Answers to the most common questions about Korean skincare, authenticity, delivery across Australia, the Restock Club points system and Subscribe & Save.",
+          "Answers to the most common questions about Korean skincare, our sourcing and packing process, delivery across Australia, and returns.",
       },
       { property: "og:title", content: "FAQ — Korean Skincare Questions Answered | Skin Grocer" },
       {
         property: "og:description",
         content:
-          "Routines, ingredients, authenticity, delivery, loyalty points and Subscribe & Save — answered plainly by Skin Grocer.",
+          "Routines, ingredients, sourcing, delivery and returns — answered plainly by Skin Grocer.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

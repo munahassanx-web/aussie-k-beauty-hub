@@ -262,17 +262,21 @@ export type Database = {
           also_known_as: string[]
           avoid_if: string[]
           avoid_pairing_with: string[]
+          caution_notes: string | null
           category: string
           common_myth: string | null
           created_at: string
+          evidence_reviewed_at: string
           good_for: string[]
           how_to_use: string | null
           id: string
+          limitations: string | null
           name_chinese: string | null
           name_english: string
           name_korean: string | null
           pairs_well_with: string[]
           science_note: string | null
+          source_links: string[]
           updated_at: string
           what_it_does: string
         }
@@ -280,17 +284,21 @@ export type Database = {
           also_known_as?: string[]
           avoid_if?: string[]
           avoid_pairing_with?: string[]
+          caution_notes?: string | null
           category: string
           common_myth?: string | null
           created_at?: string
+          evidence_reviewed_at?: string
           good_for?: string[]
           how_to_use?: string | null
           id?: string
+          limitations?: string | null
           name_chinese?: string | null
           name_english: string
           name_korean?: string | null
           pairs_well_with?: string[]
           science_note?: string | null
+          source_links?: string[]
           updated_at?: string
           what_it_does: string
         }
@@ -298,17 +306,21 @@ export type Database = {
           also_known_as?: string[]
           avoid_if?: string[]
           avoid_pairing_with?: string[]
+          caution_notes?: string | null
           category?: string
           common_myth?: string | null
           created_at?: string
+          evidence_reviewed_at?: string
           good_for?: string[]
           how_to_use?: string | null
           id?: string
+          limitations?: string | null
           name_chinese?: string | null
           name_english?: string
           name_korean?: string | null
           pairs_well_with?: string[]
           science_note?: string | null
+          source_links?: string[]
           updated_at?: string
           what_it_does?: string
         }
