@@ -129,6 +129,49 @@ function IngredientDetailPage() {
             </div>
           )}
 
+          {i.limitations && (
+            <div>
+              <h2 className="font-display text-2xl text-foreground">Limitations of the evidence</h2>
+              <p className="mt-4 text-base leading-relaxed text-foreground/85">{i.limitations}</p>
+            </div>
+          )}
+
+          {i.caution_notes && (
+            <div>
+              <h2 className="font-display text-2xl text-foreground">Who may need extra caution</h2>
+              <p className="mt-4 text-base leading-relaxed text-foreground/85">{i.caution_notes}</p>
+            </div>
+          )}
+
+          <div className="rounded-2xl border border-border bg-secondary/20 p-6">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Evidence review date
+            </p>
+            <p className="mt-2 text-sm text-foreground/80">{i.evidence_reviewed_at}</p>
+
+            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Sources
+            </p>
+            {i.source_links?.length > 0 ? (
+              <ul className="mt-2 space-y-1">
+                {i.source_links.map((url) => (
+                  <li key={url}>
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="text-sm text-primary underline"
+                    >
+                      {url}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-2 text-sm text-foreground/60">Not yet reviewed</p>
+            )}
+          </div>
+
           {(i.pairs_well_with?.length > 0 || i.avoid_pairing_with?.length > 0) && (
             <div className="grid gap-6 sm:grid-cols-2">
               {i.pairs_well_with?.length > 0 && (

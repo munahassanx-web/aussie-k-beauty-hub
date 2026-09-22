@@ -86,6 +86,10 @@ const LIFESTYLE: Record<Category, GalleryImage[]> = {
     { src: categoryMasks, alt: 'K-beauty masks arranged on a vanity' },
     { src: maskSheet, alt: 'Sheet mask being applied to a face' },
   ],
+  'Multi-step trial routine': [
+    { src: productFlatlay, alt: 'A multi-step trial routine kit styled with its included minis' },
+    { src: skinMacro, alt: 'Macro shot of skin after a multi-step routine' },
+  ],
 };
 
 /**
@@ -925,6 +929,7 @@ const CATEGORY_ROLE: Record<Category, string> = {
   Moisturise: 'Step 4 — moisturise',
   Protect: 'Step 5 — protect',
   Masks: 'Weekly treatment',
+  'Multi-step trial routine': 'Multi-step trial routine',
 };
 
 export function routineStepLabel(p: ShopProduct): string {
@@ -954,6 +959,10 @@ const CATEGORY_HOW_TO: Record<Category, string[]> = {
     'Apply to clean, toned skin.',
     'Leave on for the recommended time (usually 10–20 minutes).',
     'Remove and press in the remaining essence — no need to rinse unless stated.',
+  ],
+  'Multi-step trial routine': [
+    'Use the included cleanser first, then the toner, then the serum or ampoule, then the cream — in that order, as listed on the packaging.',
+    'Follow the directions printed on each individual mini for amount and frequency.',
   ],
 };
 
@@ -1309,6 +1318,7 @@ export function temporaryProductTypeSentence(p: ShopProduct): string {
     Moisturise: 'A moisturiser',
     Protect: 'A sunscreen',
     Masks: 'A mask',
+    'Multi-step trial routine': 'A multi-step trial routine kit',
   };
   return `${categorySubject[p.category]} from ${p.brand}. Full product information is being reviewed before launch.`;
 }
@@ -1328,6 +1338,7 @@ export function productDescription(p: ShopProduct): string {
     Moisturise: 'moisturiser',
     Protect: 'sunscreen',
     Masks: 'mask',
+    'Multi-step trial routine': 'multi-step trial routine kit',
   };
   const type = p.productType ?? typeByCategory[p.category];
   const texture = COPY[p.priceId]?.texture;
@@ -1381,6 +1392,7 @@ const PRODUCT_TYPE_BY_CATEGORY: Record<Category, string> = {
   Moisturise: 'moisturiser',
   Protect: 'sunscreen',
   Masks: 'mask',
+  'Multi-step trial routine': 'multi-step trial routine kit',
 };
 
 /**
