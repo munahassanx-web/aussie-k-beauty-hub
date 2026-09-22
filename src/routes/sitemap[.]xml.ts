@@ -27,7 +27,6 @@ const STATIC_ENTRIES: Entry[] = [
   { path: "/about", priority: "0.7", changefreq: "monthly" },
   { path: "/reviews", priority: "0.7", changefreq: "weekly" },
   { path: "/blog", priority: "0.8", changefreq: "weekly" },
-  { path: "/club", priority: "0.6", changefreq: "monthly" },
   { path: "/journey", priority: "0.5", changefreq: "monthly" },
   { path: "/faq", priority: "0.6", changefreq: "monthly" },
   { path: "/contact", priority: "0.6", changefreq: "monthly" },

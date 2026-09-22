@@ -153,7 +153,7 @@ export const SHOP_FAQS: Faq[] = [
   },
   {
     q: 'Do you have Afterpay or payment plans?',
-    a: 'Checkout is card-based through our secure payment provider. Subscribe & Save gives a standing 15% off eligible products delivered on your schedule, which is the cheapest way to buy the products you repurchase.',
+    a: 'Checkout is card-based through our secure payment provider. The payment methods available to you are shown at checkout before you pay.',
   },
   {
     q: 'How do I check a Korean product is genuine?',

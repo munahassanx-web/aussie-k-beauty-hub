@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useWishlist } from '@/lib/wishlist';
 import { useBuyNow } from '@/hooks/use-buy-now';
@@ -25,8 +25,24 @@ export const Route = createFileRoute('/wishlist')({
 });
 
 function WishlistPage() {
-  const { ids, loading, signedIn } = useWishlist();
+  const { ids, loading, signedIn, remove } = useWishlist();
   const { buy } = useBuyNow();
+  const [removing, setRemoving] = useState<string | null>(null);
+  const [status, setStatus] = useState('');
+
+  async function handleRemove(priceId: string, label: string) {
+    if (removing) return;
+    setRemoving(priceId);
+    try {
+      await remove(priceId);
+      setStatus(`${label} removed from your saved products`);
+    } catch {
+      setStatus(`Couldn't remove ${label} — please try again.`);
+    } finally {
+      setRemoving(null);
+    }
+  }
+
 
   const saved = useMemo(
     () => ids.map((id) => SHOP_PRODUCTS.find((p) => p.priceId === id)).filter(Boolean) as typeof SHOP_PRODUCTS,
@@ -41,10 +57,7 @@ function WishlistPage() {
         Everything you've hearted, kept safely with your account so it's here next time you shop.
       </p>
       <p className="mt-3 max-w-xl text-base text-muted-foreground">
-        To remove a saved item, contact us at{' '}
-        <a href="mailto:customercare@skingrocer.com.au" className="text-primary underline underline-offset-4 hover:text-foreground">
-          customercare@skingrocer.com.au
-        </a>.
+        Use Remove on any saved product to take it off this list straight away.
       </p>
 
       {!signedIn && !loading ? (
@@ -101,14 +114,24 @@ function WishlistPage() {
                       Add to bag →
                     </button>
                   )}
-                  </>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+                   </>
+                   )}
+                 </div>
+                 <button
+                   type="button"
+                   onClick={() => handleRemove(p.priceId, p.name)}
+                   disabled={removing === p.priceId}
+                   aria-label={`Remove ${p.brand} ${p.name} from saved products`}
+                   className="mt-3 text-xs font-medium uppercase tracking-wider text-muted-foreground underline underline-offset-4 hover:text-foreground disabled:opacity-60"
+                 >
+                   {removing === p.priceId ? 'Removing…' : 'Remove'}
+                 </button>
+               </div>
+             </div>
+           ))}
+         </div>
+       )}
+      <p className="sr-only" aria-live="polite" aria-atomic="true">{status}</p>
+     </div>
+   );
 }

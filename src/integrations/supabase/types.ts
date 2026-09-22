@@ -262,8 +262,8 @@ export type Database = {
           also_known_as: string[]
           avoid_if: string[]
           avoid_pairing_with: string[]
-          caution_notes: string | null
           category: string
+          caution_notes: string | null
           common_myth: string | null
           created_at: string
           evidence_reviewed_at: string
@@ -284,8 +284,8 @@ export type Database = {
           also_known_as?: string[]
           avoid_if?: string[]
           avoid_pairing_with?: string[]
-          caution_notes?: string | null
           category: string
+          caution_notes?: string | null
           common_myth?: string | null
           created_at?: string
           evidence_reviewed_at?: string
@@ -306,8 +306,8 @@ export type Database = {
           also_known_as?: string[]
           avoid_if?: string[]
           avoid_pairing_with?: string[]
-          caution_notes?: string | null
           category?: string
+          caution_notes?: string | null
           common_myth?: string | null
           created_at?: string
           evidence_reviewed_at?: string
