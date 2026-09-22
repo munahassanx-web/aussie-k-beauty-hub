@@ -58,13 +58,13 @@ function About() {
 
           <div className="space-y-5 text-foreground">
             <p className="text-lg leading-relaxed">
-              Skin Grocer started with a simple frustration: it was almost impossible to know if the K-beauty sitting on an Australian shelf was actually what it claimed to be.
+              We created Skin Grocer after experiencing how difficult it could be to find well-explained Korean skincare from a local Australian retailer. We wanted to make product selection simpler through careful sourcing, plain-English education and locally stocked products.
             </p>
             <p className="leading-relaxed text-muted-foreground">
-              So we built the thing we couldn't find — direct relationships with Korean distributors, hands-on checks on every arrival, and an authenticity card in every parcel, linked by QR to the verification record for your order.
+              Skin Grocer sources through established Korean wholesale supply partners. When products arrive in Melbourne, our team records the supplier and purchase documentation, reconciles the stock against our catalogue, reviews visible packaging and product condition, and records available batch information before dispatch.
             </p>
             <p className="leading-relaxed text-muted-foreground">
-              We're a small, Melbourne-based team who'd rather show you the receipts than tell you to trust us.
+              Skin Grocer verification is our documented receiving and packaging process. It is not laboratory testing, independent certification, brand endorsement or government certification.
             </p>
 
             <div className="mt-8 flex items-center gap-4">
