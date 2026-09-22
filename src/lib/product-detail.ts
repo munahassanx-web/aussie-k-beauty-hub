@@ -1054,20 +1054,20 @@ const COPY: Record<string, CopyOverride> = {
   },
   beauty_of_joseon_green_plum_refreshing_toner_150ml_onetime: {
     description:
-      "Beauty of Joseon Green Plum Refreshing Toner: AHA + BHA is a gentle daily exfoliating toner that sweeps away dead skin cells and clears congested pores without stripping the moisture barrier. Green plum (Prunus mume) fruit water sits at the top of the formula alongside a mild AHA (glycolic acid) and BHA (salicylic acid) complex, while mung bean (Vigna radiata) seed extract hydrates and soothes. Skin renews itself roughly every 28 days — this keeps that cycle moving so texture stays smooth and tone stays bright. Made in Korea. 150ml.",
+      "Beauty of Joseon Green Plum Refreshing Toner: AHA + BHA is a gentle exfoliating toner that helps remove surface buildup and may support smoother-looking texture, designed to be used without stripping the moisture barrier. Green plum (Prunus mume) fruit water sits at the top of the formula alongside a mild AHA (glycolic acid) and BHA (salicylic acid) complex, while mung bean (Vigna radiata) seed extract is designed to support hydration and soothing. Suitability and frequency vary — follow the product label and introduce gradually. Made in Korea. 150ml.",
     texture:
       'Clear, watery liquid that absorbs instantly with a faintly fresh, fruity scent — no sting, no tacky finish.',
     benefits: [
-      'Green plum water gently exfoliates and resets a dull-looking complexion',
-      'Mild AHA + BHA complex smooths rough texture and clears clogged pores',
-      'Mung bean extract hydrates and helps soothe as it exfoliates',
-      'Gentle enough for daily morning and night use on most skin types',
+      'Green plum water gently exfoliates and may support a fresher-looking complexion',
+      'Mild AHA + BHA complex may help smooth the look of rough texture and remove surface buildup',
+      'Mung bean extract is designed to support hydration and soothing as it exfoliates',
+      'Suitability and frequency vary — follow the product label and introduce gradually',
       'Authentic Korean stock, shipped from our Melbourne warehouse',
     ],
     howToUse: [
       'After cleansing, pour a few drops into your hands and press gently into the skin — or sweep with a cotton pad from the centre of the face outward.',
       'Follow with your serum and moisturiser while skin is still damp.',
-      'Use morning and night. Start every second night if your skin is new to acids.',
+      'Suitability and frequency vary. Start every second night if your skin is new to acids, and follow the product label.',
       'Always wear sunscreen during the day — AHAs increase sun sensitivity for up to a week after use.',
     ],
     ingredients: [
@@ -1075,11 +1075,11 @@ const COPY: Record<string, CopyOverride> = {
         name: 'Green Plum Water',
         korean: '청매실',
         what: 'Prunus mume fruit water, the second ingredient in the formula. The hanbang hero of the range — it refreshes and gently exfoliates so skin looks clearer and more even.',
-        goodFor: ['Dullness', 'Rough texture', 'Daily use'],
+        goodFor: ['Dullness', 'Rough texture', 'Gradual use'],
       },
       {
         name: 'AHA + BHA Complex',
-        what: 'Glycolic acid (AHA) loosens dead cells on the surface, while oil-soluble salicylic acid (BHA) works inside the pore to clear buildup. Kept at a mild level so it can be used daily.',
+        what: 'Glycolic acid (AHA) loosens dead cells on the surface, while oil-soluble salicylic acid (BHA) works inside the pore to help remove surface buildup. Kept at a mild level — follow the product label and introduce gradually.',
         goodFor: ['Clogged pores', 'Blackheads', 'Uneven texture'],
       },
       {
@@ -1141,7 +1141,7 @@ const COPY: Record<string, CopyOverride> = {
       'Rice bran water and ginseng root extract — the brand\'s signature hanbang pairing — for comfort and glow',
       'Niacinamide helps skin look more even and less dull over time',
       'Squalane and plant butters cushion a dry, tight moisture barrier',
-      'Rich enough for overnight repair, or for cold, dry Melbourne winters',
+      'Rich texture designed to support hydration overnight, or for cold, dry Melbourne winters',
       'Layers well over the Glow Serum or any hydrating essence',
     ],
     howToUse: [
@@ -1155,7 +1155,7 @@ const COPY: Record<string, CopyOverride> = {
         name: 'Rice Bran Water',
         korean: '쌀겨수',
         what: 'Oryza sativa bran water — the base of the formula instead of plain water. A staple of Korean hanbang skincare, valued for leaving skin soft, hydrated and less dull-looking.',
-        goodFor: ['Dryness', 'Dullness', 'Daily use'],
+        goodFor: ['Dryness', 'Dullness', 'Hydration support'],
       },
       {
         name: 'Ginseng Root Extract',
@@ -1548,7 +1548,7 @@ const INGREDIENT_RULES: { match: RegExp; ing: HeroIngredient }[] = [
     match: /pdrn/i,
     ing: {
       name: 'PDRN (Polydeoxyribonucleotide)',
-      what: 'A salmon-derived DNA fragment used widely in Korean clinics to support skin repair, elasticity and post-blemish recovery.',
+      what: 'A salmon-derived DNA fragment used widely in Korean clinics, associated with skin elasticity and the appearance of post-blemish marks; effects on the finished product are not guaranteed.',
       goodFor: ['Elasticity', 'Repair', 'Post-blemish marks'],
     },
   },
@@ -1558,7 +1558,7 @@ const INGREDIENT_RULES: { match: RegExp; ing: HeroIngredient }[] = [
       name: 'Centella Asiatica (Cica)',
       korean: '병풀추출물',
       what: 'The calming workhorse of K-beauty. Madecassoside and asiaticoside help settle visible redness and support barrier recovery.',
-      goodFor: ['Redness', 'Sensitivity', 'Barrier repair'],
+      goodFor: ['Redness', 'Sensitivity', 'Barrier support'],
     },
   },
   {
@@ -1566,7 +1566,7 @@ const INGREDIENT_RULES: { match: RegExp; ing: HeroIngredient }[] = [
     ing: {
       name: 'Ceramides',
       what: 'The lipids your barrier is literally built from. Topping them up reduces water loss and that stinging feeling after cleansing.',
-      goodFor: ['Barrier repair', 'Dryness', 'Sensitivity'],
+      goodFor: ['Barrier support', 'Dryness', 'Sensitivity'],
     },
   },
   {
@@ -1645,8 +1645,8 @@ const INGREDIENT_RULES: { match: RegExp; ing: HeroIngredient }[] = [
     match: /exosome/i,
     ing: {
       name: 'Exosome technology',
-      what: 'Cell-signalling vesicles used in clinical Korean skincare to accelerate visible repair and refine pore appearance.',
-      goodFor: ['Pores', 'Repair', 'Texture'],
+      what: 'Cell-signalling vesicles studied in clinical Korean skincare in relation to visible skin appearance and pore appearance; effects on the finished product are not guaranteed.',
+      goodFor: ['Pores', 'Skin appearance', 'Texture'],
     },
   },
 ];

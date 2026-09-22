@@ -152,8 +152,8 @@ function About() {
           </p>
           <div className="mt-12 grid gap-8 md:grid-cols-3">
             {[
-              { n: "01", t: "Authenticity, always", d: "Direct brand partnerships. Every product is the real thing, sourced through verified channels — never grey-market copies." },
-              { n: "02", t: "Built by a mum, for real life", d: "Simple routines, clear guidance, and a team that understands busy schedules and tired skin." },
+              { n: "01", t: "Documented sourcing", d: "We source through established Korean wholesale supply partners and record supplier and purchase documentation for every delivery." },
+              { n: "02", t: "Built by two Australian sisters for real routines", d: "Simple routines, plain-English guidance and locally stocked products." },
               { n: "03", t: "Locally stocked in Melbourne", d: "Everything is warehoused here, so orders ship fast — no overseas waits, no surprise delays." },
               { n: "04", t: "Honest guidance", d: "We explain how to use each product and why it suits your skin, your climate and your goals." },
               { n: "05", t: "Fair local pricing", d: "No currency conversion sting, no inflated import mark-ups. Just Australian prices for Australian women." },
