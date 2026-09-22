@@ -15,7 +15,6 @@ import { Route as AccountRouteImport } from './routes/account'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BrandsRouteImport } from './routes/brands'
 import { Route as CheckoutRouteImport } from './routes/checkout'
-import { Route as ClubRouteImport } from './routes/club'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EmailPreviewRouteImport } from './routes/email-preview'
@@ -96,11 +95,6 @@ const BrandsRoute = BrandsRouteImport.update({
 const CheckoutRoute = CheckoutRouteImport.update({
   id: '/checkout',
   path: '/checkout',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ClubRoute = ClubRouteImport.update({
-  id: '/club',
-  path: '/club',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConsultationRoute = ConsultationRouteImport.update({
@@ -369,7 +363,6 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/brands': typeof BrandsRoute
   '/checkout': typeof CheckoutRouteWithChildren
-  '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
   '/email-preview': typeof EmailPreviewRoute
@@ -429,7 +422,6 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/brands': typeof BrandsRoute
   '/checkout': typeof CheckoutRouteWithChildren
-  '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
   '/email-preview': typeof EmailPreviewRoute
@@ -490,7 +482,6 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/brands': typeof BrandsRoute
   '/checkout': typeof CheckoutRouteWithChildren
-  '/club': typeof ClubRoute
   '/consultation': typeof ConsultationRoute
   '/contact': typeof ContactRoute
   '/email-preview': typeof EmailPreviewRoute
@@ -552,7 +543,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/brands'
     | '/checkout'
-    | '/club'
     | '/consultation'
     | '/contact'
     | '/email-preview'
@@ -612,7 +602,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/brands'
     | '/checkout'
-    | '/club'
     | '/consultation'
     | '/contact'
     | '/email-preview'
@@ -672,7 +661,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/brands'
     | '/checkout'
-    | '/club'
     | '/consultation'
     | '/contact'
     | '/email-preview'
@@ -733,7 +721,6 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BrandsRoute: typeof BrandsRoute
   CheckoutRoute: typeof CheckoutRouteWithChildren
-  ClubRoute: typeof ClubRoute
   ConsultationRoute: typeof ConsultationRoute
   ContactRoute: typeof ContactRoute
   EmailPreviewRoute: typeof EmailPreviewRoute
@@ -828,13 +815,6 @@ declare module '@tanstack/react-router' {
       path: '/checkout'
       fullPath: '/checkout'
       preLoaderRoute: typeof CheckoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/club': {
-      id: '/club'
-      path: '/club'
-      fullPath: '/club'
-      preLoaderRoute: typeof ClubRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/consultation': {
@@ -1216,7 +1196,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BrandsRoute: BrandsRoute,
   CheckoutRoute: CheckoutRouteWithChildren,
-  ClubRoute: ClubRoute,
   ConsultationRoute: ConsultationRoute,
   ContactRoute: ContactRoute,
   EmailPreviewRoute: EmailPreviewRoute,
