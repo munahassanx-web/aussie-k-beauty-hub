@@ -39,3 +39,9 @@
 - [x] Separate voluntary change-of-mind returns from Australian Consumer Law remedies
 - [x] Add product-concern evidence, skin-reaction, cancellation and last-updated wording
 - [x] Verify the corrected policy in the live preview on desktop and mobile
+
+## Privacy policy correction
+- [x] Audit the live account, checkout, support, email, analytics, Routine Finder and verification data flows
+- [x] Replace outdated collection, provider, cookie, marketing and verification wording
+- [x] Add accurate retention, security, data-breach, under-18, rights and complaint sections
+- [x] Verify the corrected policy in the live preview on desktop and mobile
