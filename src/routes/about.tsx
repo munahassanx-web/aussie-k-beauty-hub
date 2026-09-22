@@ -111,8 +111,8 @@ function About() {
               img: verifyAsset.url,
               alt: "Hands checking the code on a skincare bottle against a verification sheet",
               step: "Step 02",
-              t: "Every arrival checked by hand",
-              d: "Product identity is matched to our catalogue and packaging and seals are inspected before stock is listed. Anything that does not match goes straight back.",
+              t: "Every arrival reconciled and reviewed",
+              d: "Stock is reconciled against our catalogue, visible packaging and product condition are reviewed, and available batch information is recorded before dispatch.",
             },
             {
               img: packingAsset.url,
