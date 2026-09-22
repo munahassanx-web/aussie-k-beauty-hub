@@ -17,13 +17,17 @@ export type IngredientDetail = {
   science_note: string | null;
   common_myth: string | null;
   also_known_as: string[];
+  evidence_reviewed_at: string;
+  source_links: string[];
+  limitations: string | null;
+  caution_notes: string | null;
 };
 
 export async function fetchIngredientBySlug(slug: string) {
   const { data, error } = await supabase
     .from("ingredients")
     .select(
-      "id, name_english, name_korean, name_chinese, category, what_it_does, good_for, avoid_if, how_to_use, pairs_well_with, avoid_pairing_with, science_note, common_myth, also_known_as",
+      "id, name_english, name_korean, name_chinese, category, what_it_does, good_for, avoid_if, how_to_use, pairs_well_with, avoid_pairing_with, science_note, common_myth, also_known_as, evidence_reviewed_at, source_links, limitations, caution_notes",
     );
   if (error) throw error;
 

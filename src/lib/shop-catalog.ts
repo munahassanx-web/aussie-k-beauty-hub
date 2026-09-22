@@ -1,7 +1,7 @@
 // Skin Grocer launch assortment — 52 SKUs across 13 K-beauty brands.
 // Product photography lives in public/products/<brand-slug>/<product-slug>.png
 
-export type Category = "Cleanse" | "Tone" | "Treat" | "Moisturise" | "Protect" | "Masks";
+export type Category = "Cleanse" | "Tone" | "Treat" | "Moisturise" | "Protect" | "Masks" | "Multi-step trial routine";
 export type Concern = "hydration" | "acne" | "pigmentation" | "sensitivity" | "anti-aging" | "barrier";
 
 export type ShopProduct = {
@@ -524,7 +524,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     inciSourceUrl: "https://roundlab.com/products/birch-moisturizing-cream",
     inciCheckedOn: "2026-09-09",
   },
-  { name: "1025 Dokdo Trial Kit (Cleanser 30ml + Toner 20ml + Ampule 10ml + Cream 20ml)", brand: "ROUND LAB", price: "$30", priceId: "round_lab_1025_dokdo_trial_kit_onetime", size: "Cleanser 30ml + Toner 20ml + Ampoule 10ml + Cream 20ml", tag: null, category: "Treat", image: "/products/round-lab/1025-dokdo-trial-kit.webp", concerns: ["pigmentation"] },
+  { name: "1025 Dokdo Trial Kit (Cleanser 30ml + Toner 20ml + Ampule 10ml + Cream 20ml)", brand: "ROUND LAB", price: "$30", priceId: "round_lab_1025_dokdo_trial_kit_onetime", size: "Cleanser 30ml + Toner 20ml + Ampoule 10ml + Cream 20ml", tag: null, category: "Multi-step trial routine", image: "/products/round-lab/1025-dokdo-trial-kit.webp", concerns: ["pigmentation"] },
   { name: "Hyaluronic Acid Water Essence 50ml", brand: "ISNTREE", price: "$40", priceId: "isntree_hyaluronic_acid_water_essence_50ml_onetime", tag: null, category: "Treat", image: "/products/isntree/hyaluronic-acid-water-essence-50ml.webp", concerns: ["hydration"] },
   {
     name: "Green Tea Fresh Toner 200ml",
@@ -689,8 +689,8 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     inciCheckedOn: "2026-09-09",
   },
   { name: "Dive In Mask Pack 1pc", brand: "TORRIDEN", price: "$10", priceId: "torriden_dive_in_mask_pack_1pc_onetime", size: "1 sheet", tag: null, category: "Masks", image: "/products/torriden/dive-in-mask-pack-1pc.webp", concerns: ["hydration"] },
-  { name: "Balanceful Trial Kit (Global)", brand: "TORRIDEN", price: "$35", priceId: "torriden_balanceful_trial_kit_onetime", size: "Cleansing Gel 30ml + Toner Pads 6 pads + Serum 10ml + Cream 20ml", tag: null, category: "Treat", image: "/products/torriden/balanceful-trial-kit.webp", concerns: ["barrier"] },
-  { name: "Dive In Trial Kit (Global)", brand: "TORRIDEN", price: "$35", priceId: "torriden_dive_in_trial_kit_onetime", size: "Cleansing Foam 30ml + Toner 50ml + Serum 20ml + Cream 20ml", tag: null, category: "Treat", image: "/products/torriden/dive-in-trial-kit.webp", concerns: ["hydration"] },
+  { name: "Balanceful Trial Kit (Global)", brand: "TORRIDEN", price: "$35", priceId: "torriden_balanceful_trial_kit_onetime", size: "Cleansing Gel 30ml + Toner Pads 6 pads + Serum 10ml + Cream 20ml", tag: null, category: "Multi-step trial routine", image: "/products/torriden/balanceful-trial-kit.webp", concerns: ["barrier"] },
+  { name: "Dive In Trial Kit (Global)", brand: "TORRIDEN", price: "$35", priceId: "torriden_dive_in_trial_kit_onetime", size: "Cleansing Foam 30ml + Toner 50ml + Serum 20ml + Cream 20ml", tag: null, category: "Multi-step trial routine", image: "/products/torriden/dive-in-trial-kit.webp", concerns: ["hydration"] },
   { name: "Refreshing Sea Kelp Real Deep Mask", brand: "BIODANCE", price: "$38", priceId: "biodance_refreshing_sea_kelp_real_deep_mask_onetime", size: "4 sheets", tag: null, category: "Masks", image: "/products/biodance/refreshing-sea-kelp-real-deep-mask.webp", concerns: ["sensitivity"], supplierReconciliationStatus: "unmatched", supplierMatchConfirmed: false, purchasable: false },
   {
     name: "Bio Collagen Real Deep Mask",
