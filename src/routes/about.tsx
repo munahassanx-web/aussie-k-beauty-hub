@@ -104,8 +104,8 @@ function About() {
               img: warehouseStockAsset.url,
               alt: "Cartons of Korean skincare stock being handled on shelves in the Melbourne warehouse",
               step: "Step 01",
-              t: "Sourced direct, stocked locally",
-              d: "We buy through verified brand partners and official distributors only, then warehouse it all in Melbourne — so nothing sits on a container for a month.",
+              t: "Sourced through Korean wholesale partners, stocked locally",
+              d: "We source through established Korean wholesale supply partners, including UMMA and Seoul4PM, and record the supplier and purchase documentation for each delivery into our Melbourne warehouse.",
             },
             {
               img: verifyAsset.url,
