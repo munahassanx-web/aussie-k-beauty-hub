@@ -37,7 +37,7 @@ const SEASONS: Season[] = [
     name: "Spring",
     label: "Spring skin edit",
     headline: "A lighter routine for the change in season.",
-    copy: "Explore lightweight hydration and thoughtful exfoliation selected for warmer Melbourne days.",
+    copy: "Explore lightweight hydration and glow-supporting formulas selected for warmer Melbourne days.",
     cta: "Explore the spring edit",
     priceId: "beauty_of_joseon_glow_serum_propolis_plus_niacinamide_30ml_onetime",
     image: glowSerum,
@@ -149,8 +149,8 @@ export function AtmosHero() {
             Korean skincare, made easier.
           </h1>
           <p className="mt-4 max-w-[46ch] text-[16px] leading-[1.6] text-hero-muted md:text-[18px]">
-            Carefully selected Korean skincare, with clear guidance to help you choose and build a
-            routine that makes sense.
+            Korean skincare selected beyond the trends, verified in Melbourne and explained so every
+            product has a clear place in your routine.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link
@@ -219,11 +219,6 @@ export function AtmosHero() {
                     {season.headline}
                   </h2>
                   <p className="mt-2 text-[14px] leading-[1.55] text-hero-ink/80">{season.copy}</p>
-                  {product && (
-                    <p className="mt-3 text-[12px] font-semibold text-hero-ink">
-                      {product.brand} · {product.name}
-                    </p>
-                  )}
                   {product ? (
                     <Link
                       to="/product/$slug"
@@ -247,6 +242,11 @@ export function AtmosHero() {
                       {season.cta}
                       <ArrowRight className="h-3.5 w-3.5" />
                     </Link>
+                  )}
+                  {product && (
+                    <p className="mt-3 text-[11px] font-normal text-hero-muted">
+                      {product.brand} · {product.name}
+                    </p>
                   )}
                 </motion.div>
               </AnimatePresence>

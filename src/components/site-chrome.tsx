@@ -137,26 +137,12 @@ function AnnouncementBar({ suppressStockClaims = false }: { suppressStockClaims?
           <Link to="/contact" className="hover:text-paper">Help</Link>
         </span>
 
-        {/* Desktop: all three trust messages in a calm, spaced row */}
-        <div className="hidden w-full items-center justify-center md:flex">
-          {visibleAnnouncements.map((msg, i) => (
-            <span key={msg} className="flex items-center">
-              <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-paper/70">
-                {msg}
-              </span>
-              {i < visibleAnnouncements.length - 1 && (
-                <span className="mx-8 text-[10px] text-paper/30" aria-hidden="true">·</span>
-              )}
-            </span>
-          ))}
-        </div>
-
-        {/* Mobile: rotate one message at a time with a gentle fade */}
-        <div className="relative h-4 w-full md:hidden">
+        {/* One message at a time, gentle fade; static under reduced motion */}
+        <div className="relative h-4 w-full" aria-live="off">
           {visibleAnnouncements.map((msg, i) => (
             <span
               key={msg}
-              className={`absolute inset-0 flex items-center justify-center whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.16em] text-paper/70 ease-out ${
+              className={`absolute inset-0 flex items-center justify-center whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.16em] text-paper/70 ease-out motion-reduce:transition-none md:text-[10px] md:tracking-[0.2em] ${
                 i === active
                   ? "opacity-100 translate-y-0 transition-all duration-700 delay-200"
                   : "opacity-0 -translate-y-1 transition-all duration-200"
@@ -305,7 +291,7 @@ export function SiteHeader() {
           <AnnouncementBar suppressStockClaims={suppressStockClaims} />
           <div className="mx-auto max-w-7xl px-6 border-b border-foreground/5">
             {/* Brand row — large centered wordmark */}
-            <div className="relative flex items-center justify-center px-4 pt-10 pb-4 md:min-h-[84px] md:px-0 md:pt-0 md:pb-0">
+            <div className="relative flex items-center justify-center px-4 pt-8 pb-3 md:min-h-[68px] md:px-0 md:pt-0 md:pb-0">
               <Link
                 to="/"
                 aria-label="Skin Grocer — home"
