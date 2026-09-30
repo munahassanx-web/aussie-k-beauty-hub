@@ -27,6 +27,10 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-pop: var(--pop);
   --color-pop-foreground: var(--pop-foreground);
+  --color-hero-paper: #ffffff;
+  --color-hero-cream: #faf8f4;
+  --color-hero-ink: #171714;
+  --color-hero-muted: #4a4a44;
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);

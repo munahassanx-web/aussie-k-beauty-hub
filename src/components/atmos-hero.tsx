@@ -1,13 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState, type KeyboardEvent } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
-import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-  type Transition,
-} from "motion/react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
 import { trackUi } from "@/lib/analytics";
@@ -20,545 +14,293 @@ import plumToner from "@/assets/hero-spring-plum.png";
 import cicaAmpoule from "@/assets/hero-spring-cica.png";
 import glowSerum from "@/assets/hero-spring-glow.png";
 
-const CYCLE_MS = 7000;
-
-type Chapter = {
-  id: string;
-  /** Bilingual campaign label — Korean plus its English meaning. */
-  hangul: string;
-  hangulEnglish: string;
+type Season = {
+  id: "spring" | "summer" | "autumn" | "winter";
+  name: string;
+  label: string;
   headline: string;
   copy: string;
-  /** Optional extra qualifying line beneath the campaign copy. */
-  note?: string;
-  /** Optional plain-language caution shown with the action. */
-  caution?: string;
-  ingredient: string;
-  /** Campaign action label. */
   cta: string;
-  /** A stocked SKU, or null for an educational-only act. */
   priceId: string | null;
-  /** Where the campaign action goes when there is no product. */
   educationalTo?: string;
   image: string;
   imageAlt: string;
   backdrop: string;
-  theme: { accent: string; deep: string; glow: string; ink: string };
+  /** Seasonal colour kept inside the feature area only. */
+  tint: string;
+  accent: string;
 };
 
-/**
- * Four-act seasonal campaign. It is a supporting storytelling layer — the
- * permanent Skin Grocer positioning above it is the primary brand message and
- * never changes when an act rotates.
- */
-const CHAPTERS: Chapter[] = [
+const SEASONS: Season[] = [
   {
-    id: "shed",
-    hangul: "각질",
-    hangulEnglish: "Exfoliation",
-    headline: "Shed the winter you're still wearing.",
-    copy: "Green plum, AHA and BHA combine in a gentle exfoliating toner designed to lift away surface buildup without turning your routine into an acid schedule.",
-    note: "For experienced exfoliant users who want a considered weekly step—not an everyday shortcut.",
-    caution:
-      "Introduce gradually. Avoid layering with other strong exfoliants or retinal in the same routine.",
-    ingredient: "Green plum extract · AHA + BHA",
-    cta: "Explore the reset — $32",
-    priceId: "beauty_of_joseon_green_plum_refreshing_toner_150ml_onetime",
-    image: plumToner,
-    imageAlt: "Beauty of Joseon Green Plum Refreshing Toner bottle",
-    backdrop: bgPlum,
-    theme: { accent: "104 128 58", deep: "240 234 216", glow: "203 216 150", ink: "46 40 31" },
+    id: "spring",
+    name: "Spring",
+    label: "Spring skin edit",
+    headline: "A lighter routine for the change in season.",
+    copy: "Explore lightweight hydration and thoughtful exfoliation selected for warmer Melbourne days.",
+    cta: "Explore the spring edit",
+    priceId: "beauty_of_joseon_glow_serum_propolis_plus_niacinamide_30ml_onetime",
+    image: glowSerum,
+    imageAlt: "Beauty of Joseon Glow Serum Propolis + Niacinamide bottle",
+    backdrop: bgGlow,
+    tint: "247 234 222",
+    accent: "150 80 36",
   },
   {
-    id: "calm",
-    hangul: "진정",
-    hangulEnglish: "Calming",
-    headline: "When Melbourne turns unpredictable, keep the routine calm.",
-    copy: "Centella asiatica and madecassoside in a lightweight ampoule for skin that feels easily unsettled by wind, changing temperatures or an overcomplicated routine.",
-    ingredient: "Centella asiatica · Madecassoside",
-    cta: "Explore the calming edit — $38",
-    priceId: "beplain_cicaful_ampoule_30ml_onetime",
-    image: cicaAmpoule,
-    imageAlt: "beplain Cicaful Ampoule bottle",
-    backdrop: bgCica,
-    theme: { accent: "62 122 92", deep: "240 236 222", glow: "186 216 186", ink: "46 40 31" },
-  },
-  {
-    id: "shield",
-    hangul: "자외선",
-    hangulEnglish: "UV protection",
-    headline: "The UV index doesn't wait for summer.",
-    copy: "Daily sun protection matters throughout the year. Learn how sunscreen fits into a simple morning routine and how to choose an appropriate product available for lawful Australian supply.",
-    ingredient: "Daily UV habits · Educational guide",
+    id: "summer",
+    name: "Summer",
+    label: "Summer skin edit",
+    headline: "Daily sun protection, explained simply.",
+    copy: "Learn how sunscreen fits into a simple morning routine.",
     cta: "Learn about daily protection",
     priceId: null,
     educationalTo: "/learn/hub",
     image: droplet,
     imageAlt: "",
     backdrop: bgSun,
-    theme: { accent: "26 118 168", deep: "234 233 231", glow: "168 216 236", ink: "38 38 45" },
+    tint: "232 240 244",
+    accent: "20 92 132",
   },
   {
-    id: "bloom",
-    hangul: "수분광",
-    hangulEnglish: "Hydration & glow",
-    headline: "Step into spring with hydration, not hype.",
-    copy: "A considered hydration step for skin that feels dull or depleted—selected for texture, routine compatibility and everyday wear.",
-    ingredient: "Propolis extract · Niacinamide",
-    cta: "Explore the hydration edit",
-    priceId: "beauty_of_joseon_glow_serum_propolis_plus_niacinamide_30ml_onetime",
-    image: glowSerum,
-    imageAlt: "Beauty of Joseon Glow Serum Propolis + Niacinamide bottle",
-    backdrop: bgGlow,
-    theme: { accent: "192 108 52", deep: "247 234 222", glow: "246 200 158", ink: "48 34 32" },
+    id: "autumn",
+    name: "Autumn",
+    label: "Autumn skin edit",
+    headline: "A considered exfoliating step.",
+    copy: "A gentle exfoliating toner for experienced users—introduce gradually.",
+    cta: "Explore the autumn edit",
+    priceId: "beauty_of_joseon_green_plum_refreshing_toner_150ml_onetime",
+    image: plumToner,
+    imageAlt: "Beauty of Joseon Green Plum Refreshing Toner bottle",
+    backdrop: bgPlum,
+    tint: "240 236 218",
+    accent: "82 102 42",
+  },
+  {
+    id: "winter",
+    name: "Winter",
+    label: "Winter skin edit",
+    headline: "Keep the routine calm when the weather isn't.",
+    copy: "A lightweight centella ampoule for a simpler cold-weather routine.",
+    cta: "Explore the winter edit",
+    priceId: "beplain_cicaful_ampoule_30ml_onetime",
+    image: cicaAmpoule,
+    imageAlt: "beplain Cicaful Ampoule bottle",
+    backdrop: bgCica,
+    tint: "232 240 232",
+    accent: "44 98 72",
   },
 ];
 
-const EASE_OUT: Transition = { duration: 0.5, ease: [0.16, 1, 0.3, 1] };
-/** One restrained treatment: a soft texture reveal, well under 1.2s. */
-const REVEAL: Transition = { duration: 1.1, ease: [0.16, 1, 0.3, 1] };
-
 /**
- * Homepage hero.
- *
- * Zone one (left) carries the permanent Skin Grocer positioning, which stays
- * on screen through every campaign change. Zone two (right) is the seasonal
- * product theatre. Motion is a single soft reveal plus slow ambient drift;
- * rotation pauses on hover, focus, interaction and when the tab is hidden.
+ * Homepage hero. The brand message (left) is fixed and never rotates.
+ * The seasonal feature (right) changes only when a visitor picks a season.
  */
 export function AtmosHero() {
-  const stageRef = useRef<HTMLElement>(null);
   const [index, setIndex] = useState(0);
-  const [interacting, setInteracting] = useState(false);
-  const [tabHidden, setTabHidden] = useState(false);
-  const [userPaused, setUserPaused] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const reduce = useReducedMotion();
-
-  const act = CHAPTERS[index]!;
-  const product = act.priceId
-    ? SHOP_PRODUCTS.find((p) => p.priceId === act.priceId)
+  const season = SEASONS[index]!;
+  const product = season.priceId
+    ? SHOP_PRODUCTS.find((p) => p.priceId === season.priceId)
     : undefined;
 
-  useEffect(() => setMounted(true), []);
-
-  useEffect(() => {
-    const onVisibility = () => setTabHidden(document.hidden);
-    onVisibility();
-    document.addEventListener("visibilitychange", onVisibility);
-    return () => document.removeEventListener("visibilitychange", onVisibility);
-  }, []);
-
-  const goTo = useCallback((next: number, reason: "auto" | "manual") => {
-    setIndex((cur) => {
-      const target = (next + CHAPTERS.length) % CHAPTERS.length;
-      if (target !== cur) {
-        trackUi("hero_slide_change", {
-          slide_id: CHAPTERS[target]!.id,
-          slide_index: target + 1,
-          change_reason: reason,
-        });
-      }
-      return target;
-    });
-  }, []);
-
-  const running = !reduce && !interacting && !tabHidden && !userPaused;
-
-  useEffect(() => {
-    if (!running) return;
-    const t = window.setInterval(() => {
-      setIndex((i) => {
-        const next = (i + 1) % CHAPTERS.length;
-        trackUi("hero_slide_change", {
-          slide_id: CHAPTERS[next]!.id,
-          slide_index: next + 1,
-          change_reason: "auto",
-        });
-        return next;
+  const select = (next: number, focus = false) => {
+    const target = (next + SEASONS.length) % SEASONS.length;
+    if (target !== index) {
+      trackUi("hero_slide_change", {
+        slide_id: SEASONS[target]!.id,
+        slide_index: target + 1,
+        change_reason: "manual",
       });
-    }, CYCLE_MS);
-    return () => window.clearInterval(t);
-  }, [running]);
+    }
+    setIndex(target);
+    if (focus) tabRefs.current[target]?.focus();
+  };
 
-  const themeVars = {
-    "--act-accent": act.theme.accent,
-    "--act-deep": act.theme.deep,
-    "--act-glow": act.theme.glow,
-    "--act-ink": act.theme.ink,
-  } as React.CSSProperties;
+  const onTabKey = (e: KeyboardEvent<HTMLButtonElement>) => {
+    const map: Record<string, number> = {
+      ArrowRight: index + 1,
+      ArrowDown: index + 1,
+      ArrowLeft: index - 1,
+      ArrowUp: index - 1,
+      Home: 0,
+      End: SEASONS.length - 1,
+    };
+    if (e.key in map) {
+      e.preventDefault();
+      select(map[e.key]!, true);
+    }
+  };
 
-
-
+  const fade = reduce ? { duration: 0 } : { duration: 0.45, ease: "easeOut" as const };
 
   return (
-    <section
-      ref={stageRef}
-      aria-labelledby="atmos-heading"
-      aria-roledescription="carousel"
-      aria-label="Seasonal Korean skincare campaign"
-      style={themeVars}
-      className="relative isolate overflow-hidden transition-[background-color] duration-700 ease-out"
-      onMouseEnter={() => setInteracting(true)}
-      onMouseLeave={() => setInteracting(false)}
-      onFocusCapture={() => setInteracting(true)}
-      onBlurCapture={() => setInteracting(false)}
-    >
-      {/* Colour-graded ground for the current act */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 transition-colors duration-700"
-        style={{ backgroundColor: `rgb(var(--act-deep))` }}
-      />
-
-      {/* Ambient macro texture backdrop */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <AnimatePresence initial={false}>
-          <motion.img
-            key={act.id}
-            src={act.backdrop}
-            alt=""
-            width={1920}
-            height={1280}
-            fetchPriority={index === 0 ? "high" : "low"}
-            loading={index === 0 ? "eager" : "lazy"}
-            decoding="async"
-            initial={{ opacity: 0, scale: 1.06 }}
-            animate={{ opacity: 0.9, scale: reduce ? 1.02 : 1.04 }}
-            exit={{ opacity: 0 }}
-            transition={reduce ? { duration: 0.2 } : { duration: 8, ease: "easeOut" }}
-            className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
-          />
-        </AnimatePresence>
-      </div>
-
-      {/* Reading panel — guarantees legible text over any campaign image */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 transition-[background] duration-700"
-        style={{
-          background: `linear-gradient(180deg, rgb(var(--act-deep) / 0.9) 0%, rgb(var(--act-deep) / 0.62) 46%, rgb(var(--act-deep) / 0.86) 100%)`,
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 hidden md:block"
-        style={{
-          background: `linear-gradient(100deg, rgb(var(--act-deep) / 0.95) 0%, rgb(var(--act-deep) / 0.82) 46%, rgb(var(--act-deep) / 0.25) 78%, transparent 100%)`,
-        }}
-      />
-
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-6 px-6 py-6 md:px-12 md:py-8 lg:grid lg:grid-cols-[52fr_48fr] lg:grid-rows-[auto_auto_auto] lg:gap-x-12 lg:gap-y-0">
-        {/* Zone 1 — permanent Skin Grocer positioning (desktop: left, row 1) */}
-        <motion.div
-          initial={false}
-          animate={mounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-          transition={EASE_OUT}
-          className="order-1 max-w-[600px] lg:col-start-1 lg:row-start-1"
-        >
-          <p
-            className="text-[12px] font-semibold uppercase tracking-[0.22em]"
-            style={{ color: `rgb(var(--act-accent))` }}
-          >
-            Melbourne · Authentic Korean skincare
+    <section aria-labelledby="atmos-heading" className="bg-hero-paper text-hero-ink">
+      <div className="mx-auto grid w-full max-w-7xl items-center gap-8 px-6 py-8 md:px-12 md:py-12 lg:grid-cols-[1fr_1fr] lg:gap-14">
+        {/* Fixed brand message */}
+        <div className="max-w-[600px]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-hero-muted md:text-[12px]">
+            Authentic Korean skincare · Stocked in Melbourne
           </p>
           <h1
             id="atmos-heading"
-            className="mt-2.5 font-masthead text-[clamp(2rem,3.9vw,3.1rem)] font-black leading-[0.98] tracking-[-0.02em]"
-            style={{ color: `rgb(var(--act-ink))` }}
+            className="mt-3 font-masthead text-[clamp(2.4rem,5vw,4rem)] font-black leading-[0.98] tracking-[-0.02em] text-hero-ink"
           >
-            Korean skincare, chosen with more care.
+            Korean skincare, made easier.
           </h1>
-          <p
-            className="mt-3 max-w-[56ch] text-[16px] leading-[1.55] md:text-[17px]"
-            style={{ color: `rgb(var(--act-ink) / 0.92)` }}
-          >
-            Products Koreans genuinely use—selected with Australian climate and
-            real routines in mind. Stocked in Melbourne and explained without the hype.
+          <p className="mt-4 max-w-[46ch] text-[16px] leading-[1.6] text-hero-muted md:text-[18px]">
+            Carefully selected Korean skincare, with clear guidance to help you choose and build a
+            routine that makes sense.
           </p>
-
-          <div className="mt-5">
-            <Button
-              asChild
-              className="group h-auto min-h-[48px] w-full rounded-full px-8 py-4 text-[13px] font-bold uppercase tracking-[0.16em] shadow-[0_20px_50px_-20px_var(--pop)] transition-transform duration-200 hover:-translate-y-0.5 sm:w-auto"
-              style={{ backgroundColor: "var(--pop)", color: "var(--pop-foreground)" }}
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <Link
+              to="/shop"
+              onClick={() => trackUi("hero_shop_click", { slide_id: season.id })}
+              className="group inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-hero-ink px-8 py-3.5 text-[13px] font-bold uppercase tracking-[0.16em] text-hero-paper transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-ink focus-visible:ring-offset-2"
             >
-              <Link
-                to="/consultation"
-                search={{}}
-                onClick={() => trackUi("hero_routine_finder_click", { slide_id: act.id })}
-              >
-                Find my routine
-                <ArrowRight className="ml-2.5 h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-              </Link>
-            </Button>
+              Shop the edit
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+            <Link
+              to="/consultation"
+              search={{}}
+              onClick={() => trackUi("hero_routine_finder_click", { slide_id: season.id })}
+              className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-hero-ink px-8 py-3.5 text-[13px] font-bold uppercase tracking-[0.16em] text-hero-ink transition-colors hover:bg-hero-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-ink focus-visible:ring-offset-2"
+            >
+              Find my routine
+            </Link>
           </div>
-        </motion.div>
+          <p className="mt-5 text-[13px] font-medium text-hero-muted">
+            Verified sourcing · Melbourne stock · Clear routine guidance
+          </p>
+        </div>
 
-        {/* Zone 2 — seasonal product theatre (desktop: right, spanning rows 1–2) */}
-        <div className="order-2 lg:col-start-2 lg:row-start-1 lg:row-span-2">
-          <div className="relative mx-auto aspect-square w-full max-w-[17rem] sm:max-w-[20rem] lg:max-w-[25rem]">
-            <motion.div
+        {/* Seasonal feature */}
+        <div
+          className="relative overflow-hidden rounded-3xl transition-colors duration-500"
+          style={{ backgroundColor: `rgb(${season.tint})` }}
+        >
+          <AnimatePresence initial={false}>
+            <motion.img
+              key={season.backdrop}
+              src={season.backdrop}
+              alt=""
               aria-hidden="true"
-              className="absolute left-1/2 top-1/2 h-[16rem] w-[16rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[90px]"
-              style={{ backgroundColor: `rgb(var(--act-glow) / 0.3)` }}
-              animate={reduce ? undefined : { scale: [1, 1.06, 1], opacity: [0.75, 1, 0.75] }}
-              transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.35 }}
+              exit={{ opacity: 0 }}
+              transition={fade}
+              className="pointer-events-none absolute inset-0 h-full w-full object-cover mix-blend-multiply"
             />
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={act.id}
-                className="absolute inset-0 flex items-center justify-center"
-                initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.97, filter: "blur(10px)" }}
-                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.01, filter: "blur(8px)" }}
-                transition={reduce ? { duration: 0.25 } : REVEAL}
-              >
+          </AnimatePresence>
+
+          <div className="relative grid gap-4 p-6 sm:grid-cols-[1fr_11rem] sm:items-center md:p-8">
+            <div
+              id={`season-panel-${season.id}`}
+              role="tabpanel"
+              aria-labelledby={`season-tab-${season.id}`}
+              aria-live="polite"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={season.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={fade}
+                >
+                  <p
+                    className="text-[11px] font-bold uppercase tracking-[0.2em]"
+                    style={{ color: `rgb(${season.accent})` }}
+                  >
+                    {season.label}
+                  </p>
+                  <h2 className="mt-2 font-display text-[clamp(1.25rem,2.2vw,1.65rem)] font-semibold leading-[1.15] text-hero-ink">
+                    {season.headline}
+                  </h2>
+                  <p className="mt-2 text-[14px] leading-[1.55] text-hero-ink/80">{season.copy}</p>
+                  {product && (
+                    <p className="mt-3 text-[12px] font-semibold text-hero-ink">
+                      {product.brand} · {product.name}
+                    </p>
+                  )}
+                  {product ? (
+                    <Link
+                      to="/product/$slug"
+                      params={{ slug: productSlug(product) }}
+                      onClick={() =>
+                        trackUi("hero_seasonal_edit_click", { slide_id: season.id, destination: "product" })
+                      }
+                      className="mt-4 inline-flex min-h-[44px] items-center gap-2 rounded-full bg-hero-paper px-5 py-2.5 text-[12px] font-bold uppercase tracking-[0.14em] text-hero-ink shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-ink"
+                    >
+                      {season.cta}
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  ) : (
+                    <Link
+                      to={season.educationalTo ?? "/learn/hub"}
+                      onClick={() =>
+                        trackUi("hero_seasonal_edit_click", { slide_id: season.id, destination: "learn" })
+                      }
+                      className="mt-4 inline-flex min-h-[44px] items-center gap-2 rounded-full bg-hero-paper px-5 py-2.5 text-[12px] font-bold uppercase tracking-[0.14em] text-hero-ink shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-ink"
+                    >
+                      {season.cta}
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <div className="relative mx-auto aspect-square w-40 sm:w-44">
+              <AnimatePresence mode="wait" initial={false}>
                 <motion.img
-                  src={act.image}
-                  alt={act.imageAlt}
-                  aria-hidden={act.imageAlt ? undefined : true}
+                  key={season.image}
+                  src={season.image}
+                  alt={season.imageAlt}
+                  aria-hidden={season.imageAlt ? undefined : true}
                   width={1024}
                   height={1024}
-                  fetchPriority={index === 0 ? "high" : "low"}
                   loading={index === 0 ? "eager" : "lazy"}
                   decoding="async"
-                  animate={reduce ? undefined : { y: [0, -10, 0] }}
-                  transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-                  className="h-full w-full object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.35)]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={fade}
+                  className="h-full w-full object-contain drop-shadow-[0_24px_30px_rgba(0,0,0,0.25)]"
                 />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Product summary — sits directly beneath the product image */}
-          <div
-            className="mx-auto mt-2 max-w-[17rem] rounded-2xl border px-5 py-3.5 backdrop-blur-md sm:max-w-[20rem] lg:max-w-[25rem]"
-            style={{
-              borderColor: `rgb(var(--act-ink) / 0.16)`,
-              backgroundColor: `rgb(var(--act-deep) / 0.78)`,
-            }}
-          >
-            <p
-              className="text-[11px] font-bold uppercase tracking-[0.2em]"
-              style={{ color: `rgb(var(--act-accent))` }}
-            >
-              {product ? `${product.brand} · ${product.price}` : "Sun protection · Education"}
-            </p>
-            <p
-              className="mt-1 font-display text-[15px] font-semibold leading-snug"
-              style={{ color: `rgb(var(--act-ink))` }}
-            >
-              {product?.name ?? "How daily sun protection fits a morning routine"}
-            </p>
-            <p className="mt-1 text-[13px]" style={{ color: `rgb(var(--act-ink) / 0.82)` }}>
-              {act.ingredient}
-            </p>
-          </div>
-        </div>
-
-        {/* Campaign story — compact supporting layer (desktop: left, row 2) */}
-        <div
-          className="order-3 max-w-[600px] border-t pt-4 lg:col-start-1 lg:row-start-2 lg:mt-5"
-          style={{ borderColor: `rgb(var(--act-ink) / 0.16)` }}
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={act.id}
-              initial={reduce ? false : { opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
-              transition={reduce ? { duration: 0.2 } : { duration: 0.55, ease: "easeOut" }}
-              aria-roledescription="slide"
-              aria-label={`Slide ${index + 1} of ${CHAPTERS.length}`}
-            >
-              <p
-                className="flex flex-wrap items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em]"
-                style={{ color: `rgb(var(--act-accent))` }}
-              >
-                <span className="font-display text-[14px] tracking-normal normal-case">
-                  {act.hangul}
-                </span>
-                <span aria-hidden="true">·</span>
-                {act.hangulEnglish}
-              </p>
-              <h2
-                className="mt-2 font-display text-[clamp(1.15rem,2vw,1.6rem)] font-semibold leading-[1.15]"
-                style={{ color: `rgb(var(--act-ink))` }}
-              >
-                {act.headline}
-              </h2>
-              <p
-                className="mt-2 max-w-[56ch] text-[14px] leading-[1.55]"
-                style={{ color: `rgb(var(--act-ink) / 0.88)` }}
-              >
-                {act.copy}
-              </p>
-              {act.note && (
-                <p
-                  className="mt-1.5 max-w-[56ch] text-[13px] leading-[1.55]"
-                  style={{ color: `rgb(var(--act-ink) / 0.78)` }}
-                >
-                  {act.note}
-                </p>
-              )}
-
-              <div className="mt-3.5 flex flex-wrap items-center gap-x-5 gap-y-3">
-                {product ? (
-                  <Link
-                    to="/product/$slug"
-                    params={{ slug: productSlug(product) }}
-                    onClick={() =>
-                      trackUi("hero_seasonal_edit_click", {
-                        slide_id: act.id,
-                        destination: "product",
-                      })
-                    }
-                    className="inline-flex min-h-[44px] items-center gap-2 rounded-full border px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] transition-colors"
-                    style={{
-                      borderColor: `rgb(var(--act-accent))`,
-                      color: `rgb(var(--act-accent))`,
-                    }}
-                  >
-                    {act.cta}
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                ) : (
-                  <Link
-                    to={act.educationalTo ?? "/learn/hub"}
-                    onClick={() =>
-                      trackUi("hero_seasonal_edit_click", {
-                        slide_id: act.id,
-                        destination: "learn",
-                      })
-                    }
-                    className="inline-flex min-h-[44px] items-center gap-2 rounded-full border px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.16em] transition-colors"
-                    style={{
-                      borderColor: `rgb(var(--act-accent))`,
-                      color: `rgb(var(--act-accent))`,
-                    }}
-                  >
-                    {act.cta}
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                )}
-
-                {product && (
-                  <span
-                    className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] font-semibold"
-                    style={{ color: `rgb(var(--act-ink) / 0.72)` }}
-                  >
-                    {[
-                      { label: "Full details", hash: "suits", event: "hero_full_details_click" },
-                      { label: "Key ingredients", hash: "ingredients", event: "hero_key_ingredients_click" },
-                      { label: "How to use", hash: "how", event: "hero_how_to_use_click" },
-                    ].map((item) => (
-                      <Link
-                        key={item.hash}
-                        to="/product/$slug"
-                        params={{ slug: productSlug(product) }}
-                        hash={item.hash}
-                        onClick={() => trackUi(item.event, { slide_id: act.id })}
-                        className="underline-offset-4 hover:underline"
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </span>
-                )}
-              </div>
-
-              {act.caution && (
-                <p
-                  className="mt-3 max-w-[56ch] text-[13px] leading-[1.55]"
-                  style={{ color: `rgb(var(--act-ink) / 0.8)` }}
-                >
-                  {act.caution}
-                </p>
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Slide controls — desktop: right, row 3; mobile: beneath the campaign action */}
-        <div className="order-4 flex items-center justify-between gap-4 lg:col-start-2 lg:row-start-3 lg:mt-4 lg:max-w-[27rem] lg:self-start">
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => goTo(index - 1, "manual")}
-              aria-label="Previous campaign slide"
-              className="flex h-11 w-11 items-center justify-center rounded-full border transition-colors"
-              style={{ borderColor: `rgb(var(--act-ink) / 0.3)`, color: `rgb(var(--act-ink))` }}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setUserPaused((p) => {
-                  trackUi("hero_pause_animation", { paused: !p, slide_id: act.id });
-                  return !p;
-                });
-              }}
-              aria-label={userPaused ? "Play campaign slideshow" : "Pause campaign slideshow"}
-              aria-pressed={userPaused}
-              className="flex h-11 w-11 items-center justify-center rounded-full border transition-colors"
-              style={{ borderColor: `rgb(var(--act-ink) / 0.3)`, color: `rgb(var(--act-ink))` }}
-            >
-              {userPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
-            </button>
-            <button
-              type="button"
-              onClick={() => goTo(index + 1, "manual")}
-              aria-label="Next campaign slide"
-              className="flex h-11 w-11 items-center justify-center rounded-full border transition-colors"
-              style={{ borderColor: `rgb(var(--act-ink) / 0.3)`, color: `rgb(var(--act-ink))` }}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              {CHAPTERS.map((c, i) => (
-                <button
-                  key={c.id}
-                  type="button"
-                  onClick={() => goTo(i, "manual")}
-                  aria-label={`Show slide ${i + 1}: ${c.hangulEnglish}`}
-                  aria-current={i === index}
-                  className="flex h-11 items-center"
-                >
-                  <span
-                    className={`block h-[3px] rounded-full transition-all duration-500 ${
-                      i === index ? "w-9" : "w-5"
-                    }`}
-                    style={{
-                      backgroundColor:
-                        i === index
-                          ? `rgb(var(--act-accent))`
-                          : `rgb(var(--act-ink) / 0.25)`,
-                    }}
-                  />
-                </button>
-              ))}
+              </AnimatePresence>
             </div>
-            <span
-              className="font-display text-[12px] font-medium tracking-[0.14em]"
-              style={{ color: `rgb(var(--act-ink) / 0.75)` }}
-            >
-              {String(index + 1).padStart(2, "0")} / {String(CHAPTERS.length).padStart(2, "0")}
-            </span>
+          </div>
+
+          <div
+            role="tablist"
+            aria-label="Choose a season"
+            className="relative flex flex-wrap gap-2 border-t border-hero-ink/10 bg-hero-paper/70 px-6 py-3 md:px-8"
+          >
+            {SEASONS.map((s, i) => (
+              <button
+                key={s.id}
+                ref={(el) => {
+                  tabRefs.current[i] = el;
+                }}
+                id={`season-tab-${s.id}`}
+                type="button"
+                role="tab"
+                aria-selected={i === index}
+                aria-controls={`season-panel-${s.id}`}
+                tabIndex={i === index ? 0 : -1}
+                onClick={() => select(i)}
+                onKeyDown={onTabKey}
+                className={`min-h-[40px] rounded-full px-4 text-[12px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-ink focus-visible:ring-offset-1 ${
+                  i === index ? "bg-hero-ink text-hero-paper" : "text-hero-ink hover:bg-hero-cream"
+                }`}
+              >
+                {s.name}
+              </button>
+            ))}
           </div>
         </div>
-
-        {/* Trust reassurance — desktop: left, row 3; mobile: last */}
-        <p
-          className="order-5 text-[13px] font-medium lg:col-start-1 lg:row-start-3 lg:mt-4 lg:self-start"
-          style={{ color: `rgb(var(--act-ink) / 0.75)` }}
-        >
-          Authentic Korean stock · Melbourne dispatch · Guidance with every order
-        </p>
       </div>
     </section>
   );
