@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep Signature Navy as the default site palette; alternate palettes require an explicit preview selection, because automatic seasonal switching changed the owner's unchosen header colours.
