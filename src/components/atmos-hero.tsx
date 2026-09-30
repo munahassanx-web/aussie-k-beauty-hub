@@ -276,7 +276,7 @@ export function AtmosHero() {
           <div
             role="tablist"
             aria-label="Choose a season"
-            className="relative flex flex-wrap gap-2 border-t border-hero-ink/10 bg-hero-paper/70 px-6 py-3 md:px-8"
+            className="relative flex gap-1 sm:gap-2 border-t border-hero-ink/10 bg-hero-paper/70 px-4 py-3 sm:px-6 md:px-8"
           >
             {SEASONS.map((s, i) => (
               <button
@@ -292,7 +292,7 @@ export function AtmosHero() {
                 tabIndex={i === index ? 0 : -1}
                 onClick={() => select(i)}
                 onKeyDown={onTabKey}
-                className={`min-h-[40px] rounded-full px-4 text-[12px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-ink focus-visible:ring-offset-1 ${
+                className={`min-h-[44px] flex-1 rounded-full px-2 text-[12px] sm:flex-none sm:px-4 font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hero-ink focus-visible:ring-offset-1 ${
                   i === index ? "bg-hero-ink text-hero-paper" : "text-hero-ink hover:bg-hero-cream"
                 }`}
               >
