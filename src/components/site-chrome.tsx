@@ -291,7 +291,7 @@ export function SiteHeader() {
           <AnnouncementBar suppressStockClaims={suppressStockClaims} />
           <div className="mx-auto max-w-7xl px-6 border-b border-foreground/5">
             {/* Brand row — large centered wordmark */}
-            <div className="relative flex items-center justify-center px-4 pt-8 pb-3 md:min-h-[68px] md:px-0 md:pt-0 md:pb-0">
+            <div className="relative flex items-center justify-center px-4 pt-8 pb-3 md:min-h-[72px] md:px-0 md:pt-3 md:pb-1">
               <Link
                 to="/"
                 aria-label="Skin Grocer — home"
