@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router';
+import { ProductNotFound } from '@/components/product-not-found';
 import { useEffect, useRef, useState } from 'react';
 import { AddToBagButton } from '@/components/add-to-bag-button';
 import { WishlistButton } from '@/components/wishlist-button';
@@ -155,24 +156,10 @@ export const Route = createFileRoute('/product/$slug')({
     }
     return { soldOut };
   },
-  notFoundComponent: ProductNotFound,
+  notFoundComponent: () => <ProductNotFound />,
   component: ProductPage,
 });
 
-function ProductNotFound() {
-  return (
-    <div className="mx-auto max-w-3xl px-6 py-24 text-center">
-      <h1 className="font-display text-3xl text-foreground">Product not found</h1>
-      <p className="mt-3 text-muted-foreground">
-        That product isn't in our range.{' '}
-        <Link to="/shop" className="text-primary underline">
-          Browse the shop
-        </Link>
-        .
-      </p>
-    </div>
-  );
-}
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
