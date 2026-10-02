@@ -155,7 +155,7 @@ export const Route = createFileRoute('/product/$slug')({
     }
     return { soldOut };
   },
-  notFoundComponent: ProductNotFound,
+  notFoundComponent: () => <ProductNotFound />,
   component: ProductPage,
 });
 
