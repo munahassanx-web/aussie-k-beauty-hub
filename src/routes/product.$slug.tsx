@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from '@tanstack/react-router';
+import { ProductNotFound } from '@/components/product-not-found';
 import { useEffect, useRef, useState } from 'react';
 import { AddToBagButton } from '@/components/add-to-bag-button';
 import { WishlistButton } from '@/components/wishlist-button';
