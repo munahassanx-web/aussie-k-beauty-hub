@@ -659,10 +659,29 @@ function LearnStrip() {
 
 function Promise() {
   const items = [
-    { num: "01", title: "AUTHENTICITY CHECKED", line: "Verified by the Skin Grocer team before dispatch." },
-    { num: "02", title: "STOCKED IN MELBOURNE", line: "Australian-held inventory with truthful stock status." },
-    { num: "03", title: "GUIDANCE INCLUDED", line: "Clear instructions for where each product fits." },
-    { num: "04", title: "CURATED WITH PURPOSE", line: "Selected for formulation, routine fit and customer relevance." },
+    {
+      num: "01",
+      title: "Documented verification",
+      line: "Each received batch follows Skin Grocer’s documented checking process.",
+      to: "/about" as const,
+    },
+    {
+      num: "02",
+      title: "Stocked in Melbourne",
+      line: "Orders are dispatched from Australian-held inventory.",
+    },
+    {
+      num: "03",
+      title: "Routine guidance included",
+      line: "Clear instructions explain where each product belongs and how to introduce it.",
+      to: "/consultation" as const,
+    },
+    {
+      num: "04",
+      title: "Free standard delivery from A$100",
+      line: "Available on eligible Australian orders.",
+      to: "/shipping-policy" as const,
+    },
   ];
   const ref = useRef<HTMLUListElement>(null);
   useEffect(() => {
