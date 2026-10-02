@@ -56,3 +56,8 @@
 - [x] Purchase controls: no permanent "Loading…" state on any product page
 - [x] AESTURA sunscreen remains non-purchasable with Australian availability wording
 - [x] Contact response aim 1–2 business days used consistently
+
+## Homepage THE EDIT correction
+- [x] Replace heading and lead with ROUND LAB cleanser and AESTURA cream in the six-product shelf
+- [x] Reduce the product-image area and show a short reason on every card while retaining expandable details and shopping controls
+- [x] Verify desktop/mobile rendering and check hosted preview access
