@@ -52,18 +52,6 @@ const EDIT: EditEntry[] = [
     ],
   },
   {
-    priceId: "haruharu_wonder_black_rice_hyaluronic_toner_150ml_onetime",
-    step: "Step 2 · Prepare",
-    bestFor: "Routines that need a simple hydrating first layer",
-    texture: "Watery · Absorbs quickly",
-    reason: "A lightweight hydration layer between cleansing and serum.",
-    why: [
-      "A black rice ferment and hyaluronic acid toner formulated as a hydrating preparation step.",
-      "Sits between cleansing and serum without adding an active to the routine.",
-      "Selected as the least complicated way to add hydration before everything else.",
-    ],
-  },
-  {
     priceId: "torriden_dive_in_serum_onetime",
     step: "Step 3 · Hydrate",
     bestFor: "Dehydrated, dull-looking skin",
@@ -76,15 +64,27 @@ const EDIT: EditEntry[] = [
     ],
   },
   {
-    priceId: "medicube_pdrn_pink_peptide_serum_30ml_onetime",
+    priceId: "beplain_cicaful_ampoule_30ml_onetime",
     step: "Step 3 · Treat",
-    bestFor: "Routines focused on firmness and smoother-looking skin",
-    texture: "Silky serum · Non-greasy",
-    reason: "A targeted serum for those ready to add a treatment step.",
+    bestFor: "Sensitive or easily reddened skin",
+    texture: "Lightweight ampoule · Comforting finish",
+    reason: "A centella-led calming ampoule for gentler routines.",
     why: [
-      "A PDRN and peptide serum, the targeted treatment step of this edit.",
-      "Used after hydration and before moisturiser, once a routine is established.",
-      "Selected as the one concentrated step worth adding rather than several at once.",
+      "A cica ampoule built around centella for comfort-focused, easily unsettled skin.",
+      "Sits in the treatment step after hydration and before moisturiser.",
+      "Selected as a gentle treatment option for customers whose skin reacts to stronger actives.",
+    ],
+  },
+  {
+    priceId: "beauty_of_joseon_glow_serum_propolis_plus_niacinamide_30ml_onetime",
+    step: "Step 3 · Treat",
+    bestFor: "Dull-looking skin or uneven tone",
+    texture: "Silky serum · Nourishing finish",
+    reason: "A propolis and niacinamide serum for glow support.",
+    why: [
+      "A propolis and niacinamide serum formulated to support brighter-looking, more even skin.",
+      "Used after hydration and before moisturiser once a routine is established.",
+      "Selected as the glow-supporting step of this edit.",
     ],
   },
   {
