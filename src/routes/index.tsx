@@ -59,6 +59,8 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Skin Grocer — Authentic Korean Skincare, Stocked in Melbourne" },
       { property: "og:description", content: "Authentic Korean skincare and premium imports, locally stocked in Melbourne and dispatched across Australia. Guided routines, plainly explained." },
       { property: "og:url", content: "https://skingrocer.com.au/" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
     links: [{ rel: "canonical", href: "https://skingrocer.com.au/" }],
     scripts: [faqJsonLd(HOME_FAQS), organizationJsonLd()],
