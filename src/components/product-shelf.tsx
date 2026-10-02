@@ -21,20 +21,34 @@ type EditEntry = {
   step: string;
   bestFor: string;
   texture: string;
+  reason: string;
   /** Max three short points, factual: formulation, routine fit, selection note. */
   why: string[];
 };
 
 const EDIT: EditEntry[] = [
   {
-    priceId: "beplain_mung_bean_cleansing_oil_200ml_onetime",
+    priceId: "round_lab_1025_dokdo_cleanser_150ml_onetime",
     step: "Step 1 · Cleanse",
-    bestFor: "Removing makeup, sunscreen and the day's buildup",
-    texture: "Light oil · Rinses clean",
+    bestFor: "A straightforward daily cleanse",
+    texture: "Soft foam · Rinses clean",
+    reason: "A gentle cleansing step that fits a simple everyday routine.",
     why: [
-      "A mung bean-based cleansing oil that dissolves sunscreen and makeup as the first cleanse.",
-      "Chosen as an easy opening step for anyone new to double cleansing.",
-      "Selected because it rinses without the heavy film that puts people off oil cleansers.",
+      "A water-based cleanser to use after an oil cleanser when double cleansing, or on its own as a daily cleanse.",
+      "Placed at the start of the routine before toner and moisturiser.",
+      "Selected as an uncomplicated cleansing option for a considered starting shelf.",
+    ],
+  },
+  {
+    priceId: "aestura_atobarrier365_cream_onetime",
+    step: "Step 4 · Moisturise",
+    bestFor: "Dry or easily unsettled skin",
+    texture: "Rich cream · Comfortable finish",
+    reason: "A ceramide-led moisturiser for a more comforting final step.",
+    why: [
+      "Ceramide-led moisturiser for routines that need more comfort.",
+      "Richer than a gel cream without becoming a complicated treatment step.",
+      "Selected as a barrier-focused option for customers who find lightweight moisturisers insufficient.",
     ],
   },
   {
@@ -42,6 +56,7 @@ const EDIT: EditEntry[] = [
     step: "Step 2 · Prepare",
     bestFor: "Routines that need a simple hydrating first layer",
     texture: "Watery · Absorbs quickly",
+    reason: "A lightweight hydration layer between cleansing and serum.",
     why: [
       "A black rice ferment and hyaluronic acid toner formulated as a hydrating preparation step.",
       "Sits between cleansing and serum without adding an active to the routine.",
@@ -53,6 +68,7 @@ const EDIT: EditEntry[] = [
     step: "Step 3 · Hydrate",
     bestFor: "Dehydrated, dull-looking skin",
     texture: "Light gel · Weightless finish",
+    reason: "A hydrating serum that layers easily under moisturiser.",
     why: [
       "A low-molecular hyaluronic acid serum built purely for hydration rather than actives.",
       "Layers under any moisturiser, so it fits an existing routine without rearranging it.",
@@ -64,6 +80,7 @@ const EDIT: EditEntry[] = [
     step: "Step 3 · Treat",
     bestFor: "Routines focused on firmness and smoother-looking skin",
     texture: "Silky serum · Non-greasy",
+    reason: "A targeted serum for those ready to add a treatment step.",
     why: [
       "A PDRN and peptide serum, the targeted treatment step of this edit.",
       "Used after hydration and before moisturiser, once a routine is established.",
@@ -71,21 +88,11 @@ const EDIT: EditEntry[] = [
     ],
   },
   {
-    priceId: "aestura_atobarrier365_cream_onetime",
-    step: "Step 4 · Moisturise",
-    bestFor: "Dry or easily unsettled skin",
-    texture: "Rich cream · Comfortable finish",
-    why: [
-      "Ceramide-led moisturiser for routines that need more comfort.",
-      "Richer than a gel cream without becoming a complicated treatment step.",
-      "Selected as a barrier-focused option for customers who find lightweight moisturisers insufficient.",
-    ],
-  },
-  {
     priceId: "biodance_bio_collagen_real_deep_mask_onetime",
     step: "Optional · Mask",
     bestFor: "An occasional hydration-focused ritual",
     texture: "Hydrogel mask · Becomes more transparent as it wears",
+    reason: "An optional mask for an occasional, unhurried routine.",
     why: [
       "A hydrogel mask worn overnight rather than a ten-minute sheet mask.",
       "An occasional addition, not a step that replaces anything in the routine.",
@@ -230,7 +237,7 @@ export function ProductShelf() {
                 id="shelf-heading"
                 className="mt-4 font-masthead text-[clamp(1.9rem,3.6vw,2.9rem)] leading-[1.05] tracking-tight"
               >
-                A considered starting shelf.
+                Six considered places to start
               </h2>
               <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-ink/70 md:text-base">
                 Six Korean skincare starting points selected for their formulation, routine
@@ -300,8 +307,8 @@ export function ProductShelf() {
                       alt={`${p.brand} ${p.name}`}
                       loading={i < 3 ? "eager" : "lazy"}
                       width={640}
-                      height={640}
-                      className="aspect-square w-full object-contain p-5 transition-transform duration-500 ease-out group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                      height={480}
+                      className="aspect-[4/3] w-full object-contain p-5 transition-transform duration-500 ease-out group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                     />
                   </Link>
 
@@ -327,6 +334,11 @@ export function ProductShelf() {
                   </p>
                   <p className="text-[13px] leading-relaxed text-ink/75">
                     <span className="text-ink/55">Texture:</span> {card.texture}
+                  </p>
+
+                  <p className="mt-4 text-[13px] leading-relaxed text-ink/80">
+                    <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.18em] text-clay">Why it earned a place</span>
+                    {card.reason}
                   </p>
 
                   <p className="mt-4 text-[15px] tabular-nums text-ink">{p.price} AUD</p>
