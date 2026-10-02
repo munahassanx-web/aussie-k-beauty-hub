@@ -38,7 +38,7 @@ export const Route = createFileRoute("/learn/$slug")({
   errorComponent: ({ error }) => (
     <div className="mx-auto max-w-2xl px-6 py-24 text-center">
       <p className="text-sm text-muted-foreground">Couldn't load this ingredient.</p>
-      <p className="mt-2 text-xs text-muted-foreground/70">{error.message}</p>
+      <p className="mt-2 text-xs text-muted-foreground/70">{error instanceof Error ? error.message : "Please try again."}</p>
       <Link to="/learn" className="mt-6 inline-block text-sm text-primary underline">
         Back to the encyclopedia
       </Link>
