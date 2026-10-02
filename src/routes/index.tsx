@@ -716,13 +716,13 @@ function Promise() {
               key={item.num}
               data-trust-id={item.num}
               className={[
-                "border-ink/10 px-5 py-7 first:md:pl-0 last:md:pr-0 md:px-8 md:py-9",
+                "border-ink/10 px-4 py-7 first:md:pl-0 last:md:pr-0 md:px-8 md:py-9",
                 index > 0 ? "border-l" : "",
                 index >= 2 ? "border-t md:border-t-0" : "",
                 index === 2 ? "md:border-l" : "",
               ].join(" ")}
             >
-              <p className="text-[11px] font-semibold uppercase leading-snug tracking-[0.18em] text-ink">
+              <p className="text-[11px] font-semibold uppercase leading-snug tracking-[0.14em] text-ink md:tracking-[0.18em]">
                 <span className="font-display text-[11px] italic font-normal tracking-normal text-ink/50">
                   {item.num}
                 </span>
