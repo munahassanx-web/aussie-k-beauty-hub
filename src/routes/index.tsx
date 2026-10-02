@@ -732,7 +732,7 @@ function Promise() {
                 {item.to ? (
                   <Link
                     to={item.to}
-                    className="rounded-[2px] underline-offset-4 transition-colors hover:text-hanbok-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hanbok-deep/50 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                    className="-mx-1 rounded-[2px] px-1 py-0.5 underline-offset-4 transition-colors hover:text-hanbok-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hanbok-deep/50 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                   >
                     {item.title}
                   </Link>
