@@ -705,25 +705,42 @@ function Promise() {
   }, []);
 
   return (
-    <section className="border-b border-border/60 bg-paper" aria-label="Skin Grocer promises">
+    <section className="border-b border-border/60 bg-paper" aria-label="Why shop with Skin Grocer">
       <div className="mx-auto max-w-7xl px-6">
         <ul
           ref={ref}
-          className="grid grid-cols-2 gap-x-6 divide-border/60 md:grid-cols-4 md:gap-0 md:divide-x"
+          className="grid grid-cols-2 md:grid-cols-4"
         >
-          {items.map((item) => (
+          {items.map((item, index) => (
             <li
               key={item.num}
               data-trust-id={item.num}
-              className="flex flex-col gap-2 py-8 md:px-8 md:py-14 first:md:pl-0 last:md:pr-0"
+              className={[
+                "border-ink/10 px-5 py-7 first:md:pl-0 last:md:pr-0 md:px-8 md:py-9",
+                index > 0 ? "border-l" : "",
+                index >= 2 ? "border-t md:border-t-0" : "",
+                index === 2 ? "md:border-l" : "",
+              ].join(" ")}
             >
-              <span className="font-display text-xs italic leading-none text-ink/60">
-                {item.num}
-              </span>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink">
-                {item.title}
+              <p className="text-[11px] font-semibold uppercase leading-snug tracking-[0.18em] text-ink">
+                <span className="font-display text-[11px] italic font-normal tracking-normal text-ink/50">
+                  {item.num}
+                </span>
+                <span aria-hidden="true" className="mx-1.5 text-ink/30">
+                  ·
+                </span>
+                {item.to ? (
+                  <Link
+                    to={item.to}
+                    className="rounded-[2px] underline-offset-4 transition-colors hover:text-hanbok-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hanbok-deep/50 focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+                  >
+                    {item.title}
+                  </Link>
+                ) : (
+                  <span>{item.title}</span>
+                )}
               </p>
-              <p className="text-xs leading-relaxed text-ink/70">{item.line}</p>
+              <p className="mt-2 text-xs leading-relaxed text-ink/65">{item.line}</p>
             </li>
           ))}
         </ul>
