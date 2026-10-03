@@ -2,6 +2,27 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { GroceryLabel, SectionHeading } from "@/components/grocery-label";
 import { getIssue, newsletterIssues } from "@/lib/newsletter-issues";
 import { getPublishedIssue } from "@/lib/published-issues.functions";
+import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
+import { productSlug } from "@/lib/product-detail";
+
+const norm = (v: string) => v.toLowerCase().replace(/[^a-z0-9]+/g, "");
+
+/** Exact product page for a named pick; falls back to /shop only when no record matches. */
+function ProductLink({ name, brand, className, children }: { name: string; brand: string; className: string; children: React.ReactNode }) {
+  const match = SHOP_PRODUCTS.find((p) => norm(p.brand) === norm(brand) && norm(p.name) === norm(name));
+  if (match) {
+    return (
+      <Link to="/product/$slug" params={{ slug: productSlug(match) }} className={className}>
+        {children}
+      </Link>
+    );
+  }
+  return (
+    <Link to="/shop" className={className}>
+      {children}
+    </Link>
+  );
+}
 
 const MONTHS = [
   "January",
@@ -145,8 +166,9 @@ function ProductTile({
   note?: string;
 }) {
   return (
-    <Link
-      to="/shop"
+    <ProductLink
+      name={name}
+      brand={brand}
       className="group flex flex-col rounded-sm border-2 border-grocer-brown/15 bg-background p-4 transition-colors hover:border-grocer-tomato"
     >
       {image ? (
@@ -165,7 +187,7 @@ function ProductTile({
       <p className="mt-1 font-display text-lg leading-tight text-grocer-brown">{name}</p>
       {note ? <p className="mt-2 text-[13px] leading-relaxed text-foreground/65">{note}</p> : null}
       {price ? <p className="mt-3 text-sm text-grocer-tomato">{price}</p> : null}
-    </Link>
+    </ProductLink>
   );
 }
 
@@ -246,12 +268,13 @@ function IssuePage() {
                   </li>
                 ))}
               </ul>
-              <Link
-                to="/shop"
+              <ProductLink
+                name={issue.bigQuestion.pick.name}
+                brand={issue.bigQuestion.pick.brand}
                 className="mt-7 inline-block rounded-full bg-grocer-brown px-7 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-background transition-transform duration-300 hover:-translate-y-0.5"
               >
-                Shop toner →
-              </Link>
+                View product →
+              </ProductLink>
             </div>
           </div>
         </section>
@@ -320,9 +343,10 @@ function IssuePage() {
           />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {issue.aisle.map((a) => (
-              <Link
+              <ProductLink
                 key={a.concern}
-                to="/shop"
+                name={a.pick}
+                brand={a.brand}
                 className="group flex gap-4 rounded-sm border-2 border-grocer-brown/15 bg-background p-4 transition-colors hover:border-grocer-green"
               >
                 {a.image ? (
@@ -343,7 +367,7 @@ function IssuePage() {
                   <p className="text-[14px] leading-snug text-foreground">{a.pick}</p>
                   <p className="mt-2 text-[13px] leading-relaxed text-foreground/65">{a.why}</p>
                 </div>
-              </Link>
+              </ProductLink>
             ))}
           </div>
           <p className="mt-6 text-[13px] italic text-foreground/60">
@@ -364,9 +388,10 @@ function IssuePage() {
           </p>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {issue.fiveMinute.steps.map((s) => (
-              <Link
+              <ProductLink
                 key={s.step}
-                to="/shop"
+                name={s.pick}
+                brand={s.brand}
                 className="group rounded-sm border-2 border-grocer-brown/15 bg-background p-4 transition-colors hover:border-grocer-tomato"
               >
                 {s.image ? (
@@ -385,7 +410,7 @@ function IssuePage() {
                   {s.brand}
                 </p>
                 <p className="text-[13.5px] leading-snug text-foreground">{s.pick}</p>
-              </Link>
+              </ProductLink>
             ))}
           </div>
           <p className="mt-8 max-w-2xl font-display text-2xl leading-snug text-grocer-brown">
@@ -444,6 +469,9 @@ function IssuePage() {
               <p className="text-[11px] uppercase tracking-[0.2em] text-foreground/55">
                 {issue.weTriedIt.duration}
               </p>
+              {issue.weTriedIt.method ? (
+                <p className="mt-3 text-[13px] leading-relaxed text-foreground/70">{issue.weTriedIt.method}</p>
+              ) : null}
               <dl className="mt-5 divide-y divide-grocer-brown/10">
                 {issue.weTriedIt.scores.map((s) => (
                   <div key={s.label} className="flex items-center justify-between gap-4 py-2.5">
