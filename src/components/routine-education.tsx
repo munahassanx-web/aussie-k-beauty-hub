@@ -13,7 +13,7 @@ type CoreStep = {
   num: string;
   title: string;
   purpose: string;
-  notes: { label: string; text: string }[];
+  note: string;
   img: string;
   alt: string;
   linkLabel: string;
@@ -26,14 +26,8 @@ const CORE_STEPS: CoreStep[] = [
     num: "01",
     title: "Cleanse",
     purpose:
-      "Remove sunscreen, makeup, excess oil and the day’s buildup without leaving skin feeling unnecessarily stripped.",
-    notes: [
-      { label: "Morning", text: "Some customers may prefer only water or a very gentle cleanse in the morning." },
-      {
-        label: "Evening",
-        text: "Cleanse thoroughly. Double cleansing is optional and most useful when removing makeup or water-resistant sunscreen.",
-      },
-    ],
+      "Remove sunscreen, makeup and the day’s buildup without leaving skin feeling unnecessarily stripped.",
+    note: "A morning cleanse is optional. Double cleansing is most useful when removing makeup or water-resistant sunscreen.",
     img: "/products/beplain/mung-bean-cleansing-oil-200ml.webp",
     alt: "beplain Mung Bean Cleansing Oil 200ml bottle",
     linkLabel: "Explore cleansers",
@@ -43,13 +37,8 @@ const CORE_STEPS: CoreStep[] = [
   {
     num: "02",
     title: "Moisturise",
-    purpose: "Support hydration and comfort with a texture suited to how your skin feels.",
-    notes: [
-      {
-        label: "Choosing",
-        text: "Choose lighter gels or lotions when richer creams feel heavy. Choose richer creams when skin still feels tight or uncomfortable.",
-      },
-    ],
+    purpose: "Support hydration and comfort with a texture that suits how your skin feels.",
+    note: "Choose a lighter texture when rich creams feel heavy, or a richer cream when skin still feels tight.",
     img: "/products/aestura/atobarrier365-cream.webp",
     alt: "AESTURA Atobarrier365 Cream jar",
     linkLabel: "Explore moisturisers",
@@ -60,16 +49,11 @@ const CORE_STEPS: CoreStep[] = [
     num: "03",
     title: "Protect",
     purpose:
-      "Use appropriate sun protection during the day and follow the labelled directions for application and reapplication.",
-    notes: [
-      {
-        label: "Note",
-        text: "Sunscreen is regulated differently in Australia and Korea. We link to guidance here rather than recommending a single product.",
-      },
-    ],
+      "During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia and follow its labelled directions.",
+    note: "Sunscreen is regulated differently in Australia and Korea, so Skin Grocer links to Australian guidance rather than recommending an unverified product.",
     img: sunProtection,
     alt: "Woman wearing a wide-brimmed hat walking in morning sunlight — daily sun protection as a routine step",
-    linkLabel: "Learn about daily sun protection",
+    linkLabel: "Read Australian sunscreen guidance",
     to: "/learn/article/$slug",
   },
 ];
@@ -78,7 +62,6 @@ type OptionalStep = {
   label: string;
   title: string;
   purpose: string;
-  reality: string;
   linkLabel: string;
   category: "tone" | "treat" | "masks";
 };
@@ -87,19 +70,14 @@ const OPTIONAL_STEPS: OptionalStep[] = [
   {
     label: "Optional · Hydrate & prepare",
     title: "Toner or Essence",
-    purpose: "Add a lightweight hydration layer or prepare the routine for the steps that follow.",
-    reality:
-      "A toner or essence is not mandatory when your cleanser and moisturiser already leave your skin comfortable.",
+    purpose: "Add a lightweight hydration layer when your skin needs one. This step is optional.",
     linkLabel: "Explore toners & essences",
     category: "tone",
   },
   {
     label: "Optional · Target",
     title: "Serum or Treatment",
-    purpose:
-      "Target one clearly defined cosmetic concern, such as dehydration, uneven-looking tone or the appearance of fine lines.",
-    reality:
-      "Avoid introducing several strong actives at once. Do not layer exfoliating acids and retinal in the same routine unless the product directions or qualified professional guidance support it.",
+    purpose: "Choose one clearly defined cosmetic concern and introduce one targeted product at a time.",
     linkLabel: "Explore treatments",
     category: "treat",
   },
@@ -107,8 +85,6 @@ const OPTIONAL_STEPS: OptionalStep[] = [
     label: "Optional · Ritual",
     title: "Mask",
     purpose: "An occasional hydration, comfort or sensory step—not a requirement for an effective routine.",
-    reality:
-      "A mask should supplement a routine, not compensate for an unsuitable cleanser, moisturiser or active.",
     linkLabel: "Explore masks",
     category: "masks",
   },
@@ -142,7 +118,7 @@ function CoreCard({ step }: { step: CoreStep }) {
         <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-clay">Core step</span>
         <span className="h-px flex-1 bg-foreground/12" />
       </div>
-      <div className="flex items-center justify-center py-7">
+      <div className="flex items-center justify-center py-5">
         <img
           src={step.img}
           alt={step.alt}
@@ -150,19 +126,12 @@ function CoreCard({ step }: { step: CoreStep }) {
           height={320}
           loading="lazy"
           decoding="async"
-          className="h-[200px] w-full object-contain"
+          className="h-[160px] w-full object-contain"
         />
       </div>
       <h4 className="font-display text-2xl leading-tight text-ink">{step.title}</h4>
       <p className="mt-2 text-sm leading-relaxed text-ink/70">{step.purpose}</p>
-      <dl className="mt-4 space-y-2">
-        {step.notes.map((n) => (
-          <div key={n.label} className="text-xs leading-relaxed text-ink/65">
-            <dt className="inline font-semibold uppercase tracking-[0.14em] text-ink/80">{n.label}: </dt>
-            <dd className="inline">{n.text}</dd>
-          </div>
-        ))}
-      </dl>
+      <p className="mt-3 text-xs leading-relaxed text-ink/60">{step.note}</p>
       <span className="mt-6 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink group-hover:text-clay">
         {step.linkLabel}
         <span aria-hidden="true" className="transition-transform duration-300 motion-reduce:transition-none group-hover:translate-x-1">→</span>
@@ -199,16 +168,15 @@ function CoreCard({ step }: { step: CoreStep }) {
 
 function OptionalCard({ step }: { step: OptionalStep }) {
   return (
-    <li className="flex h-full flex-col border border-dashed border-foreground/25 bg-sand/40 p-5">
+    <li className="flex h-full flex-col border border-dashed border-foreground/25 bg-sand/30 p-4">
       <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink/60">{step.label}</p>
-      <h4 className="mt-3 font-display text-xl text-ink">{step.title}</h4>
+      <h4 className="mt-2 font-display text-lg text-ink">{step.title}</h4>
       <p className="mt-2 text-sm leading-relaxed text-ink/70">{step.purpose}</p>
-      <p className="mt-3 text-xs leading-relaxed text-ink/60">{step.reality}</p>
-      <Link
+            <Link
         to="/shop"
         search={{ step: step.category }}
         onClick={() => trackUi("routine_optional_step_click", { step: step.title })}
-        className="mt-auto pt-5 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink underline underline-offset-4 hover:text-clay"
+        className="mt-auto pt-4 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink underline underline-offset-4 hover:text-clay"
       >
         {step.linkLabel}
         <span aria-hidden="true">→</span>
@@ -245,7 +213,7 @@ function RoutineExamples() {
   };
 
   return (
-    <div className="mt-16 border-t border-foreground/12 pt-10">
+    <div className="mt-12 border-t border-foreground/12 pt-8">
       <h3 className="font-display text-2xl text-ink">What this looks like in practice</h3>
       <div ref={tablistRef} role="tablist" aria-label="Routine examples" className="mt-5 flex flex-wrap gap-2">
         {EXAMPLES.map((ex, index) => {
@@ -300,7 +268,7 @@ export function RoutineEducation() {
   const [showOptional, setShowOptional] = useState(false);
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-24" aria-labelledby="routine-education-heading">
+    <section className="mx-auto max-w-7xl px-6 py-16 md:py-20" aria-labelledby="routine-education-heading">
       <div className="max-w-2xl">
         <p className="eyebrow eyebrow-rule text-clay">A routine that fits real life</p>
         <h2 id="routine-education-heading" className="display-section mt-4 text-ink">
@@ -316,7 +284,7 @@ export function RoutineEducation() {
         </p>
       </div>
 
-      <h3 className="mt-14 text-[11px] font-semibold uppercase tracking-[0.22em] text-ink">
+      <h3 className="mt-10 text-[11px] font-semibold uppercase tracking-[0.22em] text-ink">
         Your core routine
       </h3>
       <ul className="mt-6 grid gap-6 md:grid-cols-3">
@@ -325,7 +293,7 @@ export function RoutineEducation() {
         ))}
       </ul>
 
-      <div className="mt-16 border-t border-foreground/12 pt-10">
+      <div className="mt-12 border-t border-foreground/12 pt-8">
         <h3 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink/70">
           Optional additions
         </h3>
@@ -359,7 +327,7 @@ export function RoutineEducation() {
 
       <RoutineExamples />
 
-      <div className="mt-16 border border-foreground/20 bg-sand/60 p-8 md:p-12">
+      <div className="mt-12 border border-foreground/20 bg-sand/60 p-7 md:p-10">
         <h3 className="font-display text-3xl text-ink">Not sure which steps you actually need?</h3>
         <p className="mt-4 max-w-2xl text-ink/75">
           Tell us what your skin feels like, what you already use and how much routine fits your
