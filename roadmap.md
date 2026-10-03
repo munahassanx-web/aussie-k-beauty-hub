@@ -61,3 +61,9 @@
 - [x] Replace heading and lead with ROUND LAB cleanser and AESTURA cream in the six-product shelf
 - [x] Reduce the product-image area and show a short reason on every card while retaining expandable details and shopping controls
 - [x] Verify desktop/mobile rendering and check hosted preview access
+
+## Seoul Signal article 06 evidence and compliance pass
+- [x] Remove the undocumented "We tested it" section (scores, stickiness result, value rating and quoted verdict) without inventing testing dates or accompanying products
+- [x] Replace the "two markets" opening, the "Why Koreans love it" heading, the daily base-makeup generalisation and the squalane "fixes" claim with restrained cosmetic wording
+- [x] Correct the six card labels and the sunscreen sentence; rename the basket call-to-action to match where the link actually goes
+- [x] Confirm the removed wording is absent from the rendered article and that other articles are unchanged
