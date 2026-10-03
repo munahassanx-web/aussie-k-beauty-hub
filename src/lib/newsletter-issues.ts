@@ -104,7 +104,7 @@ export const newsletterIssues: NewsletterIssue[] = [
   {
     number: "06",
     slug: "korean-products-australians-havent-found-yet",
-    title: "What Seoul Keeps Repurchasing",
+    title: "The Quieter Skincare Formulas Gaining Attention in Korea",
     theme: "The Undiscovered Issue",
     date: "Fortnight of 17 August 2026",
     published: true,
@@ -112,12 +112,12 @@ export const newsletterIssues: NewsletterIssue[] = [
     coverAlt:
       "S.NATURE, beplain and AESTURA creams on concrete with fresh centella leaves and squalane oil drops",
     standfirst:
-      "The products topping Olive Young's shelves in Seoul often aren't the ones going viral on Australian TikTok. This fortnight: the quiet, boring, dermatologist-adjacent products Korean women repurchase — and why they rarely have the loudest marketing.",
+      "The formulas gaining attention on Korean beauty platforms often aren't the ones going viral on Australian TikTok. This fortnight: the quiet, boring, dermatologist-adjacent products appearing in Korean customer-review conversations — and why they rarely have the loudest marketing.",
     bigQuestion: {
-      question: "Why is the product Korea repurchases never the one that goes viral here?",
+      question: "Why do the quieter formulas gaining attention in Korea rarely go viral here?",
       body: [
-        "There are two K-beauty markets and they barely overlap. The first is the export market: heavy influencer seeding, glass-jar packaging, a hero ingredient with a good name and a trend cycle measured in weeks. The second is the domestic one — the products Korean women buy again at Olive Young without being asked to, usually cheap, usually plain, usually recommended by a dermatologist or a pharmacist rather than a creator.",
-        "AESTURA is the cleanest example. It's owned by Amorepacific and sold heavily through Korean pharmacies and derm clinics for eczema-prone and compromised skin. Its Atobarrier365 line is a repeat-purchase staple in Korea and almost invisible in Australian conversation, because a ceramide cream in a white tube is not a TikTok asset. It just works, quietly, for years.",
+        "There are two K-beauty markets and they barely overlap. The first is the export market: heavy influencer seeding, glass-jar packaging, a hero ingredient with a good name and a trend cycle measured in weeks. The second is the domestic one — the products that keep showing up in Korean customer-review conversations, usually cheap, usually plain, usually recommended by a dermatologist or a pharmacist rather than a creator.",
+        "AESTURA is the cleanest example. It's owned by Amorepacific and sold through Korean pharmacies and derm clinics for eczema-prone and compromised skin. Its Atobarrier365 line receives steady ranking and review activity on Korean beauty platforms and is almost invisible in Australian conversation, because a ceramide cream in a white tube is not a TikTok asset.",
         "The screening question we use before stocking anything: would a Korean dermatologist hand this to a patient with irritated skin? That filters out about 80% of what trends. Fragrance-heavy essences, 15-active serums, anything selling an outcome that requires a needle — all gone. What's left is short ingredient lists, sensible concentrations, and formulas designed to be used every day for a year.",
         "If you are the person who has been burned by three viral products already: buy the boring one. It's usually cheaper, it usually has the fewest ingredients, and it's usually the one the person who actually has to fix skin for a living recommends.",
       ],
@@ -126,11 +126,11 @@ export const newsletterIssues: NewsletterIssue[] = [
         brand: "AESTURA",
         price: "A$55",
         image: "/products/aestura/atobarrier365-cream.webp",
-        note: "A pharmacy-channel ceramide cream that Korean derm clinics hand out — no fragrance, no essential oils, nothing to react to.",
+        note: "A pharmacy-channel ceramide cream — no fragrance, no essential oils, nothing to react to.",
         reasons: [
           "Ceramide-led formula built for eczema-prone, compromised skin",
           "Fragrance-free and colourant-free — the shortest list in our range",
-          "Repeat-purchase staple in Korea, still barely known in Australia",
+          "Receiving steady review attention in Korea, still barely known in Australia",
         ],
       },
     },
