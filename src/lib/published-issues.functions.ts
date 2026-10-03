@@ -54,7 +54,7 @@ function toIssue(row: Row): NewsletterIssue {
       image: cover,
       imageAlt: row.cover_alt ?? row.title,
     },
-    weTriedIt: i.weTriedIt ?? { product: "", brand: "", duration: "", scores: [], verdict: "" },
+    weTriedIt: i.weTriedIt ?? undefined,
     basket: i.basket ?? { forWho: "", items: [] },
     askTheGrocer: i.askTheGrocer ?? { prompt: "", options: [] },
   } as NewsletterIssue;

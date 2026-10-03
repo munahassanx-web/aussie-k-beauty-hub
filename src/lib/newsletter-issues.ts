@@ -61,6 +61,8 @@ export type NewsletterIssue = {
     australiaHeat: string;
     whatIsIt: string;
     whyKoreansLove: string;
+    /** Optional override for the "Why Koreans love it" heading label. */
+    whyLabel?: string;
     shouldAussiesCare: string;
     tryIt: IssuePick[];
   };
@@ -80,7 +82,7 @@ export type NewsletterIssue = {
     body: string[];
   };
 
-  weTriedIt: {
+  weTriedIt?: {
     product: string;
     brand: string;
     duration: string;
@@ -94,6 +96,8 @@ export type NewsletterIssue = {
   basket: {
     forWho: string;
     items: IssuePick[];
+    /** Optional override for the basket call-to-action label. */
+    ctaLabel?: string;
   };
 
   askTheGrocer: {
@@ -118,7 +122,7 @@ export const newsletterIssues: NewsletterIssue[] = [
     bigQuestion: {
       question: "Why do the quieter formulas gaining attention in Korea rarely go viral here?",
       body: [
-        "There are two K-beauty markets and they barely overlap. The first is the export market: heavy influencer seeding, glass-jar packaging, a hero ingredient with a good name and a trend cycle measured in weeks. The second is the domestic one — the products that keep showing up in Korean customer-review conversations, often plainer, often lower-priced, and discussed in customer reviews rather than pushed by creators.",
+        "Products receiving attention from Korean customers do not always match those promoted most heavily to international audiences. The first is the export market: heavy influencer seeding, glass-jar packaging, a hero ingredient with a good name and a trend cycle measured in weeks. The second is the domestic one — the products that keep showing up in Korean customer-review conversations, often plainer, often lower-priced, and discussed in customer reviews rather than pushed by creators.",
         "AESTURA is the cleanest example. It's an Amorepacific brand, and its Atobarrier365 line receives steady ranking and review activity on Korean beauty platforms and is almost invisible in Australian conversation, because a ceramide cream in a white tube is not a TikTok asset.",
         "One editorial question we ask before stocking something: is this a formula with a clear, everyday routine role, rather than a trend-led product built around a single claim? In our experience, many trending launches don't meet that bar. Fragrance-heavy essences and serums with long active lists tend to fall away. What's left is usually shorter ingredient lists and formulas intended for consistent daily use.",
         "If you've been disappointed by a few viral products already: a simpler formula with a clear routine role may be a more practical place to restart. It's often lower-priced and may have a shorter ingredient list. This is an editorial observation, not medical advice — if you have a skin condition, speak with a doctor or pharmacist.",
@@ -137,15 +141,16 @@ export const newsletterIssues: NewsletterIssue[] = [
       },
     },
     seoul: {
+      whyLabel: "Why it appears in Korean formulas",
       ingredient: "Squalane",
       koreaHeat: "🔥🔥🔥🔥",
       australiaHeat: "😴 badly underrated",
       whatIsIt:
         "A saturated, stable lipid — most commonly made from olives or sugarcane. It's the hydrogenated version of squalene, which your own sebum already contains. Because it's saturated it doesn't oxidise easily, so it doesn't go rancid on your face the way some plant oils do.",
       whyKoreansLove:
-        "It's the emollient of choice for people who want slip and comfort without a heavy occlusive film. In Korean formulas it usually appears at modest levels alongside humectants — the water goes in first, the squalane keeps it from leaving. It also sits well under makeup, which matters in a market where base makeup is worn daily.",
+        "It's the emollient of choice for people who want slip and comfort without a heavy occlusive film. In Korean formulas it usually appears at modest levels alongside humectants — the water goes in first, the squalane keeps it from leaving. It also sits comfortably under makeup.",
       shouldAussiesCare:
-        "Yes, especially if oils have historically broken you out. Squalane is generally considered a lightweight emollient, and many people find it comfortable in both warmer and cooler weather — though how any oil behaves on your skin is individual. It is not an active: it will not brighten, resurface or firm anything. It fixes texture and comfort, and that's the whole job.",
+        "Yes, especially if oils have historically broken you out. Squalane is generally considered a lightweight emollient, and many people find it comfortable in both warmer and cooler weather — though how any oil behaves on your skin is individual. It is not an active: it will not brighten, resurface or firm anything. In a cosmetic formula, its role is generally to support softness, slip and skin comfort.",
       tryIt: [
         { name: "Aqua Squalane Serum", brand: "S.NATURE", price: "A$34", image: "/products/s-nature/aqua-squalane-serum.webp", note: "Lightweight squalane and water — the summer version." },
         { name: "Aqua Squalane Moisturizing Cream", brand: "S.NATURE", price: "A$35", image: "/products/s-nature/aqua-squalane-moisturizing-cream.webp", note: "Same idea, sealed. Good for dry mornings." },
@@ -153,11 +158,11 @@ export const newsletterIssues: NewsletterIssue[] = [
       ],
     },
     aisle: [
-      { emoji: "🥛", concern: "Tight after cleansing", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", why: "Low-pH, low-foam. Removes the day without stripping the barrier that keeps water in.", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
-      { emoji: "🌿", concern: "Reactive", pick: "Cicaful Ampoule 30ml", brand: "beplain", why: "Centella-led and listed without added fragrance. A short, simple formula.", image: "/products/beplain/cicaful-ampoule-30ml.webp" },
+      { emoji: "🥛", concern: "Tight after cleansing", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", why: "Low-pH, low-foam. Designed to cleanse without leaving skin feeling unnecessarily stripped.", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
+      { emoji: "🌿", concern: "Easily unsettled", pick: "Cicaful Ampoule 30ml", brand: "beplain", why: "Centella-led and listed without added fragrance. A short, simple formula.", image: "/products/beplain/cicaful-ampoule-30ml.webp" },
       { emoji: "💧", concern: "Dehydrated but oily", pick: "Aqua Oasis Moisturizing Gel", brand: "S.NATURE", why: "Humectant gel with no heavy occlusive — hydration without the film.", image: "/products/s-nature/aqua-oasis-moisturizing-gel.webp" },
-      { emoji: "🧴", concern: "Barrier damage", pick: "Atobarrier 365 Hydro Soothing Cream", brand: "AESTURA", why: "The lighter Atobarrier for warm weather. Same repair logic, less weight.", image: "/products/aestura/atobarrier-365-hydro-soothing-cream.webp" },
-      { emoji: "🍶", concern: "Dull, uneven", pick: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", why: "Fermented rice extract and HA — hydration first, gentle tone-evening second.", image: "/__l5e/assets-v1/5c2e77da-7082-420c-809a-9005bdb6aef8/haruharu-wonder-black-rice-hyaluronic-toner-150ml.png" },
+      { emoji: "🧴", concern: "Barrier comfort", pick: "Atobarrier 365 Hydro Soothing Cream", brand: "AESTURA", why: "The lighter Atobarrier for warm weather. A similar barrier-support focus, less weight.", image: "/products/aestura/atobarrier-365-hydro-soothing-cream.webp" },
+      { emoji: "🍶", concern: "Dull, uneven", pick: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", why: "Fermented rice extract and HA — hydration first, hydration with cosmetic tone-support second.", image: "/__l5e/assets-v1/5c2e77da-7082-420c-809a-9005bdb6aef8/haruharu-wonder-black-rice-hyaluronic-toner-150ml.png" },
     ],
     fiveMinute: {
       intro:
@@ -177,30 +182,16 @@ export const newsletterIssues: NewsletterIssue[] = [
       imageAlt: "Flatlay of a short Korean skincare routine: cleanser, toner, serum and cream",
       body: [
         "The single biggest reason routines fail isn't the wrong product. It's a routine designed for someone with twenty free minutes and no one else in the house. If you're getting four kids out the door, or answering work email at 10pm, an eleven-step evening ritual isn't aspirational — it's the thing you'll abandon in nine days and then feel guilty about.",
-        "So we build for the worst night, not the best one. Three products you can apply in ninety seconds, standing up, with the bathroom door open: a cleanser that doesn't leave you tight, one hydrating layer, one cream. Add sunscreen in the morning. That is a complete, defensible routine, and it beats a perfect one you do twice a week.",
+        "So we build for the worst night, not the best one. Three products you can apply in ninety seconds, standing up, with the bathroom door open: a cleanser that doesn't leave you tight, one hydrating layer, one cream. During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia and follow its labelled directions. That is a complete, defensible routine, and it beats a perfect one you do twice a week.",
         "The upgrade path, when there is time, is one product at a time — not one routine at a time. Add a single active, use it for three to four weeks, and only then decide whether anything else is missing. Most people discover it isn't.",
-        "And if you have more time and budget now than you did ten years ago: spend it on consistency and sun protection before you spend it on a new hero serum. During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia and follow its labelled directions.",
+        "And if you have more time and budget now than you did ten years ago: spend it on consistency and sun protection before you spend it on a new hero serum.",
       ],
-    },
-    weTriedIt: {
-      product: "Aqua Oasis Toner",
-      brand: "S.NATURE",
-      duration: "3 weeks, two testers on our team",
-      method:
-        "Informal two-person staff-use observation. Exact testing dates were not recorded and are being confirmed. Products used alongside it were not recorded for this observation. Results are subjective personal impressions and are not clinical evidence.",
-      image: "/products/s-nature/aqua-oasis-toner.webp",
-      scores: [
-        { label: "Absorption", value: "9/10" },
-        { label: "Stickiness", value: "None" },
-        { label: "Value per ml", value: "⭐⭐⭐" },
-      ],
-      verdict:
-        "Does one thing — puts water in — and doesn't interfere with anything after it. Neither tester noticed a dramatic change, which is the correct outcome for a hydrating toner. If you want a visible result, this isn't the product; the cream is.",
     },
     basket: {
       forWho: "For starting over after a bad run",
+      ctaLabel: "Shop these products",
       items: [
-        { name: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", price: "A$24", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp", note: "Stop the damage." },
+        { name: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", price: "A$24", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp", note: "Begin with a gentle cleanse." },
         { name: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", price: "A$28", image: "/__l5e/assets-v1/5c2e77da-7082-420c-809a-9005bdb6aef8/haruharu-wonder-black-rice-hyaluronic-toner-150ml.png", note: "Water in." },
         { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.webp", note: "Water stays in." },
       ],

@@ -310,7 +310,9 @@ function IssuePage() {
               </dd>
             </div>
             <div>
-              <dt className="font-display text-xl text-grocer-brown">Why Koreans love it</dt>
+              <dt className="font-display text-xl text-grocer-brown">
+                {issue.seoul.whyLabel ?? "Why Koreans love it"}
+              </dt>
               <dd className="mt-2 text-[15.5px] leading-[1.75] text-foreground/80">
                 {issue.seoul.whyKoreansLove}
               </dd>
@@ -448,7 +450,8 @@ function IssuePage() {
           </div>
         </section>
 
-        {/* 06 — We tried it */}
+        {/* 06 — We tested it (shown only when a documented observation exists) */}
+        {issue.weTriedIt ? (
         <section className="border-t-2 border-grocer-brown/15 py-16 md:py-20">
           <SectionHeading
             index="06"
@@ -491,11 +494,12 @@ function IssuePage() {
             </div>
           </div>
         </section>
+        ) : null}
 
         {/* 07 — The basket */}
         <section className="border-t-2 border-grocer-brown/15 py-16 md:py-20">
           <SectionHeading
-            index="07"
+            index={issue.weTriedIt ? "07" : "06"}
             label="🧺 This fortnight's basket"
             tone="tomato"
             title={`The Skin Grocery Basket — ${issue.basket.forWho}`}
@@ -509,14 +513,14 @@ function IssuePage() {
             to="/shop"
             className="mt-9 inline-block rounded-full bg-grocer-tomato px-9 py-4 text-[12px] font-semibold uppercase tracking-[0.18em] text-background transition-transform duration-300 hover:-translate-y-0.5"
           >
-            Build the basket →
+            {issue.basket.ctaLabel ?? "Build the basket"} →
           </Link>
         </section>
 
         {/* 08 — Ask the grocer */}
         <section className="border-t-2 border-grocer-brown/15 py-16 md:py-20">
           <SectionHeading
-            index="08"
+            index={issue.weTriedIt ? "08" : "07"}
             label="💌 Ask the grocer"
             tone="green"
             title={issue.askTheGrocer.prompt}
