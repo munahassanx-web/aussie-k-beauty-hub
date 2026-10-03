@@ -61,6 +61,8 @@ export type NewsletterIssue = {
     australiaHeat: string;
     whatIsIt: string;
     whyKoreansLove: string;
+    /** Optional override for the "Why Koreans love it" heading label. */
+    whyLabel?: string;
     shouldAussiesCare: string;
     tryIt: IssuePick[];
   };
@@ -80,7 +82,7 @@ export type NewsletterIssue = {
     body: string[];
   };
 
-  weTriedIt: {
+  weTriedIt?: {
     product: string;
     brand: string;
     duration: string;
@@ -94,6 +96,8 @@ export type NewsletterIssue = {
   basket: {
     forWho: string;
     items: IssuePick[];
+    /** Optional override for the basket call-to-action label. */
+    ctaLabel?: string;
   };
 
   askTheGrocer: {
@@ -118,7 +122,7 @@ export const newsletterIssues: NewsletterIssue[] = [
     bigQuestion: {
       question: "Why do the quieter formulas gaining attention in Korea rarely go viral here?",
       body: [
-        "There are two K-beauty markets and they barely overlap. The first is the export market: heavy influencer seeding, glass-jar packaging, a hero ingredient with a good name and a trend cycle measured in weeks. The second is the domestic one — the products that keep showing up in Korean customer-review conversations, often plainer, often lower-priced, and discussed in customer reviews rather than pushed by creators.",
+        "Products receiving attention from Korean customers do not always match those promoted most heavily to international audiences. The first is the export market: heavy influencer seeding, glass-jar packaging, a hero ingredient with a good name and a trend cycle measured in weeks. The second is the domestic one — the products that keep showing up in Korean customer-review conversations, often plainer, often lower-priced, and discussed in customer reviews rather than pushed by creators.",
         "AESTURA is the cleanest example. It's an Amorepacific brand, and its Atobarrier365 line receives steady ranking and review activity on Korean beauty platforms and is almost invisible in Australian conversation, because a ceramide cream in a white tube is not a TikTok asset.",
         "One editorial question we ask before stocking something: is this a formula with a clear, everyday routine role, rather than a trend-led product built around a single claim? In our experience, many trending launches don't meet that bar. Fragrance-heavy essences and serums with long active lists tend to fall away. What's left is usually shorter ingredient lists and formulas intended for consistent daily use.",
         "If you've been disappointed by a few viral products already: a simpler formula with a clear routine role may be a more practical place to restart. It's often lower-priced and may have a shorter ingredient list. This is an editorial observation, not medical advice — if you have a skin condition, speak with a doctor or pharmacist.",
@@ -137,6 +141,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       },
     },
     seoul: {
+      whyLabel: "Why it appears in Korean formulas",
       ingredient: "Squalane",
       koreaHeat: "🔥🔥🔥🔥",
       australiaHeat: "😴 badly underrated",
@@ -153,11 +158,11 @@ export const newsletterIssues: NewsletterIssue[] = [
       ],
     },
     aisle: [
-      { emoji: "🥛", concern: "Tight after cleansing", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", why: "Low-pH, low-foam. Removes the day without stripping the barrier that keeps water in.", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
-      { emoji: "🌿", concern: "Reactive", pick: "Cicaful Ampoule 30ml", brand: "beplain", why: "Centella-led and listed without added fragrance. A short, simple formula.", image: "/products/beplain/cicaful-ampoule-30ml.webp" },
+      { emoji: "🥛", concern: "Tight after cleansing", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", why: "Low-pH, low-foam. Designed to cleanse without leaving skin feeling unnecessarily stripped.", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
+      { emoji: "🌿", concern: "Easily unsettled", pick: "Cicaful Ampoule 30ml", brand: "beplain", why: "Centella-led and listed without added fragrance. A short, simple formula.", image: "/products/beplain/cicaful-ampoule-30ml.webp" },
       { emoji: "💧", concern: "Dehydrated but oily", pick: "Aqua Oasis Moisturizing Gel", brand: "S.NATURE", why: "Humectant gel with no heavy occlusive — hydration without the film.", image: "/products/s-nature/aqua-oasis-moisturizing-gel.webp" },
-      { emoji: "🧴", concern: "Barrier damage", pick: "Atobarrier 365 Hydro Soothing Cream", brand: "AESTURA", why: "The lighter Atobarrier for warm weather. Same repair logic, less weight.", image: "/products/aestura/atobarrier-365-hydro-soothing-cream.webp" },
-      { emoji: "🍶", concern: "Dull, uneven", pick: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", why: "Fermented rice extract and HA — hydration first, gentle tone-evening second.", image: "/__l5e/assets-v1/5c2e77da-7082-420c-809a-9005bdb6aef8/haruharu-wonder-black-rice-hyaluronic-toner-150ml.png" },
+      { emoji: "🧴", concern: "Barrier comfort", pick: "Atobarrier 365 Hydro Soothing Cream", brand: "AESTURA", why: "The lighter Atobarrier for warm weather. A similar barrier-support focus, less weight.", image: "/products/aestura/atobarrier-365-hydro-soothing-cream.webp" },
+      { emoji: "🍶", concern: "Dull, uneven", pick: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", why: "Fermented rice extract and HA — hydration first, hydration with cosmetic tone-support second.", image: "/__l5e/assets-v1/5c2e77da-7082-420c-809a-9005bdb6aef8/haruharu-wonder-black-rice-hyaluronic-toner-150ml.png" },
     ],
     fiveMinute: {
       intro:
