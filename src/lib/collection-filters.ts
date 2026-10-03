@@ -50,6 +50,11 @@ export function ingredientsFor(p: ShopProduct): string[] {
   return INGREDIENTS_BY_PRICE_ID.get(p.priceId) ?? [];
 }
 
+/** A routine-step filter lists only products customers can actually buy — Coming Soon and restricted records stay out. */
+export function inStep(p: ShopProduct, c: CategoryValue): boolean {
+  return CATEGORY_LABELS[c] === p.category && (p as { purchasable?: boolean }).purchasable !== false;
+}
+
 export type Filters = {
   category: CategoryValue[];
   brand: string[];
@@ -88,7 +93,7 @@ export function activeFilterCount(f: Filters): number {
 
 // OR within a group, AND across groups.
 export function matchesFilters(p: ShopProduct, f: Filters): boolean {
-  if (f.category.length && !f.category.some((c) => CATEGORY_LABELS[c] === p.category)) return false;
+  if (f.category.length && !f.category.some((c) => inStep(p, c))) return false;
   if (f.brand.length && !f.brand.some((b) => b.toLowerCase() === p.brand.toLowerCase())) return false;
   if (f.concern.length && !f.concern.some((c) => p.concerns.includes(c))) return false;
   if (f.ingredient.length && !f.ingredient.some((i) => ingredientsFor(p).includes(i))) return false;
@@ -152,7 +157,7 @@ export function buildFacets(base: ShopProduct[], f: Filters) {
     category: count(
       categoryPool,
       CATEGORY_VALUES,
-      (p, v) => p.category === CATEGORY_LABELS[v],
+      (p, v) => inStep(p, v),
       f.category,
     ).map((o) => ({ ...o, label: CATEGORY_LABELS[o.value as CategoryValue] })) as FacetOption[],
     brand: count(brandPool, brands, (p, v) => p.brand === v, f.brand).map((o) => ({

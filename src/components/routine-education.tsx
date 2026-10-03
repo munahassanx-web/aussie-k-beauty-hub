@@ -18,7 +18,7 @@ type CoreStep = {
   alt: string;
   linkLabel: string;
   to: string;
-  search?: { category: "cleanse" | "moisturise" };
+  search?: { step: "cleanse" | "moisturise" };
 };
 
 const CORE_STEPS: CoreStep[] = [
@@ -38,7 +38,7 @@ const CORE_STEPS: CoreStep[] = [
     alt: "beplain Mung Bean Cleansing Oil 200ml bottle",
     linkLabel: "Explore cleansers",
     to: "/shop",
-    search: { category: "cleanse" },
+    search: { step: "cleanse" },
   },
   {
     num: "02",
@@ -54,7 +54,7 @@ const CORE_STEPS: CoreStep[] = [
     alt: "AESTURA Atobarrier365 Cream jar",
     linkLabel: "Explore moisturisers",
     to: "/shop",
-    search: { category: "moisturise" },
+    search: { step: "moisturise" },
   },
   {
     num: "03",
@@ -206,7 +206,7 @@ function OptionalCard({ step }: { step: OptionalStep }) {
       <p className="mt-3 text-xs leading-relaxed text-ink/60">{step.reality}</p>
       <Link
         to="/shop"
-        search={{ category: step.category }}
+        search={{ step: step.category }}
         onClick={() => trackUi("routine_optional_step_click", { step: step.title })}
         className="mt-auto pt-5 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink underline underline-offset-4 hover:text-clay"
       >
