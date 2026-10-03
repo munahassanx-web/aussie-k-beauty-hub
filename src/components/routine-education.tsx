@@ -140,7 +140,7 @@ function CoreCard({ step }: { step: CoreStep }) {
   );
 
   const cls =
-    "group flex h-full flex-col border border-foreground/15 bg-paper p-6 transition-colors hover:border-foreground/35 md:p-8";
+    "group flex h-full flex-col border border-foreground/15 bg-paper p-6 transition-colors hover:border-foreground/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pop md:p-8";
   const onClick = () => trackUi("routine_core_step_click", { step: step.title });
 
   if (step.search) {
@@ -176,7 +176,7 @@ function OptionalCard({ step }: { step: OptionalStep }) {
         to="/shop"
         search={{ step: step.category }}
         onClick={() => trackUi("routine_optional_step_click", { step: step.title })}
-        className="mt-auto pt-4 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink underline underline-offset-4 hover:text-clay"
+        className="mt-auto pt-4 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink underline underline-offset-4 hover:text-clay focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pop"
       >
         {step.linkLabel}
         <span aria-hidden="true">→</span>
@@ -344,7 +344,7 @@ export function RoutineEducation() {
           <Link
             to="/shop"
             onClick={() => trackUi("routine_shop_all_click", {})}
-            className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink underline underline-offset-4 hover:text-clay"
+            className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink underline underline-offset-4 hover:text-clay focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pop"
           >
             Shop all products →
           </Link>
