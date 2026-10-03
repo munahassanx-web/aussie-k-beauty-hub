@@ -67,3 +67,8 @@
 - [x] Replace the "two markets" opening, the "Why Koreans love it" heading, the daily base-makeup generalisation and the squalane "fixes" claim with restrained cosmetic wording
 - [x] Correct the six card labels and the sunscreen sentence; rename the basket call-to-action to match where the link actually goes
 - [x] Confirm the removed wording is absent from the rendered article and that other articles are unchanged
+
+## Seoul Signal article 06 final copy pass
+- [x] Replace the opening "two markets" paragraph with the approved four-sentence wording
+- [x] Replace the HARUHARU card reason with the approved hyaluronic-acid sentence
+- [x] Confirm the article renders both corrections and that other articles are untouched
