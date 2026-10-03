@@ -148,9 +148,9 @@ export const newsletterIssues: NewsletterIssue[] = [
       whatIsIt:
         "A saturated, stable lipid — most commonly made from olives or sugarcane. It's the hydrogenated version of squalene, which your own sebum already contains. Because it's saturated it doesn't oxidise easily, so it doesn't go rancid on your face the way some plant oils do.",
       whyKoreansLove:
-        "It's the emollient of choice for people who want slip and comfort without a heavy occlusive film. In Korean formulas it usually appears at modest levels alongside humectants — the water goes in first, the squalane keeps it from leaving. It also sits well under makeup, which matters in a market where base makeup is worn daily.",
+        "It's the emollient of choice for people who want slip and comfort without a heavy occlusive film. In Korean formulas it usually appears at modest levels alongside humectants — the water goes in first, the squalane keeps it from leaving. It also sits comfortably under makeup.",
       shouldAussiesCare:
-        "Yes, especially if oils have historically broken you out. Squalane is generally considered a lightweight emollient, and many people find it comfortable in both warmer and cooler weather — though how any oil behaves on your skin is individual. It is not an active: it will not brighten, resurface or firm anything. It fixes texture and comfort, and that's the whole job.",
+        "Yes, especially if oils have historically broken you out. Squalane is generally considered a lightweight emollient, and many people find it comfortable in both warmer and cooler weather — though how any oil behaves on your skin is individual. It is not an active: it will not brighten, resurface or firm anything. In a cosmetic formula, its role is generally to support softness, slip and skin comfort.",
       tryIt: [
         { name: "Aqua Squalane Serum", brand: "S.NATURE", price: "A$34", image: "/products/s-nature/aqua-squalane-serum.webp", note: "Lightweight squalane and water — the summer version." },
         { name: "Aqua Squalane Moisturizing Cream", brand: "S.NATURE", price: "A$35", image: "/products/s-nature/aqua-squalane-moisturizing-cream.webp", note: "Same idea, sealed. Good for dry mornings." },
