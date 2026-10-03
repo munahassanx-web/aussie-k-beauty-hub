@@ -211,7 +211,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         "Are exosome serums worth it?",
         "Cleansing oil vs balm vs micellar",
         "What actually works for large pores?",
-        "Which Korean SPF is best for kids?",
+        "How to read an Australian sunscreen label",
       ],
     },
   },
