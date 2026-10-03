@@ -104,7 +104,7 @@ export const newsletterIssues: NewsletterIssue[] = [
   {
     number: "06",
     slug: "korean-products-australians-havent-found-yet",
-    title: "What Seoul Keeps Repurchasing",
+    title: "The quieter formulas gaining attention in Korea",
     theme: "The Undiscovered Issue",
     date: "Fortnight of 17 August 2026",
     published: true,
