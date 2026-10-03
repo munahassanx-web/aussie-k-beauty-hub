@@ -182,30 +182,16 @@ export const newsletterIssues: NewsletterIssue[] = [
       imageAlt: "Flatlay of a short Korean skincare routine: cleanser, toner, serum and cream",
       body: [
         "The single biggest reason routines fail isn't the wrong product. It's a routine designed for someone with twenty free minutes and no one else in the house. If you're getting four kids out the door, or answering work email at 10pm, an eleven-step evening ritual isn't aspirational — it's the thing you'll abandon in nine days and then feel guilty about.",
-        "So we build for the worst night, not the best one. Three products you can apply in ninety seconds, standing up, with the bathroom door open: a cleanser that doesn't leave you tight, one hydrating layer, one cream. Add sunscreen in the morning. That is a complete, defensible routine, and it beats a perfect one you do twice a week.",
+        "So we build for the worst night, not the best one. Three products you can apply in ninety seconds, standing up, with the bathroom door open: a cleanser that doesn't leave you tight, one hydrating layer, one cream. During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia and follow its labelled directions. That is a complete, defensible routine, and it beats a perfect one you do twice a week.",
         "The upgrade path, when there is time, is one product at a time — not one routine at a time. Add a single active, use it for three to four weeks, and only then decide whether anything else is missing. Most people discover it isn't.",
-        "And if you have more time and budget now than you did ten years ago: spend it on consistency and sun protection before you spend it on a new hero serum. During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia and follow its labelled directions.",
+        "And if you have more time and budget now than you did ten years ago: spend it on consistency and sun protection before you spend it on a new hero serum.",
       ],
-    },
-    weTriedIt: {
-      product: "Aqua Oasis Toner",
-      brand: "S.NATURE",
-      duration: "3 weeks, two testers on our team",
-      method:
-        "Informal two-person staff-use observation. Exact testing dates were not recorded and are being confirmed. Products used alongside it were not recorded for this observation. Results are subjective personal impressions and are not clinical evidence.",
-      image: "/products/s-nature/aqua-oasis-toner.webp",
-      scores: [
-        { label: "Absorption", value: "9/10" },
-        { label: "Stickiness", value: "None" },
-        { label: "Value per ml", value: "⭐⭐⭐" },
-      ],
-      verdict:
-        "Does one thing — puts water in — and doesn't interfere with anything after it. Neither tester noticed a dramatic change, which is the correct outcome for a hydrating toner. If you want a visible result, this isn't the product; the cream is.",
     },
     basket: {
       forWho: "For starting over after a bad run",
+      ctaLabel: "Shop these products",
       items: [
-        { name: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", price: "A$24", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp", note: "Stop the damage." },
+        { name: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", price: "A$24", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp", note: "Begin with a gentle cleanse." },
         { name: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", price: "A$28", image: "/__l5e/assets-v1/5c2e77da-7082-420c-809a-9005bdb6aef8/haruharu-wonder-black-rice-hyaluronic-toner-150ml.png", note: "Water in." },
         { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.webp", note: "Water stays in." },
       ],
