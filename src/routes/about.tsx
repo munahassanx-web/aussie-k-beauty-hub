@@ -82,8 +82,8 @@ function About() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/contact" className="bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">Message us directly</Link>
-              <Link to="/journey" className="border border-foreground/20 px-7 py-3 text-sm font-medium hover:bg-foreground/5">See how we verify</Link>
+              <Link to="/contact" className="bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90 rounded-full">Message us directly</Link>
+              <Link to="/journey" className="rounded-full border border-foreground/20 px-7 py-3 text-sm font-medium hover:bg-foreground/5">See how we verify</Link>
             </div>
           </div>
         </div>
@@ -173,7 +173,7 @@ function About() {
         <h2 className="text-4xl text-foreground md:text-5xl">Ready to simplify your routine?</h2>
         <p className="mt-4 text-muted-foreground">Shop the edit or take the quiz for a personalised ritual.</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Link to="/shop" className="bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90">Shop the edit</Link>
+          <Link to="/shop" className="bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:opacity-90 rounded-full">Shop the edit</Link>
           <Link to="/consultation" className="rounded-full bg-pop px-7 py-3 text-sm font-semibold text-pop-foreground shadow-[0_14px_34px_-12px] shadow-pop/60 transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110">Take the skin quiz</Link>
         </div>
       </section>

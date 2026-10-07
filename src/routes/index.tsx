@@ -522,7 +522,7 @@ function BrandMarquee() {
                   </div>
                   <Link
                     to="/consultation"
-                    className="mt-5 inline-flex min-h-11 items-center gap-2 border border-ink/30 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink transition-colors hover:border-ink hover:bg-ink hover:text-background focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-ink md:mt-0 md:shrink-0"
+                    className="mt-5 inline-flex min-h-11 items-center gap-2 border border-ink/30 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink transition-colors hover:border-ink hover:bg-ink hover:text-background focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-ink md:mt-0 md:shrink-0 rounded-full"
                   >
                     Find my routine <span aria-hidden="true">→</span>
                   </Link>

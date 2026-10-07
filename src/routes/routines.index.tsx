@@ -40,7 +40,7 @@ function RoutineCard({ edit }: { edit: RoutineEdit }) {
   const total = edit.core.reduce((sum, slot) => sum + routinePrice(slot.priceId), 0);
 
   return (
-    <article className="flex flex-col border border-border/70 bg-paper transition duration-300 hover:border-ink/40">
+    <article className="flex flex-col overflow-hidden rounded-[1.75rem] border border-border/70 bg-paper shadow-[0_28px_60px_-48px_rgba(58,38,32,0.55)] transition duration-300 hover:border-glaze">
       <div className={`grid grid-cols-3 gap-px ${edit.field}`}>
         {edit.core.map((slot) => {
           const product = routineProduct(slot.priceId);
@@ -67,7 +67,7 @@ function RoutineCard({ edit }: { edit: RoutineEdit }) {
         <p className={`text-[11px] font-semibold uppercase tracking-[0.24em] ${edit.accent}`}>
           Edit {edit.number}
         </p>
-        <h2 className="mt-2 font-display text-2xl leading-tight text-ink">{edit.name}</h2>
+        <h2 className="mt-2 text-2xl font-light leading-tight tracking-[-0.02em] text-ink">{edit.name}</h2>
         <p className="mt-3 text-sm leading-relaxed text-ink/70">
           <span className="font-semibold uppercase tracking-[0.14em] text-ink/50">Who it may suit:</span>{' '}
           {edit.purpose}
@@ -97,7 +97,7 @@ function RoutineCard({ edit }: { edit: RoutineEdit }) {
           <p className="font-display text-3xl text-ink">{routineMoney(total)}</p>
           <Link
             to={DESTINATIONS[edit.id]}
-            className="mt-4 inline-flex min-h-11 w-full items-center justify-center bg-ink px-5 text-xs font-semibold uppercase tracking-[0.2em] text-paper transition hover:opacity-90"
+            className="mt-4 inline-flex min-h-11 w-full items-center justify-center bg-ink px-5 text-xs font-semibold uppercase tracking-[0.2em] text-paper transition hover:opacity-90 rounded-full"
           >
             Review this routine →
           </Link>

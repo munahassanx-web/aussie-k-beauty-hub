@@ -117,7 +117,7 @@ function CheckoutReturn() {
           <Link to="/track" className="rounded-full border border-border px-7 py-3 text-sm uppercase tracking-[0.16em] text-foreground hover:bg-secondary">
             Track an order
           </Link>
-          <Link to="/shop" className="bg-primary px-7 py-3 text-sm uppercase tracking-[0.16em] text-primary-foreground">
+          <Link to="/shop" className="bg-primary px-7 py-3 text-sm uppercase tracking-[0.16em] text-primary-foreground rounded-full">
             Back to shop
           </Link>
         </div>
@@ -272,7 +272,7 @@ function CheckoutReturn() {
       <div className="mt-10 flex flex-wrap gap-3">
         <Link
           to="/shop"
-          className="bg-primary px-7 py-3.5 text-sm font-medium uppercase tracking-[0.16em] text-primary-foreground transition hover:opacity-90"
+          className="bg-primary px-7 py-3.5 text-sm font-medium uppercase tracking-[0.16em] text-primary-foreground transition hover:opacity-90 rounded-full"
         >
           Keep shopping
         </Link>
