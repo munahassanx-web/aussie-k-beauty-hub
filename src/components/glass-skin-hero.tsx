@@ -60,7 +60,7 @@ const SLIDES: Slide[] = [
     proof: "4.6★ from 50,000+ Hwahae reviews",
     plate: "/hero/plate-green.webp",
     pedestal: 0.785,
-    size: 0.54,
+    size: 0.5,
     foot: 0.03,
     body: 0.32,
   },
