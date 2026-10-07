@@ -97,7 +97,7 @@ export function KoreaBestsellers() {
   return (
     <section aria-labelledby="korea-market-signals" className="border-b border-border pb-8">
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-        <h2 id="korea-market-signals" className="font-masthead text-xl leading-none text-foreground sm:text-2xl">
+        <h2 id="korea-market-signals" className="font-display font-light text-xl leading-none text-foreground sm:text-2xl">
           Korean-market signals
           <span className="ml-3 align-middle text-[10px] font-medium uppercase tracking-[0.35em] text-muted-foreground">
             화해 랭킹

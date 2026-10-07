@@ -67,7 +67,7 @@ export function BrandWordmark({
       >
         <span
           className={`h-px flex-none ${size === "display" ? "w-6 md:w-10" : "w-4"}`}
-          style={{ background: "var(--stripe-gold)" }}
+          style={{ background: "var(--glaze)" }}
         />
         <span
           className={`font-body font-medium uppercase leading-none ${subScale}`}
@@ -77,7 +77,7 @@ export function BrandWordmark({
         </span>
         <span
           className={`h-px flex-none ${size === "display" ? "w-6 md:w-10" : "w-4"}`}
-          style={{ background: "var(--stripe-gold)" }}
+          style={{ background: "var(--glaze)" }}
         />
       </span>
 

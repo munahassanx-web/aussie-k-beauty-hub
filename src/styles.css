@@ -27,10 +27,12 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-pop: var(--pop);
   --color-pop-foreground: var(--pop-foreground);
-  --color-hero-paper: #ffffff;
-  --color-hero-cream: #faf8f4;
-  --color-hero-ink: #171714;
-  --color-hero-muted: #4a4a44;
+  --color-hero-paper: #fbf6f2;
+  --color-hero-cream: #f7ece6;
+  --color-hero-ink: #2e1e19;
+  --color-hero-muted: #86706a;
+  --color-blush: var(--blush);
+  --color-glaze: var(--glaze);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -72,55 +74,57 @@
 
 
 
-  --font-display: "Fraunces", Georgia, serif;
+  --font-display: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
   --font-masthead: "Bodoni Moda", "Didot", "Playfair Display", Georgia, serif;
-  --font-body: "Inter", system-ui, sans-serif;
+  --font-body: "Hanken Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-hangul: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }
 
 :root {
-  --radius: 0.5rem;
-  /* Brand palette: clean white base + neutral charcoal/navy accents */
-  --paper: oklch(1 0 0);
-  --sand: oklch(0.975 0.002 265);
-  --sand-deep: oklch(0.94 0.004 265);
-  --clay: oklch(0.45 0.012 265);
-  --hanbok: oklch(0.36 0.018 265);
-  --hanbok-deep: oklch(0.22 0.018 265);
-  --ink: oklch(0.17 0.012 265);
-  /* Grocery-list editorial accents */
-  --grocer-cream: oklch(0.98 0.002 265);
-  --grocer-green: oklch(0.30 0.018 265);
-  --grocer-tomato: oklch(0.58 0.17 27);
-  --grocer-butter: oklch(0.92 0.02 90);
-  --grocer-brown: oklch(0.32 0.012 265);
-  /* Restrained rose-gold accent — flat on screen, never faux-metallic gradient */
-  --rose-gold: oklch(0.74 0.062 38);
-  /* Champagne gold (#C6A15B) — shared with the transactional email identity */
+  --radius: 0.75rem;
+  /* Glass Skin Club (물광) brand palette — milk, blush, glaze and cocoa.
+     One warm family across the whole site; legacy token names are kept so every
+     existing component picks the identity up without being rewritten. */
+  --paper: #fbf6f2;          /* Milk — page background */
+  --sand: #f7ece6;           /* Blush wash — quiet panels */
+  --sand-deep: #ecdcd5;      /* Hairline / borders */
+  --clay: #86706a;           /* Muted text */
+  --hanbok: #7a3e30;         /* Deep glaze — links, focus, emphasis */
+  --hanbok-deep: #3a2620;    /* Cocoa — primary buttons, dark bands */
+  --ink: #2e1e19;            /* Text */
+  --blush: #f4e3dc;          /* Blush — product tiles, tags */
+  --glaze: #e3a493;          /* Glaze — the one accent */
+  /* Grocery-list editorial accents, mapped onto the same family */
+  --grocer-cream: #fbf6f2;
+  --grocer-green: #3a2620;
+  --grocer-tomato: #c8604a;
+  --grocer-butter: #f4e3dc;
+  --grocer-brown: #5a3a30;
+  --rose-gold: #e3a493;
+  /* Transactional email accent */
   --stripe-gold: #c6a15b;
-  /* Product Observatory — Matcha & Gold variation. Gold is reserved for active/verified touchpoints. */
-  --observatory-porcelain: oklch(0.97 0.01 95);
-  --observatory-orchid: oklch(0.65 0.08 145);
-  --observatory-plum: oklch(0.43 0.09 145);
-  --observatory-deep: oklch(0.30 0.04 145);
-  --observatory-citron: oklch(0.72 0.12 85);
+  /* Legacy section palettes, folded into Glass Skin Club so no section brings its own colour world */
+  --observatory-porcelain: #fbf6f2;
+  --observatory-orchid: #e3a493;
+  --observatory-plum: #7a3e30;
+  --observatory-deep: #3a2620;
+  --observatory-citron: #e3a493;
   --observatory-citron-soft: color-mix(in oklab, var(--observatory-citron) 52%, transparent);
-  --observatory-moss: oklch(0.58 0.09 145);
-  /* Clinical Sanctuary hero — warm porcelain, stone ink, champagne gold accent */
-  --sanctuary-bg: oklch(0.965 0.008 95);
-  --sanctuary-ink: oklch(0.28 0.015 70);
-  --sanctuary-muted: oklch(0.55 0.02 80);
-  --sanctuary-line: oklch(0.85 0.015 85);
-  --sanctuary-gold: oklch(0.70 0.10 78);
-  --sanctuary-gold-deep: oklch(0.62 0.10 75);
-  --sanctuary-sage: oklch(0.92 0.02 125);
-  --sanctuary-sage-deep: oklch(0.86 0.03 120);
-  /* The Seoul Shelf hero — deep grocer navy, cream tile, rose-gold accent */
-  --shelf-bg: oklch(0.19 0.025 262);
-  --shelf-ink: oklch(0.965 0.015 90);
-  --shelf-muted: oklch(0.76 0.02 262);
-  --shelf-line: oklch(0.34 0.025 262);
-  --shelf-tile: oklch(0.96 0.012 92);
-  --shelf-gold: var(--rose-gold);
+  --observatory-moss: #b0796a;
+  --sanctuary-bg: #f7ece6;
+  --sanctuary-ink: #3a2620;
+  --sanctuary-muted: #86706a;
+  --sanctuary-line: #ecdcd5;
+  --sanctuary-gold: #e3a493;
+  --sanctuary-gold-deep: #c98370;
+  --sanctuary-sage: #f4e3dc;
+  --sanctuary-sage-deep: #ecdcd5;
+  --shelf-bg: #3a2620;
+  --shelf-ink: #fbf6f2;
+  --shelf-muted: #d9c3bb;
+  --shelf-line: #5a3a30;
+  --shelf-tile: #fbf6f2;
+  --shelf-gold: var(--glaze);
 }
 
 /* Seoul Shelf hero palette worlds — applied via data-shelf-palette on the hero section */
@@ -319,11 +323,9 @@
   --accent-foreground: var(--ink);
   --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: oklch(0.98 0 0);
-/* High-energy CTA — bright Seoul rose, used for primary action buttons.
-     Sits in the brand's cool rose-gold family so it pops against navy/cream
-     without the warm orange clash. */
-  --pop: oklch(0.56 0.19 354);
-  --pop-foreground: oklch(0.99 0 0);
+/* Primary CTA — cocoa, so every main button on the site matches. */
+  --pop: var(--hanbok-deep);
+  --pop-foreground: var(--paper);
   --border: var(--sand-deep);
   --input: var(--sand-deep);
   --ring: var(--hanbok);
@@ -413,8 +415,8 @@
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.02em;
+    font-weight: 300;
+    letter-spacing: -0.03em;
   }
 
   /* WCAG 2.2 AA — every interactive element keeps a visible keyboard focus ring,
@@ -954,4 +956,12 @@
 @keyframes hero-sweep {
   0% { transform: translateX(-120%); }
   100% { transform: translateX(420%); }
+}
+
+/* Glass Skin Club motion: gentle product float and the glow-word band */
+@keyframes sg-bob {
+  50% { transform: translateY(-12px) rotate(-1deg); }
+}
+@keyframes sg-marquee {
+  to { transform: translateX(-50%); }
 }

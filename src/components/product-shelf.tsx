@@ -235,7 +235,7 @@ export function ProductShelf() {
               </p>
               <h2
                 id="shelf-heading"
-                className="mt-4 font-masthead text-[clamp(1.9rem,3.6vw,2.9rem)] leading-[1.05] tracking-tight"
+                className="mt-4 font-display font-light text-[clamp(1.9rem,3.6vw,2.9rem)] leading-[1.05] tracking-tight"
               >
                 Six considered places to start
               </h2>

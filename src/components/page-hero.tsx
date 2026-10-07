@@ -20,7 +20,7 @@ const TONES: Record<
   { block: string; chip: string; shots: Shot[] }
 > = {
   sage: {
-    block: 'from-[oklch(0.96_0.02_150)] to-[oklch(0.99_0.005_150)]',
+    block: 'from-blush to-paper',
     chip: 'bg-primary/10 text-primary',
     shots: [
       { src: '/products/beplain/cicaful-ampoule-30ml.webp', brand: 'beplain', label: 'Cicaful Ampoule' },
@@ -29,7 +29,7 @@ const TONES: Record<
     ],
   },
   glow: {
-    block: 'from-[oklch(0.97_0.03_75)] to-[oklch(0.99_0.008_75)]',
+    block: 'from-blush to-paper',
     chip: 'bg-accent/15 text-accent-foreground',
     shots: [
       { src: '/products/beauty-of-joseon/glow-serum-propolis-plus-niacinamide-30ml.webp', brand: 'Beauty of Joseon', label: 'Glow Serum' },
@@ -38,7 +38,7 @@ const TONES: Record<
     ],
   },
   plum: {
-    block: 'from-[oklch(0.96_0.025_350)] to-[oklch(0.99_0.006_350)]',
+    block: 'from-blush to-paper',
     chip: 'bg-primary/10 text-primary',
     shots: [
       { src: '/products/beauty-of-joseon/green-plum-refreshing-toner-aha-bha-150ml.webp', brand: 'Beauty of Joseon', label: 'Green Plum Toner' },
@@ -47,7 +47,7 @@ const TONES: Record<
     ],
   },
   sun: {
-    block: 'from-[oklch(0.97_0.035_85)] to-[oklch(0.99_0.008_85)]',
+    block: 'from-blush to-paper',
     chip: 'bg-accent/15 text-accent-foreground',
     shots: [
       { src: '/products/beauty-of-joseon/ginseng-cleansing-oil-210ml.webp', brand: 'Beauty of Joseon', label: 'Ginseng Cleansing Oil' },
@@ -104,7 +104,7 @@ export function PageHero({
           {/* Copy column */}
           <div>
             <motion.div {...rise(0)} className="flex items-center gap-3">
-              <span className="font-masthead text-sm italic text-foreground/40">{index}</span>
+              <span className="font-display font-light text-sm italic text-foreground/40">{index}</span>
               <p className="text-[10px] font-semibold uppercase tracking-[0.32em] text-foreground/70 md:text-[11px]">
                 {eyebrow}
               </p>
@@ -113,7 +113,7 @@ export function PageHero({
 
             <motion.h1
               {...rise(0.08)}
-              className="mt-5 font-masthead text-[clamp(2.5rem,5.4vw,4.5rem)] leading-[0.95] tracking-tight text-balance text-foreground"
+              className="mt-5 font-display font-light text-[clamp(2.5rem,5.4vw,4.5rem)] leading-[0.95] tracking-tight text-balance text-foreground"
             >
               {title}
               {titleAccent && <span className="block font-light italic opacity-90">{titleAccent}</span>}
