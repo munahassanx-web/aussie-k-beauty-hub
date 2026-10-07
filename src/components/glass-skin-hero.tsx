@@ -14,48 +14,70 @@ type Slide = {
   ko: string;
   en: string;
   hook: string;
+  /** Hwahae rating and review count, rounded down. */
+  proof: string;
   /** Backdrop gradient and the RGB tint of the floating bubbles. */
   bg: [string, string];
   tint: string;
 };
 
-/** Three stocked products, each staged in its own colour world. */
+/**
+ * Stocked products from the Hwahae Global Trending Ranking (checked
+ * 7 October 2026). Review counts are rounded down so they stay true as
+ * Hwahae's totals grow.
+ */
 const SLIDES: Slide[] = [
   {
-    slug: "medicube-pdrn-pink-peptide-serum-30ml",
-    brand: "MEDICUBE",
-    name: "PDRN Pink Peptide Serum",
-    price: "A$40",
-    image: "/products/medicube/pdrn-pink-peptide-serum-30ml.webp",
-    ko: "연어 PDRN",
-    en: "Salmon PDRN",
-    hook: "Korea’s “salmon injection” trend, in a dropper.",
-    bg: ["#fbe9ec", "#f2c4cd"],
-    tint: "236,128,152",
+    slug: "aestura-atobarrier365-cream",
+    brand: "AESTURA",
+    name: "Atobarrier365 Cream",
+    price: "A$55",
+    image: "/products/aestura/atobarrier365-cream.webp",
+    ko: "장벽 크림",
+    en: "Barrier cream",
+    hook: "Korea’s go-to moisturiser for dry, easily unsettled skin.",
+    proof: "4.7★ from 18,000+ Hwahae reviews",
+    bg: ["#fbeee9", "#f1d3c8"],
+    tint: "227,164,147",
   },
   {
-    slug: "torriden-dive-in-serum",
+    slug: "beplain-mung-bean-ph-balanced-cleansing-foam-80ml",
+    brand: "beplain",
+    name: "Mung Bean pH-Balanced Cleansing Foam",
+    price: "A$24",
+    image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp",
+    ko: "녹두",
+    en: "Mung bean",
+    hook: "The low-pH daily cleanser that rinses clean without tightness.",
+    proof: "4.6★ from 50,000+ Hwahae reviews",
+    bg: ["#f3f6ea", "#d6e2bd"],
+    tint: "150,180,100",
+  },
+  {
+    slug: "torriden-dive-in-soothing-cream",
     brand: "TORRIDEN",
-    name: "Dive In Serum",
-    price: "A$38",
-    image: "/products/torriden/dive-in-serum.webp",
-    ko: "히알루론산",
-    en: "Hyaluronic acid",
-    hook: "Five hyaluronic acids for water at every layer.",
-    bg: ["#fbf6f2", "#e6ece8"],
+    name: "Dive In Soothing Cream",
+    price: "A$40",
+    image: "/products/torriden/dive-in-soothing-cream.webp",
+    ko: "판테놀",
+    en: "Panthenol",
+    hook: "The soothing cream from Torriden’s DIVE IN line.",
+    proof: "4.7★ from 27,000+ Hwahae reviews",
+    bg: ["#f6f9f8", "#d8e9eb"],
     tint: "150,196,200",
   },
   {
-    slug: "tirtir-ceramic-milk-ampoule-40ml",
-    brand: "TIRTIR",
-    name: "Ceramic Milk Ampoule",
-    price: "A$50",
-    image: "/products/tirtir/ceramic-milk-ampoule-40ml.webp",
-    ko: "세라마이드",
-    en: "Ceramide",
-    hook: "A milky ampoule with ceramide and niacinamide.",
-    bg: ["#fbeadf", "#efc3a5"],
-    tint: "227,164,147",
+    slug: "round-lab-1025-dokdo-toner-100ml",
+    brand: "ROUND LAB",
+    name: "1025 Dokdo Toner",
+    price: "A$18",
+    image: "/products/round-lab/1025-dokdo-toner-100ml.webp",
+    ko: "해양심층수",
+    en: "Deep-sea water",
+    hook: "A toner built on deep-sea water drawn off Dokdo island.",
+    proof: "4.4★ from 95,000+ Hwahae reviews",
+    bg: ["#faf4ec", "#e7d6bf"],
+    tint: "200,170,130",
   },
 ];
 
@@ -140,31 +162,31 @@ export function GlassSkinHero() {
     >
       <div className="relative z-10 flex flex-col justify-center gap-6 px-6 pb-12 pt-9 md:py-16 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] md:pr-10">
         <span className="inline-flex w-fit max-w-full items-center gap-2.5 rounded-full bg-blush px-4 py-2 text-[13px]">
-          <b className="font-[family-name:var(--font-hangul)] font-bold text-hanbok">서울 신상</b>
-          <span className="text-ink/80">new from Seoul, explained in English</span>
+          <b className="font-[family-name:var(--font-hangul)] font-bold text-hanbok">화해 랭킹</b>
+          <span className="text-ink/80">ranked by Korean reviewers on Hwahae</span>
         </span>
         <h1
           id="glass-skin-heading"
           className="text-[clamp(2.9rem,4.7vw,5.1rem)] font-light lowercase leading-[0.98] tracking-[-0.045em]"
         >
-          <span className="block">new in seoul.</span>
-          <span className="block text-hanbok">now in australia.</span>
+          <span className="block">the skincare</span>
+          <span className="block text-hanbok">korea swears by.</span>
         </h1>
         <p className="max-w-[38ch] text-lg leading-relaxed text-clay">
-          We bring Korea’s newest skincare over sooner, check every label, and tell you in plain
-          English what each one does. Start with three products, not ten.
+          The cult favourites with tens of thousands of Korean reviews, checked in Melbourne and
+          explained in plain English. Start with three products, not ten.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
             to="/shop"
-            onClick={() => trackUi("hero_shop_click", { slide_id: "new_from_seoul" })}
+            onClick={() => trackUi("hero_shop_click", { slide_id: "korea_bestsellers" })}
             className="inline-flex items-center gap-2 rounded-full bg-hanbok-deep px-7 py-4 text-[13px] font-bold uppercase tracking-[0.1em] text-paper transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-hanbok focus-visible:ring-offset-2"
           >
-            Shop what’s new <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            Shop the bestsellers <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
           <Link
             to="/consultation"
-            onClick={() => trackUi("hero_routine_finder_click", { slide_id: "new_from_seoul" })}
+            onClick={() => trackUi("hero_routine_finder_click", { slide_id: "korea_bestsellers" })}
             className="inline-flex items-center rounded-full border-[1.5px] border-hanbok-deep px-7 py-4 text-[13px] font-bold uppercase tracking-[0.1em] text-hanbok-deep transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-hanbok focus-visible:ring-offset-2"
           >
             Find my routine
@@ -174,7 +196,7 @@ export function GlassSkinHero() {
           href="#glass-skin-club"
           className="w-fit text-sm text-clay underline-offset-4 hover:text-ink hover:underline"
         >
-          Join the Glass Skin Club to hear about new arrivals first →
+          Join the Glass Skin Club for new arrivals and routine notes →
         </a>
       </div>
 
@@ -195,7 +217,7 @@ export function GlassSkinHero() {
           background: `radial-gradient(120% 90% at 50% 35%, ${slide.bg[0]} 0%, ${slide.bg[1]} 100%)`,
         }}
         aria-roledescription="carousel"
-        aria-label="New products from Seoul"
+        aria-label="Korean bestsellers"
       >
         <div className="absolute right-5 top-5 z-20 flex gap-2 md:right-7 md:top-7">
           {SLIDES.map((s, i) => (
@@ -321,6 +343,7 @@ export function GlassSkinHero() {
             </p>
             <p className="mt-1 text-xl font-light leading-tight tracking-[-0.02em]">{slide.name}</p>
             <p className="mt-1 text-sm text-ink/70">{slide.hook}</p>
+            <p className="mt-2 text-xs font-semibold text-ink/80">{slide.proof}</p>
           </div>
         </div>
       </div>
