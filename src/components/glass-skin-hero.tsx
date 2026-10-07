@@ -95,6 +95,15 @@ const BUBBLES = [
 
 const ROTATE_MS = 5200;
 
+/** Burst directions for the droplets when a bubble pops. */
+const DROPS = Array.from({ length: 8 }, (_, k) => {
+  const a = (k / 8) * Math.PI * 2 + 0.3;
+  return { dx: Math.cos(a), dy: Math.sin(a), s: k % 2 ? 7 : 11 };
+});
+
+/** Drag distance becomes spin, easing off towards ±60 degrees. */
+const spinFor = (dx: number) => 60 * Math.tanh((dx * 0.6) / 60);
+
 /** The words customers already search for, in English and Korean. */
 const GLOW_WORDS: [string, string][] = [
   ["glass skin", "물광"],
@@ -124,6 +133,13 @@ export function GlassSkinHero() {
   const [paused, setPaused] = useState(false);
   const [english, setEnglish] = useState(false);
   const swipeX = useRef<number | null>(null);
+  const drag = useRef<{ x: number; moved: boolean } | null>(null);
+  const [spin, setSpin] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const [popped, setPopped] = useState<Record<number, number>>({});
+  const [regrown, setRegrown] = useState<Record<number, number>>({});
+  const [scrollY, setScrollY] = useState(0);
+  const [played, setPlayed] = useState(false);
   const slide = SLIDES[index];
 
   useEffect(() => {
@@ -138,6 +154,41 @@ export function GlassSkinHero() {
     const id = window.setTimeout(() => setEnglish(true), 1600);
     return () => window.clearTimeout(id);
   }, [index, reduce]);
+
+  useEffect(() => {
+    if (reduce) return;
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => setScrollY(Math.min(window.scrollY, 900)));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, [reduce]);
+
+  const pop = (i: number) => {
+    if (popped[i]) return;
+    setPlayed(true);
+    setPaused(true);
+    setPopped((p) => ({ ...p, [i]: Date.now() }));
+    window.setTimeout(() => {
+      setPopped((p) => {
+        const next = { ...p };
+        delete next[i];
+        return next;
+      });
+      setRegrown((g) => ({ ...g, [i]: (g[i] ?? 0) + 1 }));
+    }, 2400);
+    trackUi("hero_bubble_pop", { slide_id: SLIDES[index].slug });
+  };
+
+  const endDrag = () => {
+    setDragging(false);
+    setSpin(0);
+  };
 
   const go = (i: number) => {
     setIndex((i + SLIDES.length) % SLIDES.length);
@@ -227,7 +278,7 @@ export function GlassSkinHero() {
               onClick={() => go(i)}
               aria-label={`Show ${s.brand} ${s.name}`}
               aria-pressed={i === index}
-              className={`grid h-12 w-12 place-items-center rounded-full bg-paper/80 p-1.5 backdrop-blur transition-all ${i === index ? "ring-2 ring-hanbok-deep" : "opacity-70 hover:opacity-100"}`}
+              className={`grid h-10 w-10 place-items-center rounded-full md:h-12 md:w-12 bg-paper/80 p-1.5 backdrop-blur transition-all ${i === index ? "ring-2 ring-hanbok-deep" : "opacity-70 hover:opacity-100"}`}
             >
               <img src={s.image} alt="" className="h-full w-full object-contain" />
             </button>
@@ -237,24 +288,59 @@ export function GlassSkinHero() {
           <span
             key={i}
             aria-hidden="true"
-            className="pointer-events-none absolute"
+            onClick={() => pop(i)}
+            className="absolute z-10 cursor-pointer"
             style={{
               left: `${b.x}%`,
               top: `${b.y}%`,
               width: `clamp(${Math.round(b.s * 0.55)}px, ${b.s / 7}vw, ${b.s}px)`,
               aspectRatio: "1",
-              transform: `translate3d(${tilt.x * b.d * -36}px, ${tilt.y * b.d * -36}px, 0)`,
+              transform: `translate3d(${tilt.x * b.d * -36}px, ${tilt.y * b.d * -36 - scrollY * b.d * 0.12}px, 0)`,
               transition: "transform 0.4s ease-out",
             }}
           >
             <span
-              className="block h-full w-full rounded-full transition-[background,box-shadow] duration-700 motion-safe:animate-[sg-bob_var(--t)_ease-in-out_infinite]"
-              style={{ ...bubbleStyle(slide.tint), ["--t" as string]: `${b.t}s` }}
-            />
+              key={regrown[i] ?? 0}
+              className="block h-full w-full transition-[transform,opacity] duration-300 hover:scale-110 motion-safe:animate-[sg-grow_0.7s_cubic-bezier(.3,1.5,.5,1)]"
+              style={popped[i] ? { transform: "scale(1.4)", opacity: 0 } : undefined}
+            >
+              <span
+                className="block h-full w-full rounded-full transition-[background,box-shadow] duration-700 motion-safe:animate-[sg-bob_var(--t)_ease-in-out_infinite]"
+                style={{
+                  ...bubbleStyle(slide.tint),
+                  ["--t" as string]: `${b.t}s`,
+                }}
+              />
+            </span>
+            {popped[i] ? (
+              <span key={popped[i]} className="pointer-events-none absolute inset-0">
+                <span
+                  className="absolute inset-0 rounded-full border-2 motion-safe:animate-[sg-ring_0.5s_ease-out_forwards]"
+                  style={{ borderColor: `rgba(${slide.tint},0.6)`, opacity: 0 }}
+                />
+                {DROPS.map((d, k) => (
+                  <span
+                    key={k}
+                    className="absolute left-1/2 top-1/2 rounded-full motion-safe:animate-[sg-drop_0.6s_ease-out_forwards]"
+                    style={{
+                      width: d.s,
+                      height: d.s,
+                      opacity: 0,
+                      ...bubbleStyle(slide.tint),
+                      ["--dx" as string]: `${d.dx * (b.s * 0.55 + 24)}px`,
+                      ["--dy" as string]: `${d.dy * (b.s * 0.55 + 24)}px`,
+                    }}
+                  />
+                ))}
+              </span>
+            ) : null}
           </span>
         ))}
 
-        <div className="relative flex flex-1 items-center justify-center [perspective:1100px]">
+        <div
+          className="pointer-events-none relative z-10 flex flex-1 items-center justify-center pt-16 [perspective:1100px] md:pt-0"
+          style={{ transform: `translateY(${scrollY * -0.08}px)` }}
+        >
           <span
             aria-hidden="true"
             className="pointer-events-none absolute bottom-[7%] h-[9%] w-[48%] rounded-[50%] transition-[background,box-shadow] duration-700"
@@ -273,22 +359,57 @@ export function GlassSkinHero() {
                 params={{ slug: s.slug }}
                 tabIndex={on ? 0 : -1}
                 aria-hidden={!on}
-                onClick={() => trackUi("hero_product_click", { slide_id: s.slug })}
+                draggable={false}
+                onPointerDown={(e) => {
+                  e.stopPropagation();
+                  if (reduce) return;
+                  drag.current = { x: e.clientX, moved: false };
+                  setDragging(true);
+                  e.currentTarget.setPointerCapture(e.pointerId);
+                }}
+                onPointerMove={(e) => {
+                  if (!drag.current || !dragging) return;
+                  const dx = e.clientX - drag.current.x;
+                  if (Math.abs(dx) > 6 && !drag.current.moved) {
+                    drag.current.moved = true;
+                    setPlayed(true);
+                    setPaused(true);
+                  }
+                  setSpin(spinFor(dx));
+                }}
+                onPointerUp={(e) => {
+                  e.stopPropagation();
+                  endDrag();
+                }}
+                onPointerCancel={endDrag}
+                onClick={(e) => {
+                  if (drag.current?.moved) {
+                    e.preventDefault();
+                    drag.current = null;
+                    return;
+                  }
+                  drag.current = null;
+                  trackUi("hero_product_click", { slide_id: s.slug });
+                }}
                 aria-label={`${s.brand} ${s.name}, ${s.price}`}
-                className="absolute h-[80%] max-h-[540px] w-[70%] max-w-[470px] transition-[opacity,transform] duration-700 ease-[cubic-bezier(.2,.8,.2,1)]"
+                className={`absolute h-[72%] max-h-[540px] w-[70%] max-w-[470px] md:h-[80%] touch-pan-y ${dragging ? "cursor-grabbing" : "cursor-grab"}`}
                 style={{
                   opacity: on ? 1 : 0,
                   pointerEvents: on ? "auto" : "none",
                   transform: on
-                    ? `rotateY(${tilt.x * 22}deg) rotateX(${tilt.y * -12}deg) translateZ(0)`
+                    ? `rotateY(${tilt.x * 22 + spin}deg) rotateX(${tilt.y * -12}deg) translateZ(0)`
                     : `translateY(60px) scale(0.85) rotateY(${i < index ? -30 : 30}deg)`,
                   transformStyle: "preserve-3d",
+                  transition: dragging
+                    ? "opacity 0.7s ease"
+                    : "opacity 0.7s ease, transform 0.9s cubic-bezier(.3,1.45,.5,1)",
                 }}
               >
                 <span className="block h-full w-full motion-safe:animate-[sg-bob_6s_ease-in-out_infinite]">
                   <img
                     src={s.image}
                     alt=""
+                    draggable={false}
                     width={1400}
                     height={1400}
                     fetchPriority={i === 0 ? "high" : "low"}
@@ -298,7 +419,7 @@ export function GlassSkinHero() {
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 mix-blend-soft-light"
                     style={{
-                      background: `linear-gradient(${105 + tilt.x * 40}deg, rgba(255,255,255,0) ${30 + tilt.x * 30}%, rgba(255,255,255,0.85) ${45 + tilt.x * 30}%, rgba(255,255,255,0) ${60 + tilt.x * 30}%)`,
+                      background: `linear-gradient(${105 + tilt.x * 40 + spin}deg, rgba(255,255,255,0) ${30 + tilt.x * 30 + spin / 2}%, rgba(255,255,255,0.85) ${45 + tilt.x * 30 + spin / 2}%, rgba(255,255,255,0) ${60 + tilt.x * 30 + spin / 2}%)`,
                       WebkitMaskImage: `url(${s.image})`,
                       maskImage: `url(${s.image})`,
                       WebkitMaskSize: "contain",
@@ -318,7 +439,7 @@ export function GlassSkinHero() {
             type="button"
             onClick={() => setEnglish((v) => !v)}
             aria-label={`${slide.ko}: ${slide.en}`}
-            className="absolute left-[6%] top-[12%] z-20 flex items-center gap-2.5 rounded-full bg-paper/95 px-4 py-2.5 text-[13px] font-semibold text-ink shadow-[0_14px_34px_rgba(58,38,32,0.18)] backdrop-blur transition-transform hover:scale-[1.04] md:left-[8%] md:top-[16%]"
+            className="pointer-events-auto absolute left-[6%] top-[16%] z-20 flex items-center gap-2.5 rounded-full bg-paper/95 px-4 py-2.5 text-[13px] font-semibold text-ink shadow-[0_14px_34px_rgba(58,38,32,0.18)] backdrop-blur transition-transform hover:scale-[1.04] md:left-[8%] md:top-[16%]"
           >
             <span aria-hidden="true" className="h-2 w-2 rounded-full bg-glaze" />
             <span aria-hidden="true" className="grid">
@@ -337,6 +458,12 @@ export function GlassSkinHero() {
         </div>
 
         <div className="relative z-10 px-6 pb-6 md:px-8 md:pb-7">
+          <p
+            aria-hidden="true"
+            className={`mb-3 inline-block rounded-full bg-paper/70 px-3 py-1.5 text-[11px] font-semibold text-ink/70 backdrop-blur transition-opacity duration-500 ${played || reduce ? "opacity-0" : "opacity-100"}`}
+          >
+            drag to spin · tap a bubble
+          </p>
           <div aria-live="polite" className="min-w-0">
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink/60">
               {slide.brand} · {slide.price}
