@@ -104,14 +104,14 @@ export function CartDrawer() {
                   )}
                 </p>
                 <div
-                  className="mt-2.5 h-px w-full bg-border"
+                  className="mt-2.5 h-1 w-full overflow-hidden rounded-full bg-blush"
                   role="progressbar"
                   aria-valuemin={0}
                   aria-valuemax={100}
                   aria-valuenow={progress}
                   aria-label="Progress towards free shipping"
                 >
-                  <div className="h-px bg-rose-gold transition-all duration-500" style={{ width: `${progress}%` }} />
+                  <div className="h-1 rounded-full bg-glaze transition-all duration-500" style={{ width: `${progress}%` }} />
                 </div>
               </div>
             )}
@@ -119,12 +119,14 @@ export function CartDrawer() {
             <div className="flex-1 divide-y divide-border overflow-y-auto px-6 sm:px-7">
               {cart.lines.map((line) => (
                 <div key={line.priceId} className="flex gap-5 py-6">
-                  <img
-                    src={line.image}
-                    alt={line.name}
-                    loading="lazy"
-                    className="h-28 w-24 shrink-0 rounded-[2px] bg-secondary object-contain p-3"
-                  />
+                  <div className="sg-stage h-28 w-24 shrink-0 rounded-2xl">
+                    <img
+                      src={line.image}
+                      alt={line.name}
+                      loading="lazy"
+                      className="sg-stage-img h-full w-full object-contain p-3"
+                    />
+                  </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{line.brand}</p>
                     <p className="mt-1.5 text-sm leading-snug text-foreground">{line.name}</p>
@@ -136,7 +138,7 @@ export function CartDrawer() {
                       {line.recurring && <span> · monthly</span>}
                     </p>
                     <div className="mt-4 flex items-end justify-between gap-3">
-                      <div className="inline-flex items-center rounded-[2px] border border-border">
+                      <div className="inline-flex items-center overflow-hidden rounded-full border border-border">
                         <button
                           aria-label={`Decrease quantity of ${line.brand} ${line.name}`}
                           disabled={line.quantity <= 1}
@@ -178,7 +180,7 @@ export function CartDrawer() {
 
             <div className="border-t border-border px-6 py-6 sm:px-7">
               {cart.mixedModes && (
-                <p className="mb-4 rounded-[2px] border border-border bg-secondary/60 p-3 text-xs leading-relaxed text-foreground">
+                <p className="mb-4 rounded-2xl border border-border bg-blush/40 p-3 text-xs leading-relaxed text-foreground">
                   Restock subscriptions are set up one at a time — please check out your one-off items separately.
                 </p>
               )}
@@ -200,7 +202,7 @@ export function CartDrawer() {
               </div>
               <div className="mt-4 flex items-baseline justify-between border-t border-border pt-4">
                 <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Total</span>
-                <span className="font-display text-[1.75rem] leading-none text-foreground">
+                <span className="text-[1.75rem] font-light leading-none tabular-nums tracking-[-0.02em] text-foreground">
                   {formatAud(cart.totalCents)}
                 </span>
               </div>
@@ -222,7 +224,7 @@ export function CartDrawer() {
               <Link
                 to="/checkout"
                 onClick={() => cart.setOpen(false)}
-                className="mt-5 flex min-h-14 items-center justify-center rounded-[2px] bg-foreground text-[11px] font-medium uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-90"
+                className="mt-5 flex min-h-14 items-center justify-center rounded-full bg-hanbok-deep text-[11px] font-bold uppercase tracking-[0.18em] text-background shadow-[0_16px_34px_-18px_rgba(58,38,32,0.7)] transition-colors hover:bg-hanbok"
               >
                 Continue to checkout
               </Link>

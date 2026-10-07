@@ -109,12 +109,12 @@ function CheckoutReturn() {
   if (!sessionId) {
     return (
       <div className="mx-auto max-w-2xl px-6 py-24 text-center">
-        <h1 className="font-display text-4xl text-foreground">No order found</h1>
+        <h1 className="text-[2.4rem] font-light leading-none tracking-[-0.03em] text-foreground">No order found</h1>
         <p className="mt-3 text-sm text-muted-foreground">
           If you’ve just paid, check your inbox for the receipt — or look up your order with your email and order number.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Link to="/track" className="border border-border px-7 py-3 text-sm uppercase tracking-[0.16em] text-foreground hover:bg-secondary">
+          <Link to="/track" className="rounded-full border border-border px-7 py-3 text-sm uppercase tracking-[0.16em] text-foreground hover:bg-secondary">
             Track an order
           </Link>
           <Link to="/shop" className="bg-primary px-7 py-3 text-sm uppercase tracking-[0.16em] text-primary-foreground">
@@ -128,13 +128,13 @@ function CheckoutReturn() {
   return (
     <div className="mx-auto max-w-2xl px-6 py-20">
       <p className="text-[11px] uppercase tracking-[0.24em] text-primary">Thank you</p>
-      <h1 className="mt-4 font-display text-4xl leading-tight text-foreground">Your order is confirmed</h1>
+      <h1 className="mt-4 text-[2.4rem] font-light leading-tight tracking-[-0.03em] text-foreground md:text-5xl">Your order is confirmed</h1>
       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
         Payment received and your receipt is on its way by email. Orders are picked and packed in Melbourne, and we’ll
         email you again the moment your parcel is dispatched.
       </p>
 
-      <div className="mt-10 border border-border p-6">
+      <div className="mt-10 rounded-[1.75rem] border border-border bg-blush/35 p-6">
         <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Order summary</h2>
         {!receipt ? (
           <p className="mt-4 text-sm text-muted-foreground" aria-live="polite">
@@ -169,7 +169,7 @@ function CheckoutReturn() {
               )}
               <div className="flex items-baseline justify-between border-t border-border pt-3">
                 <span className="text-sm uppercase tracking-[0.16em] text-muted-foreground">Total paid</span>
-                <span className="font-display text-2xl text-foreground">{formatAud(receipt.amountCents)}</span>
+                <span className="text-2xl font-light tabular-nums text-foreground">{formatAud(receipt.amountCents)}</span>
               </div>
             </div>
             {receipt.pointsEarned > 0 && (
@@ -254,15 +254,15 @@ function CheckoutReturn() {
 
 
       {!user && (
-        <section className="mt-8 border border-border p-6">
-          <h2 className="font-display text-xl text-foreground">Create an account?</h2>
+        <section className="mt-8 rounded-[1.75rem] border border-border p-6">
+          <h2 className="text-xl font-light text-foreground">Create an account?</h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
             Optional — sign up with the same email you used at checkout and this order is linked to your account
             automatically, so you can see its status and start earning points.
           </p>
           <Link
             to="/auth"
-            className="mt-5 inline-flex border border-border px-6 py-3 text-xs uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
+            className="mt-5 inline-flex rounded-full border border-border px-6 py-3 text-xs uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
           >
             Create an account
           </Link>
@@ -278,14 +278,14 @@ function CheckoutReturn() {
         </Link>
         <Link
           to="/track"
-          className="border border-border px-7 py-3.5 text-sm uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
+          className="rounded-full border border-border px-7 py-3.5 text-sm uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
         >
           Track order
         </Link>
         {user && (
           <Link
             to="/account"
-            className="border border-border px-7 py-3.5 text-sm uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
+            className="rounded-full border border-border px-7 py-3.5 text-sm uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
           >
             View your account
           </Link>
