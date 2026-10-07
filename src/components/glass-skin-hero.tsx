@@ -1,19 +1,77 @@
-import { useEffect, useRef, useState, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { useReducedMotion } from "motion/react";
 import { trackUi } from "@/lib/analytics";
-import heroModel from "@/assets/hero-korean-model.webp";
 
-/** Korean label on the bottle → what it means in English. */
-const CHIPS = [
+type Slide = {
+  slug: string;
+  brand: string;
+  name: string;
+  price: string;
+  image: string;
+  /** Korean label shown on the chip, and its plain-English meaning. */
+  ko: string;
+  en: string;
+  hook: string;
+  /** Backdrop gradient and the RGB tint of the floating bubbles. */
+  bg: [string, string];
+  tint: string;
+};
+
+/** Three stocked products, each staged in its own colour world. */
+const SLIDES: Slide[] = [
   {
-    ko: "세라마이드",
-    en: "Ceramides",
-    className: "left-[4%] top-[10%] md:-left-[3%] md:top-[20%]",
+    slug: "medicube-pdrn-pink-peptide-serum-30ml",
+    brand: "MEDICUBE",
+    name: "PDRN Pink Peptide Serum",
+    price: "A$40",
+    image: "/products/medicube/pdrn-pink-peptide-serum-30ml.webp",
+    ko: "연어 PDRN",
+    en: "Salmon PDRN",
+    hook: "Korea’s “salmon injection” trend, in a dropper.",
+    bg: ["#fbe9ec", "#f2c4cd"],
+    tint: "236,128,152",
   },
-  { ko: "물광 피부", en: "Glass skin", className: "right-[5%] bottom-[8%]" },
+  {
+    slug: "torriden-dive-in-serum",
+    brand: "TORRIDEN",
+    name: "Dive In Serum",
+    price: "A$38",
+    image: "/products/torriden/dive-in-serum.webp",
+    ko: "히알루론산",
+    en: "Hyaluronic acid",
+    hook: "Five hyaluronic acids for water at every layer.",
+    bg: ["#fbf6f2", "#e6ece8"],
+    tint: "150,196,200",
+  },
+  {
+    slug: "tirtir-ceramic-milk-ampoule-40ml",
+    brand: "TIRTIR",
+    name: "Ceramic Milk Ampoule",
+    price: "A$50",
+    image: "/products/tirtir/ceramic-milk-ampoule-40ml.webp",
+    ko: "세라마이드",
+    en: "Ceramide",
+    hook: "A milky ampoule with ceramide and niacinamide.",
+    bg: ["#fbeadf", "#efc3a5"],
+    tint: "227,164,147",
+  },
 ];
+
+/** Glass bubbles: position (%), size (px at desktop) and parallax depth. */
+const BUBBLES = [
+  { x: 8, y: 14, s: 150, d: 0.9, t: 9 },
+  { x: 72, y: 6, s: 96, d: 0.5, t: 7 },
+  { x: 80, y: 58, s: 190, d: 1.2, t: 11 },
+  { x: 14, y: 70, s: 84, d: 0.7, t: 8 },
+  { x: 58, y: 80, s: 52, d: 1.6, t: 6 },
+  { x: 32, y: 6, s: 38, d: 1.8, t: 5 },
+  { x: 90, y: 30, s: 30, d: 2, t: 6.5 },
+  { x: 4, y: 46, s: 24, d: 2.2, t: 5.5 },
+];
+
+const ROTATE_MS = 5200;
 
 /** The words customers already search for, in English and Korean. */
 const GLOW_WORDS: [string, string][] = [
@@ -24,68 +82,53 @@ const GLOW_WORDS: [string, string][] = [
   ["barrier", "장벽"],
 ];
 
-function TranslateChip({
-  ko,
-  en,
-  on,
-  className,
-  onToggle,
-}: {
-  ko: string;
-  en: string;
-  on: boolean;
-  className: string;
-  onToggle: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onToggle}
-      aria-label={`${ko}: ${en}`}
-      className={`absolute z-20 flex items-center gap-2.5 rounded-full bg-paper/95 px-4 py-2.5 text-[13px] font-semibold text-ink shadow-[0_14px_34px_rgba(58,38,32,0.18)] backdrop-blur transition-transform hover:scale-[1.04] ${className}`}
-    >
-      <span aria-hidden="true" className="h-2 w-2 rounded-full bg-glaze" />
-      <span aria-hidden="true" className="grid">
-        <span
-          className={`[grid-area:1/1] font-[family-name:var(--font-hangul)] transition-all duration-300 ${on ? "-translate-y-1.5 opacity-0" : "opacity-100"}`}
-        >
-          {ko}
-        </span>
-        <span
-          className={`[grid-area:1/1] transition-all duration-300 ${on ? "opacity-100" : "translate-y-1.5 opacity-0"}`}
-        >
-          {en}
-        </span>
-      </span>
-    </button>
-  );
+function bubbleStyle(tint: string): CSSProperties {
+  return {
+    background: `radial-gradient(circle at 32% 28%, rgba(255,255,255,0.95) 0 5%, rgba(255,255,255,0.4) 13%, rgba(${tint},0.12) 42%, rgba(${tint},0.42) 100%)`,
+    boxShadow: `inset -10px -14px 28px rgba(${tint},0.38), inset 8px 10px 20px rgba(255,255,255,0.7), 0 22px 44px rgba(${tint},0.22)`,
+  };
 }
 
 /**
- * Glass Skin Club (물광) homepage hero: one message, one real product, and
- * ingredient labels that translate from Korean to English.
+ * Product-led homepage hero: real stocked products float in a glass-bubble
+ * scene that tilts with the cursor, and each one's key ingredient label
+ * translates from Korean to English.
  */
 export function GlassSkinHero() {
   const reduce = useReducedMotion();
-  const photoRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [sheen, setSheen] = useState({ x: 60, y: 40 });
-  const [active, setActive] = useState(0);
-  const [pinned, setPinned] = useState<Record<number, boolean>>({});
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [english, setEnglish] = useState(false);
+  const swipeX = useRef<number | null>(null);
+  const slide = SLIDES[index];
 
   useEffect(() => {
-    if (reduce) return;
-    const id = window.setInterval(() => setActive((i) => i + 1), 2600);
+    if (reduce || paused) return;
+    const id = window.setInterval(() => setIndex((i) => (i + 1) % SLIDES.length), ROTATE_MS);
     return () => window.clearInterval(id);
-  }, [reduce]);
+  }, [reduce, paused]);
+
+  useEffect(() => {
+    setEnglish(false);
+    if (reduce) return;
+    const id = window.setTimeout(() => setEnglish(true), 1600);
+    return () => window.clearTimeout(id);
+  }, [index, reduce]);
+
+  const go = (i: number) => {
+    setIndex((i + SLIDES.length) % SLIDES.length);
+    setPaused(true);
+  };
 
   const onMove = (e: PointerEvent<HTMLElement>) => {
-    if (reduce || !photoRef.current) return;
-    const r = photoRef.current.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width;
-    const y = (e.clientY - r.top) / r.height;
-    setTilt({ x: x - 0.5, y: y - 0.5 });
-    setSheen({ x: x * 100, y: y * 100 });
+    if (reduce || e.pointerType !== "mouse" || !stageRef.current) return;
+    const r = stageRef.current.getBoundingClientRect();
+    setTilt({
+      x: (e.clientX - r.left) / r.width - 0.5,
+      y: (e.clientY - r.top) / r.height - 0.5,
+    });
   };
 
   return (
@@ -93,34 +136,35 @@ export function GlassSkinHero() {
       aria-labelledby="glass-skin-heading"
       onPointerMove={onMove}
       onPointerLeave={() => setTilt({ x: 0, y: 0 })}
-      className="relative grid overflow-hidden bg-paper text-ink md:min-h-[620px] md:grid-cols-[1fr_1.05fr]"
+      className="relative grid overflow-hidden bg-paper text-ink md:min-h-[640px] md:grid-cols-[0.95fr_1.05fr]"
     >
-      <div className="relative z-10 flex flex-col justify-center gap-6 px-6 py-12 md:py-16 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] md:pr-10">
+      <div className="relative z-10 flex flex-col justify-center gap-6 px-6 pb-12 pt-9 md:py-16 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] md:pr-10">
         <span className="inline-flex w-fit max-w-full items-center gap-2.5 rounded-full bg-blush px-4 py-2 text-[13px]">
-          <b className="font-[family-name:var(--font-hangul)] font-bold text-hanbok">물광 피부</b>
-          <span className="text-ink/80">mulgwang · the Korean &ldquo;water-glow&rdquo; skin</span>
+          <b className="font-[family-name:var(--font-hangul)] font-bold text-hanbok">서울 신상</b>
+          <span className="text-ink/80">new from Seoul, explained in English</span>
         </span>
         <h1
           id="glass-skin-heading"
-          className="text-[clamp(3.25rem,7.2vw,7rem)] font-light lowercase leading-[0.95] tracking-[-0.045em]"
+          className="text-[clamp(2.9rem,4.7vw,5.1rem)] font-light lowercase leading-[0.98] tracking-[-0.045em]"
         >
-          the korean glow, <span className="text-hanbok">made simple.</span>
+          <span className="block">new in seoul.</span>
+          <span className="block text-hanbok">now in australia.</span>
         </h1>
-        <p className="max-w-[36ch] text-lg leading-relaxed text-clay">
-          Skincare chosen in Seoul, checked in Melbourne and explained in plain English. Start with
-          three products, not ten.
+        <p className="max-w-[38ch] text-lg leading-relaxed text-clay">
+          We bring Korea’s newest skincare over sooner, check every label, and tell you in plain
+          English what each one does. Start with three products, not ten.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
             to="/shop"
-            onClick={() => trackUi("hero_shop_click", { slide_id: "glass_skin_club" })}
+            onClick={() => trackUi("hero_shop_click", { slide_id: "new_from_seoul" })}
             className="inline-flex items-center gap-2 rounded-full bg-hanbok-deep px-7 py-4 text-[13px] font-bold uppercase tracking-[0.1em] text-paper transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-hanbok focus-visible:ring-offset-2"
           >
-            Shop the edit <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            Shop what’s new <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
           <Link
             to="/consultation"
-            onClick={() => trackUi("hero_routine_finder_click", { slide_id: "glass_skin_club" })}
+            onClick={() => trackUi("hero_routine_finder_click", { slide_id: "new_from_seoul" })}
             className="inline-flex items-center rounded-full border-[1.5px] border-hanbok-deep px-7 py-4 text-[13px] font-bold uppercase tracking-[0.1em] text-hanbok-deep transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-hanbok focus-visible:ring-offset-2"
           >
             Find my routine
@@ -130,60 +174,155 @@ export function GlassSkinHero() {
           href="#glass-skin-club"
           className="w-fit text-sm text-clay underline-offset-4 hover:text-ink hover:underline"
         >
-          Join the Glass Skin Club for new arrivals and routine notes →
+          Join the Glass Skin Club to hear about new arrivals first →
         </a>
       </div>
 
-      <div ref={photoRef} className="relative min-h-[440px] overflow-hidden md:min-h-0">
-        <img
-          src={heroModel}
-          alt="Woman with glowing, hydrated-looking skin in soft daylight"
-          width={1536}
-          height={1024}
-          fetchPriority="high"
-          className="absolute inset-0 h-full w-full object-cover object-[60%_25%] md:object-[30%_30%]"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 mix-blend-soft-light"
-          style={{
-            background: `radial-gradient(280px 280px at ${sheen.x}% ${sheen.y}%, rgba(255,255,255,0.4), rgba(255,255,255,0) 70%)`,
-          }}
-        />
-        <Link
-          to="/product/$slug"
-          params={{ slug: "aestura-atobarrier365-cream" }}
-          onClick={() => trackUi("hero_product_click", { slide_id: "glass_skin_club" })}
-          aria-label="AESTURA Atobarrier365 Cream, A$55"
-          className="absolute bottom-[6%] left-[4%] z-10 w-[30%] max-w-[230px] transition-transform duration-300 ease-out md:-left-[6%] md:w-[28%]"
-          style={
-            reduce
-              ? undefined
-              : {
-                  transform: `translate3d(${tilt.x * 22}px, ${tilt.y * 22}px, 0) rotateY(${tilt.x * 12}deg)`,
-                }
-          }
-        >
-          <img
-            src="/products/aestura/atobarrier365-cream.webp"
-            alt=""
-            width={1400}
-            height={1400}
-            className="drop-shadow-[0_26px_30px_rgba(58,38,32,0.28)] motion-safe:animate-[sg-bob_7s_ease-in-out_infinite]"
-          />
-        </Link>
-        {CHIPS.map((chip, i) => (
-          <TranslateChip
-            key={chip.ko}
-            ko={chip.ko}
-            en={chip.en}
-            className={chip.className}
-            on={pinned[i] ?? (!reduce && (active + i) % 2 === 0)}
-            onToggle={() =>
-              setPinned((p) => ({ ...p, [i]: !(p[i] ?? (!reduce && (active + i) % 2 === 0)) }))
-            }
-          />
+      <div
+        ref={stageRef}
+        onPointerEnter={(e) => e.pointerType === "mouse" && setPaused(true)}
+        onPointerDown={(e) => {
+          swipeX.current = e.clientX;
+        }}
+        onPointerUp={(e) => {
+          if (swipeX.current === null) return;
+          const dx = e.clientX - swipeX.current;
+          swipeX.current = null;
+          if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1));
+        }}
+        className="relative order-first flex min-h-[440px] touch-pan-y select-none flex-col overflow-hidden transition-[background] duration-700 md:order-none md:m-5 md:min-h-0 md:rounded-[2rem]"
+        style={{
+          background: `radial-gradient(120% 90% at 50% 35%, ${slide.bg[0]} 0%, ${slide.bg[1]} 100%)`,
+        }}
+        aria-roledescription="carousel"
+        aria-label="New products from Seoul"
+      >
+        <div className="absolute right-5 top-5 z-20 flex gap-2 md:right-7 md:top-7">
+          {SLIDES.map((s, i) => (
+            <button
+              key={s.slug}
+              type="button"
+              onClick={() => go(i)}
+              aria-label={`Show ${s.brand} ${s.name}`}
+              aria-pressed={i === index}
+              className={`grid h-12 w-12 place-items-center rounded-full bg-paper/80 p-1.5 backdrop-blur transition-all ${i === index ? "ring-2 ring-hanbok-deep" : "opacity-70 hover:opacity-100"}`}
+            >
+              <img src={s.image} alt="" className="h-full w-full object-contain" />
+            </button>
+          ))}
+        </div>
+        {BUBBLES.map((b, i) => (
+          <span
+            key={i}
+            aria-hidden="true"
+            className="pointer-events-none absolute"
+            style={{
+              left: `${b.x}%`,
+              top: `${b.y}%`,
+              width: `clamp(${Math.round(b.s * 0.55)}px, ${b.s / 7}vw, ${b.s}px)`,
+              aspectRatio: "1",
+              transform: `translate3d(${tilt.x * b.d * -36}px, ${tilt.y * b.d * -36}px, 0)`,
+              transition: "transform 0.4s ease-out",
+            }}
+          >
+            <span
+              className="block h-full w-full rounded-full transition-[background,box-shadow] duration-700 motion-safe:animate-[sg-bob_var(--t)_ease-in-out_infinite]"
+              style={{ ...bubbleStyle(slide.tint), ["--t" as string]: `${b.t}s` }}
+            />
+          </span>
         ))}
+
+        <div className="relative flex flex-1 items-center justify-center [perspective:1100px]">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-[7%] h-[9%] w-[48%] rounded-[50%] transition-[background,box-shadow] duration-700"
+            style={{
+              background: `radial-gradient(60% 70% at 40% 35%, rgba(255,255,255,0.75), rgba(${slide.tint},0.18) 55%, rgba(${slide.tint},0.32) 100%)`,
+              boxShadow: `inset 0 -6px 14px rgba(${slide.tint},0.35), 0 18px 30px rgba(58,38,32,0.16)`,
+              transform: `translateX(${tilt.x * -14}px)`,
+            }}
+          />
+          {SLIDES.map((s, i) => {
+            const on = i === index;
+            return (
+              <Link
+                key={s.slug}
+                to="/product/$slug"
+                params={{ slug: s.slug }}
+                tabIndex={on ? 0 : -1}
+                aria-hidden={!on}
+                onClick={() => trackUi("hero_product_click", { slide_id: s.slug })}
+                aria-label={`${s.brand} ${s.name}, ${s.price}`}
+                className="absolute h-[80%] max-h-[540px] w-[70%] max-w-[470px] transition-[opacity,transform] duration-700 ease-[cubic-bezier(.2,.8,.2,1)]"
+                style={{
+                  opacity: on ? 1 : 0,
+                  pointerEvents: on ? "auto" : "none",
+                  transform: on
+                    ? `rotateY(${tilt.x * 22}deg) rotateX(${tilt.y * -12}deg) translateZ(0)`
+                    : `translateY(60px) scale(0.85) rotateY(${i < index ? -30 : 30}deg)`,
+                  transformStyle: "preserve-3d",
+                }}
+              >
+                <span className="block h-full w-full motion-safe:animate-[sg-bob_6s_ease-in-out_infinite]">
+                  <img
+                    src={s.image}
+                    alt=""
+                    width={1400}
+                    height={1400}
+                    fetchPriority={i === 0 ? "high" : "low"}
+                    className="h-full w-full object-contain drop-shadow-[0_34px_36px_rgba(58,38,32,0.28)]"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 mix-blend-soft-light"
+                    style={{
+                      background: `linear-gradient(${105 + tilt.x * 40}deg, rgba(255,255,255,0) ${30 + tilt.x * 30}%, rgba(255,255,255,0.85) ${45 + tilt.x * 30}%, rgba(255,255,255,0) ${60 + tilt.x * 30}%)`,
+                      WebkitMaskImage: `url(${s.image})`,
+                      maskImage: `url(${s.image})`,
+                      WebkitMaskSize: "contain",
+                      maskSize: "contain",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskRepeat: "no-repeat",
+                      WebkitMaskPosition: "center",
+                      maskPosition: "center",
+                    }}
+                  />
+                </span>
+              </Link>
+            );
+          })}
+
+          <button
+            type="button"
+            onClick={() => setEnglish((v) => !v)}
+            aria-label={`${slide.ko}: ${slide.en}`}
+            className="absolute left-[6%] top-[12%] z-20 flex items-center gap-2.5 rounded-full bg-paper/95 px-4 py-2.5 text-[13px] font-semibold text-ink shadow-[0_14px_34px_rgba(58,38,32,0.18)] backdrop-blur transition-transform hover:scale-[1.04] md:left-[8%] md:top-[16%]"
+          >
+            <span aria-hidden="true" className="h-2 w-2 rounded-full bg-glaze" />
+            <span aria-hidden="true" className="grid">
+              <span
+                className={`[grid-area:1/1] font-[family-name:var(--font-hangul)] transition-all duration-300 ${english ? "-translate-y-1.5 opacity-0" : "opacity-100"}`}
+              >
+                {slide.ko}
+              </span>
+              <span
+                className={`[grid-area:1/1] transition-all duration-300 ${english ? "opacity-100" : "translate-y-1.5 opacity-0"}`}
+              >
+                {slide.en}
+              </span>
+            </span>
+          </button>
+        </div>
+
+        <div className="relative z-10 px-6 pb-6 md:px-8 md:pb-7">
+          <div aria-live="polite" className="min-w-0">
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-ink/60">
+              {slide.brand} · {slide.price}
+            </p>
+            <p className="mt-1 text-xl font-light leading-tight tracking-[-0.02em]">{slide.name}</p>
+            <p className="mt-1 text-sm text-ink/70">{slide.hook}</p>
+          </div>
+        </div>
       </div>
     </section>
   );
