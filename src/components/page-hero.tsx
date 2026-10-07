@@ -143,26 +143,30 @@ export function PageHero({
           </div>
 
           {/* Product packshot row — the retailer move: real products, not texture */}
-          <div className="grid grid-cols-3 gap-3 md:gap-4">
+          <div className="grid grid-cols-3 items-start gap-3 md:items-end md:gap-4">
             {shots.map((shot, i) => (
               <motion.figure
                 key={shot.src}
                 initial={reduce ? undefined : { opacity: 0, y: 26 }}
                 animate={reduce ? undefined : { opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.18 + i * 0.09, ease: [0.22, 1, 0.36, 1] }}
-                className="group rounded-2xl bg-background/70 p-3 shadow-[0_24px_50px_-34px_rgba(0,0,0,0.5)] backdrop-blur-sm md:p-4"
+                className={`group ${i === 1 ? "md:-translate-y-6" : ""}`}
               >
-                <img
-                  src={shot.src}
-                  alt={`${shot.brand} ${shot.label}`}
-                  loading="lazy"
-                  className="mx-auto aspect-square w-full object-contain transition-transform duration-500 group-hover:-translate-y-1"
-                />
-                <figcaption className="mt-2 text-center">
+                <div className="sg-stage aspect-[4/5] rounded-[1.5rem] shadow-[0_28px_60px_-38px_rgba(58,38,32,0.55)] ring-1 ring-white/70">
+                  <span aria-hidden="true" className="sg-stage-pedestal" />
+                  <img
+                    src={shot.src}
+                    alt={`${shot.brand} ${shot.label}`}
+                    loading="lazy"
+                    className="sg-stage-img absolute inset-0 h-full w-full object-contain object-bottom px-[12%] pb-[15%] pt-[8%] transition-transform duration-500 group-hover:-translate-y-1.5"
+                  />
+                  <img aria-hidden="true" src="/hero/bubbles-overlay.webp" alt="" loading="lazy" className="sg-stage-bubbles h-[108%] w-[108%] object-cover" />
+                </div>
+                <figcaption className="mt-3 text-center">
                   <span className="block text-[9px] font-semibold uppercase tracking-[0.2em] text-foreground/50">
                     {shot.brand}
                   </span>
-                  <span className="mt-0.5 block text-[11px] leading-snug text-foreground/80">{shot.label}</span>
+                  <span className="mt-0.5 block text-[11px] font-light leading-snug text-foreground/80 md:text-xs">{shot.label}</span>
                 </figcaption>
               </motion.figure>
             ))}

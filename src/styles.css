@@ -979,3 +979,59 @@
 @keyframes sg-drift {
   50% { transform: translateY(-2.5%) scale(1.02); }
 }
+
+/* Glass Skin Club product stage: a milky spotlight, a glossy blush pedestal
+   and a soft contact shadow. Packshots multiply into the stage, so white
+   photo backgrounds and transparent cut-outs sit on it the same way. */
+.sg-stage {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 58% at 50% 40%, #fffdfb 0%, #fdf8f5 45%, rgba(253, 248, 245, 0) 75%),
+    linear-gradient(180deg, #fbf4f0 0%, #f5e5de 100%);
+}
+.sg-stage-pedestal {
+  position: absolute;
+  left: 50%;
+  bottom: 9%;
+  width: 64%;
+  height: 12%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(70% 80% at 45% 30%, #ffffff 0%, #f8ece6 45%, #ecd1c6 100%);
+  box-shadow:
+    inset 0 2px 1px rgba(255, 255, 255, 0.95),
+    inset 0 -6px 12px rgba(198, 150, 132, 0.28),
+    0 18px 26px -14px rgba(58, 38, 32, 0.32);
+  z-index: 0;
+  transition: box-shadow 0.6s ease;
+}
+.sg-stage-pedestal::after {
+  content: "";
+  position: absolute;
+  inset: 14% 18% 46% 18%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(58, 38, 32, 0.22), rgba(58, 38, 32, 0));
+  filter: blur(4px);
+}
+.sg-stage-img {
+  position: relative;
+  z-index: 1;
+  mix-blend-mode: multiply;
+}
+.sg-stage-bubbles {
+  position: absolute;
+  inset: -4%;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.55;
+}
+.group:hover .sg-stage-pedestal {
+  box-shadow:
+    inset 0 2px 1px rgba(255, 255, 255, 0.95),
+    inset 0 -6px 12px rgba(198, 150, 132, 0.28),
+    0 0 0 6px rgba(227, 164, 147, 0.12),
+    0 18px 26px -14px rgba(58, 38, 32, 0.32);
+}

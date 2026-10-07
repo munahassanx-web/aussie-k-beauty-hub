@@ -390,9 +390,16 @@ function ProductPage() {
             onPointerUp={endSwipe}
             onPointerCancel={endSwipe}
             style={{ touchAction: count > 1 ? 'pan-y' : undefined }}
-            className="relative aspect-square touch-pan-y overflow-hidden border border-border/60 bg-background"
+            className="sg-stage aspect-square touch-pan-y rounded-[2rem]"
           >
+            <span
+              aria-hidden="true"
+              className={`sg-stage-pedestal transition-opacity duration-500 ${
+                gallery[active]?.src === product.image ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
             {gallery.map((g, i) => {
+              const packshot = g.src === product.image;
               const isActive = i === active;
               const isNeighbor = dragging && i === neighbor;
               const visible = isActive || isNeighbor;
@@ -408,7 +415,11 @@ function ProductPage() {
                   loading={i === 0 ? 'eager' : 'lazy'}
                   aria-hidden={!isActive}
                   style={visible ? { transform: `translate3d(${x}px,0,0)` } : undefined}
-                   className={`absolute inset-0 h-full w-full select-none object-contain p-10 sm:p-14 ${
+                  className={`absolute inset-0 h-full w-full select-none ${
+                    packshot
+                      ? 'sg-stage-img object-contain object-bottom px-[16%] pb-[14%] pt-[8%]'
+                      : 'object-contain p-10 sm:p-14'
+                  } ${
                     prefersReducedMotion || dragging
                       ? ''
                       : 'transition-[opacity,transform] duration-700'
@@ -417,6 +428,16 @@ function ProductPage() {
               );
             })}
 
+
+            <img
+              src="/hero/bubbles-overlay.webp"
+              alt=""
+              aria-hidden="true"
+              width={1100}
+              height={619}
+              loading="lazy"
+              className="sg-stage-bubbles h-[108%] w-[108%] object-cover"
+            />
 
             {/* Click (or focus + Enter) anywhere on the stage to open the fullscreen viewer */}
             <button
@@ -437,13 +458,13 @@ function ProductPage() {
               </span>
               <span
                 aria-hidden="true"
-                className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-[2px] border border-border bg-background/85 text-muted-foreground transition-colors group-hover:text-foreground"
+                className="absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/75 text-muted-foreground ring-1 ring-white/80 backdrop-blur transition-colors group-hover:text-foreground"
               >
                 <ExpandIcon className="h-3.5 w-3.5" />
               </span>
             </button>
 
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center gap-2 p-4">
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex justify-center gap-2 p-4">
               {count > 1 && gallery.map((g, i) => (
                 <span
                   key={g.src}
@@ -470,7 +491,7 @@ function ProductPage() {
                   step(-1);
                 }}
                 aria-label="Previous image"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-[2px] border border-border/70 text-sm text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/70 text-sm text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
               >
                 ‹
               </button>
@@ -480,7 +501,7 @@ function ProductPage() {
                   step(1);
                 }}
                 aria-label="Next image"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-[2px] border border-border/70 text-sm text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/70 text-sm text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
               >
                 ›
               </button>
@@ -516,7 +537,7 @@ function ProductPage() {
                   onClick={() => {
                     setActive(i);
                   }}
-                   className={`relative h-[68px] w-[68px] shrink-0 snap-start overflow-hidden rounded-[2px] border bg-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                   className={`sg-stage relative h-[68px] w-[68px] shrink-0 snap-start rounded-2xl border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                     i === active ? 'border-foreground' : 'border-border/60 hover:border-foreground/40'
                   }`}
                 >
@@ -525,7 +546,7 @@ function ProductPage() {
                     alt=""
                     loading="lazy"
                     draggable={false}
-                    className="h-full w-full object-contain p-1.5"
+                    className="sg-stage-img h-full w-full object-contain p-1.5"
                   />
                 </button>
               ))}
@@ -553,7 +574,7 @@ function ProductPage() {
           <p className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
             {product.brand}
           </p>
-          <h1 className="mt-3 font-display text-[2rem] leading-[1.1] text-foreground md:text-[2.5rem]">
+          <h1 className="mt-3 text-[2rem] font-light leading-[1.08] tracking-[-0.03em] text-foreground md:text-[2.6rem]">
             {product.name}
           </h1>
 
@@ -569,7 +590,7 @@ function ProductPage() {
            <div className="mt-7 border-t border-border pt-5">
             {!restricted && !supplyPending && (
               <div className="flex items-baseline justify-between gap-4">
-                <span className="font-display text-2xl tabular-nums text-foreground">
+                <span className="text-[1.75rem] font-light tabular-nums tracking-[-0.02em] text-foreground">
                   {product.price}
                 </span>
                 <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
@@ -582,7 +603,7 @@ function ProductPage() {
               {contentPending ? (
                 /* Confirmed in a supplier order, but pack detail, ingredients,
                    price, imagery and guidance are still being prepared. */
-                <div className="rounded-[2px] border border-border px-6 py-5 text-center">
+                <div className="rounded-2xl border border-border bg-blush/40 px-6 py-5 text-center">
                   <p className="text-sm font-medium text-foreground">
                     Coming soon — product information being prepared
                   </p>
@@ -600,7 +621,7 @@ function ProductPage() {
               ) : !australianSupplyVerified(product) ? (
                 /* Sunscreen without a documented Australian supply record: no
                    sale, no SPF or UV guidance, no application-time claims. */
-                <div className="rounded-[2px] border border-border px-6 py-5 text-center">
+                <div className="rounded-2xl border border-border bg-blush/40 px-6 py-5 text-center">
                   <p className="text-sm font-medium text-foreground">
                     Australian availability being verified
                   </p>
@@ -618,7 +639,7 @@ function ProductPage() {
               ) : supplyPending ? (
                 /* Supplier reconciliation pending: not sold out, no restock
                    date, no pre-order, no substitute product. */
-                <div className="rounded-[2px] border border-border px-6 py-5 text-center">
+                <div className="rounded-2xl border border-border bg-blush/40 px-6 py-5 text-center">
                   <p className="text-sm font-medium text-foreground">Availability being confirmed</p>
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                     {SUPPLIER_RECONCILIATION_INTRO}
@@ -631,7 +652,7 @@ function ProductPage() {
                   </Link>
                 </div>
               ) : product.comingSoon ? (
-                <div className="rounded-[2px] border border-border px-6 py-5 text-center">
+                <div className="rounded-2xl border border-border bg-blush/40 px-6 py-5 text-center">
                   <p className="text-sm font-medium text-foreground">
                     Arriving soon · {product.price}
                   </p>
@@ -653,7 +674,7 @@ function ProductPage() {
                       name={product.name}
                       priceLabel={`${product.price} AUD`}
                       unavailable={isSoldOut}
-                      className="min-h-[52px] w-full rounded-[2px] bg-foreground px-7 text-[11px] font-medium uppercase tracking-[0.24em] text-background transition-colors hover:bg-foreground/85 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60"
+                      className="min-h-[54px] w-full rounded-full bg-hanbok-deep px-7 text-[12px] font-bold uppercase tracking-[0.14em] text-background transition-colors hover:bg-hanbok focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60"
                     />
                   </div>
                 </>
@@ -942,7 +963,7 @@ function ProductPage() {
                 priceLabel={`${product.price} AUD`}
                 unavailable={isSoldOut}
                 accessibleName={`Add ${product.brand} ${product.name} to bag`}
-                className="ml-auto min-h-[52px] flex-1 rounded-[2px] bg-foreground px-5 text-[11px] font-medium uppercase tracking-[0.18em] text-background hover:bg-foreground/85 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60"
+                className="ml-auto min-h-[52px] flex-1 rounded-full bg-hanbok-deep px-5 text-[11px] font-bold uppercase tracking-[0.14em] text-background transition-colors hover:bg-hanbok focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-60"
               />
             </div>
           </div>
@@ -985,7 +1006,7 @@ function PendingProductPage({ product }: { product: ShopProduct }) {
           <p className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
             {product.brand}
           </p>
-          <h1 className="mt-3 font-display text-[2rem] leading-[1.1] text-foreground md:text-[2.5rem]">
+          <h1 className="mt-3 text-[2rem] font-light leading-[1.08] tracking-[-0.03em] text-foreground md:text-[2.6rem]">
             {product.name}
           </h1>
           <p className="mt-3 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
@@ -1139,7 +1160,7 @@ function PendingProductPage({ product }: { product: ShopProduct }) {
           )}
 
           <div className="mt-8 space-y-3 border-t border-border pt-6">
-            <div className="rounded-[2px] border border-border px-6 py-5 text-center">
+            <div className="rounded-2xl border border-border bg-blush/40 px-6 py-5 text-center">
               <p className="text-sm font-medium text-foreground">
                 Coming soon — product information being prepared
               </p>
