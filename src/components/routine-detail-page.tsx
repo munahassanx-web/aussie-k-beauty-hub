@@ -115,7 +115,7 @@ export function RoutineDetailPage({ routine }: { routine: RoutineEdit }) {
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/55">{selectedIds.length} product{selectedIds.length === 1 ? "" : "s"} selected</p>
           <p className="mt-1 font-display text-4xl">{routineMoney(total)}</p>
           <Button type="button" onClick={addSelected} disabled={adding || selectedIds.length === 0} className="mt-5 min-h-12 w-full rounded-none bg-ink px-4 text-xs uppercase tracking-[0.14em] text-paper hover:bg-ink/90">Add selected products to bag — {routineMoney(total)}</Button>
-          <Link to="/consultation" className="mt-3 inline-flex min-h-12 w-full items-center justify-center border border-ink/30 px-4 text-center text-xs font-semibold uppercase tracking-[0.15em]">Build a personalised routine →</Link>
+          <Link to="/consultation" className="mt-3 inline-flex min-h-12 w-full items-center justify-center border border-ink/30 px-4 text-center text-xs font-semibold uppercase tracking-[0.15em] rounded-full">Build a personalised routine →</Link>
           <p className="mt-6 text-xs leading-relaxed text-ink/55">Cosmetic guidance only — not medical advice or a diagnosis. Introduce one new product at a time and patch-test before full-face use.</p>
         </aside>
       </div>

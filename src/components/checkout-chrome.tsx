@@ -25,7 +25,7 @@ export function CheckoutHeader() {
           <button
             type="button"
             onClick={() => cart.setOpen(true)}
-            className="underline-offset-4 transition hover:text-foreground hover:underline"
+            className="uppercase tracking-[0.18em] underline-offset-4 transition hover:text-foreground hover:underline"
           >
             Return to bag
           </button>

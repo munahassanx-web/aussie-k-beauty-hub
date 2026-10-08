@@ -291,7 +291,7 @@ export function SiteHeader() {
           <AnnouncementBar suppressStockClaims={suppressStockClaims} />
           <div className="mx-auto max-w-7xl px-6 border-b border-foreground/5">
             {/* Brand row — large centered wordmark */}
-            <div className="relative flex items-center justify-center px-4 pt-8 pb-3 md:min-h-[72px] md:px-0 md:pt-3 md:pb-1">
+            <div className="relative flex items-center justify-center px-4 pt-14 pb-3 md:min-h-[72px] md:px-0 md:pt-3 md:pb-1">
               <Link
                 to="/"
                 aria-label="Skin Grocer — home"
@@ -430,6 +430,8 @@ export function SiteHeader() {
         onOpenMenu={openMobile}
         mobileOpen={mobileOpen}
       />
+
+      <div aria-hidden="true" className="sg-awning" />
 
       <MobileMenu open={mobileOpen} onClose={closeMobile} signedIn={Boolean(user)} />
 
@@ -743,6 +745,7 @@ export function SiteFooter() {
   const [searchOpen, setSearchOpen] = useState(false);
   return (
     <footer className="bg-ink text-paper">
+      <div aria-hidden="true" className="sg-awning" />
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-12">
         <div className="md:col-span-4">
           <BrandWordmark as="p" size="xl" sub className="text-paper" />
@@ -806,11 +809,11 @@ export function SiteFooter() {
           </ul>
         </div>
 
-        <div className="md:col-span-4">
-          <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">The Drop</h4>
+        <div id="glass-skin-club" className="scroll-mt-24 md:col-span-4">
+          <h4 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">The Glass Skin Club</h4>
           <p className="mt-5 text-sm text-paper/70">
-            New arrivals, thoughtful skincare guidance and products worth
-            knowing about—sent occasionally.
+            New arrivals from Korea and plain-English routine notes, sent
+            occasionally.
           </p>
           <NewsletterForm source="footer" variant="dark" />
         </div>

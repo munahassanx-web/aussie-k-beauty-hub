@@ -1,6 +1,7 @@
 import { createServerFn } from '@tanstack/react-start';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
 import { type StripeEnv, createStripeClient, getStripeErrorMessage } from '@/lib/stripe.server';
+import { qualifiesForFreeGift } from '@/lib/shipping-rates';
 import {
   type CheckoutLineInput,
   computeRedemption,
@@ -133,7 +134,8 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
       }
 
       const customerId = await resolveOrCreateCustomer(stripe, userId, email);
-      const description = lineDescriptor(lines);
+      const freeGift = !isSubscription && qualifiesForFreeGift(subtotal);
+      const description = `${freeGift ? 'Includes free sample · ' : ''}${lineDescriptor(lines)}`;
 
       const selection = shippingSelectionFor(subtotal);
       const shippingOption = isSubscription ? null : shippingOptionFor(subtotal);
@@ -185,6 +187,7 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
           itemCount: String(lines.reduce((sum, l) => sum + l.quantity, 0)),
           shippingService: isSubscription ? 'auspost_parcel_post' : selection.service,
           shippingCarrier: 'Australia Post',
+          freeGift: freeGift ? 'sample' : 'none',
         },
       });
 
@@ -405,9 +408,12 @@ export const createGuestCartCheckout = createServerFn({ method: 'POST' })
         phone_number_collection: { enabled: true },
         allow_promotion_codes: true,
         shipping_options: [shippingOption],
-        payment_intent_data: { description: lineDescriptor(lines) },
+        payment_intent_data: {
+          description: `${qualifiesForFreeGift(subtotal) ? 'Includes free sample · ' : ''}${lineDescriptor(lines)}`,
+        },
         metadata: {
           guestEmail: data.email,
+          freeGift: qualifiesForFreeGift(subtotal) ? 'sample' : 'none',
           pointsRedeemed: '0',
           itemCount: String(lines.reduce((sum, l) => sum + l.quantity, 0)),
           shippingService: 'auspost_parcel_post',

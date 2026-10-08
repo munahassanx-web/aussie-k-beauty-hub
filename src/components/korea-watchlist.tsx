@@ -21,7 +21,7 @@ export function KoreaWatchlist() {
           <p className="text-[10px] font-medium uppercase tracking-[0.4em] text-muted-foreground">
             On our radar <span className="ml-3 opacity-50">입고 예정</span>
           </p>
-          <h2 id="korea-watchlist" className="mt-3 font-masthead text-2xl text-foreground sm:text-3xl">
+          <h2 id="korea-watchlist" className="mt-3 font-display font-light text-2xl text-foreground sm:text-3xl">
             Ranking in Korea, not yet on our shelf.
           </h2>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">

@@ -208,7 +208,7 @@ function StockRequestPage() {
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="mt-8 min-h-11 bg-foreground px-8 text-[11px] font-semibold uppercase tracking-[0.24em] text-background hover:opacity-90 disabled:opacity-60"
+          className="mt-8 min-h-11 bg-foreground px-8 text-[11px] font-semibold uppercase tracking-[0.24em] text-background hover:opacity-90 disabled:opacity-60 rounded-full"
         >
           {status === 'loading' ? 'Sending…' : 'Send request'}
         </button>

@@ -106,7 +106,7 @@ function RestockPage() {
             <button
               type="button"
               onClick={() => addProducts(purchased.items.filter((i) => i.purchasable).map((i) => i.product))}
-              className="min-h-11 bg-foreground px-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-background hover:opacity-90"
+              className="min-h-11 bg-foreground px-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-background hover:opacity-90 rounded-full"
             >
               Add all available to bag
             </button>
@@ -158,7 +158,7 @@ function RestockPage() {
                     <button
                       type="button"
                       onClick={() => addProducts([item.product])}
-                      className="min-h-11 border border-border px-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground hover:border-primary hover:text-primary"
+                      className="min-h-11 border border-border px-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground hover:border-primary hover:text-primary rounded-full"
                     >
                       Add to bag
                     </button>

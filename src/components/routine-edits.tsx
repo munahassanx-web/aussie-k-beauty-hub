@@ -24,7 +24,7 @@ function EditCard({ edit }: { edit: RoutineEdit }) {
   const destination = `/routines/${edit.id}` as "/routines/essential-hydration" | "/routines/tone-glow-support" | "/routines/barrier-comfort";
 
   return (
-    <article className="group flex flex-col border border-border/70 bg-paper transition duration-300 hover:border-ink/40 hover:shadow-[0_28px_60px_-48px_rgba(20,24,40,0.6)]">
+    <article className="group flex flex-col overflow-hidden rounded-[1.75rem] border border-border/70 bg-paper transition duration-300 hover:border-glaze hover:shadow-[0_28px_60px_-48px_rgba(58,38,32,0.6)]">
       <CoreShelf edit={edit} />
       <div className="flex flex-1 flex-col p-6">
         <p className={`text-[11px] font-semibold uppercase tracking-[0.24em] ${edit.accent}`}>Edit {edit.number}</p>
@@ -50,8 +50,8 @@ function EditCard({ edit }: { edit: RoutineEdit }) {
         <div className="mt-auto pt-6">
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink/55">Three products, current price</p>
           <p className="font-display text-3xl text-ink">{routineMoney(total)}</p>
-          <Link to={destination} onClick={() => trackUi("routine_edit_review", { edit: edit.id })} className="mt-4 inline-flex min-h-11 w-full items-center justify-center bg-ink px-5 text-xs font-semibold uppercase tracking-[0.2em] text-paper transition hover:opacity-90">Review this routine →</Link>
-          <Link to="/consultation" className="mt-3 inline-flex min-h-11 w-full items-center justify-center border border-ink/30 px-5 text-xs font-semibold uppercase tracking-[0.2em] text-ink transition hover:bg-secondary">Build my own routine →</Link>
+          <Link to={destination} onClick={() => trackUi("routine_edit_review", { edit: edit.id })} className="mt-4 inline-flex min-h-11 w-full items-center justify-center bg-ink px-5 text-xs font-semibold uppercase tracking-[0.2em] text-paper transition hover:opacity-90 rounded-full">Review this routine →</Link>
+          <Link to="/consultation" className="mt-3 inline-flex min-h-11 w-full items-center justify-center border border-ink/30 px-5 text-xs font-semibold uppercase tracking-[0.2em] text-ink transition hover:bg-secondary rounded-full">Build my own routine →</Link>
         </div>
       </div>
     </article>

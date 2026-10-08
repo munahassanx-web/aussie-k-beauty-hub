@@ -279,7 +279,11 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
         shipping_service:
           session.metadata?.shippingService === 'auspost_express_post' ? 'Express Post' : 'Parcel Post',
         shipping_carrier: session.metadata?.shippingCarrier || 'Australia Post',
-        line_items: lineItems,
+        // The free sample has no Stripe price; record it so fulfilment packs it.
+        line_items:
+          session.metadata?.freeGift === 'sample'
+            ? [...lineItems, { name: 'Free gift: K-beauty sample', quantity: 1, amountCents: 0, lookupKey: null }]
+            : lineItems,
         shipping_name: shipping?.name ?? null,
         shipping_phone: session.customer_details?.phone ?? null,
         shipping_line1: address?.line1 ?? null,

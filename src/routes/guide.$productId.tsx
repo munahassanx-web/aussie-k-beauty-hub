@@ -90,13 +90,13 @@ function GuidePage() {
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
             to="/shop"
-            className="bg-primary px-6 py-3 text-xs uppercase tracking-[0.16em] text-primary-foreground"
+            className="bg-primary px-6 py-3 text-xs uppercase tracking-[0.16em] text-primary-foreground rounded-full"
           >
             Browse the shop
           </Link>
           <Link
             to="/contact"
-            className="border border-border px-6 py-3 text-xs uppercase tracking-[0.16em] text-foreground"
+            className="border border-border px-6 py-3 text-xs uppercase tracking-[0.16em] text-foreground rounded-full"
           >
             Contact us
           </Link>
@@ -271,7 +271,7 @@ function GuidePage() {
         <Link
           to="/product/$slug"
           params={{ slug: guide.slug }}
-          className="mt-5 inline-flex border border-border px-6 py-3 text-xs uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
+          className="mt-5 inline-flex border border-border px-6 py-3 text-xs uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary rounded-full"
         >
           {`View product — A$${productPrice(product)}`}
         </Link>

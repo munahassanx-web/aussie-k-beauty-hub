@@ -235,7 +235,7 @@ export function ProductShelf() {
               </p>
               <h2
                 id="shelf-heading"
-                className="mt-4 font-masthead text-[clamp(1.9rem,3.6vw,2.9rem)] leading-[1.05] tracking-tight"
+                className="mt-4 font-display font-light text-[clamp(1.9rem,3.6vw,2.9rem)] leading-[1.05] tracking-tight"
               >
                 Six considered places to start
               </h2>
@@ -413,7 +413,7 @@ export function ProductShelf() {
 
                   <div className="mt-auto flex items-center gap-3 pt-5">
                     {soldOut ? (
-                      <span className="inline-flex min-h-11 flex-1 items-center justify-center border border-border bg-secondary/60 px-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                      <span className="inline-flex min-h-11 flex-1 items-center justify-center border border-border bg-secondary/60 px-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground rounded-full">
                         Sold out
                       </span>
                     ) : (
@@ -422,7 +422,7 @@ export function ProductShelf() {
                         disabled={pending === p.priceId}
                         onClick={() => handleAdd(card, soldOut)}
                         aria-label={`Add ${p.brand} ${p.name} to bag`}
-                        className="inline-flex min-h-11 flex-1 items-center justify-center bg-ink px-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-paper transition-opacity hover:opacity-90 disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40"
+                        className="inline-flex min-h-11 flex-1 items-center justify-center bg-ink px-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-paper transition-opacity hover:opacity-90 disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 rounded-full"
                       >
                         {pending === p.priceId
                           ? "Adding…"

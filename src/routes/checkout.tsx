@@ -1,4 +1,6 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { FREE_GIFT_THRESHOLD_CENTS, qualifiesForFreeGift } from '@/lib/shipping-rates';
+import { PaymentOptionsNote } from '@/components/payment-options-note';
 import { useEffect, useState } from 'react';
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
 import { getStripe, getStripeEnvironment } from '@/lib/stripe';
@@ -103,7 +105,7 @@ function Checkout() {
     return (
       <div className="mx-auto max-w-xl px-6 py-20">
         <p className="text-[11px] uppercase tracking-[0.24em] text-muted-foreground">Checkout</p>
-        <h1 className="mt-4 font-display text-4xl leading-tight text-foreground">
+        <h1 className="mt-4 text-[2.4rem] font-light leading-[1.05] tracking-[-0.03em] text-foreground md:text-5xl">
           {hasSubscription ? 'Restock needs an account' : 'Check out as a guest'}
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
@@ -115,14 +117,14 @@ function Checkout() {
           {!hasSubscription && (
             <button
               onClick={() => setGuestMode(true)}
-              className="flex min-h-14 w-full items-center justify-center rounded-[2px] bg-foreground px-7 text-[11px] font-medium uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-90"
+              className="flex min-h-14 w-full items-center justify-center px-7 rounded-full bg-hanbok-deep text-[11px] font-bold uppercase tracking-[0.18em] text-background shadow-[0_16px_34px_-18px_rgba(58,38,32,0.7)] transition-colors hover:bg-hanbok"
             >
               Continue as guest
             </button>
           )}
           <button
             onClick={() => navigate({ to: '/auth' })}
-            className="flex min-h-14 w-full items-center justify-center rounded-[2px] border border-border px-7 text-[11px] font-medium uppercase tracking-[0.22em] text-foreground transition-colors hover:bg-secondary"
+            className="flex min-h-14 w-full items-center justify-center rounded-full border border-border bg-background/60 px-7 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground transition-colors hover:border-glaze hover:bg-blush"
           >
             Sign in or create an account
           </button>
@@ -146,7 +148,9 @@ function Checkout() {
       <ul className="divide-y divide-border">
         {cart.lines.map((l) => (
           <li key={l.priceId} className="flex gap-3 py-4">
-            <img src={l.image} alt={l.name} loading="lazy" className="h-16 w-14 shrink-0 bg-secondary object-contain p-1" />
+            <div className="sg-stage h-16 w-14 shrink-0 rounded-xl">
+              <img src={l.image} alt={l.name} loading="lazy" className="sg-stage-img h-full w-full object-contain p-1.5" />
+            </div>
             <div className="min-w-0 flex-1">
               <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{l.brand}</p>
               <p className="text-sm leading-snug text-foreground">{l.name}</p>
@@ -164,6 +168,12 @@ function Checkout() {
           <span>Subtotal</span>
           <span>{formatAud(cart.subtotalCents)}</span>
         </div>
+        {!cart.hasSubscription && qualifiesForFreeGift(cart.subtotalCents) && (
+          <div className="flex justify-between text-foreground">
+            <span>K-beauty sample (gift)</span>
+            <span>Free</span>
+          </div>
+        )}
         <div className="flex justify-between text-muted-foreground">
           <span>Standard shipping</span>
           <span>
@@ -172,12 +182,17 @@ function Checkout() {
         </div>
         <div className="flex items-baseline justify-between border-t border-border pt-3">
           <span className="text-sm uppercase tracking-[0.16em] text-muted-foreground">Total</span>
-          <span className="font-display text-2xl text-foreground">{formatAud(grandTotal)}</span>
+          <span className="text-2xl font-light tabular-nums tracking-[-0.02em] text-foreground">{formatAud(grandTotal)}</span>
         </div>
         <p className="text-[11px] leading-relaxed text-muted-foreground">
           Includes GST. Your final total is confirmed before you pay.
         </p>
       </div>
+      {!cart.hasSubscription && !qualifiesForFreeGift(cart.subtotalCents) && (
+        <p className="mt-3 text-[11px] text-muted-foreground">
+          Add {formatAud(FREE_GIFT_THRESHOLD_CENTS - cart.subtotalCents)} more for a free K-beauty sample.
+        </p>
+      )}
       {!cart.hasSubscription && cart.subtotalCents < FREE_SHIPPING_THRESHOLD_CENTS && (
         <p className="mt-3 text-[11px] text-muted-foreground">
           Add {formatAud(FREE_SHIPPING_THRESHOLD_CENTS - cart.subtotalCents)} more to qualify for free shipping.
@@ -200,10 +215,10 @@ function Checkout() {
       <p className="text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
         {started ? 'Step 2 of 2 · Payment' : 'Step 1 of 2 · Your details'}
       </p>
-      <h1 className="mt-3 font-display text-4xl text-foreground">Checkout</h1>
+      <h1 className="mt-3 text-[2.4rem] font-light leading-none tracking-[-0.03em] text-foreground md:text-5xl">checkout</h1>
 
       {/* Mobile order summary — collapsed so the form stays above the fold. */}
-      <div className="mt-6 border border-border lg:hidden">
+      <div className="mt-6 overflow-hidden rounded-2xl border border-border bg-blush/30 lg:hidden">
         <button
           onClick={() => setSummaryOpen((v) => !v)}
           aria-expanded={summaryOpen}
@@ -212,7 +227,7 @@ function Checkout() {
           <span className="text-sm text-foreground">
             {summaryOpen ? 'Hide' : 'Show'} order summary ({cart.count} {cart.count === 1 ? 'item' : 'items'})
           </span>
-          <span className="font-display text-lg text-foreground">{formatAud(grandTotal)}</span>
+          <span className="text-lg font-light tabular-nums text-foreground">{formatAud(grandTotal)}</span>
         </button>
         {summaryOpen && <div className="border-t border-border px-5 pb-5">{summary}</div>}
       </div>
@@ -220,14 +235,14 @@ function Checkout() {
       <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_380px]">
         <div>
           {cart.mixedModes ? (
-            <div className="border border-border bg-secondary/60 p-6 text-sm text-foreground">
+            <div className="rounded-2xl border border-border bg-blush/40 p-6 text-sm text-foreground">
               <p>Your bag mixes Restock subscriptions with one-off items.</p>
               <p className="mt-2 text-muted-foreground">
                 Please remove one type from your bag and check the other out separately.
               </p>
               <button
                 onClick={() => cart.setOpen(true)}
-                className="mt-4 border border-border px-5 py-2.5 text-xs uppercase tracking-[0.16em] text-foreground transition hover:bg-background"
+                className="mt-4 rounded-full border border-border px-5 py-2.5 text-xs uppercase tracking-[0.16em] text-foreground transition hover:bg-background"
               >
                 Edit bag
               </button>
@@ -235,7 +250,7 @@ function Checkout() {
           ) : !started ? (
             <div className="space-y-6">
               {!user && (
-                <div className="border border-border p-6">
+                <div className="rounded-[1.5rem] border border-border bg-background/70 p-6 shadow-[0_24px_50px_-40px_rgba(58,38,32,0.5)]">
                   <label htmlFor="guest-email" className="text-sm font-medium text-foreground">
                     Email address <span className="text-muted-foreground">(required)</span>
                   </label>
@@ -263,7 +278,7 @@ function Checkout() {
                       }
                     }}
                     placeholder="you@example.com"
-                    className={`mt-3 w-full border bg-background px-4 py-3 text-base text-foreground outline-none transition focus:border-primary ${
+                    className={`mt-3 w-full rounded-full border bg-background px-5 py-3 text-base text-foreground outline-none transition focus:border-primary ${
                       emailError ? 'border-destructive' : 'border-border'
                     }`}
                   />
@@ -306,13 +321,11 @@ function Checkout() {
                   });
                   setStarted(true);
                 }}
-                className="flex min-h-14 w-full items-center justify-center rounded-[2px] bg-foreground text-[11px] font-medium uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-90"
+                className="flex min-h-14 w-full items-center justify-center rounded-full bg-hanbok-deep text-[11px] font-bold uppercase tracking-[0.18em] text-background shadow-[0_16px_34px_-18px_rgba(58,38,32,0.7)] transition-colors hover:bg-hanbok"
               >
                 Continue to payment
               </button>
-              <p className="text-center text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                Secure payment by Stripe
-              </p>
+              <PaymentOptionsNote totalCents={grandTotal} recurring={cart.hasSubscription} />
             </div>
           ) : (
             <div>
@@ -355,8 +368,8 @@ function Checkout() {
           </p>
         </div>
 
-        <aside className="hidden h-fit border border-border p-6 lg:sticky lg:top-24 lg:block">
-          <h2 className="font-display text-xl text-foreground">Order summary</h2>
+        <aside className="hidden h-fit rounded-[1.75rem] border border-border bg-blush/35 p-6 lg:sticky lg:top-24 lg:block">
+          <h2 className="text-xl font-light tracking-[-0.01em] text-foreground">order summary</h2>
           <div className="mt-2">{summary}</div>
         </aside>
       </div>

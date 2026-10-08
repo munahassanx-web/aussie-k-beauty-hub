@@ -19,19 +19,19 @@ export function SignedOutPanel({
   return (
     <div className="mx-auto max-w-2xl">
       <p className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">{eyebrow}</p>
-      <h1 className="mt-3 font-display text-[clamp(2rem,5vw,3rem)] leading-tight text-foreground">{title}</h1>
+      <h1 className="mt-3 text-[clamp(2rem,5vw,3rem)] font-light leading-tight tracking-[-0.03em] text-foreground">{title}</h1>
       <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">{body}</p>
 
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">
         <Link
           to="/auth"
-          className="inline-flex min-h-11 items-center justify-center bg-foreground px-8 text-[11px] font-semibold uppercase tracking-[0.18em] text-background hover:opacity-90"
+          className="inline-flex min-h-12 items-center justify-center rounded-full bg-hanbok-deep px-8 text-[11px] font-bold uppercase tracking-[0.18em] text-background transition-colors hover:bg-hanbok"
         >
           Sign in or create an account
         </Link>
         <Link
           to="/shop"
-          className="inline-flex min-h-11 items-center justify-center border border-border px-8 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground hover:border-primary hover:text-primary"
+          className="inline-flex min-h-12 items-center justify-center rounded-full border border-border px-8 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground hover:border-primary hover:text-primary"
         >
           Keep shopping
         </Link>
@@ -56,7 +56,7 @@ export function SignedOutPanel({
 
 export function AccountError({ onRetry }: { onRetry: () => void }) {
   return (
-    <div role="alert" className="mt-8 border border-destructive/40 bg-destructive/5 p-6">
+    <div role="alert" className="mt-8 rounded-2xl border border-destructive/40 bg-destructive/5 p-6">
       <p className="text-sm text-foreground">We couldn’t load your account just now.</p>
       <button
         type="button"

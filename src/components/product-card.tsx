@@ -12,6 +12,7 @@ import {
 } from '@/lib/shop-catalog';
 import type { ShopProduct } from '@/lib/shop-catalog';
 import { track } from '@/lib/analytics';
+import { aisleFor } from '@/lib/aisles';
 
 /** Verified pack size for the SKU — resolved from the central catalogue. */
 export function productSize(p: ShopProduct): string | null {
@@ -45,6 +46,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
   const soldOut = isSoldOut(p.priceId);
   const size = productSize(p);
   const slug = productSlug(p);
+  const aisle = aisleFor(p.concerns);
   // Supplier reconciliation pending: viewable, never priced or purchasable,
   // and never described as sold out.
   const supplyPending = supplierMatchPending(p);
@@ -62,13 +64,14 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
 
   return (
     <article className="group relative flex h-full flex-col">
-      <div className="relative overflow-hidden bg-secondary">
+      <div className="sg-stage rounded-[1.25rem]">
+        <span aria-hidden="true" className="sg-stage-pedestal" />
         <Link
           to="/product/$slug"
           params={{ slug }}
           tabIndex={-1}
           aria-hidden="true"
-          className="block aspect-square p-3 sm:p-4"
+          className="relative block aspect-square px-[14%] pb-[13%] pt-[9%]"
         >
           <img
             src={p.image}
@@ -76,13 +79,13 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
             loading={eager ? 'eager' : 'lazy'}
             width={1024}
             height={1024}
-            className="h-full w-full object-contain transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]"
+            className="sg-stage-img h-full w-full object-contain object-bottom transition-transform duration-700 ease-out group-hover:-translate-y-1.5 group-hover:scale-[1.03]"
           />
         </Link>
 
         {badge && (
           <span
-            className={`absolute left-3 top-3 bg-background px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.2em] ${
+            className={`absolute left-3 top-3 z-10 rounded-full bg-white/80 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.2em] backdrop-blur ${
               unavailable ? 'text-muted-foreground' : 'text-foreground'
             }`}
           >
@@ -98,8 +101,18 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
       </div>
 
       <div className="flex flex-1 flex-col pt-4">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{p.brand}</p>
-        <h3 className="mt-1.5 font-display text-[1.05rem] leading-snug text-foreground">
+        <div className="flex items-center justify-between gap-2">
+          <p className="min-w-0 truncate text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{p.brand}</p>
+          {aisle && (
+            <span
+              className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium text-ink ${aisle.bg}`}
+            >
+              <span className="tabular-nums font-semibold">{aisle.number}</span>
+              {aisle.name}
+            </span>
+          )}
+        </div>
+        <h3 className="mt-1.5 text-[1.05rem] font-light leading-snug tracking-[-0.01em] text-foreground">
           <Link
             to="/product/$slug"
             params={{ slug }}
@@ -151,7 +164,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
                   type="button"
                   onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
                   aria-label={`Add ${p.brand} ${p.name} to bag`}
-                  className="relative z-10 inline-flex min-h-9 items-center rounded-[2px] border border-foreground px-3.5 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground transition-colors duration-200 hover:bg-foreground hover:text-background focus-visible:bg-foreground focus-visible:text-background"
+                  className="relative z-10 inline-flex min-h-9 items-center rounded-full border border-foreground px-4 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground transition-colors duration-200 hover:bg-foreground hover:text-background focus-visible:bg-foreground focus-visible:text-background"
                 >
                   Add to bag
                 </button>

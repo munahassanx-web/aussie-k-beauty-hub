@@ -382,7 +382,7 @@ function ConsultationPage() {
                   </p>
                   <button
                     onClick={restart}
-                    className="mt-6 bg-ink px-7 py-3 text-[11px] uppercase tracking-[0.18em] text-paper hover:bg-primary"
+                    className="mt-6 bg-ink px-7 py-3 text-[11px] uppercase tracking-[0.18em] text-paper hover:bg-primary rounded-full"
                   >
                     Start again
                   </button>
@@ -433,7 +433,7 @@ function Intro({ onStart }: { onStart: () => void }) {
       </div>
       <button
         onClick={onStart}
-        className="mt-8 w-full bg-ink py-4 text-[11px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-primary"
+        className="mt-8 w-full bg-ink py-4 text-[11px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-primary rounded-full"
       >
         Start the consultation
       </button>
@@ -517,7 +517,7 @@ function Question({
         <button
           onClick={onNext ?? undefined}
           disabled={!onNext}
-          className="min-h-11 bg-ink px-7 text-[10px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:bg-border disabled:text-muted-foreground"
+          className="min-h-11 bg-ink px-7 text-[10px] font-medium uppercase tracking-[0.18em] text-paper transition-colors hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:bg-border disabled:text-muted-foreground rounded-full"
         >
           Continue
         </button>
@@ -684,20 +684,20 @@ function Results({
       <div className="mt-9 flex flex-col items-center gap-3">
         <Link
           to="/shop"
-          className="min-h-11 bg-ink px-8 py-3 text-[10px] font-medium uppercase tracking-[0.18em] text-paper hover:bg-primary"
+          className="min-h-11 bg-ink px-8 py-3 text-[10px] font-medium uppercase tracking-[0.18em] text-paper hover:bg-primary rounded-full"
         >
           Shop the full range
         </Link>
         <div className="flex flex-wrap justify-center gap-3">
           <button
             onClick={onEdit}
-            className="min-h-11 border border-border px-4 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:border-ink hover:text-ink"
+            className="min-h-11 border border-border px-4 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:border-ink hover:text-ink rounded-full"
           >
             Change my answers
           </button>
           <button
             onClick={onRestart}
-            className="min-h-11 border border-border px-4 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:border-ink hover:text-ink"
+            className="min-h-11 border border-border px-4 text-[10px] uppercase tracking-[0.14em] text-muted-foreground hover:border-ink hover:text-ink rounded-full"
           >
             Retake consultation
           </button>
@@ -898,7 +898,7 @@ function SaveRoutine({ outcome }: { outcome: ConsultationOutcome }) {
           <button
             onClick={save}
             disabled={busy || !consent || !email.trim()}
-            className="min-h-11 bg-ink text-[10px] uppercase tracking-[0.18em] text-paper hover:bg-primary disabled:bg-border disabled:text-muted-foreground"
+            className="min-h-11 bg-ink text-[10px] uppercase tracking-[0.18em] text-paper hover:bg-primary disabled:bg-border disabled:text-muted-foreground rounded-full"
           >
             {busy ? "Saving…" : "Send it to me"}
           </button>
@@ -988,7 +988,7 @@ function FollowUp({ outcome }: { outcome: ConsultationOutcome }) {
         <button
           onClick={ask}
           disabled={busy || !question.trim()}
-          className="min-h-12 bg-ink px-5 text-[10px] font-medium uppercase tracking-[0.18em] text-paper hover:bg-primary disabled:bg-border disabled:text-muted-foreground"
+          className="min-h-12 bg-ink px-5 text-[10px] font-medium uppercase tracking-[0.18em] text-paper hover:bg-primary disabled:bg-border disabled:text-muted-foreground rounded-full"
         >
           Ask
         </button>

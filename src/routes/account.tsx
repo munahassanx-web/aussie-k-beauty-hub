@@ -95,7 +95,7 @@ function AccountPage() {
           {isStaff && (
             <Link
               to="/admin"
-              className="inline-flex min-h-11 items-center border border-primary px-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary hover:bg-primary hover:text-primary-foreground"
+              className="inline-flex min-h-11 items-center border border-primary px-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary hover:bg-primary hover:text-primary-foreground rounded-full"
             >
               Admin dashboard
             </Link>
@@ -104,7 +104,7 @@ function AccountPage() {
             type="button"
             onClick={() => void handleSignOut()}
             disabled={signingOut}
-            className="min-h-11 border border-border px-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground hover:border-primary hover:text-primary disabled:opacity-60"
+            className="min-h-11 border border-border px-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground hover:border-primary hover:text-primary disabled:opacity-60 rounded-full"
           >
             {signingOut ? 'Signing out…' : 'Sign out'}
           </button>
@@ -185,7 +185,7 @@ function AccountPage() {
                 </p>
                 <Link
                   to="/shop"
-                  className="mt-6 inline-flex min-h-11 items-center bg-foreground px-8 text-[11px] font-semibold uppercase tracking-[0.18em] text-background hover:opacity-90"
+                  className="mt-6 inline-flex min-h-11 items-center bg-foreground px-8 text-[11px] font-semibold uppercase tracking-[0.18em] text-background hover:opacity-90 rounded-full"
                 >
                   Shop the range
                 </Link>

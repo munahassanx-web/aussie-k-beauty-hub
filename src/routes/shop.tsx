@@ -265,13 +265,13 @@ function Shop() {
                 <button
                   type="button"
                   onClick={clearAll}
-                  className="inline-flex min-h-11 items-center border border-foreground px-6 text-xs uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-secondary"
+                  className="inline-flex min-h-11 items-center border border-foreground px-6 text-xs uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-secondary rounded-full"
                 >
                   Clear all filters
                 </button>
                 <Link
                   to="/consultation"
-                  className="inline-flex min-h-11 items-center bg-primary px-6 text-xs uppercase tracking-[0.18em] text-primary-foreground"
+                  className="inline-flex min-h-11 items-center bg-primary px-6 text-xs uppercase tracking-[0.18em] text-primary-foreground rounded-full"
                 >
                   Use the Routine Finder
                 </Link>

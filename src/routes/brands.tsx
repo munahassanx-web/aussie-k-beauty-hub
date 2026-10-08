@@ -142,7 +142,7 @@ function BrandsPage() {
               to="/shop"
               search={{ brand: b.name }}
               key={b.name}
-              className="group relative flex aspect-[4/5] flex-col overflow-hidden border border-border/70 bg-secondary p-6 transition-transform duration-500 hover:-translate-y-1"
+              className="sg-stage group relative flex aspect-[4/5] flex-col overflow-hidden rounded-[1.75rem] p-6 ring-1 ring-white/70 shadow-[0_28px_60px_-44px_rgba(58,38,32,0.55)] transition-transform duration-500 hover:-translate-y-1"
             >
               {/* hover reveal: splash backdrop + hero product close-up */}
               <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
@@ -167,7 +167,7 @@ function BrandsPage() {
                 />
               </div>
               <div className="relative flex items-center justify-between">
-                <span className="bg-background/80 px-3 py-1 text-[11px] uppercase tracking-[0.15em] text-foreground backdrop-blur">
+                <span className="rounded-full bg-white/75 px-3 py-1 text-[11px] uppercase tracking-[0.15em] text-foreground backdrop-blur">
                   {count} {count === 1 ? "product" : "products"}
                 </span>
                 <span className="text-lg text-foreground transition-transform group-hover:translate-x-1">→</span>
@@ -180,12 +180,12 @@ function BrandsPage() {
                   loading="lazy"
                   width={640}
                   height={640}
-                  className="h-[68%] w-auto object-contain transition-all duration-700 group-hover:scale-105 group-hover:opacity-0"
+                  className="sg-stage-img h-[68%] w-auto object-contain transition-all duration-700 group-hover:scale-105 group-hover:opacity-0"
                 />
               </div>
 
               <div className="relative">
-                <h2 className="font-display text-3xl leading-tight text-foreground">{b.name}</h2>
+                <h2 className="text-3xl font-light leading-tight tracking-[-0.02em] text-foreground">{b.name}</h2>
                 <p className="mt-1.5 text-xs leading-relaxed text-foreground/65">{b.tag}</p>
               </div>
             </Link>

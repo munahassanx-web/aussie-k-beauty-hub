@@ -302,7 +302,7 @@ export function FilterSheet(props: Props) {
                   props.onClear();
                   close();
                 }}
-                className="min-h-11 flex-1 border border-border text-xs uppercase tracking-[0.18em] text-foreground"
+                className="min-h-11 flex-1 border border-border text-xs uppercase tracking-[0.18em] text-foreground rounded-full"
               >
                 Clear all
               </button>
@@ -312,7 +312,7 @@ export function FilterSheet(props: Props) {
                   props.onChange(draft);
                   close();
                 }}
-                className="min-h-11 flex-1 bg-primary text-xs uppercase tracking-[0.18em] text-primary-foreground"
+                className="min-h-11 flex-1 bg-primary text-xs uppercase tracking-[0.18em] text-primary-foreground rounded-full"
               >
                 Show {draftTotal} {draftTotal === 1 ? 'product' : 'products'}
               </button>
