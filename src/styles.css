@@ -1084,9 +1084,33 @@
 }
 
 :root:has([data-homepage-neutral]) .sg-awning {
-  --awning-a: #6574c7;
+  --awning-a: #d3d9e2;
   --awning-b: var(--paper);
-  filter: none;
+  filter: drop-shadow(0 4px 8px rgba(30, 41, 59, 0.12));
+}
+
+/* Glassy water sheen over the neutral awning stripes, echoing the hero's
+   high-tech 3D bubbles: a soft top highlight and a slow specular sweep. */
+:root:has([data-homepage-neutral]) .sg-awning::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.15) 40%, rgba(255, 255, 255, 0) 65%),
+    linear-gradient(105deg, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80%) -60% 0 / 60% 100% no-repeat;
+  animation: sg-awning-sheen 9s ease-in-out infinite;
+}
+
+@keyframes sg-awning-sheen {
+  0%, 100% { background-position: 0 0, -60% 0; }
+  50% { background-position: 0 0, 160% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:has([data-homepage-neutral]) .sg-awning::after {
+    animation: none;
+  }
 }
 
 /* Awning edge: a blush and white striped canopy with a scalloped hem, like
