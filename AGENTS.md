@@ -9,4 +9,5 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 
-- The site identity is Glass Skin Club (물광), chosen by the owner in October 2026: milk #FBF6F2, blush #F4E3DC, glaze #E3A493, cocoa #3A2620, Hanken Grotesk type, Bodoni logo. Keep it as the default; alternate palettes require an explicit preview selection, because automatic seasonal switching changed the owner's unchosen header colours.
+- Keep brand values in project memory and implement palette changes through semantic CSS tokens, not component colour literals, so the owner can revise colours without changing content.
+- Scope the owner's neutral homepage colour trial through its route marker, including shared chrome only while that route is mounted, so other pages retain their existing palette and no seasonal switching is introduced.
