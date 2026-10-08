@@ -77,4 +77,4 @@
 - [x] Inspect the current homepage palette and shopping hierarchy
 - [x] Prepare neutral-colour comparison previews without changing the live palette
 - [x] Complete source-backed comparison with Sephora, Rhode, Gymshark and Mecca
-- [ ] Apply a neutral palette after the owner selects a preview (awaiting owner selection)
+- [x] Apply the requested neutral homepage trial directly after generated options were discarded; verify white/black colours, unchanged section headings, shop link and unchanged interior palette

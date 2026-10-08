@@ -1047,6 +1047,43 @@
     0 18px 26px -14px rgba(58, 38, 32, 0.32);
 }
 
+/* Colour-only homepage trial. The route marker keeps interior pages unchanged. */
+:root:has([data-homepage-neutral]) {
+  --paper: oklch(1 0 0);
+  --sand: oklch(0.975 0 0);
+  --sand-deep: oklch(0.88 0 0);
+  --clay: oklch(0.46 0 0);
+  --hanbok: oklch(0.2 0 0);
+  --hanbok-deep: oklch(0 0 0);
+  --ink: oklch(0 0 0);
+  --blush: oklch(0.955 0 0);
+  --glaze: oklch(0.56 0 0);
+  --grocer-cream: var(--paper);
+  --grocer-green: var(--hanbok-deep);
+  --grocer-butter: var(--blush);
+  --grocer-brown: var(--hanbok);
+  --rose-gold: var(--glaze);
+  --sanctuary-bg: var(--sand);
+  --sanctuary-ink: var(--ink);
+  --sanctuary-muted: var(--clay);
+  --sanctuary-line: var(--sand-deep);
+  --sanctuary-gold: var(--glaze);
+  --sanctuary-gold-deep: var(--hanbok);
+  --sanctuary-sage: var(--blush);
+  --sanctuary-sage-deep: var(--sand-deep);
+  --shelf-bg: var(--ink);
+  --shelf-ink: var(--paper);
+  --shelf-muted: var(--sand-deep);
+  --shelf-line: var(--clay);
+  --shelf-tile: var(--paper);
+}
+
+:root:has([data-homepage-neutral]) .sg-awning {
+  --awning-a: var(--sand-deep);
+  --awning-b: var(--paper);
+  filter: none;
+}
+
 /* Awning edge: a blush and white striped canopy with a scalloped hem, like
    the awning over a corner grocer. Used under the header and over the footer. */
 .sg-awning {

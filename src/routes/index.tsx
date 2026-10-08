@@ -77,7 +77,7 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <div>
+    <div data-homepage-neutral>
       <GlassSkinHero />
       <GlowWordBand />
       <ProductShelf />
