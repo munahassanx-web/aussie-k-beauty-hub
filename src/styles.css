@@ -1080,7 +1080,7 @@
 }
 
 :root:has([data-homepage-neutral]) .sg-awning {
-  --awning-a: var(--brand-emerald);
+  --awning-a: #647f72;
   --awning-b: var(--paper);
   filter: none;
 }
