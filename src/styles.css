@@ -1079,8 +1079,12 @@
   --shelf-tile: var(--paper);
 }
 
+:root:has([data-homepage-neutral]) header .sg-awning {
+  background-color: var(--paper);
+}
+
 :root:has([data-homepage-neutral]) .sg-awning {
-  --awning-a: #647f72;
+  --awning-a: #24365c;
   --awning-b: var(--paper);
   filter: none;
 }
