@@ -431,6 +431,8 @@ export function SiteHeader() {
         mobileOpen={mobileOpen}
       />
 
+      <div aria-hidden="true" className="sg-awning" />
+
       <MobileMenu open={mobileOpen} onClose={closeMobile} signedIn={Boolean(user)} />
 
       <ProductSearchOverlay open={searchOpen} onClose={closeSearch} />
@@ -743,6 +745,7 @@ export function SiteFooter() {
   const [searchOpen, setSearchOpen] = useState(false);
   return (
     <footer className="bg-ink text-paper">
+      <div aria-hidden="true" className="sg-awning" />
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-12">
         <div className="md:col-span-4">
           <BrandWordmark as="p" size="xl" sub className="text-paper" />

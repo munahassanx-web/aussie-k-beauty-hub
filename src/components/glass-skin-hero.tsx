@@ -1,3 +1,4 @@
+import { AISLES } from "@/lib/aisles";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
@@ -104,13 +105,7 @@ const ROTATE_MS = 6000;
 const spinFor = (dx: number) => 60 * Math.tanh((dx * 0.6) / 60);
 
 /** The words customers already search for, in English and Korean. */
-const GLOW_WORDS: [string, string][] = [
-  ["glass skin", "물광"],
-  ["cica", "병풀"],
-  ["honey glow", "꿀광"],
-  ["hydration", "수분"],
-  ["barrier", "장벽"],
-];
+const GLOW_WORDS = [AISLES.glass, AISLES.hydration, AISLES.barrier, AISLES.cica, AISLES.honey];
 
 /**
  * Plate geometry, in the stage's container units. Each plate is a square a
@@ -480,7 +475,7 @@ export function GlowWordBand() {
   return (
     <div className="overflow-hidden whitespace-nowrap bg-hanbok-deep py-3.5 text-paper">
       <p className="sr-only">
-        Glass skin (물광), cica (병풀), honey glow (꿀광), hydration (수분), barrier (장벽).
+        Glass skin (물광), hydration (수분), barrier (장벽), cica calm (병풀), honey glow (꿀광).
       </p>
       <div
         aria-hidden="true"
@@ -488,12 +483,15 @@ export function GlowWordBand() {
       >
         {[0, 1].map((copy) => (
           <span key={copy}>
-            {run.map(([en, ko], i) => (
-              <span key={`${copy}-${i}`}>
-                <span className="mx-5 text-[22px] font-light italic">{en}</span>
-                <span className="mx-5 font-[family-name:var(--font-hangul)] text-lg text-glaze">
-                  {ko}
+            {run.map((aisle, i) => (
+              <span key={`${copy}-${i}`} className="mx-5 inline-flex items-center gap-3 align-middle">
+                <span
+                  className={`inline-flex h-7 min-w-7 items-center justify-center rounded-full px-2 text-[11px] font-semibold tabular-nums text-ink ${aisle.bg}`}
+                >
+                  {aisle.number}
                 </span>
+                <span className="text-[22px] font-light italic">{aisle.name}</span>
+                <span className="font-[family-name:var(--font-hangul)] text-lg text-glaze">{aisle.ko}</span>
               </span>
             ))}
           </span>

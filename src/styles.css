@@ -32,6 +32,11 @@
   --color-hero-ink: #2e1e19;
   --color-hero-muted: #86706a;
   --color-blush: var(--blush);
+  --color-aisle-glass: var(--aisle-glass);
+  --color-aisle-hydration: var(--aisle-hydration);
+  --color-aisle-barrier: var(--aisle-barrier);
+  --color-aisle-cica: var(--aisle-cica);
+  --color-aisle-honey: var(--aisle-honey);
   --color-glaze: var(--glaze);
   --color-border: var(--border);
   --color-input: var(--input);
@@ -93,6 +98,12 @@
   --hanbok-deep: #3a2620;    /* Cocoa — primary buttons, dark bands */
   --ink: #2e1e19;            /* Text */
   --blush: #f4e3dc;          /* Blush — product tiles, tags */
+  /* Skin-goal aisles: one colour per goal (band, product tags, packaging). */
+  --aisle-glass: #ebc9c0;
+  --aisle-hydration: #afcbdd;
+  --aisle-barrier: #d9c3ae;
+  --aisle-cica: #b9c9a7;
+  --aisle-honey: #e8c27a;
   --glaze: #e3a493;          /* Glaze — the one accent */
   /* Grocery-list editorial accents, mapped onto the same family */
   --grocer-cream: #fbf6f2;
@@ -1034,4 +1045,29 @@
     inset 0 -6px 12px rgba(198, 150, 132, 0.28),
     0 0 0 6px rgba(227, 164, 147, 0.12),
     0 18px 26px -14px rgba(58, 38, 32, 0.32);
+}
+
+/* Awning edge: a blush and white striped canopy with a scalloped hem, like
+   the awning over a corner grocer. Used under the header and over the footer. */
+.sg-awning {
+  --awning-a: #ecc9bd;
+  --awning-b: #fffdfb;
+  position: relative;
+  z-index: 1;
+  height: 30px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 12px 18px, var(--awning-a) 11.5px, transparent 12px) 0 0 / 48px 30px repeat-x,
+    radial-gradient(circle at 36px 18px, var(--awning-b) 11.5px, transparent 12px) 0 0 / 48px 30px repeat-x,
+    repeating-linear-gradient(90deg, var(--awning-a) 0 24px, var(--awning-b) 24px 48px) 0 0 / 100% 18px no-repeat;
+  filter: drop-shadow(0 6px 6px rgba(58, 38, 32, 0.1));
+}
+@media (max-width: 640px) {
+  .sg-awning {
+    height: 20px;
+    background:
+      radial-gradient(circle at 8px 12px, var(--awning-a) 7.5px, transparent 8px) 0 0 / 32px 20px repeat-x,
+      radial-gradient(circle at 24px 12px, var(--awning-b) 7.5px, transparent 8px) 0 0 / 32px 20px repeat-x,
+      repeating-linear-gradient(90deg, var(--awning-a) 0 16px, var(--awning-b) 16px 32px) 0 0 / 100% 12px no-repeat;
+  }
 }

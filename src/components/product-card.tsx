@@ -12,6 +12,7 @@ import {
 } from '@/lib/shop-catalog';
 import type { ShopProduct } from '@/lib/shop-catalog';
 import { track } from '@/lib/analytics';
+import { aisleFor } from '@/lib/aisles';
 
 /** Verified pack size for the SKU — resolved from the central catalogue. */
 export function productSize(p: ShopProduct): string | null {
@@ -45,6 +46,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
   const soldOut = isSoldOut(p.priceId);
   const size = productSize(p);
   const slug = productSlug(p);
+  const aisle = aisleFor(p.concerns);
   // Supplier reconciliation pending: viewable, never priced or purchasable,
   // and never described as sold out.
   const supplyPending = supplierMatchPending(p);
@@ -99,7 +101,17 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
       </div>
 
       <div className="flex flex-1 flex-col pt-4">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{p.brand}</p>
+        <div className="flex items-center justify-between gap-2">
+          <p className="min-w-0 truncate text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{p.brand}</p>
+          {aisle && (
+            <span
+              className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium text-ink ${aisle.bg}`}
+            >
+              <span className="tabular-nums font-semibold">{aisle.number}</span>
+              {aisle.name}
+            </span>
+          )}
+        </div>
         <h3 className="mt-1.5 text-[1.05rem] font-light leading-snug tracking-[-0.01em] text-foreground">
           <Link
             to="/product/$slug"
