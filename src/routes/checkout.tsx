@@ -1,4 +1,6 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { FREE_GIFT_THRESHOLD_CENTS, qualifiesForFreeGift } from '@/lib/shipping-rates';
+import { PaymentOptionsNote } from '@/components/payment-options-note';
 import { useEffect, useState } from 'react';
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
 import { getStripe, getStripeEnvironment } from '@/lib/stripe';
@@ -166,6 +168,12 @@ function Checkout() {
           <span>Subtotal</span>
           <span>{formatAud(cart.subtotalCents)}</span>
         </div>
+        {!cart.hasSubscription && qualifiesForFreeGift(cart.subtotalCents) && (
+          <div className="flex justify-between text-foreground">
+            <span>K-beauty sample (gift)</span>
+            <span>Free</span>
+          </div>
+        )}
         <div className="flex justify-between text-muted-foreground">
           <span>Standard shipping</span>
           <span>
@@ -180,6 +188,11 @@ function Checkout() {
           Includes GST. Your final total is confirmed before you pay.
         </p>
       </div>
+      {!cart.hasSubscription && !qualifiesForFreeGift(cart.subtotalCents) && (
+        <p className="mt-3 text-[11px] text-muted-foreground">
+          Add {formatAud(FREE_GIFT_THRESHOLD_CENTS - cart.subtotalCents)} more for a free K-beauty sample.
+        </p>
+      )}
       {!cart.hasSubscription && cart.subtotalCents < FREE_SHIPPING_THRESHOLD_CENTS && (
         <p className="mt-3 text-[11px] text-muted-foreground">
           Add {formatAud(FREE_SHIPPING_THRESHOLD_CENTS - cart.subtotalCents)} more to qualify for free shipping.
@@ -312,9 +325,7 @@ function Checkout() {
               >
                 Continue to payment
               </button>
-              <p className="text-center text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                Secure payment by Stripe
-              </p>
+              <PaymentOptionsNote totalCents={grandTotal} recurring={cart.hasSubscription} />
             </div>
           ) : (
             <div>

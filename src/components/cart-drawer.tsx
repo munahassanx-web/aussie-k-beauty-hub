@@ -1,10 +1,24 @@
 import { useEffect, useRef } from 'react';
 import { Link } from '@tanstack/react-router';
-import { FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS, formatAud, useCart } from '@/lib/cart';
+import {
+  FLAT_SHIPPING_CENTS,
+  FREE_SHIPPING_THRESHOLD_CENTS,
+  FREE_SHIPPING_THRESHOLD_LABEL,
+  formatAud,
+  useCart,
+} from '@/lib/cart';
 import { sizeForPriceId } from '@/lib/shop-catalog';
+import { FREE_GIFT_THRESHOLD_CENTS, FREE_GIFT_THRESHOLD_LABEL, qualifiesForFreeGift } from '@/lib/shipping-rates';
+import { completeRoutineSuggestions } from '@/lib/routine-suggestions';
+import { routineStepLabel } from '@/lib/product-detail';
+import { useBuyNow } from '@/hooks/use-buy-now';
+import { useSoldOutSkus } from '@/hooks/use-stock';
+import { PaymentOptionsNote } from '@/components/payment-options-note';
 
 export function CartDrawer() {
   const cart = useCart();
+  const { buy } = useBuyNow();
+  const { isSoldOut } = useSoldOutSkus();
   const panelRef = useRef<HTMLDivElement>(null);
   const open = cart.open;
 
@@ -27,7 +41,16 @@ export function CartDrawer() {
   if (!open) return null;
 
   const remainingForFree = FREE_SHIPPING_THRESHOLD_CENTS - cart.subtotalCents;
+  const remainingForGift = FREE_GIFT_THRESHOLD_CENTS - cart.subtotalCents;
+  const giftUnlocked = !cart.hasSubscription && qualifiesForFreeGift(cart.subtotalCents);
   const progress = Math.min(100, Math.round((cart.subtotalCents / FREE_SHIPPING_THRESHOLD_CENTS) * 100));
+  const giftMarker = Math.round((FREE_GIFT_THRESHOLD_CENTS / FREE_SHIPPING_THRESHOLD_CENTS) * 100);
+  const suggestions = cart.hasSubscription
+    ? []
+    : completeRoutineSuggestions(
+        cart.lines.map((l) => l.priceId),
+        isSoldOut,
+      );
 
   return (
     <div className="fixed inset-0 z-[110] flex justify-end">
@@ -44,7 +67,7 @@ export function CartDrawer() {
         aria-label="Your bag"
         className="relative flex h-full w-full max-w-md flex-col overflow-x-hidden bg-background outline-none"
       >
-        <header className="flex items-start justify-between gap-4 border-b border-border px-6 py-6 sm:px-7">
+        <header className="flex items-start justify-between gap-4 border-b border-border px-6 py-4 sm:px-7 sm:py-6">
           <div className="min-w-0">
             <p className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Skin Grocer</p>
             <h2 className="mt-1.5 font-display text-[1.75rem] leading-none tracking-tight text-foreground">
@@ -76,13 +99,13 @@ export function CartDrawer() {
               <Link
                 to="/shop"
                 onClick={() => cart.setOpen(false)}
-                className="flex min-h-12 items-center justify-center rounded-[2px] bg-foreground px-7 text-[11px] font-medium uppercase tracking-[0.2em] text-background transition-opacity hover:opacity-90"
+                className="flex min-h-12 items-center justify-center rounded-full bg-hanbok-deep px-7 text-[11px] font-bold uppercase tracking-[0.18em] text-background transition-colors hover:bg-hanbok"
               >
                 Shop skincare
               </Link>
               <button
                 onClick={() => cart.setOpen(false)}
-                className="min-h-11 rounded-[2px] text-[11px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
+                className="min-h-11 rounded-full text-[11px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
               >
                 Continue shopping
               </button>
@@ -91,27 +114,48 @@ export function CartDrawer() {
         ) : (
           <>
             {!cart.hasSubscription && (
-              <div className="border-b border-border px-6 py-4 sm:px-7">
+              <div className="border-b border-border px-6 py-3 sm:px-7 sm:py-4">
                 <p className="text-[11px] uppercase tracking-[0.16em] text-foreground">
-                  {remainingForFree > 0 ? (
+                  {remainingForGift > 0 ? (
                     <>
                       <span className="text-muted-foreground">Add </span>
+                      {formatAud(remainingForGift)}
+                      <span className="text-muted-foreground"> for a free K-beauty sample</span>
+                    </>
+                  ) : remainingForFree > 0 ? (
+                    <>
+                      <span className="text-muted-foreground">Sample unlocked · add </span>
                       {formatAud(remainingForFree)}
-                      <span className="text-muted-foreground"> for free standard shipping</span>
+                      <span className="text-muted-foreground"> for free delivery</span>
                     </>
                   ) : (
-                    'Free standard shipping unlocked'
+                    'Free sample and free delivery unlocked'
                   )}
                 </p>
-                <div
-                  className="mt-2.5 h-1 w-full overflow-hidden rounded-full bg-blush"
-                  role="progressbar"
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-valuenow={progress}
-                  aria-label="Progress towards free shipping"
-                >
-                  <div className="h-1 rounded-full bg-glaze transition-all duration-500" style={{ width: `${progress}%` }} />
+                <div className="relative mt-3">
+                  <div
+                    className="h-1.5 w-full overflow-hidden rounded-full bg-blush"
+                    role="progressbar"
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={progress}
+                    aria-label="Progress towards a free sample and free delivery"
+                  >
+                    <div className="h-1.5 rounded-full bg-glaze transition-all duration-500" style={{ width: `${progress}%` }} />
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    className={`absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-background ${
+                      giftUnlocked ? 'bg-glaze' : 'bg-blush'
+                    }`}
+                    style={{ left: `${giftMarker}%` }}
+                  />
+                </div>
+                <div aria-hidden="true" className="relative mt-1.5 h-3 text-[9px] uppercase tracking-[0.14em] text-muted-foreground">
+                  <span className="absolute -translate-x-1/2" style={{ left: `${giftMarker}%` }}>
+                    {FREE_GIFT_THRESHOLD_LABEL}
+                  </span>
+                  <span className="absolute right-0">{FREE_SHIPPING_THRESHOLD_LABEL}</span>
                 </div>
               </div>
             )}
@@ -176,19 +220,60 @@ export function CartDrawer() {
                   </div>
                 </div>
               ))}
+
+              {suggestions.length > 0 && (
+                <section aria-labelledby="complete-routine" className="py-6">
+                  <h3 id="complete-routine" className="text-[11px] font-semibold uppercase tracking-[0.2em] text-foreground">
+                    Complete your routine
+                  </h3>
+                  <p className="mt-1 text-xs text-muted-foreground">The steps your bag is missing, matched to your skin goals.</p>
+                  <ul className="mt-4 grid grid-cols-3 gap-3">
+                    {suggestions.map((p) => (
+                      <li key={p.priceId} className="flex min-w-0 flex-col">
+                        <div className="sg-stage aspect-square rounded-2xl">
+                          <img
+                            src={p.image}
+                            alt={`${p.brand} ${p.name}`}
+                            loading="lazy"
+                            className="sg-stage-img h-full w-full object-contain p-2.5"
+                          />
+                        </div>
+                        <p className="mt-2 text-[9px] uppercase tracking-[0.16em] text-muted-foreground">
+                          {routineStepLabel(p).split('—')[0].trim()}
+                        </p>
+                        <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-foreground">{p.name}</p>
+                        <button
+                          type="button"
+                          onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: p.price, brand: p.brand, image: p.image })}
+                          aria-label={`Add ${p.brand} ${p.name} to bag`}
+                          className="mt-2 min-h-9 rounded-full border border-border text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground transition-colors hover:border-glaze hover:bg-blush"
+                        >
+                          + {p.price}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
             </div>
 
-            <div className="border-t border-border px-6 py-6 sm:px-7">
+            <div className="border-t border-border px-6 py-4 sm:px-7 sm:py-5">
               {cart.mixedModes && (
                 <p className="mb-4 rounded-2xl border border-border bg-blush/40 p-3 text-xs leading-relaxed text-foreground">
                   Restock subscriptions are set up one at a time — please check out your one-off items separately.
                 </p>
               )}
-              <div className="space-y-2.5">
+              <div className="space-y-1.5">
                 <div className="flex justify-between text-sm text-foreground">
                   <span>Subtotal</span>
                   <span>{formatAud(cart.subtotalCents)}</span>
                 </div>
+                {giftUnlocked && (
+                  <div className="flex justify-between text-sm text-foreground">
+                    <span>K-beauty sample (gift)</span>
+                    <span>Free</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-sm text-muted-foreground">
                   <span>Standard shipping</span>
                   <span>
@@ -200,37 +285,22 @@ export function CartDrawer() {
                   </span>
                 </div>
               </div>
-              <div className="mt-4 flex items-baseline justify-between border-t border-border pt-4">
-                <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Total</span>
+              <div className="mt-3 flex items-baseline justify-between border-t border-border pt-3">
+                <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                  Total <span className="normal-case tracking-normal">· incl. GST</span>
+                </span>
                 <span className="text-[1.75rem] font-light leading-none tabular-nums tracking-[-0.02em] text-foreground">
                   {formatAud(cart.totalCents)}
                 </span>
               </div>
-              <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-                Includes GST. Shipped with Australia Post from our Melbourne warehouse — transit times are estimates and
-                depend on your postcode and the service available there.
-              </p>
-              <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
-                Locally stocked in Melbourne ·{' '}
-                <Link
-                  to="/verify/sample"
-                  onClick={() => cart.setOpen(false)}
-                  className="underline underline-offset-4 transition-colors hover:text-foreground"
-                >
-                  Batch-verification record
-                </Link>{' '}
-                included via QR
-              </p>
               <Link
                 to="/checkout"
                 onClick={() => cart.setOpen(false)}
-                className="mt-5 flex min-h-14 items-center justify-center rounded-full bg-hanbok-deep text-[11px] font-bold uppercase tracking-[0.18em] text-background shadow-[0_16px_34px_-18px_rgba(58,38,32,0.7)] transition-colors hover:bg-hanbok"
+                className="mt-4 flex min-h-14 items-center justify-center rounded-full bg-hanbok-deep text-[11px] font-bold uppercase tracking-[0.18em] text-background shadow-[0_16px_34px_-18px_rgba(58,38,32,0.7)] transition-colors hover:bg-hanbok"
               >
                 Continue to checkout
               </Link>
-              <p className="mt-3 text-center text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                Secure payment by Stripe
-              </p>
+              <PaymentOptionsNote totalCents={cart.totalCents} recurring={cart.hasSubscription} />
               <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[11px] text-muted-foreground">
                 <Link
                   to="/shipping-policy"
@@ -246,13 +316,14 @@ export function CartDrawer() {
                 >
                   Customer care
                 </Link>
+                <button
+                  type="button"
+                  onClick={() => cart.setOpen(false)}
+                  className="min-h-9 underline-offset-4 transition-colors hover:text-foreground hover:underline"
+                >
+                  Continue shopping
+                </button>
               </div>
-              <button
-                onClick={() => cart.setOpen(false)}
-                className="mt-3 min-h-11 w-full text-center text-[11px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Continue shopping
-              </button>
             </div>
           </>
         )}

@@ -158,7 +158,7 @@ export function RoutineRecommendations({ product }: { product: ShopProduct }) {
           return (
             <article
               key={p.priceId}
-              className="flex w-[85vw] max-w-sm shrink-0 snap-center flex-col border border-border bg-background p-4 sm:w-auto sm:max-w-none"
+              className="relative flex w-[85vw] max-w-sm shrink-0 snap-center flex-col border border-border bg-background p-4 sm:w-auto sm:max-w-none"
             >
               <Link
                 to="/product/$slug"
