@@ -1049,6 +1049,7 @@
 
 /* Colour-only homepage trial. The route marker keeps interior pages unchanged. */
 :root:has([data-homepage-neutral]) {
+  --brand-emerald: #064e3b;
   --paper: oklch(1 0 0);
   --sand: oklch(0.975 0 0);
   --sand-deep: oklch(0.88 0 0);
@@ -1079,7 +1080,7 @@
 }
 
 :root:has([data-homepage-neutral]) .sg-awning {
-  --awning-a: var(--sand-deep);
+  --awning-a: var(--brand-emerald);
   --awning-b: var(--paper);
   filter: none;
 }
