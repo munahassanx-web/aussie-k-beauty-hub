@@ -76,5 +76,5 @@
 ## Homepage neutral-colour preview and ecommerce review
 - [x] Inspect the current homepage palette and shopping hierarchy
 - [x] Prepare neutral-colour comparison previews without changing the live palette
-- [ ] Complete source-backed comparison with Sephora, Rhode, Gymshark and Mecca
+- [x] Complete source-backed comparison with Sephora, Rhode, Gymshark and Mecca
 - [ ] Apply a neutral palette after the owner selects a preview (awaiting owner selection)
