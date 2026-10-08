@@ -72,3 +72,9 @@
 - [x] Replace the opening "two markets" paragraph with the approved four-sentence wording
 - [x] Replace the HARUHARU card reason with the approved hyaluronic-acid sentence
 - [x] Confirm the article renders both corrections and that other articles are untouched
+
+## Homepage neutral-colour preview and ecommerce review
+- [x] Inspect the current homepage palette and shopping hierarchy
+- [x] Prepare neutral-colour comparison previews without changing the live palette
+- [x] Complete source-backed comparison with Sephora, Rhode, Gymshark and Mecca
+- [ ] Apply a neutral palette after the owner selects a preview (awaiting owner selection)
