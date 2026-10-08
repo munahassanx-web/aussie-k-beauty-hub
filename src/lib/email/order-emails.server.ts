@@ -1,20 +1,16 @@
 /**
- * Skin Grocer transactional email design system — Option 1, server only.
+ * Skin Grocer transactional email design system — Glass Skin Club, server only.
  *
- * Signature device: THE GROCER STRIPE as a CONTINUOUS FRAME. A bold navy /
- * white 45° diagonal band runs across the top, down both rails and along the
- * bottom, enclosing the entire email from masthead through footer. Immediately
- * inside the frame sits a single very thin champagne-gold keyline — restrained,
- * never a thick gold border.
+ * Signature device: THE AWNING. A blush and white striped awning with a
+ * scalloped hem runs across the top of the email, the same edge that sits
+ * under the website header. The white email card sits on a soft blush mat,
+ * with cocoa type and buttons and glaze accents, matching the site.
  *
- * The email field is pure WHITE. Cream is packaging only and is not used here.
- * No seal, no monogram, no botanical or lifestyle imagery: the only pictures
- * are the customer's actual ordered products, looked up in the catalog by
- * Stripe `lookupKey`.
+ * The only pictures are the customer's actual ordered products, looked up in
+ * the catalog by Stripe `lookupKey`.
  *
- * Frame artwork is purpose-built PNG (public/email/sg-frame-*). Every stripe
- * cell also carries a solid navy background colour, so with images blocked the
- * frame still reads as a deliberate navy border rather than broken boxes.
+ * Awning artwork is a small PNG (public/email/sg-awning-*). The bar behind it
+ * is solid blush, so with images blocked the top still reads as a soft band.
  *
  * Every value rendered here comes from a stored order row. Nothing is
  * estimated, promised or invented: no delivery dates, no stock claims, no
@@ -28,23 +24,25 @@ import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
 export const SITE_URL = 'https://skingrocer.com.au';
 export const SUPPORT_EMAIL = 'customercare@skingrocer.com.au';
 
-/* Brand palette — approved values only. */
-const NAVY = '#0D1B2A';
-const GOLD = '#C6A15B'; // champagne — used only as a thin keyline and fine details
-const GOLD_DEEP = '#8A6D2E'; // accessible champagne for small text on white
-const INK = '#16202B';
-const MUTED = '#6E6A63';
-const RULE = '#E7E3DB';
+/* Glass Skin Club palette — the same values as the website. */
+const COCOA = '#3A2620'; // buttons, footer band
+const GLAZE = '#E3A493'; // fine accents and keylines
+const GLAZE_DEEP = '#9A5A47'; // accessible glaze for small text on white
+const BLUSH = '#F4E3DC'; // the mat the email card sits on
+const INK = '#2E1E19';
+const MUTED = '#86706A';
+const RULE = '#ECDCD5';
 const PAPER = '#FFFFFF';
-const NAVY_MUTED = '#94A0B0';
+const COCOA_MUTED = '#D9C3B8'; // light text on the cocoa footer
 
-const SERIF = "Georgia, 'Times New Roman', Times, serif";
+/** The Bodoni-style wordmark; everything else is a clean sans, like the site. */
+const WORDMARK = "'Bodoni 72', 'Bodoni MT', Didot, Georgia, serif";
 const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+const SERIF = SANS;
 
-/* The Grocer Stripe frame, served from stable public paths. */
-const FRAME_H = `${SITE_URL}/email/sg-frame-h.png`;
-const FRAME_H_MOBILE = `${SITE_URL}/email/sg-frame-h-m.png`;
-const FRAME_V = `${SITE_URL}/email/sg-frame-v.png`;
+/* The awning edge, served from stable public paths. */
+const AWNING = `${SITE_URL}/email/sg-awning-h.png`;
+const AWNING_MOBILE = `${SITE_URL}/email/sg-awning-h-m.png`;
 
 export type OrderEmailLine = {
   name: string;
@@ -156,35 +154,40 @@ const gap = (h: number) => `<div style="height:${h}px;line-height:${h}px;font-si
 const hairline = (color = RULE) =>
   `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="height:1px;line-height:1px;font-size:0;background-color:${color};">&nbsp;</td></tr></table>`;
 
-/** Short fine gold divider used under the tagline. */
-const goldDivider = (width = 54) =>
+/** Short fine glaze divider used under the tagline. */
+const glazeDivider = (width = 54) =>
   `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;"><tr>
-     <td width="${width}" style="width:${width}px;height:1px;line-height:1px;font-size:0;background-color:${GOLD};">&nbsp;</td>
+     <td width="${width}" style="width:${width}px;height:1px;line-height:1px;font-size:0;background-color:${GLAZE};">&nbsp;</td>
    </tr></table>`;
 
-/** Horizontal run of the signature frame (top and bottom edges). */
+/** The awning across the top of the email, on the blush mat. */
 function frameBar(): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-    <tr><td class="sg-framebar" bgcolor="${NAVY}" height="22" style="background-color:${NAVY};height:22px;line-height:0;font-size:0;">
-      <img src="${FRAME_H}" width="620" height="22" alt="" class="sg-hide-mobile" style="display:block;width:100%;max-width:620px;height:22px;border:0;" />
-      <img src="${FRAME_H_MOBILE}" width="390" height="16" alt="" class="sg-show-mobile" style="display:none;width:100%;height:auto;border:0;mso-hide:all;" />
+    <tr><td class="sg-framebar" bgcolor="${BLUSH}" height="30" style="background-color:${BLUSH};height:30px;line-height:0;font-size:0;">
+      <img src="${AWNING}" width="620" height="30" alt="" class="sg-hide-mobile" style="display:block;width:100%;max-width:620px;height:30px;border:0;" />
+      <img src="${AWNING_MOBILE}" width="390" height="22" alt="" class="sg-show-mobile" style="display:none;width:100%;height:auto;border:0;mso-hide:all;" />
     </td></tr>
   </table>`;
 }
 
-/** Vertical rail of the signature frame; solid navy is the images-off fallback. */
+/** Plain blush band closing the bottom of the mat. */
+function frameFoot(): string {
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr><td bgcolor="${BLUSH}" height="22" style="background-color:${BLUSH};height:22px;line-height:0;font-size:0;">&nbsp;</td></tr>
+  </table>`;
+}
+
+/** Side of the blush mat around the email card. */
 function frameRail(): string {
-  return `<td class="sg-rail" width="22" valign="top" bgcolor="${NAVY}"
-    background="${FRAME_V}"
-    style="width:22px;background-color:${NAVY};background-image:url('${FRAME_V}');background-repeat:repeat-y;background-position:top left;font-size:0;line-height:0;">&nbsp;</td>`;
+  return `<td class="sg-rail" width="22" valign="top" bgcolor="${BLUSH}" style="width:22px;background-color:${BLUSH};font-size:0;line-height:0;">&nbsp;</td>`;
 }
 
 function ctaButton(href: string, text: string): string {
   return `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-    <td bgcolor="${NAVY}" style="background-color:${NAVY};">
-      <a href="${href}" style="display:inline-block;padding:17px 34px;font-family:${SANS};font-size:12px;line-height:1;letter-spacing:.22em;text-transform:uppercase;color:${PAPER};text-decoration:none;font-weight:bold;">${esc(
+    <td bgcolor="${COCOA}" style="background-color:${COCOA};border-radius:999px;">
+      <a href="${href}" style="display:inline-block;padding:17px 34px;border-radius:999px;font-family:${SANS};font-size:12px;line-height:1;letter-spacing:.22em;text-transform:uppercase;color:${PAPER};text-decoration:none;font-weight:bold;">${esc(
         text,
-      )}<span style="color:${GOLD};letter-spacing:0;">&nbsp;&nbsp;&#8594;</span></a>
+      )}<span style="color:${GLAZE};letter-spacing:0;">&nbsp;&nbsp;&#8594;</span></a>
     </td></tr></table>`;
 }
 
@@ -193,39 +196,39 @@ function ctaButton(href: string, text: string): string {
  * transactional clarity over decoration, and no pictorial icons at all.
  */
 function assuranceLine(): string {
-  const dot = `<span style="color:${GOLD};">&nbsp;·&nbsp;</span>`;
+  const dot = `<span style="color:${GLAZE};">&nbsp;·&nbsp;</span>`;
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid ${RULE};border-bottom:1px solid ${RULE};">
     <tr><td align="center" style="padding:14px 8px;">
-      <p style="margin:0;font-family:${SANS};font-size:9px;line-height:1.7;letter-spacing:.18em;text-transform:uppercase;color:${MUTED};">Seoul sourced${dot}Authenticity guaranteed${dot}Melbourne, Australia</p>
+      <p style="margin:0;font-family:${SANS};font-size:9px;line-height:1.7;letter-spacing:.18em;text-transform:uppercase;color:${MUTED};">Korean skincare${dot}Batch verified${dot}Melbourne, Australia</p>
     </td></tr>
   </table>`;
 }
 
 /**
- * Deep navy footer, enclosed by the same frame.
+ * Cocoa footer band.
  * `originLine` must stay truthful per template: only dispatch-stage emails may
  * speak about a parcel having left Melbourne.
  */
 function footerBlock(originLine = 'Skin Grocer · Melbourne, Australia'): string {
   const navLink = (href: string, text: string) =>
-    `<a href="${href}" style="font-family:${SANS};font-size:10px;letter-spacing:.20em;text-transform:uppercase;color:${NAVY_MUTED};text-decoration:none;">${esc(
+    `<a href="${href}" style="font-family:${SANS};font-size:10px;letter-spacing:.20em;text-transform:uppercase;color:${COCOA_MUTED};text-decoration:none;">${esc(
       text,
     )}</a>`;
-  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${NAVY}" style="background-color:${NAVY};">
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${COCOA}" style="background-color:${COCOA};">
     <tr><td align="center" class="sg-pad" style="padding:30px 40px 28px;">
-      <p style="margin:0;font-family:${SERIF};font-size:20px;line-height:1.1;letter-spacing:.22em;text-transform:uppercase;color:${PAPER};font-weight:normal;">Skin&nbsp;Grocer</p>
-      <p style="margin:12px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.30em;text-transform:uppercase;color:${GOLD};">Seoul Sourced. Skin Assured.</p>
+      <p style="margin:0;font-family:${WORDMARK};font-size:20px;line-height:1.1;letter-spacing:.22em;text-transform:uppercase;color:${PAPER};font-weight:bold;">Skin&nbsp;Grocer</p>
+      <p style="margin:12px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.30em;text-transform:uppercase;color:${GLAZE};">Inner Beauty</p>
       <div style="height:18px;line-height:18px;font-size:0;">&nbsp;</div>
-      ${goldDivider(40)}
+      ${glazeDivider(40)}
       <div style="height:18px;line-height:18px;font-size:0;">&nbsp;</div>
       <p style="margin:0;font-family:${SANS};font-size:10px;line-height:2.4;letter-spacing:.20em;">
-        ${navLink(`${SITE_URL}/shop`, 'Shop')}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(
+        ${navLink(`${SITE_URL}/shop`, 'Shop')}<span style="color:${GLAZE};">&nbsp; · &nbsp;</span>${navLink(
           `${SITE_URL}/track`,
           'Track Order',
-        )}<span style="color:${GOLD};">&nbsp; · &nbsp;</span>${navLink(`mailto:${SUPPORT_EMAIL}`, 'Contact')}
+        )}<span style="color:${GLAZE};">&nbsp; · &nbsp;</span>${navLink(`mailto:${SUPPORT_EMAIL}`, 'Contact')}
       </p>
       <div style="height:18px;line-height:18px;font-size:0;">&nbsp;</div>
-      <p style="margin:0;font-family:${SANS};font-size:11px;line-height:1.75;color:${NAVY_MUTED};">${esc(originLine)}</p>
+      <p style="margin:0;font-family:${SANS};font-size:11px;line-height:1.75;color:${COCOA_MUTED};">${esc(originLine)}</p>
       <p style="margin:6px 0 0;font-family:${SANS};font-size:11px;line-height:1.75;color:#6C7686;">This is a service message about your order.</p>
     </td></tr>
   </table>`;
@@ -233,22 +236,22 @@ function footerBlock(originLine = 'Skin Grocer · Melbourne, Australia'): string
 
 
 /**
- * Spacious white masthead: wordmark, gold tagline, fine gold divider, then the
+ * Spacious white masthead: wordmark, glaze tagline, fine glaze divider, then the
  * left-aligned order statement.
  */
 function masthead(headline: string, statement: string, standfirst: string): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${PAPER}" style="background-color:${PAPER};">
     <tr><td align="center" class="sg-pad" style="padding:36px 48px 0;">
-      <p class="sg-wordmark" style="margin:0;font-family:${SERIF};font-size:32px;line-height:1.05;letter-spacing:.24em;text-transform:uppercase;color:${NAVY};font-weight:normal;">Skin&nbsp;Grocer</p>
-      <p style="margin:12px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.32em;text-transform:uppercase;color:${GOLD_DEEP};">Seoul Sourced. Skin Assured.</p>
+      <p class="sg-wordmark" style="margin:0;font-family:${WORDMARK};font-size:32px;line-height:1.05;letter-spacing:.16em;text-transform:uppercase;color:${COCOA};font-weight:bold;">Skin&nbsp;Grocer</p>
+      <p style="margin:12px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.32em;text-transform:uppercase;color:${GLAZE_DEEP};">Inner Beauty</p>
       <div style="height:20px;line-height:20px;font-size:0;">&nbsp;</div>
-      ${goldDivider(54)}
+      ${glazeDivider(54)}
     </td></tr>
     <tr><td align="left" class="sg-pad" style="padding:32px 48px 0;">
-      <p style="margin:0 0 6px;font-family:${SERIF};font-size:24px;line-height:1.3;color:${MUTED};font-weight:normal;" class="sg-display">${esc(
+      <p style="margin:0 0 6px;font-family:${SERIF};font-size:22px;line-height:1.3;color:${MUTED};font-weight:300;" class="sg-display">${esc(
         headline,
       )}</p>
-      <p style="margin:0 0 14px;font-family:${SERIF};font-size:26px;line-height:1.25;color:${INK};font-weight:bold;" class="sg-display">${esc(
+      <p style="margin:0 0 14px;font-family:${SERIF};font-size:28px;line-height:1.2;letter-spacing:-0.01em;color:${INK};font-weight:300;" class="sg-display">${esc(
         statement,
       )}</p>
       <p style="margin:0;font-family:${SANS};font-size:15px;line-height:1.75;color:${MUTED};">${standfirst}</p>
@@ -260,8 +263,8 @@ function masthead(headline: string, statement: string, standfirst: string): stri
 /* ---------------------------------------------------------------- shell -- */
 
 /**
- * Full document shell. The navy/white Grocer Stripe frames all four sides,
- * a single thin gold keyline sits immediately inside it, and everything —
+ * Full document shell. The awning runs across the top, a blush mat frames
+ * the white card with a soft keyline inside it, and everything —
  * masthead, order, assurances, footer — lives on white inside that frame.
  */
 function shell(title: string, preheader: string, inner: string): string {
@@ -277,7 +280,7 @@ function shell(title: string, preheader: string, inner: string): string {
   :root { color-scheme: light only; supported-color-schemes: light only; }
   body,table,td,a { -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
   img { border:0; outline:none; text-decoration:none; -ms-interpolation-mode:bicubic; }
-  a { color:${NAVY}; }
+  a { color:${COCOA}; }
   @media only screen and (max-width:620px) {
     .sg-pad { padding-left:18px !important; padding-right:18px !important; }
     .sg-gap { height:22px !important; }
@@ -307,27 +310,27 @@ function shell(title: string, preheader: string, inner: string): string {
     <tr><td align="center" style="padding:26px 10px 34px;">
       <table role="presentation" width="620" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:620px;">
 
-        <!-- signature frame: top edge -->
+        <!-- signature awning: top edge -->
         <tr><td colspan="3">${frameBar()}</td></tr>
 
         <tr>
           ${frameRail()}
-          <td valign="top" bgcolor="${PAPER}" style="background-color:${PAPER};border-left:1px solid ${GOLD};border-right:1px solid ${GOLD};">
-            <!-- thin gold keyline, top edge -->
+          <td valign="top" bgcolor="${PAPER}" style="background-color:${PAPER};border-left:1px solid ${RULE};border-right:1px solid ${RULE};">
+            <!-- thin keyline, top edge -->
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-              <tr><td style="height:1px;line-height:1px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>
+              <tr><td style="height:1px;line-height:1px;font-size:0;background-color:${RULE};">&nbsp;</td></tr>
             </table>
             ${inner}
-            <!-- thin gold keyline, bottom edge -->
+            <!-- thin keyline, bottom edge -->
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-              <tr><td style="height:1px;line-height:1px;font-size:0;background-color:${GOLD};">&nbsp;</td></tr>
+              <tr><td style="height:1px;line-height:1px;font-size:0;background-color:${RULE};">&nbsp;</td></tr>
             </table>
           </td>
           ${frameRail()}
         </tr>
 
         <!-- signature frame: bottom edge -->
-        <tr><td colspan="3">${frameBar()}</td></tr>
+        <tr><td colspan="3">${frameFoot()}</td></tr>
 
       </table>
     </td></tr>
@@ -372,11 +375,11 @@ function productRow(line: OrderEmailLine, currency: string, showPrice: boolean):
   const thumb = product
     ? `<img src="${emailImageSrc(product.image)}" width="72" height="72" alt="${esc(
         `${product.brand} ${product.name}`,
-      )}" style="display:block;width:72px;height:72px;object-fit:cover;background-color:#F4F4F2;" />`
-    : `<table role="presentation" width="72" height="72" cellpadding="0" cellspacing="0" border="0" bgcolor="#F4F4F2" style="background-color:#F4F4F2;width:72px;height:72px;"><tr>
-         <td align="center" valign="middle" style="font-family:${SERIF};font-size:13px;letter-spacing:.10em;color:${GOLD_DEEP};">${esc(
-           (line.name.trim()[0] ?? 'S').toUpperCase(),
-         )}</td></tr></table>`;
+      )}" style="display:block;width:72px;height:72px;object-fit:cover;background-color:${BLUSH};" />`
+    : `<table role="presentation" width="72" height="72" cellpadding="0" cellspacing="0" border="0" bgcolor="${BLUSH}" style="background-color:${BLUSH};width:72px;height:72px;"><tr>
+         <td align="center" valign="middle" style="font-family:${SANS};font-size:${
+           line.amountCents === 0 ? '10px;letter-spacing:.18em;text-transform:uppercase' : '13px;letter-spacing:.10em'
+         };color:${GLAZE_DEEP};">${esc(line.amountCents === 0 ? 'Gift' : (line.name.trim()[0] ?? 'S').toUpperCase())}</td></tr></table>`;
 
   const meta = [size ? esc(String(size)) : null, `Quantity ${line.quantity}`].filter(Boolean).join(' &nbsp;·&nbsp; ');
 
@@ -395,10 +398,9 @@ function productRow(line: OrderEmailLine, currency: string, showPrice: boolean):
     </td>
     ${
       showPrice
-        ? `<td valign="top" align="right" style="padding:20px 0 20px 16px;font-family:${SANS};font-size:15px;color:${INK};white-space:nowrap;">${money(
-            line.amountCents,
-            currency,
-          )}</td>`
+        ? `<td valign="top" align="right" style="padding:20px 0 20px 16px;font-family:${SANS};font-size:15px;color:${INK};white-space:nowrap;">${
+            line.amountCents === 0 ? 'Free' : money(line.amountCents, currency)
+          }</td>`
         : ''
     }
   </tr>
@@ -478,7 +480,7 @@ function orderJourney(current: 'received' | 'preparing' | 'on_its_way' | 'delive
             isCurrent ? 'bold' : 'normal'
           };">${esc(title)}</p>
           <table role="presentation" width="${isCurrent ? '28' : '14'}" cellpadding="0" cellspacing="0" border="0"><tr>
-            <td style="height:2px;line-height:2px;font-size:0;background-color:${isCurrent ? GOLD_DEEP : RULE};">&nbsp;</td>
+            <td style="height:2px;line-height:2px;font-size:0;background-color:${isCurrent ? GLAZE_DEEP : RULE};">&nbsp;</td>
           </tr></table>
         </td>`;
         })
@@ -540,7 +542,7 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
       ${gap(28)}
       ${label('Customer care')}
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
-        Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
+        Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${COCOA};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
       </p>
       ${gap(34)}
     `)}
@@ -549,14 +551,14 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
   );
 
   const text = [
-    'SKIN GROCER — Seoul Sourced. Skin Assured.',
+    'SKIN GROCER — Inner Beauty',
     '',
     first ? `Thank you, ${first}. Your order is confirmed.` : 'Thank you for your order. Your order is confirmed.',
     "Your payment has been received and we're preparing your selection.",
     '',
     `Order ${ref} · placed ${placed}`,
     '',
-    ...o.lines.map((l) => `- ${l.name} x${l.quantity} — ${money(l.amountCents, o.currency)}`),
+    ...o.lines.map((l) => `- ${l.name} x${l.quantity} — ${l.amountCents === 0 ? 'Free' : money(l.amountCents, o.currency)}`),
     o.discountCents > 0 ? `Discount: -${money(o.discountCents, o.currency)}` : null,
     `Shipping: ${o.shippingCents > 0 ? money(o.shippingCents, o.currency) : 'Complimentary'}`,
     `Delivery: ${deliveryLabel(o)}`,
@@ -625,7 +627,7 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
       ${gap(28)}
       ${label('Customer care')}
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
-        Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
+        Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${COCOA};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
       </p>
       ${gap(32)}
     `)}
@@ -634,7 +636,7 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
   );
 
   const text = [
-    'SKIN GROCER — Seoul Sourced. Skin Assured.',
+    'SKIN GROCER — Inner Beauty',
     '',
     first ? `On its way, ${first}. Your order has been dispatched.` : 'On its way. Your order has been dispatched.',
     '',
@@ -678,7 +680,7 @@ export function dispatchMessagePlainText(o: OrderEmailData): string | null {
     '',
     'Delivery timing is set by the carrier. Reply to this email if anything looks wrong.',
     '',
-    'Skin Grocer — Seoul Sourced. Skin Assured.',
+    'Skin Grocer — Inner Beauty',
     SUPPORT_EMAIL,
   ]
     .filter((l): l is string => l !== null)
@@ -687,7 +689,7 @@ export function dispatchMessagePlainText(o: OrderEmailData): string | null {
 
 /**
  * Delivery confirmation. Same locked Option 1 system as the order confirmation:
- * white field, navy/white Grocer Stripe frame, thin gold keyline, same masthead
+ * white field, awning edge and blush mat, soft keyline, same masthead
  * and footer. Only the transactional copy, status and CTA change. Never claims
  * a delivery time or signature we do not hold.
  */
@@ -732,7 +734,7 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
         tracking
           ? `${esc(carrier ?? 'Carrier')}<br /><span style="letter-spacing:.06em;">${esc(tracking)}</span>${
               link
-                ? `<br /><a href="${link}" style="color:${NAVY};text-decoration:underline;">${esc(
+                ? `<br /><a href="${link}" style="color:${COCOA};text-decoration:underline;">${esc(
                     trackingLinkLabel(carrier),
                   )}</a>`
                 : ''
@@ -743,7 +745,7 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
       ${label('Using your routine')}
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.8;color:${MUTED};">
         Introduce one new step at a time, and give each formula a fortnight before judging it. Guidance for every product
-        we carry lives in the <a href="${SITE_URL}/learn" style="color:${NAVY};text-decoration:underline;">Skin Grocer library</a>.
+        we carry lives in the <a href="${SITE_URL}/learn" style="color:${COCOA};text-decoration:underline;">Skin Grocer library</a>.
       </p>
       ${gap(32)}
       ${assuranceLine()}
@@ -752,7 +754,7 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
       ${gap(26)}
       ${label('Customer care')}
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
-        Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
+        Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${COCOA};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
       </p>
       ${gap(32)}
     `)}
@@ -761,7 +763,7 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
   );
 
   const text = [
-    'SKIN GROCER — Seoul Sourced. Skin Assured.',
+    'SKIN GROCER — Inner Beauty',
     '',
     first ? `It has arrived, ${first}. Your order has been delivered.` : 'It has arrived. Your order has been delivered.',
     '',
@@ -856,7 +858,7 @@ export function renderCancellationNotice(
       ${label('Customer care')}
       <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
         If this was not expected, reply to this email or write to
-        <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};text-decoration:underline;">${SUPPORT_EMAIL}</a> and we will look into it straight away.
+        <a href="mailto:${SUPPORT_EMAIL}" style="color:${COCOA};text-decoration:underline;">${SUPPORT_EMAIL}</a> and we will look into it straight away.
       </p>
       ${gap(32)}
     `)}
@@ -865,7 +867,7 @@ export function renderCancellationNotice(
   );
 
   const text = [
-    'SKIN GROCER — Seoul Sourced. Skin Assured.',
+    'SKIN GROCER — Inner Beauty',
     '',
     first ? `Noted, ${first}. ${heading}` : heading,
     '',
@@ -875,7 +877,7 @@ export function renderCancellationNotice(
       : 'Any amount captured is returned to the original payment method; your bank statement confirms the exact figure and timing.',
     note,
     '',
-    ...o.lines.map((l) => `- ${l.name} x${l.quantity} — ${money(l.amountCents, o.currency)}`),
+    ...o.lines.map((l) => `- ${l.name} x${l.quantity} — ${l.amountCents === 0 ? 'Free' : money(l.amountCents, o.currency)}`),
     `Order total: ${money(o.amountCents, o.currency)}`,
     '',
     `Shop Skin Grocer: ${SITE_URL}/shop`,

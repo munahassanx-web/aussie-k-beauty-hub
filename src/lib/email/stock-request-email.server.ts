@@ -8,11 +8,11 @@
 
 import { SITE_URL, SUPPORT_EMAIL } from './order-emails.server';
 
-const NAVY = '#0D1B2A';
-const GOLD = '#C6A15B';
-const INK = '#16202B';
-const MUTED = '#6E6A63';
-const RULE = '#E7E3DB';
+const NAVY = '#3A2620'; // cocoa (Glass Skin Club)
+const GOLD = '#E3A493'; // glaze
+const INK = '#2E1E19';
+const MUTED = '#86706A';
+const RULE = '#ECDCD5';
 const SERIF = "Georgia, 'Times New Roman', Times, serif";
 const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
@@ -52,9 +52,9 @@ export function renderStockRequestConfirmation(data: StockRequestEmailData): {
   }
 </style>
 </head>
-<body style="margin:0;padding:0;background:#F6F4EF;">
+<body style="margin:0;padding:0;background:#F4E3DC;">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Your Korean skincare request is on our sourcing list.</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F6F4EF;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4E3DC;">
   <tr><td align="center" style="padding:32px 12px;">
     <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;background:#FFFFFF;">
       <tr>
@@ -99,7 +99,7 @@ export function renderStockRequestConfirmation(data: StockRequestEmailData): {
           <p style="margin:0;font-family:${SANS};font-size:12px;line-height:1.7;color:${MUTED};">
             Questions? Reply to this email or write to
             <a href="mailto:${SUPPORT_EMAIL}" style="color:${NAVY};">${SUPPORT_EMAIL}</a>.<br />
-            Skin Grocer · Epping, Victoria · Seoul Sourced. Skin Assured.
+            Skin Grocer · Epping, Victoria · Inner Beauty
           </p>
         </td>
       </tr>
@@ -124,7 +124,7 @@ export function renderStockRequestConfirmation(data: StockRequestEmailData): {
     '',
     `Shop what's in stock: ${SITE_URL}/shop`,
     `Questions: ${SUPPORT_EMAIL}`,
-    'Skin Grocer · Epping, Victoria · Seoul Sourced. Skin Assured.',
+    'Skin Grocer · Epping, Victoria · Inner Beauty',
   ]
     .filter((l) => l !== '')
     .join('\n');

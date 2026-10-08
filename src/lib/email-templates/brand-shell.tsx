@@ -2,11 +2,11 @@ import * as React from 'react'
 
 import { Body, Container, Head, Heading, Hr, Html, Link, Preview, Section, Text } from '@react-email/components'
 
-export const NAVY = '#1C2637'
-export const CREAM = '#F6F1E7'
-export const INK = '#1C1B18'
-export const MUTED = '#6B655B'
-export const RULE = '#E0D9CB'
+export const NAVY = '#3A2620' // cocoa (Glass Skin Club)
+export const CREAM = '#FBF6F2'
+export const INK = '#2E1E19'
+export const MUTED = '#86706A'
+export const RULE = '#ECDCD5'
 
 export const SITE_URL = 'https://skingrocer.com.au'
 export const SUPPORT_EMAIL = 'customercare@skingrocer.com.au'
@@ -48,7 +48,7 @@ const brandline = {
   fontSize: '10px',
   letterSpacing: '0.28em',
   textTransform: 'uppercase' as const,
-  color: '#BFAE9B',
+  color: '#E3A493',
 }
 const bodyPad = { padding: '28px 24px' }
 const h1 = { fontSize: '22px', fontWeight: 'bold' as const, color: INK, margin: '0 0 14px' }
@@ -71,7 +71,7 @@ export function BrandShell({
         <Container style={container}>
           <Section style={header}>
             <Text style={wordmark}>Skin Grocer</Text>
-            <Text style={brandline}>Seoul Sourced. Skin Assured.</Text>
+            <Text style={brandline}>Inner Beauty</Text>
           </Section>
           <Section style={bodyPad}>
             <Heading style={h1}>{heading}</Heading>
