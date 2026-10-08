@@ -1084,7 +1084,7 @@
 }
 
 :root:has([data-homepage-neutral]) .sg-awning {
-  --awning-a: #24365c;
+  --awning-a: #6a8ab5;
   --awning-b: var(--paper);
   filter: none;
 }
