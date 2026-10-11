@@ -127,3 +127,33 @@ describe('Routine Finder Question 6 — routine length is a preference, not a qu
     expect(out.totalCents).toBe(priced);
   });
 });
+
+describe('Current actives safeguard', () => {
+  const confident: QuizAnswers = { ...base, reactivity: 'rarely', experience: 'confident', depth: 'full', primaryConcern: 'acne' };
+
+  it('baseline: this profile normally includes an acid', () => {
+    expect(hasActive(buildRoutine(confident))).toBe(true);
+  });
+
+  it('adds no acid or retinoid when they already use one', () => {
+    const out = buildRoutine({ ...confident, currentActives: 'acids-retinoids' });
+    expect(hasActive(out)).toBe(false);
+    expect(out.profile.some((l) => /already use an exfoliating acid or retinoid/.test(l))).toBe(true);
+  });
+
+  it('adds no acid or retinoid and points to the prescriber for prescription treatments', () => {
+    const out = buildRoutine({ ...confident, currentActives: 'prescription' });
+    expect(hasActive(out)).toBe(false);
+    expect(out.profile.some((l) => /prescriber or pharmacist/.test(l))).toBe(true);
+  });
+
+  it('treats "not sure" the cautious way', () => {
+    expect(hasActive(buildRoutine({ ...confident, currentActives: 'unsure' }))).toBe(false);
+  });
+
+  it('leaves older answers without the field unchanged', () => {
+    const a = buildRoutine(confident).items.map((i) => i.product.priceId);
+    const b = buildRoutine({ ...confident, currentActives: 'none' }).items.map((i) => i.product.priceId);
+    expect(b).toEqual(a);
+  });
+});

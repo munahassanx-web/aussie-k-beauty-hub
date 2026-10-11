@@ -1,12 +1,14 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { trackUi } from "@/lib/analytics";
-import { QUIZ_QUESTION_COUNT, SKIN_FEEL, SKIN_FEEL_PROMPT, startQuizWith } from "@/lib/skin-quiz";
+import { QUIZ_QUESTION_COUNT, startQuizWith, type FaceZones } from "@/lib/skin-quiz";
+import type { SkinFeel } from "@/lib/routine-matching";
+import { FaceMap } from "@/components/face-map";
 
 const PROMISES = [
-  `${QUIZ_QUESTION_COUNT} one-tap questions`,
+  "Map your skin, zone by zone",
   "Morning and evening routine",
   "The reason for every step",
-  "Save it by email",
+  "No acids stacked on what you already use",
 ];
 
 /**
@@ -16,9 +18,9 @@ const PROMISES = [
 export function SkinQuizBanner() {
   const navigate = useNavigate();
 
-  const answer = (value: (typeof SKIN_FEEL)[number]["value"]) => {
-    trackUi("homepage_quiz_answer", { skin_feel: value });
-    startQuizWith(value);
+  const finish = (skinFeel: SkinFeel, zones: FaceZones) => {
+    trackUi("homepage_quiz_answer", { skin_feel: skinFeel });
+    startQuizWith(skinFeel, zones);
     void navigate({ to: "/consultation", search: {} });
   };
 
@@ -38,8 +40,9 @@ export function SkinQuizBanner() {
             <span className="italic text-paper/70">let your skin decide.</span>
           </h2>
           <p className="mt-5 max-w-md text-paper/70">
-            Tell us how your skin behaves and get a Korean skincare routine built from what we
-            stock, in the order you use it.
+            Tap where your skin gets shiny and where it feels tight, the way a skin therapist reads
+            it. A few quick questions later, you get a Korean skincare routine from what we stock,
+            in the order you use it.
           </p>
           <ul className="mt-7 grid max-w-md grid-cols-2 gap-x-6 gap-y-3 text-sm text-paper/85">
             {PROMISES.map((p) => (
@@ -55,46 +58,19 @@ export function SkinQuizBanner() {
         </div>
 
         <div className="rounded-[1.75rem] bg-paper p-6 text-ink shadow-[0_30px_60px_-30px_rgba(0,0,0,0.5)] md:p-8">
-          <div className="flex items-center justify-between gap-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink/55">
-              Question 1 of {QUIZ_QUESTION_COUNT}
-            </p>
-            <div aria-hidden className="h-1 w-24 overflow-hidden rounded-full bg-ink/10">
-              <div
-                className="h-full rounded-full bg-ink"
-                style={{ width: `${100 / QUIZ_QUESTION_COUNT}%` }}
-              />
-            </div>
-          </div>
-          <p className="mt-4 text-xl font-light leading-snug md:text-2xl">{SKIN_FEEL_PROMPT}</p>
-          <div className="mt-6 grid gap-2.5 sm:grid-cols-2">
-            {SKIN_FEEL.map((o) => (
-              <button
-                key={o.value}
-                type="button"
-                onClick={() => answer(o.value)}
-                className={`group rounded-2xl border border-ink/15 px-4 py-3.5 text-left transition-colors hover:border-ink hover:bg-ink hover:text-paper focus-visible:border-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/40 ${
-                  o.value === "unsure" ? "sm:col-span-2" : ""
-                }`}
-              >
-                <span className="block text-[15px] font-medium">{o.title}</span>
-                {o.value !== "unsure" && (
-                  <span className="mt-0.5 block text-xs text-ink/55 group-hover:text-paper/70">
-                    {o.hint}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-          <p className="mt-5 text-center text-xs text-ink/55">
-            Tap an answer to keep going, or{" "}
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink/55">
+            Question 1 of {QUIZ_QUESTION_COUNT} · map your skin
+          </p>
+          <FaceMap compact onComplete={finish} />
+          <p className="mt-5 text-xs text-ink/55">
+            Prefer words?{" "}
             <Link
               to="/consultation"
               search={{}}
               onClick={() => trackUi("homepage_quiz_open", {})}
               className="underline underline-offset-4 hover:text-ink"
             >
-              open the full quiz
+              Open the full quiz
             </Link>
             .
           </p>
