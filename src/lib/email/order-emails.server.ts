@@ -1,16 +1,16 @@
 /**
  * Skin Grocer transactional email design system — Glass Skin Club, server only.
  *
- * Signature device: THE AWNING. A blush and white striped awning with a
+ * Signature device: THE AWNING. A warm pearl and white striped awning with a
  * scalloped hem runs across the top of the email, the same edge that sits
- * under the website header. The white email card sits on a soft blush mat,
- * with cocoa type and buttons and glaze accents, matching the site.
+ * under the website header. The white email card sits on a soft warm pearl mat,
+ * with cocoa type and buttons and champagne accents, matching the homepage.
  *
  * The only pictures are the customer's actual ordered products, looked up in
  * the catalog by Stripe `lookupKey`.
  *
  * Awning artwork is a small PNG (public/email/sg-awning-*). The bar behind it
- * is solid blush, so with images blocked the top still reads as a soft band.
+ * is solid warm pearl, so with images blocked the top still reads as a soft band.
  *
  * Every value rendered here comes from a stored order row. Nothing is
  * estimated, promised or invented: no delivery dates, no stock claims, no
@@ -24,16 +24,16 @@ import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
 export const SITE_URL = 'https://skingrocer.com.au';
 export const SUPPORT_EMAIL = 'customercare@skingrocer.com.au';
 
-/* Glass Skin Club palette — the same values as the website. */
+/* Warm pearl palette, matching the homepage: champagne-ivory mat and awning, cocoa type and buttons. */
 const COCOA = '#3A2620'; // buttons, footer band
-const GLAZE = '#E3A493'; // fine accents and keylines
-const GLAZE_DEEP = '#9A5A47'; // accessible glaze for small text on white
-const BLUSH = '#F4E3DC'; // the mat the email card sits on
+const GLAZE = '#CDB89E'; // champagne: fine accents and keylines
+const GLAZE_DEEP = '#7E6A50'; // accessible champagne for small text on white
+const PEARL = '#F4EFE9'; // warm pearl: the mat the email card sits on
 const INK = '#2E1E19';
 const MUTED = '#86706A';
-const RULE = '#ECDCD5';
+const RULE = '#E8E1D9';
 const PAPER = '#FFFFFF';
-const COCOA_MUTED = '#D9C3B8'; // light text on the cocoa footer
+const COCOA_MUTED = '#D8CCBF'; // light text on the cocoa footer
 
 /** The Bodoni-style wordmark; everything else is a clean sans, like the site. */
 const WORDMARK = "'Bodoni 72', 'Bodoni MT', Didot, Georgia, serif";
@@ -160,26 +160,26 @@ const glazeDivider = (width = 54) =>
      <td width="${width}" style="width:${width}px;height:1px;line-height:1px;font-size:0;background-color:${GLAZE};">&nbsp;</td>
    </tr></table>`;
 
-/** The awning across the top of the email, on the blush mat. */
+/** The awning across the top of the email, on the warm pearl mat. */
 function frameBar(): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-    <tr><td class="sg-framebar" bgcolor="${BLUSH}" height="30" style="background-color:${BLUSH};height:30px;line-height:0;font-size:0;">
+    <tr><td class="sg-framebar" bgcolor="${PEARL}" height="30" style="background-color:${PEARL};height:30px;line-height:0;font-size:0;">
       <img src="${AWNING}" width="620" height="30" alt="" class="sg-hide-mobile" style="display:block;width:100%;max-width:620px;height:30px;border:0;" />
       <img src="${AWNING_MOBILE}" width="390" height="22" alt="" class="sg-show-mobile" style="display:none;width:100%;height:auto;border:0;mso-hide:all;" />
     </td></tr>
   </table>`;
 }
 
-/** Plain blush band closing the bottom of the mat. */
+/** Plain warm pearl band closing the bottom of the mat. */
 function frameFoot(): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-    <tr><td bgcolor="${BLUSH}" height="22" style="background-color:${BLUSH};height:22px;line-height:0;font-size:0;">&nbsp;</td></tr>
+    <tr><td bgcolor="${PEARL}" height="22" style="background-color:${PEARL};height:22px;line-height:0;font-size:0;">&nbsp;</td></tr>
   </table>`;
 }
 
-/** Side of the blush mat around the email card. */
+/** Side of the warm pearl mat around the email card. */
 function frameRail(): string {
-  return `<td class="sg-rail" width="22" valign="top" bgcolor="${BLUSH}" style="width:22px;background-color:${BLUSH};font-size:0;line-height:0;">&nbsp;</td>`;
+  return `<td class="sg-rail" width="22" valign="top" bgcolor="${PEARL}" style="width:22px;background-color:${PEARL};font-size:0;line-height:0;">&nbsp;</td>`;
 }
 
 function ctaButton(href: string, text: string): string {
@@ -263,7 +263,7 @@ function masthead(headline: string, statement: string, standfirst: string): stri
 /* ---------------------------------------------------------------- shell -- */
 
 /**
- * Full document shell. The awning runs across the top, a blush mat frames
+ * Full document shell. The awning runs across the top, a warm pearl mat frames
  * the white card with a soft keyline inside it, and everything —
  * masthead, order, assurances, footer — lives on white inside that frame.
  */
@@ -375,8 +375,8 @@ function productRow(line: OrderEmailLine, currency: string, showPrice: boolean):
   const thumb = product
     ? `<img src="${emailImageSrc(product.image)}" width="72" height="72" alt="${esc(
         `${product.brand} ${product.name}`,
-      )}" style="display:block;width:72px;height:72px;object-fit:cover;background-color:${BLUSH};" />`
-    : `<table role="presentation" width="72" height="72" cellpadding="0" cellspacing="0" border="0" bgcolor="${BLUSH}" style="background-color:${BLUSH};width:72px;height:72px;"><tr>
+      )}" style="display:block;width:72px;height:72px;object-fit:cover;background-color:${PEARL};" />`
+    : `<table role="presentation" width="72" height="72" cellpadding="0" cellspacing="0" border="0" bgcolor="${PEARL}" style="background-color:${PEARL};width:72px;height:72px;"><tr>
          <td align="center" valign="middle" style="font-family:${SANS};font-size:${
            line.amountCents === 0 ? '10px;letter-spacing:.18em;text-transform:uppercase' : '13px;letter-spacing:.10em'
          };color:${GLAZE_DEEP};">${esc(line.amountCents === 0 ? 'Gift' : (line.name.trim()[0] ?? 'S').toUpperCase())}</td></tr></table>`;
@@ -689,7 +689,7 @@ export function dispatchMessagePlainText(o: OrderEmailData): string | null {
 
 /**
  * Delivery confirmation. Same locked Option 1 system as the order confirmation:
- * white field, awning edge and blush mat, soft keyline, same masthead
+ * white field, awning edge and warm pearl mat, soft keyline, same masthead
  * and footer. Only the transactional copy, status and CTA change. Never claims
  * a delivery time or signature we do not hold.
  */

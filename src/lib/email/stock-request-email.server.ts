@@ -9,10 +9,10 @@
 import { SITE_URL, SUPPORT_EMAIL } from './order-emails.server';
 
 const NAVY = '#3A2620'; // cocoa (Glass Skin Club)
-const GOLD = '#E3A493'; // glaze
+const GOLD = '#CDB89E'; // champagne
 const INK = '#2E1E19';
 const MUTED = '#86706A';
-const RULE = '#ECDCD5';
+const RULE = '#E8E1D9';
 const SERIF = "Georgia, 'Times New Roman', Times, serif";
 const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
@@ -52,9 +52,9 @@ export function renderStockRequestConfirmation(data: StockRequestEmailData): {
   }
 </style>
 </head>
-<body style="margin:0;padding:0;background:#F4E3DC;">
+<body style="margin:0;padding:0;background:#F4EFE9;">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Your Korean skincare request is on our sourcing list.</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4E3DC;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4EFE9;">
   <tr><td align="center" style="padding:32px 12px;">
     <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;background:#FFFFFF;">
       <tr>

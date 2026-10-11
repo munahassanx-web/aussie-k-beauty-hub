@@ -6,7 +6,7 @@ export const NAVY = '#3A2620' // cocoa (Glass Skin Club)
 export const CREAM = '#FBF6F2'
 export const INK = '#2E1E19'
 export const MUTED = '#86706A'
-export const RULE = '#ECDCD5'
+export const RULE = '#E8E1D9'
 
 export const SITE_URL = 'https://skingrocer.com.au'
 export const SUPPORT_EMAIL = 'customercare@skingrocer.com.au'
@@ -48,7 +48,7 @@ const brandline = {
   fontSize: '10px',
   letterSpacing: '0.28em',
   textTransform: 'uppercase' as const,
-  color: '#E3A493',
+  color: '#CDB89E',
 }
 const bodyPad = { padding: '28px 24px' }
 const h1 = { fontSize: '22px', fontWeight: 'bold' as const, color: INK, margin: '0 0 14px' }
