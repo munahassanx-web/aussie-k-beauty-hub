@@ -220,7 +220,7 @@ export function GlassSkinHero() {
             onClick={() => trackUi("hero_routine_finder_click", { slide_id: "korea_bestsellers" })}
             className="inline-flex items-center rounded-full border-[1.5px] border-hanbok-deep px-7 py-4 text-[13px] font-bold uppercase tracking-[0.1em] text-hanbok-deep transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-hanbok focus-visible:ring-offset-2"
           >
-            Find my routine
+            Take the skin quiz
           </Link>
         </div>
         <a

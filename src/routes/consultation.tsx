@@ -15,6 +15,7 @@ import {
   type SkinFeel,
   type TexturePref,
 } from "@/lib/routine-matching";
+import { QUIZ_STORAGE_KEY, SKIN_FEEL, SKIN_FEEL_PROMPT } from "@/lib/skin-quiz";
 import type { Concern } from "@/lib/shop-catalog";
 import { askConsultantFollowUp, saveConsultationLead } from "@/lib/consultation.functions";
 
@@ -46,13 +47,6 @@ export const Route = createFileRoute("/consultation")({
 
 type Option<T extends string> = { value: T; title: string; hint?: string };
 
-const SKIN_FEEL: Option<SkinFeel>[] = [
-  { value: "dry", title: "Tight or dry", hint: "Feels tight after cleansing and may sometimes look or feel flaky." },
-  { value: "oily", title: "Shiny by midday", hint: "Shine returns not long after cleansing." },
-  { value: "combination", title: "A bit of both", hint: "Oilier around the nose and forehead, but drier or more comfortable elsewhere." },
-  { value: "balanced", title: "Mostly comfortable", hint: "Usually feels balanced, without persistent tightness or excess shine." },
-  { value: "unsure", title: "Not sure", hint: "That’s okay—the next questions will help narrow down your suggestions." },
-];
 
 const CONCERN_OPTIONS: Option<Concern>[] = [
   { value: "hydration", title: "Dryness or dehydration", hint: "Tightness, flaking or skin that quickly feels dry again." },
@@ -143,7 +137,7 @@ const EMPTY: Draft = {
   texture: null,
 };
 
-const STORAGE_KEY = "sg-consultation-v2";
+const STORAGE_KEY = QUIZ_STORAGE_KEY;
 
 function isComplete(d: Draft): d is Required<{ [K in keyof Draft]: NonNullable<Draft[K]> }> {
   return Object.values(d).every((v) => v !== null);
@@ -252,7 +246,7 @@ function ConsultationPage() {
             {phase === "feel" && (
               <Question
                 index={0}
-                prompt="How does your skin usually feel?"
+                prompt={SKIN_FEEL_PROMPT}
                 aside="No wrong answers — pick the one that sounds most like a normal day."
                 onBack={back}
                 onNext={draft.skinFeel ? next : null}

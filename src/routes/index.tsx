@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { RoutineFinderSection } from "@/components/routine-finder";
+import { SkinQuizBanner } from "@/components/skin-quiz-banner";
 import { lazy, Suspense, useEffect, useRef } from "react";
 import { trackUi } from "@/lib/analytics";
 import { useBuyNow } from "@/hooks/use-buy-now";
@@ -78,12 +78,13 @@ function HomePage() {
       <GlowWordBand />
       {/* 2. The six-product Edit */}
       <ProductShelf />
+      {/* The skin quiz, answerable right here */}
+      <SkinQuizBanner />
       {/* 3. Trust strip */}
       <div id="skin-grocer-promise"><Promise /></div>
       {/* 4. Shop by need */}
       <Reveal><ConcernNavigator /></Reveal>
       {/* 5. Compact routine help */}
-      <RoutineFinderSection />
       <Reveal><RoutineEdits /></Reveal>
       {/* 6. One proof section */}
       <Reveal><ProvenanceCard /></Reveal>

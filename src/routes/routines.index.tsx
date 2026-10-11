@@ -7,6 +7,7 @@ import {
   type RoutineEdit,
 } from '@/lib/routine-edits';
 import { RoutineEducation } from '@/components/routine-education';
+import { RoutineFinderSection } from '@/components/routine-finder';
 import { DailyRitualSection } from '@/components/daily-ritual';
 
 export const Route = createFileRoute('/routines/')({
@@ -135,6 +136,7 @@ function RoutinesIndex() {
         irritation persists, stop use and consider speaking with a pharmacist or doctor.
       </p>
     </div>
+    <RoutineFinderSection />
     <RoutineEducation />
     <DailyRitualSection />
     </>
