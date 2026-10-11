@@ -1,26 +1,26 @@
-import { useEffect, useState } from 'react';
-import QRCode from 'qrcode';
-import type { AdminOrderDetail } from '@/lib/admin-orders.functions';
-import { orderReference } from '@/lib/order-reference';
-import { SHOP_PRODUCTS, ingredientReviewed } from '@/lib/shop-catalog';
-import type { ShopProduct } from '@/lib/shop-catalog';
-import { ROUTINE_STEP_NAME, ROUTINE_STEP_NUMBER, heroIngredients } from '@/lib/product-detail';
-import { aisleFor } from '@/lib/aisles';
+import { useEffect, useState } from "react";
+import QRCode from "qrcode";
+import type { AdminOrderDetail } from "@/lib/admin-orders.functions";
+import { orderReference } from "@/lib/order-reference";
+import { SHOP_PRODUCTS, ingredientReviewed } from "@/lib/shop-catalog";
+import type { ShopProduct } from "@/lib/shop-catalog";
+import { ROUTINE_STEP_NAME, ROUTINE_STEP_NUMBER, heroIngredients } from "@/lib/product-detail";
+import { aisleFor } from "@/lib/aisles";
 
-const SITE_ORIGIN = 'https://skingrocer.com.au';
+const SITE_ORIGIN = "https://skingrocer.com.au";
 const ROUTINES_URL = `${SITE_ORIGIN}/routines`;
 
 /** Print colours for the aisle chips (the screen tokens live in styles.css). */
 const AISLE_INK: Record<string, string> = {
-  '01': '#ebc9c0',
-  '02': '#afcbdd',
-  '03': '#d9c3ae',
-  '04': '#b9c9a7',
-  '05': '#e8c27a',
+  "01": "#ebc9c0",
+  "02": "#afcbdd",
+  "03": "#d9c3ae",
+  "04": "#b9c9a7",
+  "05": "#e8c27a",
 };
 
-function money(cents: number, currency = 'AUD') {
-  return new Intl.NumberFormat('en-AU', { style: 'currency', currency }).format((cents ?? 0) / 100);
+function money(cents: number, currency = "AUD") {
+  return new Intl.NumberFormat("en-AU", { style: "currency", currency }).format((cents ?? 0) / 100);
 }
 
 export type ReceiptLine = {
@@ -40,7 +40,7 @@ export type ReceiptLine = {
  * weekly masks, then anything not in the catalogue, then gifts). A key
  * ingredient is printed only for products with a reviewed INCI record.
  */
-export function receiptLines(order: Pick<AdminOrderDetail, 'lines'>): ReceiptLine[] {
+export function receiptLines(order: Pick<AdminOrderDetail, "lines">): ReceiptLine[] {
   const rows = order.lines.map((l) => {
     const p: ShopProduct | undefined = l.lookupKey
       ? SHOP_PRODUCTS.find((c) => c.priceId === l.lookupKey)
@@ -49,18 +49,20 @@ export function receiptLines(order: Pick<AdminOrderDetail, 'lines'>): ReceiptLin
     const ing = p && ingredientReviewed(p) ? heroIngredients(p)[0] : undefined;
     const aisle = p ? aisleFor(p.concerns) : null;
     return {
-      name: p?.name ?? (gift ? l.name.replace(/^free gift:\s*/i, '') : l.name),
+      name: p?.name ?? (gift ? l.name.replace(/^free gift:\s*/i, "") : l.name),
       brand: p?.brand ?? null,
       quantity: l.quantity,
       amountCents: l.amountCents,
-      step: p ? (ROUTINE_STEP_NAME[p.category] ?? (p.category === 'Masks' ? 'Weekly mask' : null)) : null,
+      step: p
+        ? (ROUTINE_STEP_NAME[p.category] ?? (p.category === "Masks" ? "Weekly mask" : null))
+        : null,
       stepNumber: p ? (ROUTINE_STEP_NUMBER[p.category] ?? null) : null,
       aisle: aisle ? { number: aisle.number, name: aisle.name } : null,
       ingredient: ing ? (ing.korean ? `${ing.name} · ${ing.korean}` : ing.name) : null,
       gift,
     } satisfies ReceiptLine;
   });
-  const rank = (r: ReceiptLine) => (r.gift ? 99 : r.stepNumber ?? (r.step ? 50 : 90));
+  const rank = (r: ReceiptLine) => (r.gift ? 99 : (r.stepNumber ?? (r.step ? 50 : 90)));
   return rows
     .map((r, i) => ({ r, i }))
     .sort((a, b) => rank(a.r) - rank(b.r) || a.i - b.i)
@@ -78,10 +80,10 @@ export function SkinReceipt({ order }: { order: AdminOrderDetail }) {
   useEffect(() => {
     let cancelled = false;
     void QRCode.toDataURL(ROUTINES_URL, {
-      errorCorrectionLevel: 'M',
+      errorCorrectionLevel: "M",
       margin: 2,
       scale: 10,
-      color: { dark: '#2E1E19', light: '#FFFFFF' },
+      color: { dark: "#2E1E19", light: "#FFFFFF" },
     }).then((url) => {
       if (!cancelled) setQr(url);
     });
@@ -92,7 +94,7 @@ export function SkinReceipt({ order }: { order: AdminOrderDetail }) {
 
   const lines = receiptLines(order);
   const itemsCents = order.lines.reduce((sum, l) => sum + l.amountCents, 0);
-  const firstName = (order.shippingName ?? order.customerName ?? '').trim().split(/\s+/)[0] ?? '';
+  const firstName = (order.shippingName ?? order.customerName ?? "").trim().split(/\s+/)[0] ?? "";
 
   return (
     <div className="skin-receipt">
@@ -107,9 +109,13 @@ export function SkinReceipt({ order }: { order: AdminOrderDetail }) {
           <p className="skin-receipt__title">your skin receipt</p>
           <div className="skin-receipt__meta">
             <span>Order {orderReference(order.id)}</span>
-            <span>{new Date(order.createdAt).toLocaleDateString('en-AU')}</span>
+            <span>{new Date(order.createdAt).toLocaleDateString("en-AU")}</span>
           </div>
-          {firstName && <p className="skin-receipt__hello">for {firstName.toLowerCase()}, in the order you use them</p>}
+          {firstName && (
+            <p className="skin-receipt__hello">
+              for {firstName.toLowerCase()}, in the order you use them
+            </p>
+          )}
           <div className="skin-receipt__rule skin-receipt__rule--dash" />
 
           <ol className="skin-receipt__lines">
@@ -117,10 +123,17 @@ export function SkinReceipt({ order }: { order: AdminOrderDetail }) {
               <li key={`${l.name}-${i}`} className="skin-receipt__line">
                 <div className="skin-receipt__row">
                   <span className="skin-receipt__step">
-                    {l.gift ? 'gift' : l.stepNumber ? `step ${l.stepNumber}` : (l.step?.toLowerCase() ?? 'item')}
+                    {l.gift
+                      ? "gift"
+                      : l.stepNumber
+                        ? `step ${l.stepNumber}`
+                        : (l.step?.toLowerCase() ?? "item")}
                   </span>
                   {l.aisle && (
-                    <span className="skin-receipt__aisle" style={{ background: AISLE_INK[l.aisle.number] }}>
+                    <span
+                      className="skin-receipt__aisle"
+                      style={{ background: AISLE_INK[l.aisle.number] }}
+                    >
                       {l.aisle.number} {l.aisle.name}
                     </span>
                   )}
@@ -132,13 +145,15 @@ export function SkinReceipt({ order }: { order: AdminOrderDetail }) {
                     {l.quantity > 1 && <span className="skin-receipt__qty"> ×{l.quantity}</span>}
                   </span>
                   <span className="skin-receipt__dots" />
-                  <span className="skin-receipt__price">{l.amountCents === 0 ? 'free' : money(l.amountCents, order.currency)}</span>
+                  <span className="skin-receipt__price">
+                    {l.amountCents === 0 ? "free" : money(l.amountCents, order.currency)}
+                  </span>
                 </div>
                 {(l.step || l.ingredient) && (
                   <p className="skin-receipt__note">
-                    {l.step && !l.gift ? l.step.toLowerCase() : ''}
-                    {l.step && l.ingredient ? ' · ' : ''}
-                    {l.ingredient ? `key: ${l.ingredient}` : ''}
+                    {l.step && !l.gift ? l.step.toLowerCase() : ""}
+                    {l.step && l.ingredient ? " · " : ""}
+                    {l.ingredient ? `key: ${l.ingredient}` : ""}
                   </p>
                 )}
               </li>
@@ -147,20 +162,35 @@ export function SkinReceipt({ order }: { order: AdminOrderDetail }) {
 
           <div className="skin-receipt__rule skin-receipt__rule--dash" />
           <div className="skin-receipt__totals">
-            <p><span>items</span><span>{money(itemsCents, order.currency)}</span></p>
+            <p>
+              <span>items</span>
+              <span>{money(itemsCents, order.currency)}</span>
+            </p>
             <p>
               <span>delivery</span>
-              <span>{order.shippingCents === 0 ? 'free' : money(order.shippingCents, order.currency)}</span>
+              <span>
+                {order.shippingCents === 0 ? "free" : money(order.shippingCents, order.currency)}
+              </span>
             </p>
             {order.discountCents > 0 && (
-              <p><span>discount</span><span>−{money(order.discountCents, order.currency)}</span></p>
+              <p>
+                <span>discount</span>
+                <span>−{money(order.discountCents, order.currency)}</span>
+              </p>
             )}
-            <p className="skin-receipt__total"><span>total paid</span><span>{money(order.amountCents, order.currency)}</span></p>
+            <p className="skin-receipt__total">
+              <span>total paid</span>
+              <span>{money(order.amountCents, order.currency)}</span>
+            </p>
           </div>
           <div className="skin-receipt__rule skin-receipt__rule--dash" />
 
           <div className="skin-receipt__foot">
-            {qr ? <img src={qr} alt="" className="skin-receipt__qr" /> : <div className="skin-receipt__qr" />}
+            {qr ? (
+              <img src={qr} alt="" className="skin-receipt__qr" />
+            ) : (
+              <div className="skin-receipt__qr" />
+            )}
             <div>
               <p className="skin-receipt__foot-title">how to layer it</p>
               <p>Scan for routines and directions. Patch-test new products first.</p>
