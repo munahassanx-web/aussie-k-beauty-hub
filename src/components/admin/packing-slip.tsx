@@ -1,5 +1,6 @@
 import type { AdminOrderDetail } from '@/lib/admin-orders.functions';
 import { orderReference } from '@/lib/order-reference';
+import { SkinReceipt } from '@/components/admin/skin-receipt';
 
 function money(cents: number, currency = 'AUD') {
   return new Intl.NumberFormat('en-AU', { style: 'currency', currency }).format((cents ?? 0) / 100);
@@ -23,7 +24,7 @@ export function PackingSlip({ order }: { order: AdminOrderDetail }) {
       <header className="flex items-start justify-between border-b border-black pb-4">
         <div>
           <p className="font-display text-2xl">SKIN GROCER</p>
-          <p className="text-xs">Seoul Sourced. Skin Assured. · Dispatched from Melbourne, Australia</p>
+          <p className="text-xs">Korean skincare · Dispatched from Melbourne, Australia</p>
         </div>
         <div className="text-right text-xs">
           <p>Order {orderReference(order.id)}</p>
@@ -86,7 +87,7 @@ export function PackingSlip({ order }: { order: AdminOrderDetail }) {
           {[
             'All products picked and checked against the list above',
             'Seals intact, batch codes legible, no damage',
-            'How-to-Apply QR / order insert card included',
+            'Skin receipt (page 2) cut out and placed on top, plus the order insert card',
             'Packaging checked — void fill added, box sealed',
             order.trackingNumber
               ? `Shipping label attached (${order.shippingCarrier ?? 'carrier'} ${order.trackingNumber})`
@@ -106,6 +107,8 @@ export function PackingSlip({ order }: { order: AdminOrderDetail }) {
       <footer className="mt-6 border-t border-black pt-4 text-xs">
         <p>Questions about this parcel: customercare@skingrocer.com.au</p>
       </footer>
+
+      <SkinReceipt order={order} />
     </div>
   );
 }
