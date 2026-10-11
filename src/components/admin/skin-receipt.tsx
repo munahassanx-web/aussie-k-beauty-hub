@@ -10,15 +10,6 @@ import { aisleFor } from "@/lib/aisles";
 const SITE_ORIGIN = "https://skingrocer.com.au";
 const ROUTINES_URL = `${SITE_ORIGIN}/routines`;
 
-/** Print colours for the aisle chips (the screen tokens live in styles.css). */
-const AISLE_INK: Record<string, string> = {
-  "01": "#ebc9c0",
-  "02": "#afcbdd",
-  "03": "#d9c3ae",
-  "04": "#b9c9a7",
-  "05": "#e8c27a",
-};
-
 function money(cents: number, currency = "AUD") {
   return new Intl.NumberFormat("en-AU", { style: "currency", currency }).format((cents ?? 0) / 100);
 }
@@ -30,7 +21,7 @@ export type ReceiptLine = {
   amountCents: number;
   step: string | null;
   stepNumber: number | null;
-  aisle: { number: string; name: string } | null;
+  aisle: { number: string; name: string; bg: string } | null;
   ingredient: string | null;
   gift: boolean;
 };
@@ -57,7 +48,7 @@ export function receiptLines(order: Pick<AdminOrderDetail, "lines">): ReceiptLin
         ? (ROUTINE_STEP_NAME[p.category] ?? (p.category === "Masks" ? "Weekly mask" : null))
         : null,
       stepNumber: p ? (ROUTINE_STEP_NUMBER[p.category] ?? null) : null,
-      aisle: aisle ? { number: aisle.number, name: aisle.name } : null,
+      aisle: aisle ? { number: aisle.number, name: aisle.name, bg: aisle.bg } : null,
       ingredient: ing ? (ing.korean ? `${ing.name} · ${ing.korean}` : ing.name) : null,
       gift,
     } satisfies ReceiptLine;
@@ -130,10 +121,7 @@ export function SkinReceipt({ order }: { order: AdminOrderDetail }) {
                         : (l.step?.toLowerCase() ?? "item")}
                   </span>
                   {l.aisle && (
-                    <span
-                      className="skin-receipt__aisle"
-                      style={{ background: AISLE_INK[l.aisle.number] }}
-                    >
+                    <span className={`skin-receipt__aisle ${l.aisle.bg}`}>
                       {l.aisle.number} {l.aisle.name}
                     </span>
                   )}
