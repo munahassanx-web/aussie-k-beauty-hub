@@ -5,6 +5,7 @@ import splashWater from "@/assets/brand-splash/water.webp";
 import splashCream from "@/assets/brand-splash/cream.webp";
 import splashGel from "@/assets/brand-splash/gel.webp";
 import splashOil from "@/assets/brand-splash/oil.webp";
+import { BrandMarquee } from "@/components/brand-cabinet";
 
 export const Route = createFileRoute("/brands")({
   head: () => ({
@@ -125,6 +126,7 @@ function countFor(name: string) {
 
 function BrandsPage() {
   return (
+    <>
     <div className="mx-auto max-w-7xl px-6 py-20">
       <p className="text-xs uppercase tracking-[0.25em] text-primary">Shop by Brand</p>
       <h1 className="mt-3 text-5xl text-foreground md:text-7xl">13 hand-picked <em className="not-italic text-primary">brands</em>.</h1>
@@ -194,5 +196,7 @@ function BrandsPage() {
       </div>
 
     </div>
+    <BrandMarquee />
+    </>
   );
 }

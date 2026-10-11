@@ -5,6 +5,7 @@ import packingAsset from "@/assets/packing-wax-seal.png.asset.json";
 import warehouseStockAsset from "@/assets/warehouse-stock.png.asset.json";
 import deskFlatlay from "@/assets/founder-desk-flatlay.webp";
 import signatureAsset from "@/assets/signature-skin-grocer.webp";
+import { WhyPillars } from "@/components/why-pillars";
 
 
 export const Route = createFileRoute("/about")({
@@ -168,6 +169,8 @@ function About() {
           </div>
         </div>
       </section>
+
+      <WhyPillars />
 
       <section className="mx-auto max-w-3xl px-6 py-24 text-center">
         <h2 className="text-4xl text-foreground md:text-5xl">Ready to simplify your routine?</h2>

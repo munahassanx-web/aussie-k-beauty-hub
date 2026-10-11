@@ -6,6 +6,8 @@ import {
   routineProduct,
   type RoutineEdit,
 } from '@/lib/routine-edits';
+import { RoutineEducation } from '@/components/routine-education';
+import { DailyRitualSection } from '@/components/daily-ritual';
 
 export const Route = createFileRoute('/routines/')({
   head: () => ({
@@ -109,6 +111,7 @@ function RoutineCard({ edit }: { edit: RoutineEdit }) {
 
 function RoutinesIndex() {
   return (
+    <>
     <div className="mx-auto max-w-7xl px-6 py-16 md:py-24">
       <header className="max-w-2xl">
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">Routine edits</p>
@@ -132,5 +135,8 @@ function RoutinesIndex() {
         irritation persists, stop use and consider speaking with a pharmacist or doctor.
       </p>
     </div>
+    <RoutineEducation />
+    <DailyRitualSection />
+    </>
   );
 }
