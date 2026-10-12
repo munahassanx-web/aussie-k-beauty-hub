@@ -105,6 +105,8 @@
   --aisle-cica: #b9c9a7;
   --aisle-honey: #e8c27a;
   --glaze: #e3a493;          /* Glaze — the one accent */
+  --awning: #e6dfd7;         /* Warm pearl — the awning stripe on every page (Muna, 2026-10-12) */
+  --awning-light: #ffffff;   /* White — the alternate awning stripe, as on the homepage */
   --seal: #e6dfd7;           /* Warm pearl — the seal logo (chosen 2026-10-12) */
   --seal-ink: #3a2620;       /* Cocoa — the seal letters and frame */
   /* Grocery-list editorial accents, mapped onto the same family */
@@ -1154,15 +1156,9 @@
   background-color: var(--paper);
 }
 
-:root:has([data-homepage-neutral]) .sg-awning {
-  --awning-a: #e6dfd7;
-  --awning-b: var(--paper);
-  filter: drop-shadow(0 4px 8px rgba(74, 60, 52, 0.14));
-}
-
-/* Glassy water sheen over the neutral awning stripes, echoing the hero's
-   high-tech 3D bubbles: a soft top highlight and a slow specular sweep. */
-:root:has([data-homepage-neutral]) .sg-awning::after {
+/* Glassy water sheen over the warm pearl awning stripes, echoing the hero's
+   3D bubbles: a soft top highlight and a slow specular sweep. */
+.sg-awning::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -1179,16 +1175,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :root:has([data-homepage-neutral]) .sg-awning::after {
+  .sg-awning::after {
     animation: none;
   }
 }
 
-/* Awning edge: a blush and white striped canopy with a scalloped hem, like
-   the awning over a corner grocer. Used under the header and over the footer. */
+/* Awning edge: a warm pearl and white striped canopy with a scalloped hem, like
+   the awning over a corner grocer. Used under the header and over the footer
+   on every page. */
 .sg-awning {
-  --awning-a: #ecc9bd;
-  --awning-b: #fffdfb;
+  --awning-a: var(--awning);
+  --awning-b: var(--awning-light);
   position: relative;
   z-index: 1;
   height: 30px;
@@ -1197,7 +1194,7 @@
     radial-gradient(circle at 12px 18px, var(--awning-a) 11.5px, transparent 12px) 0 0 / 48px 30px repeat-x,
     radial-gradient(circle at 36px 18px, var(--awning-b) 11.5px, transparent 12px) 0 0 / 48px 30px repeat-x,
     repeating-linear-gradient(90deg, var(--awning-a) 0 24px, var(--awning-b) 24px 48px) 0 0 / 100% 18px no-repeat;
-  filter: drop-shadow(0 6px 6px rgba(58, 38, 32, 0.1));
+  filter: drop-shadow(0 4px 8px rgba(74, 60, 52, 0.14));
 }
 @media (max-width: 640px) {
   .sg-awning {

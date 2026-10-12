@@ -10,4 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Keep brand values in project memory and implement palette changes through semantic CSS tokens, not component colour literals, so the owner can revise colours without changing content.
-- Scope the owner's neutral homepage colour trial through its route marker, including shared chrome only while that route is mounted, so other pages retain their existing palette and no seasonal switching is introduced.
+- Scope the owner's neutral homepage colour trial through its route marker, including shared chrome only while that route is mounted, so other pages retain their existing palette and no seasonal switching is introduced. Exception: the awning edge is warm pearl on every page, via the `--awning` tokens (owner request, 2026-10-12).
