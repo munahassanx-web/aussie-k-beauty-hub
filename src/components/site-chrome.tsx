@@ -141,29 +141,29 @@ function AnnouncementBar({ suppressStockClaims = false }: { suppressStockClaims?
           reads as a polished signature strip rather than a flat rule. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,white_10%,transparent)_0%,transparent_42%),radial-gradient(58%_170%_at_50%_-50%,color-mix(in_oklab,var(--grocer-butter)_16%,transparent)_0%,transparent_72%)]"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,white_10%,transparent)_0%,transparent_42%),radial-gradient(58%_170%_at_50%_-50%,color-mix(in_oklab,var(--signal)_22%,transparent)_0%,transparent_72%)]"
       />
       {/* Champagne hairline under the band — the selling-point frame */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-grocer-butter/70 to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-signal/70 to-transparent"
       />
       {/* Slow champagne glint crossing the band — off under reduced motion */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 overflow-hidden"
       >
-        <div className="absolute -inset-y-10 left-0 w-1/4 motion-safe:animate-[sg-bar-glint_8s_ease-in-out_infinite] bg-[linear-gradient(105deg,transparent_0%,color-mix(in_oklab,var(--grocer-butter)_16%,transparent)_50%,transparent_100%)]" />
+        <div className="absolute -inset-y-10 left-0 w-1/4 motion-safe:animate-[sg-bar-glint_8s_ease-in-out_infinite] bg-[linear-gradient(105deg,transparent_0%,color-mix(in_oklab,var(--signal)_22%,transparent)_50%,transparent_100%)]" />
       </div>
 
       <div className="relative mx-auto flex min-h-[40px] max-w-7xl items-center px-4 py-1.5 md:min-h-[46px] md:px-6">
-        <span className="absolute left-6 top-1/2 hidden -translate-y-1/2 items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-paper md:flex">
-          <span className="h-1.5 w-1.5 rounded-full bg-grocer-butter" />
+        <span className="absolute left-6 top-1/2 hidden -translate-y-1/2 items-center gap-2 text-[10.5px] font-semibold uppercase tracking-[0.2em] text-signal md:flex">
+          <span className="h-1.5 w-1.5 rounded-full bg-signal" />
           AUD $ · Australia
         </span>
         <span className="absolute right-6 top-1/2 hidden -translate-y-1/2 items-center gap-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/90 md:flex">
-          <Link to="/track" className="transition-colors hover:text-grocer-butter">Track order</Link>
-          <Link to="/contact" className="transition-colors hover:text-grocer-butter">Help</Link>
+          <Link to="/track" className="transition-colors hover:text-signal">Track order</Link>
+          <Link to="/contact" className="transition-colors hover:text-signal">Help</Link>
         </span>
 
         {/* One selling point at a time, gentle fade; static under reduced motion */}
@@ -173,7 +173,7 @@ function AnnouncementBar({ suppressStockClaims = false }: { suppressStockClaims?
             return (
               <span
                 key={msg}
-                className={`absolute inset-x-0 top-0 flex h-5 items-center justify-center gap-2.5 whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.18em] ease-out motion-reduce:transition-none md:gap-3 md:text-[11.5px] md:tracking-[0.22em] ${
+                className={`absolute inset-x-0 top-0 flex h-5 items-center justify-center gap-2.5 whitespace-nowrap text-[11px] font-bold uppercase tracking-[0.18em] ease-out motion-reduce:transition-none md:gap-3 md:text-[12.5px] md:tracking-[0.22em] ${
                   i === active
                     ? "text-paper opacity-100 translate-y-0 transition-all duration-700 delay-200"
                     : "text-paper/80 opacity-0 -translate-y-1 transition-all duration-200"
@@ -182,7 +182,7 @@ function AnnouncementBar({ suppressStockClaims = false }: { suppressStockClaims?
               >
                 <Icon
                   aria-hidden="true"
-                  className="h-4 w-4 shrink-0 text-grocer-butter"
+                  className="h-[18px] w-[18px] shrink-0 text-signal"
                   strokeWidth={2.25}
                 />
                 {msg}
@@ -195,7 +195,7 @@ function AnnouncementBar({ suppressStockClaims = false }: { suppressStockClaims?
               <span
                 key={i}
                 className={`h-1 w-1 rounded-full transition-colors duration-300 ${
-                  i === active ? "bg-grocer-butter" : "bg-paper/30"
+                  i === active ? "bg-signal" : "bg-paper/30"
                 }`}
               />
             ))}
