@@ -242,8 +242,8 @@ function CheckoutReturn() {
             <span className="text-foreground">1.</span> We pick, check and pack your order in Melbourne.
           </li>
           <li>
-            <span className="text-foreground">2.</span> You’ll get a dispatch email with carrier tracking. Allow 1–3
-            business days in transit for most Australian addresses; remote postcodes can take longer.
+            <span className="text-foreground">2.</span> You’ll get a dispatch email with carrier tracking. Transit time
+            depends on your postcode; see the Australia Post estimate in your tracking email.
           </li>
           <li>
             <span className="text-foreground">3.</span> Each product has a step-by-step application guide on its

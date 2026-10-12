@@ -35,7 +35,7 @@ export const Route = createFileRoute("/consultation")({
       {
         property: "og:description",
         content:
-          "Tell us how your skin behaves and receive suggested AM and PM product suggestions from the Skin Grocer range — no jargon, no guesswork, no invented claims.",
+          "Tell us how your skin behaves and receive AM and PM product suggestions from the Skin Grocer range — no jargon, no guesswork, no invented claims.",
       },
       { property: "og:url", content: "https://skingrocer.com.au/consultation" },
       { property: "og:type", content: "website" },

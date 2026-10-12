@@ -174,7 +174,7 @@ export function SeoulShelfHero() {
 
           <p className="mt-8 max-w-md text-[15px] leading-relaxed text-shelf-muted">
             The Seoul shelf, curated like your weekly shop — every product verified at the source,
-            matched to your skin by a real consultation, and dispatched from Melbourne by morning.
+            matched to your skin by a real consultation, and dispatched from Melbourne.
           </p>
 
           <div className="mt-10 flex flex-wrap gap-4">

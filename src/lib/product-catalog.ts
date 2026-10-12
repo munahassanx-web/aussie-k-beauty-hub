@@ -47,12 +47,12 @@ export const PRODUCT_CATALOG: Record<string, CatalogEntry> = {
   torriden_divein_serum: {
     productId: "torriden_divein_serum",
     name: "DIVE-IN Low Molecular Hyaluronic Acid Serum",
-    brand: "Torriden",
+    brand: "TORRIDEN",
   },
   roundlab_1025_dokdo_cream: {
     productId: "roundlab_1025_dokdo_cream",
     name: "1025 Dokdo Cream",
-    brand: "Round Lab",
+    brand: "ROUND LAB",
   },
   skin1004_centella_ampoule: {
     productId: "skin1004_centella_ampoule",

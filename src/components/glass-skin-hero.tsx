@@ -73,7 +73,7 @@ const SLIDES: Slide[] = [
     image: "/products/torriden/dive-in-soothing-cream.webp",
     ko: "판테놀",
     en: "Panthenol",
-    hook: "The soothing cream from Torriden’s DIVE IN line.",
+    hook: "The soothing cream from TORRIDEN’s DIVE-IN line.",
     proof: "4.7★ from 27,000+ Hwahae reviews",
     plate: "/hero/plate-water.webp",
     pedestal: 0.8,

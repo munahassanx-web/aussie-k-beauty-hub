@@ -136,7 +136,7 @@ export function DispatchHero() {
             <p className="max-w-md text-[15px] font-light leading-relaxed text-paper/80">
               Answer a few questions and receive a thorough, skin-clinic-grade
               consultation — a personalised Korean routine with exact products,
-              order of use and why — sent free to your phone or email. Not a
+              order of use and why — saved free to your email. Not a
               two-question quiz. A real read of your skin.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-5">
@@ -159,10 +159,10 @@ export function DispatchHero() {
 
             <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[10px] font-medium uppercase tracking-[0.2em] text-paper/50">
               <span className="inline-flex items-center gap-1.5">
-                <BadgeCheck className="h-3.5 w-3.5" /> 100% authentic, checked in Seoul
+                <BadgeCheck className="h-3.5 w-3.5" /> 100% authentic, checked in Melbourne
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <Truck className="h-3.5 w-3.5" /> Next-day Melbourne dispatch
+                <Truck className="h-3.5 w-3.5" /> Same-day dispatch before 12pm
               </span>
             </div>
           </div>
@@ -198,7 +198,7 @@ export function DispatchHero() {
                   },
                   {
                     icon: Mail,
-                    title: "Sent to your phone or email",
+                    title: "Saved to your email",
                     line: "Yours to keep, shop from, and come back to.",
                   },
                 ].map((row, i) => (

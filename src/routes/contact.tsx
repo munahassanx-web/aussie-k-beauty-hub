@@ -141,7 +141,7 @@ function Contact() {
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">Hours</dt>
-              <dd className="mt-1 font-display text-xl text-foreground sm:text-2xl">Mon–Sat, 9am–6pm AEST</dd>
+              <dd className="mt-1 font-display text-xl text-foreground sm:text-2xl">Mon–Sat, 9am–6pm Melbourne time</dd>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-wider text-muted-foreground">Response time</dt>

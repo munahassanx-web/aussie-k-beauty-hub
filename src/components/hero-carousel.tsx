@@ -490,7 +490,7 @@ export function HeroCarousel() {
               "Sourced direct from Seoul",
               "Sealed & checked before dispatch",
               "Dispatched from Melbourne",
-              "Express AU shipping",
+              "Tracked Australia Post delivery",
               "Advisor-built routines",
             ].map((t) => (
               <span key={t} className="flex items-center gap-3 whitespace-nowrap">

@@ -21,8 +21,8 @@ export function ArticleProductPicks({ article }: { article: LearnArticle }) {
           Shop this article
         </p>
         <p className="mt-3 max-w-2xl text-[13.5px] leading-relaxed text-muted-foreground">
-          In-stock in our Melbourne warehouse — order by 12pm and it&rsquo;s on your doorstep
-          tomorrow across metro Australia.
+          In stock in our Melbourne warehouse. Order before 12pm and we aim to dispatch the same
+          business day.
         </p>
 
         <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">

@@ -11,7 +11,7 @@ export const Route = createFileRoute("/skin-concerns")({
   head: () => ({
     meta: [
       { title: "Skin Concerns — Skin Grocer" },
-      { name: "description", content: "Find Korean skincare matched to your concern — dryness, oiliness, pigmentation, sensitivity, anti-aging and acne. Expert guidance from our Australian team." },
+      { name: "description", content: "Find Korean skincare matched to your concern — dryness, oiliness, pigmentation, sensitivity, anti-ageing and acne. Expert guidance from our Australian team." },
       { property: "og:title", content: "Shop by Skin Concern — Skin Grocer" },
       { property: "og:url", content: "https://skingrocer.com.au/skin-concerns" },
     ],

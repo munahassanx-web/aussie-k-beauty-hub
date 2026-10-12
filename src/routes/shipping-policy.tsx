@@ -69,7 +69,7 @@ function ShippingPolicy() {
         <section>
           <h2 className="font-display text-2xl text-foreground">Order tracking</h2>
           <p className="mt-3 text-muted-foreground">
-            Every order ships with Australia Post tracking. Once your order is dispatched, you'll receive a tracking link by email. You can also check order status anytime at the{" "}
+            Every order ships with Australia Post tracking. Once your order is dispatched, you'll receive a tracking link by email. You can also check order status any time at the{" "}
             <Link to="/track" className="text-primary underline underline-offset-4 hover:no-underline">
               Track your order
             </Link>{" "}

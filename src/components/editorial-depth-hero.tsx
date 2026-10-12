@@ -158,7 +158,7 @@ export function EditorialDepthHero() {
 
           <p className="mt-7 max-w-md text-[15px] font-light leading-relaxed text-shelf-muted">
             Authentic Korean skincare, verified at the source and matched to your skin through a
-            free skin-clinic-grade consultation — then dispatched from Melbourne by morning.
+            free skin-clinic-grade consultation — then dispatched from Melbourne.
           </p>
 
           <div className="mt-10 flex flex-wrap gap-4">
@@ -201,7 +201,7 @@ export function EditorialDepthHero() {
             >
               <div className="rounded-2xl border border-shelf-line/40 bg-shelf-line/15 p-4 backdrop-blur-sm transition group-hover:border-shelf-gold/50">
                 <img src={dokdo.image} alt="" loading="lazy" className="mx-auto h-32 w-auto object-contain md:h-44" />
-                <p className="mt-2 text-center text-[8px] font-bold uppercase tracking-[0.2em] text-shelf-muted">Round Lab</p>
+                <p className="mt-2 text-center text-[8px] font-bold uppercase tracking-[0.2em] text-shelf-muted">ROUND LAB</p>
               </div>
               <span aria-hidden="true" className="mx-auto -mt-1 block h-3 w-[70%] rounded-[100%] bg-black/40 blur-lg" />
             </Link>
@@ -231,7 +231,7 @@ export function EditorialDepthHero() {
             >
               <div className="rounded-2xl border border-shelf-line/40 bg-shelf-line/20 p-4 backdrop-blur-md transition hover:border-shelf-gold/50">
                 <img src={medicube.image} alt="" loading="lazy" className="mx-auto h-32 w-auto object-contain md:h-48" />
-                <p className="mt-2 text-center text-[8px] font-bold uppercase tracking-[0.2em] text-shelf-muted">Medicube</p>
+                <p className="mt-2 text-center text-[8px] font-bold uppercase tracking-[0.2em] text-shelf-muted">MEDICUBE</p>
               </div>
               <span aria-hidden="true" className="mx-auto -mt-1 block h-3.5 w-[75%] rounded-[100%] bg-black/50 blur-lg" />
             </Link>
