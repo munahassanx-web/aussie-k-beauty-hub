@@ -105,6 +105,8 @@
   --aisle-cica: #b9c9a7;
   --aisle-honey: #e8c27a;
   --glaze: #e3a493;          /* Glaze — the one accent */
+  --seal: #e6dfd7;           /* Warm pearl — the seal logo (chosen 2026-10-12) */
+  --seal-ink: #3a2620;       /* Cocoa — the seal letters and frame */
   /* Grocery-list editorial accents, mapped onto the same family */
   --grocer-cream: #fbf6f2;
   --grocer-green: #3a2620;

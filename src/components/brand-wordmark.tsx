@@ -1,87 +1,81 @@
+import {
+  LOCKUP_VIEWBOX,
+  SEAL,
+  SEAL_GLYPHS,
+  SEAL_VIEWBOX,
+  WORDMARK,
+  WORDMARK_TRANSFORM,
+} from "@/components/brand-seal-art";
+
+/** The seal on its own: a warm pearl dojang stamped with ㅅㄱ (스킨 그로서). */
+function SealMark() {
+  const { x, y, size, radius, frameInset, frameRadius, frameStroke } = SEAL;
+  return (
+    <>
+      <rect x={x} y={y} width={size} height={size} rx={radius} style={{ fill: "var(--seal)" }} />
+      <rect
+        x={x + frameInset}
+        y={y + frameInset}
+        width={size - 2 * frameInset}
+        height={size - 2 * frameInset}
+        rx={frameRadius}
+        fill="none"
+        strokeWidth={frameStroke}
+        style={{ stroke: "var(--seal-ink)" }}
+      />
+      <path d={SEAL_GLYPHS} style={{ fill: "var(--seal-ink)" }} />
+    </>
+  );
+}
+
 /**
- * Primary brand identity: the SKIN GROCER wordmark, set in live text using a
- * high-contrast Didone editorial serif (Bodoni Moda) — thick vertical stems,
- * fine hairlines, sculpted serifs. Flat ink-black, never shadowed or embossed.
+ * Primary brand identity: the seal logo. A warm pearl Korean seal (ㅅㄱ) beside
+ * SKIN GROCER in widely spaced Marcellus capitals. The wordmark takes the current
+ * text colour; the seal takes the --seal and --seal-ink tokens.
  */
 export function BrandWordmark({
   size = "md",
   className = "",
   as: Tag = "span",
-  sub = false,
 }: {
   size?: "sm" | "md" | "lg" | "xl" | "display";
   className?: string;
   as?: "span" | "p" | "div";
-  /** Render the small, widely tracked INNER BEAUTY line beneath the wordmark. */
+  /** Kept for existing call sites; the seal lockup has no tagline line. */
   sub?: boolean;
 }) {
-  const scale =
+  const height =
     size === "display"
-      ? "text-[1.7rem] sm:text-[2.7rem] md:text-[3.3rem] lg:text-[3.8rem] tracking-[0.07em]"
+      ? "h-[34px] sm:h-[44px] md:h-[56px]"
       : size === "xl"
-        ? "text-[1.9rem] md:text-[2.5rem] tracking-[0.09em]"
+        ? "h-[40px] md:h-[50px]"
         : size === "lg"
-          ? "text-[1.45rem] md:text-[1.75rem] tracking-[0.09em]"
+          ? "h-[32px] md:h-[38px]"
           : size === "sm"
-            ? "text-[1rem] tracking-[0.1em]"
-            : "text-[1.05rem] tracking-[0.09em] md:text-[1.35rem]";
-
-  const subScale =
-    size === "display"
-      ? "text-[9px] md:text-[12px]"
-      : size === "xl"
-        ? "text-[10px]"
-        : size === "sm"
-          ? "text-[7px]"
-          : "text-[8px] md:text-[9px]";
-
-  const mark = (
-    <span
-      className={`block font-masthead uppercase leading-[0.9] whitespace-nowrap ${scale}`}
-      style={{
-        fontWeight: 900,
-        fontOpticalSizing: "auto",
-        fontVariationSettings: '"opsz" 96',
-        textShadow: "none",
-      }}
-    >
-      Skin Grocer
-    </span>
-  );
-
-
-  if (!sub) {
-    return (
-      <Tag className={`inline-block ${className}`}>
-        {mark}
-      </Tag>
-    );
-  }
+            ? "h-[26px]"
+            : "h-[28px] md:h-[34px]";
 
   return (
-    <Tag className={`inline-block ${className}`}>
-      {mark}
-      <span
-        className={`flex items-center justify-center ${size === "display" ? "mt-2 gap-3 md:mt-3 md:gap-5" : "mt-1.5 gap-2"}`}
-        aria-hidden="true"
+    <Tag className={`inline-block align-middle ${className}`}>
+      <svg
+        viewBox={LOCKUP_VIEWBOX}
+        className={`block w-auto ${height}`}
+        role="img"
+        aria-label="Skin Grocer"
       >
-        <span
-          className={`h-px flex-none ${size === "display" ? "w-6 md:w-10" : "w-4"}`}
-          style={{ background: "var(--glaze)" }}
-        />
-        <span
-          className={`font-body font-medium uppercase leading-none ${subScale}`}
-          style={{ letterSpacing: "0.4em", textIndent: "0.4em", color: "currentColor" }}
-        >
-          Inner Beauty
-        </span>
-        <span
-          className={`h-px flex-none ${size === "display" ? "w-6 md:w-10" : "w-4"}`}
-          style={{ background: "var(--glaze)" }}
-        />
-      </span>
-
+        <SealMark />
+        <path d={WORDMARK} transform={WORDMARK_TRANSFORM} fill="currentColor" />
+      </svg>
     </Tag>
+  );
+}
+
+/** The seal alone, for tight spots such as app icons and avatars. */
+export function BrandSeal({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox={SEAL_VIEWBOX} className={className} role="img" aria-label="Skin Grocer">
+      <SealMark />
+    </svg>
   );
 }
 
