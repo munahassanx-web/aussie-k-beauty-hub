@@ -1042,6 +1042,13 @@
   100% { transform: translateX(420%); }
 }
 
+/* Announcement bar: a slow champagne glint crossing the black trust band */
+@keyframes sg-bar-glint {
+  0% { transform: translateX(-140%); }
+  60% { transform: translateX(360%); }
+  100% { transform: translateX(360%); }
+}
+
 /* Glass Skin Club motion: gentle product float and the glow-word band */
 @keyframes sg-bob {
   50% { transform: translateY(-12px) rotate(-1deg); }
