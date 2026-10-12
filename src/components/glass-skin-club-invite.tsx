@@ -16,7 +16,7 @@ export function GlassSkinClubInvite() {
           THE GLASS SKIN CLUB · 물광
         </p>
         <h2 className="mt-4 display-section text-ink">
-          join the club. <span className="italic text-hanbok-deep">skip the noise.</span>
+          Join the club. <span className="italic text-hanbok-deep">Skip the noise.</span>
         </h2>
         <p className="mx-auto mt-5 max-w-xl text-ink/70">
           For people who want Korean skincare explained simply: what is new, what it does and where

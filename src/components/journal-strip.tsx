@@ -15,8 +15,8 @@ export function JournalStrip() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-clay">
               The Seoul Signal · every fortnight
             </p>
-            <h2 id="journal-strip-heading" className="mt-3 text-[clamp(1.9rem,3vw,2.6rem)] font-light lowercase leading-tight tracking-[-0.03em]">
-              what korea is talking about this fortnight.
+            <h2 id="journal-strip-heading" className="mt-3 text-[clamp(1.9rem,3vw,2.6rem)] font-light leading-tight tracking-[-0.03em]">
+              What Korea is talking about this fortnight.
             </h2>
           </div>
           <Link
