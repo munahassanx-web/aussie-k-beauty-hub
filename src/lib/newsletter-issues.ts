@@ -80,6 +80,10 @@ export type NewsletterIssue = {
     image: string;
     imageAlt: string;
     body: string[];
+    /** Learn article slug for a "read the full guide" link; omit when no guide fits. */
+    guideSlug?: string;
+    /** Optional override for that link's label. */
+    guideLabel?: string;
   };
 
   weTriedIt?: {
@@ -123,7 +127,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       question: "Why do the quieter formulas gaining attention in Korea rarely go viral here?",
       body: [
         "Products receiving attention from Korean customers do not always match those promoted most heavily to international audiences. Export-facing launches may receive more influencer promotion, attention-grabbing packaging and hero-ingredient messaging. Korean beauty platforms also surface quieter products through rankings and customer-review activity. These groups can overlap, but they are not always the same.",
-        "AESTURA is the cleanest example. It's an Amorepacific brand, and its Atobarrier365 line receives steady ranking and review activity on Korean beauty platforms and is almost invisible in Australian conversation, because a ceramide cream in a white tube is not a TikTok asset.",
+        "AESTURA is the cleanest example. It's an Amorepacific brand, and its Atobarrier365 line receives steady ranking and review activity on Korean beauty platforms and is still little known in Australia, because a ceramide cream in a white tube is not a TikTok asset.",
         "One editorial question we ask before stocking something: is this a formula with a clear, everyday routine role, rather than a trend-led product built around a single claim? In our experience, many trending launches don't meet that bar. Fragrance-heavy essences and serums with long active lists tend to fall away. What's left is usually shorter ingredient lists and formulas intended for consistent daily use.",
         "If you've been disappointed by a few viral products already: a simpler formula with a clear routine role may be a more practical place to restart. It's often lower-priced and may have a shorter ingredient list. This is an editorial observation, not medical advice — if you have a skin condition, speak with a doctor or pharmacist.",
       ],
@@ -136,7 +140,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         reasons: [
           "Ceramide-led moisturiser with a simple barrier-support role",
           "Listed without added fragrance or colourants",
-          "Receiving steady review attention in Korea, still barely known in Australia",
+          "Receiving steady review attention in Korea, still little known in Australia",
         ],
       },
     },
@@ -158,7 +162,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       ],
     },
     aisle: [
-      { emoji: "🥛", concern: "Tight after cleansing", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", why: "Low-pH, low-foam. Designed to cleanse without leaving skin feeling unnecessarily stripped.", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
+      { emoji: "🥛", concern: "Tight after cleansing", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", why: "Low-pH, gentle lather. Designed to cleanse without leaving skin feeling unnecessarily stripped.", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
       { emoji: "🌿", concern: "Easily unsettled", pick: "Cicaful Ampoule 30ml", brand: "beplain", why: "Centella-led and listed without added fragrance. A short, simple formula.", image: "/products/beplain/cicaful-ampoule-30ml.webp" },
       { emoji: "💧", concern: "Dehydrated but oily", pick: "Aqua Oasis Moisturizing Gel", brand: "S.NATURE", why: "Humectant gel with no heavy occlusive — hydration without the film.", image: "/products/s-nature/aqua-oasis-moisturizing-gel.webp" },
       { emoji: "🧴", concern: "Barrier comfort", pick: "Atobarrier 365 Hydro Soothing Cream", brand: "AESTURA", why: "The lighter Atobarrier for warm weather. A similar barrier-support focus, less weight.", image: "/products/aestura/atobarrier-365-hydro-soothing-cream.webp" },
@@ -230,12 +234,12 @@ export const newsletterIssues: NewsletterIssue[] = [
         name: "Glow Serum: Propolis + Niacinamide 30ml",
         brand: "Beauty of Joseon",
         price: "A$34",
-        image: "/__l5e/assets-v1/d5d743cf-0c9b-4181-8715-2aa3dc4426c3/boj-glow-serum-propolis.png",
+        image: "/__l5e/assets-v1/bab0fc3b-47f9-4850-b1d1-11c47b6d023d/boj-glow-serum-propolis.webp",
         note: "Niacinamide with propolis extract — the low-irritation end of brightening, which is the end that works long-term.",
         reasons: [
           "Niacinamide is one of the few brightening actives that rarely irritates",
           "Comfortable enough to use daily for the eight to twelve weeks it actually takes",
-          "Layers under sunscreen without pilling — the step that protects the result",
+          "Light enough to layer under sunscreen",
         ],
       },
     },
@@ -250,16 +254,15 @@ export const newsletterIssues: NewsletterIssue[] = [
       shouldAussiesCare:
         "Yes — as your default daily brightener, not your hero. If a product lists niacinamide high in the ingredients, you're likely in a useful range. If your skin flushes on it, drop to a lower-percentage formula rather than abandoning the ingredient; the flush is usually dose, not allergy.",
       tryIt: [
-        { name: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", price: "A$34", image: "/__l5e/assets-v1/d5d743cf-0c9b-4181-8715-2aa3dc4426c3/boj-glow-serum-propolis.png", note: "The daily one." },
+        { name: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", price: "A$34", image: "/__l5e/assets-v1/bab0fc3b-47f9-4850-b1d1-11c47b6d023d/boj-glow-serum-propolis.webp", note: "The daily one." },
         { name: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", price: "A$26", image: "/products/isntree/green-tea-fresh-toner-200ml.webp", note: "Green tea polyphenols — antioxidant support under SPF." },
         { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "A$18", image: "/products/round-lab/1025-dokdo-toner-100ml.webp", note: "Hydration base so you can tolerate an active daily." },
       ],
     },
     aisle: [
-      { emoji: "☀️", concern: "Sun-triggered spots", pick: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", why: "The only step that stops the trigger. Everything else is maintenance.", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp" },
-      { emoji: "🍯", concern: "Dull with uneven tone", pick: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", why: "Daily niacinamide, low irritation, safe to run for months.", image: "/__l5e/assets-v1/d5d743cf-0c9b-4181-8715-2aa3dc4426c3/boj-glow-serum-propolis.png" },
-      { emoji: "🌱", concern: "Post-acne marks", pick: "Chestnut BHA 2% Clear Liquid 100ml", brand: "ISNTREE", why: "Clears the congestion causing new marks. Two to three nights a week, not daily.", image: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.webp" },
-      { emoji: "🍵", concern: "Redness plus pigment", pick: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", why: "Calms the inflammation that keeps generating fresh pigment.", image: "/products/isntree/green-tea-fresh-toner-200ml.webp" },
+      { emoji: "🍯", concern: "Dull with uneven tone", pick: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", why: "Daily niacinamide, low irritation, safe to run for months.", image: "/__l5e/assets-v1/bab0fc3b-47f9-4850-b1d1-11c47b6d023d/boj-glow-serum-propolis.webp" },
+      { emoji: "🌱", concern: "Feels congested", pick: "Green Plum Refreshing Toner: AHA + BHA 150ml", brand: "Beauty of Joseon", why: "An AHA + BHA exfoliating toner for skin that feels congested. Two to three nights a week, not daily.", image: "/products/beauty-of-joseon/green-plum-refreshing-toner-aha-bha-150ml.webp" },
+      { emoji: "🍵", concern: "Redness plus pigment", pick: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", why: "A soothing, hydrating toner that pairs well with a brightening step.", image: "/products/isntree/green-tea-fresh-toner-200ml.webp" },
       { emoji: "🌙", concern: "Fine lines with dark spots", pick: "Revive Eye Serum: Ginseng + Retinal 30ml", brand: "Beauty of Joseon", why: "Low-dose retinal, used sparingly. Retinoids are the strongest evidence base we have.", image: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.webp" },
     ],
     fiveMinute: {
@@ -268,20 +271,21 @@ export const newsletterIssues: NewsletterIssue[] = [
       steps: [
         { step: "01 · Cleanse", what: "Gentle, low-pH. Scrubbing pigment does nothing except make more of it.", pick: "Yam Root Vegan Milk Cleanser 220ml", brand: "ISNTREE", image: "/products/isntree/yam-root-vegan-milk-cleanser-220ml.webp" },
         { step: "02 · Hydrate", what: "Damp skin, one pass. Hydrated skin tolerates actives better.", pick: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", image: "/products/isntree/green-tea-fresh-toner-200ml.webp" },
-        { step: "03 · Brighten", what: "Niacinamide serum, morning. Every day for at least eight weeks.", pick: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", image: "/__l5e/assets-v1/d5d743cf-0c9b-4181-8715-2aa3dc4426c3/boj-glow-serum-propolis.png" },
-        { step: "04 · Protect", what: "SPF, generously, reapplied when you're outdoors. This is the treatment.", pick: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp" },
+        { step: "03 · Brighten", what: "Niacinamide serum, morning. Every day for at least eight weeks.", pick: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", image: "/__l5e/assets-v1/bab0fc3b-47f9-4850-b1d1-11c47b6d023d/boj-glow-serum-propolis.webp" },
+        { step: "04 · Moisturise", what: "A light cream to finish. During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia and follow its labelled directions.", pick: "Aqua Squalane Moisturizing Cream", brand: "S.NATURE", image: "/products/s-nature/aqua-squalane-moisturizing-cream.webp" },
       ],
       closer:
-        "If you only do one of these four, do the sunscreen. It out-performs every brightening serum ever sold, including the ones we stock.",
+        "If you only do one thing consistently, make it daily sun protection — brightening steps work best alongside it.",
     },
     everyone: {
       topic: "Pigmentation on deeper skin tones",
       image: portraitDeep,
       imageAlt: "Portrait of a woman with deep skin tone and even, healthy complexion",
+      guideSlug: "deeper-skin-tones-k-beauty",
       body: [
         "On deeper skin, the mark is usually caused by the treatment, not the original blemish. More active melanocytes means any inflammation — a strong acid, a retinoid ramped too fast, a scrub, picking — can leave a new dark mark that lasts longer than the thing you were treating.",
         "So the order of operations inverts. Calm first, brighten second, exfoliate last and least. Niacinamide, tranexamic acid, alpha-arbutin and liquorice root are the low-irritation end of the shelf and the right starting point. Introduce one at a time, two to three nights a week, and give it a month before judging.",
-        "Sunscreen choice matters more here too. Korean chemical and hybrid filters generally leave no grey cast, which is exactly why we stock them — a sunscreen you'll actually wear every day beats a high-zinc one you skip.",
+        "Sunscreen choice matters more here too. Many modern filters leave little or no cast on deeper skin; choose an Australian-listed (AUST L) broad-spectrum sunscreen you'll wear daily.",
         "If pigment is patchy, symmetrical across the cheeks and worsens with heat, that pattern is often melasma rather than post-inflammatory pigmentation, and it's worth seeing a dermatologist. Melasma is manageable, not curable, and it punishes aggressive treatment more than almost anything else.",
       ],
     },
@@ -289,6 +293,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       product: "Green Tea Fresh Toner 200ml",
       brand: "ISNTREE",
       duration: "4 weeks, one tester with combination skin",
+      method: "Informal use by one member of our team over the period shown; not a clinical test.",
       image: "/products/isntree/green-tea-fresh-toner-200ml.webp",
       scores: [
         { label: "Comfort", value: "9/10" },
@@ -302,10 +307,9 @@ export const newsletterIssues: NewsletterIssue[] = [
     basket: {
       forWho: "For pigmentation and uneven tone",
       items: [
-        { name: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", price: "A$34", image: "/__l5e/assets-v1/d5d743cf-0c9b-4181-8715-2aa3dc4426c3/boj-glow-serum-propolis.png", note: "The daily brightener." },
-        { name: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", price: "A$26", image: "/products/isntree/green-tea-fresh-toner-200ml.webp", note: "Calm the trigger." },
-        { name: "Chestnut BHA 2% Clear Liquid 100ml", brand: "ISNTREE", price: "A$36", image: "/products/isntree/chestnut-bha-2-percent-clear-liquid-100ml.webp", note: "Fewer new marks." },
-        { name: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", price: "A$10", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp", note: "Protect the result." },
+        { name: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", price: "A$34", image: "/__l5e/assets-v1/bab0fc3b-47f9-4850-b1d1-11c47b6d023d/boj-glow-serum-propolis.webp", note: "The daily brightener." },
+        { name: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", price: "A$26", image: "/products/isntree/green-tea-fresh-toner-200ml.webp", note: "Soothing, hydrating base." },
+        { name: "Green Plum Refreshing Toner: AHA + BHA 150ml", brand: "Beauty of Joseon", price: "A$32", image: "/products/beauty-of-joseon/green-plum-refreshing-toner-aha-bha-150ml.webp", note: "For the nights you exfoliate." },
       ],
     },
     askTheGrocer: {
@@ -313,7 +317,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       options: [
         "Vitamin C: which form actually works?",
         "Is tranexamic acid better than niacinamide?",
-        "How do I treat melasma without making it worse?",
+        "Melasma: when to see a dermatologist",
         "Do LED masks do anything for pigment?",
       ],
     },
@@ -368,7 +372,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       ],
     },
     aisle: [
-      { emoji: "💉", concern: "Post-treatment skin", pick: "Hyper PDRN Repair Ampoule 30ml", brand: "WELLAGE", why: "Calm, hydrating and fragrance-free — safe on skin that's had enough.", image: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.webp" },
+      { emoji: "💧", concern: "Over-exfoliated", pick: "Hyper PDRN Repair Ampoule 30ml", brand: "WELLAGE", why: "A gentle, fragrance-free hydrating layer.", image: "/products/wellage/hyper-pdrn-repair-ampoule-30ml.webp" },
       { emoji: "👁️", concern: "Crepey under-eyes", pick: "PDRN Pink Peptide Eye Cream 30ml", brand: "MEDICUBE", why: "Thin skin shows dehydration first. This is a hydration fix that looks like a firming one.", image: "/products/medicube/pdrn-pink-peptide-eye-cream-30ml.webp" },
       { emoji: "🫧", concern: "Visible pores", pick: "One Day Exosome Shot Pore Serum 2000 30ml", brand: "MEDICUBE", why: "Light texture, smoothing finish. Pores don't close — they can look tidier.", image: "/products/medicube/one-day-exosome-shot-pore-serum-2000-30ml.webp" },
       { emoji: "🧊", concern: "Redness after actives", pick: "PDRN Pink Cica Soothing Toner 250ml", brand: "MEDICUBE", why: "Centella-led toner to reset a face you've pushed too hard.", image: "/products/medicube/pdrn-pink-cica-soothing-toner-250ml.webp" },
@@ -401,6 +405,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       product: "PDRN Pink Peptide Eye Cream 30ml",
       brand: "MEDICUBE",
       duration: "4 weeks, one tester in her forties",
+      method: "Informal use by one member of our team over the period shown; not a clinical test.",
       image: "/products/medicube/pdrn-pink-peptide-eye-cream-30ml.webp",
       scores: [
         { label: "Texture", value: "8/10" },
@@ -441,12 +446,12 @@ export const newsletterIssues: NewsletterIssue[] = [
     coverAlt:
       "ROUND LAB toner, TORRIDEN Dive In Soothing Cream and Dr.G soothing foam lined up as a four-step routine",
     standfirst:
-      "Nobody in Seoul is doing ten steps on a Tuesday. What replaced it is shorter, cheaper and far better suited to a woman with a job, kids and four minutes — here's the structure, and the two steps most people should delete.",
+      "Plenty of people in Seoul skip the ten steps on a Tuesday. What replaced it is shorter, cheaper and far better suited to a woman with a job, kids and four minutes — here's the structure, and the two steps most people should delete.",
     bigQuestion: {
       question: "How many steps do you actually need?",
       body: [
         "Four, most nights. Cleanse, hydrate, treat, seal — plus sunscreen in the morning. The ten-step routine was a Western retelling of a Korean marketing era that Korea itself moved past years ago; the current domestic conversation is about 'skip care' and 'skin minimalism', with multi-function products replacing single-function ones.",
-        "The reason isn't laziness — it's that more steps means more chances to irritate. Every additional product adds preservatives, fragrance, surfactants and actives that can interact. The most common skin problem we see in customer emails isn't dryness or acne. It's a barrier wrecked by too many products used too often, which then gets treated with another product.",
+        "The reason isn't laziness — it's that more steps means more chances to irritate. Every additional product adds preservatives, fragrance, surfactants and actives that can interact. One of the most common questions we hear isn't about dryness or breakouts. It's about skin that feels worn down by too many products used too often — and then gets another product added on top.",
         "The two steps most people should delete first: the second exfoliant, and the essence that duplicates a serum you already own. If you're using an acid toner and a scrub and a retinoid, you have three exfoliating steps and a compromised barrier. If your essence and your HA serum are both watery humectants, you're paying twice for one job.",
         "What's worth keeping when you do have time: a proper oil cleanse at night if you wear sunscreen and makeup (and you should be wearing sunscreen), and an occasional mask. Those are additions with a clear purpose. Everything else has to justify its place.",
       ],
@@ -457,7 +462,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         image: "/products/torriden/dive-in-soothing-cream.webp",
         note: "One cream that hydrates, soothes and seals — the multi-function step that lets you delete two others.",
         reasons: [
-          "Low-molecular hyaluronic acid plus centella in one step",
+          "Multi-weight hyaluronic acid with panthenol and allantoin in one step",
           "Light enough for humid nights, sufficient for most skin in winter",
           "Fragrance-free, so it doesn't compete with anything else in the routine",
         ],
@@ -472,7 +477,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       whyKoreansLove:
         "Time, money and irritation, in that order. It also suits the way Korean women actually shop — high repurchase of a small number of trusted staples rather than a rotating cast of new heroes.",
       shouldAussiesCare:
-        "Especially here. Our climate swings hard between a dry, air-conditioned winter and a humid, high-UV summer, and a bloated routine is far harder to adjust than a four-step one. Fewer products also makes it possible to identify the culprit when something goes wrong — which is impossible with eleven.",
+        "Especially here. Our climate swings hard between a dry, air-conditioned winter and a humid, high-UV summer, and a bloated routine is far harder to adjust than a four-step one. Fewer products also make it possible to identify the culprit when something goes wrong — which is impossible with eleven.",
       tryIt: [
         { name: "1025 Dokdo Toner + Lotion Special Set (200ml + 200ml)", brand: "ROUND LAB", price: "A$45", image: "/products/round-lab/1025-dokdo-toner-plus-lotion-special-set.webp", note: "Two steps, one purchase, both fragrance-free." },
         { name: "Dive In Trial Kit (Global)", brand: "TORRIDEN", price: "A$35", image: "/products/torriden/dive-in-trial-kit.webp", note: "A whole minimal routine in travel sizes before you commit." },
@@ -492,7 +497,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       steps: [
         { step: "01 · Cleanse", what: "Once at night. Add an oil cleanse first only if you wore sunscreen and makeup.", pick: "Balanceful Cleansing Gel", brand: "TORRIDEN", image: "/products/torriden/balanceful-cleansing-gel.webp" },
         { step: "02 · Hydrate", what: "Onto damp skin, within a minute of washing. This is the step that does the most.", pick: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", image: "/products/round-lab/1025-dokdo-toner-100ml.webp" },
-        { step: "03 · Treat", what: "One active, some nights. Not three, not nightly, not while your skin stings.", pick: "Dive In Serum", brand: "TORRIDEN", image: "/products/torriden/dive-in-serum.webp" },
+        { step: "03 · Hydrate+", what: "A second hydrating layer on damp skin. If you use an active, it's one, some nights — not three, not nightly, not while your skin stings.", pick: "Dive In Serum", brand: "TORRIDEN", image: "/products/torriden/dive-in-serum.webp" },
         { step: "04 · Seal", what: "Cream at night; SPF instead in the morning, over a lighter moisturiser.", pick: "Dive In Soothing Cream", brand: "TORRIDEN", image: "/products/torriden/dive-in-soothing-cream.webp" },
       ],
       closer:
@@ -513,6 +518,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       product: "1025 Dokdo Lotion 200ml",
       brand: "ROUND LAB",
       duration: "3 weeks, two testers, morning and night",
+      method: "Informal use by one member of our team over the period shown; not a clinical test.",
       image: "/products/round-lab/1025-dokdo-lotion-200ml.webp",
       scores: [
         { label: "Absorption", value: "9/10" },
@@ -528,7 +534,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       items: [
         { name: "Balanceful Cleansing Gel", brand: "TORRIDEN", price: "A$34", image: "/products/torriden/balanceful-cleansing-gel.webp", note: "Stop stripping." },
         { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "A$18", image: "/products/round-lab/1025-dokdo-toner-100ml.webp", note: "Water in." },
-        { name: "Dive In Serum", brand: "TORRIDEN", price: "A$38", image: "/products/torriden/dive-in-serum.webp", note: "The one treat step." },
+        { name: "Dive In Serum", brand: "TORRIDEN", price: "A$38", image: "/products/torriden/dive-in-serum.webp", note: "The extra hydration step." },
         { name: "Dive In Soothing Cream", brand: "TORRIDEN", price: "A$40", image: "/products/torriden/dive-in-soothing-cream.webp", note: "Seal and soothe." },
       ],
     },
@@ -553,21 +559,21 @@ export const newsletterIssues: NewsletterIssue[] = [
     coverAlt:
       "AESTURA Atobarrier365 Cream and WELLAGE Real Hyaluronic Soothing Cream beside a ceramide cream swatch",
     standfirst:
-      "Stinging, flushing, products that used to be fine and suddenly aren't — that's a damaged barrier, and it's the most common problem in our inbox. What actually repairs it, how long it takes, and the products making it worse.",
+      "Stinging, flushing, products that used to be fine and suddenly aren't — that's a damaged barrier, and it's one of the most common questions we hear. What actually repairs it, how long it takes, and the products making it worse.",
     bigQuestion: {
       question: "How do you know your barrier is damaged — and how long does it take to fix?",
       body: [
         "The tells are consistent: skin stings when you apply things that never used to sting, it flushes easily, it feels tight and looks shiny-tight rather than plump, it's simultaneously flaky and oily, and breakouts turn up in places you don't normally get them. Nothing you own works anymore, so you buy something else, and that makes it worse.",
         "What's happened physically is that the mortar between your surface skin cells — ceramides, cholesterol and fatty acids — has been depleted, usually by over-cleansing, over-exfoliating, actives stacked too aggressively, hot water, or all four. Water leaves faster than skin can replace it, and irritants get in more easily.",
         "The repair timeline is the part nobody wants: two to four weeks of doing very little for mild damage, and up to two or three months if you've been at it for a year. Skin renews on its own schedule and there is no product that shortens that meaningfully. Ceramide creams support the process; they don't accelerate biology.",
-        "So the treatment is subtraction. Stop every acid, retinoid, vitamin C, scrub and clay mask. Cleanse once a day with something gentle, hydrate, and use a ceramide-rich cream twice daily. Sunscreen stays — a damaged barrier burns faster. Reintroduce one active at a time, once you've gone a full week without stinging.",
+        "So the approach is subtraction. Stop every acid, retinoid, vitamin C, scrub and clay mask. Cleanse once a day with something gentle, hydrate, and use a ceramide-rich cream twice daily. Sunscreen stays — a damaged barrier burns faster. Reintroduce one active at a time, once you've gone a full week without stinging.",
       ],
       pick: {
         name: "Atobarrier365 Cream (2nd Generation)",
         brand: "AESTURA",
         price: "A$55",
         image: "/products/aestura/atobarrier365-cream.webp",
-        note: "The ceramide cream Korean derm clinics reach for with eczema-prone patients. Fragrance-free, no essential oils, nothing decorative.",
+        note: "A fragrance-free ceramide cream from Amorepacific's derma line. No essential oils, nothing decorative.",
         reasons: [
           "Ceramide-led lipid blend that mirrors what depleted skin has lost",
           "No fragrance, colourant or essential oils to re-irritate",
@@ -592,8 +598,8 @@ export const newsletterIssues: NewsletterIssue[] = [
       ],
     },
     aisle: [
-      { emoji: "🔥", concern: "Stinging", pick: "Cicaful Ampoule 30ml", brand: "beplain", why: "Centella and madecassoside — the best-evidenced calming pairing in K-beauty.", image: "/products/beplain/cicaful-ampoule-30ml.webp" },
-      { emoji: "🧱", concern: "Barrier damage", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", why: "The repair cream. Twice daily until stinging stops, then keep using it.", image: "/products/aestura/atobarrier365-cream.webp" },
+      { emoji: "🔥", concern: "Stinging", pick: "Cicaful Ampoule 30ml", brand: "beplain", why: "Centella-led soothing ampoule.", image: "/products/beplain/cicaful-ampoule-30ml.webp" },
+      { emoji: "🧱", concern: "Barrier damage", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", why: "A barrier-support moisturiser. Twice daily until stinging stops, then keep using it.", image: "/products/aestura/atobarrier365-cream.webp" },
       { emoji: "🫧", concern: "Over-cleansed", pick: "Mung Bean Cleansing Oil 200ml", brand: "beplain", why: "Removes sunscreen without a second foaming wash that strips lipids.", image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp" },
       { emoji: "🌾", concern: "Flaky and oily at once", pick: "Black Rice 5 Ceramide Barrier Moisturizing Cream", brand: "HARUHARU WONDER", why: "Lipids without the weight — dehydration and oiliness usually travel together.", image: "/products/haruharu-wonder/black-rice-5-ceramide-barrier-moisturizing-cream.webp" },
       { emoji: "🩹", concern: "Angry, red patches", pick: "R.E.D Blemish Clear Soothing Cream 70ml", brand: "Dr.G", why: "Calming cream for reactive, blemish-prone skin during a repair phase.", image: "/products/dr-g/r-e-d-blemish-clear-soothing-cream-70ml.webp" },
@@ -604,8 +610,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       steps: [
         { step: "01 · Cleanse", what: "Oil cleanse at night only if you wore SPF or makeup. Water in the morning.", pick: "Mung Bean Cleansing Oil 200ml", brand: "beplain", image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp" },
         { step: "02 · Hydrate", what: "One hydrating layer on damp skin. No acids, no vitamin C, no exceptions.", pick: "Real Hyaluronic 100 Toner 200ml", brand: "WELLAGE", image: "/products/wellage/real-hyaluronic-toner-200ml.webp" },
-        { step: "03 · Repair", what: "Ceramide cream, morning and night, generously. This is the treatment.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.webp" },
-        { step: "04 · Protect", what: "SPF every morning. Damaged skin burns faster and heals slower.", pick: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp" },
+        { step: "03 · Moisturise", what: "Barrier-support moisturiser, morning and night, generously. During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia and follow its labelled directions.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.webp" },
       ],
       closer:
         "If it stings, you're not done. The urge to add something is the thing that broke it in the first place.",
@@ -625,6 +630,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       product: "Atobarrier365 Cream (2nd Generation)",
       brand: "AESTURA",
       duration: "6 weeks, one tester recovering from over-exfoliation",
+      method: "Informal use by one member of our team over the period shown; not a clinical test.",
       image: "/products/aestura/atobarrier365-cream.webp",
       scores: [
         { label: "Stinging by week 2", value: "Gone" },
@@ -640,7 +646,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       items: [
         { name: "Mung Bean Cleansing Oil 200ml", brand: "beplain", price: "A$35", image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp", note: "Gentle removal." },
         { name: "Real Hyaluronic 100 Toner 200ml", brand: "WELLAGE", price: "A$28", image: "/products/wellage/real-hyaluronic-toner-200ml.webp", note: "Water in." },
-        { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.webp", note: "The repair step." },
+        { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.webp", note: "Barrier-support moisturiser." },
         { name: "Cicaful Ampoule 30ml", brand: "beplain", price: "A$38", image: "/products/beplain/cicaful-ampoule-30ml.webp", note: "For the reactive days." },
       ],
     },
@@ -666,7 +672,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       "TORRIDEN Dive In Serum, ROUND LAB 1025 Dokdo Toner and AESTURA Atobarrier365 Cream on wet limestone with hyaluronic gel and water droplets",
 
     standfirst:
-      "Korea spent this fortnight arguing about water, not actives: hydrating toners, low-molecular hyaluronic acid and overnight hydrogel masks. Here is what that argument means for skin living through an Australian summer — and the four products that actually fix dehydration.",
+      "Korea spent this fortnight arguing about water, not actives: hydrating toners, low-molecular hyaluronic acid and overnight hydrogel masks. Here is what that argument means for skin living through an Australian winter of heaters and air-con — and the four products that actually fix dehydration.",
 
     bigQuestion: {
       question: "Do you actually need a toner?",
@@ -674,7 +680,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         "Toner used to be an apology. In the era of stripping foam cleansers, Western toners were mostly alcohol and witch hazel — a second wipe to remove what the cleanser left behind and to \"rebalance pH\" after it had wrecked it. If that's your mental model, skipping toner is entirely reasonable. That product was solving a problem a good cleanser shouldn't create.",
         "Korean toners are a different category wearing the same name. They're closer to a light essence: humectant-led, watery, layered onto damp skin in one to three passes. Glycerin, panthenol, hyaluronic acid, sometimes a fermented extract or a low-dose PHA. The job isn't to clean — it's to get water into the top layers of skin while it's still damp, so everything after it has something to seal.",
         "Who actually benefits: anyone dehydrated, which in Australia is most of us for at least half the year. Air conditioning, heated cars, chlorinated pools, hard water in Adelaide and Perth, and a UV index that regularly hits 11+. If your skin feels tight ten minutes after cleansing, or your foundation clings and flakes while your T-zone still shines, you're dehydrated, not dry — and a hydrating toner is the cheapest fix available.",
-        "Who can skip it: if you have genuinely oily, comfortable skin that never feels tight, and your moisturiser already sits well, a toner is optional. So is it if you're using a hydrating essence or a low-molecular HA serum on damp skin — that's the same job, done once. What we'd never recommend is an astringent, alcohol-forward toner used daily. That's the 1998 product, and it's the reason half of Australia thinks toner does nothing.",
+        "Who can skip it: if you have genuinely oily, comfortable skin that never feels tight, and your moisturiser already sits well, a toner is optional. It's also optional if you're using a hydrating essence or a low-molecular HA serum on damp skin — that's the same job, done once. What we'd never recommend is an astringent, alcohol-forward toner used daily. That's the 1998 product, and it's the reason half of Australia thinks toner does nothing.",
       ],
       pick: {
         name: "1025 Dokdo Toner 100ml",
@@ -695,11 +701,11 @@ export const newsletterIssues: NewsletterIssue[] = [
       koreaHeat: "🔥🔥🔥🔥🔥",
       australiaHeat: "👀 just discovering it",
       whatIsIt:
-        "Polydeoxyribonucleotide — short fragments of DNA, usually from salmon, purified down to a skincare-grade ingredient. In clinics it's injected. On a shelf it's a topical, and topical PDRN works on the surface: it's a strong humectant and appears to support the skin's own repair signalling rather than forcing turnover the way an acid or retinoid does.",
+        "Polydeoxyribonucleotide — short fragments of DNA, usually from salmon, purified down to a skincare-grade ingredient. In clinics it's injected. On a shelf it's a topical. Topically it acts mainly as a surface humectant; the repair data come from injected use.",
       whyKoreansLove:
-        "It fits the Korean logic exactly: manage skin before it needs correcting. PDRN is the at-home echo of the \"skin booster\" injectables Koreans already get, so it reads as clinic-grade without downtime. Olive Young review volume for PDRN products has climbed steeply through 2025–26, and it's now a standard shelf category in Seoul, not a novelty.",
+        "It fits the Korean logic exactly: manage skin before it needs correcting. PDRN is the at-home echo of the \"skin booster\" injectables Koreans already get, so it reads as clinic-grade without downtime. PDRN products now sit in Korea's review-based rankings (e.g. Hwahae, Oct 2026).",
       shouldAussiesCare:
-        "Honestly? It's a very good hydrator and a good barrier-support ingredient, and it plays well with a sensitised, over-exfoliated face — which is a common Australian problem. It is not a retinoid replacement, and topical PDRN will not do what an injection does. Buy it if you want comfortable, calm, well-hydrated skin without irritation. Don't buy it expecting to erase a wrinkle.",
+        "Honestly? It's a very good hydrator — topically it acts mainly as a surface humectant; the repair data come from injected use — and it plays well with a sensitised, over-exfoliated face — which is a common Australian problem. It is not a retinoid replacement, and topical PDRN will not do what an injection does. Buy it if you want comfortable, calm, well-hydrated skin without irritation. Don't buy it expecting to erase a wrinkle.",
       tryIt: [
         {
           name: "Hyper PDRN Repair Ampoule 30ml",
@@ -713,14 +719,14 @@ export const newsletterIssues: NewsletterIssue[] = [
           brand: "MEDICUBE",
           price: "A$38",
           image: "/products/medicube/pdrn-pink-peptide-eye-cream-30ml.webp",
-          note: "Where Koreans usually start: the thin skin that shows dehydration first.",
+          note: "A common starting point: the thin skin that shows dehydration first.",
         },
         {
           name: "Atobarrier365 Cream (2nd Generation)",
           brand: "AESTURA",
           price: "A$55",
           image: "/products/aestura/atobarrier365-cream.webp",
-          note: "Not PDRN, but the barrier cream Korean dermatology clinics pair it with.",
+          note: "Not PDRN, but a ceramide cream that layers well over it.",
         },
       ],
     },
@@ -737,10 +743,10 @@ export const newsletterIssues: NewsletterIssue[] = [
       {
         emoji: "🍋",
         concern: "Dull",
-        pick: "Revive Eye Serum: Ginseng + Retinal",
+        pick: "Glow Serum: Propolis + Niacinamide 30ml",
         brand: "Beauty of Joseon",
-        why: "Ginseng with a low-dose retinal — brightens tired, dull skin without the sting of an acid.",
-        image: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.webp",
+        why: "Niacinamide with propolis — a low-irritation daily step for dull-looking skin.",
+        image: "/__l5e/assets-v1/bab0fc3b-47f9-4850-b1d1-11c47b6d023d/boj-glow-serum-propolis.webp",
       },
       {
         emoji: "🌶️",
@@ -772,9 +778,9 @@ export const newsletterIssues: NewsletterIssue[] = [
       intro:
         "The \"I can't be bothered\" routine. Four steps, roughly five minutes, and honestly better for most Australian skin than eleven products applied inconsistently.",
       steps: [
-        { step: "01 · Cleanse", what: "Low-foam, no squeak. If your face feels tight after, the cleanser is wrong.", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
+        { step: "01 · Cleanse", what: "Gentle lather, no squeak. If your face feels tight after, the cleanser is wrong.", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
         { step: "02 · Hydrate", what: "Toner or HA serum onto damp skin. Two light passes, not one heavy one.", pick: "Dive In Serum", brand: "TORRIDEN", image: "/products/torriden/dive-in-serum.webp" },
-        { step: "03 · Treat", what: "One active. Niacinamide by day, or nothing at all on a bad skin week.", pick: "Revive Eye Serum: Ginseng + Retinal", brand: "Beauty of Joseon", image: "/products/beauty-of-joseon/revive-eye-serum-ginseng-plus-retinal-30ml.webp" },
+        { step: "03 · Treat", what: "One active. Niacinamide by day, or nothing at all on a bad skin week.", pick: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", image: "/__l5e/assets-v1/bab0fc3b-47f9-4850-b1d1-11c47b6d023d/boj-glow-serum-propolis.webp" },
         { step: "04 · Moisturise", what: "Seal it. Morning: add SPF over the top, every single day, all year.", pick: "Dive In Soothing Cream", brand: "TORRIDEN", image: "/products/torriden/dive-in-soothing-cream.webp" },
       ],
       closer:
@@ -785,11 +791,12 @@ export const newsletterIssues: NewsletterIssue[] = [
       topic: "Hyperpigmentation on deeper skin tones",
       image: portraitDeep,
       imageAlt: "Portrait of a woman with deep skin tone and even, healthy complexion",
+      guideSlug: "deeper-skin-tones-k-beauty",
       body: [
         "Post-inflammatory hyperpigmentation (PIH) is the dark mark left behind after skin has been inflamed — a pimple, a scratch, a reaction, a burn. It isn't scarring. It's pigment that melanocytes produced in response to injury, sitting in skin that hasn't cleared it yet. In deeper skin tones, more active melanocytes means PIH is more common, darker, and considerably slower to fade.",
         "Which changes the strategy completely. On deeper skin, the mark is usually caused by the irritation, not the original spot. Anything that inflames skin — a harsh scrub, a too-strong acid, a retinoid ramped up too fast, picking — can create a new mark that outlasts the thing you were treating. Aggressive exfoliation is not the shortcut it looks like; it's often the cause.",
-        "So introduce brightening slowly and boringly. Start with tyrosinase-adjacent, low-irritation actives: niacinamide, tranexamic acid, alpha-arbutin, liquorice root. Two to three nights a week, one product at a time, three to four weeks before adding anything else. If it stings, it's too much. Consistency over eight to twelve weeks beats intensity over two, every time.",
-        "And sunscreen is not optional here — it's the whole treatment. UV re-darkens existing PIH faster than any serum can fade it. The good news: Korean chemical and hybrid filters typically leave no cast on deeper skin, which is exactly why we stock them. A sunscreen you'll wear daily beats a high-zinc one you avoid because it turns you grey.",
+        "So introduce brightening slowly and boringly. Start with low-irritation brightening actives: niacinamide, tranexamic acid, alpha-arbutin, liquorice root. Two to three nights a week, one product at a time, three to four weeks before adding anything else. If it stings, it's too much. Consistency over eight to twelve weeks beats intensity over two, every time.",
+        "And sunscreen is not optional here — it's the step everything else depends on. UV re-darkens existing PIH faster than any serum can fade it. Many modern filters leave little or no cast on deeper skin; choose an Australian-listed (AUST L) broad-spectrum sunscreen you'll wear daily.",
       ],
     },
 
@@ -797,6 +804,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       product: "Aqua Squalane Moisturizing Cream",
       brand: "S.NATURE",
       duration: "2 weeks, one tester in Melbourne, one in Brisbane",
+      method: "Informal use by one member of our team over the period shown; not a clinical test.",
       image: "/products/s-nature/aqua-squalane-moisturizing-cream.webp",
       scores: [
         { label: "Texture", value: "9/10" },
@@ -815,7 +823,6 @@ export const newsletterIssues: NewsletterIssue[] = [
         { name: "Dive In Serum", brand: "TORRIDEN", price: "A$38", image: "/products/torriden/dive-in-serum.webp", note: "Water in." },
         { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "A$18", image: "/products/round-lab/1025-dokdo-toner-100ml.webp", note: "The layer underneath." },
         { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.webp", note: "Water stays in." },
-        { name: "Derma UV365 Barrier Moisture Mineral Sun Cream 20ml", brand: "AESTURA", price: "A$10", image: "/products/aestura/derma-uv365-barrier-moisture-mineral-sun-cream.webp", note: "Non-negotiable." },
       ],
     },
 

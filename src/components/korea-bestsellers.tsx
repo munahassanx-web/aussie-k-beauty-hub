@@ -2,7 +2,8 @@ import { useRef, useState, type UIEvent } from 'react';
 import { Link } from '@tanstack/react-router';
 
 import { productSlug } from '@/lib/product-detail';
-import { SHOP_PRODUCTS, type ShopProduct } from '@/lib/shop-catalog';
+import { RANKING_SNAPSHOT_DATE, STOCKED_RANKING } from '@/lib/korea-rankings';
+import { type ShopProduct } from '@/lib/shop-catalog';
 
 const nf = new Intl.NumberFormat('en-AU');
 
@@ -19,62 +20,39 @@ type SnapshotEntry = {
   radar: string;
 };
 
+/** Editorial "on our radar" lines, keyed by Skin Grocer priceId. */
+const RADAR: Record<string, string> = {
+  aestura_atobarrier365_cream_onetime:
+    'A richer moisturising cream frequently discussed for dryness and barrier-focused routines.',
+  beplain_mung_bean_ph_balanced_cleansing_foam_80ml_onetime:
+    'A low-pH cleansing foam known for its mung-bean formula and comfortable daily-cleansing format.',
+  s_nature_aqua_oasis_toner_onetime: 'A layerable hydrating toner with a light format suited to simple routines.',
+  s_nature_aqua_squalane_moisturizing_cream_onetime:
+    'A lighter moisturising option for customers who find rich creams uncomfortable.',
+  round_lab_1025_dokdo_toner_100ml_onetime:
+    'A fragrance-free hydrating toner and one of the most-reviewed products on the board.',
+  torriden_dive_in_soothing_cream_onetime: 'A light gel-cream used to finish hydration-focused routines.',
+  wellage_real_hyaluronic_soothing_cream_80ml_onetime: 'A gel-cream style moisturiser selected for lightweight hydration.',
+};
+
 /**
- * Hwahae Global Trending Ranking snapshot, checked 31 August 2026.
+ * Hwahae Global Trending Ranking snapshot (see korea-rankings.ts for the date).
  * Rankings, ratings and review totals are Hwahae's published figures at
  * that date and can change; only products we hold in Melbourne are listed.
  */
-const SNAPSHOT: SnapshotEntry[] = [
-  {
-    rank: 1,
-    priceId: 'aestura_atobarrier365_cream_onetime',
-    rating: 4.68,
-    reviews: 18243,
-    radar: 'A richer moisturising cream frequently discussed for dryness and barrier-focused routines.',
-  },
-  {
-    rank: 2,
-    priceId: 'beplain_mung_bean_ph_balanced_cleansing_foam_80ml_onetime',
-    rating: 4.63,
-    reviews: 50369,
-    radar: 'A low-pH cleansing foam known for its mung-bean formula and comfortable daily-cleansing format.',
-  },
-  {
-    rank: 3,
-    priceId: 'torriden_dive_in_serum_onetime',
-    rating: 4.61,
-    reviews: 85572,
-    radar: 'A lightweight hydrating serum commonly chosen by customers who dislike heavy or sticky textures.',
-  },
-  {
-    rank: 9,
-    priceId: 's_nature_aqua_oasis_toner_onetime',
-    rating: 4.75,
-    reviews: 28657,
-    radar: 'A layerable hydrating toner with a light format suited to simple routines.',
-  },
-  {
-    rank: 10,
-    priceId: 's_nature_aqua_squalane_moisturizing_cream_onetime',
-    rating: 4.58,
-    reviews: 43078,
-    radar: 'A lighter moisturising option for customers who find rich creams uncomfortable.',
-  },
-  {
-    rank: 14,
-    priceId: 'wellage_real_hyaluronic_soothing_cream_80ml_onetime',
-    rating: 4.64,
-    reviews: 3867,
-    radar: 'A gel-cream style moisturiser selected for lightweight hydration.',
-  },
-];
-
-const BY_PRICE_ID = new Map(SHOP_PRODUCTS.map((p) => [p.priceId, p]));
-
-const CARDS: Array<{ entry: SnapshotEntry; product: ShopProduct }> = SNAPSHOT.flatMap((entry) => {
-  const product = BY_PRICE_ID.get(entry.priceId);
-  return product ? [{ entry, product }] : [];
-});
+const CARDS: Array<{ entry: SnapshotEntry; product: ShopProduct }> = [...STOCKED_RANKING]
+  .sort((a, b) => a.entry.rank - b.entry.rank)
+  .slice(0, 6)
+  .map(({ entry, product }) => ({
+    entry: {
+      rank: entry.rank,
+      priceId: product.priceId,
+      rating: entry.rating,
+      reviews: entry.reviews,
+      radar: RADAR[product.priceId] ?? entry.note,
+    },
+    product,
+  }));
 
 /**
  * Compact "Korean-market signals" strip pinned to the top of the shop — a
@@ -119,7 +97,7 @@ export function KoreaBestsellers() {
         >
           Hwahae Global
         </a>{' '}
-        · Snapshot: 31 August 2026
+        · Snapshot: {RANKING_SNAPSHOT_DATE}
       </p>
 
       <ul

@@ -439,13 +439,15 @@ function IssuePage() {
               {issue.everyone.body.map((p) => (
                 <p key={p.slice(0, 30)}>{p}</p>
               ))}
-              <Link
-                to="/learn/article/$slug"
-                params={{ slug: "deeper-skin-tones-k-beauty" }}
-                className="inline-block border-b-2 border-grocer-tomato pb-1 text-[12px] font-semibold uppercase tracking-[0.18em] text-grocer-tomato"
-              >
-                Read the full guide →
-              </Link>
+              {issue.everyone.guideSlug ? (
+                <Link
+                  to="/learn/article/$slug"
+                  params={{ slug: issue.everyone.guideSlug }}
+                  className="inline-block border-b-2 border-grocer-tomato pb-1 text-[12px] font-semibold uppercase tracking-[0.18em] text-grocer-tomato"
+                >
+                  {issue.everyone.guideLabel ?? "Read the full guide"} →
+                </Link>
+              ) : null}
             </div>
           </div>
         </section>

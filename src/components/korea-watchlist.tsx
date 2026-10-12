@@ -25,7 +25,7 @@ export function KoreaWatchlist() {
             Ranking in Korea, not yet on our shelf.
           </h2>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-            Also climbing the Hwahae ranking this week (snapshot {RANKING_SNAPSHOT_DATE}) — we're working on
+            Also on the Hwahae ranking at our latest snapshot ({RANKING_SNAPSHOT_DATE}) — we're working on
             landing these in Melbourne.
           </p>
         </div>
