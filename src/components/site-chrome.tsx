@@ -148,8 +148,15 @@ function AnnouncementBar({ suppressStockClaims = false }: { suppressStockClaims?
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-grocer-butter/70 to-transparent"
       />
+      {/* Slow champagne glint crossing the band — off under reduced motion */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        <div className="absolute -inset-y-10 left-0 w-1/4 motion-safe:animate-[sg-bar-glint_8s_ease-in-out_infinite] bg-[linear-gradient(105deg,transparent_0%,color-mix(in_oklab,var(--grocer-butter)_16%,transparent)_50%,transparent_100%)]" />
+      </div>
 
-      <div className="relative mx-auto flex min-h-[36px] max-w-7xl items-center px-4 py-1.5 md:min-h-[40px] md:px-6">
+      <div className="relative mx-auto flex min-h-[40px] max-w-7xl items-center px-4 py-1.5 md:min-h-[46px] md:px-6">
         <span className="absolute left-6 top-1/2 hidden -translate-y-1/2 items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-paper md:flex">
           <span className="h-1.5 w-1.5 rounded-full bg-grocer-butter" />
           AUD $ · Australia
@@ -160,13 +167,13 @@ function AnnouncementBar({ suppressStockClaims = false }: { suppressStockClaims?
         </span>
 
         {/* One selling point at a time, gentle fade; static under reduced motion */}
-        <div className="relative h-5 w-full" aria-live="off">
+        <div className="relative h-8 w-full" aria-live="off">
           {visibleAnnouncements.map((msg, i) => {
             const Icon = ANNOUNCEMENT_ICONS[msg] ?? Sparkles;
             return (
               <span
                 key={msg}
-                className={`absolute inset-0 flex items-center justify-center gap-2.5 whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.18em] ease-out motion-reduce:transition-none md:gap-3 md:text-[11px] md:tracking-[0.22em] ${
+                className={`absolute inset-x-0 top-0 flex h-5 items-center justify-center gap-2.5 whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.18em] ease-out motion-reduce:transition-none md:gap-3 md:text-[11.5px] md:tracking-[0.22em] ${
                   i === active
                     ? "text-paper opacity-100 translate-y-0 transition-all duration-700 delay-200"
                     : "text-paper/80 opacity-0 -translate-y-1 transition-all duration-200"
@@ -175,13 +182,24 @@ function AnnouncementBar({ suppressStockClaims = false }: { suppressStockClaims?
               >
                 <Icon
                   aria-hidden="true"
-                  className="h-3.5 w-3.5 shrink-0 text-grocer-butter"
+                  className="h-4 w-4 shrink-0 text-grocer-butter"
                   strokeWidth={2.25}
                 />
                 {msg}
               </span>
             );
           })}
+          {/* Which selling point is showing — small champagne pips */}
+          <div aria-hidden="true" className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-1.5">
+            {visibleAnnouncements.map((_, i) => (
+              <span
+                key={i}
+                className={`h-1 w-1 rounded-full transition-colors duration-300 ${
+                  i === active ? "bg-grocer-butter" : "bg-paper/30"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
