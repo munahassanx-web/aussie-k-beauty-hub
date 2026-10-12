@@ -3,6 +3,7 @@ import { useCart } from "@/lib/cart";
 import { productSlug } from "@/lib/product-detail";
 import { priceCents, productsForArticle } from "@/lib/learn-products";
 import type { LearnArticle } from "@/lib/learn-articles";
+import { NEXT_DAY_LINE } from "@/lib/shipping-rates";
 
 /**
  * "Shop this article" — links each Learn piece to matching catalogue products
@@ -21,8 +22,7 @@ export function ArticleProductPicks({ article }: { article: LearnArticle }) {
           Shop this article
         </p>
         <p className="mt-3 max-w-2xl text-[13.5px] leading-relaxed text-muted-foreground">
-          In stock in our Melbourne warehouse. Order before 12pm and we aim to dispatch the same
-          business day.
+          In stock in our Melbourne warehouse. {NEXT_DAY_LINE}.
         </p>
 
         <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">

@@ -8,6 +8,7 @@ import { BrandWordmark, BrandLine } from "@/components/brand-wordmark";
 import { BrandBand } from "@/components/brand-band";
 import { findProductBySlug } from "@/lib/product-detail";
 import { supplierMatchPending } from "@/lib/shop-catalog";
+import { NEXT_DAY_BADGE } from "@/lib/shipping-rates";
 
 
 type MegaLink = { label: string; to: string; search?: Record<string, string>; hash?: string };
@@ -96,8 +97,8 @@ const megaMenus: Record<string, MegaSection[]> = {
 
 const announcements = [
   "Free standard delivery from A$100",
+  NEXT_DAY_BADGE,
   "Authenticity verified",
-  "Dispatched from Melbourne",
 ];
 
 

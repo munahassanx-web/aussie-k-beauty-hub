@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Link } from '@tanstack/react-router';
+import { NEXT_DAY_BADGE } from '@/lib/shipping-rates';
 
 /**
  * Interior page hero — retailer banner direction.
@@ -59,7 +60,7 @@ const TONES: Record<
 
 const TRUST = [
   'Free standard delivery from A$100',
-  'Dispatched from Melbourne',
+  NEXT_DAY_BADGE,
   'Documented batch verification',
   'QR verification card in every order',
 ];

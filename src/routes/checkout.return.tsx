@@ -242,8 +242,9 @@ function CheckoutReturn() {
             <span className="text-foreground">1.</span> We pick, check and pack your order in Melbourne.
           </li>
           <li>
-            <span className="text-foreground">2.</span> You’ll get a dispatch email with carrier tracking. Transit time
-            depends on your postcode; see the Australia Post estimate in your tracking email.
+            <span className="text-foreground">2.</span> You’ll get a dispatch email with carrier tracking. Orders placed
+            before 12pm on a business day usually arrive the next business day in metro Melbourne; elsewhere, see the
+            Australia Post estimate in your tracking email.
           </li>
           <li>
             <span className="text-foreground">3.</span> Each product has a step-by-step application guide on its

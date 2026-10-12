@@ -40,8 +40,11 @@ function ShippingPolicy() {
         <section>
           <h2 className="font-display text-2xl text-foreground">Delivery times</h2>
           <p className="mt-3 text-muted-foreground">
-            Delivery times depend on the destination postcode and the Australia Post service selected at checkout.
-            Estimates shown by Australia Post begin after dispatch and are not guaranteed.
+            Next-day delivery in metro Melbourne: orders placed before 12pm Melbourne time on a business day are
+            dispatched the same day and are delivered by Australia Post the next business day to metro Melbourne
+            addresses. Outside metro Melbourne, delivery times depend on the destination postcode and the Australia
+            Post service selected at checkout. Australia Post estimates begin after dispatch, and delays caused by the
+            carrier, weather or peak periods can occur.
           </p>
           <a
             href="https://auspost.com.au/parcels-mail/calculate-postage-delivery-times/"

@@ -1,9 +1,10 @@
 import { AISLES } from "@/lib/aisles";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Truck } from "lucide-react";
 import { useReducedMotion } from "motion/react";
 import { trackUi } from "@/lib/analytics";
+import { NEXT_DAY_LINE } from "@/lib/shipping-rates";
 
 type Slide = {
   slug: string;
@@ -223,6 +224,13 @@ export function GlassSkinHero() {
             Take the skin quiz
           </Link>
         </div>
+        <Link
+          to="/shipping-policy"
+          className="inline-flex w-fit items-center gap-2 text-sm font-medium text-ink underline-offset-4 hover:underline"
+        >
+          <Truck className="h-4 w-4 shrink-0" aria-hidden="true" />
+          {NEXT_DAY_LINE}
+        </Link>
         <a
           href="#glass-skin-club"
           className="w-fit text-sm text-clay underline-offset-4 hover:text-ink hover:underline"
