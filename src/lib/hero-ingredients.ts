@@ -488,20 +488,7 @@ const HERO_INGREDIENTS: Record<string, HeroIngredient[]> = {
   ],
 
   // ---------------------------------------------------------------- AESTURA
-  aestura_atobarrier365_cream_onetime: [
-    {
-      name: 'Ceramide capsules',
-      korean: '세라마이드',
-      what: 'Atobarrier365 is AESTURA\u2019s dermatologist-backed barrier cream: ceramides encapsulated so they stay stable in the jar and release into skin on application.',
-      goodFor: ['Barrier repair', 'Very dry, easily irritated skin', 'Dryness'],
-    },
-    {
-      name: 'Beta-Glucan',
-      what: 'A soothing, water-binding polysaccharide used alongside the ceramides so the cream calms as well as seals.',
-      goodFor: ['Soothing', 'Hydration', 'Sensitivity'],
-    },
-    PANTHENOL,
-  ],
+  aestura_atobarrier365_cream_onetime: [CERAMIDE_NP, NIACINAMIDE, SQUALANE],
   aestura_atobarrier_365_hydro_soothing_cream_onetime: [CERAMIDE_NP, HA_COMPLEX, PANTHENOL],
   aestura_a_cica_moisture_toner_onetime: [CENTELLA, CERAMIDE_NP, PANTHENOL],
   aestura_derma_uv365_barrier_moisture_mineral_sun_cream_onetime: [

@@ -1196,17 +1196,20 @@ const COPY: Record<string, CopyOverride> = {
       {
         name: 'Rice Bran Water',
         korean: '쌀겨수',
+        components: ['Oryza Sativa (Rice) Bran Water'],
         what: 'Oryza sativa bran water — listed straight after water, near the top of the formula. A staple of Korean hanbang skincare, valued for leaving skin soft, hydrated and less dull-looking.',
         goodFor: ['Dryness', 'Dullness', 'Hydration support'],
       },
       {
         name: 'Ginseng Root Water',
         korean: '인삼',
+        components: ['Panax Ginseng Root Water'],
         what: 'Panax ginseng root water — the ingredient Beauty of Joseon is built around. Traditionally used for skin that looks tired and depleted; here it gives the cream its warm, restorative character.',
         goodFor: ['Tired skin', 'Loss of bounce', 'Comfort'],
       },
       {
         name: 'Niacinamide & Squalane',
+        components: ['Niacinamide', 'Squalane'],
         what: 'Niacinamide (vitamin B3) supports the barrier and helps refine the look of tone; squalane is a lightweight emollient that keeps water from escaping without a heavy film.',
         goodFor: ['Uneven tone', 'Barrier support', 'Moisture retention'],
       },
@@ -1557,6 +1560,51 @@ function normaliseInci(name: string): string {
 }
 
 /**
+ * Per-SKU mapping from a bespoke card's customer-facing name (in
+ * hero-ingredients.ts) to the exact INCI name(s) it refers to on that SKU's
+ * verified list. Only add an entry when the ingredient genuinely appears in
+ * the INCI under another name — cards for ingredients absent from the INCI
+ * stay hidden. `name` is only set where the friendly name would misdescribe
+ * the listed ingredient.
+ */
+const BESPOKE_INCI_COMPONENTS: Record<string, Record<string, Partial<HeroIngredient>>> = {
+  torriden_balanceful_cleansing_gel_onetime: {
+    'Centella Asiatica (Cica)': { components: ['Centella Asiatica Extract'] },
+  },
+  round_lab_birch_juice_moisturizing_cream_80ml_onetime: {
+    'Birch Sap (Betula Platyphylla Japonica Juice)': { components: ['Betula Platyphylla Japonica Juice'] },
+    'Hyaluronic Acid complex': { components: ['Sodium Hyaluronate', 'Hyaluronic Acid'] },
+  },
+  torriden_dive_in_soothing_cream_onetime: {
+    '5D-Complex Hyaluronic Acid': {
+      components: [
+        'Hydrolyzed Hyaluronic Acid',
+        'Sodium Hyaluronate',
+        'Sodium Hyaluronate Crosspolymer',
+        'Sodium Acetylated Hyaluronate',
+        'Hydrolyzed Sodium Hyaluronate',
+      ],
+    },
+  },
+  isntree_green_tea_fresh_toner_200ml_onetime: {
+    'Green tea polyphenols': { components: ['Camellia Sinensis Leaf Extract'] },
+  },
+  beplain_mung_bean_ph_balanced_cleansing_foam_80ml_onetime: {
+    'Mung Bean Extract': { name: 'Mung Bean Powder', components: ['Phaseolus Radiatus Seed Powder'] },
+  },
+  medicube_pdrn_pink_cica_soothing_toner_250ml_onetime: {
+    'PDRN (Polydeoxyribonucleotide)': { components: ['Sodium DNA'] },
+    'Centella Asiatica (Cica)': { components: ['Centella Asiatica Extract', 'Centella Asiatica Leaf Extract'] },
+  },
+};
+
+function withBespokeInciComponents(p: ShopProduct, cards: HeroIngredient[]): HeroIngredient[] {
+  const map = BESPOKE_INCI_COMPONENTS[p.priceId];
+  if (!map) return cards;
+  return cards.map((card) => (map[card.name] ? { ...card, ...map[card.name] } : card));
+}
+
+/**
  * A key-ingredient card may only render when every component it names appears
  * in the SKU's verified INCI list. Products without a verified list are left
  * as-is (nothing to validate against).
@@ -1709,7 +1757,7 @@ export function heroIngredients(p: ShopProduct): HeroIngredient[] {
   const override = COPY[p.priceId]?.ingredients;
   if (override) return validateAgainstInci(p, override);
   const bespoke = bespokeHeroIngredients(p.priceId);
-  if (bespoke) return validateAgainstInci(p, bespoke);
+  if (bespoke) return validateAgainstInci(p, withBespokeInciComponents(p, bespoke));
   // Keyword/concern inference is never allowed once we hold a verified INCI
   // list — guessing from the product name or concern tags is how wrong
   // ingredients get published.
