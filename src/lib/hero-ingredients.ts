@@ -93,7 +93,7 @@ const MUNG_BEAN: HeroIngredient = {
 const DOKDO_WATER: HeroIngredient = {
   name: '1025 Dokdo Deep-Sea Water',
   korean: '독도 해양심층수',
-  what: 'Deep-sea water drawn off Dokdo island, rich in naturally occurring magnesium and other minerals. It is the water base of the whole 1025 line and gives it a light, mineral-hydration feel.',
+  what: 'Deep-sea water drawn from the East Sea off Ulleungdo, near Dokdo, rich in naturally occurring magnesium and other minerals. It is the water base of the whole 1025 line and gives it a light, mineral-hydration feel.',
   goodFor: ['Hydration', 'Sensitivity', 'All skin types'],
 };
 
@@ -172,14 +172,14 @@ const HERO_INGREDIENTS: Record<string, HeroIngredient[]> = {
     {
       name: 'Exosome complex',
       korean: '엑소좀',
-      what: 'The concentrated exosome complex the serum is named for — the ingredient class Korean clinics use post-procedure, formulated here for at-home use on visibly stretched pores.',
-      goodFor: ['Pore appearance', 'Texture', 'Post-procedure care'],
+      what: 'Lactobacillus-derived vesicles (a probiotic ferment ingredient), not the exosome preparations used in clinics.',
+      goodFor: ['Pore appearance', 'Texture'],
     },
     NIACINAMIDE,
     {
-      name: 'Salicylic Acid (BHA)',
-      what: 'An oil-soluble exfoliant that gets inside the pore lining to clear the sebum and dead cells that make pores look larger.',
-      goodFor: ['Blackheads', 'Congestion', 'Oily skin'],
+      name: 'Hydrolyzed Sponge (spicules)',
+      what: 'Micro-particles that can tingle; avoid on broken skin.',
+      goodFor: ['Texture', 'Pore appearance'],
     },
   ],
   medicube_pdrn_pink_peptide_serum_30ml_onetime: [PDRN, PEPTIDES, NIACINAMIDE],
@@ -230,7 +230,7 @@ const HERO_INGREDIENTS: Record<string, HeroIngredient[]> = {
     {
       name: 'Retinal (Retinaldehyde)',
       korean: '레티날',
-      what: 'A vitamin A derivative one step closer to retinoic acid than retinol, so it works faster at a lower dose. Use it at night and always pair with SPF the next morning.',
+      what: 'A vitamin A derivative one step closer to retinoic acid than retinol, so it works faster at a lower dose. Follow the brand\u2019s directions; introduce gradually and wear SPF by day.',
       goodFor: ['Fine lines', 'Texture', 'Firmness'],
     },
     PEPTIDES,
@@ -257,11 +257,6 @@ const HERO_INGREDIENTS: Record<string, HeroIngredient[]> = {
       name: 'Light plant oil blend',
       what: 'A fluid vegetable oil base that dissolves sunscreen and makeup on dry skin, then emulsifies with water so it rinses off instead of leaving a film.',
       goodFor: ['Sunscreen removal', 'First cleanse', 'Congestion'],
-    },
-    {
-      name: 'Weakly acidic finish (pH 5.5)',
-      what: 'Cleansing at skin\u2019s own pH means the barrier is not left alkaline and vulnerable — the reason this one suits sensitive and blemish-prone skin.',
-      goodFor: ['Sensitivity', 'Barrier support', 'Daily use'],
     },
   ],
   beplain_mung_bean_ph_balanced_cleansing_foam_80ml_onetime: [
@@ -312,7 +307,7 @@ const HERO_INGREDIENTS: Record<string, HeroIngredient[]> = {
   ],
   round_lab_birch_juice_moisturizing_cream_80ml_onetime: [
     {
-      name: 'Birch Sap (Betula Alba Juice)',
+      name: 'Birch Sap (Betula Platyphylla Japonica Juice)',
       korean: '자작나무 수액',
       what: 'Tapped birch tree sap replaces most of the water in the formula — it carries minerals and amino acids and is what gives the Birch Juice line its watery, non-greasy hydration.',
       goodFor: ['Dehydration', 'Lightweight moisture', 'Dull skin'],
@@ -353,7 +348,7 @@ const HERO_INGREDIENTS: Record<string, HeroIngredient[]> = {
   isntree_chestnut_bha_2_percent_clear_liquid_100ml_onetime: [
     {
       name: 'Betaine Salicylate 2% (BHA)',
-      what: 'A gentler, naturally derived source of salicylic acid activity. It is oil-soluble, so it works inside the pore on blackheads and closed bumps rather than just on the surface.',
+      what: 'A milder salicylate (betaine + salicylic acid) used for gentle exfoliation of congestion.',
       goodFor: ['Blackheads', 'Congestion', 'Texture'],
     },
     {
@@ -423,7 +418,7 @@ const HERO_INGREDIENTS: Record<string, HeroIngredient[]> = {
     PANTHENOL,
     {
       name: 'Full DIVE-IN routine',
-      what: 'Cleanser, toner, serum and cream in miniature, so you run the complete Torriden hydration routine rather than judging one product in isolation.',
+      what: 'Cleanser, toner, serum and cream in miniature, so you run the complete TORRIDEN hydration routine rather than judging one product in isolation.',
       goodFor: ['Full routine', 'Travel', 'Gifting'],
     },
   ],
@@ -437,7 +432,7 @@ const HERO_INGREDIENTS: Record<string, HeroIngredient[]> = {
     PANTHENOL,
     {
       name: 'Full Balanceful routine',
-      what: 'Travel sizes of Torriden\u2019s cica line — cleanser, toner, serum and cream — for skin that runs red and reactive rather than simply dry.',
+      what: 'Travel sizes of TORRIDEN\u2019s cica line — cleanser, toner, serum and cream — for skin that runs red and reactive rather than simply dry.',
       goodFor: ['Trialling', 'Sensitivity', 'Travel'],
     },
   ],
@@ -498,7 +493,7 @@ const HERO_INGREDIENTS: Record<string, HeroIngredient[]> = {
       name: 'Ceramide capsules',
       korean: '세라마이드',
       what: 'Atobarrier365 is AESTURA\u2019s dermatologist-backed barrier cream: ceramides encapsulated so they stay stable in the jar and release into skin on application.',
-      goodFor: ['Barrier repair', 'Eczema-prone skin', 'Dryness'],
+      goodFor: ['Barrier repair', 'Very dry, easily irritated skin', 'Dryness'],
     },
     {
       name: 'Beta-Glucan',

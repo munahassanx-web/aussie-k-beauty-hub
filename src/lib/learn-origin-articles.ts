@@ -42,9 +42,9 @@ export const originArticles: LearnArticle[] = [
     slug: "ginseng-origin-story",
     pillar: "ingredients",
     meta: "Origin story · Ginseng",
-    title: "Ginseng: A Thousand Years Of Korean Cultivation, Now In A Serum",
+    title: "Ginseng: A Thousand Years Of Korean Tradition, Now In A Serum",
     blurb: "Where Korean red ginseng came from, what it does topically, and who it suits.",
-    read: "7 min read",
+    read: "3 min read",
     cover: ginsengRoot,
     coverAlt: "Whole Korean ginseng roots beside an amber vial of golden ginseng serum",
     standfirst:
@@ -52,7 +52,7 @@ export const originArticles: LearnArticle[] = [
     sections: [
       {
         heading: "Where it comes from",
-        body: "Panax ginseng has been cultivated on the Korean peninsula for well over a thousand years, with Goryeo-era records describing it as a tribute good and Joseon-era medical texts prescribing it for depletion and fatigue. The plant takes four to six years in the ground before harvest, which is why it has always been expensive. 'Red ginseng' (홍삼) is the same root, steamed and dried — a preservation method that also changes its chemistry, concentrating a group of saponins called ginsenosides.",
+        body: "Wild ginseng was traded and paid as tribute for over a thousand years; farmed cultivation took hold in the Joseon era. The plant takes four to six years in the ground before harvest, which is why it has always been expensive. 'Red ginseng' (홍삼) is the same root, steamed and dried — a preservation method that also changes its chemistry. Steaming converts some ginsenosides into forms such as Rg3.",
       },
       {
         heading: "What it does on skin",
@@ -72,8 +72,8 @@ export const originArticles: LearnArticle[] = [
       },
     ],
     keyPoints: [
-      "Panax ginseng has been cultivated in Korea for 1,000+ years; roots are harvested at 4–6 years.",
-      "Red ginseng is steamed and dried, which concentrates ginsenosides.",
+      "Wild ginseng was traded and paid as tribute for over a thousand years; farmed cultivation took hold in the Joseon era.",
+      "Red ginseng is steamed and dried; steaming converts some ginsenosides into forms such as Rg3.",
       "Topically it is an antioxidant, radiance and comfort ingredient — not an exfoliant or pigment inhibitor.",
       "Best for dull, dehydrated or mature skin; choose light textures in humid Australian climates.",
       "Layers safely with niacinamide, peptides, hyaluronic acid and PDRN.",
@@ -87,11 +87,11 @@ export const originArticles: LearnArticle[] = [
     meta: "Origin story · Mugwort",
     title: "Mugwort (쑥): From Korean Founding Myth To Calming Ampoule",
     blurb: "Why ssuk is in every Korean soothing line, and what it can and can't do.",
-    read: "6 min read",
+    read: "3 min read",
     cover: mugwort,
     coverAlt: "Fresh Korean mugwort sprigs on a dark ceramic dish beside deep green ampoule liquid",
     standfirst:
-      "Mugwort — ssuk (쑥) — appears in Korea's founding myth, in bathhouse steam rooms, in rice cakes and now in about half the country's soothing skincare. The tradition is real. So is the limit of what it does.",
+      "Mugwort — ssuk (쑥) — appears in Korea's founding myth, in bathhouse steam rooms, in rice cakes and now in a large share of the country's soothing skincare. The tradition is real. So is the limit of what it does.",
     sections: [
       {
         heading: "Where it comes from",
@@ -129,7 +129,7 @@ export const originArticles: LearnArticle[] = [
     meta: "Origin story · Heartleaf",
     title: "Heartleaf (Houttuynia Cordata): The Weed That Became A Calming Category",
     blurb: "Eosuchou's folk-medicine roots, its role in oily-sensitive routines, and honest limits.",
-    read: "6 min read",
+    read: "2 min read",
     cover: heartleaf,
     coverAlt: "Heart-shaped houttuynia cordata leaves beside a clear watery toner on pale concrete",
     standfirst:
@@ -171,7 +171,7 @@ export const originArticles: LearnArticle[] = [
     meta: "Origin story · Rice ferment",
     title: "Rice Water And Ferment Filtrates: The Oldest Korean Beauty Habit",
     blurb: "From ssal-tteumul to galactomyces — what fermentation adds, and what it doesn't.",
-    read: "7 min read",
+    read: "2 min read",
     cover: riceFerment,
     coverAlt: "Bowl of cloudy rice water and raw rice grains beside a bottle of milky ferment essence",
     standfirst:
@@ -179,7 +179,7 @@ export const originArticles: LearnArticle[] = [
     sections: [
       {
         heading: "Where it comes from",
-        body: "Rice water was a household skincare and haircare step across Korea, Japan and China long before commercial cosmetics existed: the starchy rinse water was reused rather than discarded. Korean brands industrialised it by fermenting rice with yeasts and bacteria, a process borrowed conceptually from makgeolli and other traditional ferments, and by the 1980s Japanese and Korean brands were selling filtrate-based essences built on the observation that sake brewers had notably soft hands.",
+        body: "Rice water was a household skincare and haircare step across Korea, Japan and China long before commercial cosmetics existed: the starchy rinse water was reused rather than discarded. Fermented filtrate essences arrived later: Japan's SK-II launched its yeast-ferment essence in 1980, inspired by the observation that sake brewers had notably soft hands, and Korean brands popularised their own rice and galactomyces ferment essences in the 2010s, borrowing conceptually from makgeolli and other traditional ferments.",
       },
       {
         heading: "What fermentation actually does",
@@ -213,7 +213,7 @@ export const originArticles: LearnArticle[] = [
     meta: "Origin story · Snail mucin",
     title: "Snail Mucin: How A Farming Observation Became A K-Beauty Staple",
     blurb: "Snail secretion filtrate explained — what it is, how it's collected, what it treats.",
-    read: "6 min read",
+    read: "2 min read",
     cover: snailMucin,
     coverAlt: "Thick clear mucin gel stretching between two fingertips",
     standfirst:
@@ -256,7 +256,7 @@ export const originArticles: LearnArticle[] = [
     meta: "Routine · What not to use",
     title: "What Not To Mix: The Korean Skincare Combinations To Avoid",
     blurb: "A plain list of ingredient pairings to separate, and the ones that are perfectly safe.",
-    read: "8 min read",
+    read: "3 min read",
     cover: whatNotToMix,
     coverAlt: "Two unbranded serum bottles kept deliberately apart by a shadow line",
     standfirst:
@@ -264,7 +264,7 @@ export const originArticles: LearnArticle[] = [
     sections: [
       {
         heading: "Separate these — same night is too much",
-        body: "Retinal or retinol with AHA or BHA exfoliants: both increase turnover and the combination is the most common cause of a damaged barrier. Alternate nights. Retinal with high-strength L-ascorbic acid vitamin C: split them across morning and evening rather than stacking. Two different exfoliating acids in one session: choose one, two to three times a week maximum. Benzoyl peroxide with retinal in the same application: use one in the morning and one at night unless the product is specifically formulated to combine them.",
+        body: "Retinal or retinol with AHA or BHA exfoliants: both increase turnover and the combination is the most common cause of a damaged barrier. Alternate nights. Retinal with high-strength L-ascorbic acid vitamin C: split them across morning and evening rather than stacking. Two different exfoliating acids in one session: choose one, two to three times a week maximum. Benzoyl peroxide with retinal in the same application: use one in the morning and one at night unless the product is specifically formulated to combine them. Retinoids (retinal, retinol) are generally avoided during pregnancy and breastfeeding—check with your doctor.",
       },
       {
         heading: "These are fine together, despite the myths",
@@ -272,7 +272,7 @@ export const originArticles: LearnArticle[] = [
       },
       {
         heading: "Products to stop entirely when skin is irritated",
-        body: "If your skin is stinging, flaking, shiny-tight or reacting to products it used to tolerate, pause everything except a gentle cleanser, a barrier moisturiser with ceramides or centella, and sunscreen. That means stopping acids, retinal, scrubs, high-strength vitamin C, clay masks, fragranced products and any device. Hold that for seven to ten days, then reintroduce one product every five to seven days.",
+        body: "If your skin is stinging, flaking, shiny-tight or reacting to products it used to tolerate, pause everything except a gentle cleanser, a barrier moisturiser with ceramides or centella, and sunscreen. That means stopping acids, retinal, scrubs, high-strength vitamin C, clay masks, fragranced products and any device. Pause actives for 7–14 days, then add one new product every 1–2 weeks.",
       },
       {
         heading: "Habits that quietly cause damage",
@@ -284,7 +284,7 @@ export const originArticles: LearnArticle[] = [
       },
       {
         heading: "The rule that replaces the chart",
-        body: "One new product at a time, five to seven days apart, and no more than one strong active per session. If you cannot name what a product is doing for you, it is a candidate for removal — not for a companion product.",
+        body: "Add one new product every 1–2 weeks, and no more than one strong active per session. If you cannot name what a product is doing for you, it is a candidate for removal — not for a companion product.",
       },
     ],
     keyPoints: [
@@ -292,8 +292,8 @@ export const originArticles: LearnArticle[] = [
       "Split AM/PM: strong vitamin C with retinal; benzoyl peroxide with retinal.",
       "Never two exfoliating acids in one session.",
       "Safe together: niacinamide, vitamin C, hyaluronic acid, peptides, ceramides, panthenol, centella, PDRN.",
-      "When irritated: cleanser, barrier moisturiser and sunscreen only for 7–10 days.",
-      "Reintroduce one product every 5–7 days.",
+      "When irritated: pause actives for 7–14 days — cleanser, barrier moisturiser and sunscreen only.",
+      "Add one new product every 1–2 weeks.",
     ],
     sources: [SRC_HWAHAE, SRC_OY, SRC_TGA],
     related: ["acids-frequency", "australian-barrier-climate", "prevention-over-repair"],
@@ -305,15 +305,15 @@ export const originArticles: LearnArticle[] = [
     meta: "Seoul Signal · Watchlist",
     title: "The New-Launch Watchlist: What's Landing In Seoul Before It Reaches Australia",
     blurb: "The categories moving fastest in Korea right now, and which ones are worth waiting for.",
-    read: "7 min read",
+    read: "3 min read",
     cover: newLaunchWatchlist,
     coverAlt: "A row of newly unboxed unbranded Korean skincare bottles and jars in bright studio light",
     standfirst:
-      "Australian retail usually receives Korean launches twelve to eighteen months late, filtered by whoever holds the distribution. This is what the domestic signals are showing now, and our read on what deserves your money.",
+      "Australian retail is often months behind Korean launches, filtered by whoever holds the distribution. This is what the domestic signals are showing now, and our read on what deserves your money.",
     sections: [
       {
         heading: "Clinic-derived actives are the defining movement",
-        body: "PDRN and exosome-positioned products are the clearest growth story in Korean skincare: PDRN product counts on Olive Young are up roughly 43% with reviews up 103%, and exosome reviews up 229% over a six-month window. The consumer logic is 'clinic results at home'. Our read: PDRN serums are worth buying now — they are well-formulated repair products even if you ignore the marketing. Exosome claims in cosmetics are far looser than in clinical settings; judge those products on their supporting formula, not the headline.",
+        body: "PDRN and exosome-positioned products are the clearest growth story in Korean skincare: according to Trendier AI's analysis of Olive Young reviews, PDRN product counts are up roughly 43% with reviews up 103%, and exosome reviews up 229% over a six-month window. The consumer logic is 'clinic results at home'. Our read: PDRN serums are worth buying now — they are well-formulated repair products even if you ignore the marketing. Exosome claims in cosmetics are far looser than in clinical settings; judge those products on their supporting formula, not the headline.",
       },
       {
         heading: "Toner pads have become a controlled exfoliation category",
@@ -321,7 +321,7 @@ export const originArticles: LearnArticle[] = [
       },
       {
         heading: "Sun care behaving like skincare",
-        body: "Sun sticks, serum-textured SPF and hybrid tone-up sunscreens continue to dominate Korean launches, driven by reapplication over makeup. This is the category with the biggest Australian caveat: sunscreens making therapeutic SPF claims here are regulated by the TGA, and Korean labelling does not map onto Australian testing. Use imported Korean sun care as a comfortable reapplication layer, and read the label as supplied by the brand rather than assuming an Australian equivalence.",
+        body: "Sun sticks, serum-textured SPF and hybrid tone-up sunscreens continue to dominate Korean launches, driven by reapplication over makeup. This is the category with the biggest Australian caveat: sunscreens making therapeutic SPF claims here are regulated by the TGA, and Korean labelling does not map onto Australian testing. Only buy sunscreen that shows an AUST L number; we stock SPF only once its ARTG listing is confirmed.",
       },
       {
         heading: "Overnight collagen film masks",
@@ -333,16 +333,16 @@ export const originArticles: LearnArticle[] = [
       },
       {
         heading: "What we are not chasing",
-        body: "Single-ingredient miracle launches with no domestic review volume. Devices with cosmetic-level claims and clinical-level pricing. Anything that only exists in export markets — if it does not hold Olive Young Korea shelf space or Hwahae review volume, it did not win at home, and that is our first filter before we import anything.",
+        body: "Single-ingredient miracle launches with no domestic review volume. Devices with cosmetic-level claims and clinical-level pricing. Anything that only exists in export markets. We start with products that have strong Korean review histories on platforms like Hwahae.",
       },
     ],
     keyPoints: [
-      "PDRN is the strongest current Korean category: product counts +43%, reviews +103%.",
+      "PDRN is the strongest current Korean category: product counts +43%, reviews +103%, according to Trendier AI's analysis of Olive Young reviews.",
       "Exosome cosmetic claims are looser than clinical ones — judge the full formula.",
       "Toner pads are worth buying when acid percentage and pH are disclosed.",
-      "Korean SPF labelling is not TGA-equivalent; read brand-supplied information.",
+      "Korean SPF labelling is not TGA-equivalent; only buy sunscreen that shows an AUST L number.",
       "Collagen film masks are occlusive hydration, not collagen building.",
-      "We only import what holds Olive Young Korea shelf space and Hwahae review volume.",
+      "We start with products that have strong Korean review histories on platforms like Hwahae.",
     ],
     sources: [SRC_CLINIC, SRC_KBS, SRC_HWAHAE, SRC_TGA],
     related: ["seoul-vs-tiktok", "pdrn-explained", "tga-vs-korean-sunscreen"],

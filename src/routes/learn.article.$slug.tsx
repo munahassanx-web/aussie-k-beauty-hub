@@ -116,6 +116,7 @@ function ArticlePage() {
         </p>
         <p className="mt-7 border-t border-foreground/15 pt-5 text-[11px] uppercase tracking-[0.2em] text-muted-foreground/80">
           {article.read} · Skin Grocer Curation Desk
+          {article.lastReviewed ? ` · Last reviewed: ${article.lastReviewed}` : null}
         </p>
       </header>
 

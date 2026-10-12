@@ -31,7 +31,11 @@ export type LearnArticle = {
   keyPoints: string[];
   sources: { label: string; href: string }[];
   related: string[];
+  /** Month the article was last checked for accuracy, e.g. "October 2026". */
+  lastReviewed?: string;
 };
+
+const DEFAULT_LAST_REVIEWED = "October 2026";
 
 const SOURCE_HWAHAE = {
   label: "Hwahae (화해) — Korea's largest beauty review platform, 2026 trend report",
@@ -74,7 +78,7 @@ const baseArticles: LearnArticle[] = [
     meta: "Concern · Tone",
     title: "K-Beauty On Deeper Skin: What Actually Translates",
     blurb: "Cast, brightening claims and pigmentation, honestly assessed for Australian skin.",
-    read: "8 min read",
+    read: "3 min read",
     cover: deeperSkinTones,
     coverAlt: "Portrait of a woman with deep skin tone and healthy, even, naturally luminous complexion in soft daylight",
     standfirst:
@@ -86,7 +90,7 @@ const baseArticles: LearnArticle[] = [
       },
       {
         heading: "White cast is a filter problem, not a K-beauty problem",
-        body: "Cast comes from inorganic UV filters — zinc oxide and titanium dioxide — sitting on the surface and scattering visible light. Korean sunscreens are frequently chemical-filter or hybrid formulas using filters approved in Korea and the EU, which are far less likely to cast than a high-zinc Australian formula. In practice, deeper skin often gets a *better* cosmetic result from a Korean chemical or hybrid sunscreen than from a local zinc-heavy one. If a Korean sunscreen does cast, the label will say '무기자차' (inorganic/mineral) — that's your tell.",
+        body: "Cast comes from inorganic UV filters — zinc oxide and titanium dioxide — sitting on the surface and scattering visible light. Chemical-filter and hybrid formulas, common in Korea and also available in Australia, are far less likely to cast than a high-zinc formula. In practice, deeper skin often gets a *better* cosmetic result from a chemical or hybrid sunscreen than from a zinc-heavy one. Whatever you choose, look for an AUST L number on the pack: that shows it is listed for sale in Australia. On Korean labels, '무기자차' means an inorganic (mineral) filter, the kind most likely to cast.",
       },
       {
         heading: "'Brightening' does not mean 'lightening'",
@@ -98,11 +102,11 @@ const baseArticles: LearnArticle[] = [
       },
       {
         heading: "Where over-exfoliation does the most damage",
-        body: "Melanin-rich skin is not 'tougher'. It's more reactive in one specific way: any injury that triggers inflammation is more likely to leave visible pigment. That makes the TikTok pattern of daily acid toners plus a retinal plus a scrub genuinely risky here. Our standing guidance is chemical exfoliation no more than twice a week, one active introduced at a time, with a minimum two-week gap between additions.",
+        body: "Melanin-rich skin is not 'tougher'. It's more reactive in one specific way: any injury that triggers inflammation is more likely to leave visible pigment. That makes the TikTok pattern of daily acid toners plus a retinal plus a scrub genuinely risky here. Our standing guidance is chemical exfoliation no more than twice a week, with one new product added every 1–2 weeks.",
       },
       {
         heading: "What we do about it",
-        body: "Every sunscreen we stock is swatched on multiple skin tones before it goes on the shelf, and we say plainly in the listing whether there's a cast. We translate 미백 as 'tone-evening', not 'whitening'. And where a product's Korean marketing leans on language that doesn't translate, we rewrite it rather than paste it.",
+        body: "When we stock a sunscreen, we'll swatch it on multiple skin tones before it goes on the shelf and say plainly in the listing whether there's a cast. We translate 미백 as 'tone-evening', not 'whitening'. And where a product's Korean marketing leans on language that doesn't translate, we rewrite it rather than paste it.",
       },
     ],
     keyPoints: [
@@ -120,7 +124,7 @@ const baseArticles: LearnArticle[] = [
     meta: "Concern · Sensitivity",
     title: "Why Australian Skin Barriers Struggle More Than Korean Skin",
     blurb: "Aircon, harder water and extreme UV — the climate case, with numbers.",
-    read: "6 min read",
+    read: "3 min read",
     cover: barrierClimate,
     coverAlt: "Woman shielding her face from harsh Australian sun, skin flushed and dry in bright daylight",
     standfirst:
@@ -128,15 +132,15 @@ const baseArticles: LearnArticle[] = [
     sections: [
       {
         heading: "1. UV load, not UV season",
-        body: "Seoul's summer UV index peaks around 8–9 for a few weeks. Large parts of Australia sit at extreme UV for months, and even a Melbourne winter records damaging UV on clear days. Chronic UV exposure degrades the lipid matrix that holds your barrier together — so the same barrier repair routine has to work harder here simply to hold ground. This is the single strongest argument for treating sunscreen as a barrier product, not a cosmetic one.",
+        body: "Seoul's summer UV index peaks around 8–9 for a few weeks. Large parts of Australia sit at extreme UV for months. UV in southern winters is usually below 3; protection is still needed at altitude, near snow or for long outdoor exposure. Chronic UV exposure degrades the lipid matrix that holds your barrier together — so the same barrier repair routine has to work harder here simply to hold ground. This is the single strongest argument for treating sunscreen as a barrier product, not a cosmetic one.",
       },
       {
         heading: "2. Air conditioning, which is effectively a dehumidifier",
-        body: "Korean apartments run humidified heating through winter; Australian offices, cars and homes run refrigerated cooling for months. Air conditioning strips ambient humidity, and transepidermal water loss rises with the humidity gradient. Humectant-heavy Korean essences — glycerin, hyaluronic acid, panthenol — actually pull water *from* your skin in a dry, air-conditioned room unless you seal them with an occlusive. This is the most common mistake we see: the right products, applied in an environment they weren't designed for, with the last step skipped.",
+        body: "Korean homes run floor heating, usually alongside a humidifier, through winter; Australian offices, cars and homes run refrigerated cooling for months. Air conditioning strips ambient humidity, and transepidermal water loss rises with the humidity gradient. Humectant-heavy Korean essences — glycerin, hyaluronic acid, panthenol — actually pull water *from* your skin in a dry, air-conditioned room unless you seal them with an occlusive. This is the most common mistake we see: the right products, applied in an environment they weren't designed for, with the last step skipped.",
       },
       {
         heading: "3. Water hardness",
-        body: "Adelaide, Perth and parts of regional Queensland and Victoria have noticeably harder water than Seoul's supply. Calcium and magnesium ions react with cleanser surfactants to leave a residue film and raise skin pH after washing, which slows barrier recovery. If your skin feels squeaky and tight for twenty minutes after cleansing, the water is contributing. A low-pH, low-foam cleanser and a hydrating toner immediately after washing does more here than any serum.",
+        body: "Adelaide, Perth and parts of regional Queensland and Victoria have noticeably harder water than Seoul's supply. Calcium and magnesium ions react with cleanser surfactants to leave a residue film and raise skin pH after washing, which slows barrier recovery. If your skin feels squeaky and tight for twenty minutes after cleansing, the water is contributing. A low-pH, low-foam cleanser and a hydrating toner immediately after washing do more here than any serum.",
       },
       {
         heading: "4. Climate swing within a single day",
@@ -148,14 +152,14 @@ const baseArticles: LearnArticle[] = [
       },
       {
         heading: "Signs your barrier is actually compromised",
-        body: "Stinging from products that never stung before. Redness that stays after a hot shower. Tightness within minutes of cleansing. Flaking on top of oiliness. If you have two or more of these, stop every active for fourteen days and run cleanser, hydrating toner, a cica or ceramide moisturiser, and SPF. Nothing else. Most barriers recover in two to four weeks — but only if you stop poking them.",
+        body: "Stinging from products that never stung before. Redness that stays after a hot shower. Tightness within minutes of cleansing. Flaking on top of oiliness. If you have two or more of these, pause actives for 7–14 days and run cleanser, hydrating toner, a cica or ceramide moisturiser, and SPF. Nothing else. Most barriers recover in two to four weeks — but only if you stop poking them.",
       },
     ],
     keyPoints: [
       "Australian UV load is higher and near year-round — SPF is a barrier product here, not a cosmetic.",
       "Air conditioning makes humectant-only layering counterproductive; always seal with an occlusive.",
       "Hard water raises post-cleanse pH — use low-pH cleansers and tone immediately.",
-      "Two or more barrier warning signs means fourteen days with zero actives.",
+      "Two or more barrier warning signs means pausing actives for 7–14 days.",
     ],
     sources: [SOURCE_ARPANSA, SOURCE_BOM, SOURCE_OY_INGREDIENTS],
     related: ["deeper-skin-tones-k-beauty", "humid-summer-layering", "prevention-over-repair"],
@@ -166,7 +170,7 @@ const baseArticles: LearnArticle[] = [
     meta: "Concern · Pigmentation",
     title: "Uneven Tone, Not \u201CWhitening\u201D: Getting The Language Right",
     blurb: "What the Korean label actually claims, and what to look for when you want brightness.",
-    read: "5 min read",
+    read: "3 min read",
     cover: unevenTone,
     coverAlt: "Close crop of a cheek showing natural freckling and uneven pigmentation in soft even light",
     standfirst:
@@ -174,7 +178,7 @@ const baseArticles: LearnArticle[] = [
     sections: [
       {
         heading: "What the Korean claim legally means",
-        body: "Under Korea's functional cosmetics framework, a 미백 claim requires an approved active at an approved concentration, tested for a specific effect: inhibiting melanin synthesis or supporting the turnover of already-pigmented cells. The approved list is narrow — niacinamide, arbutin, ascorbic acid derivatives, adenosine-adjacent actives. It is a claim about melanin *overproduction*, not about your constitutional skin colour.",
+        body: "Under Korea's functional cosmetics framework, a 미백 claim requires an approved active at an approved concentration, tested for a specific effect: inhibiting melanin synthesis or supporting the turnover of already-pigmented cells. The approved list is narrow — niacinamide, arbutin, vitamin C derivatives, alpha-bisabolol, mulberry root and licorice extracts. It is a claim about melanin *overproduction*, not about your constitutional skin colour.",
       },
       {
         heading: "Why the English translation is wrong",
@@ -210,15 +214,15 @@ const baseArticles: LearnArticle[] = [
     meta: "Ingredient · Active",
     title: "PDRN in Topical Skincare: What We Know and What Remains Uncertain",
     blurb: "The clinic ingredient that moved onto retail shelves — and where to start with it.",
-    read: "6 min read",
+    read: "3 min read",
     cover: pdrnAmpoule,
     coverAlt: "Glass dropper releasing pale pink PDRN ampoule fluid onto a brushed steel laboratory surface",
     standfirst:
-      "PDRN reviews on Olive Young grew 103% in six months. It arrived from dermatology clinics, not from social media — which is exactly why it's worth understanding properly.",
+      "PDRN reviews on Olive Young grew 103% in six months, according to Trendier AI's analysis of Olive Young reviews. It arrived from dermatology clinics, not from social media — which is exactly why it's worth understanding properly.",
     sections: [
       {
         heading: "Where it came from",
-        body: "Polydeoxyribonucleotide is a fragmented DNA chain, most commonly sourced from salmon milt because its nucleotide sequence is highly compatible with human DNA. In Korea it entered skincare sideways: it was already used in injectable skin-booster treatments (the ones marketed as 'salmon DNA' facials) before brands began formulating it into serums. That clinic-to-shelf pathway is the defining K-beauty pattern of 2025–26, alongside exosomes and spicules.",
+        body: "Polydeoxyribonucleotide is a fragmented DNA chain, most commonly sourced from salmon or trout milt because it can be extracted at high purity. In Korea it entered skincare sideways: it was already used in injectable skin-booster treatments (the ones marketed as 'salmon DNA' facials) before brands began formulating it into serums. That clinic-to-shelf pathway is the defining K-beauty pattern of 2025–26, alongside exosomes and spicules.",
       },
       {
         heading: "What it plausibly does topically",
@@ -252,7 +256,7 @@ const baseArticles: LearnArticle[] = [
     meta: "Ingredient · Barrier",
     title: "Centella Asiatica: Why It's In Almost Everything We Stock",
     blurb: "Cica isn't a trend in Korea — it's the default baseline for daily skin insurance.",
-    read: "5 min read",
+    read: "2 min read",
     cover: centellaLeaves,
     coverAlt: "Fresh centella asiatica leaves beside a clear soothing gel on pale stone",
     standfirst:
@@ -260,7 +264,7 @@ const baseArticles: LearnArticle[] = [
     sections: [
       {
         heading: "What's actually in it",
-        body: "Centella asiatica extract contains four notable compounds: madecassoside, asiaticoside, madecassic acid and asiatic acid — collectively 'TECA' or centella asiatica triterpenes. Madecassoside is the most studied for calming inflammation; asiaticoside is associated with wound-healing support and collagen signalling. When a Korean label says 'Cica' it may mean the whole extract or a specific isolate, and the isolates are typically the more expensive, more targeted option.",
+        body: "Centella asiatica extract contains four notable compounds: madecassoside, asiaticoside, madecassic acid and asiatic acid — collectively standardised as TECA (titrated extract of Centella asiatica). Madecassoside is the most studied for calming inflammation; asiaticoside is associated with wound-healing support and collagen signalling. When a Korean label says 'Cica' it may mean the whole extract or a specific isolate, and the isolates are typically the more expensive, more targeted option.",
       },
       {
         heading: "Why it dominates Korean shelves",
@@ -290,7 +294,7 @@ const baseArticles: LearnArticle[] = [
     meta: "Ingredient · Regulation",
     title: "TGA vs Korean Sunscreen Standards, Decoded",
     blurb: "Filters, testing and water resistance, compared side by side — and why labels differ.",
-    read: "7 min read",
+    read: "3 min read",
     cover: sunscreenStandards,
     coverAlt: "Unbranded white sunscreen tubes standing in hard sunlight casting sharp shadows",
     standfirst:
@@ -298,30 +302,30 @@ const baseArticles: LearnArticle[] = [
     sections: [
       {
         heading: "Two regulators, two philosophies",
-        body: "In Australia, primary sunscreens fall under the TGA and must comply with AS/NZS 2604, including listing on the ARTG and adherence to an approved list of UV filters. In Korea, sunscreen is a 기능성화장품 — a functional cosmetic — regulated by the MFDS. Korea's approved filter list is broader and includes modern filters that have never been submitted for Australian approval, which is a paperwork and commercial issue, not a safety verdict.",
+        body: "In Australia, primary sunscreens fall under the TGA and must comply with AS/NZS 2604, including listing on the ARTG and adherence to an approved list of UV filters. In Korea, sunscreen is a 기능성화장품 — a functional cosmetic — regulated by the MFDS. Korea's approved filter list is broader in places, but the gap is mostly about which finished products have been listed here, not a safety verdict.",
       },
       {
         heading: "Why Korean textures are better",
-        body: "This is the honest answer to 'why does Korean sunscreen feel so much nicer'. Filters like uvinul A Plus, tinosorb S and tinosorb M are photostable, work at lower concentrations and dissolve well in cosmetically elegant bases. Australian formulas lean harder on zinc oxide, which is heavier, chalkier and more likely to cast. It's a formulation-freedom difference, not a diligence difference.",
+        body: "This is the honest answer to 'why does Korean sunscreen feel so much nicer'. Filters like uvinul A Plus, tinosorb S and tinosorb M are photostable, work at lower concentrations and dissolve well in cosmetically elegant bases. These filters are permitted in Australia too; the difference is that each Korean product must be separately tested and listed on the ARTG before it can be sold here, which few brands do.",
       },
       {
         heading: "The rating systems, translated",
-        body: "SPF measures UVB protection and reads the same in both markets. UVA is where they diverge: Australia uses a broad-spectrum test against AS/NZS 2604, while Korea uses PA+ through PA++++, based on persistent pigment darkening. PA++++ is the highest grade and roughly corresponds to strong UVA protection. Water resistance in Australia must be substantiated in defined 4-hour terms; Korean labels use their own claims and frequently make none at all — which matters at an Australian beach.",
+        body: "SPF measures UVB protection and reads the same in both markets. UVA is where they diverge: Australia uses a broad-spectrum test against AS/NZS 2604, while Korea uses PA+ through PA++++, based on persistent pigment darkening. PA++++ is the highest grade and roughly corresponds to strong UVA protection. Water resistance in Australia must be tested and stated as 40 minutes, 2 hours or 4 hours; Korean labels use their own claims and frequently make none at all — which matters at an Australian beach.",
       },
       {
         heading: "What this means for what you buy",
-        body: "A Korean sunscreen is an excellent daily-wear product: superb texture, high compliance, minimal cast. For a full day outdoors — beach, sport, work site — an Australian-tested, water-resistant SPF50+ remains the right tool, because water resistance is the variable Korean labels rarely substantiate. Many of our customers run both, and we think that's the correct answer rather than a compromise.",
+        body: "Only buy sunscreen that shows an AUST L number; we stock SPF only once its ARTG listing is confirmed. For a full day outdoors — beach, sport, work site — choose an ARTG-listed, water-resistant SPF50+ and follow the label's reapplication directions.",
       },
       {
         heading: "How we handle it",
-        body: "We list the filter system for every sunscreen we stock, state the PA grade, and say plainly whether it has substantiated water resistance. Where a Korean SPF is best used as a daily-wear product rather than a beach product, we say so on the listing instead of letting the SPF50+ number do the talking.",
+        body: "When we stock a sunscreen, we'll list its filter system, state its ARTG listing and say plainly whether it has tested water resistance, instead of letting the SPF50+ number do the talking.",
       },
     ],
     keyPoints: [
       "Australia: therapeutic good under the TGA. Korea: functional cosmetic under the MFDS.",
-      "Korea's broader approved filter list is why textures are lighter and cast is lower.",
+      "Modern filters are permitted in both countries — few Korean products are listed on the ARTG.",
       "PA++++ is Korea's highest UVA grade; Australia uses broad-spectrum testing instead.",
-      "For long outdoor exposure, use an Australian water-resistant SPF50+.",
+      "Only buy sunscreen with an AUST L number; for long outdoor exposure, choose water-resistant SPF50+.",
     ],
     sources: [SOURCE_TGA, SOURCE_ARPANSA, SOURCE_KBS],
     related: ["deeper-skin-tones-k-beauty", "humid-summer-layering", "prevention-over-repair"],
@@ -334,7 +338,7 @@ const baseArticles: LearnArticle[] = [
     meta: "Routine · Order",
     title: "The Correct Layering Order For Humid Australian Summers",
     blurb: "When Korean seven-step logic breaks down at 35°C, and what to do instead.",
-    read: "5 min read",
+    read: "2 min read",
     cover: layeringHumid,
     coverAlt: "Woman pouring a watery essence into her palm in humid, dewy light",
     standfirst:
@@ -376,7 +380,7 @@ const baseArticles: LearnArticle[] = [
     meta: "Routine · Acids",
     title: "How Often Melanin-Rich Skin Should Actually Use Acids",
     blurb: "Frequency guidance by skin type and concern — and the pigment risk nobody mentions.",
-    read: "6 min read",
+    read: "2 min read",
     cover: acidsFrequency,
     coverAlt: "Woman with warm brown skin gently pressing a cotton pad of exfoliating toner to her cheek",
     standfirst:
@@ -396,11 +400,11 @@ const baseArticles: LearnArticle[] = [
       },
       {
         heading: "The Korean pattern",
-        body: "Korean routines lean toward frequent gentle care over occasional aggressive care — low-concentration daily-safe formulas, enzyme powders, or a weekly pad rather than a monthly peel. Combined with rigorous sun protection, that's the lower-risk model for anyone who pigments easily.",
+        body: "Korean routines lean towards frequent gentle care over occasional aggressive care — low-concentration daily-safe formulas, enzyme powders, or a weekly pad rather than a monthly peel. Combined with rigorous sun protection, that's the lower-risk model for anyone who pigments easily.",
       },
       {
         heading: "Non-negotiables",
-        body: "Sunscreen every single day you exfoliate and for the days after. One new active at a time, with a two-week gap. Stop immediately at stinging, tightness or new redness — pushing through is how a two-week problem becomes a six-month one.",
+        body: "Sunscreen every single day you exfoliate and for the days after. One new product every 1–2 weeks. Stop immediately at stinging, tightness or new redness — pushing through is how a two-week problem becomes a six-month one.",
       },
     ],
     keyPoints: [
@@ -418,7 +422,7 @@ const baseArticles: LearnArticle[] = [
     meta: "Routine · Climate",
     title: "Rebuilding Your Routine For Melbourne Winter vs Brisbane Summer",
     blurb: "How a routine should shift across Australian climate zones — without rebuying everything.",
-    read: "7 min read",
+    read: "3 min read",
     cover: climateZoneRoutines,
     coverAlt: "A rich winter cream and a light humid-weather gel side by side on pale stone",
     standfirst:
@@ -429,7 +433,7 @@ const baseArticles: LearnArticle[] = [
         body: "Ambient humidity, indoor air conditioning or heating, and UV load. Everything else — temperature, wind, altitude — is secondary. If you can name where you sit on those three, you can adjust a routine in about four minutes.",
       },
       {
-        heading: "Humid subtropical: Brisbane, Darwin, coastal NSW",
+        heading: "Humid subtropical and tropical: Brisbane, coastal NSW, Darwin",
         body: "High humidity, high UV, heavy air-con use indoors. Go lighter on occlusives, keep hydration high, and don't over-cleanse to chase the shine — stripping oil in humidity triggers rebound production. Gel moisturiser, fluid or hybrid sunscreen, blotting rather than rewashing. If you're in air conditioning eight hours a day, treat those hours as a dry climate and keep a hydrating mist and a small cream at your desk.",
       },
       {
@@ -442,7 +446,7 @@ const baseArticles: LearnArticle[] = [
       },
       {
         heading: "Cool and heated: Hobart, alpine, southern winter",
-        body: "Indoor heating dries skin as effectively as air conditioning. Richer cleanser, an emollient essence, ceramide cream, and occasional overnight occlusion. UV is lower but not zero — clear winter days still deliver damaging UV, so SPF stays in the routine year-round.",
+        body: "Indoor heating dries skin as effectively as air conditioning. Richer cleanser, an emollient essence, ceramide cream, and occasional overnight occlusion. UV in southern winters is usually below 3; protection is still needed at altitude, near snow or for long outdoor exposure.",
       },
       {
         heading: "The seasonal swap list",
@@ -466,7 +470,7 @@ const baseArticles: LearnArticle[] = [
     meta: "Seoul Signal · Philosophy",
     title: "미리 관리: Understanding Korea's Prevention-First Skincare Conversation",
     blurb: "A closer look at how consistency and prevention-minded care appear in Korean beauty conversations.",
-    read: "7 min read",
+    read: "3 min read",
     cover: preventionFirst,
     coverAlt: "Korean woman smoothing sunscreen along her cheekbone in soft morning light — daily preventative care",
     standfirst:
@@ -482,11 +486,11 @@ const baseArticles: LearnArticle[] = [
       },
       {
         heading: "The data behind it",
-        body: "Hwahae, Korea's largest review platform, sits on more than ten million reviews across roughly 430,000 products, and Olive Young holds over 85% of the domestic health-and-beauty retail market. Korean shoppers arrive at the shelf having already read ingredient breakdowns and review histories; the 2026 Olive Young pattern shows purchases clustering around soothing, barrier and recovery benefits rather than around whatever is trending internationally. The buying behaviour matches the philosophy.",
+        body: "Hwahae is one of Korea's largest beauty review platforms, and Olive Young dominates Korea's health-and-beauty store channel. Korean shoppers arrive at the shelf having already read ingredient breakdowns and review histories; the 2026 Olive Young pattern shows purchases clustering around soothing, barrier and recovery benefits rather than around whatever is trending internationally. The buying behaviour matches the philosophy.",
       },
       {
         heading: "Why this matters more in Australia than in Korea",
-        body: "Our UV load is dramatically higher, our indoor air is drier, and our access to Korean products has historically lagged the domestic market by twelve to eighteen months. Prevention-first is not a lifestyle aesthetic here — it's the rational strategy for the environment. And it happens to be far cheaper than corrective skincare.",
+        body: "Our UV load is dramatically higher, our indoor air is drier, and our access to Korean products has often been months behind the domestic market. Prevention-first is not a lifestyle aesthetic here — it's the rational strategy for the environment. And it happens to be far cheaper than corrective skincare.",
       },
       {
         heading: "How to apply it this week",
@@ -508,7 +512,7 @@ const baseArticles: LearnArticle[] = [
     meta: "Seoul Signal · Data",
     title: "What's Actually Selling In Seoul (And What's Only Big On TikTok)",
     blurb: "The gap between domestic Korean demand and the global K-beauty feed, in numbers.",
-    read: "6 min read",
+    read: "3 min read",
     cover: seoulSkincareAisle.url,
     coverAlt: "Bright modern Korean skincare store aisle in Seoul, shelves densely stocked with serums, toners and creams, a shopper seen from behind carrying a black shopping basket",
     standfirst:
@@ -520,11 +524,11 @@ const baseArticles: LearnArticle[] = [
       },
       {
         heading: "How to check for yourself",
-        body: "Three domestic signals. Hwahae ranking and review volume — Korean-language reviews, not translated ones. Olive Young Korea's category best-sellers, which are transaction-driven rather than editorial. And whether the brand holds physical shelf space in Olive Young stores at all, since roughly 85% of the domestic market runs through them. A brand strong on all three is genuinely used at home.",
+        body: "Three domestic signals. Hwahae ranking and review volume — Korean-language reviews, not translated ones. Olive Young Korea's category best-sellers, which are transaction-driven rather than editorial. And whether the brand holds physical shelf space in Olive Young stores at all, since Olive Young dominates Korea's health-and-beauty store channel. A brand strong on all three is genuinely used at home.",
       },
       {
         heading: "What the domestic data is showing right now",
-        body: "Clinic-derived actives are the defining movement: PDRN product counts up around 43% with reviews up 103%, and exosome reviews up 229% over six months on Olive Young. Soothing and barrier categories continue to lead overall purchase volume. Sunscreen, serums and ampoules remain the strongest categories in trend reporting. Notably, skincare accounted for around 60% of exhibitor submissions at Cosmo Beauty Seoul 2026 — the market is still fundamentally a skincare market, not a makeup one.",
+        body: "Clinic-derived actives are the defining movement: according to Trendier AI's analysis of Olive Young reviews, PDRN product counts rose around 43% with reviews up 103%, and exosome reviews rose 229% over six months. Soothing and barrier categories continue to lead overall purchase volume. Sunscreen, serums and ampoules remain the strongest categories in trend reporting. Notably, skincare accounted for around 60% of exhibitor submissions at Cosmo Beauty Seoul 2026 — the market is still fundamentally a skincare market, not a makeup one.",
       },
       {
         heading: "What travels badly",
@@ -532,7 +536,7 @@ const baseArticles: LearnArticle[] = [
       },
       {
         heading: "Where Australia sits",
-        body: "Historically we've received the global-marketing version of K-beauty twelve to eighteen months after Korean shelves — filtered through whichever products were easiest to export. Our sourcing brief is the opposite: track the domestic rankings, cross-check Hwahae review volume, then bring in what is genuinely repurchased in the Korean domestic market. Not what's trending in a fifteen-second video.",
+        body: "Historically we've received the global-marketing version of K-beauty often months behind Korean shelves — filtered through whichever products were easiest to export. Our sourcing brief is the opposite: track the domestic rankings, cross-check Hwahae review volume, then bring in what is genuinely repurchased in the Korean domestic market. Not what's trending in a fifteen-second video.",
       },
     ],
     keyPoints: [
@@ -546,7 +550,10 @@ const baseArticles: LearnArticle[] = [
   },
 ];
 
-export const learnArticles: LearnArticle[] = [...baseArticles, ...originArticles];
+export const learnArticles: LearnArticle[] = [...baseArticles, ...originArticles].map((a) => ({
+  ...a,
+  lastReviewed: a.lastReviewed ?? DEFAULT_LAST_REVIEWED,
+}));
 
 
 export function getLearnArticle(slug: string) {
