@@ -9,6 +9,7 @@ import { BrandBand } from "@/components/brand-band";
 import { findProductBySlug } from "@/lib/product-detail";
 import { supplierMatchPending } from "@/lib/shop-catalog";
 import { NEXT_DAY_BADGE } from "@/lib/shipping-rates";
+import { BadgeCheck, Sparkles, Truck, Zap } from "lucide-react";
 
 
 type MegaLink = { label: string; to: string; search?: Record<string, string>; hash?: string };
@@ -125,36 +126,56 @@ function AnnouncementBar({ suppressStockClaims = false }: { suppressStockClaims?
 
   return (
     <div
-      className="bg-ink text-paper"
+      className="relative overflow-hidden bg-ink text-paper"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="relative mx-auto flex min-h-[32px] max-w-7xl items-center px-6 py-1 md:min-h-[36px]">
-        <span className="absolute left-6 top-1/2 hidden -translate-y-1/2 text-[10px] font-medium uppercase tracking-[0.2em] text-paper/70 md:block">
+      {/* Depth: a soft top light plus a warm centre glow, so the black band
+          reads as a polished signature strip rather than a flat rule. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,white_10%,transparent)_0%,transparent_42%),radial-gradient(58%_170%_at_50%_-50%,color-mix(in_oklab,var(--grocer-butter)_16%,transparent)_0%,transparent_72%)]"
+      />
+      {/* Champagne hairline under the band — the selling-point frame */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-grocer-butter/70 to-transparent"
+      />
+
+      <div className="relative mx-auto flex min-h-[36px] max-w-7xl items-center px-4 py-1.5 md:min-h-[40px] md:px-6">
+        <span className="absolute left-6 top-1/2 hidden -translate-y-1/2 items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-paper md:flex">
+          <span className="h-1.5 w-1.5 rounded-full bg-grocer-butter" />
           AUD $ · Australia
         </span>
-        <span className="absolute right-6 top-1/2 hidden -translate-y-1/2 items-center gap-6 text-[10px] font-medium uppercase tracking-[0.2em] text-paper/70 md:flex">
-          <Link to="/track" className="hover:text-paper">Track order</Link>
-          <Link to="/contact" className="hover:text-paper">Help</Link>
+        <span className="absolute right-6 top-1/2 hidden -translate-y-1/2 items-center gap-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/90 md:flex">
+          <Link to="/track" className="transition-colors hover:text-grocer-butter">Track order</Link>
+          <Link to="/contact" className="transition-colors hover:text-grocer-butter">Help</Link>
         </span>
 
-        {/* One message at a time, gentle fade; static under reduced motion */}
-        <div className="relative h-4 w-full" aria-live="off">
-          {visibleAnnouncements.map((msg, i) => (
-            <span
-              key={msg}
-              className={`absolute inset-0 flex items-center justify-center whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.16em] text-paper/70 ease-out motion-reduce:transition-none md:text-[10px] md:tracking-[0.2em] ${
-                i === active
-                  ? "opacity-100 translate-y-0 transition-all duration-700 delay-200"
-                  : "opacity-0 -translate-y-1 transition-all duration-200"
-              }`}
-              aria-hidden={i !== active}
-            >
-              {msg}
-            </span>
-          ))}
+        {/* One selling point at a time, gentle fade; static under reduced motion */}
+        <div className="relative h-5 w-full" aria-live="off">
+          {visibleAnnouncements.map((msg, i) => {
+            const Icon = ANNOUNCEMENT_ICONS[msg] ?? Sparkles;
+            return (
+              <span
+                key={msg}
+                className={`absolute inset-0 flex items-center justify-center gap-2.5 whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.18em] ease-out motion-reduce:transition-none md:gap-3 md:text-[11px] md:tracking-[0.22em] ${
+                  i === active
+                    ? "text-paper opacity-100 translate-y-0 transition-all duration-700 delay-200"
+                    : "text-paper/80 opacity-0 -translate-y-1 transition-all duration-200"
+                }`}
+                aria-hidden={i !== active}
+              >
+                <Icon
+                  aria-hidden="true"
+                  className="h-3.5 w-3.5 shrink-0 text-grocer-butter"
+                  strokeWidth={2.25}
+                />
+                {msg}
+              </span>
+            );
+          })}
         </div>
-
       </div>
     </div>
   );
