@@ -928,32 +928,6 @@
   }
 }
 
-/* Skin quiz face map: zone hotspots over the sculpted face. */
-.face-zone--idle {
-  border: 1.5px dashed rgba(46, 30, 25, 0.28);
-  background: rgba(255, 255, 255, 0.12);
-}
-.face-zone--idle:hover { background: rgba(255, 255, 255, 0.35); border-color: rgba(46, 30, 25, 0.5); }
-.face-zone--shine {
-  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.95), color-mix(in oklab, var(--aisle-honey) 75%, transparent) 45%, transparent 75%);
-  box-shadow: 0 0 22px 6px color-mix(in oklab, var(--aisle-honey) 55%, transparent);
-}
-.face-zone--tight {
-  background: radial-gradient(circle at 40% 35%, rgba(255, 255, 255, 0.7), color-mix(in oklab, var(--aisle-hydration) 80%, transparent) 50%, transparent 78%);
-  box-shadow: 0 0 20px 5px color-mix(in oklab, var(--aisle-hydration) 55%, transparent);
-}
-.face-zone--marked {
-  border: 1.5px solid color-mix(in oklab, var(--aisle-honey) 70%, transparent);
-  background: color-mix(in oklab, var(--aisle-honey) 18%, transparent);
-}
-@keyframes face-map-float {
-  0%, 100% { translate: 0 0; }
-  50% { translate: 0 -6px; }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .face-map-float { animation: face-map-float 6s ease-in-out infinite; }
-}
-
 /* The Seoul Shelf hero — marquee ticker + shelf swap motion */
 @keyframes shelf-marquee {
   from { transform: translateX(0); }
@@ -1162,4 +1136,30 @@
       radial-gradient(circle at 24px 12px, var(--awning-b) 7.5px, transparent 8px) 0 0 / 32px 20px repeat-x,
       repeating-linear-gradient(90deg, var(--awning-a) 0 16px, var(--awning-b) 16px 32px) 0 0 / 100% 12px no-repeat;
   }
+}
+
+/* Skin quiz face map: zone hotspots over the sculpted face. */
+.face-zone--idle {
+  border: 1.5px dashed rgba(46, 30, 25, 0.28);
+  background: rgba(255, 255, 255, 0.12);
+}
+.face-zone--idle:hover { background: rgba(255, 255, 255, 0.35); border-color: rgba(46, 30, 25, 0.5); }
+.face-zone--shine {
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.95), color-mix(in oklab, var(--aisle-honey) 75%, transparent) 45%, transparent 75%);
+  box-shadow: 0 0 22px 6px color-mix(in oklab, var(--aisle-honey) 55%, transparent);
+}
+.face-zone--tight {
+  background: radial-gradient(circle at 40% 35%, rgba(255, 255, 255, 0.7), color-mix(in oklab, var(--aisle-hydration) 80%, transparent) 50%, transparent 78%);
+  box-shadow: 0 0 20px 5px color-mix(in oklab, var(--aisle-hydration) 55%, transparent);
+}
+.face-zone--marked {
+  border: 1.5px solid color-mix(in oklab, var(--aisle-honey) 70%, transparent);
+  background: color-mix(in oklab, var(--aisle-honey) 18%, transparent);
+}
+@keyframes face-map-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -6px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .face-map-float { animation: face-map-float 6s ease-in-out infinite; }
 }
