@@ -46,6 +46,7 @@ import {
   temporaryProductTypeSentence,
   supplyRestricted,
 } from '@/lib/product-detail';
+import { NEXT_DAY_LINE } from "@/lib/shipping-rates";
 
 
 function absoluteProductImage(src: string): string {
@@ -690,7 +691,7 @@ function ProductPage() {
               <>
                 <div className="mt-5 space-y-2 border-t border-border pt-4 text-xs text-muted-foreground">
                   <p className="flex items-center gap-2"><BadgeCheck className="h-4 w-4 shrink-0" aria-hidden="true" />Batch checked and authenticity recorded</p>
-                  <p className="flex items-center gap-2"><PackageCheck className="h-4 w-4 shrink-0" aria-hidden="true" />Dispatched from our Melbourne warehouse</p>
+                  <p className="flex items-center gap-2"><PackageCheck className="h-4 w-4 shrink-0" aria-hidden="true" />{NEXT_DAY_LINE}</p>
                   <p className="flex items-center gap-2"><Truck className="h-4 w-4 shrink-0" aria-hidden="true" />Free standard delivery on Australian orders of A$100 or more</p>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
@@ -897,7 +898,7 @@ function ProductPage() {
               title: 'Shipping & returns',
               content: (
                 <div className="space-y-3 text-sm text-foreground/85">
-                   <p>Dispatched from our Melbourne warehouse. Free standard delivery on Australian orders of A$100 or more.</p>
+                   <p>Dispatched from our Melbourne warehouse. {NEXT_DAY_LINE}. Free standard delivery on Australian orders of A$100 or more.</p>
                   <p className="text-muted-foreground">
                     Full details in our{' '}
                     <Link

@@ -1,7 +1,12 @@
 import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { newsletterIssues } from "@/lib/newsletter-issues";
-import { RANKING_SNAPSHOT_DATE, RANKING_SOURCE, RANKING_SOURCE_URL } from "@/lib/korea-rankings";
+import {
+  RANKING_SNAPSHOT_DATE,
+  RANKING_SNAPSHOT_ISO,
+  RANKING_SOURCE,
+  RANKING_SOURCE_URL,
+} from "@/lib/korea-rankings";
 import { trackUi } from "@/lib/analytics";
 
 /**
@@ -15,7 +20,7 @@ const feature = newsletterIssues.find((i) => i.published) ?? newsletterIssues[0]
 
 /** Genuine date the Hwahae ranking was last researched (not today's date). */
 const LAST_CHECKED = RANKING_SNAPSHOT_DATE;
-const LAST_CHECKED_ISO = "2026-08-28";
+const LAST_CHECKED_ISO = RANKING_SNAPSHOT_ISO;
 
 const focusRing =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-paper";
@@ -89,12 +94,10 @@ export function KoreaRightNow() {
                 Korea market note
               </p>
               <h3 className="mt-3 font-display text-2xl leading-snug text-paper md:text-[28px]">
-                The quieter barrier creams, hydrating toners and daily formulas gaining attention
-                in Korea
+                {feature.title}
               </h3>
               <p className="mt-4 max-w-xl text-[14px] leading-relaxed text-paper/75">
-                A closer look at products receiving Korean ranking and review activity&mdash;and
-                why some differ from the products dominating international social media.
+                {feature.standfirst}
               </p>
 
               <dl className="mt-6 grid gap-x-6 gap-y-3 border-t border-paper/15 pt-5 text-[12.5px] sm:grid-cols-3">

@@ -153,15 +153,15 @@ export const SHOP_FAQS: Faq[] = [
   },
   {
     q: 'Do you have Afterpay or payment plans?',
-    a: 'Checkout is card-based through our secure payment provider. The payment methods available to you are shown at checkout before you pay.',
+    a: 'Yes. Checkout accepts cards, Apple Pay and Google Pay, and Afterpay (four fortnightly payments on eligible orders). The payment methods available to you are shown at checkout before you pay.',
   },
   {
     q: 'How do I check a Korean product is genuine?',
-    a: 'Check the code printed on the base or crimp of the packaging, the Korean-language regulatory text on the back, and the seal. Every Skin Grocer order also includes an authenticity card with a QR code and card reference you can scan to see the verification record we made for your order.',
+    a: 'Check the code printed on the base or crimp of the packaging, the Korean-language regulatory text on the back, and the seal. Some orders include an authenticity card with a QR code and card reference you can scan to see the verification record we made for your order.',
   },
   {
     q: 'What if a product breaks me out or stings?',
-    a: 'Stop the new product, go back to cleanser, moisturiser and sunscreen only for a week, then reintroduce one product every five to seven days. Email customercare@skingrocer.com.au and we will help you rebuild the routine — our 30-day guarantee applies.',
+    a: 'Stop using it, pause actives for 7–14 days, and contact us at customercare@skingrocer.com.au — we\'ll explain your options under our Returns Policy and the Australian Consumer Law. When you restart, add one new product every 1–2 weeks.',
   },
 ];
 
@@ -197,7 +197,7 @@ export const INGREDIENT_FAQS: Faq[] = [
   },
   {
     q: 'Where do K-beauty plant ingredients come from?',
-    a: 'Most trace back to Korean and East Asian traditional medicine. Ginseng has been cultivated in Korea for over a thousand years and is used for firmness; heartleaf (houttuynia cordata) was a folk remedy for inflammation and now anchors calming lines; mugwort (ssuk) was used in baths and teas and is now a staple soothing extract; rice ferment comes from centuries of using rice water on skin and hair.',
+    a: 'Most trace back to Korean and East Asian traditional medicine. Wild ginseng was traded and paid as tribute for over a thousand years, and farmed cultivation took hold in the Joseon era; heartleaf (houttuynia cordata) was a folk remedy for inflammation and now anchors calming lines; mugwort (ssuk) was used in baths and teas and is now a staple soothing extract; rice ferment comes from centuries of using rice water on skin and hair.',
   },
   {
     q: 'Do I need a Korean toner if I already use a moisturiser?',
@@ -210,7 +210,7 @@ export const INGREDIENT_FAQS: Faq[] = [
 export const TREND_FAQS: Faq[] = [
   {
     q: 'What are the biggest Korean skincare trends right now?',
-    a: 'The current Korean market has moved away from aggressive exfoliation toward repair and resilience. The dominant themes are barrier recovery ingredients (PDRN, exosome-positioned serums, peptides), "skin cycling" style routine restraint, collagen-film overnight masks, and hybrid sun care that behaves like skincare.',
+    a: 'The current Korean market has moved away from aggressive exfoliation towards repair and resilience. The dominant themes are barrier recovery ingredients (PDRN, exosome-positioned serums, peptides), routine restraint (fewer actives, alternated nights), collagen-film overnight masks, and hybrid sun care that behaves like skincare.',
     points: [
       'PDRN and peptide repair serums replacing high-strength acid routines.',
       'Overnight collagen hydrogel masks that dissolve onto the skin.',
@@ -221,15 +221,15 @@ export const TREND_FAQS: Faq[] = [
   },
   {
     q: 'Should I follow Korean skincare trends I see on TikTok?',
-    a: 'Treat TikTok as discovery, not evidence. Trends like slugging, glass skin and 10-step routines are real techniques, but they were filmed in a different climate on a different skin type. We check what Korean shoppers actually repurchase domestically before stocking anything, then test whether it holds up in Australian humidity and UV.',
+    a: 'Treat TikTok as discovery, not evidence. Trends like slugging, glass skin and 10-step routines are real techniques, but they were filmed in a different climate on a different skin type. We check what Korean shoppers actually repurchase domestically before stocking anything.',
   },
   {
     q: 'Why do new Korean products take so long to reach Australia?',
-    a: 'Australian retail typically lags Korean launches by 12 to 18 months because of distribution agreements, ingredient and labelling compliance, and freight. We shorten that by importing directly and holding stock locally, so new releases land here without an international shipping wait.',
+    a: 'Australian retail is often months behind Korean launches because of distribution agreements, ingredient and labelling compliance, and freight. We shorten that by importing directly and holding stock locally, so new releases land here without an international shipping wait.',
   },
   {
     q: 'What should I stop using if my skin is irritated?',
-    a: 'Pause exfoliating acids, retinal, scrubs, high-strength vitamin C and any fragranced product. Run cleanser, a barrier moisturiser with ceramides or centella, and sunscreen for seven to ten days, then reintroduce one active at a time.',
+    a: 'Pause exfoliating acids, retinal, scrubs, high-strength vitamin C and any fragranced product. Run cleanser, a barrier moisturiser with ceramides or centella, and sunscreen, pausing actives for 7–14 days, then add one new product every 1–2 weeks.',
   },
 ];
 

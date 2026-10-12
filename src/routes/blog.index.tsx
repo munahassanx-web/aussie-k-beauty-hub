@@ -23,7 +23,7 @@ const issueCovers: Record<string, { src: string; alt: string }> = {
   },
   "03": {
     src: issue03,
-    alt: "Round Lab toner, Torriden Dive In Soothing Cream and Dr.G soothing foam lined up as a four-step routine",
+    alt: "ROUND LAB toner, TORRIDEN Dive In Soothing Cream and Dr.G soothing foam lined up as a four-step routine",
   },
   "04": {
     src: issue04,
@@ -31,7 +31,7 @@ const issueCovers: Record<string, { src: string; alt: string }> = {
   },
   "05": {
     src: issue05,
-    alt: "Beauty of Joseon Glow Serum and Isntree Green Tea Fresh Toner in hard sunlight with green tea leaves and propolis honeycomb",
+    alt: "Beauty of Joseon Glow Serum and ISNTREE Green Tea Fresh Toner in hard sunlight with green tea leaves and propolis honeycomb",
   },
   "06": {
     src: issue06,

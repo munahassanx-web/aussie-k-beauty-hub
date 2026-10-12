@@ -524,7 +524,7 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     inciSourceUrl: "https://roundlab.com/products/birch-moisturizing-cream",
     inciCheckedOn: "2026-09-09",
   },
-  { name: "1025 Dokdo Trial Kit (Cleanser 30ml + Toner 20ml + Ampule 10ml + Cream 20ml)", brand: "ROUND LAB", price: "$30", priceId: "round_lab_1025_dokdo_trial_kit_onetime", size: "Cleanser 30ml + Toner 20ml + Ampoule 10ml + Cream 20ml", tag: null, category: "Multi-step trial routine", image: "/products/round-lab/1025-dokdo-trial-kit.webp", concerns: ["pigmentation"] },
+  { name: "1025 Dokdo Trial Kit (Cleanser 30ml + Toner 20ml + Ampoule 10ml + Cream 20ml)", brand: "ROUND LAB", price: "$30", priceId: "round_lab_1025_dokdo_trial_kit_onetime", size: "Cleanser 30ml + Toner 20ml + Ampoule 10ml + Cream 20ml", tag: null, category: "Multi-step trial routine", image: "/products/round-lab/1025-dokdo-trial-kit.webp", concerns: ["pigmentation"] },
   { name: "Hyaluronic Acid Water Essence 50ml", brand: "ISNTREE", price: "$40", priceId: "isntree_hyaluronic_acid_water_essence_50ml_onetime", tag: null, category: "Treat", image: "/products/isntree/hyaluronic-acid-water-essence-50ml.webp", concerns: ["hydration"] },
   {
     name: "Green Tea Fresh Toner 200ml",

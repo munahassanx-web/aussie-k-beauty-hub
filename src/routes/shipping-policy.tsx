@@ -40,8 +40,11 @@ function ShippingPolicy() {
         <section>
           <h2 className="font-display text-2xl text-foreground">Delivery times</h2>
           <p className="mt-3 text-muted-foreground">
-            Delivery times depend on the destination postcode and the Australia Post service selected at checkout.
-            Estimates shown by Australia Post begin after dispatch and are not guaranteed.
+            Next-day delivery in metro Melbourne: orders placed before 12pm Melbourne time on a business day are
+            dispatched the same day and are delivered by Australia Post the next business day to metro Melbourne
+            addresses. Outside metro Melbourne, delivery times depend on the destination postcode and the Australia
+            Post service selected at checkout. Australia Post estimates begin after dispatch, and delays caused by the
+            carrier, weather or peak periods can occur.
           </p>
           <a
             href="https://auspost.com.au/parcels-mail/calculate-postage-delivery-times/"
@@ -69,7 +72,7 @@ function ShippingPolicy() {
         <section>
           <h2 className="font-display text-2xl text-foreground">Order tracking</h2>
           <p className="mt-3 text-muted-foreground">
-            Every order ships with Australia Post tracking. Once your order is dispatched, you'll receive a tracking link by email. You can also check order status anytime at the{" "}
+            Every order ships with Australia Post tracking. Once your order is dispatched, you'll receive a tracking link by email. You can also check order status any time at the{" "}
             <Link to="/track" className="text-primary underline underline-offset-4 hover:no-underline">
               Track your order
             </Link>{" "}

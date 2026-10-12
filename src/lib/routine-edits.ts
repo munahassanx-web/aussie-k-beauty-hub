@@ -77,7 +77,7 @@ export const ROUTINE_EDITS: RoutineEdit[] = [
     ],
     morning: ["Ampoule if wanted", "Moisturiser", "Appropriate sun protection"],
     evening: ["Cleanser", "Ampoule", "Moisturiser"],
-    whyThree: "Cleanse, soothe, moisturise — and nothing else. Fewer variables makes it easier to tell what your skin is responding to.",
+    whyThree: "Cleanse, soothe, moisturise — and nothing else. Fewer variables make it easier to tell what your skin is responding to.",
     cautions: ["Introduce one new product at a time, about a week apart.", "Patch-test before full-face use.", "Keep the core routine active-free while your skin settles.", "Do not combine exfoliants and retinoids in the same routine.", "If discomfort persists, or skin is broken or painful, consider speaking with a pharmacist or doctor."],
   },
 ];

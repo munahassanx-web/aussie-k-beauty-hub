@@ -30,7 +30,7 @@ function Journey() {
         <h1 className="mt-4 text-5xl text-foreground md:text-7xl">From first cleanse <em className="not-italic text-primary">to final glow.</em></h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
           Skincare isn't complicated when someone walks you through it. Here's
-          the ritual we recommend to every new Skin Grocer — and the guidance
+          the ritual we recommend to every new Skin Grocer customer — and the guidance
           we'll continue to offer long after.
         </p>
       </section>
@@ -66,7 +66,7 @@ function Journey() {
             {[
               { t: "Snail Mucin Essence", d: "After toner, dispense 3–4 drops, pat (don't rub) until absorbed. Layer twice for extra hydration." },
               { t: "Vitamin C Serum", d: "AM only. Apply 2 drops onto clean, dry skin before moisturiser. Always follow with SPF." },
-              { t: "Centella Toner", d: "After cleansing, decant onto cotton pad or palms. Sweep upward, neck to forehead." },
+              { t: "Centella Toner", d: "After cleansing, decant onto a cotton pad or your palms. Sweep upward, neck to forehead." },
               { t: "SPF50+ Sun Cream", d: "Final step every morning. Use two fingers' worth for face and neck. Reapply every 2 hours." },
             ].map((g) => (
               <div key={g.t} className="rounded-2xl bg-background p-7">

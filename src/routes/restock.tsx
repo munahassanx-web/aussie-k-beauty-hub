@@ -68,7 +68,7 @@ function RestockPage() {
           Your essentials
         </h1>
         <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">
-          Everything below is something you’ve actually ordered. Prices shown are today’s catalog prices, not what you
+          Everything below is something you’ve actually ordered. Prices shown are today’s catalogue prices, not what you
           paid before. We don’t guess when you’ll run out — you know your routine better than an algorithm does.
         </p>
       </header>

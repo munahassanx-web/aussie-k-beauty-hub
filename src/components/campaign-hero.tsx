@@ -100,7 +100,7 @@ export function CampaignHero() {
           </h1>
           <p className="mt-6 max-w-md text-[15px] font-light leading-relaxed text-ink/80">
             Authentic Korean skincare, matched to your skin through a free
-            skin-clinic-grade consultation — then delivered to your door by morning.
+            skin-clinic-grade consultation — then dispatched from Melbourne.
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-5">
             <Button
@@ -123,10 +123,10 @@ export function CampaignHero() {
           {/* Quiet trust line */}
           <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[10px] font-medium uppercase tracking-[0.2em] text-clay">
             <span className="inline-flex items-center gap-1.5">
-              <BadgeCheck className="h-3.5 w-3.5" /> 100% authentic, checked in Seoul
+              <BadgeCheck className="h-3.5 w-3.5" /> 100% authentic, checked in Melbourne
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <Truck className="h-3.5 w-3.5" /> Next-day Melbourne dispatch
+              <Truck className="h-3.5 w-3.5" /> Same-day dispatch before 12pm
             </span>
           </div>
         </div>

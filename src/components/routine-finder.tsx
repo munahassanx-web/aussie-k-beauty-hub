@@ -58,7 +58,7 @@ function QuizPreview() {
     >
       <div className="flex items-center justify-between">
         <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-ink/55">
-          Question 1 of 7
+          Question 1 of 8
         </p>
         <p className="text-[10px] uppercase tracking-[0.2em] text-ink/40">Preview</p>
       </div>
@@ -68,10 +68,10 @@ function QuizPreview() {
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={14}
-        aria-label="Routine Finder preview: question 1 of 7"
+        aria-label="Routine Finder preview: question 1 of 8"
       >
-        <span className="sr-only">Question 1 of 7 — 14 percent complete.</span>
-        <div className="h-full rounded-full bg-pop" style={{ width: "14.2%" }} />
+        <span className="sr-only">Question 1 of 8 — 12 percent complete.</span>
+        <div className="h-full rounded-full bg-pop" style={{ width: "12.5%" }} />
       </div>
 
       <p className="mt-5 font-display text-xl leading-snug text-ink">
@@ -168,7 +168,7 @@ export function RoutineFinderSection() {
             <span className="italic text-hanbok-deep">It needs a clearer routine.</span>
           </h2>
           <p className="mt-5 max-w-2xl text-ink/70">
-            Answer seven short questions about how your skin usually feels, what you are using now
+            Map your skin and answer seven short questions about how your skin usually feels, what you are using now
             and how much routine fits your life. We’ll build a considered starting routine from
             products currently stocked in Melbourne—and explain the reason behind every step.
           </p>
@@ -203,7 +203,7 @@ export function RoutineFinderSection() {
             Build my routine
             <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none">→</span>
           </Link>
-          <p className="text-xs text-ink/60">7 questions · approximately 3 minutes</p>
+          <p className="text-xs text-ink/60">8 questions · approximately 3 minutes</p>
           <p className="mt-2 max-w-2xl text-xs leading-relaxed text-ink/55">
             The Routine Finder provides cosmetic product guidance. It does not diagnose or treat
             acne, rosacea, eczema, dermatitis or another medical condition. If your skin is

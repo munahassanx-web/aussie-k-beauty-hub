@@ -251,7 +251,7 @@ function IngredientDetailPage() {
               </ul>
             ) : (
               <p className="mt-2 text-xs text-muted-foreground">
-                Broadly well-tolerated across skin types.
+                No specific cautions recorded yet—patch test any new product.
               </p>
             )}
           </div>
@@ -264,7 +264,7 @@ function IngredientDetailPage() {
         </h2>
         {products.length === 0 ? (
           <p className="mt-4 text-sm italic text-muted-foreground">
-            No products in our catalog are tagged with this ingredient yet — check back soon.
+            No products in our catalogue are tagged with this ingredient yet — check back soon.
           </p>
         ) : (
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">

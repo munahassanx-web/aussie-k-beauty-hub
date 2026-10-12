@@ -114,11 +114,11 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   torriden_dive_in_soothing_cream_onetime: [
     {
       src: '/products/editorial/torriden/dive-in-soothing-cream-hero.webp',
-      alt: 'TORRIDEN DIVE IN Soothing Cream jar on a clean white studio backdrop',
+      alt: 'TORRIDEN DIVE-IN Soothing Cream jar on a clean white studio backdrop',
     },
     {
       src: '/products/editorial/torriden/dive-in-soothing-cream-info.webp',
-      alt: 'Ingredient information panel for TORRIDEN DIVE IN Soothing Cream',
+      alt: 'Ingredient information panel for TORRIDEN DIVE-IN Soothing Cream',
     },
     {
       src: '/products/editorial/torriden/dive-in-soothing-cream-apply.webp',
@@ -128,11 +128,11 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   torriden_balanceful_cleansing_gel_onetime: [
     {
       src: '/products/editorial/torriden/balanceful-cleansing-gel-hero.webp',
-      alt: 'TORRIDEN BALANCEFUL Cleansing Gel pump bottle with a clear gel swatch on a white studio backdrop',
+      alt: 'TORRIDEN Balanceful Cleansing Gel pump bottle with a clear gel swatch on a white studio backdrop',
     },
     {
       src: '/products/editorial/torriden/balanceful-cleansing-gel-info.webp',
-      alt: 'Ingredient information panel for TORRIDEN BALANCEFUL Cleansing Gel',
+      alt: 'Ingredient information panel for TORRIDEN Balanceful Cleansing Gel',
     },
     {
       src: '/products/editorial/torriden/balanceful-cleansing-gel-apply.webp',
@@ -142,11 +142,11 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   torriden_dive_in_mask_pack_1pc_onetime: [
     {
       src: '/products/editorial/torriden/dive-in-mask-pack-1pc-hero.webp',
-      alt: 'TORRIDEN DIVE IN Mask sheet mask sachet on a clean white studio backdrop',
+      alt: 'TORRIDEN DIVE-IN Mask sheet mask sachet on a clean white studio backdrop',
     },
     {
       src: '/products/editorial/torriden/dive-in-mask-pack-1pc-info.webp',
-      alt: 'Ingredient information panel for TORRIDEN DIVE IN Mask',
+      alt: 'Ingredient information panel for TORRIDEN DIVE-IN Mask',
     },
     {
       src: '/products/editorial/torriden/dive-in-mask-pack-1pc-apply.webp',
@@ -156,25 +156,25 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   torriden_dive_in_trial_kit_onetime: [
     {
       src: '/products/editorial/torriden/dive-in-trial-kit-hero.webp',
-      alt: 'TORRIDEN DIVE IN Trial Kit minis arranged in front of the box on a white studio backdrop',
+      alt: 'TORRIDEN DIVE-IN Trial Kit minis arranged in front of the box on a white studio backdrop',
     },
     {
       src: '/products/editorial/torriden/dive-in-trial-kit-info.webp',
-      alt: "What's inside the TORRIDEN DIVE IN Trial Kit: cleansing foam 30ml, toner 30ml, serum 10ml and soothing cream 20ml",
+      alt: "What's inside the TORRIDEN DIVE-IN Trial Kit: cleansing foam 30ml, toner 50ml, serum 20ml and soothing cream 20ml",
     },
     {
       src: '/products/editorial/torriden/dive-in-trial-kit-apply.webp',
-      alt: 'The four TORRIDEN DIVE IN travel sizes — Cleansing Foam, Toner, Serum and Soothing Cream — beside a linen travel pouch in soft window light',
+      alt: 'The four TORRIDEN DIVE-IN travel sizes — Cleansing Foam, Toner, Serum and Soothing Cream — beside a linen travel pouch in soft window light',
     },
   ],
   torriden_balanceful_trial_kit_onetime: [
     {
       src: '/products/editorial/torriden/balanceful-trial-kit-hero.webp',
-      alt: 'TORRIDEN BALANCEFUL Trial Kit minis and toner pad sachet in front of the box on a white studio backdrop',
+      alt: 'TORRIDEN Balanceful Trial Kit minis and toner pad sachet in front of the box on a white studio backdrop',
     },
     {
       src: '/products/editorial/torriden/balanceful-trial-kit-info.webp',
-      alt: "What's inside the TORRIDEN BALANCEFUL Trial Kit: cleansing gel mini, toner pad sachet, serum mini and cream mini with centella asiatica extract",
+      alt: "What's inside the TORRIDEN Balanceful Trial Kit: cleansing gel mini, toner pad sachet, serum mini and cream mini with centella asiatica extract",
     },
     {
       src: '/products/editorial/torriden/balanceful-trial-kit-apply.webp',
@@ -676,7 +676,7 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   dr_g_red_blemish_clear_soothing_foam_150ml_onetime: [
     {
       src: '/products/editorial/dr-g/red-blemish-clear-soothing-foam-150ml-hero.webp',
-      alt: 'Dr.G R.E.D Blemish Clear Soothing Foam 150ml on a clean white studio backdrop',
+      alt: 'Dr.G Red Blemish Clear Soothing Foam 150ml on a clean white studio backdrop',
     },
     {
       src: '/products/editorial/dr-g/red-blemish-clear-soothing-foam-150ml-info.webp',
@@ -742,11 +742,11 @@ const EDITORIAL: Record<string, GalleryImage[]> = {
   biodance_bio_collagen_real_deep_mask_onetime: [
     {
       src: '/products/editorial/biodance/bio-collagen-real-deep-mask-hero.webp',
-      alt: 'BIODANCE Bio Collagen Real Deep Mask box and sheet mask on a clean white studio backdrop',
+      alt: 'BIODANCE Bio-Collagen Real Deep Mask box and sheet mask on a clean white studio backdrop',
     },
     {
       src: '/products/editorial/biodance/bio-collagen-real-deep-mask-info.webp',
-      alt: 'Key ingredients panel for BIODANCE Bio Collagen Real Deep Mask: low molecular collagen, probiotics-galactomyces ferment filtrate and low molecular hyaluronic acid',
+      alt: 'Key ingredients panel for BIODANCE Bio-Collagen Real Deep Mask: low molecular collagen, probiotics-galactomyces ferment filtrate and low molecular hyaluronic acid',
     },
     {
       src: '/products/editorial/biodance/bio-collagen-real-deep-mask-apply.webp',
@@ -1056,15 +1056,15 @@ const COPY: Record<string, CopyOverride> = {
   },
   beauty_of_joseon_ginseng_cleansing_oil_210ml_onetime: {
     description:
-      'Beauty of Joseon Ginseng Cleansing Oil is the first step of a double cleanse — a comfortably lightweight oil that uses micellar technology to lift away sunscreen, makeup, sebum and daily grime, then emulsifies with water into a soft milky lather and rinses clean. Soybean oil dissolves impurities without clogging pores, while ginseng seed oil and ginseng root and berry extracts help keep skin feeling soft rather than stripped. Clinically tested to be non-sensitising (24-hour human repeated insult patch test, Korea Dermatology Research Institute, 51 subjects). Alcohol-free and plant-based. Made in Korea. 210ml.',
+      'Beauty of Joseon Ginseng Cleansing Oil is the first step of a double cleanse — a comfortably lightweight oil that uses micellar technology to lift away sunscreen, makeup, sebum and daily grime, then emulsifies with water into a soft milky lather and rinses clean. Soybean oil dissolves impurities, while ginseng seed oil and ginseng root and berry extracts help keep skin feeling soft rather than stripped. Alcohol-free. Contains essential oils. Made in Korea. 210ml.',
     texture:
       'Fluid, golden-amber oil with a subtly calming herbal scent; it turns milky white the moment water hits it and rinses off without a greasy film.',
     benefits: [
       'Micellar cleansing technology lifts dirt, sebum, makeup and sunscreen without scrubbing',
-      'Soybean oil dissolves impurities without clogging pores',
+      'Soybean oil dissolves impurities',
       'Ginseng seed oil and ginseng root/berry extract soothe skin exposed to daily environmental stress',
       'Emulsifies cleanly with water — no heavy residue before your second cleanse',
-      'Alcohol-free and clinically tested to be non-sensitising',
+      'Alcohol-free; contains essential oils',
     ],
     howToUse: [
       'Pump 1–2 times onto dry hands and massage over dry skin, including sunscreen and makeup.',
@@ -1076,8 +1076,8 @@ const COPY: Record<string, CopyOverride> = {
       {
         name: 'Soybean Oil',
         korean: '대두유',
-        what: 'The base oil of the formula. It dissolves sunscreen, makeup and hardened sebum without clogging pores, and carries naturally occurring vitamin E (tocopherol is also listed separately).',
-        goodFor: ['Sunscreen removal', 'Congestion-prone skin', 'Daily cleansing'],
+        what: 'The base oil of the formula. It dissolves sunscreen, makeup and hardened sebum, and carries naturally occurring vitamin E (tocopherol is also listed separately).',
+        goodFor: ['Sunscreen removal', 'Makeup removal', 'Daily cleansing'],
       },
       {
         name: 'Ginseng Seed Oil & Ginseng Extracts',
@@ -1176,13 +1176,13 @@ const COPY: Record<string, CopyOverride> = {
   },
   beauty_of_joseon_dynasty_cream_50ml_onetime: {
     description:
-      "Beauty of Joseon Dynasty Cream is the range's richest moisturiser — a hanbang cream built on rice bran water and Panax ginseng root extract, the two ingredients the brand's Joseon-era formulas are known for. Niacinamide works on the look of tone and dullness while squalane and plant butters seal in moisture, so skin feels fed rather than coated. Best suited to dry, dehydrated or winter-stressed skin, and rich enough to use as a night cream year-round. Made in Korea. 50ml.",
+      "Beauty of Joseon Dynasty Cream is the range's richest moisturiser — a cream built on water and rice bran water with ginseng root water, inspired by Joseon-era hanbang. Niacinamide works on the look of tone and dullness while squalane and plant oils seal in moisture, so skin feels fed rather than coated. Best suited to dry, dehydrated or winter-stressed skin, and rich enough to use as a night cream year-round. Made in Korea. 50ml.",
     texture:
       'A dense, buttery cream that melts on contact with warm skin and finishes satin — not greasy, but noticeably more occlusive than a gel-cream.',
     benefits: [
-      'Rice bran water and ginseng root extract — the brand\'s signature hanbang pairing — for comfort and glow',
+      'Rice bran water and ginseng root water — the brand\'s signature hanbang pairing — for comfort and glow',
       'Niacinamide helps skin look more even and less dull over time',
-      'Squalane and plant butters cushion a dry, tight moisture barrier',
+      'Squalane and plant oils cushion a dry, tight moisture barrier',
       'Rich texture designed to support hydration overnight, or for cold, dry Melbourne winters',
       'Layers well over the Glow Serum or any hydrating essence',
     ],
@@ -1196,17 +1196,20 @@ const COPY: Record<string, CopyOverride> = {
       {
         name: 'Rice Bran Water',
         korean: '쌀겨수',
-        what: 'Oryza sativa bran water — the base of the formula instead of plain water. A staple of Korean hanbang skincare, valued for leaving skin soft, hydrated and less dull-looking.',
+        components: ['Oryza Sativa (Rice) Bran Water'],
+        what: 'Oryza sativa bran water — listed straight after water, near the top of the formula. A staple of Korean hanbang skincare, valued for leaving skin soft, hydrated and less dull-looking.',
         goodFor: ['Dryness', 'Dullness', 'Hydration support'],
       },
       {
-        name: 'Ginseng Root Extract',
+        name: 'Ginseng Root Water',
         korean: '인삼',
-        what: 'Panax ginseng root — the ingredient Beauty of Joseon is built around. Traditionally used for skin that looks tired and depleted; here it gives the cream its warm, restorative character.',
+        components: ['Panax Ginseng Root Water'],
+        what: 'Panax ginseng root water — the ingredient Beauty of Joseon is built around. Traditionally used for skin that looks tired and depleted; here it gives the cream its warm, restorative character.',
         goodFor: ['Tired skin', 'Loss of bounce', 'Comfort'],
       },
       {
         name: 'Niacinamide & Squalane',
+        components: ['Niacinamide', 'Squalane'],
         what: 'Niacinamide (vitamin B3) supports the barrier and helps refine the look of tone; squalane is a lightweight emollient that keeps water from escaping without a heavy film.',
         goodFor: ['Uneven tone', 'Barrier support', 'Moisture retention'],
       },
@@ -1400,17 +1403,17 @@ export function productBenefits(p: ShopProduct): string[] {
   const base = p.concerns.map((c) => {
     switch (c) {
       case 'hydration':
-        return 'Restores water content for a plumper, less tight feel';
+        return 'Designed to add surface hydration';
       case 'acne':
-        return 'Helps keep pores clear and calms active congestion';
+        return 'Formulated for oily, congestion-prone skin';
       case 'pigmentation':
-        return 'Works on uneven tone, post-blemish marks and dullness';
+        return 'Positioned for dull-looking skin';
       case 'sensitivity':
-        return 'Soothing, fragrance-conscious formula for reactive skin';
+        return 'Positioned for reactive skin';
       case 'anti-aging':
-        return 'Supports firmness and softens the look of fine lines';
+        return 'Positioned for routines focused on the look of fine lines';
       case 'barrier':
-        return 'Rebuilds a stressed moisture barrier over time';
+        return 'Designed to support a comfortable moisture barrier';
     }
   });
   return supplierMatchPending(p)
@@ -1557,6 +1560,51 @@ function normaliseInci(name: string): string {
 }
 
 /**
+ * Per-SKU mapping from a bespoke card's customer-facing name (in
+ * hero-ingredients.ts) to the exact INCI name(s) it refers to on that SKU's
+ * verified list. Only add an entry when the ingredient genuinely appears in
+ * the INCI under another name — cards for ingredients absent from the INCI
+ * stay hidden. `name` is only set where the friendly name would misdescribe
+ * the listed ingredient.
+ */
+const BESPOKE_INCI_COMPONENTS: Record<string, Record<string, Partial<HeroIngredient>>> = {
+  torriden_balanceful_cleansing_gel_onetime: {
+    'Centella Asiatica (Cica)': { components: ['Centella Asiatica Extract'] },
+  },
+  round_lab_birch_juice_moisturizing_cream_80ml_onetime: {
+    'Birch Sap (Betula Platyphylla Japonica Juice)': { components: ['Betula Platyphylla Japonica Juice'] },
+    'Hyaluronic Acid complex': { components: ['Sodium Hyaluronate', 'Hyaluronic Acid'] },
+  },
+  torriden_dive_in_soothing_cream_onetime: {
+    '5D-Complex Hyaluronic Acid': {
+      components: [
+        'Hydrolyzed Hyaluronic Acid',
+        'Sodium Hyaluronate',
+        'Sodium Hyaluronate Crosspolymer',
+        'Sodium Acetylated Hyaluronate',
+        'Hydrolyzed Sodium Hyaluronate',
+      ],
+    },
+  },
+  isntree_green_tea_fresh_toner_200ml_onetime: {
+    'Green tea polyphenols': { components: ['Camellia Sinensis Leaf Extract'] },
+  },
+  beplain_mung_bean_ph_balanced_cleansing_foam_80ml_onetime: {
+    'Mung Bean Extract': { name: 'Mung Bean Powder', components: ['Phaseolus Radiatus Seed Powder'] },
+  },
+  medicube_pdrn_pink_cica_soothing_toner_250ml_onetime: {
+    'PDRN (Polydeoxyribonucleotide)': { components: ['Sodium DNA'] },
+    'Centella Asiatica (Cica)': { components: ['Centella Asiatica Extract', 'Centella Asiatica Leaf Extract'] },
+  },
+};
+
+function withBespokeInciComponents(p: ShopProduct, cards: HeroIngredient[]): HeroIngredient[] {
+  const map = BESPOKE_INCI_COMPONENTS[p.priceId];
+  if (!map) return cards;
+  return cards.map((card) => (map[card.name] ? { ...card, ...map[card.name] } : card));
+}
+
+/**
  * A key-ingredient card may only render when every component it names appears
  * in the SKU's verified INCI list. Products without a verified list are left
  * as-is (nothing to validate against).
@@ -1642,7 +1690,7 @@ const INGREDIENT_RULES: { match: RegExp; ing: HeroIngredient }[] = [
     match: /retinal|retinol|revive eye/i,
     ing: {
       name: 'Retinal (Retinaldehyde)',
-      what: 'A gentler, faster-acting cousin of retinol that supports cell turnover and firmness. Start twice a week, always with SPF.',
+      what: 'A gentler, faster-acting cousin of retinol that supports cell turnover and firmness. Follow the brand\u2019s directions; introduce gradually and wear SPF by day.',
       goodFor: ['Fine lines', 'Texture', 'Firmness'],
     },
   },
@@ -1650,8 +1698,8 @@ const INGREDIENT_RULES: { match: RegExp; ing: HeroIngredient }[] = [
     match: /propolis|honey/i,
     ing: {
       name: 'Propolis Extract',
-      what: 'Bee-derived, antioxidant-rich and quietly antibacterial — it gives that glazed finish while calming irritated skin.',
-      goodFor: ['Glow', 'Blemish-prone skin', 'Antioxidants'],
+      what: 'A bee-derived resin extract used for a glossy, comfortable finish.',
+      goodFor: ['Glow', 'Comfort', 'Antioxidants'],
     },
   },
   {
@@ -1665,9 +1713,9 @@ const INGREDIENT_RULES: { match: RegExp; ing: HeroIngredient }[] = [
   {
     match: /rice|black rice|birch|mung bean|yam root|sea kelp/i,
     ing: {
-      name: 'Fermented plant extract',
-      what: 'Rice, birch sap, mung bean and kelp ferments deliver amino acids and minerals for soft, quietly brightened skin.',
-      goodFor: ['Brightening', 'Softness', 'Gentle care'],
+      name: 'Plant waters and extracts',
+      what: 'Plant waters and extracts (rice, birch sap, mung bean, kelp) supplying amino acids and minerals for a soft, comfortable feel.',
+      goodFor: ['Softness', 'Comfort', 'Gentle care'],
     },
   },
   {
@@ -1709,7 +1757,7 @@ export function heroIngredients(p: ShopProduct): HeroIngredient[] {
   const override = COPY[p.priceId]?.ingredients;
   if (override) return validateAgainstInci(p, override);
   const bespoke = bespokeHeroIngredients(p.priceId);
-  if (bespoke) return validateAgainstInci(p, bespoke);
+  if (bespoke) return validateAgainstInci(p, withBespokeInciComponents(p, bespoke));
   // Keyword/concern inference is never allowed once we hold a verified INCI
   // list — guessing from the product name or concern tags is how wrong
   // ingredients get published.

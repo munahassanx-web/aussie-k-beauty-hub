@@ -15,6 +15,7 @@ import { ConcernNavigator } from "@/components/concern-navigator";
 import { GlassSkinClubInvite } from "@/components/glass-skin-club-invite";
 import authenticityCardV2 from "@/assets/authenticity-card-v2.webp.asset.json";
 import batchCheckImage from "@/assets/authenticity-batch-check.jpg";
+import { NEXT_DAY_BADGE, NEXT_DAY_LINE } from "@/lib/shipping-rates";
 
 /**
  * Recurring-purchase "Restock" programme is not yet operational — keep the
@@ -110,7 +111,7 @@ function HomePage() {
 }
 
 function Promise() {
-  const items = [
+  const items: { num: string; title: string; line: string; to?: "/about" | "/consultation" | "/shipping-policy" }[] = [
     {
       num: "01",
       title: "Documented verification",
@@ -119,8 +120,9 @@ function Promise() {
     },
     {
       num: "02",
-      title: "Stocked in Melbourne",
-      line: "Orders are dispatched from Australian-held inventory.",
+      title: NEXT_DAY_BADGE,
+      line: `${NEXT_DAY_LINE}. Stocked and dispatched from Melbourne.`,
+      to: "/shipping-policy" as const,
     },
     {
       num: "03",
