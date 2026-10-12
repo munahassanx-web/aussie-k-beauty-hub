@@ -40,7 +40,7 @@ const megaMenus: Record<string, MegaSection[]> = {
       links: [
         { label: "Routine Edits", to: "/routines" },
         { label: "How a routine layers", to: "/journey" },
-        { label: "Find your routine (quiz)", to: "/consultation" },
+        { label: "Skin quiz: find your routine", to: "/consultation" },
       ],
     },
     {
@@ -67,7 +67,7 @@ const megaMenus: Record<string, MegaSection[]> = {
     {
       heading: "Find Your Routine",
       links: [
-        { label: "Take the routine quiz", to: "/consultation" },
+        { label: "Take the skin quiz", to: "/consultation" },
         { label: "Ingredient index", to: "/learn" },
         { label: "Ask us a question", to: "/contact" },
       ],
@@ -356,9 +356,9 @@ export function SiteHeader() {
                 to="/consultation"
                 search={{}}
                 onMouseEnter={() => setOpenMenu(null)}
-                className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
+                className="rounded-full border border-foreground px-3.5 py-1.5 text-[12px] font-medium uppercase tracking-[0.16em] text-foreground transition-colors hover:bg-foreground hover:text-background"
               >
-                Routine Finder
+                Skin Quiz
               </Link>
               <Link
                 to="/learn/hub"
@@ -500,9 +500,9 @@ function CompactHeader({
             to="/consultation"
             search={{}}
             tabIndex={visible ? 0 : -1}
-            className="text-[12px] font-medium uppercase tracking-[0.16em] text-foreground/75 hover:text-primary"
+            className="rounded-full border border-foreground px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-foreground transition-colors hover:bg-foreground hover:text-background"
           >
-            Routine Finder
+            Skin Quiz
           </Link>
         </nav>
         <div className="flex shrink-0 items-center gap-1">
@@ -715,7 +715,7 @@ function MobileMenu({
             Routine Edits <span className="text-primary">→</span>
           </Link>
           <Link to="/consultation" search={{}} onClick={onClose} className={item}>
-            Routine Finder <span className="text-primary">→</span>
+            Skin Quiz <span className="text-primary">→</span>
           </Link>
           <Link to="/learn/hub" onClick={onClose} className={item}>
             Learn <span className="text-primary">→</span>

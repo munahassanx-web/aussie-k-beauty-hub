@@ -38,6 +38,8 @@ export type Reactivity = 'often' | 'sometimes' | 'rarely' | 'unsure';
 export type Experience = 'new' | 'some' | 'confident';
 export type Depth = 'minimal' | 'balanced' | 'full';
 export type TexturePref = 'light' | 'rich' | 'either';
+/** What the person already applies. Anything other than 'none' means we never add another acid or retinoid. */
+export type CurrentActives = 'none' | 'acids-retinoids' | 'prescription' | 'unsure';
 
 export type QuizAnswers = {
   skinFeel: SkinFeel;
@@ -48,6 +50,8 @@ export type QuizAnswers = {
   experience: Experience;
   depth: Depth;
   texture: TexturePref;
+  /** Optional so older saved answers still work; missing means 'none'. */
+  currentActives?: CurrentActives;
 };
 
 export const CONCERN_COPY: Record<Concern, { label: string; phrase: string }> = {
@@ -123,6 +127,9 @@ function scoreProduct(p: ShopProduct, a: QuizAnswers): Scored | null {
   // for someone who isn't sure how their skin responds (the cautious path),
   // or for someone brand new to a routine.
   if (active && (a.reactivity === 'often' || a.reactivity === 'unsure' || a.experience === 'new')) return null;
+  // Never double up: if they already use an acid, a retinoid or a prescription
+  // skin treatment (or aren't sure), we don't add another one.
+  if (active && (a.currentActives ?? 'none') !== 'none') return null;
   // Reactive or unsure skin: only recommend SKUs whose complete ingredient
   // list we have reviewed — held either on the product record (`inci`) or in
   // the audited copy overrides (`fullInci`). `productInci` checks both.
@@ -416,6 +423,13 @@ export function buildRoutine(a: QuizAnswers): ConsultationOutcome {
         : a.reactivity === 'unsure'
           ? 'You\u2019re not sure how your skin responds to new products, so we\u2019ve taken the cautious route — no exfoliating acids or retinoids, only products with reviewed ingredient lists, introduced gradually, one at a time.'
           : 'Your skin usually tolerates new products, so we\u2019ve built the routine around your concerns and preferences — still introduce anything new gradually rather than all at once.',
+    ...(a.currentActives === 'prescription'
+      ? ['You use a prescription skin treatment, so we\u2019ve left out exfoliating acids and retinoids. Check with your prescriber or pharmacist before adding anything new.']
+      : a.currentActives === 'acids-retinoids'
+        ? ['You already use an exfoliating acid or retinoid, so we haven\u2019t added another. Doubling up is a common cause of irritation.']
+        : a.currentActives === 'unsure'
+          ? ['You weren\u2019t sure what\u2019s in your current products, so we\u2019ve left out exfoliating acids and retinoids to be safe.']
+          : []),
     minimal
       ? cautiousOverride
         ? 'We\u2019ve kept this to the essential steps for now. Each product here has a clear reason for being included.'

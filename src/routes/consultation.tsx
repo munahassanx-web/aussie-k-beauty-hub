@@ -11,10 +11,14 @@ import {
   type Depth,
   type Experience,
   type QuizAnswers,
+  type CurrentActives,
   type Reactivity,
   type SkinFeel,
   type TexturePref,
 } from "@/lib/routine-matching";
+import { QUIZ_STORAGE_KEY, SKIN_FEEL, type FaceZones } from "@/lib/skin-quiz";
+import { FaceMap } from "@/components/face-map";
+import { SkinMapCard } from "@/components/skin-map-card";
 import type { Concern } from "@/lib/shop-catalog";
 import { askConsultantFollowUp, saveConsultationLead } from "@/lib/consultation.functions";
 
@@ -25,7 +29,7 @@ export const Route = createFileRoute("/consultation")({
       {
         name: "description",
         content:
-          "Answer seven short questions and receive a suggested Korean skincare routine from the products we currently stock in Melbourne — shown in application order, with a clear reason for each suggested step.",
+          "Map your skin and answer a few short questions to receive a suggested Korean skincare routine from the products we currently stock in Melbourne — shown in application order, with a clear reason for each suggested step.",
       },
       { property: "og:title", content: "Skin Consultation — Suggested Routine | Skin Grocer" },
       {
@@ -44,23 +48,16 @@ export const Route = createFileRoute("/consultation")({
 
 // ---------------------------------------------------------------- questions
 
-type Option<T extends string> = { value: T; title: string; hint?: string };
+type Option<T extends string> = { value: T; title: string; hint?: string; image?: string };
 
-const SKIN_FEEL: Option<SkinFeel>[] = [
-  { value: "dry", title: "Tight or dry", hint: "Feels tight after cleansing and may sometimes look or feel flaky." },
-  { value: "oily", title: "Shiny by midday", hint: "Shine returns not long after cleansing." },
-  { value: "combination", title: "A bit of both", hint: "Oilier around the nose and forehead, but drier or more comfortable elsewhere." },
-  { value: "balanced", title: "Mostly comfortable", hint: "Usually feels balanced, without persistent tightness or excess shine." },
-  { value: "unsure", title: "Not sure", hint: "That’s okay—the next questions will help narrow down your suggestions." },
-];
 
 const CONCERN_OPTIONS: Option<Concern>[] = [
-  { value: "hydration", title: "Dryness or dehydration", hint: "Tightness, flaking or skin that quickly feels dry again." },
-  { value: "acne", title: "Breakouts or congestion", hint: "Spots, blocked pores or uneven-feeling texture." },
-  { value: "pigmentation", title: "Uneven-looking tone or marks", hint: "Visible marks, patchiness or a dull-looking complexion." },
-  { value: "sensitivity", title: "Redness or reactivity", hint: "Skin that flushes easily or often reacts to new products." },
-  { value: "anti-aging", title: "Fine lines or loss of firmness", hint: "Visible fine lines or skin that feels less firm than before." },
-  { value: "barrier", title: "Skin that feels overworked", hint: "Several products sting, or your skin feels unusually uncomfortable." },
+  { value: "hydration", image: "/quiz/hydration.webp", title: "Dryness or dehydration", hint: "Tightness, flaking or skin that quickly feels dry again." },
+  { value: "acne", image: "/quiz/acne.webp", title: "Breakouts or congestion", hint: "Spots, blocked pores or uneven-feeling texture." },
+  { value: "pigmentation", image: "/quiz/pigmentation.webp", title: "Uneven-looking tone or marks", hint: "Visible marks, patchiness or a dull-looking complexion." },
+  { value: "sensitivity", image: "/quiz/sensitivity.webp", title: "Redness or reactivity", hint: "Skin that flushes easily or often reacts to new products." },
+  { value: "anti-aging", image: "/quiz/anti-aging.webp", title: "Fine lines or loss of firmness", hint: "Visible fine lines or skin that feels less firm than before." },
+  { value: "barrier", image: "/quiz/barrier.webp", title: "Skin that feels overworked", hint: "Several products sting, or your skin feels unusually uncomfortable." },
 ];
 
 /** Question 2 answer set: the six concerns plus a valid "keep it simple" path. */
@@ -70,6 +67,7 @@ const PRIMARY_CONCERN_OPTIONS: Option<PrimaryConcern>[] = [
   ...CONCERN_OPTIONS,
   {
     value: "unsure",
+    image: "/quiz/unsure.webp",
     title: "Not sure—keep it simple",
     hint: "I’d prefer a basic, gentle routine without targeting one main concern.",
   },
@@ -112,11 +110,27 @@ const TEXTURE: Option<TexturePref>[] = [
   { value: "either", title: "No preference", hint: "Pick whatever suits my skin best" },
 ];
 
+const CURRENT_ACTIVES: Option<CurrentActives>[] = [
+  { value: "none", title: "None of these", hint: "Cleanser, moisturiser, sunscreen or gentle hydrating products only." },
+  {
+    value: "acids-retinoids",
+    title: "An exfoliating acid or retinoid",
+    hint: "For example AHA, BHA, PHA, glycolic or salicylic acid, retinol or retinal.",
+  },
+  {
+    value: "prescription",
+    title: "A prescription skin treatment",
+    hint: "Anything prescribed by a doctor for your skin, such as for acne or rosacea.",
+  },
+  { value: "unsure", title: "Not sure", hint: "I don’t know what’s in my current products." },
+];
+
 const STEPS = [
   "feel",
   "primary",
   "secondary",
   "reactivity",
+  "actives",
   "experience",
   "depth",
   "texture",
@@ -128,9 +142,12 @@ type Draft = {
   primaryConcern: PrimaryConcern | null;
   secondaryConcern: Concern | "none" | null;
   reactivity: Reactivity | null;
+  currentActives: CurrentActives | null;
   experience: Experience | null;
   depth: Depth | null;
   texture: TexturePref | null;
+  /** Optional face-map answer; the skin type above is derived from it. */
+  faceZones?: FaceZones | null;
 };
 
 const EMPTY: Draft = {
@@ -138,15 +155,18 @@ const EMPTY: Draft = {
   primaryConcern: null,
   secondaryConcern: null,
   reactivity: null,
+  currentActives: null,
   experience: null,
   depth: null,
   texture: null,
+  faceZones: null,
 };
 
-const STORAGE_KEY = "sg-consultation-v2";
+const STORAGE_KEY = QUIZ_STORAGE_KEY;
 
 function isComplete(d: Draft): d is Required<{ [K in keyof Draft]: NonNullable<Draft[K]> }> {
-  return Object.values(d).every((v) => v !== null);
+  const { faceZones: _zones, ...answers } = d;
+  return Object.values(answers).every((v) => v !== null && v !== undefined);
 }
 
 function toAnswers(d: Draft): QuizAnswers {
@@ -158,6 +178,7 @@ function toAnswers(d: Draft): QuizAnswers {
     experience: d.experience ?? "some",
     depth: d.depth ?? "balanced",
     texture: d.texture ?? "either",
+    currentActives: d.currentActives ?? "unsure",
   };
 }
 
@@ -167,6 +188,7 @@ function ConsultationPage() {
   const [phase, setPhase] = useState<Phase>("intro");
   const [draft, setDraft] = useState<Draft>(EMPTY);
   const [hydrated, setHydrated] = useState(false);
+  const [describeInWords, setDescribeInWords] = useState(false);
 
   // Least-invasive persistence: the same localStorage approach the cart uses.
   useEffect(() => {
@@ -250,15 +272,35 @@ function ConsultationPage() {
             {phase === "intro" && <Intro onStart={() => setPhase("feel")} />}
 
             {phase === "feel" && (
-              <Question
-                index={0}
-                prompt="How does your skin usually feel?"
-                aside="No wrong answers — pick the one that sounds most like a normal day."
-                onBack={back}
-                onNext={draft.skinFeel ? next : null}
-              >
-                <Choices options={SKIN_FEEL} value={draft.skinFeel} onChange={(v) => choose("skinFeel", v)} />
-              </Question>
+              describeInWords ? (
+                <Question
+                  index={0}
+                  prompt="How does your skin usually feel?"
+                  aside="No wrong answers — pick the one that sounds most like a normal day."
+                  onBack={() => setDescribeInWords(false)}
+                  onNext={draft.skinFeel ? next : null}
+                >
+                  <Choices
+                    options={SKIN_FEEL}
+                    value={draft.skinFeel}
+                    onChange={(v) => {
+                      set("faceZones", null);
+                      choose("skinFeel", v);
+                    }}
+                  />
+                </Question>
+              ) : (
+                <div className="quiz-panel p-6 md:p-10">
+                  <Marker index={0} />
+                  <FaceMap
+                    onDescribeInstead={() => setDescribeInWords(true)}
+                    onComplete={(feel, zones) => {
+                      set("faceZones", zones);
+                      choose("skinFeel", feel);
+                    }}
+                  />
+                </div>
+              )
             )}
 
             {phase === "primary" && (
@@ -336,9 +378,25 @@ function ConsultationPage() {
               </Question>
             )}
 
-            {phase === "experience" && (
+            {phase === "actives" && (
               <Question
                 index={4}
+                prompt="Are you already using any of these?"
+                aside="Skin therapists ask this first. Stacking exfoliating acids, retinoids and prescription treatments is one of the most common causes of irritation, so we never add another one on top."
+                onBack={back}
+                onNext={draft.currentActives ? next : null}
+              >
+                <Choices
+                  options={CURRENT_ACTIVES}
+                  value={draft.currentActives}
+                  onChange={(v) => choose("currentActives", v)}
+                />
+              </Question>
+            )}
+
+            {phase === "experience" && (
+              <Question
+                index={5}
                 prompt="How familiar are you with building a skincare routine?"
                 aside="This helps us decide how much guidance and how many optional steps to show. It never overrides your sensitivity or reactivity answers."
                 onBack={back}
@@ -350,7 +408,7 @@ function ConsultationPage() {
 
             {phase === "depth" && (
               <Question
-                index={5}
+                index={6}
                 prompt="How much time would you like to give your routine?"
                 aside="We’ll use this preference to shape the number of optional steps. Product suitability and your reactivity answers always come first."
                 onBack={back}
@@ -362,7 +420,7 @@ function ConsultationPage() {
 
             {phase === "texture" && (
               <Question
-                index={6}
+                index={7}
                 prompt="How do you like things to feel on your skin?"
                 aside="Last one. Texture is the difference between a routine you enjoy and one you abandon."
                 onBack={back}
@@ -374,7 +432,12 @@ function ConsultationPage() {
 
             {phase === "result" &&
               (outcome ? (
-                <Results outcome={outcome} onRestart={restart} onEdit={() => setPhase("feel")} />
+                <Results
+                  outcome={outcome}
+                  faceZones={draft.faceZones ?? null}
+                  onRestart={restart}
+                  onEdit={() => setPhase("feel")}
+                />
               ) : (
                 <div className="quiz-panel p-8 text-center">
                   <p className="text-[15px] text-muted-foreground">
@@ -409,7 +472,7 @@ function Intro({ onStart }: { onStart: () => void }) {
         What does your skin actually need?
       </h1>
       <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">
-        Answer seven short questions and receive a suggested routine using products currently stocked
+        Map your skin, answer seven short questions and receive a suggested routine using products currently stocked
         in our Melbourne warehouse—shown in application order, with a clear reason for each suggested
         step.
       </p>
@@ -419,7 +482,7 @@ function Intro({ onStart }: { onStart: () => void }) {
       </p>
       <div className="mt-8 grid grid-cols-3 gap-4 border-y border-border py-5 text-[11px] uppercase tracking-[0.08em] text-muted-foreground">
         <div>
-          <span className="block font-display text-2xl normal-case tracking-normal text-ink">7</span>
+          <span className="block font-display text-2xl normal-case tracking-normal text-ink">8</span>
           questions
         </div>
         <div>
@@ -535,6 +598,53 @@ function Choices<T extends string>({
   value: T | null;
   onChange: (v: T) => void;
 }) {
+  if (options.some((o) => o.image)) {
+    return (
+      <div role="radiogroup" className="grid grid-cols-2 gap-3 md:grid-cols-3">
+        {options.map((o) => {
+          const active = value === o.value;
+          return (
+            <button
+              key={o.value}
+              type="button"
+              role="radio"
+              aria-checked={active}
+              onClick={() => onChange(o.value)}
+              className={`group overflow-hidden rounded-2xl border text-left transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+                active ? "border-ink bg-ink text-paper shadow-lg" : "border-border bg-cream/60 text-ink hover:-translate-y-0.5 hover:border-ink"
+              }`}
+            >
+              {o.image ? (
+                <span className="block aspect-[4/3] overflow-hidden">
+                  <img
+                    src={o.image}
+                    alt=""
+                    width={480}
+                    height={480}
+                    loading="lazy"
+                    className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 ${active ? "opacity-90" : ""}`}
+                  />
+                </span>
+              ) : (
+                <span aria-hidden className="block aspect-[4/3] bg-gradient-to-br from-cream to-border/60" />
+              )}
+              <span className="block px-3.5 pb-3.5 pt-3">
+                <span className="block text-[14px] font-medium leading-snug">{o.title}</span>
+                {o.hint && (
+                  <span
+                    className={`mt-1 block text-[12px] leading-relaxed ${active ? "text-paper/70" : "text-muted-foreground"}`}
+                  >
+                    {o.hint}
+                  </span>
+                )}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+
   return (
     <div role="radiogroup" className="grid gap-2.5">
       {options.map((o) => {
@@ -571,10 +681,12 @@ function Choices<T extends string>({
 
 function Results({
   outcome,
+  faceZones,
   onRestart,
   onEdit,
 }: {
   outcome: ConsultationOutcome;
+  faceZones: FaceZones | null;
   onRestart: () => void;
   onEdit: () => void;
 }) {
@@ -595,6 +707,8 @@ function Results({
       <h1 className="mt-3 font-display text-[1.8rem] leading-snug text-ink md:text-[2.1rem]">
         Your skin profile
       </h1>
+
+      <SkinMapCard skinFeel={outcome.answers.skinFeel} zones={faceZones} />
 
       <ul className="mt-5 space-y-2.5">
         {outcome.profile.map((line) => (
@@ -677,6 +791,12 @@ function Results({
           Dispatched from our Melbourne warehouse · Free standard shipping from A$100
         </p>
       </div>
+
+      <p className="mt-6 rounded-2xl border border-border bg-paper p-4 text-[12.5px] leading-relaxed text-muted-foreground">
+        This is a cosmetic routine suggestion, not a diagnosis. For persistent or painful breakouts, a rash
+        that won&rsquo;t settle, or any spot that changes, bleeds or won&rsquo;t heal, see your GP or a
+        dermatologist.
+      </p>
 
       <SaveRoutine outcome={outcome} />
       <FollowUp outcome={outcome} />

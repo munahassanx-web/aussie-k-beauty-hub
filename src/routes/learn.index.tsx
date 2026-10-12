@@ -5,6 +5,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { ingredientSlug } from "@/lib/product-catalog";
 import { FaqSection } from "@/components/faq-section";
 import { INGREDIENT_FAQS, faqJsonLd } from "@/lib/faqs";
+import { KoreaRightNow } from "@/components/korea-right-now";
+import { IngredientLibrary } from "@/components/ingredient-library";
+import { LearnStrip } from "@/components/learn-strip";
 
 type Ingredient = {
   id: string;
@@ -81,6 +84,7 @@ function LearnPage() {
   }, [data, query, activeCategory]);
 
   return (
+    <>
     <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
       <header className="max-w-2xl">
         <p className="text-xs uppercase tracking-[0.24em] text-primary">The encyclopedia</p>
@@ -193,5 +197,9 @@ function LearnPage() {
         items={INGREDIENT_FAQS}
       />
     </div>
+    <KoreaRightNow />
+    <IngredientLibrary />
+    <LearnStrip />
+    </>
   );
 }
