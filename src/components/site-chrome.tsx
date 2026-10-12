@@ -189,6 +189,17 @@ function AnnouncementBar({ suppressStockClaims = false }: { suppressStockClaims?
               </span>
             );
           })}
+          {/* Which selling point is showing — small champagne pips */}
+          <div aria-hidden="true" className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-1.5">
+            {visibleAnnouncements.map((_, i) => (
+              <span
+                key={i}
+                className={`h-1 w-1 rounded-full transition-colors duration-300 ${
+                  i === active ? "bg-grocer-butter" : "bg-paper/30"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
