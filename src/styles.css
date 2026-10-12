@@ -54,6 +54,7 @@
   --color-grocer-brown: var(--grocer-brown);
   --color-grocer-cream: var(--grocer-cream);
   --color-rose-gold: var(--rose-gold);
+  --color-signal: var(--signal);
   --color-observatory-porcelain: var(--observatory-porcelain);
   --color-observatory-orchid: var(--observatory-orchid);
   --color-observatory-plum: var(--observatory-plum);
@@ -1157,6 +1158,12 @@
   --shelf-muted: var(--sand-deep);
   --shelf-line: var(--clay);
   --shelf-tile: var(--paper);
+}
+
+/* Champagne selling-point accent for the black announcement band. Kept
+   outside the neutral trial so it stays visible on every page. */
+:root {
+  --signal: #e2c58f;
 }
 
 :root:has([data-homepage-neutral]) header .sg-awning {
