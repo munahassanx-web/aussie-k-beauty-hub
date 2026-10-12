@@ -215,7 +215,7 @@ function Checkout() {
       <p className="text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
         {started ? 'Step 2 of 2 · Payment' : 'Step 1 of 2 · Your details'}
       </p>
-      <h1 className="mt-3 text-[2.4rem] font-light leading-none tracking-[-0.03em] text-foreground md:text-5xl">checkout</h1>
+      <h1 className="mt-3 text-[2.4rem] font-light leading-none tracking-[-0.03em] text-foreground md:text-5xl">Checkout</h1>
 
       {/* Mobile order summary — collapsed so the form stays above the fold. */}
       <div className="mt-6 overflow-hidden rounded-2xl border border-border bg-blush/30 lg:hidden">
@@ -369,7 +369,7 @@ function Checkout() {
         </div>
 
         <aside className="hidden h-fit rounded-[1.75rem] border border-border bg-blush/35 p-6 lg:sticky lg:top-24 lg:block">
-          <h2 className="text-xl font-light tracking-[-0.01em] text-foreground">order summary</h2>
+          <h2 className="text-xl font-light tracking-[-0.01em] text-foreground">Order summary</h2>
           <div className="mt-2">{summary}</div>
         </aside>
       </div>

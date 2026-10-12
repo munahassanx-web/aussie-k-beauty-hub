@@ -36,8 +36,8 @@ export function SkinQuizBanner() {
             The skin quiz · about 2 minutes
           </p>
           <h2 id="skin-quiz-title" className="mt-4 display-section text-paper">
-            not sure where to start?{" "}
-            <span className="italic text-paper/70">let your skin decide.</span>
+            Not sure where to start?{" "}
+            <span className="italic text-paper/70">Let your skin decide.</span>
           </h2>
           <p className="mt-5 max-w-md text-paper/70">
             Tap where your skin gets shiny and where it feels tight, the way a skin therapist reads

@@ -16,6 +16,7 @@ import { GlassSkinClubInvite } from "@/components/glass-skin-club-invite";
 import authenticityCardV2 from "@/assets/authenticity-card-v2.webp.asset.json";
 import batchCheckImage from "@/assets/authenticity-batch-check.jpg";
 import { NEXT_DAY_BADGE, NEXT_DAY_LINE } from "@/lib/shipping-rates";
+import { JournalStrip } from "@/components/journal-strip";
 
 /**
  * Recurring-purchase "Restock" programme is not yet operational — keep the
@@ -87,6 +88,8 @@ function HomePage() {
       <Reveal><ConcernNavigator /></Reveal>
       {/* 5. Compact routine help */}
       <Reveal><RoutineEdits /></Reveal>
+      {/* Latest journal issues, refreshed fortnightly */}
+      <Reveal><JournalStrip /></Reveal>
       {/* 6. One proof section */}
       <Reveal><ProvenanceCard /></Reveal>
       {/* 7. Community invitation */}

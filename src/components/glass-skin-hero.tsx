@@ -199,10 +199,10 @@ export function GlassSkinHero() {
         </span>
         <h1
           id="glass-skin-heading"
-          className="text-[clamp(2.9rem,4.7vw,5.1rem)] font-light lowercase leading-[0.98] tracking-[-0.045em]"
+          className="text-[clamp(2.9rem,4.7vw,5.1rem)] font-light leading-[0.98] tracking-[-0.045em]"
         >
-          <span className="block">the skincare</span>
-          <span className="block text-hanbok">korea swears by.</span>
+          <span className="block">The skincare</span>
+          <span className="block text-hanbok">Korea swears by.</span>
         </h1>
         <p className="max-w-[38ch] text-lg leading-relaxed text-clay">
           The cult favourites with tens of thousands of Korean reviews, checked in Melbourne and
