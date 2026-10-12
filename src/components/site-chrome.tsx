@@ -362,6 +362,13 @@ export function SiteHeader() {
                 Skin Quiz
               </Link>
               <Link
+                to="/blog"
+                onMouseEnter={() => setOpenMenu(null)}
+                className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
+              >
+                Journal
+              </Link>
+              <Link
                 to="/learn/hub"
                 onMouseEnter={() => setOpenMenu(null)}
                 className="text-[13px] font-medium uppercase tracking-[0.16em] text-foreground/75 underline-grow hover:text-primary"
@@ -717,6 +724,9 @@ function MobileMenu({
           </Link>
           <Link to="/consultation" search={{}} onClick={onClose} className={item}>
             Skin Quiz <span className="text-primary">→</span>
+          </Link>
+          <Link to="/blog" onClick={onClose} className={item}>
+            Journal <span className="text-primary">→</span>
           </Link>
           <Link to="/learn/hub" onClick={onClose} className={item}>
             Learn <span className="text-primary">→</span>
