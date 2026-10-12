@@ -12,6 +12,7 @@ import issue03Cover from "@/assets/issues/issue-03-routine.webp";
 import issue04Cover from "@/assets/issues/issue-04-pdrn.webp";
 import issue05Cover from "@/assets/issues/issue-05-pigmentation.webp";
 import issue06Cover from "@/assets/issues/issue-06-undiscovered.webp";
+import issue07Cover from "@/assets/issues/issue-07-cleansing.webp";
 
 export type IssuePick = {
   name: string;
@@ -111,6 +112,106 @@ export type NewsletterIssue = {
 };
 
 export const newsletterIssues: NewsletterIssue[] = [
+  {
+    number: "07",
+    slug: "cleansing-oil-vs-balm-vs-micellar",
+    title: "Is Your Sunscreen Still On at Bedtime?",
+    theme: "The Cleansing Issue",
+    date: "Fortnight of 12 October 2026",
+    published: true,
+    cover: issue07Cover,
+    coverAlt:
+      "beplain Mung Bean Cleansing Oil and Mung Bean pH-Balanced Cleansing Foam on a warm ivory backdrop, beside a glass dish where a stream of cleansing oil turns milky in water, with scattered mung beans",
+    standfirst:
+      "Daylight saving is back, Victoria's sun-protection season is under way, and the No. 1 cleansing oil on Korea's Hwahae trending chart on 12 October is one already sitting on our Melbourne shelves. This fortnight: oil vs balm vs micellar — what each one actually lifts, which belongs at your sink in spring, and when the second cleanse is optional.",
+    bigQuestion: {
+      question: "Cleansing oil, balm or micellar water — which one actually takes sunscreen off?",
+      body: [
+        "In Victoria, the answer matters again this month. Cancer Council's SunSmart program puts the state's sun-protection season at mid-August to April, with protection needed whenever the UV is 3 or above. Daylight saving started on 4 October, so the light runs later — and so does the sunscreen. Whatever goes on in the morning has to come off at night.",
+        "Korea, heading into autumn, has cleansers near the top of its charts. On Hwahae's trending cleansing-oil ranking, updated 12 October, the No. 1 spot is beplain's Mung Bean Cleansing Oil — the same 200ml bottle we stock in Melbourne. Two beplain mung bean balms sit in the top ten of the app's cleansing-balm ranking too.",
+        "So, the three formats. A cleansing oil is liquid oils plus an emulsifier: you massage it onto dry skin, add water, it turns milky and rinses away. A balm is the solid version of the same idea — it melts to an oil on warm skin, then emulsifies with water. Dermatologist Dr Naissan Wesley notes balms suit dry skin and cold, dry conditions, but a thick balm that isn't fully rinsed can leave residue linked to clogged pores and milia. Micellar water is water carrying tiny cleansing clusters called micelles; it usually isn't rinsed, and Cleveland Clinic suggests following it with another cleanser when you're removing sunscreen or heavy, waterproof makeup.",
+        "Our read: on a full sunscreen day, start with an oil or a balm. Dr Wesley cites a small 2020 study of 20 people in which waterproof sunscreen came off more effectively with a cleansing oil than with a non-oil cleanser. Oil versus balm is mostly a texture preference. Keep micellar water for the gym bag, the plane and the nights there's no sink in reach.",
+      ],
+      pick: {
+        name: "Mung Bean Cleansing Oil 200ml",
+        brand: "beplain",
+        price: "A$35",
+        image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp",
+        note: "Massage onto a dry face with dry hands, add water until it turns milky, then rinse thoroughly with lukewarm water. Avoid the eye area if it stings, and patch test before first use — any product can cause a reaction.",
+        reasons: [
+          "No. 1 on Hwahae's trending cleansing-oil ranking (updated 12 October 2026, KST)",
+          "Short ingredient list with mung bean extracts, panthenol and allantoin",
+          "Listed as fragrance-free, and built to emulsify and rinse rather than sit on skin",
+        ],
+      },
+    },
+    seoul: {
+      whyLabel: "Why it's in Korean cleansing oils",
+      ingredient: "Sorbeth-30 Tetraoleate (the emulsifier)",
+      koreaHeat: "🔥🔥🔥🔥",
+      australiaHeat: "😴 never heard of it",
+      whatIsIt:
+        "A non-ionic emulsifier. Its maker's technical sheet describes it as an emulsifier for oil-based cleansers that lets oils turn milky white on contact with water, so they rinse off easily. It's the reason a cleansing oil behaves nothing like the olive oil in your pantry.",
+      whyKoreansLove:
+        "Because rinse-off is the whole point. Korean cleansing oils are designed to be massaged in, emulsified with water and rinsed clean — not wiped off with a cotton pad. Check the labels: sorbeth-30 tetraoleate is the third ingredient in both beplain's Mung Bean Cleansing Oil and Beauty of Joseon's Ginseng Cleansing Oil.",
+      shouldAussiesCare:
+        "Yes — as a technique tip more than a shopping one. The milky turn is your signal: if the oil hasn't gone cloudy when you add water, it hasn't emulsified yet, so keep massaging with wet hands before you rinse. It is a cleansing aid, not an active. It won't brighten, firm or resurface anything; its job is to help the oil leave with everything it lifted.",
+      tryIt: [
+        { name: "Mung Bean Cleansing Oil 200ml", brand: "beplain", price: "A$35", image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp", note: "This fortnight's pick. Light, listed as fragrance-free." },
+        { name: "Ginseng Cleansing Oil 210ml", brand: "Beauty of Joseon", price: "A$30", image: "/__l5e/assets-v1/ee718186-6443-43e5-847d-47725b187889/boj-ginseng-cleansing-oil.webp", note: "Soybean and ginseng seed oils. The brand directs a water-based cleanser after." },
+        { name: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", price: "A$24", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp", note: "No emulsifier needed — this is the optional second step." },
+      ],
+    },
+    aisle: [
+      { emoji: "☀️", concern: "Sunscreen on all day", pick: "Mung Bean Cleansing Oil 200ml", brand: "beplain", why: "Oil first, on dry skin. Emulsify until milky, then rinse properly.", image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp" },
+      { emoji: "🌿", concern: "Want a richer oil", pick: "Ginseng Cleansing Oil 210ml", brand: "Beauty of Joseon", why: "Soybean and ginseng seed oils, with the brand's directions calling for a second, water-based cleanse.", image: "/__l5e/assets-v1/ee718186-6443-43e5-847d-47725b187889/boj-ginseng-cleansing-oil.webp" },
+      { emoji: "🫧", concern: "Easily unsettled", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", why: "A gentle second cleanse, built around mung bean seed powder.", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
+      { emoji: "💦", concern: "Shiny by evening", pick: "Balanceful Cleansing Gel", brand: "TORRIDEN", why: "Gel cleanser with centella extracts and panthenol. It contains capryloyl salicylic acid, so patch test first.", image: "/products/torriden/balanceful-cleansing-gel.webp" },
+      { emoji: "🥛", concern: "Tight after a foam", pick: "Yam Root Vegan Milk Cleanser 220ml", brand: "ISNTREE", why: "A milk-texture cleanser for the nights a foam leaves you feeling stripped.", image: "/products/isntree/yam-root-vegan-milk-cleanser-220ml.webp" },
+    ],
+    fiveMinute: {
+      intro:
+        "The spring evening routine, start to finish. Steps one and two are the new bit; the rest is what you'd do anyway.",
+      steps: [
+        { step: "01 · Oil", what: "Dry hands, dry face. Massage gently, then add water until it turns milky and rinse thoroughly.", pick: "Mung Bean Cleansing Oil 200ml", brand: "beplain", image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp" },
+        { step: "02 · Second cleanse", what: "Optional. Use it on heavy sunscreen or makeup days, or if your oil's directions call for one. Skip it if your skin feels tight.", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
+        { step: "03 · Hydrate", what: "Onto damp skin, straight after rinsing.", pick: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", image: "/products/round-lab/1025-dokdo-toner-100ml.webp" },
+        { step: "04 · Seal", what: "Birch juice, glycerin and hyaluronic acid in a lighter cream for spring nights. During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia and follow its labelled directions.", pick: "Birch Juice Moisturizing Cream 80ml", brand: "ROUND LAB", image: "/products/round-lab/birch-juice-moisturizing-cream-80ml.webp" },
+      ],
+      closer:
+        "The step most people rush is the rinse. Thirty extra seconds of lukewarm water, especially along the hairline and jaw, is the cheapest upgrade in this issue.",
+    },
+    everyone: {
+      topic: "No makeup? You might still want two cleanses",
+      image: routineFlatlay,
+      imageAlt: "Flatlay of a short Korean skincare routine: cleanser, toner, serum and cream",
+      body: [
+        "The double cleanse was sold as a makeup-wearer's ritual. In spring, it's really a question for anyone wearing sunscreen — which, from now until April in Victoria, should be most of us whenever the UV hits 3.",
+        "The test is what you're taking off, not what you put on for show. A long day outdoors, sunscreen reapplied at lunch and again at school pick-up? Oil first. A desk day and a quick walk at lunch? One gentle cleanse may feel like plenty. If you're not sure, the oil is the low-risk default — it adds about a minute.",
+        "Watch for over-cleansing. If your skin feels tight or squeaky after two cleanses, swap the second for something milder or drop it on indoor days. Clean shouldn't feel stripped.",
+        "A pollen note for Melburnians: grass pollen is counted from 1 October to 31 December, and Melbourne Pollen's 2026 outlook expects a more active season than last year across Melbourne. Cleansing won't help hay fever — that's a pharmacist or GP conversation, especially if you have asthma. But if your skin feels unsettled on windy days, keep the routine gentle and hold off on introducing new actives until things settle.",
+      ],
+    },
+    basket: {
+      forWho: "For sunscreen season, start to finish",
+      ctaLabel: "Shop these products",
+      items: [
+        { name: "Mung Bean Cleansing Oil 200ml", brand: "beplain", price: "A$35", image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp", note: "Lift the day off." },
+        { name: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", price: "A$24", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp", note: "The optional second cleanse." },
+        { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "A$18", image: "/products/round-lab/1025-dokdo-toner-100ml.webp", note: "Water back in." },
+        { name: "Birch Juice Moisturizing Cream 80ml", brand: "ROUND LAB", price: "A$35", image: "/products/round-lab/birch-juice-moisturizing-cream-80ml.webp", note: "A lighter seal for spring." },
+      ],
+    },
+    askTheGrocer: {
+      prompt: "What should we dig into next fortnight?",
+      options: [
+        "Do I need a lighter moisturiser for spring?",
+        "Toner pads: worth it or wasteful?",
+        "Should I cleanse in the morning at all?",
+        "Retinal vs retinol: which should I start with?",
+      ],
+    },
+  },
   {
     number: "06",
     slug: "korean-products-australians-havent-found-yet",
