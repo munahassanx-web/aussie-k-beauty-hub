@@ -96,6 +96,13 @@ const megaMenus: Record<string, MegaSection[]> = {
   ],
 };
 
+/** Each rotating selling point carries its own icon in the top band. */
+const ANNOUNCEMENT_ICONS: Record<string, typeof Truck> = {
+  "Free standard delivery from A$100": Truck,
+  [NEXT_DAY_BADGE]: Zap,
+  "Authenticity verified": BadgeCheck,
+};
+
 const announcements = [
   "Free standard delivery from A$100",
   NEXT_DAY_BADGE,
