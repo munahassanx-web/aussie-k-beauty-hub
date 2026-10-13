@@ -108,8 +108,9 @@
   --glaze: #e3a493;          /* Glaze — the one accent */
   --awning: #e6dfd7;         /* Warm pearl — the awning stripe on every page (Muna, 2026-10-12) */
   --awning-light: #ffffff;   /* White — the alternate awning stripe, as on the homepage */
-  --seal: #e6dfd7;           /* Warm pearl — the seal logo (chosen 2026-10-12) */
-  --seal-ink: #3a2620;       /* Cocoa — the seal letters and frame */
+  --logo-dot: #c9826f;       /* Deep glaze — the square dot on the logo's i (logo chosen 2026-10-13) */
+  --logo-icon: #f4e3dc;      /* Blush — the "sg" icon tile */
+  --logo-ink: #3a2620;       /* Cocoa — the "sg" icon letters */
   /* Grocery-list editorial accents, mapped onto the same family */
   --grocer-cream: #fbf6f2;
   --grocer-green: #3a2620;
@@ -969,11 +970,12 @@
 .skin-receipt__awning--foot { margin-top: auto; transform: rotate(180deg); }
 .skin-receipt__body { padding: 5mm 8mm 4mm; font-size: 7.6pt; line-height: 1.35; }
 .skin-receipt__mark {
+  display: block;
   text-align: center;
-  font-family: "Bodoni Moda", Didot, Georgia, serif;
-  font-weight: 700;
-  font-size: 15pt;
-  letter-spacing: 0.16em;
+}
+.skin-receipt__mark svg {
+  display: inline-block;
+  height: 6.5mm;
 }
 .skin-receipt__sub { margin-top: 1mm; text-align: center; font-size: 6.4pt; letter-spacing: 0.18em; text-transform: uppercase; color: #86706a; }
 .skin-receipt__rule { margin: 3.2mm 0; border-top: 0.25mm solid #2e1e19; }

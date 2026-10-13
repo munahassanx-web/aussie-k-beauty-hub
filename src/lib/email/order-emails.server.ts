@@ -35,8 +35,9 @@ const RULE = '#E8E1D9';
 const PAPER = '#FFFFFF';
 const COCOA_MUTED = '#D8CCBF'; // light text on the cocoa footer
 
-/** The Bodoni-style wordmark; everything else is a clean sans, like the site. */
-const WORDMARK = "'Bodoni 72', 'Bodoni MT', Didot, Georgia, serif";
+/** The lowercase "skin grocer" logo as PNG (2x), cocoa for white and milk for the cocoa footer. */
+const LOGO = `${SITE_URL}/email/sg-logo.png`;
+const LOGO_LIGHT = `${SITE_URL}/email/sg-logo-milk.png`;
 const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 const SERIF = SANS;
 
@@ -216,7 +217,7 @@ function footerBlock(originLine = 'Skin Grocer · Melbourne, Australia'): string
     )}</a>`;
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${COCOA}" style="background-color:${COCOA};">
     <tr><td align="center" class="sg-pad" style="padding:30px 40px 28px;">
-      <p style="margin:0;font-family:${WORDMARK};font-size:20px;line-height:1.1;letter-spacing:.22em;text-transform:uppercase;color:${PAPER};font-weight:bold;">Skin&nbsp;Grocer</p>
+      <img src="${LOGO_LIGHT}" width="140" height="35" alt="Skin Grocer" style="display:block;margin:0 auto;width:140px;height:35px;font-family:${SANS};font-size:18px;font-weight:bold;color:${PAPER};" />
       <p style="margin:12px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.30em;text-transform:uppercase;color:${GLAZE};">Inner Beauty</p>
       <div style="height:18px;line-height:18px;font-size:0;">&nbsp;</div>
       ${glazeDivider(40)}
@@ -242,7 +243,7 @@ function footerBlock(originLine = 'Skin Grocer · Melbourne, Australia'): string
 function masthead(headline: string, statement: string, standfirst: string): string {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${PAPER}" style="background-color:${PAPER};">
     <tr><td align="center" class="sg-pad" style="padding:36px 48px 0;">
-      <p class="sg-wordmark" style="margin:0;font-family:${WORDMARK};font-size:32px;line-height:1.05;letter-spacing:.16em;text-transform:uppercase;color:${COCOA};font-weight:bold;">Skin&nbsp;Grocer</p>
+      <img class="sg-wordmark" src="${LOGO}" width="200" height="49" alt="Skin Grocer" style="display:block;margin:0 auto;width:200px;height:49px;font-family:${SANS};font-size:26px;font-weight:bold;color:${COCOA};" />
       <p style="margin:12px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.32em;text-transform:uppercase;color:${GLAZE_DEEP};">Inner Beauty</p>
       <div style="height:20px;line-height:20px;font-size:0;">&nbsp;</div>
       ${glazeDivider(54)}
@@ -289,7 +290,7 @@ function shell(title: string, preheader: string, inner: string): string {
     .sg-meta { padding:14px 18px !important; border-left:0 !important; border-top:1px solid ${RULE} !important; }
     .sg-meta-first { border-top:0 !important; }
     .sg-thumb { width:60px !important; }
-    .sg-wordmark { font-size:24px !important; letter-spacing:.16em !important; }
+    .sg-wordmark { width:160px !important; height:39px !important; }
     .sg-display { font-size:21px !important; }
 
     .sg-framebar { height:10px !important; }
