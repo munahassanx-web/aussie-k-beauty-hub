@@ -43,7 +43,7 @@ function organizationJsonLd() {
         "@type": "ImageObject",
         url: SITE_LOGO_URL,
       },
-      sameAs: [],
+      sameAs: ["https://www.instagram.com/skngrocer/"],
     }),
   };
 }
