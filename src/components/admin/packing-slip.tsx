@@ -1,6 +1,7 @@
 import type { AdminOrderDetail } from '@/lib/admin-orders.functions';
 import { orderReference } from '@/lib/order-reference';
 import { SkinReceipt } from '@/components/admin/skin-receipt';
+import { BrandWordmark } from '@/components/brand-wordmark';
 
 function money(cents: number, currency = 'AUD') {
   return new Intl.NumberFormat('en-AU', { style: 'currency', currency }).format((cents ?? 0) / 100);
@@ -23,7 +24,7 @@ export function PackingSlip({ order }: { order: AdminOrderDetail }) {
     <div id="packing-slip" className="hidden print:block print:text-black">
       <header className="flex items-start justify-between border-b border-black pb-4">
         <div>
-          <p className="font-display text-2xl">SKIN GROCER</p>
+          <BrandWordmark as="div" size="sm" className="text-black" />
           <p className="text-xs">Korean skincare · Dispatched from Melbourne, Australia</p>
         </div>
         <div className="text-right text-xs">

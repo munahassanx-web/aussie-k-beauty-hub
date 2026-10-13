@@ -970,11 +970,12 @@
 .skin-receipt__awning--foot { margin-top: auto; transform: rotate(180deg); }
 .skin-receipt__body { padding: 5mm 8mm 4mm; font-size: 7.6pt; line-height: 1.35; }
 .skin-receipt__mark {
+  display: block;
   text-align: center;
-  font-family: "Bodoni Moda", Didot, Georgia, serif;
-  font-weight: 700;
-  font-size: 15pt;
-  letter-spacing: 0.16em;
+}
+.skin-receipt__mark svg {
+  display: inline-block;
+  height: 6.5mm;
 }
 .skin-receipt__sub { margin-top: 1mm; text-align: center; font-size: 6.4pt; letter-spacing: 0.18em; text-transform: uppercase; color: #86706a; }
 .skin-receipt__rule { margin: 3.2mm 0; border-top: 0.25mm solid #2e1e19; }

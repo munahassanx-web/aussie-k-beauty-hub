@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { BrandWordmark } from "@/components/brand-wordmark";
 import QRCode from "qrcode";
 import type { AdminOrderDetail } from "@/lib/admin-orders.functions";
 import { orderReference } from "@/lib/order-reference";
@@ -93,7 +94,7 @@ export function SkinReceipt({ order }: { order: AdminOrderDetail }) {
         <div aria-hidden className="skin-receipt__awning" />
 
         <div className="skin-receipt__body">
-          <p className="skin-receipt__mark">SKIN GROCER</p>
+          <BrandWordmark as="div" size="sm" className="skin-receipt__mark" />
           <p className="skin-receipt__sub">Korean skincare · Melbourne, Australia</p>
 
           <div className="skin-receipt__rule" />
