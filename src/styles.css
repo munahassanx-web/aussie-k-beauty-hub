@@ -108,8 +108,9 @@
   --glaze: #e3a493;          /* Glaze — the one accent */
   --awning: #e6dfd7;         /* Warm pearl — the awning stripe on every page (Muna, 2026-10-12) */
   --awning-light: #ffffff;   /* White — the alternate awning stripe, as on the homepage */
-  --seal: #e6dfd7;           /* Warm pearl — the seal logo (chosen 2026-10-12) */
-  --seal-ink: #3a2620;       /* Cocoa — the seal letters and frame */
+  --logo-dot: #c9826f;       /* Deep glaze — the square dot on the logo's i (logo chosen 2026-10-13) */
+  --logo-icon: #f4e3dc;      /* Blush — the "sg" icon tile */
+  --logo-ink: #3a2620;       /* Cocoa — the "sg" icon letters */
   /* Grocery-list editorial accents, mapped onto the same family */
   --grocer-cream: #fbf6f2;
   --grocer-green: #3a2620;

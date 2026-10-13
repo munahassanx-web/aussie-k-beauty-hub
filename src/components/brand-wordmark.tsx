@@ -1,37 +1,15 @@
 import {
-  LOCKUP_VIEWBOX,
-  SEAL,
-  SEAL_GLYPHS,
-  SEAL_VIEWBOX,
+  ICON_DOT,
+  ICON_GLYPHS,
+  ICON_VIEWBOX,
   WORDMARK,
-  WORDMARK_TRANSFORM,
-} from "@/components/brand-seal-art";
-
-/** The seal on its own: a warm pearl dojang stamped with ㅅㄱ (스킨 그로서). */
-function SealMark() {
-  const { x, y, size, radius, frameInset, frameRadius, frameStroke } = SEAL;
-  return (
-    <>
-      <rect x={x} y={y} width={size} height={size} rx={radius} style={{ fill: "var(--seal)" }} />
-      <rect
-        x={x + frameInset}
-        y={y + frameInset}
-        width={size - 2 * frameInset}
-        height={size - 2 * frameInset}
-        rx={frameRadius}
-        fill="none"
-        strokeWidth={frameStroke}
-        style={{ stroke: "var(--seal-ink)" }}
-      />
-      <path d={SEAL_GLYPHS} style={{ fill: "var(--seal-ink)" }} />
-    </>
-  );
-}
+  WORDMARK_DOT,
+  WORDMARK_VIEWBOX,
+} from "@/components/brand-logo-art";
 
 /**
- * Primary brand identity: the seal logo. A warm pearl Korean seal (ㅅㄱ) beside
- * SKIN GROCER in widely spaced Marcellus capitals. The wordmark takes the current
- * text colour; the seal takes the --seal and --seal-ink tokens.
+ * Primary brand identity: "skin grocer" in clean, tightly kerned lowercase. The
+ * letters take the current text colour; the square dot on the i takes --logo-dot.
  */
 export function BrandWordmark({
   size = "md",
@@ -41,40 +19,58 @@ export function BrandWordmark({
   size?: "sm" | "md" | "lg" | "xl" | "display";
   className?: string;
   as?: "span" | "p" | "div";
-  /** Kept for existing call sites; the seal lockup has no tagline line. */
+  /** Kept for existing call sites; the wordmark has no tagline line. */
   sub?: boolean;
 }) {
   const height =
     size === "display"
-      ? "h-[34px] sm:h-[44px] md:h-[56px]"
+      ? "h-[30px] sm:h-[38px] md:h-[46px]"
       : size === "xl"
-        ? "h-[40px] md:h-[50px]"
+        ? "h-[36px] md:h-[44px]"
         : size === "lg"
-          ? "h-[32px] md:h-[38px]"
+          ? "h-[28px] md:h-[34px]"
           : size === "sm"
-            ? "h-[26px]"
-            : "h-[28px] md:h-[34px]";
+            ? "h-[24px]"
+            : "h-[26px] md:h-[30px]";
+  const { x, y, size: dot, radius } = WORDMARK_DOT;
 
   return (
     <Tag className={`inline-block align-middle ${className}`}>
       <svg
-        viewBox={LOCKUP_VIEWBOX}
+        viewBox={WORDMARK_VIEWBOX}
         className={`block w-auto ${height}`}
         role="img"
         aria-label="Skin Grocer"
       >
-        <SealMark />
-        <path d={WORDMARK} transform={WORDMARK_TRANSFORM} fill="currentColor" />
+        <path d={WORDMARK} fill="currentColor" />
+        <rect
+          x={x}
+          y={y}
+          width={dot}
+          height={dot}
+          rx={radius}
+          style={{ fill: "var(--logo-dot)" }}
+        />
       </svg>
     </Tag>
   );
 }
 
-/** The seal alone, for tight spots such as app icons and avatars. */
-export function BrandSeal({ className = "" }: { className?: string }) {
+/** The "sg" icon on its own, for tight spots such as app icons and avatars. */
+export function BrandIcon({ className = "" }: { className?: string }) {
+  const { x, y, size, radius } = ICON_DOT;
   return (
-    <svg viewBox={SEAL_VIEWBOX} className={className} role="img" aria-label="Skin Grocer">
-      <SealMark />
+    <svg viewBox={ICON_VIEWBOX} className={className} role="img" aria-label="Skin Grocer">
+      <rect width="100" height="100" rx="28" style={{ fill: "var(--logo-icon)" }} />
+      <path d={ICON_GLYPHS} style={{ fill: "var(--logo-ink)" }} />
+      <rect
+        x={x}
+        y={y}
+        width={size}
+        height={size}
+        rx={radius}
+        style={{ fill: "var(--logo-dot)" }}
+      />
     </svg>
   );
 }
