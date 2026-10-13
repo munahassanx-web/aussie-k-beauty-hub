@@ -9,7 +9,7 @@ import { BrandBand } from "@/components/brand-band";
 import { findProductBySlug } from "@/lib/product-detail";
 import { supplierMatchPending } from "@/lib/shop-catalog";
 import { NEXT_DAY_BADGE } from "@/lib/shipping-rates";
-import { BadgeCheck, Sparkles, Truck, Zap } from "lucide-react";
+import { BadgeCheck, Instagram, Sparkles, Truck, Zap } from "lucide-react";
 
 
 type MegaLink = { label: string; to: string; search?: Record<string, string>; hash?: string };
@@ -873,6 +873,15 @@ export function SiteFooter() {
             occasionally.
           </p>
           <NewsletterForm source="footer" variant="dark" />
+          <a
+            href="https://www.instagram.com/skngrocer/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex items-center gap-2 text-sm text-paper/70 hover:text-paper"
+          >
+            <Instagram aria-hidden="true" className="h-4 w-4" />
+            Follow @skngrocer on Instagram
+          </a>
         </div>
       </div>
 
