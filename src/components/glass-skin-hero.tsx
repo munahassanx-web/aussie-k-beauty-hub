@@ -169,6 +169,7 @@ export function GlassSkinHero() {
   const endDrag = () => {
     setDragging(false);
     setSpin(0);
+    setPaused(false);
   };
 
   const go = (i: number) => {
@@ -242,6 +243,7 @@ export function GlassSkinHero() {
       <div
         ref={stageRef}
         onPointerEnter={(e) => e.pointerType === "mouse" && setPaused(true)}
+        onPointerLeave={(e) => e.pointerType === "mouse" && setPaused(false)}
         onPointerDown={(e) => {
           swipeX.current = e.clientX;
         }}
