@@ -169,12 +169,24 @@ export function GlassSkinHero() {
   const endDrag = () => {
     setDragging(false);
     setSpin(0);
+    setPaused(false);
   };
 
+  const resumeTimer = useRef<number | null>(null);
   const go = (i: number) => {
     setIndex((i + SLIDES.length) % SLIDES.length);
     setPaused(true);
+    // Manual picks hold the slide briefly, then rotation resumes on its own.
+    if (resumeTimer.current) window.clearTimeout(resumeTimer.current);
+    resumeTimer.current = window.setTimeout(() => setPaused(false), 12000);
   };
+
+  useEffect(
+    () => () => {
+      if (resumeTimer.current) window.clearTimeout(resumeTimer.current);
+    },
+    [],
+  );
 
   const onMove = (e: PointerEvent<HTMLElement>) => {
     if (reduce || e.pointerType !== "mouse" || !stageRef.current) return;
@@ -242,6 +254,7 @@ export function GlassSkinHero() {
       <div
         ref={stageRef}
         onPointerEnter={(e) => e.pointerType === "mouse" && setPaused(true)}
+        onPointerLeave={(e) => e.pointerType === "mouse" && setPaused(false)}
         onPointerDown={(e) => {
           swipeX.current = e.clientX;
         }}

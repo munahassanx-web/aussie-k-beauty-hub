@@ -1,6 +1,4 @@
 import { createFileRoute, Link, useNavigate, stripSearchParams } from "@tanstack/react-router";
-import { zodValidator, fallback } from "@tanstack/zod-adapter";
-import { z } from "zod";
 import petri from "@/assets/learn/pdrn-ampoule.webp";
 import portraitDeep from "@/assets/learn/deeper-skin-tones.webp";
 import routineFlatlay from "@/assets/learn/layering-humid.webp";
@@ -9,13 +7,11 @@ import { filterArticles, tagGroups, tagsFor } from "@/lib/learn-tags";
 import { FaqSection } from "@/components/faq-section";
 import { TREND_FAQS, faqJsonLd } from "@/lib/faqs";
 
-const learnSearchSchema = z.object({
-  q: fallback(z.string(), "").default(""),
-  tag: fallback(z.string(), "").default(""),
-});
-
 export const Route = createFileRoute("/learn/hub")({
-  validateSearch: zodValidator(learnSearchSchema),
+  validateSearch: (search: Record<string, unknown>): { q?: string; tag?: string } => ({
+    q: typeof search.q === "string" ? search.q : "",
+    tag: typeof search.tag === "string" ? search.tag : "",
+  }),
   search: { middlewares: [stripSearchParams({ q: "", tag: "" })] },
   head: () => ({
     meta: [
@@ -109,7 +105,9 @@ function ArticleCard({ a }: { a: LearnArticle }) {
 }
 
 function LearnFinder() {
-  const { q, tag } = Route.useSearch();
+  const search = Route.useSearch();
+  const q = search.q ?? "";
+  const tag = search.tag ?? "";
   const navigate = useNavigate({ from: "/learn/hub" });
   const groups = tagGroups();
   const isFiltering = q.trim().length > 0 || tag.length > 0;
@@ -217,7 +215,9 @@ function LearnFinder() {
 
 function LearnHubPage() {
   const seoul = articlesByPillar("seoul");
-  const { q, tag } = Route.useSearch();
+  const hubSearch = Route.useSearch();
+  const q = hubSearch.q ?? "";
+  const tag = hubSearch.tag ?? "";
   const isFiltering = q.trim().length > 0 || tag.length > 0;
 
   return (
