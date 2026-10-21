@@ -105,7 +105,9 @@ function ArticleCard({ a }: { a: LearnArticle }) {
 }
 
 function LearnFinder() {
-  const { q, tag } = Route.useSearch();
+  const search = Route.useSearch();
+  const q = search.q ?? "";
+  const tag = search.tag ?? "";
   const navigate = useNavigate({ from: "/learn/hub" });
   const groups = tagGroups();
   const isFiltering = q.trim().length > 0 || tag.length > 0;
@@ -213,7 +215,9 @@ function LearnFinder() {
 
 function LearnHubPage() {
   const seoul = articlesByPillar("seoul");
-  const { q, tag } = Route.useSearch();
+  const hubSearch = Route.useSearch();
+  const q = hubSearch.q ?? "";
+  const tag = hubSearch.tag ?? "";
   const isFiltering = q.trim().length > 0 || tag.length > 0;
 
   return (
