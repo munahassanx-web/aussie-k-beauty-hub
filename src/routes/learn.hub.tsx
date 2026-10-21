@@ -8,7 +8,7 @@ import { FaqSection } from "@/components/faq-section";
 import { TREND_FAQS, faqJsonLd } from "@/lib/faqs";
 
 export const Route = createFileRoute("/learn/hub")({
-  validateSearch: (search: Record<string, unknown>): { q: string; tag: string } => ({
+  validateSearch: (search: Record<string, unknown>): { q?: string; tag?: string } => ({
     q: typeof search.q === "string" ? search.q : "",
     tag: typeof search.tag === "string" ? search.tag : "",
   }),
