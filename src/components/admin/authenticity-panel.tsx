@@ -10,7 +10,7 @@ import {
   type VerificationItemEvidence,
 } from '@/lib/authenticity.functions';
 import { CHECK_LABELS_OPS, OPTIONAL_CHECKS, REQUIRED_CHECKS, type CheckKey } from '@/lib/authenticity-checks';
-import { AuthenticityCardPrint } from '@/components/admin/authenticity-card-print';
+import { AuthenticityCardPrint, type CardPrintFormat } from '@/components/admin/authenticity-card-print';
 
 const STATUS_COPY: Record<string, string> = {
   active: 'Active',
@@ -51,6 +51,7 @@ export function AuthenticityPanel({ orderId, enabled }: { orderId: string; enabl
   const [items, setItems] = useState<VerificationItemEvidence[]>([]);
   // The raw token exists only in this browser session, for printing.
   const [issued, setIssued] = useState<{ cardRef: string; verifyUrl: string } | null>(null);
+  const [printFormat, setPrintFormat] = useState<CardPrintFormat>('card');
 
   const cards = (q.data ?? []) as OpsCard[];
   const draft = useQuery({
@@ -92,7 +93,7 @@ export function AuthenticityPanel({ orderId, enabled }: { orderId: string; enabl
 
   return (
     <>
-      {issued && <AuthenticityCardPrint cardRef={issued.cardRef} verifyUrl={issued.verifyUrl} />}
+      {issued && <AuthenticityCardPrint cardRef={issued.cardRef} verifyUrl={issued.verifyUrl} format={printFormat} />}
 
       <section className="mt-4 rounded-2xl border border-border p-4 text-sm sm:p-5 print:hidden">
         <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Authenticity card — staff only</p>
@@ -124,10 +125,25 @@ export function AuthenticityPanel({ orderId, enabled }: { orderId: string; enabl
                 type="button"
                 disabled={!issued}
                 title={issued ? undefined : 'The QR can only be printed in the session it was issued. Reissue to print again.'}
-                onClick={printCard}
+                onClick={() => {
+                  setPrintFormat('card');
+                  window.setTimeout(printCard, 0);
+                }}
                 className="rounded-full border border-border px-4 py-2 text-xs hover:border-foreground disabled:opacity-50"
               >
                 Print card
+              </button>
+              <button
+                type="button"
+                disabled={!issued}
+                title={issued ? 'For the pre-printed premium box card: a 30mm QR sticker' : 'The QR can only be printed in the session it was issued. Reissue to print again.'}
+                onClick={() => {
+                  setPrintFormat('sticker');
+                  window.setTimeout(printCard, 0);
+                }}
+                className="rounded-full border border-border px-4 py-2 text-xs hover:border-foreground disabled:opacity-50"
+              >
+                Print QR sticker
               </button>
               <button
                 type="button"
