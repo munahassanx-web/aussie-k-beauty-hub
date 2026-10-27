@@ -13,6 +13,8 @@ import issue04Cover from "@/assets/issues/issue-04-pdrn.webp";
 import issue05Cover from "@/assets/issues/issue-05-pigmentation.webp";
 import issue06Cover from "@/assets/issues/issue-06-undiscovered.webp";
 import issue07Cover from "@/assets/issues/issue-07-cleansing.webp";
+import issue08Cover from "@/assets/issues/issue-08-texture.webp";
+import layeringHumid from "@/assets/learn/layering-humid.webp";
 
 export type IssuePick = {
   name: string;
@@ -112,6 +114,108 @@ export type NewsletterIssue = {
 };
 
 export const newsletterIssues: NewsletterIssue[] = [
+  {
+    number: "08",
+    slug: "lighter-moisturiser-for-spring",
+    title: "Do You Need a Lighter Moisturiser for Spring?",
+    theme: "The Texture Issue",
+    date: "Fortnight of 26 October 2026",
+    published: true,
+    cover: issue08Cover,
+    coverAlt:
+      "WELLAGE Real Hyaluronic Soothing Cream, TORRIDEN DIVE IN Soothing Cream and S.NATURE Aqua Squalane Moisturizing Cream on a warm pearl backdrop",
+    standfirst:
+      "Melbourne's afternoons are warming up, and Korea's Hwahae trending chart on 25 October reads like a texture menu: a rich barrier cream at No. 1, and two lightweight gel-creams inside the top 12. This fortnight: what actually changes when you swap to a lighter moisturiser, who should, and who shouldn't.",
+    bigQuestion: {
+      question: "Do I need a lighter moisturiser now it's warmer?",
+      body: [
+        "Maybe — but probably not for the reason you think. The Bureau of Meteorology's long-term averages for central Melbourne put the mean July maximum at 13.5°C and the November maximum at 22°C. The air doesn't get wetter as it warms, though: mean 3pm relative humidity drops from 61% in July to 49% in November. Spring here isn't humid. What changes is how a heavy cream feels on warm skin.",
+        "Korea's review community has noticed the same thing. On Hwahae's Global Trending Ranking, updated 25 October, the No. 1 product is AESTURA's Atobarrier365 Cream, which Hwahae's own summary calls a barrier moisturiser for dry skin that 'may feel heavy in summer'. Further down, TORRIDEN's DIVE IN Soothing Cream (No. 8) is summarised as a lightweight gel-cream that's good for summer, and WELLAGE's Real Hyaluronic Soothing Cream (No. 12) as best for oily or combination skin and 'too light alone in dry winters'.",
+        "That's the honest frame: a texture swap is about comfort and what your skin does in warmth, not about a season on a calendar. The American Academy of Dermatology's guidance is that people with oily skin can opt for a gel, which is lighter than other moisturisers, while dry skin is better served by a cream. Combination skin can treat the face as two zones.",
+        "Our read: if your current cream starts to feel greasy by lunchtime, or you're getting shine by mid-afternoon, a gel-cream is a reasonable spring swap. If your skin still feels tight after cleansing, keep the richer cream — Melbourne's afternoons are drier than winter's, not wetter. And if you're not sure, keep both: gel by day, the richer cream on the nights your skin asks for it.",
+      ],
+      pick: {
+        name: "Dive In Soothing Cream",
+        brand: "TORRIDEN",
+        price: "A$40",
+        image: "/products/torriden/dive-in-soothing-cream.webp",
+        note: "Pat a small amount onto clean skin as your last step at night, or before sunscreen in the morning. Patch test before first use — any product can cause a reaction.",
+        reasons: [
+          "No. 8 on Hwahae's Global Trending Ranking (updated 25 October 2026, KST), summarised as a lightweight gel-cream",
+          "Hyaluronic acid in five molecular sizes, with panthenol and allantoin, per TORRIDEN",
+          "Listed by TORRIDEN for normal, combination and redness-prone skin",
+        ],
+      },
+    },
+    seoul: {
+      whyLabel: "Why it's all over Korean gel-creams",
+      ingredient: "Low-molecular hyaluronic acid",
+      koreaHeat: "🔥🔥🔥🔥",
+      australiaHeat: "🌡️ known, but the 'low molecular' bit isn't",
+      whatIsIt:
+        "Hyaluronic acid is a humectant: it holds water. 'Low molecular weight' means it has been broken into smaller pieces. A 2024 scoping review in EMJ Dermatology summarises the general picture: larger hyaluronic acid mainly hydrates the surface and supports the barrier, while smaller fragments penetrate further into the skin.",
+      whyKoreansLove:
+        "Because 'multi-molecular' became a label of its own. TORRIDEN says its DIVE IN cream uses five sizes of hyaluronic acid, from high to low molecular weight, and the ingredient list carries several forms — hydrolysed hyaluronic acid, sodium hyaluronate and a sodium hyaluronate crosspolymer among them. WELLAGE's Real Hyaluronic line is built around the same idea. It suits the Korean preference for hydration that sinks in rather than sitting on top.",
+      shouldAussiesCare:
+        "A little. Multiple sizes is a sensible formulation choice, but the same review notes most studies are small and that very small fragments (20 kDa and under) aren't recommended for topical use. More molecular sizes on a label doesn't automatically mean more hydration. Hyaluronic acid on its own isn't a moisturiser either; it works best with something on top to slow water loss, which is exactly what a gel-cream does.",
+      tryIt: [
+        { name: "Dive In Soothing Cream", brand: "TORRIDEN", price: "A$40", image: "/products/torriden/dive-in-soothing-cream.webp", note: "This fortnight's pick. Gel-cream, five sizes of hyaluronic acid." },
+        { name: "Dive In Serum", brand: "TORRIDEN", price: "A$38", image: "/products/torriden/dive-in-serum.webp", note: "The serum step in the same range, before the cream." },
+        { name: "Real Hyaluronic Blue 100 Ampoule 60ml", brand: "WELLAGE", price: "A$34", image: "/products/wellage/real-hyaluronic-blue-100-ampoule-60ml.webp", note: "Ranked No. 18 on Hwahae in its 100ml size. We stock the 60ml." },
+      ],
+    },
+    aisle: [
+      { emoji: "💦", concern: "Shiny by mid-afternoon", pick: "Real Hyaluronic Soothing Cream 80ml", brand: "WELLAGE", why: "Hwahae's summary: lightweight, best for oily or combination skin.", image: "/products/wellage/real-hyaluronic-soothing-cream-80ml.webp" },
+      { emoji: "🌤️", concern: "Want lighter, not thinner", pick: "Dive In Soothing Cream", brand: "TORRIDEN", why: "A gel-cream that still feels like a cream step.", image: "/products/torriden/dive-in-soothing-cream.webp" },
+      { emoji: "⚖️", concern: "Combination skin", pick: "Aqua Squalane Moisturizing Cream", brand: "S.NATURE", why: "No. 4 on Hwahae, summarised as suiting combination skin.", image: "/products/s-nature/aqua-squalane-moisturizing-cream.webp" },
+      { emoji: "🧱", concern: "Still tight after cleansing", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", why: "Keep the richer ceramide cream. Spring afternoons here are drier, not more humid.", image: "/products/aestura/atobarrier365-cream.webp" },
+      { emoji: "🫧", concern: "Gel-cream feels like not enough", pick: "Aqua Oasis Toner", brand: "S.NATURE", why: "Layer a hydrating toner underneath instead of going back to a heavy cream.", image: "/products/s-nature/aqua-oasis-toner.webp" },
+    ],
+    fiveMinute: {
+      intro:
+        "A spring morning routine that stays comfortable under sunscreen. The swap is step three; everything else stays.",
+      steps: [
+        { step: "01 · Cleanse", what: "A gentle low-pH foam, or just water if your skin is dry in the morning.", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
+        { step: "02 · Hydrate", what: "Pat onto damp skin. Two thin layers beat one heavy one.", pick: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", image: "/products/round-lab/1025-dokdo-toner-100ml.webp" },
+        { step: "03 · Gel-cream", what: "A pea-sized amount, pressed in rather than rubbed. Let it settle for a minute before the next step.", pick: "Dive In Soothing Cream", brand: "TORRIDEN", image: "/products/torriden/dive-in-soothing-cream.webp" },
+        { step: "04 · Dry patches only", what: "Optional. Press a little richer cream onto dry cheeks only. Then finish with a broad-spectrum sunscreen lawfully supplied in Australia, applied generously and reapplied as its label directs.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.webp" },
+      ],
+      closer:
+        "If your sunscreen pills or slides, the moisturiser underneath is usually the culprit. Use less, or give it longer to settle, before you blame the sunscreen.",
+    },
+    everyone: {
+      topic: "Combination skin: two textures, one face",
+      image: layeringHumid,
+      imageAlt: "Woman pouring a watery essence into her palm in soft, dewy light",
+      body: [
+        "Most people asking about a lighter moisturiser don't have one skin type. They have an oily centre and dry cheeks, or a shiny forehead and flaky edges around the nose.",
+        "The American Academy of Dermatology's advice for combination skin is simple: moisturise the dry spots and go easy on the oily areas. In practice, that can mean a gel-cream across the whole face and a little of your richer cream pressed onto the cheeks only.",
+        "Change one thing at a time. If you swap your moisturiser and your sunscreen in the same week and your skin is unhappy, you won't know which one did it. Give a new moisturiser two weeks before deciding.",
+        "And don't confuse shine with hydration. A shiny T-zone can sit right next to dry, tight cheeks. Going lighter shouldn't mean going without.",
+      ],
+      guideSlug: "humid-summer-layering",
+      guideLabel: "Read: layering order for warmer days",
+    },
+    basket: {
+      forWho: "For warmer days, without the heaviness",
+      ctaLabel: "Shop these products",
+      items: [
+        { name: "Dive In Soothing Cream", brand: "TORRIDEN", price: "A$40", image: "/products/torriden/dive-in-soothing-cream.webp", note: "The spring gel-cream." },
+        { name: "Real Hyaluronic Soothing Cream 80ml", brand: "WELLAGE", price: "A$38", image: "/products/wellage/real-hyaluronic-soothing-cream-80ml.webp", note: "For oily and combination skin." },
+        { name: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", price: "A$18", image: "/products/round-lab/1025-dokdo-toner-100ml.webp", note: "Hydration underneath." },
+        { name: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", price: "A$55", image: "/products/aestura/atobarrier365-cream.webp", note: "Keep it for dry nights." },
+      ],
+    },
+    askTheGrocer: {
+      prompt: "What should we dig into next fortnight?",
+      options: [
+        "Toner pads: worth it or wasteful?",
+        "Should I cleanse in the morning at all?",
+        "Retinal vs retinol: which should I start with?",
+        "Why does my sunscreen pill?",
+      ],
+    },
+  },
   {
     number: "07",
     slug: "cleansing-oil-vs-balm-vs-micellar",
