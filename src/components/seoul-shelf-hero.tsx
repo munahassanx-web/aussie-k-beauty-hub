@@ -4,7 +4,7 @@ import { ArrowDown, ArrowRight, ArrowUpRight, BadgeCheck, Palette, ScanLine, Spa
 import { Button } from "@/components/ui/button";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
-import tonerCutout from "@/assets/haruharu-toner-cutout.png";
+import tonerCutout from "@/assets/haruharu-toner-cutout.webp";
 
 type ShelfPalette = "seoul" | "jeju" | "plum" | "coast" | "dawn" | "blossom" | "sage";
 

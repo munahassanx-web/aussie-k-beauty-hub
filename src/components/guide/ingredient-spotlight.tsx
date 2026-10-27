@@ -3,16 +3,16 @@ import { guideIngredient } from "@/lib/guide-ingredient";
 import type { ShopProduct } from "@/lib/shop-catalog";
 import centella from "@/assets/ingredients/tex-centella.jpg";
 import niacinamide from "@/assets/ingredients/tex-niacinamide.jpg";
-import propolis from "@/assets/ingredients/tex-propolis.jpg";
+import propolis from "@/assets/ingredients/tex-propolis.webp";
 import snail from "@/assets/ingredients/tex-snail-mucin.jpg";
 import madecassoside from "@/assets/ingredients/tex-madecassoside.jpg";
-import beta from "@/assets/ingredients/tex-beta-glucan.jpg";
+import beta from "@/assets/ingredients/tex-beta-glucan.webp";
 
 import hydration from "@/assets/ingredients/guide-hydration.jpg";
 import emollient from "@/assets/ingredients/guide-emollient.jpg";
 import mung from "@/assets/ingredients/guide-mung-bean.jpg";
 import rice from "@/assets/ingredients/guide-rice.jpg";
-import ginseng from "@/assets/ingredient-ginseng.png";
+import ginseng from "@/assets/ingredient-ginseng.webp";
 
 const PHOTOS = {
   centella,

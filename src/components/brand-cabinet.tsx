@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
-import cabinetEdit from "@/assets/brand-cabinet-products.jpg";
+import cabinetEdit from "@/assets/brand-cabinet-products.webp";
 
 /* The Brand Cabinet: an A to Z of the brands we stock, moved from the homepage to Brands. */
 const CABINET_BRANDS: { name: string; knownFor: string }[] = [

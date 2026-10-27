@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { productSlug } from "@/lib/product-detail";
-import tonerCutout from "@/assets/haruharu-toner-cutout.png";
+import tonerCutout from "@/assets/haruharu-toner-cutout.webp";
 
 const FEATURED_PRICE_ID = "haruharu_wonder_black_rice_hyaluronic_toner_150ml_onetime";
 
