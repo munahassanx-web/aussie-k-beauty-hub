@@ -61,7 +61,7 @@ export function ReferAFriendCard({ userId }: { userId: string }) {
       {data && (
         <>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <p className="min-w-0 flex-1 truncate rounded-full border border-border bg-background px-5 py-3 font-mono text-sm text-foreground">
+            <p className="min-w-0 flex-1 truncate rounded-full border border-border bg-background px-5 py-3 font-mono text-xs text-foreground sm:text-sm">
               {data.url.replace(/^https:\/\//, '')}
             </p>
             <div className="flex gap-3">
