@@ -88,5 +88,5 @@
 - [x] Verify ingredient safeguards and guide rendering on desktop and mobile
 
 ## Playful ingredient bubbles
-- [ ] Replace the rejected dark treatment with colourful speech bubbles beside ingredient imagery
-- [ ] Add sourced Korean tradition notes only for matching ingredients and verify layouts
+- [x] Replace the rejected dark treatment with colourful speech bubbles beside ingredient imagery
+- [x] Add sourced Korean tradition notes only for matching ingredients and verify layouts

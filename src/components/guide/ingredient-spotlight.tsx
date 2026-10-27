@@ -21,7 +21,7 @@ export function IngredientSpotlight({ product }: { product: ShopProduct }) {
   if (!ingredient) return null;
   const photo = ingredient.visual ? PHOTOS[ingredient.visual] : null;
   return (
-    <aside aria-label="Ingredient spotlight" className="guide-ingredient-play mx-5 mt-10 py-3 sm:mx-10">
+    <aside aria-label="Ingredient spotlight" data-ingredient={ingredient.visual} className="guide-ingredient-play mx-5 mt-10 py-3 sm:mx-10">
       <p className="mb-5 flex items-center gap-2 text-[13px] font-semibold text-[color:var(--aisle-deep)]"><Sparkles className="size-4" aria-hidden="true" /> A little ingredient gossip</p>
       <div className="grid grid-cols-[90px_minmax(0,1fr)] items-start gap-4 sm:grid-cols-[170px_minmax(0,1fr)] sm:gap-6">
         <figure className="pt-5">

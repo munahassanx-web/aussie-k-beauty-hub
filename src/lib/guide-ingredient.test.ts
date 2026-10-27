@@ -21,4 +21,9 @@ describe('guide ingredient evidence', () => {
   it('does not invent a highlight for an unrecognised ingredient', () => {
     expect(guideIngredient({ ...reviewed, inci: ['Water'] })).toBeNull();
   });
+  it('attaches Korean tradition only when rice is actually listed', () => {
+    const rice = guideIngredient({ ...reviewed, inci: ['Water', 'Oryza Sativa (Rice) Extract'] });
+    expect(rice?.culture?.url).toBe('https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART002109441');
+    expect(guideIngredient(reviewed)?.culture).toBeNull();
+  });
 });
