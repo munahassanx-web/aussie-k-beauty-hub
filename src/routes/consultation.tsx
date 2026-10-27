@@ -788,7 +788,7 @@ function Results({
           Add the full routine to cart
         </button>
         <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
-          Dispatched from our Melbourne warehouse · Free standard shipping from A$100
+          Dispatched from our Melbourne warehouse · Free standard shipping from A$75
         </p>
       </div>
 

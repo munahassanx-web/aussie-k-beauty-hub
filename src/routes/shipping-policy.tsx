@@ -4,9 +4,9 @@ export const Route = createFileRoute("/shipping-policy")({
   head: () => ({
     meta: [
       { title: "Shipping Policy — Skin Grocer" },
-      { name: "description", content: "Australia Post delivery within Australia, with free standard shipping from A$100 and tracking on every order." },
+      { name: "description", content: "Australia Post delivery within Australia, with free standard shipping from A$75 and tracking on every order." },
       { property: "og:title", content: "Shipping Policy — Skin Grocer" },
-      { property: "og:description", content: "Australia Post delivery within Australia, with free standard shipping from A$100 and tracking on every order." },
+      { property: "og:description", content: "Australia Post delivery within Australia, with free standard shipping from A$75 and tracking on every order." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://skingrocer.com.au/shipping-policy" },
       { name: "twitter:card", content: "summary" },
@@ -59,7 +59,7 @@ function ShippingPolicy() {
         <section>
           <h2 className="font-display text-2xl text-foreground">Shipping cost</h2>
           <p className="mt-3 text-muted-foreground">
-            Free standard delivery applies to orders of A$100 or more. Orders under A$100 have a flat A$9.95 standard
+            Free standard delivery applies to orders of A$75 or more. Orders under A$75 have a flat A$9.95 standard
             delivery charge. Prices include GST where applicable.
           </p>
         </section>

@@ -135,7 +135,7 @@ function Promise() {
     },
     {
       num: "04",
-      title: "Free standard delivery from A$100",
+      title: "Free standard delivery from A$75",
       line: "Available on eligible Australian orders.",
       to: "/shipping-policy" as const,
     },

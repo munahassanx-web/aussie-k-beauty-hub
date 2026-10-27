@@ -7,11 +7,11 @@
 /** Flat standard shipping charge for orders below the free-delivery threshold. */
 export const FLAT_SHIPPING_CENTS = 995;
 
-/** Free standard delivery applies at this subtotal and above (A$100). */
-export const FREE_SHIPPING_THRESHOLD_CENTS = 10000;
+/** Free standard delivery applies at this subtotal and above (A$75). */
+export const FREE_SHIPPING_THRESHOLD_CENTS = 7500;
 
-/** Display string for the threshold, e.g. "A$100". */
-export const FREE_SHIPPING_THRESHOLD_LABEL = 'A$100';
+/** Display string for the threshold, e.g. "A$75". */
+export const FREE_SHIPPING_THRESHOLD_LABEL = 'A$75';
 
 /**
  * Next-day delivery promise. Same-day dispatch before the cutoff, then next
