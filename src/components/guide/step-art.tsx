@@ -1,12 +1,12 @@
-import type { ReactNode } from 'react';
-import type { StepArt } from '@/lib/guide-steps';
+import type { ReactNode } from "react";
+import type { StepArt } from "@/lib/guide-steps";
 
 // Line illustrations for the "How to use" steps. One drawing style throughout:
 // 96px grid, rounded 2.4px strokes in --art-ink, soft shapes in --art-fill.
 // The parent sets both colours, so each guide picks up its product's aisle.
 
-const INK = 'var(--art-ink, currentColor)';
-const FILL = 'var(--art-fill, #f4e3dc)';
+const INK = "var(--art-ink, currentColor)";
+const FILL = "var(--art-fill, #f4e3dc)";
 
 function Face({ eyes = true }: { eyes?: boolean }) {
   return (
@@ -17,7 +17,11 @@ function Face({ eyes = true }: { eyes?: boolean }) {
         stroke={INK}
       />
       <path d="M41 77.5V88M55 77.5V88" stroke={INK} />
-      <path d="M30 34c5-9 11-13 18-13s13 4 18 13c-6-3-12-4-18-4s-12 1-18 4Z" fill={FILL} stroke={INK} />
+      <path
+        d="M30 34c5-9 11-13 18-13s13 4 18 13c-6-3-12-4-18-4s-12 1-18 4Z"
+        fill={FILL}
+        stroke={INK}
+      />
       {eyes && (
         <>
           <path d="M36.5 48.5c2.5 2 5.5 2 8 0M51.5 48.5c2.5 2 5.5 2 8 0" stroke={INK} />
@@ -28,12 +32,22 @@ function Face({ eyes = true }: { eyes?: boolean }) {
   );
 }
 
-function Drop({ x, y, s = 1, filled = true }: { x: number; y: number; s?: number; filled?: boolean }) {
+function Drop({
+  x,
+  y,
+  s = 1,
+  filled = true,
+}: {
+  x: number;
+  y: number;
+  s?: number;
+  filled?: boolean;
+}) {
   return (
     <path
       transform={`translate(${x} ${y}) scale(${s})`}
       d="M0-8C3.5-3.5 6-.5 6 3a6 6 0 0 1-12 0c0-3.5 2.5-6.5 6-11Z"
-      fill={filled ? FILL : '#fff'}
+      fill={filled ? FILL : "#fff"}
       stroke={INK}
     />
   );
@@ -145,7 +159,10 @@ const ART: Record<StepArt, ReactNode> = {
     <g>
       <Face />
       <circle cx="76" cy="20" r="8" fill={FILL} stroke={INK} />
-      <path d="M76 6v3M76 31v3M62 20h3M87 20h3M66 10l2 2M84 28l2 2M66 30l2-2M84 12l2-2" stroke={INK} />
+      <path
+        d="M76 6v3M76 31v3M62 20h3M87 20h3M66 10l2 2M84 28l2 2M66 30l2-2M84 12l2-2"
+        stroke={INK}
+      />
     </g>
   ),
   amount: (
@@ -191,7 +208,11 @@ const ART: Record<StepArt, ReactNode> = {
   remove: (
     <g>
       <Face eyes={false} />
-      <path d="M31 44c2-9 9-14 17-14 6 0 11 3 14 8L34 70c-3-7-4-17-3-26Z" fill={FILL} stroke={INK} />
+      <path
+        d="M31 44c2-9 9-14 17-14 6 0 11 3 14 8L34 70c-3-7-4-17-3-26Z"
+        fill={FILL}
+        stroke={INK}
+      />
       <path d="M62 38c4 8 4 22-2 30" stroke={INK} strokeDasharray="2 4" />
       <path d="M66 22l12-8M78 14v7M78 14h-7" stroke={INK} />
     </g>

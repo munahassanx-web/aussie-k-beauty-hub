@@ -7,7 +7,7 @@ import { buildGuide, resolveGuideParam, strictStoredMatch } from '@/lib/guide-co
 import { productSlug } from '@/lib/product-detail';
 import { guideView } from '@/components/guide/guide-data';
 import { GuideLookGlow } from '@/components/guide/guide-look-glow';
-import { GuideLookLab } from '@/components/guide/guide-look-lab';
+import { listSoldOutSkus } from '@/lib/inventory.functions';
 
 export const Route = createFileRoute('/guide/$productId')({
   // Legacy QR / price-id links resolve to the canonical, human-readable slug.
@@ -43,6 +43,17 @@ export const Route = createFileRoute('/guide/$productId')({
       links: [{ rel: 'canonical', href: url }],
     };
   },
+  // Live inventory decides which buy buttons show. Never blocks the page: if
+  // the lookup fails we fall back to the catalogue's own state.
+  loader: async () => {
+    let soldOut: string[] = [];
+    try {
+      soldOut = await listSoldOutSkus({ data: undefined as never });
+    } catch {
+      soldOut = [];
+    }
+    return { soldOut };
+  },
   component: GuidePage,
 });
 
@@ -55,9 +66,7 @@ function Label({ children }: { children: React.ReactNode }) {
 function GuidePage() {
   const { productId } = Route.useParams();
   const product = resolveGuideParam(productId);
-  // Design preview: ?look=lab shows option B while Muna chooses.
-  const look =
-    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('look');
+  const { soldOut } = Route.useLoaderData();
 
   // Optional enrichment: stored brand directions (amount / frequency / tip).
   const { data: stored } = useQuery({
@@ -106,5 +115,5 @@ function GuidePage() {
   // brand+name match may enrich a current SKU.
   const match = stored ? strictStoredMatch(product, stored) : null;
   const view = guideView(product, buildGuide(product, match));
-  return look === 'lab' ? <GuideLookLab view={view} /> : <GuideLookGlow view={view} />;
+  return <GuideLookGlow view={view} soldOut={soldOut} />;
 }
