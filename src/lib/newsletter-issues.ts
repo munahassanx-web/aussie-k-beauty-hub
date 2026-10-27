@@ -123,7 +123,7 @@ export const newsletterIssues: NewsletterIssue[] = [
     published: true,
     cover: issue08Cover,
     coverAlt:
-      "WELLAGE Real Hyaluronic Soothing Cream, TORRIDEN DIVE IN Soothing Cream and S.NATURE Aqua Squalane Moisturizing Cream on a warm pearl backdrop",
+      "TORRIDEN DIVE IN Soothing Cream jar standing in shallow rippling water with clear water spheres and a swatch of light blue gel-cream, in warm daylight",
     standfirst:
       "Melbourne's afternoons are warming up, and Korea's Hwahae trending chart on 25 October reads like a texture menu: a rich barrier cream at No. 1, and two lightweight gel-creams inside the top 12. This fortnight: what actually changes when you swap to a lighter moisturiser, who should, and who shouldn't.",
     bigQuestion: {
