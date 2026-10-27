@@ -12,7 +12,7 @@
  *  - money is always logged in cents with explicit field names
  */
 
-export type CommerceScope = 'checkout' | 'guest_checkout' | 'webhook' | 'points';
+export type CommerceScope = 'checkout' | 'guest_checkout' | 'webhook' | 'points' | 'referral';
 
 /** Short correlation id shared by every log line of one checkout/webhook flow. */
 export function newTraceId(): string {

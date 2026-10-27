@@ -23,6 +23,70 @@ import {
   since,
   warnCommerce,
 } from '@/lib/commerce-log';
+import { creditsToApply, normaliseReferralCode, REFERRER_CREDIT_CENTS } from '@/lib/referrals';
+
+type AppliedReferral = {
+  discountCents: number;
+  metadata: Record<string, string>;
+  couponName: string | null;
+};
+
+/**
+ * Friend's A$10 (first one-off order) plus any A$10 credits the buyer has
+ * earned by sharing. Everything is re-checked here against live data.
+ */
+async function applyReferral(input: {
+  code: unknown;
+  buyerUserId: string | null;
+  buyerEmail: string | null;
+  environment: StripeEnv;
+  subtotalCents: number;
+  trace: string;
+}): Promise<AppliedReferral> {
+  const none: AppliedReferral = { discountCents: 0, metadata: {}, couponName: null };
+  const code = normaliseReferralCode(input.code);
+  if (!code && !input.buyerUserId) return none;
+  const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+  const { resolveFriendReferral, earnedCreditIds } = await import('@/lib/referrals.server');
+  const db = supabaseAdmin as any;
+  const metadata: Record<string, string> = {};
+  const names: string[] = [];
+  let discountCents = 0;
+
+  if (code) {
+    const friend = await resolveFriendReferral(db, {
+      code,
+      buyerUserId: input.buyerUserId,
+      buyerEmail: input.buyerEmail,
+      env: input.environment,
+      subtotalCents: input.subtotalCents,
+    });
+    logCommerce('referral', 'friend.checked', {
+      trace: input.trace,
+      code,
+      result: friend.ok ? 'applied' : friend.reason,
+    });
+    if (friend.ok) {
+      discountCents += friend.discountCents;
+      metadata['referralCode'] = friend.code;
+      metadata['referrerId'] = friend.referrerId;
+      names.push("Friend's invite");
+    }
+  }
+
+  if (input.buyerUserId) {
+    const available = await earnedCreditIds(db, input.buyerUserId, input.environment);
+    const count = creditsToApply(available.length, input.subtotalCents, discountCents);
+    if (count > 0) {
+      discountCents += count * REFERRER_CREDIT_CENTS;
+      metadata['referralCreditIds'] = available.slice(0, count).join(',');
+      names.push('Referral credit');
+      logCommerce('referral', 'credit.applied', { trace: input.trace, credits: count });
+    }
+  }
+
+  return { discountCents, metadata, couponName: names.length ? names.join(' + ') : null };
+}
 
 type CheckoutResult = { clientSecret: string } | { error: string };
 
@@ -32,6 +96,7 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
     (data: {
       items: CheckoutLineInput[];
       redeemPoints?: number;
+      referralCode?: string | null;
       returnUrl: string;
       environment: StripeEnv;
     }) => {
@@ -99,6 +164,18 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
 
       const subtotal = subtotalCents(lines);
 
+      // Referral rewards apply to one-off orders only.
+      const referral = isSubscription
+        ? { discountCents: 0, metadata: {}, couponName: null }
+        : await applyReferral({
+            code: data.referralCode,
+            buyerUserId: userId,
+            buyerEmail: email ?? null,
+            environment: data.environment,
+            subtotalCents: subtotal,
+            trace,
+          });
+
       // Points redemption is validated against the live ledger balance.
       let redeemPoints = 0;
       let discountCents = 0;
@@ -106,7 +183,7 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
       if (data.redeemPoints) {
         const { data: ledger } = await supabase.from('points_ledger').select('delta').eq('user_id', userId);
         balance = (ledger ?? []).reduce((sum, row) => sum + (row.delta as number), 0);
-        const result = computeRedemption(data.redeemPoints, balance, subtotal);
+        const result = computeRedemption(data.redeemPoints, balance, subtotal - referral.discountCents);
         redeemPoints = result.points;
         discountCents = result.discountCents;
         logCommerce('points', 'redemption.computed', {
@@ -120,14 +197,19 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
         });
       }
 
+      // Stripe takes one coupon per session, so points and referral rewards share it.
+      discountCents += referral.discountCents;
       const discounts: { coupon: string }[] = [];
       if (discountCents > 0) {
+        const couponName = [redeemPoints ? `${redeemPoints} points reward` : null, referral.couponName]
+          .filter(Boolean)
+          .join(' + ');
         const coupon = await stripe.coupons.create({
           amount_off: discountCents,
           currency: 'aud',
           duration: 'once',
-          name: `${redeemPoints} points reward`,
-          metadata: { userId, pointsRedeemed: String(redeemPoints) },
+          name: couponName,
+          metadata: { userId, pointsRedeemed: String(redeemPoints), ...referral.metadata },
         });
         discounts.push({ coupon: coupon.id });
         logCommerce('checkout', 'coupon.created', { trace, couponId: coupon.id, amountOffCents: discountCents });
@@ -188,6 +270,7 @@ export const createCartCheckout = createServerFn({ method: 'POST' })
           shippingService: isSubscription ? 'auspost_parcel_post' : selection.service,
           shippingCarrier: 'Australia Post',
           freeGift: freeGift ? 'sample' : 'none',
+          ...referral.metadata,
         },
       });
 
@@ -337,7 +420,13 @@ export const updateProfileDetails = createServerFn({ method: 'POST' })
  */
 export const createGuestCartCheckout = createServerFn({ method: 'POST' })
   .inputValidator(
-    (data: { items: CheckoutLineInput[]; email: string; returnUrl: string; environment: StripeEnv }) => {
+    (data: {
+      items: CheckoutLineInput[];
+      email: string;
+      referralCode?: string | null;
+      returnUrl: string;
+      environment: StripeEnv;
+    }) => {
       if (!Array.isArray(data.items) || data.items.length === 0) throw new Error('Your cart is empty');
       if (data.items.length > 20) throw new Error('Too many items in one order');
       for (const item of data.items) {
@@ -391,11 +480,32 @@ export const createGuestCartCheckout = createServerFn({ method: 'POST' })
       const shippingOption = shippingOptionFor(subtotal);
       const shippingCents = shippingOption.shipping_rate_data.fixed_amount.amount;
 
+      const referral = await applyReferral({
+        code: data.referralCode,
+        buyerUserId: null,
+        buyerEmail: data.email,
+        environment: data.environment,
+        subtotalCents: subtotal,
+        trace,
+      });
+      const discounts: { coupon: string }[] = [];
+      if (referral.discountCents > 0) {
+        const coupon = await stripe.coupons.create({
+          amount_off: referral.discountCents,
+          currency: 'aud',
+          duration: 'once',
+          name: referral.couponName ?? "Friend's invite",
+          metadata: { guestEmail: data.email, ...referral.metadata },
+        });
+        discounts.push({ coupon: coupon.id });
+      }
+
       logCommerce('guest_checkout', 'totals.computed', {
         trace,
         subtotalCents: subtotal,
         shippingCents,
-        expectedTotalCents: subtotal + shippingCents,
+        discountCents: referral.discountCents,
+        expectedTotalCents: subtotal + shippingCents - referral.discountCents,
       });
 
       const session = await stripe.checkout.sessions.create({
@@ -406,7 +516,7 @@ export const createGuestCartCheckout = createServerFn({ method: 'POST' })
         customer_email: data.email,
         shipping_address_collection: { allowed_countries: ['AU'] },
         phone_number_collection: { enabled: true },
-        allow_promotion_codes: true,
+        ...(discounts.length ? { discounts } : { allow_promotion_codes: true }),
         shipping_options: [shippingOption],
         payment_intent_data: {
           description: `${qualifiesForFreeGift(subtotal) ? 'Includes free sample · ' : ''}${lineDescriptor(lines)}`,
@@ -418,6 +528,7 @@ export const createGuestCartCheckout = createServerFn({ method: 'POST' })
           itemCount: String(lines.reduce((sum, l) => sum + l.quantity, 0)),
           shippingService: 'auspost_parcel_post',
           shippingCarrier: 'Australia Post',
+          ...referral.metadata,
         },
       });
 
