@@ -91,7 +91,7 @@ export function GuideLookGlow({ view, soldOut }: { view: GuideView; soldOut: str
                 aria-hidden="true"
               />
               {directions.fromBrand
-                ? `${product.brand}'s own directions`
+                ? `${product.brand}'s directions${directions.sourceSteps ? " below" : ""}`
                 : "General routine guidance"}
             </span>
           </div>
@@ -171,6 +171,8 @@ export function GuideLookGlow({ view, soldOut }: { view: GuideView; soldOut: str
                   <div className="relative aspect-[4/3] overflow-hidden bg-muted">
                     <StepIllustration
                       art={step.art}
+                      sequence={step.sequence}
+                      phase={step.phase}
                       repeat={i > 0 && directions.steps[i - 1].art === step.art}
                       className="absolute inset-0 h-full w-full"
                     />
@@ -206,6 +208,18 @@ export function GuideLookGlow({ view, soldOut }: { view: GuideView; soldOut: str
           </p>
         )}
       </section>
+
+      {directions.sourceSteps && (
+        <section className="mt-6 px-5 sm:px-10">
+          <h2 className="text-[13px] font-semibold text-ink">
+            {directions.fromBrand ? `${product.brand}'s product directions` : "General routine guidance"}
+          </h2>
+          <div className="mt-2 space-y-2 text-[14px] leading-relaxed text-muted-foreground">
+            {directions.sourceSteps.map((text) => <p key={text}>{text}</p>)}
+          </div>
+          <p className="mt-3 text-[12px] text-muted-foreground">Illustrative application photos—not this product’s exact texture or a promised skin result.</p>
+        </section>
+      )}
 
       <IngredientSpotlight product={product} />
 

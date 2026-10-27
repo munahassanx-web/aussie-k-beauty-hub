@@ -1,4 +1,13 @@
-import type { StepArt } from "@/lib/guide-steps";
+import type { GuideStep, StepArt } from "@/lib/guide-steps";
+import creamApply from "@/assets/guide/cream-apply.jpg";
+import creamWork from "@/assets/guide/cream-work.jpg";
+import creamFinish from "@/assets/guide/cream-finish.jpg";
+import gelApply from "@/assets/guide/gel-apply.jpg";
+import gelWork from "@/assets/guide/gel-work.jpg";
+import gelFinish from "@/assets/guide/gel-finish.jpg";
+import liquidApply from "@/assets/guide/liquid-apply.jpg";
+import liquidWork from "@/assets/guide/liquid-work.jpg";
+import liquidFinish from "@/assets/guide/liquid-finish.jpg";
 import dispense from "@/assets/guide/dispense.jpg";
 import lather from "@/assets/guide/lather.jpg";
 import massage from "@/assets/guide/massage-foam.jpg";
@@ -42,16 +51,31 @@ const ALTERNATES: Partial<Record<StepArt, { src: string; alt: string }>> = {
   spread: { src: cream, alt: "Fingertips gliding cream across the skin" },
 };
 
+const SEQUENCES = {
+  cream: { apply: creamApply, work: creamWork, finish: creamFinish },
+  gel: { apply: gelApply, work: gelWork, finish: gelFinish },
+  liquid: { apply: liquidApply, work: liquidWork, finish: liquidFinish },
+};
+
 export function StepIllustration({
   art,
   className,
   repeat = false,
+  sequence,
+  phase,
 }: {
   art: StepArt;
   className?: string;
   repeat?: boolean;
+  sequence?: GuideStep["sequence"];
+  phase?: GuideStep["phase"];
 }) {
-  const p = (repeat && ALTERNATES[art]) || PHOTOS[art];
+  const p = sequence && phase ? {
+    src: SEQUENCES[sequence][phase],
+    alt: phase === "apply" ? "Fingertip applying formula directly onto cheek skin"
+      : phase === "work" ? art === "pat" ? "Fingertips gently pressing formula over the cheek" : "Fingertips gently smoothing formula over the cheek"
+      : "The same cheek after formula has been spread, illustrating application rather than a skincare result",
+  } : (repeat && ALTERNATES[art]) || PHOTOS[art];
   return (
     <img
       src={p.src}
