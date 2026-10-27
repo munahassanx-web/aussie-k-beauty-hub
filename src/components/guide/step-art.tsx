@@ -12,7 +12,6 @@ import sun from "@/assets/guide/sun.jpg";
 import amount from "@/assets/guide/amount.jpg";
 import reapply from "@/assets/guide/reapply.jpg";
 import mask from "@/assets/guide/mask.jpg";
-import timer from "@/assets/guide/timer.jpg";
 import remove from "@/assets/guide/remove.jpg";
 import layer from "@/assets/guide/layer.jpg";
 import cream from "@/assets/guide/cream.jpg";
@@ -33,7 +32,7 @@ const PHOTOS: Record<StepArt, { src: string; alt: string }> = {
   amount: { src: amount, alt: "Sunscreen measured along two fingers" },
   reapply: { src: reapply, alt: "Sunscreen being reapplied during the day" },
   mask: { src: mask, alt: "Sheet mask being smoothed onto the face" },
-  timer: { src: timer, alt: "Mask left on for the recommended time" },
+  timer: { src: mask, alt: "Sheet mask smoothed against the cheek while it is worn" },
   remove: { src: remove, alt: "Sheet mask being lifted away" },
   layer: { src: layer, alt: "Light textures layered from thinnest to richest" },
 };

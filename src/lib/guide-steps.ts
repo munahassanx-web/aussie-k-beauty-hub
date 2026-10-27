@@ -67,7 +67,12 @@ const RULES: Array<[RegExp, StepArt]> = [
 
 function artFor(sentence: string, isMask: boolean): StepArt {
   const s = sentence.toLowerCase();
-  if (isMask && /^apply|^place|^unfold/.test(s)) return "mask";
+  // Mask directions often combine application/removal with a wear duration.
+  // Show the physical action rather than letting the time keyword win.
+  if (isMask) {
+    if (/\b(?:apply|place|unfold)\b/.test(s)) return "mask";
+    if (/\b(?:remove|peel|take off)\b/.test(s)) return "remove";
+  }
   for (const [pattern, art] of RULES) if (pattern.test(s)) return art;
   return "spread";
 }

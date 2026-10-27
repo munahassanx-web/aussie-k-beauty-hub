@@ -32,4 +32,20 @@ describe("guideDirections", () => {
       expect(guideDirections(p).steps).toEqual([]);
     }
   });
+
+  it("shows mask application even when the same instruction includes wear time", () => {
+    const product = SHOP_PRODUCTS.find(
+      (p) => productSlug(p) === "biodance-bio-collagen-real-deep-mask",
+    );
+    if (!product) throw new Error("Biodance mask missing from catalogue");
+    expect(guideDirections(product).steps.map((step) => step.art)).toEqual(["mask", "mask"]);
+  });
+
+  it("shows placing and removing a sheet mask rather than a timer", () => {
+    const product = SHOP_PRODUCTS.find(
+      (p) => productSlug(p) === "torriden-dive-in-mask-pack-1pc",
+    );
+    if (!product) throw new Error("Torriden mask missing from catalogue");
+    expect(guideDirections(product).steps.map((step) => step.art)).toEqual(["mask", "remove"]);
+  });
 });
