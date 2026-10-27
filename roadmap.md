@@ -81,3 +81,4 @@
 
 ## How-to guide visual comparison
 - [x] Show matching realistic-face and hands-and-textures visual samples for the owner to choose; leave live guides unchanged
+- [ ] Replace guide cartoons with the selected hands-and-textures imagery and verify guide rendering
