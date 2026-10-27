@@ -90,3 +90,8 @@
 ## Playful ingredient bubbles
 - [x] Replace the rejected dark treatment with colourful speech bubbles beside ingredient imagery
 - [x] Add sourced Korean tradition notes only for matching ingredients and verify layouts
+
+## Product guide action sequences
+- [ ] Check every available guide and add application, smoothing/patting and finished-appearance visuals as appropriate
+- [ ] Preserve exact product directions and cleanser/mask-specific actions
+- [ ] Verify Torriden cream and catalogue-wide guide coverage
