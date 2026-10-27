@@ -8,7 +8,7 @@ import campaignSummer from "@/assets/hero-editorial-campaign.jpg";
 import campaignAutumn from "@/assets/hero-editorial-campaign-2.jpg";
 import campaignWinter from "@/assets/hero-editorial-campaign-3.jpg";
 import campaignSpring from "@/assets/hero-editorial-campaign-4.jpg";
-import tonerCutout from "@/assets/haruharu-toner-cutout.png";
+import tonerCutout from "@/assets/haruharu-toner-cutout.webp";
 
 const FEATURED_PRICE_ID = "haruharu_wonder_black_rice_hyaluronic_toner_150ml_onetime";
 

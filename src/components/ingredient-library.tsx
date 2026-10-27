@@ -7,8 +7,8 @@ import { ingredientsFor } from "@/lib/collection-filters";
 import texSnail from "@/assets/ingredients/tex-snail-mucin.jpg";
 import texCentella from "@/assets/ingredients/tex-centella.jpg";
 import texNiacinamide from "@/assets/ingredients/tex-niacinamide.jpg";
-import texPropolis from "@/assets/ingredients/tex-propolis.jpg";
-import texBetaGlucan from "@/assets/ingredients/tex-beta-glucan.jpg";
+import texPropolis from "@/assets/ingredients/tex-propolis.webp";
+import texBetaGlucan from "@/assets/ingredients/tex-beta-glucan.webp";
 import texMadecassoside from "@/assets/ingredients/tex-madecassoside.jpg";
 
 type Evidence = "ESTABLISHED" | "PROMISING" | "FORMULA-DEPENDENT";

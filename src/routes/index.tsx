@@ -14,7 +14,7 @@ import { RoutineEdits } from "@/components/routine-edits";
 import { ConcernNavigator } from "@/components/concern-navigator";
 import { GlassSkinClubInvite } from "@/components/glass-skin-club-invite";
 import authenticityCardV2 from "@/assets/authenticity-card-v2.webp.asset.json";
-import batchCheckImage from "@/assets/authenticity-batch-check.jpg";
+import batchCheckImage from "@/assets/authenticity-batch-check.webp";
 import { NEXT_DAY_BADGE, NEXT_DAY_LINE } from "@/lib/shipping-rates";
 import { JournalStrip } from "@/components/journal-strip";
 

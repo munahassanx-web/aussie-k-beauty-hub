@@ -10,9 +10,9 @@ import bgCica from "@/assets/hero-bg-cica.jpg";
 import bgSun from "@/assets/hero-bg-sun.jpg";
 import bgGlow from "@/assets/hero-bg-glow.jpg";
 import droplet from "@/assets/hero-3d-droplet.png";
-import plumToner from "@/assets/hero-spring-plum.png";
-import cicaAmpoule from "@/assets/hero-spring-cica.png";
-import glowSerum from "@/assets/hero-spring-glow.png";
+import plumToner from "@/assets/hero-spring-plum.webp";
+import cicaAmpoule from "@/assets/hero-spring-cica.webp";
+import glowSerum from "@/assets/hero-spring-glow.webp";
 
 type Season = {
   id: "spring" | "summer" | "autumn" | "winter";
