@@ -80,4 +80,4 @@
 - [x] Apply the requested neutral homepage trial directly after generated options were discarded; verify white/black colours, unchanged section headings, shop link and unchanged interior palette
 
 ## How-to guide visual comparison
-- [ ] Show matching realistic-face and hands-and-textures visual samples for the owner to choose; leave live guides unchanged
+- [x] Show matching realistic-face and hands-and-textures visual samples for the owner to choose; leave live guides unchanged
