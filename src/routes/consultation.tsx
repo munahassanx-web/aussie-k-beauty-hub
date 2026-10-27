@@ -834,7 +834,7 @@ function ProtectPlaceholder() {
     <div className="mt-5 rounded-xl border border-dashed border-border bg-paper p-4">
       <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Protect</p>
       <p className="mt-2 text-[13px] leading-relaxed text-ink/85">
-        Complete your morning routine with a broad-spectrum sunscreen lawfully supplied in
+        Complete your morning routine with a broad-spectrum sunscreen listed for sale in
         Australia. Skin Grocer's sunscreen selection is currently being verified.
       </p>
     </div>

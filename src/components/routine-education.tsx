@@ -49,7 +49,7 @@ const CORE_STEPS: CoreStep[] = [
     num: "03",
     title: "Protect",
     purpose:
-      "During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia and follow its labelled directions.",
+      "During the day, finish with a broad-spectrum sunscreen listed for sale in Australia and follow its labelled directions.",
     note: "Sunscreen is regulated differently in Australia and Korea, so Skin Grocer links to Australian guidance rather than recommending an unverified product.",
     img: sunProtection,
     alt: "Woman wearing a wide-brimmed hat walking in morning sunlight — daily sun protection as a routine step",

@@ -244,13 +244,13 @@ const PRODUCT_FAQ_OVERRIDES: Record<string, { goodFor?: string; compatibility?: 
     goodFor:
       'This is a rinse-off facial cleanser used as Step 1 of a skincare routine. It removes everyday surface impurities before toner, treatment and moisturiser. Review the full ingredient list and packaging directions to determine whether the formula suits your skin.',
     compatibility:
-      'Use it before toner or essence, treatment products and moisturiser. In the morning, finish with a broad-spectrum sunscreen lawfully supplied in Australia. The cleanser itself does not require you to avoid retinal or exfoliating acids unless the verified formula or packaging directions provide a specific warning.',
+      'Use it before toner or essence, treatment products and moisturiser. In the morning, finish with a broad-spectrum sunscreen listed for sale in Australia. The cleanser itself does not require you to avoid retinal or exfoliating acids unless the verified formula or packaging directions provide a specific warning.',
   },
   dr_g_r_e_d_blemish_clear_soothing_cream_70ml_onetime: {
     goodFor:
       'This is a lightweight moisturising cream used as Step 4 of a skincare routine. It provides the final moisturising layer after toner and treatment products. Individual suitability varies, so review the full ingredient list before introducing it.',
     compatibility:
-      'Apply it after toner, essence and treatment products. In the morning, follow with a broad-spectrum sunscreen lawfully supplied in Australia. There is no verified ingredient interaction requiring you to separate this moisturiser from retinal or exfoliating acids; follow the packaging directions for each product you use.',
+      'Apply it after toner, essence and treatment products. In the morning, follow with a broad-spectrum sunscreen listed for sale in Australia. There is no verified ingredient interaction requiring you to separate this moisturiser from retinal or exfoliating acids; follow the packaging directions for each product you use.',
   },
   wellage_hyper_pdrn_repair_ampoule_30ml_onetime: {
     goodFor:
@@ -267,19 +267,19 @@ function defaultCompatibility(p: ShopProduct): string {
   switch (p.category) {
     case 'Cleanse':
       return (
-        'Use it before toner or essence, treatment products and moisturiser. In the morning, finish with a broad-spectrum sunscreen lawfully supplied in Australia.' +
+        'Use it before toner or essence, treatment products and moisturiser. In the morning, finish with a broad-spectrum sunscreen listed for sale in Australia.' +
         tail
       );
     case 'Tone':
       return (
-        'Use it after cleansing and before treatment products and moisturiser. In the morning, finish with a broad-spectrum sunscreen lawfully supplied in Australia.' +
+        'Use it after cleansing and before treatment products and moisturiser. In the morning, finish with a broad-spectrum sunscreen listed for sale in Australia.' +
         tail
       );
     case 'Treat':
       return 'Layer it after toner or essence and before moisturiser. If you already use strong active treatments, introduce one new product at a time so you can assess how your skin responds, and follow the directions printed on each product.';
     case 'Moisturise':
       return (
-        'Apply it after toner, essence and treatment products as the final moisturising layer. In the morning, follow with a broad-spectrum sunscreen lawfully supplied in Australia.' +
+        'Apply it after toner, essence and treatment products as the final moisturising layer. In the morning, follow with a broad-spectrum sunscreen listed for sale in Australia.' +
         tail
       );
     case 'Masks':
