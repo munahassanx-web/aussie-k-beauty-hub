@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { BadgeCheck, ShieldCheck, Sparkles } from "lucide-react";
 import { AddToBagButton } from "@/components/add-to-bag-button";
 import { StepIllustration } from "@/components/guide/step-art";
+import { IngredientSpotlight } from "@/components/guide/ingredient-spotlight";
 import { guideUrlFor } from "@/lib/guide-content";
 import { productSlug } from "@/lib/product-detail";
 import { productPrice } from "@/lib/shop-catalog";
@@ -205,6 +206,8 @@ export function GuideLookGlow({ view, soldOut }: { view: GuideView; soldOut: str
           </p>
         )}
       </section>
+
+      <IngredientSpotlight product={product} />
 
       {/* Use it with */}
       {view.companions.length > 0 && (
