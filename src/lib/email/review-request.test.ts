@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
+import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
+import { productSlug } from "@/lib/product-detail";
 import {
+  renderOrderConfirmation,
   renderReviewRequest,
   reviewableProducts,
   type OrderEmailData,
@@ -51,5 +54,25 @@ describe("review request email", () => {
     expect(html).toContain("/product/torriden-dive-in-soothing-cream#reviews");
     expect(text).toContain("torriden-dive-in-soothing-cream#reviews");
     expect(`${html} ${text}`).not.toMatch(/discount|points|% off|free gift for/i);
+  });
+});
+
+describe("routine picks in order emails", () => {
+  it("suggests in-stock products for missing steps, with photos and product links", () => {
+    const { html, text } = renderOrderConfirmation(order);
+    expect(html).toContain("Complete your routine");
+    expect(html).toMatch(
+      /\/product\/[a-z0-9-]+\?utm_source=email&amp;utm_medium=order|\/product\/[a-z0-9-]+\?utm_source=email&utm_medium=order/,
+    );
+    expect(text).toContain("Complete your routine:");
+  });
+
+  it("never suggests a sold-out product", () => {
+    const first = renderOrderConfirmation(order).text;
+    const pickedUrl = /\/product\/([a-z0-9-]+)\?utm/.exec(first)?.[1];
+    expect(pickedUrl).toBeTruthy();
+    const picked = SHOP_PRODUCTS.find((p) => productSlug(p) === pickedUrl)!;
+    const again = renderOrderConfirmation({ ...order, soldOut: [picked.priceId] }).text;
+    expect(again).not.toContain(`/product/${pickedUrl}?`);
   });
 });

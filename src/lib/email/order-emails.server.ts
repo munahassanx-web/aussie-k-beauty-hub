@@ -21,6 +21,7 @@ import { trackingLink, trackingLinkLabel, isPlausibleTracking } from '@/lib/ship
 import { orderReference } from '@/lib/order-reference';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
 import { productSlug } from '@/lib/product-detail';
+import { completeRoutineSuggestions } from '@/lib/routine-suggestions';
 
 export const SITE_URL = 'https://skingrocer.com.au';
 export const SUPPORT_EMAIL = 'customercare@skingrocer.com.au';
@@ -77,6 +78,8 @@ export type OrderEmailData = {
   deliveredAt?: string | null;
   /** Refunded amount in cents — only set when a real refund figure is stored. */
   refundedCents?: number | null;
+  /** Sold-out SKUs at send time, so product picks never suggest something unavailable. */
+  soldOut?: string[];
 };
 
 export { orderReference };
@@ -288,9 +291,10 @@ function shell(title: string, preheader: string, inner: string): string {
     .sg-gap { height:22px !important; }
     .sg-rail { width:7px !important; }
     .sg-stack { display:block !important; width:100% !important; max-width:100% !important; padding-left:0 !important; padding-right:0 !important; padding-bottom:18px !important; }
-    .sg-meta { padding:14px 18px !important; border-left:0 !important; border-top:1px solid ${RULE} !important; }
+    .sg-meta { box-sizing:border-box !important; padding:14px 18px !important; border-left:0 !important; border-top:1px solid ${RULE} !important; }
     .sg-meta-first { border-top:0 !important; }
     .sg-thumb { width:60px !important; }
+    .sg-pick-img { width:88px !important; height:88px !important; }
     .sg-wordmark { width:160px !important; height:39px !important; }
     .sg-display { font-size:21px !important; }
 
@@ -500,6 +504,45 @@ function bodyBlock(inner: string): string {
 
 /* ------------------------------------------------------------ templates -- */
 
+/**
+ * "Complete your routine": up to three in-stock products for the routine steps
+ * this order doesn't cover, matched by skin concern (same logic as the bag).
+ * Real catalogue photo, name, price and a link to the product page. No sale
+ * or trending claims.
+ */
+function routinePicks(o: OrderEmailData, campaign: string) {
+  const ids = o.lines.map((l) => l.lookupKey).filter((k): k is string => Boolean(k));
+  const soldOut = new Set(o.soldOut ?? []);
+  return completeRoutineSuggestions(ids, (sku) => soldOut.has(sku), 3).map((product) => ({
+    product,
+    url: `${SITE_URL}/product/${productSlug(product)}?utm_source=email&utm_medium=order&utm_campaign=${campaign}`,
+  }));
+}
+
+function picksBlock(o: OrderEmailData, campaign: string): string {
+  const picks = routinePicks(o, campaign);
+  if (picks.length === 0) return '';
+  const cell = ({ product, url }: (typeof picks)[number]) => `<td width="${Math.floor(100 / picks.length)}%" valign="top" align="center" style="padding:0 6px;">
+      <a href="${url}" style="text-decoration:none;"><img class="sg-pick-img" src="${emailImageSrc(product.image)}" width="112" height="112" alt="${esc(
+        `${product.brand} ${product.name}`,
+      )}" style="display:block;margin:0 auto;width:112px;height:112px;object-fit:cover;background-color:${PEARL};border:0;" /></a>
+      <p style="margin:12px 0 4px;font-family:${SANS};font-size:9px;letter-spacing:.20em;text-transform:uppercase;color:${MUTED};">${esc(product.brand)}</p>
+      <p style="margin:0 0 6px;font-family:${SANS};font-size:13px;line-height:1.4;color:${INK};">${esc(product.name)}</p>
+      <p style="margin:0 0 8px;font-family:${SANS};font-size:13px;color:${INK};">A${esc(product.price)}</p>
+      <a href="${url}" style="font-family:${SANS};font-size:12px;color:${COCOA};text-decoration:underline;">Shop</a>
+    </td>`;
+  return `${label('Complete your routine')}
+    <p style="margin:-4px 0 18px;font-family:${SANS};font-size:13px;line-height:1.6;color:${MUTED};">Picked for the steps your order doesn't cover yet.</p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>${picks.map(cell).join('')}</tr></table>
+    ${gap(32)}`;
+}
+
+function picksText(o: OrderEmailData, campaign: string): string | null {
+  const picks = routinePicks(o, campaign);
+  if (picks.length === 0) return null;
+  return ['', 'Complete your routine:', ...picks.map(({ product, url }) => `- ${product.brand} ${product.name} (A${product.price}): ${url}`)].join('\n');
+}
+
 export function renderOrderConfirmation(o: OrderEmailData): { subject: string; html: string; text: string } {
   const ref = orderReference(o.id);
   const placed = new Date(o.createdAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -540,6 +583,7 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
       ${label('Order progress')}
       ${orderJourney('received')}
       ${gap(34)}
+      ${picksBlock(o, 'confirmation')}
       ${assuranceLine()}
       ${gap(28)}
       ${label('Customer care')}
@@ -572,6 +616,7 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
     'Order progress: ORDER RECEIVED → being prepared → on its way → delivered.',
     `View your order: ${SITE_URL}/track`,
     `Questions: ${SUPPORT_EMAIL}`,
+    picksText(o, 'confirmation'),
   ]
     .filter((l): l is string => l !== null)
     .join('\n');
@@ -625,6 +670,7 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
       ${itemsTable(o, false)}
       ${gap(30)}
       ${address.length ? twoColumn('Delivering to', address.map(esc).join('<br />'), null, null) + gap(30) : ''}
+      ${picksBlock(o, 'dispatch')}
       ${assuranceLine()}
       ${gap(28)}
       ${label('Customer care')}
@@ -652,6 +698,7 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
     '',
     `Order status: ${SITE_URL}/track`,
     `Questions: ${SUPPORT_EMAIL}`,
+    picksText(o, 'dispatch'),
   ]
     .filter((l): l is string => l !== null)
     .join('\n');
@@ -750,6 +797,7 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
         we carry lives in the <a href="${SITE_URL}/learn" style="color:${COCOA};text-decoration:underline;">Skin Grocer library</a>.
       </p>
       ${gap(32)}
+      ${picksBlock(o, 'delivered')}
       ${assuranceLine()}
       ${gap(28)}
       ${hairline()}
@@ -780,6 +828,7 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
     'Order progress: order received → being prepared → on its way → DELIVERED.',
     `View your order: ${SITE_URL}/track`,
     `Anything missing or damaged? ${SUPPORT_EMAIL}`,
+    picksText(o, 'delivered'),
   ]
     .filter((l): l is string => l !== null)
     .join('\n');
