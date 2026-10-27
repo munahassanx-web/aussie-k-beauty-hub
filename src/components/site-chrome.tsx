@@ -351,7 +351,7 @@ export function SiteHeader() {
       {/* The Grocer Stripe — signature brand band, fixed height (no CLS) */}
       <BrandBand variant="rule" />
       <div className="relative">
-        <div className="bg-background/60 backdrop-blur-2xl" onMouseLeave={() => setOpenMenu(null)}>
+        <div className="bg-background/60 backdrop-blur-2xl" onMouseLeave={scheduleMenuClose}>
           {/* Trust messages sit at the top of the page and scroll away with it. */}
           <AnnouncementBar suppressStockClaims={suppressStockClaims} />
           <div className="mx-auto max-w-7xl px-6 border-b border-foreground/5">
@@ -377,8 +377,8 @@ export function SiteHeader() {
                 <div
                   key={key}
                   className="relative flex items-center gap-1"
-                  onMouseEnter={() => { if (dismissed !== key) setOpenMenu(key); }}
-                  onMouseLeave={() => { setDismissed(null); setPinned(null); }}
+                  onMouseEnter={() => { cancelMenuClose(); if (dismissed !== key) setOpenMenu(key); }}
+                  onMouseLeave={() => { scheduleMenuClose(); setDismissed(null); setPinned(null); }}
                   onFocus={() => { if (dismissed !== key) setOpenMenu(key); }}
                 >
                   <Link
@@ -453,7 +453,8 @@ export function SiteHeader() {
         {openMenu && megaMenus[openMenu] && (
           <div
             className="hidden border-t border-border/60 bg-background shadow-[0_30px_60px_-30px_rgba(0,0,0,0.18)] lg:block"
-            onMouseLeave={() => setOpenMenu(null)}
+            onMouseEnter={cancelMenuClose}
+            onMouseLeave={scheduleMenuClose}
           >
             <div className="mx-auto grid max-w-7xl gap-12 px-6 py-8 md:grid-cols-4">
               {megaMenus[openMenu].map((section) => (
