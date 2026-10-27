@@ -3,7 +3,7 @@ import { accordionIngredients, supplyRestricted } from '@/lib/product-detail';
 
 const FACTS = [
   { match: /centella asiatica (extract|leaf extract|leaf water)/i, name: 'Centella asiatica · Cica', korean: '병풀', fact: 'Cica is another name for Centella asiatica, a botanical ingredient used in skin-conditioning formulas.', visual: 'centella' },
-  { match: /phaseolus (radiatus|vulgaris) (seed powder|seed extract)/i, name: 'Mung bean', korean: '녹두', fact: 'The mung bean ingredient in this formula is listed by its botanical name, Phaseolus. The full cleansing formula—not one botanical alone—determines how it cleans.', visual: undefined },
+  { match: /phaseolus radiatus (seed powder|seed extract)/i, name: 'Mung bean', korean: '녹두', fact: 'Mung bean can appear on a cosmetic ingredient list as Phaseolus radiatus. The full cleansing formula—not one botanical alone—determines how it cleans.', visual: undefined },
   { match: /oryza sativa/i, name: 'Rice-derived ingredient', korean: '쌀', fact: 'Rice extract, rice bran oil and fermented rice are different ingredients. This formula’s ingredient list tells you which form is used.', visual: undefined },
   { match: /panax ginseng/i, name: 'Ginseng', korean: '인삼', fact: 'Ginseng appears in skincare under its botanical name, Panax ginseng. Here it is part of the complete skin-conditioning formula.', visual: undefined },
   { match: /^propolis extract$/i, name: 'Propolis', korean: '프로폴리스', fact: 'Propolis is a resinous material collected and processed by bees—not honey. It is used as a skin-conditioning ingredient; avoid it if you have a known allergy to bee-related products.', visual: 'propolis' },
