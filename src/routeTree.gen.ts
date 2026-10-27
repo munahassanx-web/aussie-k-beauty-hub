@@ -62,6 +62,7 @@ import { Route as ApiPublicEmailPreviewRouteImport } from './routes/api/public/e
 import { Route as LearnArticleSlugRouteImport } from './routes/learn.article.$slug'
 import { Route as ApiPublicIssueCoverIdRouteImport } from './routes/api/public/issue-cover.$id'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
+import { Route as ApiPublicReviewsRequestRouteImport } from './routes/api/public/reviews/request'
 import { Route as ApiPublicSignalsHarvestRouteImport } from './routes/api/public/signals/harvest'
 import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
 import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
@@ -334,6 +335,11 @@ const ApiPublicPaymentsWebhookRoute =
     path: '/api/public/payments/webhook',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicReviewsRequestRoute = ApiPublicReviewsRequestRouteImport.update({
+  id: '/api/public/reviews/request',
+  path: '/api/public/reviews/request',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicSignalsHarvestRoute = ApiPublicSignalsHarvestRouteImport.update({
   id: '/api/public/signals/harvest',
   path: '/api/public/signals/harvest',
@@ -410,6 +416,7 @@ export interface FileRoutesByFullPath {
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/reviews/request': typeof ApiPublicReviewsRequestRoute
   '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
@@ -469,6 +476,7 @@ export interface FileRoutesByTo {
   '/admin/orders': typeof AdminOrdersIndexRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/reviews/request': typeof ApiPublicReviewsRequestRoute
   '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
@@ -529,6 +537,7 @@ export interface FileRoutesById {
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/reviews/request': typeof ApiPublicReviewsRequestRoute
   '/api/public/signals/harvest': typeof ApiPublicSignalsHarvestRoute
   '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
   '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
@@ -590,6 +599,7 @@ export interface FileRouteTypes {
     | '/admin/orders/'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
+    | '/api/public/reviews/request'
     | '/api/public/signals/harvest'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
@@ -649,6 +659,7 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
+    | '/api/public/reviews/request'
     | '/api/public/signals/harvest'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
@@ -708,6 +719,7 @@ export interface FileRouteTypes {
     | '/admin/orders/'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
+    | '/api/public/reviews/request'
     | '/api/public/signals/harvest'
     | '/lovable/email/auth/preview'
     | '/lovable/email/auth/webhook'
@@ -767,6 +779,7 @@ export interface RootRouteChildren {
   AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
   ApiPublicIssueCoverIdRoute: typeof ApiPublicIssueCoverIdRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
+  ApiPublicReviewsRequestRoute: typeof ApiPublicReviewsRequestRoute
   ApiPublicSignalsHarvestRoute: typeof ApiPublicSignalsHarvestRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
   LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
@@ -1146,6 +1159,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/reviews/request': {
+      id: '/api/public/reviews/request'
+      path: '/api/public/reviews/request'
+      fullPath: '/api/public/reviews/request'
+      preLoaderRoute: typeof ApiPublicReviewsRequestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/signals/harvest': {
       id: '/api/public/signals/harvest'
       path: '/api/public/signals/harvest'
@@ -1242,6 +1262,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminOrdersIndexRoute: AdminOrdersIndexRoute,
   ApiPublicIssueCoverIdRoute: ApiPublicIssueCoverIdRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
+  ApiPublicReviewsRequestRoute: ApiPublicReviewsRequestRoute,
   ApiPublicSignalsHarvestRoute: ApiPublicSignalsHarvestRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
   LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,

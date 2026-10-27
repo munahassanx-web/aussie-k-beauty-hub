@@ -1,5 +1,6 @@
 /**
- * REVIEW-ONLY preview of the order-confirmation email.
+ * REVIEW-ONLY preview of the order-confirmation email (or, with ?kind=review,
+ * the review-request email).
  *
  * Renders the exact production template from
  * `src/lib/email/order-emails.server.ts` with clearly synthetic TEST data.
@@ -10,7 +11,7 @@
 
 import { createFileRoute } from '@tanstack/react-router';
 
-import { renderOrderConfirmation, SITE_URL, type OrderEmailData } from '@/lib/email/order-emails.server';
+import { renderOrderConfirmation, renderReviewRequest, SITE_URL, type OrderEmailData } from '@/lib/email/order-emails.server';
 
 const TEST_ORDER: OrderEmailData = {
   id: 'test0001-0000-4000-8000-000000000000',
@@ -41,12 +42,24 @@ const TEST_ORDER: OrderEmailData = {
   shippingCarrier: null,
 };
 
+const REVIEW_TEST_ORDER: OrderEmailData = {
+  ...TEST_ORDER,
+  deliveredAt: '2026-10-06T02:00:00.000Z',
+  lines: [
+    { name: 'Dive In Soothing Cream', quantity: 1, amountCents: 4000, lookupKey: 'torriden_dive_in_soothing_cream_onetime' },
+    { name: '1025 Dokdo Cleanser 150ml', quantity: 1, amountCents: 2400, lookupKey: 'round_lab_1025_dokdo_cleanser_150ml_onetime' },
+  ],
+};
+
 export const Route = createFileRoute('/api/public/email-preview')({
   server: {
     handlers: {
       GET: async ({ request }) => {
         const origin = new URL(request.url).origin;
-        const html = renderOrderConfirmation(TEST_ORDER).html.split(`${SITE_URL}/email/`).join(`${origin}/email/`);
+        // ?kind=review previews the review-request email with real catalogue products.
+        const review = new URL(request.url).searchParams.get('kind') === 'review';
+        const render = review ? renderReviewRequest(REVIEW_TEST_ORDER) : renderOrderConfirmation(TEST_ORDER);
+        const html = render.html.split(`${SITE_URL}/email/`).join(`${origin}/email/`);
         return new Response(html, {
           headers: { 'Content-Type': 'text/html; charset=utf-8', 'X-Robots-Tag': 'noindex, nofollow' },
         });

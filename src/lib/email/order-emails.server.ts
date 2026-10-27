@@ -20,6 +20,7 @@
 import { trackingLink, trackingLinkLabel, isPlausibleTracking } from '@/lib/shipping/carriers';
 import { orderReference } from '@/lib/order-reference';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
+import { productSlug } from '@/lib/product-detail';
 
 export const SITE_URL = 'https://skingrocer.com.au';
 export const SUPPORT_EMAIL = 'customercare@skingrocer.com.au';
@@ -784,6 +785,97 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
     .join('\n');
 
   return { subject: `Your Skin Grocer order has been delivered — ${ref}`, html, text };
+}
+
+/** Catalogue products in this order that a customer can review, once each. */
+export function reviewableProducts(o: OrderEmailData) {
+  const seen = new Set<string>();
+  const out: Array<{ product: (typeof SHOP_PRODUCTS)[number]; url: string }> = [];
+  for (const line of o.lines) {
+    const product = catalogFor(line);
+    if (!product || line.amountCents === 0 || seen.has(product.priceId)) continue;
+    seen.add(product.priceId);
+    out.push({ product, url: `${SITE_URL}/product/${productSlug(product)}#reviews` });
+  }
+  return out;
+}
+
+/**
+ * Review request, sent once per order about three weeks after delivery. Same
+ * locked visual system. It asks for an honest review of what was actually
+ * bought — no incentive, no star prompt, nothing pre-filled.
+ */
+export function renderReviewRequest(o: OrderEmailData): { subject: string; html: string; text: string } {
+  const ref = orderReference(o.id);
+  const first = firstNameOf(o);
+  const items = reviewableProducts(o);
+
+  const rows = items
+    .map(
+      ({ product, url }) => `<tr>
+    <td class="sg-thumb" width="72" valign="top" style="padding:20px 0;width:72px;"><img src="${emailImageSrc(
+      product.image,
+    )}" width="72" height="72" alt="${esc(`${product.brand} ${product.name}`)}" style="display:block;width:72px;height:72px;object-fit:cover;background-color:${PEARL};" /></td>
+    <td valign="top" style="padding:20px 0 20px 20px;">
+      <p style="margin:0 0 4px;font-family:${SANS};font-size:10px;letter-spacing:.20em;text-transform:uppercase;color:${MUTED};">${esc(product.brand)}</p>
+      <p style="margin:0 0 8px;font-family:${SERIF};font-size:16px;line-height:1.45;color:${INK};">${esc(product.name)}</p>
+      <a href="${url}" style="font-family:${SANS};font-size:13px;color:${COCOA};text-decoration:underline;">Write a review</a>
+    </td>
+  </tr>
+  <tr><td colspan="2" style="height:1px;line-height:1px;font-size:0;background-color:${RULE};">&nbsp;</td></tr>`,
+    )
+    .join('');
+
+  const html = shell(
+    'How is your routine going?',
+    'A few honest words help the next person choose.',
+    `
+    ${masthead(
+      first ? `How is it going, ${first}?` : 'How is it going?',
+      'Tell us what you think.',
+      `It has been about three weeks since order <span style="color:${INK};">${ref}</span> arrived. If you have been using it, a short, honest review helps the next person choose. Good, bad or somewhere in between.`,
+    )}
+    ${bodyBlock(`
+      ${gap(28)}
+      ${label('From your order')}
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr><td colspan="2" style="height:1px;line-height:1px;font-size:0;background-color:${RULE};">&nbsp;</td></tr>
+        ${rows}
+      </table>
+      ${gap(28)}
+      ${items[0] ? ctaButton(items[0].url, 'Write a review') : ''}
+      ${gap(28)}
+      <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.8;color:${MUTED};">
+        You will be asked to sign in, so the review shows as a verified purchase. We read every review before it goes up,
+        and we publish critical ones too.
+      </p>
+      ${gap(28)}
+      ${hairline()}
+      ${gap(26)}
+      ${label('Customer care')}
+      <p style="margin:0;font-family:${SANS};font-size:14px;line-height:1.75;color:${MUTED};">
+        Something not right with your order? Reply to this email, or write to <a href="mailto:${SUPPORT_EMAIL}" style="color:${COCOA};text-decoration:underline;">${SUPPORT_EMAIL}</a>.
+      </p>
+      ${gap(32)}
+    `)}
+    ${footerBlock()}
+  `,
+  );
+
+  const text = [
+    'SKIN GROCER',
+    '',
+    first ? `How is it going, ${first}?` : 'How is it going?',
+    '',
+    `It has been about three weeks since order ${ref} arrived. If you have been using it, a short, honest review helps the next person choose. Good, bad or somewhere in between.`,
+    '',
+    ...items.map(({ product, url }) => `- ${product.brand} ${product.name}: ${url}`),
+    '',
+    'You will be asked to sign in, so the review shows as a verified purchase. We read every review before it goes up, and we publish critical ones too.',
+    `Something not right with your order? ${SUPPORT_EMAIL}`,
+  ].join('\n');
+
+  return { subject: `How is your Skin Grocer routine going? — ${ref}`, html, text };
 }
 
 /**
