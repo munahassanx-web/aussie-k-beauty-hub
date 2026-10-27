@@ -21,6 +21,7 @@ import {
   type OrderEmailData,
 } from './order-emails.server';
 import { maskEmail } from '@/lib/commerce-log';
+import { compositesBlockedBy } from '@/lib/inventory-mapping';
 
 export type NotificationKind = 'order_confirmation' | 'dispatch' | 'delivery' | 'cancellation' | 'review_request';
 
@@ -104,6 +105,10 @@ export async function dispatchOrderNotification(
 
   const recipient = await resolveRecipient(supabase, row);
   const order = toOrderEmailData(row);
+  // Product picks in the email must never suggest a sold-out item.
+  const { data: soldOutRows } = await supabase.rpc('sold_out_skus');
+  const soldOutSkus = ((soldOutRows ?? []) as Array<{ sku: string }>).map((r) => r.sku);
+  order.soldOut = [...soldOutSkus, ...compositesBlockedBy(soldOutSkus)];
   const rendered =
     kind === 'dispatch'
       ? renderDispatchNotice(order)
