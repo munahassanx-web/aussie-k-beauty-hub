@@ -59,7 +59,7 @@ const TONES: Record<
 };
 
 const TRUST = [
-  'Free standard delivery from A$100',
+  'Free standard delivery from A$75',
   NEXT_DAY_BADGE,
   'Documented batch verification',
   'QR verification card in every order',

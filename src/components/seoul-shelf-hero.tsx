@@ -34,7 +34,7 @@ const SERVICES = [
 const TICKER = [
   "Seoul verified",
   "Dispatched from Melbourne",
-  "Free standard shipping from A$100",
+  "Free standard shipping from A$75",
   "Personalised consultation",
   "Authenticity guaranteed",
 ];

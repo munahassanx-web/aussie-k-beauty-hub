@@ -103,7 +103,7 @@ export const HOME_FAQS: Faq[] = [
     q: 'How do shipping and returns work?',
     a: (
       <>
-        Orders are dispatched from our Epping, Victoria warehouse. Free standard shipping is available on Australian orders of A$100 or more. Current dispatch estimates, delivery options and charges are shown in our{' '}
+        Orders are dispatched from our Epping, Victoria warehouse. Free standard shipping is available on Australian orders of A$75 or more. Current dispatch estimates, delivery options and charges are shown in our{' '}
         <Link to="/shipping-policy" className="text-primary underline underline-offset-4 hover:no-underline">
           Shipping Policy
         </Link>{' '}
@@ -115,7 +115,7 @@ export const HOME_FAQS: Faq[] = [
       </>
     ),
     plainText:
-      'Orders are dispatched from our Epping, Victoria warehouse. Free standard shipping is available on Australian orders of A$100 or more. Current dispatch estimates, delivery options and charges are shown in our Shipping Policy and at checkout. Return eligibility and instructions are explained in our Returns & Refund Policy. Your rights under Australian Consumer Law are not limited by our store policies.',
+      'Orders are dispatched from our Epping, Victoria warehouse. Free standard shipping is available on Australian orders of A$75 or more. Current dispatch estimates, delivery options and charges are shown in our Shipping Policy and at checkout. Return eligibility and instructions are explained in our Returns & Refund Policy. Your rights under Australian Consumer Law are not limited by our store policies.',
   },
 ];
 

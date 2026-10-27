@@ -43,8 +43,12 @@ export function CartDrawer() {
   const remainingForFree = FREE_SHIPPING_THRESHOLD_CENTS - cart.subtotalCents;
   const remainingForGift = FREE_GIFT_THRESHOLD_CENTS - cart.subtotalCents;
   const giftUnlocked = !cart.hasSubscription && qualifiesForFreeGift(cart.subtotalCents);
-  const progress = Math.min(100, Math.round((cart.subtotalCents / FREE_SHIPPING_THRESHOLD_CENTS) * 100));
-  const giftMarker = Math.round((FREE_GIFT_THRESHOLD_CENTS / FREE_SHIPPING_THRESHOLD_CENTS) * 100);
+  // Two milestones on one bar; whichever threshold is higher sits at the end.
+  const barEnd = Math.max(FREE_SHIPPING_THRESHOLD_CENTS, FREE_GIFT_THRESHOLD_CENTS);
+  const progress = Math.min(100, Math.round((cart.subtotalCents / barEnd) * 100));
+  const giftMarker = Math.round((FREE_GIFT_THRESHOLD_CENTS / barEnd) * 100);
+  const shipMarker = Math.round((FREE_SHIPPING_THRESHOLD_CENTS / barEnd) * 100);
+  const deliveryFirst = FREE_SHIPPING_THRESHOLD_CENTS <= FREE_GIFT_THRESHOLD_CENTS;
   const suggestions = cart.hasSubscription
     ? []
     : completeRoutineSuggestions(
@@ -116,9 +120,17 @@ export function CartDrawer() {
             {!cart.hasSubscription && (
               <div className="border-b border-border px-6 py-3 sm:px-7 sm:py-4">
                 <p className="text-[11px] uppercase tracking-[0.16em] text-foreground">
-                  {remainingForGift > 0 ? (
+                  {remainingForGift > 0 && remainingForFree > 0 ? (
                     <>
                       <span className="text-muted-foreground">Add </span>
+                      {formatAud(deliveryFirst ? remainingForFree : remainingForGift)}
+                      <span className="text-muted-foreground">
+                        {deliveryFirst ? ' for free delivery' : ' for a free K-beauty sample'}
+                      </span>
+                    </>
+                  ) : remainingForGift > 0 ? (
+                    <>
+                      <span className="text-muted-foreground">Free delivery unlocked · add </span>
                       {formatAud(remainingForGift)}
                       <span className="text-muted-foreground"> for a free K-beauty sample</span>
                     </>
@@ -150,12 +162,30 @@ export function CartDrawer() {
                     }`}
                     style={{ left: `${giftMarker}%` }}
                   />
+                  {shipMarker < 100 && (
+                    <span
+                      aria-hidden="true"
+                      className={`absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-background ${
+                        remainingForFree <= 0 ? 'bg-glaze' : 'bg-blush'
+                      }`}
+                      style={{ left: `${shipMarker}%` }}
+                    />
+                  )}
                 </div>
                 <div aria-hidden="true" className="relative mt-1.5 h-3 text-[9px] uppercase tracking-[0.14em] text-muted-foreground">
-                  <span className="absolute -translate-x-1/2" style={{ left: `${giftMarker}%` }}>
-                    {FREE_GIFT_THRESHOLD_LABEL}
-                  </span>
-                  <span className="absolute right-0">{FREE_SHIPPING_THRESHOLD_LABEL}</span>
+                  {deliveryFirst ? (
+                    // The two thresholds sit close together, so name them in one line.
+                    <span className="absolute right-0 whitespace-nowrap">
+                      Free delivery {FREE_SHIPPING_THRESHOLD_LABEL} · sample {FREE_GIFT_THRESHOLD_LABEL}
+                    </span>
+                  ) : (
+                    <>
+                      <span className="absolute -translate-x-1/2" style={{ left: `${giftMarker}%` }}>
+                        {FREE_GIFT_THRESHOLD_LABEL}
+                      </span>
+                      <span className="absolute right-0">{FREE_SHIPPING_THRESHOLD_LABEL}</span>
+                    </>
+                  )}
                 </div>
               </div>
             )}

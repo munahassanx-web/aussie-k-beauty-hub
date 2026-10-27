@@ -66,7 +66,7 @@ export type ShippingSelection = {
 
 /**
  * Authoritative shipping selection for standard Australia Post delivery.
- * The rate is A$9.95 below A$100 and free from A$100.
+ * The rate is A$9.95 below A$75 and free from A$75.
  */
 export function shippingSelectionFor(subtotal: number): ShippingSelection {
   const amount = shippingCentsFor(subtotal, false);
