@@ -2,15 +2,10 @@ import type { CSSProperties } from "react";
 import type { ShopProduct } from "@/lib/shop-catalog";
 import type { GuideContent } from "@/lib/guide-content";
 import { ROUTINE_LADDER, ladderIndexFor } from "@/lib/guide-content";
-import {
-  galleryFor,
-  routineCompanions,
-  ROUTINE_STEP_NAME,
-  ROUTINE_STEP_NUMBER,
-} from "@/lib/product-detail";
+import { routineCompanions, ROUTINE_STEP_NAME, ROUTINE_STEP_NUMBER } from "@/lib/product-detail";
 import { contentInPreparation, isPurchasable, productPrice } from "@/lib/shop-catalog";
 import { productSize } from "@/components/product-card";
-import { applyPhoto, aisleKey, guideAisle, guideDirections } from "@/lib/guide-steps";
+import { aisleKey, guideAisle, guideDirections } from "@/lib/guide-steps";
 
 /** Everything the guide page needs, worked out once. */
 export function guideView(product: ShopProduct, guide: GuideContent) {
@@ -32,7 +27,6 @@ export function guideView(product: ShopProduct, guide: GuideContent) {
     directions,
     ladder: ROUTINE_LADDER,
     ladderIndex,
-    photo: applyPhoto(galleryFor(product)),
     size: productSize(product),
     price: productPrice(product),
     /** Can this product be bought from the guide right now (stock aside)? */

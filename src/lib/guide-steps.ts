@@ -85,6 +85,19 @@ function artFor(sentence: string, isMask: boolean): StepArt {
   return "spread";
 }
 
+const ACTION = /\b(?:pat|patting|press|tap|massage|smooth|spread)/i;
+
+/** "Apply evenly and pat lightly to absorb." → two sentences, words unchanged. */
+function splitCompound(sentence: string): string[] {
+  const m =
+    /^(.+?),? and ((?:gently |lightly )?(?:pat|press|tap|massage|smooth|spread)\b.+)$/i.exec(
+      sentence,
+    );
+  if (!m) return [sentence];
+  const second = m[2].charAt(0).toUpperCase() + m[2].slice(1);
+  return [`${m[1]}.`, second];
+}
+
 function sentences(text: string): string[] {
   return text
     .split(/(?<=[.!])\s+(?=[A-Z])/)
@@ -94,8 +107,6 @@ function sentences(text: string): string[] {
 
 export type GuideDirections = {
   steps: GuideStep[];
-  /** Original directions stay separate from the illustrative action breakdown. */
-  sourceSteps?: string[];
   /** True when the steps are the brand's own directions for this SKU. */
   fromBrand: boolean;
 };
@@ -105,23 +116,44 @@ export function guideDirections(p: ShopProduct): GuideDirections {
   const brand = applicationForSlug(productSlug(p));
   const source = brand?.steps.length ? brand.steps : howToUse(p);
   const sourceText = source.join(" ");
-  // Split single compound leave-on directions into a clear visual sequence.
-  // Pad and eye-area directions retain their specific technique images.
-  if (["Tone", "Treat", "Moisturise"].includes(p.category) &&
-      !/\b(?:pad|cotton|eye|eyes)\b/i.test(sourceText)) {
-    const sequence: GuideSequence = p.category !== "Moisturise"
-      ? "liquid"
-      : /\b(?:gel|jelly)\b/i.test(productTexture(p) ?? "") ? "gel" : "cream";
-    const pat = /\b(?:pat|press|tap)\b/i.test(sourceText);
-    return {
-      fromBrand: Boolean(brand?.steps.length),
-      sourceSteps: source,
-      steps: [
-        { title: "Apply to skin", text: "Apply the amount directed for this product to the skin.", art: "spread", sequence, phase: "apply" },
-        { title: pat ? "Pat gently" : "Smooth gently", text: pat ? "Gently pat or press the formula into the skin." : "Gently spread the formula evenly over the skin.", art: pat ? "pat" : "spread", sequence, phase: "work" },
-        { title: "After application", text: "The formula has been spread over the skin. Follow the product directions for any next steps.", art: "absorb", sequence, phase: "finish" },
-      ],
-    };
+  // Leave-on products use one consistent apply → work → finish photo set, but
+  // the step text is always the brand's own sentences. A single compound
+  // sentence is split at "and <action>" so it still reads as two steps.
+  if (
+    ["Tone", "Treat", "Moisturise"].includes(p.category) &&
+    !/\b(?:pad|cotton|eye|eyes)\b/i.test(sourceText)
+  ) {
+    const sequence: GuideSequence =
+      p.category !== "Moisturise"
+        ? "liquid"
+        : /\b(?:gel|jelly)\b/i.test(productTexture(p) ?? "")
+          ? "gel"
+          : "cream";
+    let parts = source.flatMap(sentences);
+    if (parts.length === 1) parts = splitCompound(parts[0]);
+    const steps = parts.map((text, i): GuideStep => {
+      const phase: NonNullable<GuideStep["phase"]> =
+        i === 0
+          ? "apply"
+          : i < parts.length - 1 || (parts.length === 2 && ACTION.test(text))
+            ? "work"
+            : "finish";
+      const art = phase === "apply" ? "spread" : artFor(text, false);
+      const title =
+        phase === "apply"
+          ? "Apply"
+          : /\b(?:pat|press|tap)/i.test(text)
+            ? "Pat it in"
+            : /massage/i.test(text)
+              ? "Massage in"
+              : /^follow with|next step/i.test(text)
+                ? "Next step"
+                : /absorb/i.test(text) && phase === "finish"
+                  ? "Let it absorb"
+                  : "Smooth it over";
+      return { title, text, art, sequence, phase };
+    });
+    return { fromBrand: Boolean(brand?.steps.length), steps };
   }
   const used = new Map<StepArt, number>();
   const steps = source.flatMap(sentences).map((text) => {
@@ -145,9 +177,4 @@ export type AisleKey = keyof typeof AISLES;
 
 export function aisleKey(aisle: Aisle): AisleKey {
   return (Object.keys(AISLES) as AisleKey[]).find((k) => AISLES[k] === aisle) ?? "glass";
-}
-
-/** A product-accurate "in use" photo, when the gallery has one. */
-export function applyPhoto(gallery: Array<{ src: string; alt: string }>) {
-  return gallery.slice(1).find((g) => /press|smooth|appl|tapp|pat|massag|sweep|wip/i.test(g.alt));
 }
