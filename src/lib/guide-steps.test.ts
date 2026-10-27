@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
-import { productSlug, supplyRestricted } from "@/lib/product-detail";
+import { howToUse, productSlug, supplyRestricted } from "@/lib/product-detail";
+import { applicationForSlug } from "@/lib/product-application-data";
 import { guideDirections } from "@/lib/guide-steps";
+
+const howToUseFor = (p: (typeof SHOP_PRODUCTS)[number]) => {
+  const brand = applicationForSlug(productSlug(p));
+  return brand?.steps.length ? brand.steps : howToUse(p);
+};
 
 const bySlug = (slug: string) => {
   const product = SHOP_PRODUCTS.find((p) => productSlug(p) === slug);
@@ -46,19 +52,19 @@ describe("guideDirections", () => {
   });
 
   it("shows placing and removing a sheet mask rather than a timer", () => {
-    const product = SHOP_PRODUCTS.find(
-      (p) => productSlug(p) === "torriden-dive-in-mask-pack-1pc",
-    );
+    const product = SHOP_PRODUCTS.find((p) => productSlug(p) === "torriden-dive-in-mask-pack-1pc");
     if (!product) throw new Error("Torriden mask missing from catalogue");
     expect(guideDirections(product).steps.map((step) => step.art)).toEqual(["mask", "remove"]);
   });
 
-  it("gives Torriden cream application, patting and finished-appearance steps", () => {
+  it("uses Torriden's own words for the cream steps", () => {
     const d = guideDirections(bySlug("torriden-dive-in-soothing-cream"));
-    expect(d.steps.map((step) => step.phase)).toEqual(["apply", "work", "finish"]);
-    expect(d.steps.map((step) => step.art)).toEqual(["spread", "pat", "absorb"]);
-    expect(d.sourceSteps).toEqual(["Apply an appropriate amount evenly over the face and pat lightly to absorb."]);
-    expect(new Set(d.steps.map((step) => step.sequence)).size).toBe(1);
+    expect(d.steps.map((step) => step.text)).toEqual([
+      "Apply an appropriate amount evenly over the face.",
+      "Pat lightly to absorb.",
+    ]);
+    expect(d.steps.map((step) => step.phase)).toEqual(["apply", "work"]);
+    expect(d.steps.map((step) => step.title)).toEqual(["Apply", "Pat it in"]);
   });
 
   it("provides multiple visual steps for every available product guide", () => {
@@ -69,12 +75,21 @@ describe("guideDirections", () => {
     }
   });
 
-  it("keeps the same photo sequence for each leave-on guide", () => {
-    const sequences = SHOP_PRODUCTS.map(guideDirections).filter((d) => d.sourceSteps);
-    expect(sequences.length).toBeGreaterThan(10);
-    for (const d of sequences) {
-      expect(d.steps.map((s) => s.phase)).toEqual(["apply", "work", "finish"]);
-      expect(new Set(d.steps.map((s) => s.sequence)).size).toBe(1);
+  it("keeps the same photo sequence and the brand's words for each leave-on guide", () => {
+    const leaveOn = SHOP_PRODUCTS.filter((p) => guideDirections(p).steps.some((s) => s.sequence));
+    expect(leaveOn.length).toBeGreaterThan(10);
+    for (const p of leaveOn) {
+      const steps = guideDirections(p).steps;
+      expect(steps[0]!.phase, productSlug(p)).toBe("apply");
+      expect(new Set(steps.map((s) => s.sequence)).size).toBe(1);
+      const words = (t: string) =>
+        t
+          .toLowerCase()
+          .replace(/[^a-z0-9 ]/g, "")
+          .split(/\s+/);
+      const source = new Set(words(howToUseFor(p).join(" ")));
+      for (const s of steps)
+        for (const w of words(s.text)) expect(source.has(w), `${productSlug(p)}: ${w}`).toBe(true);
     }
   });
 });

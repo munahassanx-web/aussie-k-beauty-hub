@@ -1291,3 +1291,10 @@
 body:has([data-sticky-bar]) .chat-launcher {
   bottom: calc(env(safe-area-inset-bottom) + 5.5rem);
 }
+/* On phones the guide's sticky shop bar takes the bottom edge; the chat
+   bubble would sit over the step cards and buttons, so it steps aside. */
+@media (max-width: 639px) {
+  body:has([data-sticky-bar]) .chat-launcher {
+    display: none;
+  }
+}

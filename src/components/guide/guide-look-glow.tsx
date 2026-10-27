@@ -18,8 +18,12 @@ const addButton =
   "rounded-full bg-hanbok-deep text-[12px] font-semibold uppercase tracking-[0.12em] text-background transition-colors hover:bg-hanbok disabled:opacity-60";
 
 export function GuideLookGlow({ view, soldOut }: { view: GuideView; soldOut: string[] }) {
-  const { product, guide, aisle, colours, directions, ladder, ladderIndex, photo, size, price } =
-    view;
+  const { product, guide, aisle, colours, directions, ladder, ladderIndex, size, price } = view;
+  // "An appropriate amount" tells nobody anything, so it isn't shown.
+  const amount =
+    guide.amountToUse && !/appropriate amount/i.test(guide.amountToUse)
+      ? guide.amountToUse
+      : undefined;
   const buyable = view.sellable && !soldOut.includes(product.priceId);
   const [active, setActive] = useState(0);
   const rail = useRef<HTMLOListElement>(null);
@@ -90,9 +94,7 @@ export function GuideLookGlow({ view, soldOut }: { view: GuideView; soldOut: str
                 className="h-3.5 w-3.5 text-[color:var(--aisle-deep)]"
                 aria-hidden="true"
               />
-              {directions.fromBrand
-                ? `${product.brand}'s directions${directions.sourceSteps ? " below" : ""}`
-                : "General routine guidance"}
+              {directions.fromBrand ? `${product.brand}'s directions` : "General routine guidance"}
             </span>
           </div>
         </header>
@@ -207,17 +209,71 @@ export function GuideLookGlow({ view, soldOut }: { view: GuideView; soldOut: str
             Follow the directions printed on the pack you received.
           </p>
         )}
+        {directions.steps.some((s) => s.sequence) && (
+          <p className="mt-3 px-5 text-[12px] text-muted-foreground sm:px-10">
+            Photos show the technique. Textures vary by product.
+          </p>
+        )}
       </section>
 
-      {directions.sourceSteps && (
-        <section className="mt-6 px-5 sm:px-10">
-          <h2 className="text-[13px] font-semibold text-ink">
-            {directions.fromBrand ? `${product.brand}'s product directions` : "General routine guidance"}
+      {/* Good to know */}
+      {(amount || guide.frequency || guide.proTip) && (
+        <section className="mx-5 mt-11 rounded-[1.75rem] bg-ink p-6 text-white sm:mx-10">
+          <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[color:var(--aisle)]">
+            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" /> Good to know
+          </p>
+          <dl className="mt-4 space-y-4">
+            {amount && (
+              <div>
+                <dt className="text-[12px] text-white/60">Amount</dt>
+                <dd className="mt-0.5 text-[16px] leading-snug">{amount}</dd>
+              </div>
+            )}
+            {guide.frequency && (
+              <div>
+                <dt className="text-[12px] text-white/60">When</dt>
+                <dd className="mt-0.5 text-[16px] leading-snug">{guide.frequency}</dd>
+              </div>
+            )}
+            {guide.proTip && (
+              <div>
+                <dt className="text-[12px] text-white/60">Note</dt>
+                <dd className="mt-0.5 text-[16px] leading-snug">{guide.proTip}</dd>
+              </div>
+            )}
+          </dl>
+        </section>
+      )}
+
+      {/* Hands or pad */}
+      {view.showToneChoice && (
+        <section className="mt-11 px-5 sm:px-10">
+          <h2 className="text-[1.35rem] font-medium tracking-[-0.01em] text-ink">
+            Hands or cotton pad?
           </h2>
-          <div className="mt-2 space-y-2 text-[14px] leading-relaxed text-muted-foreground">
-            {directions.sourceSteps.map((text) => <p key={text}>{text}</p>)}
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            {[
+              {
+                art: "pat" as const,
+                title: "Clean hands",
+                text: "Press and pat the toner gently across the skin.",
+              },
+              {
+                art: "sweep" as const,
+                title: "Cotton pad",
+                text: "Saturate the pad sufficiently and sweep it gently across the skin without scrubbing.",
+              },
+            ].map((o) => (
+              <div
+                key={o.title}
+                className="rounded-3xl bg-[color:color-mix(in_oklab,var(--aisle)_35%,white)] p-4"
+              >
+                <StepIllustration art={o.art} className="aspect-[4/3] w-full rounded-2xl" />
+                <p className="mt-2 text-[15px] font-semibold text-ink">{o.title}</p>
+                <p className="mt-1 text-[13px] leading-relaxed text-ink/75">{o.text}</p>
+              </div>
+            ))}
           </div>
-          <p className="mt-3 text-[12px] text-muted-foreground">Illustrative application photos—not this product’s exact texture or a promised skin result.</p>
         </section>
       )}
 
@@ -236,7 +292,7 @@ export function GuideLookGlow({ view, soldOut }: { view: GuideView; soldOut: str
             {view.companions.map(({ step, product: c }) => (
               <li
                 key={c.priceId}
-                className="flex items-center gap-4 rounded-[1.5rem] bg-white p-3 shadow-[0_10px_28px_-18px_rgba(58,38,32,.45)] ring-1 ring-black/[0.04]"
+                className="flex items-start gap-4 rounded-[1.5rem] bg-white p-3 shadow-[0_10px_28px_-18px_rgba(58,38,32,.45)] ring-1 ring-black/[0.04]"
               >
                 <Link
                   to="/product/$slug"
@@ -275,97 +331,19 @@ export function GuideLookGlow({ view, soldOut }: { view: GuideView; soldOut: str
                       How to use →
                     </a>
                   </div>
+                  {!soldOut.includes(c.priceId) && (
+                    <AddToBagButton
+                      priceId={c.priceId}
+                      name={c.name}
+                      priceLabel={`${c.price} AUD`}
+                      accessibleName={`Add ${c.brand} ${c.name} to bag`}
+                      className={`${addButton} mt-3 h-10 w-full !text-[11px]`}
+                    />
+                  )}
                 </div>
-                {!soldOut.includes(c.priceId) && (
-                  <AddToBagButton
-                    priceId={c.priceId}
-                    name={c.name}
-                    priceLabel={`${c.price} AUD`}
-                    accessibleName={`Add ${c.brand} ${c.name} to bag`}
-                    className={`${addButton} h-10 flex-none self-end px-3.5 !text-[11px]`}
-                  />
-                )}
               </li>
             ))}
           </ul>
-        </section>
-      )}
-
-      {/* In practice */}
-      {photo && (
-        <figure className="relative mx-3 mt-11 overflow-hidden rounded-[2rem] sm:mx-6">
-          <img
-            src={photo.src}
-            alt={photo.alt}
-            className="aspect-[4/5] w-full object-cover sm:aspect-[16/9]"
-          />
-          <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/70 to-transparent p-5 pt-16 text-white">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] opacity-80">
-              In practice
-            </p>
-            <p className="mt-1 text-lg font-medium leading-snug">How it looks on skin</p>
-          </figcaption>
-        </figure>
-      )}
-
-      {/* Hands or pad */}
-      {view.showToneChoice && (
-        <section className="mt-11 px-5 sm:px-10">
-          <h2 className="text-[1.35rem] font-medium tracking-[-0.01em] text-ink">
-            Hands or cotton pad?
-          </h2>
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            {[
-              {
-                art: "pat" as const,
-                title: "Clean hands",
-                text: "Press and pat the toner gently across the skin.",
-              },
-              {
-                art: "sweep" as const,
-                title: "Cotton pad",
-                text: "Saturate the pad sufficiently and sweep it gently across the skin without scrubbing.",
-              },
-            ].map((o) => (
-              <div
-                key={o.title}
-                className="rounded-3xl bg-[color:color-mix(in_oklab,var(--aisle)_35%,white)] p-4"
-              >
-                <StepIllustration art={o.art} className="aspect-[4/3] w-full rounded-2xl" />
-                <p className="mt-2 text-[15px] font-semibold text-ink">{o.title}</p>
-                <p className="mt-1 text-[13px] leading-relaxed text-ink/75">{o.text}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Good to know */}
-      {(guide.amountToUse || guide.frequency || guide.proTip) && (
-        <section className="mx-5 mt-11 rounded-[1.75rem] bg-ink p-6 text-white sm:mx-10">
-          <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[color:var(--aisle)]">
-            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" /> Good to know
-          </p>
-          <dl className="mt-4 space-y-4">
-            {guide.amountToUse && (
-              <div>
-                <dt className="text-[12px] text-white/60">Amount</dt>
-                <dd className="mt-0.5 text-[16px] leading-snug">{guide.amountToUse}</dd>
-              </div>
-            )}
-            {guide.frequency && (
-              <div>
-                <dt className="text-[12px] text-white/60">When</dt>
-                <dd className="mt-0.5 text-[16px] leading-snug">{guide.frequency}</dd>
-              </div>
-            )}
-            {guide.proTip && (
-              <div>
-                <dt className="text-[12px] text-white/60">Note</dt>
-                <dd className="mt-0.5 text-[16px] leading-snug">{guide.proTip}</dd>
-              </div>
-            )}
-          </dl>
         </section>
       )}
 

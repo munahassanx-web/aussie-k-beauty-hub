@@ -70,12 +70,20 @@ export function StepIllustration({
   sequence?: GuideStep["sequence"];
   phase?: GuideStep["phase"];
 }) {
-  const p = sequence && phase ? {
-    src: SEQUENCES[sequence][phase],
-    alt: phase === "apply" ? "Fingertip applying formula directly onto cheek skin"
-      : phase === "work" ? art === "pat" ? "Fingertips gently pressing formula over the cheek" : "Fingertips gently smoothing formula over the cheek"
-      : "The same cheek after formula has been spread, illustrating application rather than a skincare result",
-  } : (repeat && ALTERNATES[art]) || PHOTOS[art];
+  const p =
+    sequence && phase
+      ? {
+          src: SEQUENCES[sequence][phase],
+          alt:
+            phase === "apply"
+              ? "Fingertip applying formula directly onto cheek skin"
+              : phase === "work"
+                ? art === "pat"
+                  ? "Fingertips gently pressing formula over the cheek"
+                  : "Fingertips gently smoothing formula over the cheek"
+                : "The same cheek after formula has been spread, illustrating application rather than a skincare result",
+        }
+      : (repeat && ALTERNATES[art]) || PHOTOS[art];
   return (
     <img
       src={p.src}
