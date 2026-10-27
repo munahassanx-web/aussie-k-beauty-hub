@@ -262,6 +262,29 @@ export const listApprovedReviews = createServerFn({ method: 'GET' }).handler(asy
   return (data ?? []) as unknown as PublicReview[];
 });
 
+/**
+ * Average rating and count per product, from approved reviews only. Products
+ * with no approved review are simply absent, so cards show nothing for them.
+ */
+export const listReviewSummary = createServerFn({ method: 'GET' }).handler(async () => {
+  const { publicClient } = await import('@/lib/signals.server');
+  const { data, error } = await publicClient()
+    .from('reviews')
+    .select('product_id, rating')
+    .eq('status', 'approved')
+    .limit(5000);
+  if (error) return {} as Record<string, { average: number; count: number }>;
+  const sums: Record<string, { total: number; count: number }> = {};
+  for (const r of (data ?? []) as Array<{ product_id: string; rating: number }>) {
+    const s = (sums[r.product_id] ??= { total: 0, count: 0 });
+    s.total += r.rating;
+    s.count += 1;
+  }
+  return Object.fromEntries(
+    Object.entries(sums).map(([id, s]) => [id, { average: Math.round((s.total / s.count) * 10) / 10, count: s.count }]),
+  ) as Record<string, { average: number; count: number }>;
+});
+
 export const listPendingReviews = createServerFn({ method: 'GET' })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {

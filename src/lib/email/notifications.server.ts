@@ -17,11 +17,12 @@ import {
   renderDeliveryConfirmation,
   renderDispatchNotice,
   renderOrderConfirmation,
+  renderReviewRequest,
   type OrderEmailData,
 } from './order-emails.server';
 import { maskEmail } from '@/lib/commerce-log';
 
-export type NotificationKind = 'order_confirmation' | 'dispatch' | 'delivery' | 'cancellation';
+export type NotificationKind = 'order_confirmation' | 'dispatch' | 'delivery' | 'cancellation' | 'review_request';
 
 
 const ORDER_EMAIL_COLUMNS =
@@ -110,7 +111,9 @@ export async function dispatchOrderNotification(
         ? renderDeliveryConfirmation(order)
         : kind === 'cancellation'
           ? renderCancellationNotice(order)
-          : renderOrderConfirmation(order);
+          : kind === 'review_request'
+            ? renderReviewRequest(order)
+            : renderOrderConfirmation(order);
 
   const base = {
     order_id: orderId,

@@ -1,5 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { useBuyNow } from '@/hooks/use-buy-now';
+import { useReviewSummary } from '@/hooks/use-review-summary';
+import { Stars } from '@/components/product-reviews';
 import { useSoldOutSkus } from '@/hooks/use-stock';
 import { WishlistButton } from '@/components/wishlist-button';
 import { productSlug, routineStepLabel } from '@/lib/product-detail';
@@ -43,6 +45,7 @@ type Props = {
 export function ProductCard({ product: p, overlay, compact = false, eager = false }: Props) {
   const { buy } = useBuyNow();
   const { isSoldOut } = useSoldOutSkus();
+  const rating = useReviewSummary()(p.priceId);
   const soldOut = isSoldOut(p.priceId);
   const size = productSize(p);
   const slug = productSlug(p);
@@ -135,6 +138,14 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
             {displayName(p)}
           </Link>
         </h3>
+        {rating && (
+          <p className="mt-1.5 flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Stars n={rating.average} className="[&_svg]:h-3 [&_svg]:w-3" />
+            <span className="tabular-nums">
+              {rating.average.toFixed(1)} ({rating.count})
+            </span>
+          </p>
+        )}
         <p className="mt-1 text-xs text-muted-foreground">
           {routineStepLabel(p)}
           {size ? ` · ${size}` : ''}
