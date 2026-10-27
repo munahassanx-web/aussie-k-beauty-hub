@@ -86,3 +86,7 @@
 ## How-to guide ingredient spotlight
 - [x] Add a compact source-backed Did you know ingredient spotlight without unsupported regional comparisons
 - [x] Verify ingredient safeguards and guide rendering on desktop and mobile
+
+## Playful ingredient bubbles
+- [x] Replace the rejected dark treatment with colourful speech bubbles beside ingredient imagery
+- [x] Add sourced Korean tradition notes only for matching ingredients and verify layouts

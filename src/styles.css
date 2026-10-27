@@ -1255,6 +1255,39 @@
 }
 
 /* Lift the chat launcher above a page's sticky shop bar (guide pages). */
+.guide-ingredient-play {
+  --ingredient-bubble: oklch(0.9 0.055 220);
+  --ingredient-pop: oklch(0.89 0.13 100);
+  --ingredient-pop-ink: oklch(0.28 0.045 70);
+}
+.guide-ingredient-play[data-ingredient="centella"],
+.guide-ingredient-play[data-ingredient="mung"],
+.guide-ingredient-play[data-ingredient="madecassoside"] { --ingredient-bubble: oklch(0.9 0.075 155); }
+.guide-ingredient-play[data-ingredient="rice"],
+.guide-ingredient-play[data-ingredient="niacinamide"] { --ingredient-bubble: oklch(0.9 0.055 300); }
+.guide-ingredient-play[data-ingredient="ginseng"],
+.guide-ingredient-play[data-ingredient="propolis"],
+.guide-ingredient-play[data-ingredient="emollient"] { --ingredient-bubble: oklch(0.9 0.07 55); }
+.ingredient-speech::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 34px;
+  width: 20px;
+  height: 20px;
+  rotate: 45deg;
+  background: var(--ingredient-bubble);
+}
+.ingredient-history::before {
+  content: "";
+  position: absolute;
+  right: 30px;
+  top: -8px;
+  width: 16px;
+  height: 16px;
+  rotate: 45deg;
+  background: var(--ingredient-pop);
+}
 body:has([data-sticky-bar]) .chat-launcher {
   bottom: calc(env(safe-area-inset-bottom) + 5.5rem);
 }

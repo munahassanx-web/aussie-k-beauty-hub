@@ -1,4 +1,4 @@
-import { FlaskConical, ArrowUpRight, Plus } from 'lucide-react';
+import { Sparkles, ArrowUpRight, Plus } from 'lucide-react';
 import { guideIngredient } from '@/lib/guide-ingredient';
 import type { ShopProduct } from '@/lib/shop-catalog';
 import centella from '@/assets/ingredients/tex-centella.jpg';
@@ -8,46 +8,50 @@ import snail from '@/assets/ingredients/tex-snail-mucin.jpg';
 import madecassoside from '@/assets/ingredients/tex-madecassoside.jpg';
 import beta from '@/assets/ingredients/tex-beta-glucan.jpg';
 
-const PHOTOS = { centella, niacinamide, propolis, snail, madecassoside, beta };
+import hydration from '@/assets/ingredients/guide-hydration.jpg';
+import emollient from '@/assets/ingredients/guide-emollient.jpg';
+import mung from '@/assets/ingredients/guide-mung-bean.jpg';
+import rice from '@/assets/ingredients/guide-rice.jpg';
+import ginseng from '@/assets/ingredient-ginseng.png';
+
+const PHOTOS = { centella, niacinamide, propolis, snail, madecassoside, beta, hydration, emollient, mung, rice, ginseng };
 
 export function IngredientSpotlight({ product }: { product: ShopProduct }) {
   const ingredient = guideIngredient(product);
   if (!ingredient) return null;
   const photo = ingredient.visual ? PHOTOS[ingredient.visual] : null;
   return (
-    <aside aria-label="Ingredient spotlight" className="relative mt-10 overflow-hidden bg-ink px-5 py-7 text-background sm:px-10 sm:py-9">
-      <div className="flex items-center justify-between gap-3 border-b border-background/25 pb-3">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.16em]">The ingredient file</p>
-        <span className="font-mono text-[10px] uppercase text-background/60">Skin Grocer / 연구 노트</span>
-      </div>
-      <div className="grid items-center gap-6 pt-6 sm:grid-cols-[1fr_220px] sm:gap-8">
-        <div className="order-2 min-w-0 sm:order-1">
-          <p className="inline-block -rotate-3 border border-[color:var(--aisle)] px-3 py-1.5 text-[12px] font-medium text-[color:var(--aisle)]">Did you know?</p>
-          <h2 className="mt-5 text-[26px] font-medium leading-tight">{ingredient.name}</h2>
-          <p className="mt-3 text-[15px] leading-relaxed text-background/85">{ingredient.fact}</p>
-        </div>
-        <figure className="relative order-1 mx-auto w-52 sm:order-2 sm:w-full">
-          <div className="relative aspect-square rounded-full border border-background/40 p-2">
-            {photo ? (
-              <img src={photo} alt={`Illustrative ingredient study: ${ingredient.name}; not the finished product`} loading="lazy" width={240} height={240} className="h-full w-full rounded-full object-cover" />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center rounded-full bg-secondary text-foreground"><FlaskConical className="size-16" aria-hidden="true" /></div>
-            )}
-            <Plus className="absolute -left-1 top-1/2 size-4 -translate-y-1/2 bg-ink text-background/70" aria-hidden="true" />
-            <Plus className="absolute -right-1 top-1/2 size-4 -translate-y-1/2 bg-ink text-background/70" aria-hidden="true" />
-            <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap border border-background/40 bg-ink px-3 py-1 text-[11px] font-medium">{photo ? 'Ingredient study' : 'Formula note'}</span>
-          </div>
-          {ingredient.korean && <p className="mt-5 break-keep text-center font-hangul text-2xl font-medium leading-snug text-[color:var(--aisle)]">{ingredient.korean}</p>}
-          {photo && <figcaption className="mt-2 text-center text-[10px] text-background/60">Illustration · not the finished formula</figcaption>}
+    <aside aria-label="Ingredient spotlight" data-ingredient={ingredient.visual} className="guide-ingredient-play mx-5 mt-10 py-3 sm:mx-10">
+      <p className="mb-5 flex items-center gap-2 text-[13px] font-semibold text-[color:var(--aisle-deep)]"><Sparkles className="size-4" aria-hidden="true" /> A little ingredient gossip</p>
+      <div className="grid grid-cols-[90px_minmax(0,1fr)] items-start gap-4 sm:grid-cols-[170px_minmax(0,1fr)] sm:gap-6">
+        <figure className="pt-5">
+          <img src={photo ?? hydration} alt={`Illustrative ingredient study: ${ingredient.name}; not the finished product`} loading="lazy" width={240} height={240} className="aspect-square w-full -rotate-6 rounded-[30%] object-cover" />
+          <figcaption className="mt-3 text-center text-[10px] leading-snug text-muted-foreground">{ingredient.visual === 'hydration' || ingredient.visual === 'emollient' ? 'Illustrative texture' : 'Ingredient illustration'}</figcaption>
         </figure>
+        <div className="min-w-0">
+          <div className="ingredient-speech relative rounded-[24px_24px_24px_5px] bg-[color:var(--ingredient-bubble)] p-4 sm:p-6">
+            <p className="relative mb-2 text-[11px] font-semibold uppercase text-[color:var(--aisle-deep)]">Did you know?</p>
+            <h2 className="relative text-lg font-semibold leading-snug text-foreground sm:text-2xl">{ingredient.name}</h2>
+            {ingredient.korean && <p className="relative mt-1 break-words font-hangul text-xs text-[color:var(--aisle-deep)]">{ingredient.korean}</p>}
+            <p className="relative mt-3 text-sm leading-relaxed text-foreground">{ingredient.fact}</p>
+          </div>
+          {ingredient.culture && (
+            <div className="ingredient-history relative mt-5 rounded-[22px_5px_22px_22px] bg-[color:var(--ingredient-pop)] p-4 text-[color:var(--ingredient-pop-ink)] sm:p-5">
+              <p className="relative text-[11px] font-semibold uppercase">From the Joseon beauty diary…</p>
+              <p className="relative mt-2 text-sm leading-relaxed">{ingredient.culture.text}</p>
+              <p className="relative mt-2 text-[11px] leading-relaxed opacity-80">A tradition, not proof of skincare results—and not a DIY recipe.</p>
+            </div>
+          )}
+        </div>
       </div>
-      <details className="group mt-7 border-t border-background/25 pt-3 text-xs text-background/75">
-        <summary className="flex w-full cursor-pointer list-none items-center justify-between gap-4 rounded-sm py-1 font-medium text-background focus-visible:outline-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden">In this formula & source <Plus className="size-4 flex-none transition-transform group-open:rotate-45 motion-reduce:transition-none" aria-hidden="true" /></summary>
+      <details className="group mt-7 border-t border-border pt-3 text-xs text-muted-foreground">
+        <summary className="flex w-full cursor-pointer list-none items-center justify-between gap-4 rounded-sm py-1 font-medium text-foreground focus-visible:outline-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden">In this formula & source <Plus className="size-4 flex-none transition-transform group-open:rotate-45 motion-reduce:transition-none" aria-hidden="true" /></summary>
         <div className="mt-3 space-y-2 leading-relaxed">
           <p>Listed as: {ingredient.listedAs.join(', ')}.</p>
           <p>{ingredient.sourceName} · Ingredient record checked {ingredient.checkedOn}.</p>
           {ingredient.sourceNote && <p>{ingredient.sourceNote}</p>}
-          {ingredient.sourceUrl && <a href={ingredient.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-medium text-[color:var(--aisle)] underline underline-offset-4">View ingredient source <ArrowUpRight className="size-3" aria-hidden="true" /></a>}
+          {ingredient.sourceUrl && <a href={ingredient.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-medium text-[color:var(--aisle-deep)] underline underline-offset-4">View ingredient source <ArrowUpRight className="size-3" aria-hidden="true" /></a>}
+          {ingredient.culture && <a href={ingredient.culture.url} target="_blank" rel="noopener noreferrer" className="block font-medium text-[color:var(--aisle-deep)] underline underline-offset-4">Culture source: {ingredient.culture.source}</a>}
           <p>Ingredient presence does not establish concentration or results. These ingredients are not exclusive to Korean skincare.</p>
         </div>
       </details>
