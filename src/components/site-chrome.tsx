@@ -228,8 +228,26 @@ export function SiteHeader() {
   // Remember which control opened a modal-style panel so focus can return to it.
   const lastTrigger = useRef<HTMLElement | null>(null);
   const searchTrigger = useRef<HTMLElement | null>(null);
+  // Hover grace period: moving from a nav item down to its mega menu crosses a
+  // gap, which would otherwise fire mouseleave and slam the menu shut instantly.
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const cancelMenuClose = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+  const scheduleMenuClose = () => {
+    cancelMenuClose();
+    closeTimer.current = setTimeout(() => {
+      setOpenMenu(null);
+      setPinned(null);
+    }, 220);
+  };
 
   const closeMenus = () => {
+    cancelMenuClose();
     setOpenMenu(null);
     setMobileOpen(false);
   };
