@@ -101,7 +101,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
       </div>
 
       <div className="flex flex-1 flex-col pt-4">
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5">
           <p className="min-w-0 truncate text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{p.brand}</p>
           {aisle && (
             <span
@@ -112,7 +112,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
             </span>
           )}
         </div>
-        <h3 className="mt-1.5 text-[1.05rem] font-light leading-snug tracking-[-0.01em] text-foreground">
+        <h3 className="mt-1.5 text-[0.95rem] font-light sm:text-[1.05rem] leading-snug tracking-[-0.01em] text-foreground">
           <Link
             to="/product/$slug"
             params={{ slug }}
@@ -141,7 +141,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
         </p>
 
         <div className="mt-auto pt-4">
-          <div className="flex items-center justify-between gap-3 border-t border-border/70 pt-3">
+          <div className="flex flex-col items-stretch gap-2.5 border-t border-border/70 pt-3 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
             {supplyPending ? (
               <span className="text-xs text-muted-foreground">{availabilityLabelFor(p)}</span>
             ) : (
@@ -164,7 +164,7 @@ export function ProductCard({ product: p, overlay, compact = false, eager = fals
                   type="button"
                   onClick={() => buy({ priceId: p.priceId, name: p.name, priceLabel: `${p.price} AUD` })}
                   aria-label={`Add ${p.brand} ${p.name} to bag`}
-                  className="relative z-10 inline-flex min-h-9 items-center rounded-full border border-foreground px-4 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground transition-colors duration-200 hover:bg-foreground hover:text-background focus-visible:bg-foreground focus-visible:text-background"
+                  className="relative z-10 inline-flex min-h-9 items-center justify-center rounded-full border border-foreground px-4 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground transition-colors duration-200 hover:bg-foreground hover:text-background focus-visible:bg-foreground focus-visible:text-background"
                 >
                   Add to bag
                 </button>

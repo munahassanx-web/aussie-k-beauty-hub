@@ -178,7 +178,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         { step: "01 · Cleanse", what: "A gentle low-pH foam, or just water if your skin is dry in the morning.", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
         { step: "02 · Hydrate", what: "Pat onto damp skin. Two thin layers beat one heavy one.", pick: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", image: "/products/round-lab/1025-dokdo-toner-100ml.webp" },
         { step: "03 · Gel-cream", what: "A pea-sized amount, pressed in rather than rubbed. Let it settle for a minute before the next step.", pick: "Dive In Soothing Cream", brand: "TORRIDEN", image: "/products/torriden/dive-in-soothing-cream.webp" },
-        { step: "04 · Dry patches only", what: "Optional. Press a little richer cream onto dry cheeks only. Then finish with a broad-spectrum sunscreen lawfully supplied in Australia, applied generously and reapplied as its label directs.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.webp" },
+        { step: "04 · Dry patches only", what: "Optional. Press a little richer cream onto dry cheeks only. Then finish with a broad-spectrum sunscreen listed for sale in Australia, applied generously and reapplied as its label directs.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.webp" },
       ],
       closer:
         "If your sunscreen pills or slides, the moisturiser underneath is usually the culprit. Use less, or give it longer to settle, before you blame the sunscreen.",
@@ -280,7 +280,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         { step: "01 · Oil", what: "Dry hands, dry face. Massage gently, then add water until it turns milky and rinse thoroughly.", pick: "Mung Bean Cleansing Oil 200ml", brand: "beplain", image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp" },
         { step: "02 · Second cleanse", what: "Optional. Use it on heavy sunscreen or makeup days, or if your oil's directions call for one. Skip it if your skin feels tight.", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
         { step: "03 · Hydrate", what: "Onto damp skin, straight after rinsing.", pick: "1025 Dokdo Toner 100ml", brand: "ROUND LAB", image: "/products/round-lab/1025-dokdo-toner-100ml.webp" },
-        { step: "04 · Seal", what: "Birch juice, glycerin and hyaluronic acid in a lighter cream for spring nights. During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia and follow its labelled directions.", pick: "Birch Juice Moisturizing Cream 80ml", brand: "ROUND LAB", image: "/products/round-lab/birch-juice-moisturizing-cream-80ml.webp" },
+        { step: "04 · Seal", what: "Birch juice, glycerin and hyaluronic acid in a lighter cream for spring nights. During the day, finish with a broad-spectrum sunscreen listed for sale in Australia and follow its labelled directions.", pick: "Birch Juice Moisturizing Cream 80ml", brand: "ROUND LAB", image: "/products/round-lab/birch-juice-moisturizing-cream-80ml.webp" },
       ],
       closer:
         "The step most people rush is the rinse. Thirty extra seconds of lukewarm water, especially along the hairline and jaw, is the cheapest upgrade in this issue.",
@@ -380,7 +380,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         { step: "01 · Cleanse", what: "One gentle wash at night, water only in the morning if you're dry.", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
         { step: "02 · Hydrate", what: "Onto damp skin. Fermented rice and HA, two light passes.", pick: "Black Rice Hyaluronic Toner 150ml", brand: "HARUHARU WONDER", image: "/__l5e/assets-v1/5c2e77da-7082-420c-809a-9005bdb6aef8/haruharu-wonder-black-rice-hyaluronic-toner-150ml.png" },
         { step: "03 · Comfort", what: "Squalane where skin feels rough. Skip on humid days.", pick: "Aqua Squalane Serum", brand: "S.NATURE", image: "/products/s-nature/aqua-squalane-serum.webp" },
-        { step: "04 · Seal", what: "Ceramides to finish. During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia and follow its labelled directions.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.webp" },
+        { step: "04 · Seal", what: "Ceramides to finish. During the day, finish with a broad-spectrum sunscreen listed for sale in Australia and follow its labelled directions.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.webp" },
       ],
       closer:
         "None of these products were chosen because they were trending. The aim is a routine simple enough to keep using.",
@@ -391,7 +391,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       imageAlt: "Flatlay of a short Korean skincare routine: cleanser, toner, serum and cream",
       body: [
         "The single biggest reason routines fail isn't the wrong product. It's a routine designed for someone with twenty free minutes and no one else in the house. If you're getting four kids out the door, or answering work email at 10pm, an eleven-step evening ritual isn't aspirational — it's the thing you'll abandon in nine days and then feel guilty about.",
-        "So we build for the worst night, not the best one. Three products you can apply in ninety seconds, standing up, with the bathroom door open: a cleanser that doesn't leave you tight, one hydrating layer, one cream. During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia and follow its labelled directions. That is a complete, defensible routine, and it beats a perfect one you do twice a week.",
+        "So we build for the worst night, not the best one. Three products you can apply in ninety seconds, standing up, with the bathroom door open: a cleanser that doesn't leave you tight, one hydrating layer, one cream. During the day, finish with a broad-spectrum sunscreen listed for sale in Australia and follow its labelled directions. That is a complete, defensible routine, and it beats a perfect one you do twice a week.",
         "The upgrade path, when there is time, is one product at a time — not one routine at a time. Add a single active, use it for three to four weeks, and only then decide whether anything else is missing. Most people discover it isn't.",
         "And if you have more time and budget now than you did ten years ago: spend it on consistency and sun protection before you spend it on a new hero serum.",
       ],
@@ -477,7 +477,7 @@ export const newsletterIssues: NewsletterIssue[] = [
         { step: "01 · Cleanse", what: "Gentle, low-pH. Scrubbing pigment does nothing except make more of it.", pick: "Yam Root Vegan Milk Cleanser 220ml", brand: "ISNTREE", image: "/products/isntree/yam-root-vegan-milk-cleanser-220ml.webp" },
         { step: "02 · Hydrate", what: "Damp skin, one pass. Hydrated skin tolerates actives better.", pick: "Green Tea Fresh Toner 200ml", brand: "ISNTREE", image: "/products/isntree/green-tea-fresh-toner-200ml.webp" },
         { step: "03 · Brighten", what: "Niacinamide serum, morning. Every day for at least eight weeks.", pick: "Glow Serum: Propolis + Niacinamide 30ml", brand: "Beauty of Joseon", image: "/__l5e/assets-v1/bab0fc3b-47f9-4850-b1d1-11c47b6d023d/boj-glow-serum-propolis.webp" },
-        { step: "04 · Moisturise", what: "A light cream to finish. During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia and follow its labelled directions.", pick: "Aqua Squalane Moisturizing Cream", brand: "S.NATURE", image: "/products/s-nature/aqua-squalane-moisturizing-cream.webp" },
+        { step: "04 · Moisturise", what: "A light cream to finish. During the day, finish with a broad-spectrum sunscreen listed for sale in Australia and follow its labelled directions.", pick: "Aqua Squalane Moisturizing Cream", brand: "S.NATURE", image: "/products/s-nature/aqua-squalane-moisturizing-cream.webp" },
       ],
       closer:
         "If you only do one thing consistently, make it daily sun protection — brightening steps work best alongside it.",
@@ -815,7 +815,7 @@ export const newsletterIssues: NewsletterIssue[] = [
       steps: [
         { step: "01 · Cleanse", what: "Oil cleanse at night only if you wore SPF or makeup. Water in the morning.", pick: "Mung Bean Cleansing Oil 200ml", brand: "beplain", image: "/products/beplain/mung-bean-cleansing-oil-200ml.webp" },
         { step: "02 · Hydrate", what: "One hydrating layer on damp skin. No acids, no vitamin C, no exceptions.", pick: "Real Hyaluronic 100 Toner 200ml", brand: "WELLAGE", image: "/products/wellage/real-hyaluronic-toner-200ml.webp" },
-        { step: "03 · Moisturise", what: "Barrier-support moisturiser, morning and night, generously. During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia and follow its labelled directions.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.webp" },
+        { step: "03 · Moisturise", what: "Barrier-support moisturiser, morning and night, generously. During the day, finish with a broad-spectrum sunscreen listed for sale in Australia and follow its labelled directions.", pick: "Atobarrier365 Cream (2nd Generation)", brand: "AESTURA", image: "/products/aestura/atobarrier365-cream.webp" },
       ],
       closer:
         "If it stings, you're not done. The urge to add something is the thing that broke it in the first place.",

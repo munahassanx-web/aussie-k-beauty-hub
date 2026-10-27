@@ -1794,11 +1794,11 @@ const ROUTINE_ORDER: Array<ShopProduct['category']> = [
 ];
 
 export const SUNSCREEN_EDUCATIONAL_NOTE =
-  'Finish your morning routine with a broad-spectrum sunscreen lawfully supplied in Australia.';
+  'Finish your morning routine with a broad-spectrum sunscreen listed for sale in Australia.';
 
 /** Neutral daytime reminder shown under the routine recommendations. */
 export const ROUTINE_SUNSCREEN_NOTE =
-  'During the day, finish with a broad-spectrum sunscreen lawfully supplied in Australia.';
+  'During the day, finish with a broad-spectrum sunscreen listed for sale in Australia.';
 
 /** Step numbers and display names, taken only from the stored category. */
 export const ROUTINE_STEP_NUMBER: Record<string, number> = {

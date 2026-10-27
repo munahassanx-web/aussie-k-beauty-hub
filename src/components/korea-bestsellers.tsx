@@ -159,8 +159,7 @@ export function KoreaBestsellers() {
       </div>
 
       <p className="mt-5 text-[10px] leading-relaxed text-muted-foreground">
-        Rankings, ratings and review totals belong to Hwahae and may change after the stated snapshot date. Placement
-        is not proof that a product will suit every person. Skin Grocer prices are Australian retail prices.
+        Rankings and review totals are Hwahae&rsquo;s, as of the snapshot date. Prices are Skin Grocer&rsquo;s, in AUD.
       </p>
     </section>
   );

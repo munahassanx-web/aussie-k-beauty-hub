@@ -279,7 +279,7 @@ function Shop() {
 
             </div>
           ) : (
-            <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-2 gap-x-3 gap-y-10 sm:gap-x-8 sm:gap-y-14 xl:grid-cols-3">
               {visibleProducts.map((p, i) => {
                 const isSelected = compare.some((x) => x.priceId === p.priceId);
                 const disabled = !isSelected && compare.length >= 3;

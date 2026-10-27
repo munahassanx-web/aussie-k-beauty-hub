@@ -155,8 +155,7 @@ export function ConcernNavigator() {
             feels most familiar, then explore products selected for that routine goal.
           </p>
           <p className="mt-4 max-w-2xl text-xs leading-relaxed text-ink/55">
-            Cosmetic guidance only. Persistent, painful or changing skin concerns should be
-            discussed with a qualified health professional.
+            Skin that&rsquo;s painful or keeps changing? That&rsquo;s one for your GP or dermatologist.
           </p>
         </div>
 
