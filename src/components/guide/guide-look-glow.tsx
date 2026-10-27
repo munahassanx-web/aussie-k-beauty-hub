@@ -168,7 +168,11 @@ export function GuideLookGlow({ view, soldOut }: { view: GuideView; soldOut: str
                   className="w-[80%] max-w-[20rem] flex-none snap-start overflow-hidden rounded-[1.75rem] bg-white shadow-[0_14px_34px_-16px_rgba(58,38,32,.35)] ring-1 ring-black/[0.04] sm:w-auto sm:max-w-none"
                 >
                   <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-                    <StepIllustration art={step.art} className="absolute inset-0 h-full w-full" />
+                    <StepIllustration
+                      art={step.art}
+                      repeat={i > 0 && directions.steps[i - 1].art === step.art}
+                      className="absolute inset-0 h-full w-full"
+                    />
                     <span className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-[1.05rem] font-semibold leading-none tracking-[-0.02em] text-[color:var(--aisle-deep)] tabular-nums shadow-sm">
                       {String(i + 1).padStart(2, "0")}
                     </span>

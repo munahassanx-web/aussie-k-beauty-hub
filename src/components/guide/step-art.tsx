@@ -15,6 +15,7 @@ import mask from "@/assets/guide/mask.jpg";
 import timer from "@/assets/guide/timer.jpg";
 import remove from "@/assets/guide/remove.jpg";
 import layer from "@/assets/guide/layer.jpg";
+import cream from "@/assets/guide/cream.jpg";
 
 // Close-up hands-and-textures photos for the "How to use" steps. They show
 // technique only — never results or a specific product.
@@ -37,8 +38,21 @@ const PHOTOS: Record<StepArt, { src: string; alt: string }> = {
   layer: { src: layer, alt: "Light textures layered from thinnest to richest" },
 };
 
-export function StepIllustration({ art, className }: { art: StepArt; className?: string }) {
-  const p = PHOTOS[art];
+// Alternate shot used when the same action appears twice in a row.
+const ALTERNATES: Partial<Record<StepArt, { src: string; alt: string }>> = {
+  spread: { src: cream, alt: "Fingertips gliding cream across the skin" },
+};
+
+export function StepIllustration({
+  art,
+  className,
+  repeat = false,
+}: {
+  art: StepArt;
+  className?: string;
+  repeat?: boolean;
+}) {
+  const p = (repeat && ALTERNATES[art]) || PHOTOS[art];
   return (
     <img
       src={p.src}
