@@ -105,6 +105,12 @@
   --aisle-barrier: #d9c3ae;
   --aisle-cica: #b9c9a7;
   --aisle-honey: #e8c27a;
+  /* Deeper aisle shades for text, numbers and line art on the aisle colour. */
+  --aisle-glass-deep: #b9604c;
+  --aisle-hydration-deep: #2f6f9a;
+  --aisle-barrier-deep: #8a6038;
+  --aisle-cica-deep: #557a3a;
+  --aisle-honey-deep: #a8761a;
   --glaze: #e3a493;          /* Glaze — the one accent */
   --awning: #e6dfd7;         /* Warm pearl — the awning stripe on every page (Muna, 2026-10-12) */
   --awning-light: #ffffff;   /* White — the alternate awning stripe, as on the homepage */
@@ -1246,4 +1252,9 @@
 }
 @media (prefers-reduced-motion: no-preference) {
   .face-map-float { animation: face-map-float 6s ease-in-out infinite; }
+}
+
+/* Lift the chat launcher above a page's sticky shop bar (guide pages). */
+body:has([data-sticky-bar]) .chat-launcher {
+  bottom: calc(env(safe-area-inset-bottom) + 5.5rem);
 }

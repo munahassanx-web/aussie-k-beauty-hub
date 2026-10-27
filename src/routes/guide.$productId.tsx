@@ -3,17 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { fetchAllGuides } from '@/lib/application-guides';
 import { trackGuideView, resolveSource } from '@/lib/guide-analytics';
-import {
-  buildGuide,
-  ROUTINE_LADDER,
-  ladderIndexFor,
-  resolveGuideParam,
-  strictStoredMatch,
-} from '@/lib/guide-content';
-
+import { buildGuide, resolveGuideParam, strictStoredMatch } from '@/lib/guide-content';
 import { productSlug } from '@/lib/product-detail';
-import { productPrice } from '@/lib/shop-catalog';
-import { productSize } from '@/components/product-card';
+import { guideView } from '@/components/guide/guide-data';
+import { GuideLookGlow } from '@/components/guide/guide-look-glow';
+import { GuideLookLab } from '@/components/guide/guide-look-lab';
 
 export const Route = createFileRoute('/guide/$productId')({
   // Legacy QR / price-id links resolve to the canonical, human-readable slug.
@@ -61,6 +55,9 @@ function Label({ children }: { children: React.ReactNode }) {
 function GuidePage() {
   const { productId } = Route.useParams();
   const product = resolveGuideParam(productId);
+  // Design preview: ?look=lab shows option B while Muna chooses.
+  const look =
+    typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('look');
 
   // Optional enrichment: stored brand directions (amount / frequency / tip).
   const { data: stored } = useQuery({
@@ -108,190 +105,6 @@ function GuidePage() {
   // Legacy DB rows may describe products we no longer stock — only an exact
   // brand+name match may enrich a current SKU.
   const match = stored ? strictStoredMatch(product, stored) : null;
-  const guide = buildGuide(product, match);
-
-  const size = productSize(product);
-  const ladderIndex = ladderIndexFor(product);
-  const before = ladderIndex > 0 ? ROUTINE_LADDER[ladderIndex - 1] : undefined;
-  const after =
-    ladderIndex >= 0 && ladderIndex < ROUTINE_LADDER.length - 1
-      ? ROUTINE_LADDER[ladderIndex + 1]
-      : undefined;
-
-  return (
-    <article className="mx-auto max-w-2xl px-6 pb-24 pt-10 sm:pt-14">
-      {/* Identification — the first thing a scanning customer needs. */}
-      <header>
-        <Label>How to apply</Label>
-        <div className="mt-5 flex items-start gap-5">
-          <img
-            src={product.image}
-            alt={`${product.brand} ${product.name}`}
-            width={96}
-            height={96}
-            className="h-24 w-24 flex-none object-contain"
-          />
-          <div className="min-w-0">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              {product.brand}
-            </p>
-            <h1 className="mt-2 font-display text-[1.75rem] leading-[1.15] text-foreground sm:text-4xl">
-              {product.name}
-            </h1>
-            {size && <p className="mt-2 text-sm text-muted-foreground">{size}</p>}
-          </div>
-        </div>
-      </header>
-
-      {/* Where it sits */}
-      <section className="mt-10 border-t border-border pt-8">
-        <Label>Where it sits</Label>
-        <p className="mt-3 font-display text-xl text-foreground">{guide.routineStep}</p>
-        {ladderIndex >= 0 ? (
-          <ol className="mt-5 space-y-0 border-t border-border">
-            {ROUTINE_LADDER.map((step, i) => {
-              const current = i === ladderIndex;
-              return (
-                <li
-                  key={step.category}
-                  className={`flex items-baseline gap-4 border-b border-border py-3 text-sm ${
-                    current ? 'text-foreground' : 'text-muted-foreground'
-                  }`}
-                  aria-current={current ? 'step' : undefined}
-                >
-                  <span className="w-6 text-[11px] tabular-nums">{i + 1}</span>
-                  <span className={current ? 'font-medium' : ''}>{step.label}</span>
-                  {current && (
-                    <span className="ml-auto text-[10px] uppercase tracking-[0.2em] text-primary">
-                      This product
-                    </span>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-        ) : (
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Used as a weekly treatment rather than a fixed daily step — apply after cleansing and
-            toning, before your moisturiser.
-          </p>
-        )}
-        {(before || after) && (
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            Use this toner after cleansing and before serums, treatments and moisturiser. In the
-            morning, finish your routine with an appropriate sunscreen.
-          </p>
-        )}
-      </section>
-
-      {/* Directions */}
-      <section className="mt-10 border-t border-border pt-8">
-        <Label>Application guide</Label>
-        <ol className="mt-5 space-y-5">
-          {guide.steps.map((step, i) => (
-            <li key={step} className="flex gap-4">
-              <span className="font-display text-lg leading-none text-primary tabular-nums">
-                {i + 1}
-              </span>
-              <span className="text-base leading-relaxed text-foreground/90">{step}</span>
-            </li>
-          ))}
-        </ol>
-
-        {product.category === 'Tone' && (
-          <div className="mt-8">
-            <h3 className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-              Hands or cotton pad?
-            </h3>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl border border-border p-5">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
-                  Clean hands
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/85">
-                  Press and pat the toner gently across the skin.
-                </p>
-              </div>
-              <div className="rounded-2xl border border-border p-5">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
-                  Cotton pad
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/85">
-                  Saturate the pad sufficiently and sweep it gently across the skin without
-                  scrubbing.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <p className="mt-8 text-sm leading-relaxed text-muted-foreground">
-          This guide provides general cosmetic-use guidance based on the product type and currently
-          available product information. Always follow the directions and warnings printed on the
-          product packaging received. Introduce new products gradually and stop use if significant
-          irritation develops.
-        </p>
-
-        {(guide.amountToUse || guide.frequency) && (
-          <dl className="mt-8 border-t border-border">
-            {guide.amountToUse && (
-              <div className="grid gap-1 border-b border-border py-4 sm:grid-cols-[140px_1fr] sm:gap-6">
-                <dt className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                  Amount
-                </dt>
-                <dd className="text-base text-foreground">{guide.amountToUse}</dd>
-              </div>
-            )}
-            {guide.frequency && (
-              <div className="grid gap-1 border-b border-border py-4 sm:grid-cols-[140px_1fr] sm:gap-6">
-                <dt className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                  When
-                </dt>
-                <dd className="text-base text-foreground">{guide.frequency}</dd>
-              </div>
-            )}
-          </dl>
-        )}
-
-        {guide.proTip && (
-          <div className="mt-8 border-l-2 border-primary pl-5">
-            <Label>Note</Label>
-            <p className="mt-2 text-base leading-relaxed text-foreground/90">{guide.proTip}</p>
-          </div>
-        )}
-      </section>
-
-      {/* Product details */}
-      <section className="mt-10 border-t border-border pt-8">
-        <Label>Full product details</Label>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          For the full ingredient list, formula explanation, suitability guidance, price and
-          purchasing information, return to the product page.
-        </p>
-        <Link
-          to="/product/$slug"
-          params={{ slug: guide.slug }}
-          className="mt-5 inline-flex border border-border px-6 py-3 text-xs uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary rounded-full"
-        >
-          {`View product — A$${productPrice(product)}`}
-        </Link>
-      </section>
-
-      {/* Sourcing — informational only, no verification claim */}
-      <section className="mt-10 border-t border-border pt-8">
-        <Label>Sourcing</Label>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          Skin Grocer sources through established Korean wholesale supply partners and locally stocks
-          products in Melbourne. Incoming stock is documented through our batch-verification
-          process.
-        </p>
-        <Link
-          to="/verify/sample"
-          className="mt-4 inline-flex text-xs font-medium uppercase tracking-wider text-primary hover:underline"
-        >
-          View a sample verification record →
-        </Link>
-      </section>
-    </article>
-  );
+  const view = guideView(product, buildGuide(product, match));
+  return look === 'lab' ? <GuideLookLab view={view} /> : <GuideLookGlow view={view} />;
 }
