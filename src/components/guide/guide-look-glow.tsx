@@ -167,17 +167,15 @@ export function GuideLookGlow({ view, soldOut }: { view: GuideView; soldOut: str
                   key={step.text}
                   className="w-[80%] max-w-[20rem] flex-none snap-start overflow-hidden rounded-[1.75rem] bg-white shadow-[0_14px_34px_-16px_rgba(58,38,32,.35)] ring-1 ring-black/[0.04] sm:w-auto sm:max-w-none"
                 >
-                  <div
-                    className="relative flex aspect-[5/4] items-center justify-center"
-                    style={{
-                      background:
-                        "radial-gradient(75% 70% at 50% 45%, #fff 0%, color-mix(in oklab, var(--aisle) 45%, white) 100%)",
-                    }}
-                  >
-                    <span className="absolute left-4 top-3 text-[2.6rem] font-light leading-none tracking-[-0.04em] text-[color:var(--aisle-deep)] tabular-nums">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                    <StepIllustration
+                      art={step.art}
+                      repeat={i > 0 && directions.steps[i - 1].art === step.art}
+                      className="absolute inset-0 h-full w-full"
+                    />
+                    <span className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-[1.05rem] font-semibold leading-none tracking-[-0.02em] text-[color:var(--aisle-deep)] tabular-nums shadow-sm">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <StepIllustration art={step.art} className="h-[62%] w-auto" />
                   </div>
                   <div className="p-5">
                     <h3 className="text-[1.15rem] font-semibold leading-snug text-ink">
@@ -316,7 +314,7 @@ export function GuideLookGlow({ view, soldOut }: { view: GuideView; soldOut: str
                 key={o.title}
                 className="rounded-3xl bg-[color:color-mix(in_oklab,var(--aisle)_35%,white)] p-4"
               >
-                <StepIllustration art={o.art} className="h-16 w-16" />
+                <StepIllustration art={o.art} className="aspect-[4/3] w-full rounded-2xl" />
                 <p className="mt-2 text-[15px] font-semibold text-ink">{o.title}</p>
                 <p className="mt-1 text-[13px] leading-relaxed text-ink/75">{o.text}</p>
               </div>
