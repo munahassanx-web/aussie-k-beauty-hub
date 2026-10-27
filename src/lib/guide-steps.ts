@@ -3,7 +3,7 @@
 // directions becomes one step, and only a short label and a picture are added.
 
 import type { ShopProduct } from "@/lib/shop-catalog";
-import { howToUse, productSlug, supplyRestricted } from "@/lib/product-detail";
+import { howToUse, productSlug, productTexture, supplyRestricted } from "@/lib/product-detail";
 import { applicationForSlug } from "@/lib/product-application-data";
 import { AISLES, aisleFor, type Aisle } from "@/lib/aisles";
 import { contentInPreparation } from "@/lib/shop-catalog";
@@ -111,7 +111,7 @@ export function guideDirections(p: ShopProduct): GuideDirections {
       !/\b(?:pad|cotton|eye|eyes)\b/i.test(sourceText)) {
     const sequence: GuideSequence = p.category !== "Moisturise"
       ? "liquid"
-      : /\b(?:gel|jelly)\b/i.test(p.texture ?? "") ? "gel" : "cream";
+      : /\b(?:gel|jelly)\b/i.test(productTexture(p) ?? "") ? "gel" : "cream";
     const pat = /\b(?:pat|press|tap)\b/i.test(sourceText);
     return {
       fromBrand: Boolean(brand?.steps.length),
