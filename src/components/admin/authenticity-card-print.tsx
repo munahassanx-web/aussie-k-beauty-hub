@@ -1,12 +1,23 @@
 import { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 
+export type CardPrintFormat = 'card' | 'sticker';
+
 /**
- * Print-ready physical insert (approx. 90 × 120mm card stock). Hidden on
+ * Print-ready physical insert (approx. 90 × 120mm card stock), or a 30mm QR
+ * sticker for the pre-printed premium-box authenticity card. Hidden on
  * screen, revealed only for print. Copy is deliberately limited to claims the
  * verification record can substantiate.
  */
-export function AuthenticityCardPrint({ cardRef, verifyUrl }: { cardRef: string; verifyUrl: string }) {
+export function AuthenticityCardPrint({
+  cardRef,
+  verifyUrl,
+  format = 'card',
+}: {
+  cardRef: string;
+  verifyUrl: string;
+  format?: CardPrintFormat;
+}) {
   const [qr, setQr] = useState<string | null>(null);
 
   useEffect(() => {
@@ -24,6 +35,23 @@ export function AuthenticityCardPrint({ cardRef, verifyUrl }: { cardRef: string;
       cancelled = true;
     };
   }, [verifyUrl]);
+
+  if (format === 'sticker') {
+    // Sits in the 30mm window on the premium A6 card. The QR alone stays
+    // scannable at this size; the reference lets staff match it to the order.
+    return (
+      <div id="authenticity-card" className="hidden print:block print:text-black">
+        <div className="flex h-[30mm] w-[30mm] flex-col items-center justify-center bg-white">
+          {qr ? (
+            <img src={qr} alt="" className="h-[25mm] w-[25mm]" />
+          ) : (
+            <div className="h-[25mm] w-[25mm] border border-black/30" />
+          )}
+          <p className="mt-[0.5mm] font-mono text-[6pt] tracking-[0.1em]">{cardRef}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div id="authenticity-card" className="hidden print:block print:text-black">

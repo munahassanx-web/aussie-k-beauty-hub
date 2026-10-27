@@ -134,7 +134,12 @@ function VerifyPage() {
                   {item.productCondition && <Detail label="Product condition" value={item.productCondition} />}
                   <Detail label="Final verification status" value={item.verificationStatus} />
                 </dl>
-                <Link to="/contact" search={{ verification: record.cardRef, product: `${item.brand ? `${item.brand} ` : ''}${item.productName}` }} className="mt-4 inline-flex min-h-11 items-center text-sm font-medium text-foreground underline underline-offset-4 hover:text-primary">Report a concern about this product</Link>
+                <div className="mt-4 flex flex-wrap gap-x-6">
+                  {item.guidePath && (
+                    <a href={`${item.guidePath}?src=qr`} className="inline-flex min-h-11 items-center text-sm font-medium text-foreground underline underline-offset-4 hover:text-primary">How to use this product</a>
+                  )}
+                  <Link to="/contact" search={{ verification: record.cardRef, product: `${item.brand ? `${item.brand} ` : ''}${item.productName}` }} className="inline-flex min-h-11 items-center text-sm text-muted-foreground underline underline-offset-4 hover:text-primary">Report a concern about this product</Link>
+                </div>
               </article>
             ))}
           </div>

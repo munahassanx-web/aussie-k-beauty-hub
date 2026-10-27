@@ -28,6 +28,8 @@ export type PublicCardItem = {
   packagingSealStatus: string | null;
   productCondition: string | null;
   verificationStatus: 'Checked before dispatch';
+  /** Public "how to apply" guide for this product, when it is in the catalog. */
+  guidePath: string | null;
 };
 
 export type PublicVerification =
@@ -311,7 +313,7 @@ export const getVerificationRecord = createServerFn({ method: 'POST' })
     const [{ data: items }, { data: order }] = await Promise.all([
       supabaseAdmin
         .from('authenticity_card_items')
-        .select('product_name, brand, size, quantity, supplier, received_in_melbourne_on, checked_on, batch_code, printed_date_type, printed_date, packaging_seal_status, product_condition, verification_status, position')
+        .select('product_name, brand, sku, size, quantity, supplier, received_in_melbourne_on, checked_on, batch_code, printed_date_type, printed_date, packaging_seal_status, product_condition, verification_status, position')
         .eq('card_id', card.id)
         .order('position', { ascending: true }),
       supabaseAdmin.from('orders').select('dispatched_at, shipped_at').eq('id', card.order_id).maybeSingle(),
@@ -321,6 +323,13 @@ export const getVerificationRecord = createServerFn({ method: 'POST' })
     // SSR and can run again on client navigation, which double-counted a single
     // visit. The page records exactly one scan via recordVerificationScan.
 
+
+    const { SHOP_PRODUCTS } = await import('@/lib/shop-catalog');
+    const { guideUrlFor } = await import('@/lib/guide-content');
+    const guideFor = (sku: string | null) => {
+      const product = sku ? SHOP_PRODUCTS.find((p) => p.priceId === sku) : undefined;
+      return product ? guideUrlFor(product) : null;
+    };
 
     const checklist = (card.checklist ?? {}) as Record<string, boolean>;
     const checks = [...REQUIRED_CHECKS, ...OPTIONAL_CHECKS]
@@ -350,6 +359,7 @@ export const getVerificationRecord = createServerFn({ method: 'POST' })
         packagingSealStatus: i.packaging_seal_status,
         productCondition: i.product_condition,
         verificationStatus: i.verification_status,
+        guidePath: guideFor(i.sku ?? null),
       })),
       checks,
     };
