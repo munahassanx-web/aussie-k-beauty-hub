@@ -7,6 +7,8 @@ import { ladderIndexFor, matchProductByReference } from '@/lib/guide-content';
 import { productSlug } from '@/lib/product-detail';
 import { trackOnce, centsToAud } from '@/lib/analytics';
 import { orderReference } from '@/lib/order-reference';
+import { clearInvite } from '@/lib/referral-invite';
+import { FRIEND_DISCOUNT_LABEL } from '@/lib/referrals';
 
 
 export const Route = createFileRoute('/checkout/return')({
@@ -60,6 +62,11 @@ function CheckoutReturn() {
   // purchase — fires only once a paid receipt is confirmed by the webhook, and
   // at most once per order for this browser session (refresh-safe). No customer
   // name, email or address is included.
+  // A paid order means any invite has been used (or no longer applies).
+  useEffect(() => {
+    if (receipt?.status === 'paid') clearInvite();
+  }, [receipt]);
+
   useEffect(() => {
     if (!receipt || receipt.status !== 'paid') return;
     const orderId = receipt.orderId;
@@ -163,7 +170,7 @@ function CheckoutReturn() {
               )}
               {receipt.discountCents > 0 && (
                 <div className="flex justify-between text-muted-foreground">
-                  <span>Points reward</span>
+                  <span>{receipt.pointsRedeemed > 0 ? 'Points reward' : 'Discount'}</span>
                   <span>−{formatAud(receipt.discountCents)}</span>
                 </div>
               )}
@@ -253,6 +260,23 @@ function CheckoutReturn() {
         </ol>
       </section>
 
+
+      {user && (
+        <section className="mt-8 rounded-[1.75rem] border border-border bg-blush/35 p-6">
+          <h2 className="text-xl font-light text-foreground">Give {FRIEND_DISCOUNT_LABEL}, get {FRIEND_DISCOUNT_LABEL}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            Share your invite link. Your friend gets {FRIEND_DISCOUNT_LABEL} off their first order, and you get{' '}
+            {FRIEND_DISCOUNT_LABEL} off your next one once theirs is paid.
+          </p>
+          <Link
+            to="/account"
+            hash="refer"
+            className="mt-5 inline-flex rounded-full border border-border bg-background px-6 py-3 text-xs uppercase tracking-[0.16em] text-foreground transition hover:bg-secondary"
+          >
+            Get your invite link
+          </Link>
+        </section>
+      )}
 
       {!user && (
         <section className="mt-8 rounded-[1.75rem] border border-border p-6">

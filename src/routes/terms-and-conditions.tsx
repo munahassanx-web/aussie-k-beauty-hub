@@ -142,6 +142,22 @@ function TermsAndConditions() {
           </p>
         </section>
 
+        <section id="refer-a-friend" className="scroll-mt-24">
+          <h2 className="font-display text-2xl text-foreground">11. Refer a friend</h2>
+          <p className="mt-3 text-muted-foreground">
+            Account holders can share a personal invite link. A friend who uses it gets A$10 off their first Skin Grocer
+            order when the products in that order come to A$40 or more before delivery. It applies once per customer, to
+            one-off orders only (not Restock subscriptions), and can’t be used with your own link or email address.
+          </p>
+          <p className="mt-3 text-muted-foreground">
+            When your friend’s order is paid, you receive A$10 credit, which comes off your next one-off order
+            automatically. Credit has no cash value, can’t be transferred, and won’t take an order below A$1. If your
+            friend’s order is fully refunded before you use the credit, the credit is removed; if an order you used
+            credit on is fully refunded, the credit is returned to you. We may decline or remove rewards gained through
+            misuse, such as duplicate accounts, and may change or end the offer, but rewards already earned stay valid.
+          </p>
+        </section>
+
         <section>
           <h2 className="font-display text-2xl text-foreground">12. Your use of this site</h2>
           <p className="mt-3 text-muted-foreground">

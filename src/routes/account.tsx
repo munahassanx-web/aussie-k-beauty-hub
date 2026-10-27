@@ -16,6 +16,7 @@ import {
 import { formatAud } from '@/lib/cart';
 import { productSlug } from '@/lib/product-detail';
 import { SignedOutPanel, AccountError } from '@/components/account-gate';
+import { ReferAFriendCard } from '@/components/refer-a-friend-card';
 
 export const Route = createFileRoute('/account')({
   head: () => ({
@@ -168,6 +169,8 @@ function AccountPage() {
               </ul>
             </section>
           )}
+
+          <ReferAFriendCard userId={user.id} />
 
           {/* Order history — never fabricated; only rows the webhook wrote. */}
           <section className="mt-14 border-t border-border pt-8" aria-labelledby="orders-heading">

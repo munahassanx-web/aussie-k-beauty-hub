@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { type StripeEnv, createStripeClient, verifyWebhook } from '@/lib/stripe.server';
 import { errorCommerce, logCommerce, maskEmail, newTraceId, shortId, since, warnCommerce } from '@/lib/commerce-log';
 import { dispatchOrderNotification } from '@/lib/email/notifications.server';
+import { reverseReferralsForRefund, settleReferralsForPaidOrder } from '@/lib/referrals.server';
 
 let _supabase: any = null;
 function getSupabase(): any {
@@ -377,6 +378,21 @@ async function handleCheckoutSession(session: any, env: StripeEnv, paid: boolean
       errorCommerce('webhook', 'points.ledger_failed', e, { orderId: order.id });
     }
   }
+
+  if (paid && (session.metadata?.referrerId || session.metadata?.referralCreditIds)) {
+    try {
+      const outcome = await settleReferralsForPaidOrder(supabase, {
+        orderId: order.id,
+        env,
+        buyerUserId: userId,
+        buyerEmail: guestEmail,
+        metadata: session.metadata,
+      });
+      logCommerce('referral', 'settled', { orderId: order.id, ...outcome });
+    } catch (e) {
+      errorCommerce('webhook', 'referral.settle_failed', e, { orderId: order.id });
+    }
+  }
 }
 
 
@@ -428,6 +444,14 @@ async function handleChargeRefunded(charge: any, env: StripeEnv) {
   }
 
   logCommerce('webhook', 'refund.recorded', { orderId: order.id, refundedCents, full, env });
+
+  if (full) {
+    try {
+      await reverseReferralsForRefund(supabase, order.id);
+    } catch (e) {
+      errorCommerce('webhook', 'referral.reverse_failed', e, { orderId: order.id });
+    }
+  }
 
   try {
     const outcome = await dispatchOrderNotification(supabase, order.id, 'cancellation');

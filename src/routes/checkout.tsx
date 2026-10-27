@@ -9,6 +9,15 @@ import { useCart, formatAud, FLAT_SHIPPING_CENTS, FREE_SHIPPING_THRESHOLD_CENTS 
 import { createCartCheckout, createGuestCartCheckout } from '@/lib/commerce.functions';
 import { track, centsToAud } from '@/lib/analytics';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
+import { useQuery } from '@tanstack/react-query';
+import { previewCheckoutReferral } from '@/lib/referrals.functions';
+import { readInvite } from '@/lib/referral-invite';
+import {
+  FRIEND_DISCOUNT_LABEL,
+  FRIEND_MIN_SUBTOTAL_CENTS,
+  FRIEND_MIN_SUBTOTAL_LABEL,
+  friendDiscountFor,
+} from '@/lib/referrals';
 
 export const Route = createFileRoute('/checkout')({
   head: () => ({
@@ -34,6 +43,11 @@ function Checkout() {
   const [guestMode, setGuestMode] = useState(false);
   const [guestEmail, setGuestEmail] = useState('');
   const [summaryOpen, setSummaryOpen] = useState(false);
+  const [inviteCode, setInviteCode] = useState<string | null>(null);
+
+  useEffect(() => {
+    setInviteCode(readInvite());
+  }, []);
 
   // Restore a previously typed guest email if the customer bounced back.
   useEffect(() => {
@@ -47,7 +61,30 @@ function Checkout() {
 
   const hasSubscription = cart.lines.some((l) => l.recurring);
   const shippingCents = cart.shippingCents;
-  const grandTotal = Math.max(0, cart.subtotalCents + shippingCents);
+
+  // Signed in: the server says exactly what applies. Guests see the invite
+  // as provisional, because first-order status is checked at payment.
+  const referralPreview = useQuery({
+    queryKey: ['checkout-referral', user?.id, inviteCode, cart.subtotalCents],
+    queryFn: () =>
+      previewCheckoutReferral({
+        data: { code: inviteCode, subtotalCents: cart.subtotalCents, environment: getStripeEnvironment() },
+      }),
+    enabled: Boolean(user) && !hasSubscription && cart.subtotalCents > 0,
+  });
+  const friendDiscountCents = hasSubscription
+    ? 0
+    : user
+      ? (referralPreview.data?.friendDiscountCents ?? 0)
+      : inviteCode
+        ? friendDiscountFor(cart.subtotalCents)
+        : 0;
+  const creditCents = hasSubscription ? 0 : (referralPreview.data?.creditCents ?? 0);
+  const inviteBelowMinimum =
+    Boolean(inviteCode) && !hasSubscription && cart.subtotalCents < FRIEND_MIN_SUBTOTAL_CENTS;
+  const inviteNotApplicable =
+    referralPreview.data?.friendReason === 'not_first_order' || referralPreview.data?.friendReason === 'own_code';
+  const grandTotal = Math.max(0, cart.subtotalCents + shippingCents - friendDiscountCents - creditCents);
 
   const fetchClientSecret = async (): Promise<string> => {
     const returnUrl = `${window.location.origin}/checkout/return?session_id={CHECKOUT_SESSION_ID}`;
@@ -69,10 +106,16 @@ function Checkout() {
     );
     const result = user
       ? await createCartCheckout({
-          data: { items, redeemPoints: 0, environment: getStripeEnvironment(), returnUrl },
+          data: { items, redeemPoints: 0, referralCode: inviteCode, environment: getStripeEnvironment(), returnUrl },
         })
       : await createGuestCartCheckout({
-          data: { items, email: guestEmail.trim(), environment: getStripeEnvironment(), returnUrl },
+          data: {
+            items,
+            email: guestEmail.trim(),
+            referralCode: inviteCode,
+            environment: getStripeEnvironment(),
+            returnUrl,
+          },
         });
     if ('error' in result) {
       console.error('[commerce] ' + JSON.stringify({ scope: 'cart', event: 'checkout.failed', error: result.error }));
@@ -174,6 +217,21 @@ function Checkout() {
             <span>Free</span>
           </div>
         )}
+        {friendDiscountCents > 0 && (
+          <div className="flex justify-between text-foreground">
+            <span>
+              Friend’s invite
+              {!user && <span className="block text-[11px] text-muted-foreground">First orders only, confirmed at payment</span>}
+            </span>
+            <span>−{formatAud(friendDiscountCents)}</span>
+          </div>
+        )}
+        {creditCents > 0 && (
+          <div className="flex justify-between text-foreground">
+            <span>Referral credit</span>
+            <span>−{formatAud(creditCents)}</span>
+          </div>
+        )}
         <div className="flex justify-between text-muted-foreground">
           <span>Standard shipping</span>
           <span>
@@ -188,6 +246,19 @@ function Checkout() {
           Includes GST. Your final total is confirmed before you pay.
         </p>
       </div>
+      {inviteBelowMinimum && (
+        <p className="mt-3 text-[11px] text-muted-foreground">
+          Add {formatAud(FRIEND_MIN_SUBTOTAL_CENTS - cart.subtotalCents)} more to use your friend’s{' '}
+          {FRIEND_DISCOUNT_LABEL} off (orders of {FRIEND_MIN_SUBTOTAL_LABEL} or more).
+        </p>
+      )}
+      {inviteNotApplicable && (
+        <p className="mt-3 text-[11px] text-muted-foreground">
+          {referralPreview.data?.friendReason === 'own_code'
+            ? 'Your own invite link can’t be used on your order. Share it with a friend instead.'
+            : 'Your friend’s invite is for first orders, so it doesn’t apply to this account.'}
+        </p>
+      )}
       {!cart.hasSubscription && !qualifiesForFreeGift(cart.subtotalCents) && (
         <p className="mt-3 text-[11px] text-muted-foreground">
           Add {formatAud(FREE_GIFT_THRESHOLD_CENTS - cart.subtotalCents)} more for a free K-beauty sample.
