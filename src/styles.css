@@ -1300,10 +1300,12 @@ body:has([data-sticky-bar]) .chat-launcher {
 }
 
 /* "The Grocer Stripe" identity (owner choice, 2026-11-06): navy, cream and
-   soft silver on every page, overriding the earlier warm and neutral trials. */
+   soft silver on every page, overriding the earlier warm and neutral trials.
+   Owner follow-up (2026-11-06): page background back to white, the awning's
+   light sweep restored, and the black top bar's champagne gold restored. */
 :root,
 :root:has([data-homepage-neutral]) {
-  --paper: #f2ede7;
+  --paper: #ffffff;
   --sand: #ebe4dc;
   --sand-deep: #d5c8b9;
   --clay: #5b6470;
@@ -1317,7 +1319,6 @@ body:has([data-sticky-bar]) .chat-launcher {
   --logo-dot: #c9cec2;
   --logo-icon: #141f2c;
   --logo-ink: #f2ede7;
-  --signal: #d5c8b9;
+  --signal: #e2c58f;
 }
 :root:has([data-homepage-neutral]) header .sg-awning { background-color: var(--paper); }
-.sg-awning::after { display: none; }
