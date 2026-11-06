@@ -182,11 +182,13 @@ function ReviewForm({
   productName,
   brand,
   onDone,
+  onCancel,
 }: {
   productId: string;
   productName: string;
   brand: string;
   onDone: () => void;
+  onCancel: () => void;
 }) {
   const send = useServerFn(submitReview);
   const [rating, setRating] = useState(5);
@@ -360,7 +362,7 @@ function ReviewForm({
         >
           {submit.isPending ? 'Submitting…' : 'Submit review'}
         </button>
-        <button type="button" onClick={onDone} className="text-sm text-muted-foreground underline">
+        <button type="button" onClick={onCancel} className="text-sm text-muted-foreground underline">
           Cancel
         </button>
       </div>
@@ -475,6 +477,10 @@ export function WriteReview({
       productId={productId}
       productName={productName}
       brand={brand}
+      onCancel={() => {
+        if (startOpen && typeof window !== 'undefined') window.history.back();
+        else setOpen(false);
+      }}
       onDone={() => {
         setOpen(false);
         setSubmitted(true);
