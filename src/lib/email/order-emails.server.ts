@@ -265,6 +265,21 @@ function masthead(headline: string, statement: string, standfirst: string): stri
   </table>`;
 }
 
+/**
+ * The Grocer Stripe: navy-and-cream signature edge (order confirmation).
+ * Built from table cells, not images or gradients, so it renders in every
+ * email client and on mobile.
+ */
+const STRIPE_NAVY = '#141F2C';
+const STRIPE_CREAM = '#F2EDE7';
+function grocerStripe(height = 14): string {
+  const cells = Array.from({ length: 31 }, (_, i) => {
+    const c = i % 2 === 0 ? STRIPE_NAVY : STRIPE_CREAM;
+    return `<td bgcolor="${c}" style="background-color:${c};height:${height}px;line-height:${height}px;font-size:0;">&nbsp;</td>`;
+  }).join('');
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="table-layout:fixed;"><tr>${cells}</tr></table>`;
+}
+
 /* ---------------------------------------------------------------- shell -- */
 
 /**
@@ -553,9 +568,10 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
     `Order ${ref} confirmed`,
     `Order ${ref} — payment received. We are preparing your selection.`,
     `
+    ${grocerStripe()}
     ${masthead(
-      first ? `Thank you, ${first}.` : 'Thank you for your order.',
-      'Your order is confirmed.',
+      first ? `Thank you, ${first}.` : 'Thank you.',
+      'Your selection is confirmed.',
       `Your payment has been received and we&rsquo;re preparing your selection. Order <span style="color:${INK};">${ref}</span> was placed on ${esc(
         placed,
       )}; a further email will follow with carrier and tracking details once it is dispatched.`,
@@ -592,6 +608,7 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
       </p>
       ${gap(34)}
     `)}
+    ${grocerStripe(10)}
     ${footerBlock()}
   `,
   );
@@ -599,7 +616,7 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
   const text = [
     'SKIN GROCER — Inner Beauty',
     '',
-    first ? `Thank you, ${first}. Your order is confirmed.` : 'Thank you for your order. Your order is confirmed.',
+    first ? `Thank you, ${first}. Your selection is confirmed.` : 'Thank you. Your selection is confirmed.',
     "Your payment has been received and we're preparing your selection.",
     '',
     `Order ${ref} · placed ${placed}`,
