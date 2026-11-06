@@ -940,7 +940,7 @@ function ProductPage() {
       {/* Reviews only exist for products people can actually buy — never on
           Coming Soon or otherwise unavailable SKUs. */}
       {!restricted && availableToPurchase && (
-        <ProductReviews productId={product.priceId} productName={product.name} brand={product.brand} />
+        <ProductReviews slug={slug} productId={product.priceId} productName={product.name} brand={product.brand} />
       )}
 
       {/* Complete your routine — at most three products, one per routine step. */}

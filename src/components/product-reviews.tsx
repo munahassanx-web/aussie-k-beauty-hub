@@ -373,7 +373,11 @@ export function WriteReview({
   productName,
   brand,
   startOpen = false,
+  slug,
+  onSubmitted,
 }: {
+  slug?: string;
+  onSubmitted?: () => void;
   productId: string;
   productName: string;
   brand: string;
@@ -442,6 +446,18 @@ export function WriteReview({
     );
   }
 
+  if (!open && slug) {
+    return (
+      <Link
+        to="/product/$slug/review"
+        params={{ slug }}
+        className="mt-5 inline-block rounded-full border border-border px-5 py-2.5 text-sm font-medium text-foreground hover:bg-secondary"
+      >
+        Write a review with photos
+      </Link>
+    );
+  }
+
   if (!open) {
     return (
       <button
@@ -462,6 +478,7 @@ export function WriteReview({
       onDone={() => {
         setOpen(false);
         setSubmitted(true);
+        onSubmitted?.();
         void qc.invalidateQueries({ queryKey: ['review-eligibility', productId, user?.id] });
       }}
     />
@@ -491,7 +508,9 @@ export function ProductReviews({
   productId,
   productName = '',
   brand = '',
+  slug,
 }: {
+  slug?: string;
   productId: string;
   productName?: string;
   brand?: string;
@@ -630,7 +649,7 @@ export function ProductReviews({
         </>
       )}
 
-      <WriteReview productId={productId} productName={productName} brand={brand} />
+      <WriteReview productId={productId} productName={productName} brand={brand} slug={slug} />
     </section>
   );
 }
