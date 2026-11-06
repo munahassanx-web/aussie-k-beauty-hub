@@ -5,6 +5,7 @@ import { productSlug } from "@/lib/product-detail";
 import { newsletterIssues } from "@/lib/newsletter-issues";
 import { learnArticles } from "@/lib/learn-articles";
 import { ingredientSlug } from "@/lib/product-catalog";
+import { BRANDS } from "@/lib/brand-pages";
 
 const BASE_URL = "https://skingrocer.com.au";
 
@@ -117,6 +118,12 @@ export const Route = createFileRoute("/sitemap.xml")({
           changefreq: "monthly",
         }));
 
+        const brandEntries: Entry[] = BRANDS.map((b) => ({
+          path: `/brands/${b.slug}`,
+          priority: "0.7",
+          changefreq: "weekly",
+        }));
+
         const [dbIssues, ingredients] = await Promise.all([
           publishedIssueEntries(),
           ingredientEntries(),
@@ -124,6 +131,7 @@ export const Route = createFileRoute("/sitemap.xml")({
 
         const entries = dedupe([
           ...STATIC_ENTRIES,
+          ...brandEntries,
           ...productEntries,
           ...guideEntries,
           ...dbIssues,

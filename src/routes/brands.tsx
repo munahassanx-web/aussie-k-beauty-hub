@@ -6,6 +6,7 @@ import splashCream from "@/assets/brand-splash/cream.webp";
 import splashGel from "@/assets/brand-splash/gel.webp";
 import splashOil from "@/assets/brand-splash/oil.webp";
 import { BrandMarquee } from "@/components/brand-cabinet";
+import { brandSlug } from "@/lib/brand-pages";
 
 export const Route = createFileRoute("/brands")({
   head: () => ({
@@ -141,8 +142,8 @@ function BrandsPage() {
           const count = countFor(b.name);
           return (
             <Link
-              to="/shop"
-              search={{ brand: b.name }}
+              to="/brands/$brand"
+              params={{ brand: brandSlug(b.name) }}
               key={b.name}
               className="sg-stage group relative flex aspect-[4/5] flex-col overflow-hidden rounded-[1.75rem] p-6 ring-1 ring-white/70 shadow-[0_28px_60px_-44px_rgba(58,38,32,0.55)] transition-transform duration-500 hover:-translate-y-1"
             >
