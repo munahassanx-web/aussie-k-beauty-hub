@@ -21,14 +21,14 @@ export function BrandWordmark({
 }) {
   const height =
     size === "display"
-      ? "h-[30px] sm:h-[38px] md:h-[46px]"
+      ? "h-[34px] sm:h-[52px] md:h-[62px]"
       : size === "xl"
-        ? "h-[36px] md:h-[44px]"
+        ? "h-[42px] md:h-[52px]"
         : size === "lg"
-          ? "h-[28px] md:h-[34px]"
+          ? "h-[32px] md:h-[40px]"
           : size === "sm"
-            ? "h-[24px]"
-            : "h-[26px] md:h-[30px]";
+            ? "h-[30px]"
+            : "h-[32px] md:h-[38px]";
   // Bilingual logo (serif name + vertical 스킨그로서). Drawn as a mask so it
   // takes the current text colour on light and dark surfaces.
   return (
