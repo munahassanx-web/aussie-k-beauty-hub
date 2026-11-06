@@ -1322,3 +1322,34 @@ body:has([data-sticky-bar]) .chat-launcher {
   --signal: #e2c58f;
 }
 :root:has([data-homepage-neutral]) header .sg-awning { background-color: var(--paper); }
+
+/* The header slogan line: navy letters with a miniature grocer stripe on
+   either side (navy + soft silver, so it stays visible on white). */
+.sg-tagline {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.sg-stripe-chip {
+  display: inline-block;
+  width: 18px;
+  height: 5px;
+  flex: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--awning) 0 4px,
+    var(--glaze) 4px 8px
+  );
+}
+@media (min-width: 640px) {
+  .sg-tagline {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+  }
+  .sg-stripe-chip {
+    width: 30px;
+    height: 7px;
+  }
+}

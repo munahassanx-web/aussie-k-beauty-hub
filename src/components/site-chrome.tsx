@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/lib/cart";
 import { ProductSearchOverlay } from "@/components/product-search";
-import { BrandWordmark, BrandLine } from "@/components/brand-wordmark";
+import { BrandWordmark, BrandLine, BrandTagline } from "@/components/brand-wordmark";
 import { BrandBand } from "@/components/brand-band";
 import { findProductBySlug } from "@/lib/product-detail";
 import { supplierMatchPending } from "@/lib/shop-catalog";
@@ -365,6 +365,7 @@ export function SiteHeader() {
                 onMouseEnter={() => setOpenMenu(null)}
               >
                 <BrandWordmark size="display" sub className="text-foreground" />
+                <BrandTagline className="mt-1.5 text-foreground sm:mt-2" />
               </Link>
 
               <div className="absolute right-0 top-1 flex items-center gap-1 sm:gap-3 md:top-1/2 md:-translate-y-1/2">

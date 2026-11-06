@@ -72,6 +72,21 @@ export function BrandIcon({ className = "" }: { className?: string }) {
   );
 }
 
+/**
+ * The brand slogan, "Seoul Sourced. Skin Assured.", flanked by miniature
+ * grocer stripes (navy + soft silver) so it reads as part of the stripe
+ * signature rather than a bolted-on tagline.
+ */
+export function BrandTagline({ className = "" }: { className?: string }) {
+  return (
+    <span className={`flex items-center justify-center gap-2 sm:gap-3 ${className}`}>
+      <span aria-hidden="true" className="sg-stripe-chip" />
+      <span className="sg-tagline">Seoul Sourced. Skin Assured.</span>
+      <span aria-hidden="true" className="sg-stripe-chip" />
+    </span>
+  );
+}
+
 /** Supporting brand line — use selectively, never bolted onto every wordmark. */
 export function BrandLine({ className = "" }: { className?: string }) {
   return (
