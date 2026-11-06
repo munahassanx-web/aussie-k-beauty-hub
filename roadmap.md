@@ -95,3 +95,5 @@
 - [x] Check every available guide and add application, smoothing/patting and finished-appearance visuals as appropriate
 - [x] Preserve exact product directions and cleanser/mask-specific actions
 - [x] Verify Torriden cream and catalogue-wide guide coverage
+
+- [ ] Review owner colour/design reference and explain how to apply it
