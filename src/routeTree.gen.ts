@@ -40,6 +40,7 @@ import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminSignalsRouteImport } from './routes/admin.signals'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as BrandsBrandRouteImport } from './routes/brands_.$brand'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as GroceryListIndexRouteImport } from './routes/grocery-list.index'
 import { Route as GroceryListSlugRouteImport } from './routes/grocery-list.$slug'
@@ -225,6 +226,11 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BrandsBrandRoute = BrandsBrandRouteImport.update({
+  id: '/brands_/$brand',
+  path: '/brands/$brand',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
   id: '/return',
   path: '/return',
@@ -404,6 +410,7 @@ export interface FileRoutesByFullPath {
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/brands/$brand': typeof BrandsBrandRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
@@ -466,6 +473,7 @@ export interface FileRoutesByTo {
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/brands/$brand': typeof BrandsBrandRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
@@ -529,6 +537,7 @@ export interface FileRoutesById {
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/signals': typeof AdminSignalsRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/brands_/$brand': typeof BrandsBrandRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/grocery-list/$slug': typeof GroceryListSlugRoute
   '/guide/$productId': typeof GuideProductIdRoute
@@ -593,6 +602,7 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/admin/signals'
     | '/blog/$slug'
+    | '/brands/$brand'
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
@@ -655,6 +665,7 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/admin/signals'
     | '/blog/$slug'
+    | '/brands/$brand'
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
@@ -717,6 +728,7 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/admin/signals'
     | '/blog/$slug'
+    | '/brands_/$brand'
     | '/checkout/return'
     | '/grocery-list/$slug'
     | '/guide/$productId'
@@ -780,6 +792,7 @@ export interface RootRouteChildren {
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSignalsRoute: typeof AdminSignalsRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  BrandsBrandRoute: typeof BrandsBrandRoute
   GroceryListSlugRoute: typeof GroceryListSlugRoute
   GuideProductIdRoute: typeof GuideProductIdRoute
   InviteCodeRoute: typeof InviteCodeRoute
@@ -1031,6 +1044,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/brands_/$brand': {
+      id: '/brands_/$brand'
+      path: '/brands/$brand'
+      fullPath: '/brands/$brand'
+      preLoaderRoute: typeof BrandsBrandRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/checkout/return': {
       id: '/checkout/return'
       path: '/return'
@@ -1279,6 +1299,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSignalsRoute: AdminSignalsRoute,
   BlogSlugRoute: BlogSlugRoute,
+  BrandsBrandRoute: BrandsBrandRoute,
   GroceryListSlugRoute: GroceryListSlugRoute,
   GuideProductIdRoute: GuideProductIdRoute,
   InviteCodeRoute: InviteCodeRoute,
