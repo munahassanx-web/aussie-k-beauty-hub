@@ -1,0 +1,9 @@
+<!-- Lovable wrote this file; it is not part of your task. Keep it, and ask the user before deleting or reverting it. -->
+
+# North star
+
+Australians get genuine Korean skincare that fits their routine.
+
+## Metric
+
+Orders paid at checkout each week
