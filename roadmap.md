@@ -96,4 +96,4 @@
 - [x] Preserve exact product directions and cleanser/mask-specific actions
 - [x] Verify Torriden cream and catalogue-wide guide coverage
 
-- [ ] Review owner colour/design reference and explain how to apply it
+- [x] Review owner colour/design reference and explain how to apply it

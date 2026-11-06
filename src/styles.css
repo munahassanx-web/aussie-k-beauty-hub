@@ -1298,3 +1298,26 @@ body:has([data-sticky-bar]) .chat-launcher {
     display: none;
   }
 }
+
+/* "The Grocer Stripe" identity (owner choice, 2026-11-06): navy, cream and
+   soft silver on every page, overriding the earlier warm and neutral trials. */
+:root,
+:root:has([data-homepage-neutral]) {
+  --paper: #f2ede7;
+  --sand: #ebe4dc;
+  --sand-deep: #d5c8b9;
+  --clay: #5b6470;
+  --hanbok: #303a46;
+  --hanbok-deep: #141f2c;
+  --ink: #141f2c;
+  --blush: #e7e9e4;
+  --glaze: #c9cec2;
+  --awning: #141f2c;
+  --awning-light: #f2ede7;
+  --logo-dot: #c9cec2;
+  --logo-icon: #141f2c;
+  --logo-ink: #f2ede7;
+  --signal: #d5c8b9;
+}
+:root:has([data-homepage-neutral]) header .sg-awning { background-color: var(--paper); }
+.sg-awning::after { display: none; }
