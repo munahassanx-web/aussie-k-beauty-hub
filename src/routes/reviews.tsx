@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { Stars } from "@/components/product-reviews";
+import { Stars, ReviewPhotos } from "@/components/product-reviews";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
 import { listApprovedReviews } from "@/lib/reviews.functions";
 
@@ -12,6 +12,7 @@ type Row = {
   customer_name: string | null;
   verified_purchase: boolean | null;
   created_at: string;
+  photo_urls?: string[];
 };
 
 const approvedReviewsQuery = queryOptions({
@@ -162,6 +163,7 @@ function Reviews() {
                     <blockquote className="text-base leading-relaxed text-foreground/90">
                       "{r.review_text}"
                     </blockquote>
+                    <ReviewPhotos urls={r.photo_urls} />
                     <figcaption className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                       <span>{r.customer_name ?? "Skin Grocer customer"}</span>
                       <span>· {new Date(r.created_at).toLocaleDateString("en-AU")}</span>
