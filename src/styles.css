@@ -1353,3 +1353,14 @@ body:has([data-sticky-bar]) .chat-launcher {
     height: 7px;
   }
 }
+
+/* Packaging page: Grocer Stripe print colours */
+:root {
+  --pack-navy: #141f2c;
+  --pack-cream: #f2ede7;
+  --pack-silver: #c9cec2;
+  --pack-gold: #e2c58f;
+}
+.pack-stripe {
+  background: repeating-linear-gradient(-45deg, var(--pack-navy) 0 10px, var(--pack-cream) 10px 20px);
+}
