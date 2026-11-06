@@ -21,7 +21,7 @@ export function BrandWordmark({
 }) {
   const height =
     size === "display"
-      ? "h-[40px] sm:h-[52px] md:h-[62px]"
+      ? "h-[34px] sm:h-[52px] md:h-[62px]"
       : size === "xl"
         ? "h-[42px] md:h-[52px]"
         : size === "lg"
