@@ -2,9 +2,6 @@ import {
   ICON_DOT,
   ICON_GLYPHS,
   ICON_VIEWBOX,
-  WORDMARK,
-  WORDMARK_DOT,
-  WORDMARK_VIEWBOX,
 } from "@/components/brand-logo-art";
 
 /**
@@ -32,26 +29,26 @@ export function BrandWordmark({
           : size === "sm"
             ? "h-[24px]"
             : "h-[26px] md:h-[30px]";
-  const { x, y, size: dot, radius } = WORDMARK_DOT;
-
+  // Bilingual logo (serif name + vertical 스킨그로서). Drawn as a mask so it
+  // takes the current text colour on light and dark surfaces.
   return (
     <Tag className={`inline-block align-middle ${className}`}>
-      <svg
-        viewBox={WORDMARK_VIEWBOX}
-        className={`block w-auto ${height}`}
+      <span
         role="img"
-        aria-label="Skin Grocer"
-      >
-        <path d={WORDMARK} fill="currentColor" />
-        <rect
-          x={x}
-          y={y}
-          width={dot}
-          height={dot}
-          rx={radius}
-          style={{ fill: "var(--logo-dot)" }}
-        />
-      </svg>
+        aria-label="Skin Grocer 스킨그로서"
+        className={`block aspect-[1200/301] ${height}`}
+        style={{
+          backgroundColor: "currentColor",
+          WebkitMaskImage: "url(/brand/skin-grocer-logo.png)",
+          maskImage: "url(/brand/skin-grocer-logo.png)",
+          WebkitMaskSize: "contain",
+          maskSize: "contain",
+          WebkitMaskRepeat: "no-repeat",
+          maskRepeat: "no-repeat",
+          WebkitMaskPosition: "center",
+          maskPosition: "center",
+        }}
+      />
     </Tag>
   );
 }
