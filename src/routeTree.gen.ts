@@ -61,6 +61,7 @@ import { Route as AdminOrdersIndexRouteImport } from './routes/admin.orders.inde
 import { Route as AdminOrdersIdRouteImport } from './routes/admin.orders.$id'
 import { Route as ApiPublicEmailPreviewRouteImport } from './routes/api/public/email-preview'
 import { Route as LearnArticleSlugRouteImport } from './routes/learn.article.$slug'
+import { Route as ProductSlugReviewRouteImport } from './routes/product.$slug_.review'
 import { Route as ApiPublicIssueCoverIdRouteImport } from './routes/api/public/issue-cover.$id'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as ApiPublicReviewsRequestRouteImport } from './routes/api/public/reviews/request'
@@ -330,6 +331,11 @@ const LearnArticleSlugRoute = LearnArticleSlugRouteImport.update({
   path: '/learn/article/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductSlugReviewRoute = ProductSlugReviewRouteImport.update({
+  id: '/product/$slug_/review',
+  path: '/product/$slug/review',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicIssueCoverIdRoute = ApiPublicIssueCoverIdRouteImport.update({
   id: '/api/public/issue-cover/$id',
   path: '/api/public/issue-cover/$id',
@@ -420,6 +426,7 @@ export interface FileRoutesByFullPath {
   '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/api/public/email-preview': typeof ApiPublicEmailPreviewRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
+  '/product/$slug/review': typeof ProductSlugReviewRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -481,6 +488,7 @@ export interface FileRoutesByTo {
   '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/api/public/email-preview': typeof ApiPublicEmailPreviewRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
+  '/product/$slug/review': typeof ProductSlugReviewRoute
   '/admin/orders': typeof AdminOrdersIndexRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -543,6 +551,7 @@ export interface FileRoutesById {
   '/admin/orders/$id': typeof AdminOrdersIdRoute
   '/api/public/email-preview': typeof ApiPublicEmailPreviewRoute
   '/learn/article/$slug': typeof LearnArticleSlugRoute
+  '/product/$slug_/review': typeof ProductSlugReviewRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/api/public/issue-cover/$id': typeof ApiPublicIssueCoverIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -606,6 +615,7 @@ export interface FileRouteTypes {
     | '/admin/orders/$id'
     | '/api/public/email-preview'
     | '/learn/article/$slug'
+    | '/product/$slug/review'
     | '/admin/orders/'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
@@ -667,6 +677,7 @@ export interface FileRouteTypes {
     | '/admin/orders/$id'
     | '/api/public/email-preview'
     | '/learn/article/$slug'
+    | '/product/$slug/review'
     | '/admin/orders'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
@@ -728,6 +739,7 @@ export interface FileRouteTypes {
     | '/admin/orders/$id'
     | '/api/public/email-preview'
     | '/learn/article/$slug'
+    | '/product/$slug_/review'
     | '/admin/orders/'
     | '/api/public/issue-cover/$id'
     | '/api/public/payments/webhook'
@@ -789,6 +801,7 @@ export interface RootRouteChildren {
   AdminOrdersIdRoute: typeof AdminOrdersIdRoute
   ApiPublicEmailPreviewRoute: typeof ApiPublicEmailPreviewRoute
   LearnArticleSlugRoute: typeof LearnArticleSlugRoute
+  ProductSlugReviewRoute: typeof ProductSlugReviewRoute
   AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
   ApiPublicIssueCoverIdRoute: typeof ApiPublicIssueCoverIdRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
@@ -1165,6 +1178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnArticleSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/product/$slug_/review': {
+      id: '/product/$slug_/review'
+      path: '/product/$slug/review'
+      fullPath: '/product/$slug/review'
+      preLoaderRoute: typeof ProductSlugReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/issue-cover/$id': {
       id: '/api/public/issue-cover/$id'
       path: '/api/public/issue-cover/$id'
@@ -1280,6 +1300,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminOrdersIdRoute: AdminOrdersIdRoute,
   ApiPublicEmailPreviewRoute: ApiPublicEmailPreviewRoute,
   LearnArticleSlugRoute: LearnArticleSlugRoute,
+  ProductSlugReviewRoute: ProductSlugReviewRoute,
   AdminOrdersIndexRoute: AdminOrdersIndexRoute,
   ApiPublicIssueCoverIdRoute: ApiPublicIssueCoverIdRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
