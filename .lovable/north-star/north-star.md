@@ -6,4 +6,4 @@ Australians get genuine Korean skincare that fits their routine.
 
 ## Metric
 
-Orders paid at checkout each week
+Orders paid each week
