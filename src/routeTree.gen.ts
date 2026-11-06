@@ -20,6 +20,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EmailPreviewRouteImport } from './routes/email-preview'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as JourneyRouteImport } from './routes/journey'
+import { Route as PackagingRouteImport } from './routes/packaging'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as RestockRouteImport } from './routes/restock'
 import { Route as ReturnsPolicyRouteImport } from './routes/returns-policy'
@@ -124,6 +125,11 @@ const FaqRoute = FaqRouteImport.update({
 const JourneyRoute = JourneyRouteImport.update({
   id: '/journey',
   path: '/journey',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PackagingRoute = PackagingRouteImport.update({
+  id: '/packaging',
+  path: '/packaging',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
@@ -392,6 +398,7 @@ export interface FileRoutesByFullPath {
   '/email-preview': typeof EmailPreviewRoute
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
+  '/packaging': typeof PackagingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/restock': typeof RestockRoute
   '/returns-policy': typeof ReturnsPolicyRoute
@@ -455,6 +462,7 @@ export interface FileRoutesByTo {
   '/email-preview': typeof EmailPreviewRoute
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
+  '/packaging': typeof PackagingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/restock': typeof RestockRoute
   '/returns-policy': typeof ReturnsPolicyRoute
@@ -519,6 +527,7 @@ export interface FileRoutesById {
   '/email-preview': typeof EmailPreviewRoute
   '/faq': typeof FaqRoute
   '/journey': typeof JourneyRoute
+  '/packaging': typeof PackagingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/restock': typeof RestockRoute
   '/returns-policy': typeof ReturnsPolicyRoute
@@ -584,6 +593,7 @@ export interface FileRouteTypes {
     | '/email-preview'
     | '/faq'
     | '/journey'
+    | '/packaging'
     | '/privacy-policy'
     | '/restock'
     | '/returns-policy'
@@ -647,6 +657,7 @@ export interface FileRouteTypes {
     | '/email-preview'
     | '/faq'
     | '/journey'
+    | '/packaging'
     | '/privacy-policy'
     | '/restock'
     | '/returns-policy'
@@ -710,6 +721,7 @@ export interface FileRouteTypes {
     | '/email-preview'
     | '/faq'
     | '/journey'
+    | '/packaging'
     | '/privacy-policy'
     | '/restock'
     | '/returns-policy'
@@ -774,6 +786,7 @@ export interface RootRouteChildren {
   EmailPreviewRoute: typeof EmailPreviewRoute
   FaqRoute: typeof FaqRoute
   JourneyRoute: typeof JourneyRoute
+  PackagingRoute: typeof PackagingRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RestockRoute: typeof RestockRoute
   ReturnsPolicyRoute: typeof ReturnsPolicyRoute
@@ -902,6 +915,13 @@ declare module '@tanstack/react-router' {
       path: '/journey'
       fullPath: '/journey'
       preLoaderRoute: typeof JourneyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/packaging': {
+      id: '/packaging'
+      path: '/packaging'
+      fullPath: '/packaging'
+      preLoaderRoute: typeof PackagingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy-policy': {
@@ -1281,6 +1301,7 @@ const rootRouteChildren: RootRouteChildren = {
   EmailPreviewRoute: EmailPreviewRoute,
   FaqRoute: FaqRoute,
   JourneyRoute: JourneyRoute,
+  PackagingRoute: PackagingRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RestockRoute: RestockRoute,
   ReturnsPolicyRoute: ReturnsPolicyRoute,
