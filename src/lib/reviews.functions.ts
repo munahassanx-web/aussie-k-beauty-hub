@@ -147,7 +147,24 @@ type SubmitInput = EligibilityInput & {
   skinType?: string;
   timeUsed?: string;
   customerName: string;
+  photoPaths?: string[];
 };
+
+export const MAX_REVIEW_PHOTOS = 3;
+const PHOTO_BUCKET = 'review-photos';
+
+/** Signs private photo paths for display. Only call with paths from approved reviews (or for admins). */
+async function signPhotos<T extends { photo_paths?: string[] | null }>(rows: T[]) {
+  const all = rows.flatMap((r) => r.photo_paths ?? []);
+  if (all.length === 0) return rows.map((r) => ({ ...r, photo_urls: [] as string[] }));
+  const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+  const { data } = await supabaseAdmin.storage.from(PHOTO_BUCKET).createSignedUrls(all, 60 * 60 * 6);
+  const map = new Map((data ?? []).filter((d) => d.signedUrl).map((d) => [d.path, d.signedUrl]));
+  return rows.map((r) => ({
+    ...r,
+    photo_urls: (r.photo_paths ?? []).map((p) => map.get(p)).filter(Boolean) as string[],
+  }));
+}
 
 export const submitReview = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
@@ -170,7 +187,9 @@ export const submitReview = createServerFn({ method: 'POST' })
     const timeUsed = input.timeUsed && (TIME_USED as readonly string[]).includes(input.timeUsed)
       ? input.timeUsed
       : undefined;
-    return { ...input, reviewText: text, customerName: name, title, skinType, timeUsed };
+    const photoPaths = Array.isArray(input.photoPaths) ? input.photoPaths.filter((x) => typeof x === 'string') : [];
+    if (photoPaths.length > MAX_REVIEW_PHOTOS) throw new Error(`You can add up to ${MAX_REVIEW_PHOTOS} photos.`);
+    return { ...input, reviewText: text, customerName: name, title, skinType, timeUsed, photoPaths };
   })
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
@@ -182,8 +201,13 @@ export const submitReview = createServerFn({ method: 'POST' })
       );
     }
 
+    // Photos must live in the caller's own folder — never accept someone else's files.
+    const photos = (data.photoPaths ?? []).filter(
+      (p) => p.startsWith(`${userId}/`) && !p.includes('..') && /\.(jpe?g|png|webp)$/i.test(p),
+    );
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
     const { error } = await supabaseAdmin.from('reviews').insert({
+      photo_paths: photos,
       product_id: data.productId,
       customer_id: userId,
       customer_name: data.customerName,
@@ -220,10 +244,15 @@ export type PublicReview = {
   response_text: string | null;
   response_at: string | null;
   created_at: string;
+  photo_urls: string[];
 };
 
 const PUBLIC_COLUMNS =
-  'id, product_id, rating, title, review_text, customer_name, skin_type, time_used, verified_purchase, response_text, response_at, created_at';
+  'id, product_id, rating, title, review_text, customer_name, skin_type, time_used, verified_purchase, response_text, response_at, created_at, photo_paths';
+
+function stripPaths(rows: Array<Record<string, unknown>>) {
+  return rows.map(({ photo_paths: _p, ...rest }) => rest) as unknown as PublicReview[];
+}
 
 /**
  * Approved reviews for one product. Public: RLS exposes approved rows only.
@@ -242,7 +271,7 @@ export const listProductReviews = createServerFn({ method: 'POST' })
       .order('created_at', { ascending: false })
       .limit(100);
     if (error) throw new Error('Reviews are temporarily unavailable. Please try again later.');
-    return (rows ?? []) as unknown as PublicReview[];
+    return stripPaths(await signPhotos((rows ?? []) as Array<{ photo_paths: string[] | null }>));
   });
 
 /**
@@ -259,7 +288,7 @@ export const listApprovedReviews = createServerFn({ method: 'GET' }).handler(asy
     .order('created_at', { ascending: false })
     .limit(60);
   if (error) return [];
-  return (data ?? []) as unknown as PublicReview[];
+  return stripPaths(await signPhotos((data ?? []) as Array<{ photo_paths: string[] | null }>));
 });
 
 /**
@@ -293,13 +322,15 @@ export const listPendingReviews = createServerFn({ method: 'GET' })
     const { data, error } = await supabaseAdmin
       .from('reviews')
       .select(
-        'id, product_id, customer_name, title, rating, review_text, skin_type, time_used, verified_purchase, status, moderation_reason, moderated_at, created_at',
+        'id, product_id, customer_name, title, rating, review_text, skin_type, time_used, verified_purchase, status, moderation_reason, moderated_at, created_at, photo_paths',
       )
       .eq('status', 'pending')
       .order('created_at', { ascending: false })
       .limit(100);
     if (error) throw new Error(error.message);
-    return data ?? [];
+    return stripPaths(await signPhotos((data ?? []) as Array<{ photo_paths: string[] | null }>)) as unknown as Array<
+      Record<string, any> & { photo_urls: string[] }
+    >;
   });
 
 /**

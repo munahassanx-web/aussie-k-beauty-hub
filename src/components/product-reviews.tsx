@@ -3,6 +3,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useServerFn } from '@tanstack/react-start';
 import { Link } from '@tanstack/react-router';
 import { useAuth } from '@/hooks/use-auth';
+import { supabase } from '@/integrations/supabase/client';
+import { MAX_REVIEW_PHOTOS } from '@/lib/reviews.functions';
 import { brandBadgeFor } from '@/lib/brand-review-badges';
 import {
   getReviewEligibility,
@@ -35,6 +37,85 @@ export function Stars({ n, className = '' }: { n: number; className?: string }) 
         </svg>
       ))}
     </span>
+  );
+}
+
+/** Customer photos on a review; tap to open full size. */
+export function ReviewPhotos({ urls }: { urls?: string[] }) {
+  if (!urls || urls.length === 0) return null;
+  return (
+    <ul className="mt-3 flex flex-wrap gap-2" aria-label="Customer photos">
+      {urls.map((u, i) => (
+        <li key={u}>
+          <a href={u} target="_blank" rel="noopener noreferrer" className="block overflow-hidden rounded-xl border border-border">
+            <img src={u} alt={`Customer photo ${i + 1}`} loading="lazy" className="h-24 w-24 object-cover" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+const PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
+/** Uploads to the customer's own private folder; photos show publicly only once the review is approved. */
+function PhotoPicker({ paths, setPaths, setBusy }: { paths: { path: string; preview: string }[]; setPaths: (p: { path: string; preview: string }[]) => void; setBusy: (b: boolean) => void }) {
+  const [msg, setMsg] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  async function onFiles(files: FileList | null) {
+    if (!files) return;
+    setMsg(null);
+    const room = MAX_REVIEW_PHOTOS - paths.length;
+    const list = Array.from(files).slice(0, room);
+    if (files.length > room) setMsg(`You can add up to ${MAX_REVIEW_PHOTOS} photos.`);
+    const { data: u } = await supabase.auth.getUser();
+    if (!u.user) return setMsg('Please sign in again to add photos.');
+    setUploading(true);
+    setBusy(true);
+    const added: { path: string; preview: string }[] = [];
+    for (const f of list) {
+      if (!PHOTO_TYPES.includes(f.type)) { setMsg('Photos must be JPG, PNG or WebP.'); continue; }
+      if (f.size > 5 * 1024 * 1024) { setMsg('Each photo must be under 5 MB.'); continue; }
+      const ext = f.type === 'image/png' ? 'png' : f.type === 'image/webp' ? 'webp' : 'jpg';
+      const path = `${u.user.id}/${crypto.randomUUID()}.${ext}`;
+      const { error } = await supabase.storage.from('review-photos').upload(path, f, { contentType: f.type });
+      if (error) { setMsg('One photo could not be uploaded. Please try again.'); continue; }
+      added.push({ path, preview: URL.createObjectURL(f) });
+    }
+    setPaths([...paths, ...added]);
+    setUploading(false);
+    setBusy(false);
+  }
+  return (
+    <div>
+      <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Photos (optional, up to {MAX_REVIEW_PHOTOS})</p>
+      <p className="mt-1 text-xs text-muted-foreground">Show the texture or packaging. Please avoid faces of other people and personal details.</p>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {paths.map((p, i) => (
+          <div key={p.path} className="relative">
+            <img src={p.preview} alt={`Your photo ${i + 1}`} className="h-20 w-20 rounded-xl border border-border object-cover" />
+            <button
+              type="button"
+              aria-label={`Remove photo ${i + 1}`}
+              onClick={() => {
+                void supabase.storage.from('review-photos').remove([p.path]);
+                setPaths(paths.filter((x) => x.path !== p.path));
+              }}
+              className="absolute -right-2 -top-2 h-6 w-6 rounded-full bg-foreground text-xs text-background"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+        {paths.length < MAX_REVIEW_PHOTOS && (
+          <label className="flex h-20 w-20 cursor-pointer items-center justify-center rounded-xl border border-dashed border-border text-center text-xs text-muted-foreground hover:bg-secondary focus-within:outline focus-within:outline-2">
+            {uploading ? 'Uploading…' : '+ Add photo'}
+            <input type="file" accept="image/jpeg,image/png,image/webp" multiple className="sr-only" disabled={uploading} onChange={(e) => { void onFiles(e.target.files); e.target.value = ''; }} />
+          </label>
+        )}
+      </div>
+      {msg && <p className="mt-1 text-xs text-destructive" role="alert">{msg}</p>}
+    </div>
   );
 }
 
@@ -115,6 +196,8 @@ function ReviewForm({
   const [skinType, setSkinType] = useState('');
   const [timeUsed, setTimeUsed] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [photos, setPhotos] = useState<{ path: string; preview: string }[]>([]);
+  const [photoBusy, setPhotoBusy] = useState(false);
   const errorRef = useRef<HTMLParagraphElement | null>(null);
 
   const submit = useMutation({
@@ -130,6 +213,7 @@ function ReviewForm({
           skinType: skinType || undefined,
           timeUsed: timeUsed || undefined,
           customerName: name,
+          photoPaths: photos.map((p) => p.path),
         },
       }),
     onSuccess: onDone,
@@ -254,6 +338,8 @@ function ReviewForm({
         </p>
       </div>
 
+      <PhotoPicker paths={photos} setPaths={setPhotos} setBusy={setPhotoBusy} />
+
       <p className="text-xs leading-relaxed text-muted-foreground">
         By submitting, you confirm this reflects your genuine experience. Reviews may be moderated for
         privacy, abuse, spam and prohibited medical claims, but will not be rejected merely because
@@ -269,7 +355,7 @@ function ReviewForm({
       <div className="flex flex-wrap gap-3">
         <button
           type="submit"
-          disabled={submit.isPending}
+          disabled={submit.isPending || photoBusy}
           className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground disabled:opacity-60"
         >
           {submit.isPending ? 'Submitting…' : 'Submit review'}
@@ -282,19 +368,25 @@ function ReviewForm({
   );
 }
 
-function WriteReview({
+export function WriteReview({
   productId,
   productName,
   brand,
+  startOpen = false,
+  slug,
+  onSubmitted,
 }: {
+  slug?: string;
+  onSubmitted?: () => void;
   productId: string;
   productName: string;
   brand: string;
+  startOpen?: boolean;
 }) {
   const { user, loading } = useAuth();
   const qc = useQueryClient();
   const checkEligibility = useServerFn(getReviewEligibility);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(startOpen);
   const [submitted, setSubmitted] = useState(false);
   const successRef = useRef<HTMLParagraphElement | null>(null);
 
@@ -354,6 +446,18 @@ function WriteReview({
     );
   }
 
+  if (!open && slug) {
+    return (
+      <Link
+        to="/product/$slug/review"
+        params={{ slug }}
+        className="mt-5 inline-block rounded-full border border-border px-5 py-2.5 text-sm font-medium text-foreground hover:bg-secondary"
+      >
+        Write a review with photos
+      </Link>
+    );
+  }
+
   if (!open) {
     return (
       <button
@@ -374,6 +478,7 @@ function WriteReview({
       onDone={() => {
         setOpen(false);
         setSubmitted(true);
+        onSubmitted?.();
         void qc.invalidateQueries({ queryKey: ['review-eligibility', productId, user?.id] });
       }}
     />
@@ -403,7 +508,9 @@ export function ProductReviews({
   productId,
   productName = '',
   brand = '',
+  slug,
 }: {
+  slug?: string;
   productId: string;
   productName?: string;
   brand?: string;
@@ -516,6 +623,7 @@ export function ProductReviews({
                 <p className="sr-only">{r.rating} out of 5 stars</p>
                 {r.title && <p className="mt-3 font-medium text-foreground">{r.title}</p>}
                 <blockquote className="mt-2 text-sm text-foreground/85">{r.review_text}</blockquote>
+                <ReviewPhotos urls={r.photo_urls} />
                 <figcaption className="mt-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                   <span>{r.customer_name ?? 'Skin Grocer customer'}</span>
                   <span>· {new Date(r.created_at).toLocaleDateString('en-AU')}</span>
@@ -541,7 +649,7 @@ export function ProductReviews({
         </>
       )}
 
-      <WriteReview productId={productId} productName={productName} brand={brand} />
+      <WriteReview productId={productId} productName={productName} brand={brand} slug={slug} />
     </section>
   );
 }

@@ -5,7 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { listPendingReviews, moderateReview, MODERATION_REASONS } from "@/lib/reviews.functions";
 import { useAuth } from "@/hooks/use-auth";
 import { SHOP_PRODUCTS } from "@/lib/shop-catalog";
-import { Stars } from "@/components/product-reviews";
+import { Stars, ReviewPhotos } from "@/components/product-reviews";
 
 export const Route = createFileRoute("/admin/reviews")({
   head: () => ({
@@ -168,6 +168,7 @@ function ReviewDesk() {
               </div>
               {r.title && <p className="mt-3 font-medium text-foreground">{r.title}</p>}
               <p className="mt-2 text-sm text-foreground/85">{r.review_text}</p>
+              <ReviewPhotos urls={r.photo_urls} />
               <ModerationActions
                 id={r.id}
                 busy={act.isPending}

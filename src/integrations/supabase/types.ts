@@ -947,6 +947,7 @@ export type Database = {
           moderated_by: string | null
           moderation_reason: string | null
           order_id: string | null
+          photo_paths: string[]
           product_id: string
           rating: number
           response_at: string | null
@@ -972,6 +973,7 @@ export type Database = {
           moderated_by?: string | null
           moderation_reason?: string | null
           order_id?: string | null
+          photo_paths?: string[]
           product_id: string
           rating: number
           response_at?: string | null
@@ -997,6 +999,7 @@ export type Database = {
           moderated_by?: string | null
           moderation_reason?: string | null
           order_id?: string | null
+          photo_paths?: string[]
           product_id?: string
           rating?: number
           response_at?: string | null
