@@ -109,6 +109,6 @@
 - [x] Verify desktop/mobile colours and inspect the PDF and download
 
 ## Rose-and-gold box page
-- [ ] Update packaging artwork and print PDF with the selected rose box and real product cards
-- [ ] Replace packaging page assets without changing the global website palette
-- [ ] Inspect print artwork and verify mobile/desktop page and download
+- [x] Update packaging artwork and print PDF with the selected rose box and real product cards
+- [x] Replace packaging page assets without changing the global website palette
+- [x] Inspect print artwork and verify mobile/desktop page and download
