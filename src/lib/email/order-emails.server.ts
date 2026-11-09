@@ -375,7 +375,7 @@ function shell(title: string, preheader: string, inner: string, roseConfirmation
     .replaceAll(LOGO_LIGHT, `${SITE_URL}/brand/skin-grocer-logo.png`)
     .replaceAll(LOGO, `${SITE_URL}/brand/skin-grocer-logo.png`)
     .replace(/#[0-9A-F]{6}/g, (value) => palette[value] ?? value)
-    .replaceAll(`color:${PAPER};`, 'color:#141F2C;');
+    .replace(/(?<!background-)color:#FFFFFF;/g, 'color:#141F2C;');
 }
 
 /* -------------------------------------------------------------- pieces -- */
