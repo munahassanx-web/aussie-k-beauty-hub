@@ -114,6 +114,6 @@
 - [x] Inspect print artwork and verify mobile/desktop page and download
 
 ## Approved blue identity rollout
-- [ ] Apply blue navy consistently to website and brand icons
-- [ ] Match branded emails and packaging preview/download to the approved blue
-- [ ] Verify desktop/mobile pages, printed artwork and rendered emails
+- [x] Apply blue navy consistently to website and brand icons
+- [x] Match branded emails and packaging preview/download to the approved blue
+- [x] Verify desktop/mobile pages, printed artwork and rendered emails
