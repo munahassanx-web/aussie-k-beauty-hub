@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import pdf from "@/assets/print/skin-grocer-packaging-mockup.pdf.asset.json";
-import { BrandWordmark } from "@/components/brand-wordmark";
+import pdf from "@/assets/print/skin-grocer-packaging-page_v2.pdf.asset.json";
+import artwork from "@/assets/print/skin-grocer-packaging-page_v2.png.asset.json";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 
 export const Route = createFileRoute("/packaging")({
   head: () => ({
@@ -14,9 +16,10 @@ export const Route = createFileRoute("/packaging")({
       { name: "robots", content: "noindex" },
     ],
   }),
-  component: PackagingPage,
+  component: CorrectedPackagingPage,
 });
 
+/* Retained catalogue references for this packaging selection. */
 const PRODUCTS = [
   { brand: "Beauty of Joseon", name: "Ginseng Cleansing Oil", img: "/products/beauty-of-joseon/ginseng-cleansing-oil-210ml.webp" },
   { brand: "Round Lab", name: "1025 Dokdo Toner", img: "/products/round-lab/1025-dokdo-toner-100ml.webp" },
@@ -35,6 +38,29 @@ const COLOURS = [
 
 const navy = { backgroundColor: "var(--pack-navy)", color: "var(--pack-cream)" };
 const cream = { backgroundColor: "var(--pack-cream)", color: "var(--pack-navy)" };
+
+function CorrectedPackagingPage() {
+  return (
+    <main className="packaging-page mx-auto max-w-5xl px-4 py-8 sm:px-8">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <h1 className="font-serif text-2xl text-ink sm:text-3xl">The Grocer Stripe — packaging</h1>
+        <Button asChild size="lg">
+          <a href={pdf.url} download="skin-grocer-packaging-page_v2.pdf">
+            <Download aria-hidden="true" /> Download A4 PDF
+          </a>
+        </Button>
+      </div>
+      <img
+        src={artwork.url}
+        alt="Skin Grocer packaging mockup with the real bilingual logo, navy-and-cream scalloped website stripe, branded tissue, thank-you card, navy brand sticker and six real product cards."
+        width={1323}
+        height={1871}
+        fetchPriority="high"
+        className="block h-auto w-full"
+      />
+    </main>
+  );
+}
 
 function PackagingPage() {
   return (

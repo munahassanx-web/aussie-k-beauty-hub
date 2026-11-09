@@ -15,3 +15,4 @@
 - The owner's neutral homepage colour trial, scoped through its route marker, has been overridden by the "The Grocer Stripe" identity (owner choice, 2026-11-06): navy, cream and soft silver on every page, with no seasonal switching introduced.
 - The awning uses the `--awning` tokens, now navy (#141f2c) with a cream light stripe on every page (owner choice, 2026-11-06; replaces the warm pearl request of 2026-10-12).
 - Brand landing pages (/brands/$brand) read from the single brand list in src/lib/brand-pages.ts, which also drives the sitemap; intros reuse only factual range descriptions and sourcing wording, never invented brand claims.
+- Packaging page preview and download use the same prebuilt print artwork; publish both assets together to prevent page/PDF design drift.
