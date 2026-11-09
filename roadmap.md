@@ -104,6 +104,6 @@
 - [x] Inspect the print artwork and verify desktop/mobile page and download
 
 ## Selected peach-and-cream identity
-- [ ] Apply reference-led soft peach website accents without changing layout or shopping behaviour
-- [ ] Replace packaging preview and PDF with peach exterior, cream interior and real product photos
-- [ ] Verify desktop/mobile colours and inspect the PDF and download
+- [x] Apply reference-led soft peach website accents without changing layout or shopping behaviour
+- [x] Replace packaging preview and PDF with peach exterior, cream interior and real product photos
+- [x] Verify desktop/mobile colours and inspect the PDF and download
