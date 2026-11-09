@@ -107,3 +107,8 @@
 - [x] Apply reference-led soft peach website accents without changing layout or shopping behaviour
 - [x] Replace packaging preview and PDF with peach exterior, cream interior and real product photos
 - [x] Verify desktop/mobile colours and inspect the PDF and download
+
+## Rose-and-gold box page
+- [x] Update packaging artwork and print PDF with the selected rose box and real product cards
+- [x] Replace packaging page assets without changing the global website palette
+- [x] Inspect print artwork and verify mobile/desktop page and download
