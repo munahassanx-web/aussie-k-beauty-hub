@@ -266,15 +266,16 @@ function masthead(headline: string, statement: string, standfirst: string): stri
 }
 
 /**
- * The Grocer Stripe: navy-and-cream signature edge (order confirmation).
+ * Rose-and-cream signature edge (order confirmation), matching print artwork.
  * Built from table cells, not images or gradients, so it renders in every
  * email client and on mobile.
  */
-const STRIPE_NAVY = '#141F2C';
-const STRIPE_CREAM = '#F2EDE7';
+const CONFIRMATION_ROSE = '#C58D7D';
+const CONFIRMATION_CREAM = '#F6EEE0';
+const CONFIRMATION_GOLD = '#C5A16A';
 function grocerStripe(height = 14): string {
   const cells = Array.from({ length: 31 }, (_, i) => {
-    const c = i % 2 === 0 ? STRIPE_NAVY : STRIPE_CREAM;
+    const c = i % 2 === 0 ? CONFIRMATION_ROSE : CONFIRMATION_CREAM;
     return `<td bgcolor="${c}" style="background-color:${c};height:${height}px;line-height:${height}px;font-size:0;">&nbsp;</td>`;
   }).join('');
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="table-layout:fixed;"><tr>${cells}</tr></table>`;
@@ -287,8 +288,8 @@ function grocerStripe(height = 14): string {
  * the white card with a soft keyline inside it, and everything —
  * masthead, order, assurances, footer — lives on white inside that frame.
  */
-function shell(title: string, preheader: string, inner: string): string {
-  return `<!doctype html>
+function shell(title: string, preheader: string, inner: string, roseConfirmation = false): string {
+  const html = `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -332,7 +333,7 @@ function shell(title: string, preheader: string, inner: string): string {
       <table role="presentation" width="620" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:620px;">
 
         <!-- signature awning: top edge -->
-        <tr><td colspan="3">${frameBar()}</td></tr>
+        <tr><td colspan="3">${roseConfirmation ? grocerStripe() : frameBar()}</td></tr>
 
         <tr>
           ${frameRail()}
@@ -357,6 +358,24 @@ function shell(title: string, preheader: string, inner: string): string {
     </td></tr>
   </table>
 </body></html>`;
+  if (!roseConfirmation) return html;
+  // Scope the print palette to confirmation; all other email rendering stays unchanged.
+  // One-pass replacement avoids cascading values and keeps the white body intact.
+  const palette: Record<string, string> = {
+    [COCOA]: CONFIRMATION_ROSE,
+    [GLAZE]: CONFIRMATION_GOLD,
+    [PEARL]: CONFIRMATION_CREAM,
+    [INK]: '#141F2C',
+    [MUTED]: '#5B6470',
+    [RULE]: CONFIRMATION_GOLD,
+    [COCOA_MUTED]: '#141F2C',
+    '#6C7686': '#141F2C',
+  };
+  return html
+    .replaceAll(LOGO_LIGHT, `${SITE_URL}/brand/skin-grocer-logo.png`)
+    .replaceAll(LOGO, `${SITE_URL}/brand/skin-grocer-logo.png`)
+    .replace(/#[0-9A-F]{6}/g, (value) => palette[value] ?? value)
+    .replaceAll(`color:${PAPER};`, 'color:#141F2C;');
 }
 
 /* -------------------------------------------------------------- pieces -- */
@@ -611,6 +630,7 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
     ${grocerStripe(10)}
     ${footerBlock()}
   `,
+    true,
   );
 
   const text = [
