@@ -232,7 +232,7 @@ function ProvenanceCard() {
   ];
 
   return (
-    <section className="bg-ink text-paper">
+    <section className="bg-brand-dark text-paper">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-12 md:items-start md:gap-16">
         <div className="md:col-span-5">
           <Link

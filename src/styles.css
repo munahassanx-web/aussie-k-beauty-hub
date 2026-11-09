@@ -27,6 +27,7 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-pop: var(--pop);
   --color-pop-foreground: var(--pop-foreground);
+  --color-brand-dark: var(--brand-dark);
   --color-hero-paper: #fbf6f2;
   --color-hero-cream: #f7ece6;
   --color-hero-ink: #2e1e19;
@@ -1303,7 +1304,8 @@ body:has([data-sticky-bar]) .chat-launcher {
    over the homepage trial; preserve white canvas, awning geometry and sheen. */
 :root,
 :root:has([data-homepage-neutral]) {
-  --brand-signature: #304865;
+  --brand-signature: #243b55;
+  --brand-dark: #111b28;
   --brand-interior: #f2ede7;
   --brand-detail: #c5a16a;
   --paper: #ffffff;
