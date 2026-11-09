@@ -28,7 +28,7 @@ export function SkinQuizBanner() {
     <section
       id="skin-quiz"
       aria-labelledby="skin-quiz-title"
-      className="scroll-mt-20 bg-ink text-paper"
+      className="scroll-mt-20 bg-brand-dark text-paper"
     >
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-[1fr_1.1fr] md:items-center md:py-20">
         <div>
