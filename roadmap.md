@@ -99,6 +99,6 @@
 - [x] Review owner colour/design reference and explain how to apply it
 
 ## Packaging identity correction
-- [ ] Remake the packaging PDF with the actual bilingual logo, brand icon and website stripe
-- [ ] Match the packaging page and download to the corrected artwork
-- [ ] Inspect the print artwork and verify desktop/mobile page and download
+- [x] Remake the packaging PDF with the actual bilingual logo, brand icon and website stripe
+- [x] Match the packaging page and download to the corrected artwork
+- [x] Inspect the print artwork and verify desktop/mobile page and download
