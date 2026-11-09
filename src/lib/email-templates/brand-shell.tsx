@@ -1,12 +1,13 @@
+import { BRAND_PALETTE } from '@/lib/brand-palette'
 import * as React from 'react'
 
-import { Body, Container, Head, Heading, Hr, Html, Link, Preview, Section, Text } from '@react-email/components'
+import { Body, Container, Head, Heading, Hr, Html, Link, Preview, Section, Text, Img } from '@react-email/components'
 
-export const NAVY = '#3A2620' // cocoa (Glass Skin Club)
-export const CREAM = '#FBF6F2'
-export const INK = '#2E1E19'
-export const MUTED = '#86706A'
-export const RULE = '#E8E1D9'
+export const NAVY = BRAND_PALETTE.navy
+export const CREAM = BRAND_PALETTE.cream
+export const INK = BRAND_PALETTE.ink
+export const MUTED = BRAND_PALETTE.muted
+export const RULE = BRAND_PALETTE.silver
 
 export const SITE_URL = 'https://skingrocer.com.au'
 export const SUPPORT_EMAIL = 'customercare@skingrocer.com.au'
@@ -35,20 +36,12 @@ export const code = {
 const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, Helvetica, sans-serif', margin: 0, padding: '32px 16px' }
 const container = { maxWidth: '560px', margin: '0 auto' }
 const header = { backgroundColor: NAVY, padding: '28px 24px', textAlign: 'center' as const }
-const wordmark = {
-  margin: 0,
-  fontSize: '18px',
-  letterSpacing: '0.22em',
-  textTransform: 'uppercase' as const,
-  color: CREAM,
-  fontFamily: "Georgia, 'Times New Roman', serif",
-}
 const brandline = {
   margin: '8px 0 0',
   fontSize: '10px',
   letterSpacing: '0.28em',
   textTransform: 'uppercase' as const,
-  color: '#CDB89E',
+  color: BRAND_PALETTE.gold,
 }
 const bodyPad = { padding: '28px 24px' }
 const h1 = { fontSize: '22px', fontWeight: 'bold' as const, color: INK, margin: '0 0 14px' }
@@ -70,8 +63,8 @@ export function BrandShell({
       <Body style={main}>
         <Container style={container}>
           <Section style={header}>
-            <Text style={wordmark}>Skin Grocer</Text>
-            <Text style={brandline}>Inner Beauty</Text>
+            <Img src={`${SITE_URL}/email/sg-logo-milk.png`} alt="Skin Grocer 스킨그로서" width="200" height="50" style={{ margin: "0 auto" }} />
+            <Text style={brandline}>Seoul Sourced. Skin Assured.</Text>
           </Section>
           <Section style={bodyPad}>
             <Heading style={h1}>{heading}</Heading>

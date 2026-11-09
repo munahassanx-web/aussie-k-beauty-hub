@@ -920,8 +920,8 @@
     position: absolute;
     inset: 0 auto auto 0;
     width: 100%;
-    color: #000 !important;
-    background: #fff !important;
+    color: var(--ink) !important;
+    background: var(--paper) !important;
   }
 
   /* Authenticity card prints on its own sheet — the packing slip is
@@ -935,8 +935,8 @@
     position: absolute;
     inset: 0 auto auto 0;
     width: 100%;
-    color: #000 !important;
-    background: #fff !important;
+    color: var(--ink) !important;
+    background: var(--paper) !important;
   }
 }
 
@@ -951,18 +951,18 @@
     page-break-before: always;
     padding-top: 4mm;
     font-family: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
-    color: #2e1e19 !important;
+    color: var(--ink) !important;
   }
 }
 .skin-receipt__card {
-  --pearl: #e3dbd2;
+  --pearl: var(--awning);
   position: relative;
   width: 99mm;
   min-height: 210mm;
   display: flex;
   flex-direction: column;
-  background: #fff;
-  outline: 0.2mm dashed #b9ada4;
+  background: var(--paper);
+  outline: 0.2mm dashed var(--sand-deep);
   outline-offset: 2mm;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
@@ -971,7 +971,7 @@
   height: 9mm;
   background:
     radial-gradient(circle at 3.5mm 5.2mm, var(--pearl) 3.4mm, transparent 3.5mm) 0 0 / 14mm 9mm repeat-x,
-    repeating-linear-gradient(90deg, var(--pearl) 0 7mm, #fff 7mm 14mm) 0 0 / 100% 5.2mm no-repeat;
+    repeating-linear-gradient(90deg, var(--pearl) 0 7mm, var(--paper) 7mm 14mm) 0 0 / 100% 5.2mm no-repeat;
 }
 .skin-receipt__awning--foot { margin-top: auto; transform: rotate(180deg); }
 .skin-receipt__body { padding: 5mm 8mm 4mm; font-size: 7.6pt; line-height: 1.35; }
@@ -983,12 +983,12 @@
   display: inline-block;
   height: 6.5mm;
 }
-.skin-receipt__sub { margin-top: 1mm; text-align: center; font-size: 6.4pt; letter-spacing: 0.18em; text-transform: uppercase; color: #86706a; }
-.skin-receipt__rule { margin: 3.2mm 0; border-top: 0.25mm solid #2e1e19; }
-.skin-receipt__rule--dash { border-top: 0.25mm dashed #86706a; }
+.skin-receipt__sub { margin-top: 1mm; text-align: center; font-size: 6.4pt; letter-spacing: 0.18em; text-transform: uppercase; color: var(--clay); }
+.skin-receipt__rule { margin: 3.2mm 0; border-top: 0.25mm solid var(--ink); }
+.skin-receipt__rule--dash { border-top: 0.25mm dashed var(--clay); }
 .skin-receipt__title { text-align: center; font-size: 12pt; font-weight: 300; letter-spacing: -0.01em; }
-.skin-receipt__meta { margin-top: 1.2mm; display: flex; justify-content: space-between; font-size: 6.6pt; letter-spacing: 0.12em; text-transform: uppercase; color: #86706a; }
-.skin-receipt__hello { margin-top: 1.6mm; text-align: center; font-size: 7.4pt; color: #86706a; }
+.skin-receipt__meta { margin-top: 1.2mm; display: flex; justify-content: space-between; font-size: 6.6pt; letter-spacing: 0.12em; text-transform: uppercase; color: var(--clay); }
+.skin-receipt__hello { margin-top: 1.6mm; text-align: center; font-size: 7.4pt; color: var(--clay); }
 .skin-receipt__lines { display: flex; flex-direction: column; gap: 3mm; list-style: none; padding: 0; margin: 0; }
 .skin-receipt__row { display: flex; align-items: center; gap: 1.6mm; }
 .skin-receipt__row--item { align-items: baseline; margin-top: 0.8mm; }
@@ -996,19 +996,19 @@
 .skin-receipt__aisle { border-radius: 99px; padding: 0.3mm 1.6mm; font-size: 5.8pt; font-weight: 500; }
 .skin-receipt__name { min-width: 0; }
 .skin-receipt__name b { font-weight: 600; }
-.skin-receipt__qty { color: #86706a; }
-.skin-receipt__dots { flex: 1; min-width: 4mm; border-bottom: 0.25mm dotted #86706a; transform: translateY(-0.6mm); }
+.skin-receipt__qty { color: var(--clay); }
+.skin-receipt__dots { flex: 1; min-width: 4mm; border-bottom: 0.25mm dotted var(--clay); transform: translateY(-0.6mm); }
 .skin-receipt__price { font-variant-numeric: tabular-nums; white-space: nowrap; }
-.skin-receipt__note { margin-top: 0.5mm; font-size: 6.6pt; color: #86706a; }
+.skin-receipt__note { margin-top: 0.5mm; font-size: 6.6pt; color: var(--clay); }
 .skin-receipt__totals p { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
 .skin-receipt__totals p + p { margin-top: 0.8mm; }
 .skin-receipt__total { margin-top: 1.6mm !important; font-size: 9pt; font-weight: 600; }
-.skin-receipt__foot { display: flex; gap: 3.5mm; align-items: center; font-size: 6.8pt; color: #86706a; }
+.skin-receipt__foot { display: flex; gap: 3.5mm; align-items: center; font-size: 6.8pt; color: var(--clay); }
 .skin-receipt__qr { width: 19mm; height: 19mm; flex-shrink: 0; }
-.skin-receipt__foot-title { font-size: 7.6pt; font-weight: 600; color: #2e1e19; }
-.skin-receipt__url { margin-top: 0.8mm; color: #2e1e19; }
+.skin-receipt__foot-title { font-size: 7.6pt; font-weight: 600; color: var(--ink); }
+.skin-receipt__url { margin-top: 0.8mm; color: var(--ink); }
 .skin-receipt__thanks { margin-top: 4.5mm; text-align: center; font-size: 9pt; font-weight: 300; }
-.skin-receipt__care { margin-top: 1mm; text-align: center; font-size: 6.4pt; color: #86706a; }
+.skin-receipt__care { margin-top: 1mm; text-align: center; font-size: 6.4pt; color: var(--clay); }
 
 /* The Seoul Shelf hero — marquee ticker + shelf swap motion */
 @keyframes shelf-marquee {
@@ -1299,31 +1299,55 @@ body:has([data-sticky-bar]) .chat-launcher {
   }
 }
 
-/* Owner-selected soft peach mailer / cream interior (2026-11-09).
-   White shopping canvas, dark readable ink, coloured signature accents.
-   Reference lock: coloured exterior, cream interior, restrained gold;
-   preserve the bilingual logo, shopping layout and awning sheen. */
+/* Owner-approved blue box identity. This final override intentionally wins
+   over the homepage trial; preserve white canvas, awning geometry and sheen. */
 :root,
 :root:has([data-homepage-neutral]) {
-  --brand-signature: #e7b39a;
-  --brand-interior: #f6eee0;
+  --brand-signature: #304865;
+  --brand-interior: #f2ede7;
   --brand-detail: #c5a16a;
   --paper: #ffffff;
-  --sand: #fbefe8;
-  --sand-deep: #e5c7b6;
+  --sand: #f2ede7;
+  --sand-deep: #c9cec2;
   --clay: #5b6470;
-  --hanbok: #303a46;
-  --hanbok-deep: #141f2c;
-  --ink: #141f2c;
-  --blush: #f6ddcf;
+  --hanbok: var(--brand-signature);
+  --hanbok-deep: var(--brand-signature);
+  --ink: var(--brand-signature);
+  --blush: var(--brand-interior);
   --glaze: var(--brand-signature);
   --awning: var(--brand-signature);
   --awning-light: var(--brand-interior);
   --logo-dot: #c9cec2;
-  --logo-icon: #141f2c;
-  --logo-ink: #f2ede7;
+  --logo-icon: var(--brand-signature);
+  --logo-ink: var(--brand-interior);
   --signal: #e2c58f;
   --rose-gold: var(--brand-detail);
+  --grocer-cream: var(--brand-interior);
+  --grocer-green: var(--brand-signature);
+  --grocer-butter: var(--brand-interior);
+  --grocer-brown: var(--brand-signature);
+  --grocer-tomato: var(--brand-detail);
+  --observatory-porcelain: var(--paper);
+  --observatory-orchid: var(--brand-signature);
+  --observatory-plum: var(--brand-signature);
+  --observatory-deep: var(--brand-signature);
+  --observatory-citron: var(--brand-detail);
+  --observatory-moss: var(--clay);
+  --sanctuary-bg: var(--brand-interior);
+  --sanctuary-ink: var(--ink);
+  --sanctuary-muted: var(--clay);
+  --sanctuary-line: var(--sand-deep);
+  --sanctuary-gold: var(--brand-detail);
+  --sanctuary-gold-deep: var(--brand-signature);
+  --sanctuary-sage: var(--brand-interior);
+  --sanctuary-sage-deep: var(--sand-deep);
+  --shelf-bg: var(--brand-signature);
+  --shelf-ink: var(--brand-interior);
+  --shelf-muted: var(--sand-deep);
+  --shelf-line: var(--clay);
+  --shelf-tile: var(--paper);
+  --shelf-tile-ink: var(--ink);
+  --shelf-gold: var(--brand-detail);
 }
 :root:has([data-homepage-neutral]) header .sg-awning { background-color: var(--paper); }
 
@@ -1360,7 +1384,7 @@ body:has([data-sticky-bar]) .chat-launcher {
 
 /* Packaging page: Grocer Stripe print colours */
 :root {
-  --pack-navy: #141f2c;
+  --pack-navy: var(--brand-signature);
   --pack-signature: var(--brand-signature);
   --pack-cream: var(--brand-interior);
   --pack-silver: #c9cec2;

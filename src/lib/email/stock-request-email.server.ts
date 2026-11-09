@@ -6,13 +6,14 @@
  * No delivery date, no discount, no invented stock claim.
  */
 
+import { BRAND_PALETTE } from '@/lib/brand-palette';
 import { SITE_URL, SUPPORT_EMAIL } from './order-emails.server';
 
-const NAVY = '#3A2620'; // cocoa (Glass Skin Club)
-const GOLD = '#CDB89E'; // champagne
-const INK = '#2E1E19';
-const MUTED = '#86706A';
-const RULE = '#E8E1D9';
+const NAVY = BRAND_PALETTE.navy;
+const GOLD = BRAND_PALETTE.gold;
+const INK = BRAND_PALETTE.ink;
+const MUTED = BRAND_PALETTE.muted;
+const RULE = BRAND_PALETTE.silver;
 const SERIF = "Georgia, 'Times New Roman', Times, serif";
 const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
@@ -52,11 +53,11 @@ export function renderStockRequestConfirmation(data: StockRequestEmailData): {
   }
 </style>
 </head>
-<body style="margin:0;padding:0;background:#F4EFE9;">
+<body style="margin:0;padding:0;background:${BRAND_PALETTE.cream};">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Your Korean skincare request is on our sourcing list.</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4EFE9;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BRAND_PALETTE.cream};">
   <tr><td align="center" style="padding:32px 12px;">
-    <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;background:#FFFFFF;">
+    <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#FFFFFF;">
       <tr>
         <td class="sg-rail" width="10" style="width:10px;background:${NAVY};">&nbsp;</td>
         <td class="sg-pad" style="padding:38px 40px;">

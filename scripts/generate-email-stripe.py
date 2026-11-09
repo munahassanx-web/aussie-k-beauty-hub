@@ -15,8 +15,8 @@ is an exact multiple of the period and repeat-y is seamless.
 
 from PIL import Image, ImageDraw
 
-NAVY = (13, 27, 42)     # #0D1B2A
-WHITE = (255, 255, 255)
+NAVY = (48, 72, 101)    # #304865
+WHITE = (242, 237, 231) # #F2EDE7 cream alternate stripe
 
 SS = 4          # supersample factor
 PERIOD = 44     # px along x for one navy+white pair

@@ -93,8 +93,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Skin Grocer — Authentic Korean Skincare, Dispatched from Melbourne" },
       { name: "twitter:description", content: "Melbourne's destination for authentic K-beauty and premium imports. Locally stocked, expertly guided and dispatched from Melbourne across Australia." },
-      { property: "og:image", content: "https://skingrocer.com.au/__l5e/assets-v1/2c278014-5745-49e3-943f-f4321b5892c7/skin-grocer-og.jpg" },
-      { name: "twitter:image", content: "https://skingrocer.com.au/__l5e/assets-v1/2c278014-5745-49e3-943f-f4321b5892c7/skin-grocer-og.jpg" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

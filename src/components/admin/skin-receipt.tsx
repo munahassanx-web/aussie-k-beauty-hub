@@ -1,3 +1,4 @@
+import { BRAND_PALETTE } from "@/lib/brand-palette";
 import { useEffect, useState } from "react";
 import { BrandWordmark } from "@/components/brand-wordmark";
 import QRCode from "qrcode";
@@ -75,7 +76,7 @@ export function SkinReceipt({ order }: { order: AdminOrderDetail }) {
       errorCorrectionLevel: "M",
       margin: 2,
       scale: 10,
-      color: { dark: "#2E1E19", light: "#FFFFFF" },
+      color: { dark: BRAND_PALETTE.navy, light: BRAND_PALETTE.paper },
     }).then((url) => {
       if (!cancelled) setQr(url);
     });

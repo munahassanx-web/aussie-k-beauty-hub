@@ -17,6 +17,7 @@
  * payment details we do not hold.
  */
 
+import { BRAND_PALETTE } from '@/lib/brand-palette';
 import { trackingLink, trackingLinkLabel, isPlausibleTracking } from '@/lib/shipping/carriers';
 import { orderReference } from '@/lib/order-reference';
 import { SHOP_PRODUCTS } from '@/lib/shop-catalog';
@@ -26,16 +27,16 @@ import { completeRoutineSuggestions } from '@/lib/routine-suggestions';
 export const SITE_URL = 'https://skingrocer.com.au';
 export const SUPPORT_EMAIL = 'customercare@skingrocer.com.au';
 
-/* Warm pearl palette, matching the homepage: champagne-ivory mat and awning, cocoa type and buttons. */
-const COCOA = '#3A2620'; // buttons, footer band
-const GLAZE = '#CDB89E'; // champagne: fine accents and keylines
-const GLAZE_DEEP = '#7E6A50'; // accessible champagne for small text on white
-const PEARL = '#F4EFE9'; // warm pearl: the mat the email card sits on
-const INK = '#2E1E19';
-const MUTED = '#86706A';
-const RULE = '#E8E1D9';
-const PAPER = '#FFFFFF';
-const COCOA_MUTED = '#D8CCBF'; // light text on the cocoa footer
+/* Shared blue-box identity; order data and sending behaviour are unchanged. */
+const COCOA = BRAND_PALETTE.navy;
+const GLAZE = BRAND_PALETTE.gold;
+const GLAZE_DEEP = BRAND_PALETTE.navy;
+const PEARL = BRAND_PALETTE.cream;
+const INK = BRAND_PALETTE.ink;
+const MUTED = BRAND_PALETTE.muted;
+const RULE = BRAND_PALETTE.silver;
+const PAPER = BRAND_PALETTE.paper;
+const COCOA_MUTED = BRAND_PALETTE.cream;
 
 /** The lowercase "skin grocer" logo as PNG (2x), cocoa for white and milk for the cocoa footer. */
 const LOGO = `${SITE_URL}/email/sg-logo.png`;
@@ -222,7 +223,7 @@ function footerBlock(originLine = 'Skin Grocer · Melbourne, Australia'): string
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${COCOA}" style="background-color:${COCOA};">
     <tr><td align="center" class="sg-pad" style="padding:30px 40px 28px;">
       <img src="${LOGO_LIGHT}" width="140" height="35" alt="Skin Grocer" style="display:block;margin:0 auto;width:140px;height:35px;font-family:${SANS};font-size:18px;font-weight:bold;color:${PAPER};" />
-      <p style="margin:12px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.30em;text-transform:uppercase;color:${GLAZE};">Inner Beauty</p>
+      <p style="margin:12px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.30em;text-transform:uppercase;color:${GLAZE};">Seoul Sourced. Skin Assured.</p>
       <div style="height:18px;line-height:18px;font-size:0;">&nbsp;</div>
       ${glazeDivider(40)}
       <div style="height:18px;line-height:18px;font-size:0;">&nbsp;</div>
@@ -234,7 +235,7 @@ function footerBlock(originLine = 'Skin Grocer · Melbourne, Australia'): string
       </p>
       <div style="height:18px;line-height:18px;font-size:0;">&nbsp;</div>
       <p style="margin:0;font-family:${SANS};font-size:11px;line-height:1.75;color:${COCOA_MUTED};">${esc(originLine)}</p>
-      <p style="margin:6px 0 0;font-family:${SANS};font-size:11px;line-height:1.75;color:#6C7686;">This is a service message about your order.</p>
+      <p style="margin:6px 0 0;font-family:${SANS};font-size:11px;line-height:1.75;color:${COCOA_MUTED};">This is a service message about your order.</p>
     </td></tr>
   </table>`;
 }
@@ -248,7 +249,7 @@ function masthead(headline: string, statement: string, standfirst: string): stri
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${PAPER}" style="background-color:${PAPER};">
     <tr><td align="center" class="sg-pad" style="padding:36px 48px 0;">
       <img class="sg-wordmark" src="${LOGO}" width="200" height="49" alt="Skin Grocer" style="display:block;margin:0 auto;width:200px;height:49px;font-family:${SANS};font-size:26px;font-weight:bold;color:${COCOA};" />
-      <p style="margin:12px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.32em;text-transform:uppercase;color:${GLAZE_DEEP};">Inner Beauty</p>
+      <p style="margin:12px 0 0;font-family:${SANS};font-size:9px;line-height:1.5;letter-spacing:.32em;text-transform:uppercase;color:${GLAZE_DEEP};">Seoul Sourced. Skin Assured.</p>
       <div style="height:20px;line-height:20px;font-size:0;">&nbsp;</div>
       ${glazeDivider(54)}
     </td></tr>
@@ -266,16 +267,14 @@ function masthead(headline: string, statement: string, standfirst: string): stri
 }
 
 /**
- * Rose-and-cream signature edge (order confirmation), matching print artwork.
+ * Blue-and-cream signature edge (order confirmation), matching print artwork.
  * Built from table cells, not images or gradients, so it renders in every
  * email client and on mobile.
  */
-const CONFIRMATION_ROSE = '#C58D7D';
-const CONFIRMATION_CREAM = '#F6EEE0';
-const CONFIRMATION_GOLD = '#C5A16A';
+
 function grocerStripe(height = 14): string {
   const cells = Array.from({ length: 31 }, (_, i) => {
-    const c = i % 2 === 0 ? CONFIRMATION_ROSE : CONFIRMATION_CREAM;
+    const c = i % 2 === 0 ? BRAND_PALETTE.navy : BRAND_PALETTE.cream;
     return `<td bgcolor="${c}" style="background-color:${c};height:${height}px;line-height:${height}px;font-size:0;">&nbsp;</td>`;
   }).join('');
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="table-layout:fixed;"><tr>${cells}</tr></table>`;
@@ -288,7 +287,7 @@ function grocerStripe(height = 14): string {
  * the white card with a soft keyline inside it, and everything —
  * masthead, order, assurances, footer — lives on white inside that frame.
  */
-function shell(title: string, preheader: string, inner: string, roseConfirmation = false): string {
+function shell(title: string, preheader: string, inner: string, stripedConfirmation = false): string {
   const html = `<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8" />
@@ -333,7 +332,7 @@ function shell(title: string, preheader: string, inner: string, roseConfirmation
       <table role="presentation" width="620" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:620px;">
 
         <!-- signature awning: top edge -->
-        <tr><td colspan="3">${roseConfirmation ? grocerStripe() : frameBar()}</td></tr>
+        <tr><td colspan="3">${stripedConfirmation ? grocerStripe() : frameBar()}</td></tr>
 
         <tr>
           ${frameRail()}
@@ -358,24 +357,7 @@ function shell(title: string, preheader: string, inner: string, roseConfirmation
     </td></tr>
   </table>
 </body></html>`;
-  if (!roseConfirmation) return html;
-  // Scope the print palette to confirmation; all other email rendering stays unchanged.
-  // One-pass replacement avoids cascading values and keeps the white body intact.
-  const palette: Record<string, string> = {
-    [COCOA]: CONFIRMATION_ROSE,
-    [GLAZE]: CONFIRMATION_GOLD,
-    [PEARL]: CONFIRMATION_CREAM,
-    [INK]: '#141F2C',
-    [MUTED]: '#5B6470',
-    [RULE]: CONFIRMATION_GOLD,
-    [COCOA_MUTED]: '#141F2C',
-    '#6C7686': '#141F2C',
-  };
-  return html
-    .replaceAll(LOGO_LIGHT, `${SITE_URL}/brand/skin-grocer-logo.png`)
-    .replaceAll(LOGO, `${SITE_URL}/brand/skin-grocer-logo.png`)
-    .replace(/#[0-9A-F]{6}/g, (value) => palette[value] ?? value)
-    .replace(/(?<!background-)color:#FFFFFF;/g, 'color:#141F2C;');
+  return html;
 }
 
 /* -------------------------------------------------------------- pieces -- */
@@ -634,7 +616,7 @@ export function renderOrderConfirmation(o: OrderEmailData): { subject: string; h
   );
 
   const text = [
-    'SKIN GROCER — Inner Beauty',
+    'SKIN GROCER — Seoul Sourced. Skin Assured.',
     '',
     first ? `Thank you, ${first}. Your selection is confirmed.` : 'Thank you. Your selection is confirmed.',
     "Your payment has been received and we're preparing your selection.",
@@ -721,7 +703,7 @@ export function renderDispatchNotice(o: OrderEmailData): { subject: string; html
   );
 
   const text = [
-    'SKIN GROCER — Inner Beauty',
+    'SKIN GROCER — Seoul Sourced. Skin Assured.',
     '',
     first ? `On its way, ${first}. Your order has been dispatched.` : 'On its way. Your order has been dispatched.',
     '',
@@ -850,7 +832,7 @@ export function renderDeliveryConfirmation(o: OrderEmailData): { subject: string
   );
 
   const text = [
-    'SKIN GROCER — Inner Beauty',
+    'SKIN GROCER — Seoul Sourced. Skin Assured.',
     '',
     first ? `It has arrived, ${first}. Your order has been delivered.` : 'It has arrived. Your order has been delivered.',
     '',
@@ -1046,7 +1028,7 @@ export function renderCancellationNotice(
   );
 
   const text = [
-    'SKIN GROCER — Inner Beauty',
+    'SKIN GROCER — Seoul Sourced. Skin Assured.',
     '',
     first ? `Noted, ${first}. ${heading}` : heading,
     '',

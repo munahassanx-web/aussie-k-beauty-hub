@@ -28,7 +28,7 @@ const RestockCta = lazy(() => import("@/components/restock-cta"));
 
 
 const SITE_LOGO_URL =
-  "https://skingrocer.com.au/__l5e/assets-v1/e71f3ca2-370b-42a2-bc13-d5609d11ac73/skin-grocer-logo.jpg";
+  "https://skingrocer.com.au/email/sg-logo.png";
 
 /** Organization JSON-LD for Google's brand knowledge panel. */
 function organizationJsonLd() {

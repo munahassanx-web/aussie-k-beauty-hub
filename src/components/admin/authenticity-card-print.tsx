@@ -1,3 +1,4 @@
+import { BrandWordmark } from '@/components/brand-wordmark';
 import { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 
@@ -40,12 +41,12 @@ export function AuthenticityCardPrint({
     // Sits in the 30mm window on the premium A6 card. The QR alone stays
     // scannable at this size; the reference lets staff match it to the order.
     return (
-      <div id="authenticity-card" className="hidden print:block print:text-black">
-        <div className="flex h-[30mm] w-[30mm] flex-col items-center justify-center bg-white">
+      <div id="authenticity-card" className="hidden print:block print:text-ink">
+        <div className="flex h-[30mm] w-[30mm] flex-col items-center justify-center bg-paper">
           {qr ? (
             <img src={qr} alt="" className="h-[25mm] w-[25mm]" />
           ) : (
-            <div className="h-[25mm] w-[25mm] border border-black/30" />
+            <div className="h-[25mm] w-[25mm] border border-ink/30" />
           )}
           <p className="mt-[0.5mm] font-mono text-[6pt] tracking-[0.1em]">{cardRef}</p>
         </div>
@@ -54,10 +55,10 @@ export function AuthenticityCardPrint({
   }
 
   return (
-    <div id="authenticity-card" className="hidden print:block print:text-black">
-      <div className="mx-auto w-[90mm] border border-black/70 bg-white p-[8mm] text-center">
-        <p className="text-[7pt] uppercase tracking-[0.32em]">Skin Grocer</p>
-        <div className="mx-auto mt-[3mm] h-px w-[18mm] bg-[#b08d57]" />
+    <div id="authenticity-card" className="hidden print:block print:text-ink">
+      <div className="mx-auto w-[90mm] border border-ink/70 bg-paper p-[8mm] text-center">
+        <BrandWordmark size="sm" className="text-ink" />
+        <div className="mx-auto mt-[3mm] h-px w-[18mm] bg-rose-gold" />
 
         <p className="mt-[5mm] font-display text-[15pt] leading-tight">
           Authenticity, without the guesswork
@@ -68,7 +69,7 @@ export function AuthenticityCardPrint({
           {qr ? (
             <img src={qr} alt="" className="h-[32mm] w-[32mm]" />
           ) : (
-            <div className="h-[32mm] w-[32mm] border border-black/30" />
+            <div className="h-[32mm] w-[32mm] border border-ink/30" />
           )}
         </div>
 
@@ -77,9 +78,9 @@ export function AuthenticityCardPrint({
         <p className="mt-[5mm] text-[7pt] uppercase tracking-[0.2em]">Card reference</p>
         <p className="mt-[1mm] font-mono text-[11pt] tracking-[0.12em]">{cardRef}</p>
 
-        <div className="mx-auto mt-[5mm] h-px w-[30mm] bg-black/20" />
-        <p className="mt-[3mm] break-all text-[6.5pt] text-black/70">{verifyUrl}</p>
-        <p className="mt-[2mm] text-[6.5pt] text-black/70">customercare@skingrocer.com.au</p>
+        <div className="mx-auto mt-[5mm] h-px w-[30mm] bg-ink/20" />
+        <p className="mt-[3mm] break-all text-[6.5pt] text-ink/70">{verifyUrl}</p>
+        <p className="mt-[2mm] text-[6.5pt] text-ink/70">customercare@skingrocer.com.au</p>
       </div>
     </div>
   );

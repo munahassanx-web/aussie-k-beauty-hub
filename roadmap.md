@@ -112,3 +112,8 @@
 - [x] Update packaging artwork and print PDF with the selected rose box and real product cards
 - [x] Replace packaging page assets without changing the global website palette
 - [x] Inspect print artwork and verify mobile/desktop page and download
+
+## Approved blue identity rollout
+- [x] Apply blue navy consistently to website and brand icons
+- [x] Match branded emails and packaging preview/download to the approved blue
+- [x] Verify desktop/mobile pages, printed artwork and rendered emails

@@ -1,3 +1,4 @@
+import { BRAND_PALETTE } from '@/lib/brand-palette';
 import {
   ROUTINE_ORDER_LABELS,
   sortByRoutineOrder,
@@ -23,19 +24,19 @@ export function renderOrderRoutineHtml(guides: ProductGuide[], siteUrl = ''): st
 
       return `
       <tr>
-        <td style="padding:16px 0;border-bottom:1px solid #E7E1D6;">
-          <p style="margin:0;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8A8377;">
+        <td style="padding:16px 0;border-bottom:1px solid ${BRAND_PALETTE.silver};">
+          <p style="margin:0;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:${BRAND_PALETTE.muted};">
             Step ${i + 1} · ${escapeHtml(ROUTINE_ORDER_LABELS[g.routine_order] ?? g.routine_step)}
           </p>
-          <p style="margin:4px 0 0;font-size:16px;color:#1C1B18;">
+          <p style="margin:4px 0 0;font-size:16px;color:${BRAND_PALETTE.ink};">
             ${escapeHtml(g.brand)} — ${escapeHtml(g.name)}
           </p>
-          <p style="margin:8px 0 0;font-size:13px;line-height:1.6;color:#4A463F;">${meta}</p>
+          <p style="margin:8px 0 0;font-size:13px;line-height:1.6;color:${BRAND_PALETTE.muted};">${meta}</p>
           ${
             siteUrl
               ? `<p style="margin:8px 0 0;font-size:12px;"><a href="${siteUrl}/guide/${encodeURIComponent(
                   g.id,
-                )}" style="color:#1F2A37;">Read the full guide</a></p>`
+                )}" style="color:${BRAND_PALETTE.navy};">Read the full guide</a></p>`
               : ''
           }
         </td>
@@ -46,8 +47,8 @@ export function renderOrderRoutineHtml(guides: ProductGuide[], siteUrl = ''): st
   return `
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,sans-serif;">
     <tr><td>
-      <h2 style="margin:0 0 4px;font-size:22px;color:#1C1B18;">Your routine, in order</h2>
-      <p style="margin:0 0 8px;font-size:14px;color:#6B655B;">
+      <h2 style="margin:0 0 4px;font-size:22px;color:${BRAND_PALETTE.ink};">Your routine, in order</h2>
+      <p style="margin:0 0 8px;font-size:14px;color:${BRAND_PALETTE.muted};">
         Use your new products in this sequence — cleanse first, SPF last.
       </p>
     </td></tr>
