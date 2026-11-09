@@ -7,4 +7,4 @@ export const BRAND_PALETTE = {
   ink: '#304865',
   muted: '#5B6470',
   paper: '#FFFFFF',
-} as const;
+};
