@@ -97,3 +97,8 @@
 - [x] Verify Torriden cream and catalogue-wide guide coverage
 
 - [x] Review owner colour/design reference and explain how to apply it
+
+## Packaging identity correction
+- [ ] Remake the packaging PDF with the actual bilingual logo, brand icon and website stripe
+- [ ] Match the packaging page and download to the corrected artwork
+- [ ] Inspect the print artwork and verify desktop/mobile page and download
