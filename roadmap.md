@@ -102,3 +102,8 @@
 - [x] Remake the packaging PDF with the actual bilingual logo, brand icon and website stripe
 - [x] Match the packaging page and download to the corrected artwork
 - [x] Inspect the print artwork and verify desktop/mobile page and download
+
+## Selected peach-and-cream identity
+- [ ] Apply reference-led soft peach website accents without changing layout or shopping behaviour
+- [ ] Replace packaging preview and PDF with peach exterior, cream interior and real product photos
+- [ ] Verify desktop/mobile colours and inspect the PDF and download
