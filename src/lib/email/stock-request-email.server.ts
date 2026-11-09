@@ -57,7 +57,7 @@ export function renderStockRequestConfirmation(data: StockRequestEmailData): {
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Your Korean skincare request is on our sourcing list.</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BRAND_PALETTE.cream};">
   <tr><td align="center" style="padding:32px 12px;">
-    <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;background:#FFFFFF;">
+    <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#FFFFFF;">
       <tr>
         <td class="sg-rail" width="10" style="width:10px;background:${NAVY};">&nbsp;</td>
         <td class="sg-pad" style="padding:38px 40px;">
