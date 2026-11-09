@@ -16,3 +16,4 @@
 - The awning uses semantic `--awning` tokens shared with packaging accents; preserve its geometry and owner-approved sheen when the palette changes.
 - Brand landing pages (/brands/$brand) read from the single brand list in src/lib/brand-pages.ts, which also drives the sitemap; intros reuse only factual range descriptions and sourcing wording, never invented brand claims.
 - Packaging page preview and download use the same prebuilt print artwork; publish both assets together to prevent page/PDF design drift.
+- Non-CSS brand surfaces share src/lib/brand-palette.ts, mirrored by semantic CSS tokens, so emails and generated artwork retain one identity without per-template colour remapping.
