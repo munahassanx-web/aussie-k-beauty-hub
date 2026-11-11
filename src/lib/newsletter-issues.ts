@@ -14,6 +14,8 @@ import issue05Cover from "@/assets/issues/issue-05-pigmentation.webp";
 import issue06Cover from "@/assets/issues/issue-06-undiscovered.webp";
 import issue07Cover from "@/assets/issues/issue-07-cleansing.webp";
 import issue08Cover from "@/assets/issues/issue-08-texture.webp";
+import issue09Cover from "@/assets/issues/issue-09-morning.webp";
+import morningOut from "@/assets/learn/daily-sun-protection-melbourne.webp";
 import layeringHumid from "@/assets/learn/layering-humid.webp";
 
 export type IssuePick = {
@@ -114,6 +116,106 @@ export type NewsletterIssue = {
 };
 
 export const newsletterIssues: NewsletterIssue[] = [
+  {
+    number: "09",
+    slug: "should-you-wash-your-face-in-the-morning",
+    title: "Should You Wash Your Face in the Morning?",
+    theme: "The Morning Issue",
+    date: "Fortnight of 9 November 2026",
+    published: true,
+    cover: issue09Cover,
+    coverAlt:
+      "ROUND LAB 1025 Dokdo Cleanser and beplain Mung Bean pH-Balanced Cleansing Foam on a pale stone basin ledge in low morning sunlight, beside a little cleansing foam and a folded linen towel",
+    standfirst:
+      "Melbourne mornings are warming up, and four of the top 15 products on Korea's Hwahae trending chart on 8 November are cleansers, one of them summarised as best for a morning or second cleanse. This fortnight: whether you need a cleanser when you get up, when water is enough, and how to pick a morning wash that doesn't leave you tight before sunscreen.",
+    bigQuestion: {
+      question: "Do I actually need to wash my face in the morning?",
+      body: [
+        "For most people, yes. The American Academy of Dermatology's advice for skin care in your 20s is to 'wash your face twice a day – when you get up and before bed', and to wash after sweating. Its guidance for oily skin is to cleanse up to twice daily and after sweating with a gentle, foaming face wash, and it warns that a harsh wash can irritate skin and trigger more oil.",
+        "Korean reviewers are clearly thinking about cleansers too. On Hwahae's Global Trending Ranking, updated 8 November 2026 (KST), four of the top 15 products are cleansers: beplain's Mung Bean pH-Balanced Cleansing Foam at No. 2, TORRIDEN's DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam at No. 10, ILLIYOON's Ceramide Ato 6.0 Top to Toe Wash at No. 14 and beplain's Mung Bean Cleansing Oil at No. 15. Hwahae's summary of the TORRIDEN foam calls it 'best as morning or second cleanse'. We don't stock that one, but three of those four summaries open with the same word: gentle.",
+        "The timing matters here. SunSmart says sun protection in Victoria is usually needed from mid-August to the end of April, when the UV reaches 3 and above. That makes the morning routine the one that ends in sunscreen, and a wash that leaves your skin tight or flaky is a bad start to it.",
+        "Our read: if you wake up shiny, sweat overnight or train before work, use a gentle cleanser in the morning. If your skin is dry or easily irritated and there's nothing on it but last night's moisturiser, a lukewarm water rinse can be enough on some mornings. The AAD notes that dry skin does better with a hydrating cleanser, so when you do wash, keep it mild. The one cleanse not to skip is the evening one.",
+      ],
+      pick: {
+        name: "1025 Dokdo Cleanser 150ml",
+        brand: "ROUND LAB",
+        price: "A$24",
+        image: "/products/round-lab/1025-dokdo-cleanser-150ml.webp",
+        note: "Work a small amount into a foam with water, massage over the face and rinse with lukewarm water. Patch test before first use — any product can cause a reaction.",
+        reasons: [
+          "Described by ROUND LAB as a slightly acidic cleanser, pH 5.0–6.0",
+          "ROUND LAB's directions say to use it morning and night",
+          "Hyaluronic acid and ceramide NP listed as key ingredients, with panthenol and allantoin in the formula",
+        ],
+      },
+    },
+    seoul: {
+      whyLabel: "Why it's printed on Korean cleansers",
+      ingredient: "Weakly acidic (약산성) cleansers",
+      koreaHeat: "🔥🔥🔥🔥",
+      australiaHeat: "🌡️ 'pH-balanced' is on labels, rarely explained",
+      whatIsIt:
+        "Your skin's surface is naturally acidic. A 2006 paper by Lambers and colleagues in the International Journal of Cosmetic Science is titled 'Natural skin surface pH is on average below 5, which is beneficial for its resident flora'. Traditional soap is alkaline. A weakly acidic cleanser is formulated closer to the skin's own range, usually somewhere around pH 5 to 6.",
+      whyKoreansLove:
+        "Yaksanseong (약산성), 'weakly acidic', is a common claim on Korean cleanser packaging, and it runs through this fortnight's chart. beplain's No. 2 foam has 'pH-Balanced' in its name, and Hwahae summarises both it and TORRIDEN's No. 10 foam as low-pH. ROUND LAB prints a range of pH 5.0–6.0 for its 1025 Dokdo Cleanser.",
+      shouldAussiesCare:
+        "Yes, with a caveat. A gentler pH is a sensible default, especially if you cleanse twice a day. But pH isn't the whole story: how much a cleanser strips also depends on what it's made of and how long it sits on your skin. If your face feels tight after rinsing, that tells you more than the number on the label.",
+      tryIt: [
+        { name: "1025 Dokdo Cleanser 150ml", brand: "ROUND LAB", price: "A$24", image: "/products/round-lab/1025-dokdo-cleanser-150ml.webp", note: "This fortnight's pick. pH 5.0–6.0, per ROUND LAB." },
+        { name: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", price: "A$24", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp", note: "No. 2 on Hwahae on 8 November, summarised as low-pH." },
+        { name: "Yam Root Vegan Milk Cleanser 220ml", brand: "ISNTREE", price: "A$38", image: "/products/isntree/yam-root-vegan-milk-cleanser-220ml.webp", note: "A milk cleanser ISNTREE describes as a low-stripping option for dry or sensitive routines." },
+      ],
+    },
+    aisle: [
+      { emoji: "💦", concern: "Wake up shiny", pick: "Red Blemish Clear Soothing Foam 150ml", brand: "Dr.G", why: "A foaming wash. The AAD's oily-skin advice is a gentle, foaming face wash.", image: "/products/dr-g/red-blemish-clear-soothing-foam-150ml.webp" },
+      { emoji: "🏜️", concern: "Tight after washing", pick: "Yam Root Vegan Milk Cleanser 220ml", brand: "ISNTREE", why: "A milk cleanser for dry or sensitive routines, per ISNTREE.", image: "/products/isntree/yam-root-vegan-milk-cleanser-220ml.webp" },
+      { emoji: "🏃", concern: "Train before work", pick: "Balanceful Cleansing Gel", brand: "TORRIDEN", why: "A gel cleanser with centella for the after-sweat wash.", image: "/products/torriden/balanceful-cleansing-gel.webp" },
+      { emoji: "🌿", concern: "Sensitive, every day", pick: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", why: "No. 2 on Hwahae, summarised as cleansing without drying skin.", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp" },
+      { emoji: "🧳", concern: "Want to try before committing", pick: "1025 Dokdo Trial Kit (Cleanser 30ml + Toner 20ml + Ampoule 10ml + Cream 20ml)", brand: "ROUND LAB", why: "The cleanser plus three more steps in small sizes.", image: "/products/round-lab/1025-dokdo-trial-kit.webp" },
+    ],
+    fiveMinute: {
+      intro:
+        "A morning routine for warmer days that gets you to sunscreen without tightness. Four steps, about five minutes.",
+      steps: [
+        { step: "01 · Cleanse", what: "A small amount worked into a foam with water, then a lukewarm rinse. On dry-skin mornings, water alone is fine.", pick: "1025 Dokdo Cleanser 150ml", brand: "ROUND LAB", image: "/products/round-lab/1025-dokdo-cleanser-150ml.webp" },
+        { step: "02 · Tone", what: "Pat onto skin that's still a little damp.", pick: "Aqua Oasis Toner", brand: "S.NATURE", image: "/products/s-nature/aqua-oasis-toner.webp" },
+        { step: "03 · Hydrate", what: "A few drops pressed in. Skip it if your skin already feels comfortable.", pick: "Dive In Serum", brand: "TORRIDEN", image: "/products/torriden/dive-in-serum.webp" },
+        { step: "04 · Moisturise", what: "A thin layer of gel-cream, given a minute to settle. Then finish with a broad-spectrum sunscreen listed for sale in Australia, applied generously and reapplied as its label directs.", pick: "Real Hyaluronic Soothing Cream 80ml", brand: "WELLAGE", image: "/products/wellage/real-hyaluronic-soothing-cream-80ml.webp" },
+      ],
+      closer:
+        "If you're going to skip a cleanse, skip the morning one, never the evening one. The night wash is the one taking off sunscreen and the day.",
+    },
+    everyone: {
+      topic: "Sweat before work? Wash after, not before",
+      image: morningOut,
+      imageAlt: "Woman in a straw hat and linen shirt walking along a sunny, tree-lined city street in the morning",
+      body: [
+        "If you exercise in the morning, the AAD's advice to wash after sweating matters more than when you woke up. Washing before the gym and again after is two cleanses in an hour. The one that counts is after.",
+        "Keep it simple: lukewarm water, a gentle cleanser, pat dry with a clean towel, then moisturiser and sunscreen if you're heading outside.",
+        "You don't need a separate morning cleanser. One gentle cleanser used morning and night is plenty for most people; add a second only if your skin asks for something different at one end of the day.",
+        "And if your skin feels tight or stings after every morning wash, that's the signal to switch to something milder or rinse with water some mornings, not to push through.",
+      ],
+    },
+    basket: {
+      forWho: "For a morning wash that doesn't leave you tight",
+      ctaLabel: "Shop these products",
+      items: [
+        { name: "1025 Dokdo Cleanser 150ml", brand: "ROUND LAB", price: "A$24", image: "/products/round-lab/1025-dokdo-cleanser-150ml.webp", note: "The morning-and-night cleanser." },
+        { name: "Mung Bean pH-Balanced Cleansing Foam 80ml", brand: "beplain", price: "A$24", image: "/products/beplain/mung-bean-ph-balanced-cleansing-foam-80ml.webp", note: "Korea's No. 2 this fortnight." },
+        { name: "Yam Root Vegan Milk Cleanser 220ml", brand: "ISNTREE", price: "A$38", image: "/products/isntree/yam-root-vegan-milk-cleanser-220ml.webp", note: "For drier mornings." },
+        { name: "Aqua Oasis Toner", brand: "S.NATURE", price: "A$40", image: "/products/s-nature/aqua-oasis-toner.webp", note: "Hydration straight after." },
+      ],
+    },
+    askTheGrocer: {
+      prompt: "What should we dig into next fortnight?",
+      options: [
+        "Toner pads: worth it or wasteful?",
+        "Retinal vs retinol: which should I start with?",
+        "Why does my sunscreen pill?",
+        "Do I need an eye cream?",
+      ],
+    },
+  },
   {
     number: "08",
     slug: "lighter-moisturiser-for-spring",
